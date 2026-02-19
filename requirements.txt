@@ -1,0 +1,5 @@
+streamlit
+gradio_client
+python-dotenv
+pandas
+plotly
