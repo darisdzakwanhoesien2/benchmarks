@@ -1,0 +1,620 @@
+[
+  {
+    "index": 0,
+    "text": "Our Supercharger network has been powered by 100% renewables for four years.",
+    "models": {
+      "econbert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/econbert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-classification": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-bert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "netzero-reduction": {
+        "status": "success",
+        "label": "none",
+        "confidence": 1.0,
+        "error": null
+      },
+      "transition-physical": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "renewable": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "climate-detector": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 1.0,
+        "error": null
+      },
+      "climate-commitment": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 0.97,
+        "error": null
+      },
+      "climate-tcfd": {
+        "status": "success",
+        "label": "metrics",
+        "confidence": 0.49,
+        "error": null
+      },
+      "climate-s": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.56,
+        "error": null
+      },
+      "climate-specificity": {
+        "status": "success",
+        "label": "spec",
+        "confidence": 0.84,
+        "error": null
+      },
+      "climate-sentiment": {
+        "status": "success",
+        "label": "opportunity",
+        "confidence": 0.87,
+        "error": null
+      },
+      "environmental-claims": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.91,
+        "error": null
+      },
+      "climate-f": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.52,
+        "error": null
+      },
+      "climate-d-s": {
+        "status": "success",
+        "label": "LABEL_1",
+        "confidence": 0.52,
+        "error": null
+      },
+      "climate-d": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.51,
+        "error": null
+      }
+    },
+    "timestamp": "2026-02-20T14:49:02.243060"
+  },
+  {
+    "index": 1,
+    "text": "Our Supercharger network has been powered by 100% renewables for four years.",
+    "models": {
+      "econbert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/econbert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-classification": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-bert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "netzero-reduction": {
+        "status": "success",
+        "label": "none",
+        "confidence": 1.0,
+        "error": null
+      },
+      "transition-physical": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "renewable": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "climate-detector": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 1.0,
+        "error": null
+      },
+      "climate-commitment": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 0.97,
+        "error": null
+      },
+      "climate-tcfd": {
+        "status": "success",
+        "label": "metrics",
+        "confidence": 0.49,
+        "error": null
+      },
+      "climate-s": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.56,
+        "error": null
+      },
+      "climate-specificity": {
+        "status": "success",
+        "label": "spec",
+        "confidence": 0.84,
+        "error": null
+      },
+      "climate-sentiment": {
+        "status": "success",
+        "label": "opportunity",
+        "confidence": 0.87,
+        "error": null
+      },
+      "environmental-claims": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.91,
+        "error": null
+      },
+      "climate-f": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.52,
+        "error": null
+      },
+      "climate-d-s": {
+        "status": "success",
+        "label": "LABEL_1",
+        "confidence": 0.52,
+        "error": null
+      },
+      "climate-d": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.51,
+        "error": null
+      }
+    },
+    "timestamp": "2026-02-20T14:49:04.567450"
+  },
+  {
+    "index": 2,
+    "text": "Kami memastikan bahwa semua pakan yang dikonsumsi hewan kami tidak mengandung Antibiotic Growth Promoter (AGP).",
+    "models": {
+      "econbert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/econbert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-classification": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-bert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "netzero-reduction": {
+        "status": "success",
+        "label": "none",
+        "confidence": 0.96,
+        "error": null
+      },
+      "transition-physical": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "renewable": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "climate-detector": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.85,
+        "error": null
+      },
+      "climate-commitment": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.95,
+        "error": null
+      },
+      "climate-tcfd": {
+        "status": "success",
+        "label": "strategy",
+        "confidence": 0.67,
+        "error": null
+      },
+      "climate-s": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.56,
+        "error": null
+      },
+      "climate-specificity": {
+        "status": "success",
+        "label": "non",
+        "confidence": 0.52,
+        "error": null
+      },
+      "climate-sentiment": {
+        "status": "success",
+        "label": "neutral",
+        "confidence": 0.62,
+        "error": null
+      },
+      "environmental-claims": {
+        "status": "success",
+        "label": "no",
+        "confidence": 1.0,
+        "error": null
+      },
+      "climate-f": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.54,
+        "error": null
+      },
+      "climate-d-s": {
+        "status": "success",
+        "label": "LABEL_1",
+        "confidence": 0.51,
+        "error": null
+      },
+      "climate-d": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.51,
+        "error": null
+      }
+    },
+    "timestamp": "2026-02-20T14:49:07.208364"
+  },
+  {
+    "index": 3,
+    "text": "Di Tahun 2022 Perseroan tidak menerima sanksi berupa penghentian sementara perdagangan atau penghapusan pencatatan saham dari Bursa Efek Indonesia.",
+    "models": {
+      "econbert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/econbert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-classification": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-bert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "netzero-reduction": {
+        "status": "success",
+        "label": "reduction",
+        "confidence": 0.45,
+        "error": null
+      },
+      "transition-physical": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "renewable": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "climate-detector": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.96,
+        "error": null
+      },
+      "climate-commitment": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.84,
+        "error": null
+      },
+      "climate-tcfd": {
+        "status": "success",
+        "label": "strategy",
+        "confidence": 0.65,
+        "error": null
+      },
+      "climate-s": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.55,
+        "error": null
+      },
+      "climate-specificity": {
+        "status": "success",
+        "label": "spec",
+        "confidence": 0.64,
+        "error": null
+      },
+      "climate-sentiment": {
+        "status": "success",
+        "label": "neutral",
+        "confidence": 0.53,
+        "error": null
+      },
+      "environmental-claims": {
+        "status": "success",
+        "label": "no",
+        "confidence": 1.0,
+        "error": null
+      },
+      "climate-f": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.54,
+        "error": null
+      },
+      "climate-d-s": {
+        "status": "success",
+        "label": "LABEL_1",
+        "confidence": 0.51,
+        "error": null
+      },
+      "climate-d": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.51,
+        "error": null
+      }
+    },
+    "timestamp": "2026-02-20T14:49:11.074956"
+  },
+  {
+    "index": 4,
+    "text": "This represents a 46% reduction in absolute emissions compared with 2019.",
+    "models": {
+      "econbert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/econbert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-classification": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-bert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "netzero-reduction": {
+        "status": "success",
+        "label": "reduction",
+        "confidence": 1.0,
+        "error": null
+      },
+      "transition-physical": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "renewable": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "climate-detector": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 1.0,
+        "error": null
+      },
+      "climate-commitment": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 0.72,
+        "error": null
+      },
+      "climate-tcfd": {
+        "status": "success",
+        "label": "metrics",
+        "confidence": 0.98,
+        "error": null
+      },
+      "climate-s": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.55,
+        "error": null
+      },
+      "climate-specificity": {
+        "status": "success",
+        "label": "spec",
+        "confidence": 0.91,
+        "error": null
+      },
+      "climate-sentiment": {
+        "status": "success",
+        "label": "neutral",
+        "confidence": 0.81,
+        "error": null
+      },
+      "environmental-claims": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 0.74,
+        "error": null
+      },
+      "climate-f": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.52,
+        "error": null
+      },
+      "climate-d-s": {
+        "status": "success",
+        "label": "LABEL_1",
+        "confidence": 0.51,
+        "error": null
+      },
+      "climate-d": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.5,
+        "error": null
+      }
+    },
+    "timestamp": "2026-02-20T14:49:13.466247"
+  },
+  {
+    "index": 6,
+    "text": "Now we are further accelerating our mission\u2014and impact\u2014through autonomy.",
+    "models": {
+      "econbert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/econbert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-classification": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-bert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "netzero-reduction": {
+        "status": "success",
+        "label": "none",
+        "confidence": 1.0,
+        "error": null
+      },
+      "transition-physical": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "renewable": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "climate-detector": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.99,
+        "error": null
+      },
+      "climate-commitment": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 0.94,
+        "error": null
+      },
+      "climate-tcfd": {
+        "status": "success",
+        "label": "strategy",
+        "confidence": 0.91,
+        "error": null
+      },
+      "climate-s": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.56,
+        "error": null
+      },
+      "climate-specificity": {
+        "status": "success",
+        "label": "non",
+        "confidence": 0.73,
+        "error": null
+      },
+      "climate-sentiment": {
+        "status": "success",
+        "label": "opportunity",
+        "confidence": 0.82,
+        "error": null
+      },
+      "environmental-claims": {
+        "status": "success",
+        "label": "no",
+        "confidence": 1.0,
+        "error": null
+      },
+      "climate-f": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.53,
+        "error": null
+      },
+      "climate-d-s": {
+        "status": "success",
+        "label": "LABEL_1",
+        "confidence": 0.5,
+        "error": null
+      },
+      "climate-d": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.51,
+        "error": null
+      }
+    },
+    "timestamp": "2026-02-20T14:49:17.188267"
+  }
+]

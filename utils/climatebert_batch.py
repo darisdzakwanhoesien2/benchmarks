@@ -1,102 +1,119 @@
-import pandas as pd
-from datetime import datetime
-
-from api.climatebert_client_combined import predict_all_models
-
-from utils.climatebert_parser import parse_climatebert_markdown
-from utils.climatebert_groundtruth_storage import (
-    save_result,
-    save_parsed,
-    load_results
-)
+from utils.climatebert_batch_core import batch_process_core
+import utils.climatebert_groundtruth_storage as storage
 
 
 def batch_process_csv(
     csv_path,
-    text_column="sentence_norm",
-    batch_size=1,
+    batch_size=10,
     progress_callback=None
 ):
 
-    df = pd.read_csv(csv_path)
-
-    existing = load_results()
-
-    processed_indices = set(
-        entry.get("index")
-        for entry in existing
-        if "index" in entry
+    return batch_process_core(
+        csv_path,
+        storage,
+        batch_size,
+        progress_callback
     )
 
-    total = len(df)
-    processed_count = len(processed_indices)
+# import pandas as pd
+# from datetime import datetime
 
-    new_processed = 0
+# from api.climatebert_client_combined import predict_all_models
 
-    for i, row in df.iterrows():
+# from utils.climatebert_parser import parse_climatebert_markdown
+# from utils.climatebert_groundtruth_storage import (
+#     save_result,
+#     save_parsed,
+#     load_results
+# )
 
-        if i in processed_indices:
-            continue
 
-        text = str(row[text_column])
+# def batch_process_csv(
+#     csv_path,
+#     text_column="sentence_norm",
+#     batch_size=1,
+#     progress_callback=None
+# ):
 
-        try:
+#     df = pd.read_csv(csv_path)
 
-            raw_result = predict_all_models(text)
+#     existing = load_results()
 
-            result_entry = {
+#     processed_indices = set(
+#         entry.get("index")
+#         for entry in existing
+#         if "index" in entry
+#     )
 
-                "timestamp": datetime.now().isoformat(),
-                "index": int(i),
-                "text": text,
-                "raw_markdown": raw_result,
-                "status": "success"
+#     total = len(df)
+#     processed_count = len(processed_indices)
 
-            }
+#     new_processed = 0
 
-            # SAVE IMMEDIATELY
-            save_result(result_entry)
+#     for i, row in df.iterrows():
 
-            parsed = parse_climatebert_markdown(raw_result)
+#         if i in processed_indices:
+#             continue
 
-            parsed_entry = {
+#         text = str(row[text_column])
 
-                "timestamp": parsed["timestamp"],
-                "index": int(i),
-                "text": text,
-                "models": parsed["models"]
+#         try:
 
-            }
+#             raw_result = predict_all_models(text)
 
-            # SAVE IMMEDIATELY
-            save_parsed(parsed_entry)
+#             result_entry = {
 
-        except Exception as e:
+#                 "timestamp": datetime.now().isoformat(),
+#                 "index": int(i),
+#                 "text": text,
+#                 "raw_markdown": raw_result,
+#                 "status": "success"
 
-            error_entry = {
+#             }
 
-                "timestamp": datetime.now().isoformat(),
-                "index": int(i),
-                "text": text,
-                "error": str(e),
-                "status": "error"
+#             # SAVE IMMEDIATELY
+#             save_result(result_entry)
 
-            }
+#             parsed = parse_climatebert_markdown(raw_result)
 
-            save_result(error_entry)
+#             parsed_entry = {
 
-        new_processed += 1
-        processed_count += 1
+#                 "timestamp": parsed["timestamp"],
+#                 "index": int(i),
+#                 "text": text,
+#                 "models": parsed["models"]
 
-        # update progress
-        if progress_callback:
-            progress_callback(processed_count, total)
+#             }
 
-        # batch control
-        if batch_size and new_processed >= batch_size:
-            break
+#             # SAVE IMMEDIATELY
+#             save_parsed(parsed_entry)
 
-    return new_processed, processed_count, total
+#         except Exception as e:
+
+#             error_entry = {
+
+#                 "timestamp": datetime.now().isoformat(),
+#                 "index": int(i),
+#                 "text": text,
+#                 "error": str(e),
+#                 "status": "error"
+
+#             }
+
+#             save_result(error_entry)
+
+#         new_processed += 1
+#         processed_count += 1
+
+#         # update progress
+#         if progress_callback:
+#             progress_callback(processed_count, total)
+
+#         # batch control
+#         if batch_size and new_processed >= batch_size:
+#             break
+
+#     return new_processed, processed_count, total
 
 # import pandas as pd
 # from datetime import datetime

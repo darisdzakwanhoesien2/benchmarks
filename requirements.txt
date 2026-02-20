@@ -2,5 +2,6 @@ streamlit
 gradio_client
 python-dotenv
 pandas
-plotly
 matplotlib
+plotly
+scikit-learn

@@ -2,172 +2,99 @@ import streamlit as st
 import pandas as pd
 
 from utils.climatebert_batch import batch_process_csv
-from utils.climatebert_groundtruth_storage import (
-    load_results,
-    load_parsed
-)
+from utils.climatebert_groundtruth_storage import load_results
 
 
-st.title("ClimateBERT Batch Processor (Fault-Tolerant)")
+CSV = "data/ground_truth/absa_mapping.csv"
 
-CSV_PATH = "data/ground_truth/absa_mapping.csv"
+st.title("ClimateBERT Batch Processor (Linux)")
 
-df = pd.read_csv(CSV_PATH)
+df = pd.read_csv(CSV)
 
 total = len(df)
 
 results = load_results()
 
-processed = len(set(r["index"] for r in results if "index" in r))
+processed = len(set(x["index"] for x in results if "index" in x))
 
-remaining = total - processed
+st.metric("Total", total)
+st.metric("Processed", processed)
+st.metric("Remaining", total - processed)
 
+progress = st.progress(processed / total if total else 0)
 
-col1, col2, col3 = st.columns(3)
-
-col1.metric("Total", total)
-col2.metric("Processed", processed)
-col3.metric("Remaining", remaining)
-
-
-progress_bar = st.progress(processed / total if total > 0 else 0)
+status = st.empty()
 
 
-def update_progress(current, total):
+def update(current, total):
 
-    progress_bar.progress(current / total)
-
-    status_text.text(f"{current}/{total} processed")
-
-
-status_text = st.empty()
+    progress.progress(current / total)
+    status.text(f"{current}/{total}")
 
 
-batch_size = st.number_input(
-    "Batch size per run (safety control)",
-    min_value=1,
-    max_value=1000,
-    value=10
-)
+batch_size = st.number_input("Batch size", 1, 1000, 10)
 
+if st.button("Run Linux Batch"):
 
-if st.button("Run / Resume Batch Processing"):
-
-    new_processed, processed_count, total_count = batch_process_csv(
-        CSV_PATH,
-        batch_size=batch_size,
-        progress_callback=update_progress
+    new, proc, total = batch_process_csv(
+        CSV,
+        batch_size,
+        update
     )
 
-    st.success(f"Processed {new_processed} new sentences")
+    st.success(f"{new} processed")
 
     st.rerun()
-
-
-st.divider()
-
-st.subheader("Parsed Results Preview")
-
-parsed = load_parsed()
-
-if parsed:
-
-    flat = []
-
-    for entry in parsed:
-
-        for model, data in entry["models"].items():
-
-            flat.append({
-
-                "index": entry["index"],
-                "model": model,
-                "label": data["label"],
-                "confidence": data["confidence"],
-                "status": data["status"]
-
-            })
-
-    st.dataframe(pd.DataFrame(flat))
 
 # import streamlit as st
 # import pandas as pd
 
 # from utils.climatebert_batch import batch_process_csv
-# from utils.climatebert_groundtruth_storage import (
-#     load_results,
-#     load_parsed
-# )
+# from utils.climatebert_groundtruth_storage_windows import load_results
 
 
-# st.title("ClimateBERT Batch Processor (Ground Truth)")
+# st.title("ClimateBERT Batch Processor")
 
-# CSV_PATH = "data/ground_truth/absa_mapping.csv"
+# CSV = "data/ground_truth_windows/absa_mapping.csv"
 
-
-# # preview dataset
-# df = pd.read_csv(CSV_PATH)
-
-# st.subheader("Dataset Preview")
-
-# st.dataframe(df.head())
-
+# df = pd.read_csv(CSV)
 
 # total = len(df)
 
-# st.metric("Total Sentences", total)
-
-
-# # batch button
-# if st.button("Run Batch ClimateBERT"):
-
-#     progress = st.progress(0)
-
-#     results, parsed = batch_process_csv(CSV_PATH)
-
-#     st.success(f"Processed {len(results)} new sentences")
-
-#     progress.progress(100)
-
-
-# # show results
-# st.divider()
-
-# st.subheader("Stored Raw Results")
-
 # results = load_results()
 
-# if results:
+# processed = len(set(r["index"] for r in results if "index" in r))
 
-#     df_results = pd.DataFrame(results)
+# remaining = total - processed
 
-#     st.dataframe(df_results[["index", "text"]])
+# st.metric("Total", total)
+# st.metric("Processed", processed)
+# st.metric("Remaining", remaining)
+
+# progress = st.progress(processed / total if total else 0)
+
+# status = st.empty()
 
 
-# st.subheader("Stored Parsed Results")
+# def update(current, total):
 
-# parsed = load_parsed()
+#     progress.progress(current / total)
 
-# if parsed:
+#     status.text(f"{current}/{total}")
 
-#     flat_rows = []
 
-#     for entry in parsed:
+# batch = st.number_input("Batch size", 1, 1000, 10)
 
-#         for model, data in entry["models"].items():
+# if st.button("Run Batch"):
 
-#             flat_rows.append({
+#     new, proc, tot = batch_process_csv(
 
-#                 "index": entry["index"],
-#                 "text": entry["text"],
-#                 "model": model,
-#                 "status": data["status"],
-#                 "label": data["label"],
-#                 "confidence": data["confidence"],
-#                 "error": data["error"]
+#         CSV,
+#         batch_size=batch,
+#         progress_callback=update
 
-#             })
+#     )
 
-#     df_parsed = pd.DataFrame(flat_rows)
+#     st.success(f"{new} processed")
 
-#     st.dataframe(df_parsed)
+#     st.rerun()
