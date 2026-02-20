@@ -1,0 +1,103 @@
+[
+  {
+    "timestamp": "2026-02-20T10:41:36.675523",
+    "models": {
+      "econbert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/econbert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-classification": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "controversy-bert": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": "Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:"
+      },
+      "netzero-reduction": {
+        "status": "success",
+        "label": "none",
+        "confidence": 1.0,
+        "error": null
+      },
+      "transition-physical": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "renewable": {
+        "status": "error",
+        "label": null,
+        "confidence": null,
+        "error": ""
+      },
+      "climate-detector": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.99,
+        "error": null
+      },
+      "climate-commitment": {
+        "status": "success",
+        "label": "yes",
+        "confidence": 0.98,
+        "error": null
+      },
+      "climate-tcfd": {
+        "status": "success",
+        "label": "strategy",
+        "confidence": 0.9,
+        "error": null
+      },
+      "climate-s": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.55,
+        "error": null
+      },
+      "climate-specificity": {
+        "status": "success",
+        "label": "non",
+        "confidence": 0.55,
+        "error": null
+      },
+      "climate-sentiment": {
+        "status": "success",
+        "label": "opportunity",
+        "confidence": 0.83,
+        "error": null
+      },
+      "environmental-claims": {
+        "status": "success",
+        "label": "no",
+        "confidence": 0.98,
+        "error": null
+      },
+      "climate-f": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.53,
+        "error": null
+      },
+      "climate-d-s": {
+        "status": "success",
+        "label": "LABEL_1",
+        "confidence": 0.51,
+        "error": null
+      },
+      "climate-d": {
+        "status": "success",
+        "label": "LABEL_0",
+        "confidence": 0.51,
+        "error": null
+      }
+    }
+  }
+]
