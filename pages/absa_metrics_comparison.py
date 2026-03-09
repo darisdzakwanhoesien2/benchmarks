@@ -64,7 +64,19 @@ compute_metrics(cat_gt_cluster, cat_baseline_cluster, "Majority Category (Cluste
 
 # Optionally, repeat for sentiments and tones if columns exist
 if "sentiments_gt" in merged.columns and "sentiments_baseline" in merged.columns:
-    compute_metrics(merged["sentiments_gt"].astype(str), merged["sentiments_baseline"].astype(str), "Sentiments")
+    # Load sentiment mapping
+    with open("data/sentiment_category.json", "r") as f:
+        sentiment_mapping = json.load(f)
+
+    def map_sentiment_cluster(series):
+        return series.apply(lambda x: sentiment_mapping.get(str(x), "none"))
+
+    sentiments_gt = merged["sentiments_gt"].astype(str)
+    sentiments_baseline = merged["sentiments_baseline"].astype(str)
+    # Original metrics
+    compute_metrics(sentiments_gt, sentiments_baseline, "Sentiments (Original)")
+    # Clustered metrics
+    compute_metrics(map_sentiment_cluster(sentiments_gt), map_sentiment_cluster(sentiments_baseline), "Sentiments (Clustered)")
 if "tones_gt" in merged.columns and "tones_baseline" in merged.columns:
     compute_metrics(merged["tones_gt"].astype(str), merged["tones_baseline"].astype(str), "Tones")
 
