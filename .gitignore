@@ -1,3 +1,6 @@
 .env
 __pycache__/
 *.pyc
+
+data/ground_truth_windows/tmp*
+*.tmp

@@ -7,11 +7,19 @@ load_dotenv()
 
 class ClimateBERTClient:
 
-    def __init__(self):
+    def __init__(self, space_url: str | None = None):
+        """Initialize the ClimateBERT Gradio client.
 
-        self.space_url = os.getenv(
-            "HF_SPACE_URL",
-            "https://darisdzakwanhoesien-climatebert-multi-model-demo-docker.hf.space/"
+        Args:
+            space_url: Optional Gradio Space URL (overrides the env var).
+        """
+
+        self.space_url = (
+            space_url
+            or os.getenv(
+                "HF_SPACE_URL",
+                "https://darisdzakwanhoesien-climatebert-multi-model-demo-docker.hf.space/",
+            )
         )
 
         self.client = Client(self.space_url)

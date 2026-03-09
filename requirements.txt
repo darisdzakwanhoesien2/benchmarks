@@ -5,3 +5,7 @@ pandas
 matplotlib
 plotly
 scikit-learn
+huggingface_hub
+transformers
+torch
+seaborn

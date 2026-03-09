@@ -9,6 +9,12 @@ from utils.visualization import render_plot
 
 st.title("ABSA Classical ML")
 
+space_url = st.text_input(
+    "Hugging Face Space URL (optional)",
+    value="",
+    help="If set, this will override the default HF Space URL / environment variable.",
+)
+
 text = st.text_area("Enter ESG Text")
 
 
@@ -23,7 +29,7 @@ if st.button("Run Classical ABSA"):
 
         try:
 
-            result = run_classical(text)
+            result = run_classical(text, space_url=space_url or None)
 
             if result is None:
                 st.error("No result returned.")

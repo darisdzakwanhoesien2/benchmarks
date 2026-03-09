@@ -7,6 +7,12 @@ from utils.visualization import render_plot
 
 st.title("ABSA Deep Learning")
 
+space_url = st.text_input(
+    "Hugging Face Space URL (optional)",
+    value="",
+    help="If set, this will override the default HF Space URL / environment variable.",
+)
+
 text = st.text_area("Enter ESG Text")
 
 epochs = st.slider("Epochs", 1, 10, 1)
@@ -14,7 +20,7 @@ epochs = st.slider("Epochs", 1, 10, 1)
 
 if st.button("Run Deep Learning ABSA"):
 
-    result = run_deep(text, epochs)
+    result = run_deep(text, epochs, space_url=space_url or None)
 
     csv = result[0]
     predictions = hf_to_df(result[1])

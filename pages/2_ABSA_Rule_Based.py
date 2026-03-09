@@ -7,12 +7,18 @@ from utils.visualization import render_plot
 
 st.title("ABSA Rule-Based Ontology")
 
+space_url = st.text_input(
+    "Hugging Face Space URL (optional)",
+    value="",
+    help="If set, this will override the default HF Space URL / environment variable.",
+)
+
 text = st.text_area("Enter ESG Text")
 
 
 if st.button("Run Rule-Based ABSA"):
 
-    result = run_rule(text)
+    result = run_rule(text, space_url=space_url or None)
 
     csv_path = result[0]
     preview = hf_to_df(result[1])

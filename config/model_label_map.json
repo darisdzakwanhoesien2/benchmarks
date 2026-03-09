@@ -1,0 +1,27 @@
+{
+  "climate-commitment": {
+    "LABEL_0": "no_commitment",
+    "LABEL_1": "climate_commitment"
+  },
+  "climate-detector": {
+    "LABEL_0": "non_climate",
+    "LABEL_1": "climate_related"
+  },
+  "environmental-claims": {
+    "LABEL_0": "not_environmental_claim",
+    "LABEL_1": "environmental_claim"
+  },
+  "climate-sentiment": {
+    "LABEL_0": "risk",
+    "LABEL_1": "neutral",
+    "LABEL_2": "opportunity"
+  },
+  "climate-specificity": {
+    "LABEL_0": "non_specific",
+    "LABEL_1": "specific"
+  },
+  "climate-related": {
+    "LABEL_0": "not_related",
+    "LABEL_1": "related"
+  }
+}

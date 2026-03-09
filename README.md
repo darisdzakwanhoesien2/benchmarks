@@ -7,6 +7,14 @@ Yes. Since your ESG scoring model is already deployed as a Hugging Face Space wi
 * displays ESG score + structured output
 * optionally logs results and shows history
 
+## Configuration
+
+Create a `.env` file (copy from `.env.example`) and set the required Space URLs:
+
+- `HF_ABSA_SPACE`
+- `HF_ESGDATA_SPACE`
+- `HF_SPACE`
+
 I'll give you:
 
 1. Full Streamlit app code
