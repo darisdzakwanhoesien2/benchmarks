@@ -53,22 +53,48 @@ def normalize_tone(x):
     return TONE_MAP.get(str(x).strip().lower(), "OTHER")
 
 
-# ------------------------------------------------
-# 🎛 Sidebar
-# ------------------------------------------------
-st.sidebar.title("📊 Dashboard Settings")
-uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type=["csv"])
-
 st.title("🧠 ESG Sentiment & Tone — Document-Level Analysis")
 st.write("Upload a CSV file containing **filename**, **sentiment**, and **tone** columns.")
 
-if uploaded_file is None:
+# ------------------------------------------------
+# 🎛 Sidebar — Dataset Selection
+# ------------------------------------------------
+st.sidebar.title("📊 Dashboard Settings")
+
+# Load dataset config
+dataset_config_path = Path(__file__).resolve().parents[1] / "config" / "dataset.json"
+datasets = []
+if dataset_config_path.exists():
+    with open(dataset_config_path) as f:
+        config = json.load(f)
+        datasets = config.get("datasets", [])
+
+dataset_names = [d["name"] for d in datasets]
+dataset_choice = None
+selected_file = None
+
+if dataset_names:
+    dataset_choice = st.sidebar.selectbox("Select a dataset", ["(Upload your own)"] + dataset_names)
+    if dataset_choice != "(Upload your own)":
+        selected = next((d for d in datasets if d["name"] == dataset_choice), None)
+        if selected:
+            selected_file = selected["filepath"]
+
+uploaded_file = st.sidebar.file_uploader("Or upload your CSV file", type=["csv"])
+
+if selected_file:
+    df = pd.read_csv(selected_file)
+    st.sidebar.success(f"Loaded dataset: {selected_file}")
+elif uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+    st.sidebar.success("Loaded uploaded file")
+else:
+    st.info("Please select a dataset or upload a CSV file.")
     st.stop()
 
 # ------------------------------------------------
 # 📥 Load & Validate Data
 # ------------------------------------------------
-df = pd.read_csv(uploaded_file)
 df.columns = df.columns.str.strip().str.lower()
 
 required_cols = {"filename", "sentiment", "tone"}

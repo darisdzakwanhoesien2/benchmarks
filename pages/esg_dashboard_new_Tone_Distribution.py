@@ -23,19 +23,34 @@ st.write(
 # ----------------------------------------------------------
 # PATH RESOLUTION (FIXED)
 # ----------------------------------------------------------
-CURRENT_DIR = Path(__file__).resolve()
 
-DASHBOARD_DIR = CURRENT_DIR.parents[1]          # dashboard/
-PROJECT_ROOT = CURRENT_DIR.parents[2]           # project root
 
-ONTOLOGY_DIR = DASHBOARD_DIR / "data"           # dashboard/data/
-CSV_DIR = PROJECT_ROOT / "data"                 # root/data/
+# --- Dataset selection from config/dataset.json ---
+dataset_config_path = Path(__file__).resolve().parents[1] / "config" / "dataset.json"
+datasets = []
+if dataset_config_path.exists():
+    with open(dataset_config_path) as f:
+        config = json.load(f)
+        datasets = config.get("datasets", [])
 
-MASTER_PATH = CSV_DIR / "output_in_csv.csv"
+dataset_names = [d["name"] for d in datasets]
+dataset_choice = None
+selected_file = None
+
+if dataset_names:
+    dataset_choice = st.sidebar.selectbox("Select a dataset", ["(Upload your own)"] + dataset_names)
+    if dataset_choice != "(Upload your own)":
+        selected = next((d for d in datasets if d["name"] == dataset_choice), None)
+        if selected:
+            selected_file = selected["filepath"]
+
+uploaded_file = st.sidebar.file_uploader("Or upload your CSV file", type=["csv"])
+
 
 # ----------------------------------------------------------
 # LOAD ONTOLOGIES (CORRECT LOCATION)
 # ----------------------------------------------------------
+ONTOLOGY_DIR = Path.cwd() / "data"
 try:
     with open(ONTOLOGY_DIR / "aspect_category_ontology.json") as f:
         ASPECT_ONTOLOGY = json.load(f)

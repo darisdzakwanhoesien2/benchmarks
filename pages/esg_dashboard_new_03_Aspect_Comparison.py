@@ -22,7 +22,28 @@ comparison = (
     .sort_values("count", ascending=False)
 )
 
-st.dataframe(comparison, use_container_width=True)
+
+# Dropdown for aspect cluster selection
+aspect_clusters = ["All"] + sorted(df["aspect_cluster"].unique())
+selected_cluster = st.selectbox("Select Aspect Cluster", aspect_clusters)
+
+# Filter data based on selection
+if selected_cluster != "All":
+    filtered_df = comparison[comparison["aspect_cluster"] == selected_cluster]
+else:
+    filtered_df = comparison
+
+# Show filtered table
+st.dataframe(filtered_df, use_container_width=True)
+
+# Show bar chart for visualization
+if not filtered_df.empty:
+    st.bar_chart(
+        filtered_df.set_index("aspect")["count"],
+        use_container_width=True
+    )
+else:
+    st.info("No data for selected cluster.")
 
 
 # import streamlit as st

@@ -1,0 +1,19 @@
+{
+  "Social": "S",
+  "S/E": "E-S",
+  "Environmental": "E",
+  "S": "S",
+  "Governance": "G",
+  "ESG": "E-S-G",
+  "E/S": "E-S",
+  "nan": "none",
+  "G": "G",
+  "E, S": "E-S",
+  "E | S": "E-S",
+  "Outcome": "none",
+  "E": "E",
+  "Sustainability Strategy": "E-S",
+  "E; S": "E-S",
+  "E/S/G": "E-S-G",
+  "E,G,S": "E-S-G"
+}

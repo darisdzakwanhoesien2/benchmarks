@@ -24,15 +24,73 @@ st.write(
 # ------------------------------------------------
 # 📥 Sidebar — File Upload
 # ------------------------------------------------
-uploaded_file = st.sidebar.file_uploader(
-    "Upload ESG CSV", type=["csv"], key="aspect_file"
-)
+from pathlib import Path
+import json
 
-if uploaded_file is None:
-    st.info("⬅️ Upload a CSV file to begin.")
+# --- Dataset selection from config/dataset.json ---
+dataset_config_path = Path(__file__).resolve().parents[1] / "config" / "dataset.json"
+datasets = []
+if dataset_config_path.exists():
+    with open(dataset_config_path) as f:
+        config = json.load(f)
+        datasets = config.get("datasets", [])
+
+dataset_names = [d["name"] for d in datasets]
+dataset_choice = None
+selected_file = None
+
+if dataset_names:
+    dataset_choice = st.sidebar.selectbox("Select a dataset", ["(Upload your own)"] + dataset_names, key="dataset_selectbox")
+    if dataset_choice != "(Upload your own)":
+        selected = next((d for d in datasets if d["name"] == dataset_choice), None)
+        if selected:
+            selected_file = selected["filepath"]
+
+uploaded_file = st.sidebar.file_uploader("Or upload ESG CSV", type=["csv"], key="aspect_file_data_dist")
+
+if selected_file:
+    df = pd.read_csv(selected_file)
+    st.sidebar.success(f"Loaded dataset: {selected_file}")
+elif uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+    st.sidebar.success("Loaded uploaded file")
+else:
+    st.info("⬅️ Please select a dataset or upload a CSV file to begin.")
     st.stop()
 
-df = pd.read_csv(uploaded_file)
+# --- Dataset selection from config/dataset.json ---
+from pathlib import Path
+import json
+
+dataset_config_path = Path(__file__).resolve().parents[1] / "config" / "dataset.json"
+datasets = []
+if dataset_config_path.exists():
+    with open(dataset_config_path) as f:
+        config = json.load(f)
+        datasets = config.get("datasets", [])
+
+dataset_names = [d["name"] for d in datasets]
+dataset_choice = None
+selected_file = None
+
+if dataset_names:
+    dataset_choice = st.sidebar.selectbox("Select a dataset", ["(Upload your own)"] + dataset_names)
+    if dataset_choice != "(Upload your own)":
+        selected = next((d for d in datasets if d["name"] == dataset_choice), None)
+        if selected:
+            selected_file = selected["filepath"]
+
+uploaded_file = st.sidebar.file_uploader("Or upload ESG CSV", type=["csv"], key="aspect_file")
+
+if selected_file:
+    df = pd.read_csv(selected_file)
+    st.sidebar.success(f"Loaded dataset: {selected_file}")
+elif uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+    st.sidebar.success("Loaded uploaded file")
+else:
+    st.info("⬅️ Please select a dataset or upload a CSV file to begin.")
+    st.stop()
 
 # ------------------------------------------------
 # 🔐 Normalize Column Names

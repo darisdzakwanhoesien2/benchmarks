@@ -1,5 +1,12 @@
 https://chatgpt.com/c/69972e68-b9c4-8323-823a-44f72dc22852
 
+https://www.globalreporting.org/media/muajmnbl/draft-esrs-gri-standards-data-point-mapping.xlsx
+https://www.globalreporting.org/reporting-support/goals-and-targets-database/
+https://www.globalreporting.org/media/3knnasj1/2-full-set-of-data-points-final-for-consultation-11062024.xlsx
+https://www.globalreporting.org/standards/download-the-standards/
+
+
+
 Yes. Since your ESG scoring model is already deployed as a Hugging Face Space with a `/predict` endpoint, we can build a clean Streamlit frontend that:
 
 * accepts user text input

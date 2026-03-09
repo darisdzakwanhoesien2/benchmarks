@@ -94,9 +94,13 @@ def coef_table_binary_safe(clf, feat_names, label_type="Sentiment", topk=8) -> p
     """
     if hasattr(clf, "coef_"):
         coefs = clf.coef_
-        classes = list(clf.classes_)
+        classes = list(getattr(clf, "classes_", []))
         # for binary with sklearn returning shape (n_classes,) sometimes handled
         if coefs.ndim == 1:
+            # If only one class, avoid creating a fake negative class
+            if len(classes) == 1:
+                # Only one class present, cannot compute meaningful coefficients
+                return pd.DataFrame([], columns=["Task","Class","Direction","Rank","Feature","Coefficient"])
             coefs = np.vstack([-coefs, coefs])
             classes = [f"Not-{classes[0]}", classes[0]]
     else:
@@ -105,6 +109,9 @@ def coef_table_binary_safe(clf, feat_names, label_type="Sentiment", topk=8) -> p
 
     rows = []
     for ci, cname in enumerate(classes):
+        # Defensive: skip if ci is out of bounds for coefs
+        if ci >= coefs.shape[0]:
+            continue
         coef = coefs[ci]
         pos_idx = np.argsort(coef)[-topk:][::-1]
         neg_idx = np.argsort(coef)[:topk]

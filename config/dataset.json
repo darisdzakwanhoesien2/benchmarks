@@ -1,0 +1,9 @@
+{
+  "datasets": [
+    {
+      "name": "Default Output CSV",
+      "filepath": "data/output_in_csv.csv",
+      "description": "Main output CSV file for tone distribution analysis."
+    }
+  ]
+}

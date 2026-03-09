@@ -13,20 +13,39 @@ st.title("📊 ESG Parsed Sentence-Level Dashboard")
 # -------------------------------------------------------
 # Load CSV
 # -------------------------------------------------------
-DATA_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "data", "data_output.csv")
-)
-
 st.caption(f"Using data: `{DATA_PATH}`")
 
-@st.cache_data
-def load_data(path):
-    return pd.read_csv(path)
+# --- Dataset selection from config/dataset.json ---
+from pathlib import Path
+dataset_config_path = Path(__file__).resolve().parents[1] / "config" / "dataset.json"
+datasets = []
+import json
+if dataset_config_path.exists():
+    with open(dataset_config_path) as f:
+        config = json.load(f)
+        datasets = config.get("datasets", [])
 
-try:
-    raw_df = load_data(DATA_PATH)
-except Exception as e:
-    st.error(f"❌ Failed to load CSV at: {DATA_PATH}\n\n{e}")
+dataset_names = [d["name"] for d in datasets]
+dataset_choice = None
+selected_file = None
+
+if dataset_names:
+    dataset_choice = st.sidebar.selectbox("Select a dataset", ["(Upload your own)"] + dataset_names)
+    if dataset_choice != "(Upload your own)":
+        selected = next((d for d in datasets if d["name"] == dataset_choice), None)
+        if selected:
+            selected_file = selected["filepath"]
+
+uploaded_file = st.sidebar.file_uploader("Or upload your CSV file", type=["csv"])
+
+if selected_file:
+    raw_df = pd.read_csv(selected_file)
+    st.sidebar.success(f"Loaded dataset: {selected_file}")
+elif uploaded_file is not None:
+    raw_df = pd.read_csv(uploaded_file)
+    st.sidebar.success("Loaded uploaded file")
+else:
+    st.info("Please select a dataset or upload a CSV file.")
     st.stop()
 
 # =======================================================

@@ -20,20 +20,28 @@ st.write(
     "Sankey graphs, and balanced datasets."
 )
 
+def build_alias_map(ontology):
+    mapping = {}
+    for canonical, meta in ontology.items():
+        for alias in meta.get("aliases", []):
+            if alias is not None:
+                mapping[str(alias).strip().lower()] = canonical
+    return mapping
+def normalize(value, mapping):
+    if pd.isna(value):
+        return "OTHER"
+    return mapping.get(str(value).strip().lower(), "OTHER")
+
 # ----------------------------------------------------------
 # LOAD ONTOLOGIES
 # ----------------------------------------------------------
 BASE_DATA_PATH = Path(__file__).resolve().parents[1] / "data"
-
 with open(BASE_DATA_PATH / "aspect_category_ontology.json") as f:
     ASPECT_ONTOLOGY = json.load(f)
-
 with open(BASE_DATA_PATH / "sentiment_ontology.json") as f:
     SENTIMENT_ONTOLOGY = json.load(f)
-
 with open(BASE_DATA_PATH / "tone_ontology.json") as f:
     TONE_ONTOLOGY = json.load(f)
-
 
 def build_alias_map(ontology):
     mapping = {}
@@ -43,11 +51,9 @@ def build_alias_map(ontology):
                 mapping[str(alias).strip().lower()] = canonical
     return mapping
 
-
 ASPECT_MAP = build_alias_map(ASPECT_ONTOLOGY)
 SENTIMENT_MAP = build_alias_map(SENTIMENT_ONTOLOGY)
 TONE_MAP = build_alias_map(TONE_ONTOLOGY)
-
 
 def normalize(value, mapping):
     if pd.isna(value):
@@ -56,17 +62,42 @@ def normalize(value, mapping):
 
 
 # ----------------------------------------------------------
-# FILE UPLOADER
+# FILE UPLOADER & DATASET SELECTION
 # ----------------------------------------------------------
 st.header("1️⃣ Upload Your Dataset")
+from pathlib import Path
+import json
 
-uploaded = st.file_uploader("Upload CSV file", type=["csv"])
+# --- Dataset selection from config/dataset.json ---
+dataset_config_path = Path(__file__).resolve().parents[1] / "config" / "dataset.json"
+datasets = []
+if dataset_config_path.exists():
+    with open(dataset_config_path) as f:
+        config = json.load(f)
+        datasets = config.get("datasets", [])
 
-if not uploaded:
-    st.info("Please upload a CSV file to continue.")
+dataset_names = [d["name"] for d in datasets]
+dataset_choice = None
+selected_file = None
+
+if dataset_names:
+    dataset_choice = st.sidebar.selectbox("Select a dataset", ["(Upload your own)"] + dataset_names)
+    if dataset_choice != "(Upload your own)":
+        selected = next((d for d in datasets if d["name"] == dataset_choice), None)
+        if selected:
+            selected_file = selected["filepath"]
+
+uploaded = st.file_uploader("Or upload CSV file", type=["csv"])
+
+if selected_file:
+    df = pd.read_csv(selected_file)
+    st.sidebar.success(f"Loaded dataset: {selected_file}")
+elif uploaded is not None:
+    df = pd.read_csv(uploaded)
+    st.sidebar.success("Loaded uploaded file")
+else:
+    st.info("Please select a dataset or upload a CSV file to continue.")
     st.stop()
-
-df = pd.read_csv(uploaded)
 df.columns = df.columns.str.lower().str.strip()
 
 required_cols = ["aspect_category", "sentiment", "tone"]

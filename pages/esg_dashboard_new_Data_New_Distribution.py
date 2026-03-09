@@ -22,7 +22,7 @@ CURRENT_DIR = Path(__file__).resolve()
 PROJECT_ROOT = CURRENT_DIR.parents[1]
 
 DATA_PATH = PROJECT_ROOT / "data" / "output_in_csv.csv"
-ONTOLOGY_DIR = PROJECT_ROOT / "dashboard" / "data"
+ONTOLOGY_DIR = PROJECT_ROOT / "data"
 
 # --------------------------------------------------------------
 # LOAD DATA
