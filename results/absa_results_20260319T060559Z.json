@@ -1,0 +1,837 @@
+{
+  "timestamp": "2026-03-19T06:05:59.595928Z",
+  "input_text": "As one of the largest commercial banks, a strategically owned government institution, and the financial\ninstitution with the most extensive micro, small, and medium enterprise (MSME) reach in Indonesia\nand Southeast Asia, BRI is committed to managing the potential impacts of its financial services. This\ncommitment drives BRI to selectively implement screening policies based on environmental, social,\nand governance (ESG) criteria while prioritizing potential clients and partners demonstrating strong\nsustainability performance.\nOn the operational side, BRI responds to various risks and opportunities by developing responsible\nfinancing products and policies. These include increasing investments in renewable energy, energy\nefficiency, sustainable agriculture, and other sectors that contribute to environmental conservation.\nThe Board of Directors consistently promotes the creation of sustainable positive impacts both\nnationally and globally. Since 2021, BRI, alongside PT Pegadaian and PT Permodalan Nasional Madani\n(PNM), has established a synergistic unit within its holding company, known as the Ultra Micro Holding\n(UMi). This initiative aims to expand access to affordable financial solutions, contributing to national\nfinancial inclusion targets. This effort is particularly crucial in Indonesia, where geographical and social\nbarriers hinder access to conventional banking services for underserved communities",
+  "rule_based": {
+    "aspects": [
+      "Energy Efficiency",
+      "General"
+    ],
+    "polarity": "Positive",
+    "tone": "Action"
+  },
+  "classical_ml": {
+    "out_csv": "/var/folders/nc/g1m7qlxd28nc60lgd8z9wncm0000gn/T/esg_classical_ml_outputs.csv",
+    "out_df": [
+      {
+        "Sentence_ID": 0,
+        "Sentence_Text": "As one of the largest commercial banks, a strategically owned government institution, and the financial",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 17,
+        "Sentence_Text": "financial inclusion targets.",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "id",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Commitment",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 15,
+        "Sentence_Text": "(UMi).",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "id",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 1,
+        "Sentence_Text": "institution with the most extensive micro, small, and medium enterprise (MSME) reach in Indonesia",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 8,
+        "Sentence_Text": "financing products and policies.",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 5,
+        "Sentence_Text": "and governance (ESG) criteria while prioritizing potential clients and partners demonstrating strong",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 11,
+        "Sentence_Text": "The Board of Directors consistently promotes the creation of sustainable positive impacts both",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Positive",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 3,
+        "Sentence_Text": "This",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "id",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      }
+    ],
+    "coef_sent": [
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Positive",
+        "Rank": 1,
+        "Feature": "sustainability performance",
+        "Coefficient": 0.2575731815108607
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Positive",
+        "Rank": 2,
+        "Feature": "performance",
+        "Coefficient": 0.2575731815108607
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Positive",
+        "Rank": 3,
+        "Feature": "sustainability",
+        "Coefficient": 0.2575731815108607
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Positive",
+        "Rank": 4,
+        "Feature": "contribute",
+        "Coefficient": 0.10326469633151363
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Positive",
+        "Rank": 5,
+        "Feature": "efficiency",
+        "Coefficient": 0.10326469633151363
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Positive",
+        "Rank": 6,
+        "Feature": "other",
+        "Coefficient": 0.10326469633151363
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Positive",
+        "Rank": 7,
+        "Feature": "that contribute",
+        "Coefficient": 0.10326469633151363
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Positive",
+        "Rank": 8,
+        "Feature": "other sectors",
+        "Coefficient": 0.10326469633151363
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Negative",
+        "Rank": 1,
+        "Feature": "bri",
+        "Coefficient": -0.1312254614843064
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Negative",
+        "Rank": 2,
+        "Feature": "and",
+        "Coefficient": -0.11471030892789932
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Negative",
+        "Rank": 3,
+        "Feature": "nationally and",
+        "Coefficient": -0.11297382139676655
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Negative",
+        "Rank": 4,
+        "Feature": "nationally",
+        "Coefficient": -0.11297382139676655
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Negative",
+        "Rank": 5,
+        "Feature": "and globally",
+        "Coefficient": -0.11297382139676655
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Negative",
+        "Rank": 6,
+        "Feature": "globally",
+        "Coefficient": -0.11297382139676655
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Negative",
+        "Rank": 7,
+        "Feature": "the",
+        "Coefficient": -0.1011476794783158
+      },
+      {
+        "Task": "Sentiment",
+        "Class": "Neutral",
+        "Direction": "Negative",
+        "Rank": 8,
+        "Feature": "energy",
+        "Coefficient": -0.099547987566406
+      }
+    ],
+    "coef_aspect": [
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Positive",
+        "Rank": 1,
+        "Feature": "energy",
+        "Coefficient": 0.23435000432496034
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Positive",
+        "Rank": 2,
+        "Feature": "include increasing",
+        "Coefficient": 0.13841088773360966
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Positive",
+        "Rank": 3,
+        "Feature": "investments",
+        "Coefficient": 0.13841088773360966
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Positive",
+        "Rank": 4,
+        "Feature": "investments in",
+        "Coefficient": 0.13841088773360966
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Positive",
+        "Rank": 5,
+        "Feature": "increasing investments",
+        "Coefficient": 0.13841088773360966
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Positive",
+        "Rank": 6,
+        "Feature": "these include",
+        "Coefficient": 0.13841088773360966
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Negative",
+        "Rank": 1,
+        "Feature": "and",
+        "Coefficient": -0.141867749634582
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Negative",
+        "Rank": 2,
+        "Feature": "to",
+        "Coefficient": -0.13644987980516776
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Negative",
+        "Rank": 3,
+        "Feature": "sustainability",
+        "Coefficient": -0.09691183581350399
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Negative",
+        "Rank": 4,
+        "Feature": "sustainability performance",
+        "Coefficient": -0.09691183581350399
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Negative",
+        "Rank": 5,
+        "Feature": "performance",
+        "Coefficient": -0.09691183581350399
+      },
+      {
+        "Task": "Aspect",
+        "Class": 0,
+        "Direction": "Negative",
+        "Rank": 6,
+        "Feature": "bri",
+        "Coefficient": -0.09175244031533533
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Positive",
+        "Rank": 1,
+        "Feature": "and",
+        "Coefficient": 0.1418677496345819
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Positive",
+        "Rank": 2,
+        "Feature": "to",
+        "Coefficient": 0.13644987980516768
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Positive",
+        "Rank": 3,
+        "Feature": "performance",
+        "Coefficient": 0.09691183581350395
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Positive",
+        "Rank": 4,
+        "Feature": "sustainability",
+        "Coefficient": 0.09691183581350395
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Positive",
+        "Rank": 5,
+        "Feature": "sustainability performance",
+        "Coefficient": 0.09691183581350395
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Positive",
+        "Rank": 6,
+        "Feature": "bri",
+        "Coefficient": 0.09175244031533525
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Negative",
+        "Rank": 1,
+        "Feature": "energy",
+        "Coefficient": -0.23435000432495967
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Negative",
+        "Rank": 2,
+        "Feature": "these",
+        "Coefficient": -0.1384108877336093
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Negative",
+        "Rank": 3,
+        "Feature": "increasing investments",
+        "Coefficient": -0.1384108877336093
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Negative",
+        "Rank": 4,
+        "Feature": "increasing",
+        "Coefficient": -0.1384108877336093
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Negative",
+        "Rank": 5,
+        "Feature": "include increasing",
+        "Coefficient": -0.1384108877336093
+      },
+      {
+        "Task": "Aspect",
+        "Class": 1,
+        "Direction": "Negative",
+        "Rank": 6,
+        "Feature": "include",
+        "Coefficient": -0.1384108877336093
+      }
+    ]
+  },
+  "deep_model": {
+    "ran": false,
+    "out_df": [
+      {
+        "Sentence_ID": 0,
+        "Sentence_Text": "As one of the largest commercial banks, a strategically owned government institution, and the financial",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 17,
+        "Sentence_Text": "financial inclusion targets.",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "id",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Commitment",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 15,
+        "Sentence_Text": "(UMi).",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "id",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 1,
+        "Sentence_Text": "institution with the most extensive micro, small, and medium enterprise (MSME) reach in Indonesia",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 8,
+        "Sentence_Text": "financing products and policies.",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 5,
+        "Sentence_Text": "and governance (ESG) criteria while prioritizing potential clients and partners demonstrating strong",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 11,
+        "Sentence_Text": "The Board of Directors consistently promotes the creation of sustainable positive impacts both",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "en",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Positive",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      },
+      {
+        "Sentence_ID": 3,
+        "Sentence_Text": "This",
+        "Section": "General",
+        "Section_Type": "General",
+        "Language": "id",
+        "Aspect_Weak": "General",
+        "Sentiment_Weak": "Neutral",
+        "Tone_Weak": "Unknown",
+        "Aspect_Pred": "General",
+        "Sentiment_Pred": "Neutral",
+        "Tone_Pred": "Unknown",
+        "Ontology_Path": "General → Misc"
+      }
+    ],
+    "interpretability": "None"
+  },
+  "hybrid_model": {
+    "out_df": [
+      {
+        "Sentence_Text": "As one of the largest commercial banks, a strategically owned government institution, and the financial",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "institution with the most extensive micro, small, and medium enterprise (MSME) reach in Indonesia",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "and Southeast Asia, BRI is committed to managing the potential impacts of its financial services.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "This",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "commitment drives BRI to selectively implement screening policies based on environmental, social,",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "and governance (ESG) criteria while prioritizing potential clients and partners demonstrating strong",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "sustainability performance.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "On the operational side, BRI responds to various risks and opportunities by developing responsible",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "financing products and policies.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "These include increasing investments in renewable energy, energy",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "efficiency, sustainable agriculture, and other sectors that contribute to environmental conservation.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "The Board of Directors consistently promotes the creation of sustainable positive impacts both",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "nationally and globally.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "Since 2021, BRI, alongside PT Pegadaian and PT Permodalan Nasional Madani",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "(PNM), has established a synergistic unit within its holding company, known as the Ultra Micro Holding",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "(UMi).",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "This initiative aims to expand access to affordable financial solutions, contributing to national",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "financial inclusion targets.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "This effort is particularly crucial in Indonesia, where geographical and social",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "barriers hinder access to conventional banking services for underserved communities",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      }
+    ],
+    "metrics": [
+      {
+        "Metric": "Ontology Consistency",
+        "Value": 0.05
+      },
+      {
+        "Metric": "Greenwashing Index",
+        "Value": 0.0
+      },
+      {
+        "Metric": "N Sentences",
+        "Value": 20.0
+      },
+      {
+        "Metric": "Sections",
+        "Value": 1.0
+      }
+    ]
+  },
+  "explainability": {
+    "compare_df": [
+      {
+        "Sentence_Text": "As one of the largest commercial banks, a strategically owned government institution, and the financial",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "institution with the most extensive micro, small, and medium enterprise (MSME) reach in Indonesia",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "and Southeast Asia, BRI is committed to managing the potential impacts of its financial services.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "This",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "commitment drives BRI to selectively implement screening policies based on environmental, social,",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "and governance (ESG) criteria while prioritizing potential clients and partners demonstrating strong",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "sustainability performance.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "On the operational side, BRI responds to various risks and opportunities by developing responsible",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "financing products and policies.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "These include increasing investments in renewable energy, energy",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "efficiency, sustainable agriculture, and other sectors that contribute to environmental conservation.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "The Board of Directors consistently promotes the creation of sustainable positive impacts both",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "nationally and globally.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "Since 2021, BRI, alongside PT Pegadaian and PT Permodalan Nasional Madani",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "(PNM), has established a synergistic unit within its holding company, known as the Ultra Micro Holding",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "(UMi).",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "This initiative aims to expand access to affordable financial solutions, contributing to national",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "financial inclusion targets.",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "This effort is particularly crucial in Indonesia, where geographical and social",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      },
+      {
+        "Sentence_Text": "barriers hinder access to conventional banking services for underserved communities",
+        "Sentiment": "Neutral",
+        "Tone": "Unknown",
+        "Model": "Hybrid"
+      }
+    ]
+  }
+}

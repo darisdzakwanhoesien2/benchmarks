@@ -1,4 +1,3 @@
-
 import streamlit as st
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
@@ -41,12 +40,16 @@ if text_input:
 
     # Deep Model
     st.header("Deep Model (mBERT) Demo")
-    from code.deep_model import run_deep_learning
-    out_csv, out_df, fig, interp_df = run_deep_learning(text_input)
-    st.write("Deep Model Output DataFrame:")
-    st.dataframe(out_df)
-    st.write("Interpretability (Top Tokens):")
-    st.dataframe(interp_df)
+    run_deep = st.checkbox("Run Deep Model (mBERT) Demo (may download models / use GPU)", value=False)
+    if run_deep:
+        from code.deep_model import run_deep_learning
+        out_csv, out_df, fig, interp_df = run_deep_learning(text_input)
+        st.write("Deep Model Output DataFrame:")
+        st.dataframe(out_df)
+        st.write("Interpretability (Top Tokens):")
+        st.dataframe(interp_df)
+    else:
+        st.info("Deep model skipped. Enable the checkbox to run the mBERT demo (may download models and take longer).")
 
     # Hybrid Model
     st.header("Hybrid Model (Hierarchical + MTL) Demo")

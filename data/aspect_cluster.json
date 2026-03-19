@@ -1,0 +1,193 @@
+{
+  "clusters": {
+    "governance": {
+      "total_count": 1240,
+      "members": [
+        { "aspect": "governance", "count": 345 },
+        { "aspect": "corporate governance", "count": 104 },
+        { "aspect": "risk management", "count": 93 },
+        { "aspect": "Governance", "count": 90 },
+        { "aspect": "transparency", "count": 75 },
+        { "aspect": "anti-corruption", "count": 70 },
+        { "aspect": "board diversity", "count": 52 },
+        { "aspect": "compliance", "count": 50 },
+        { "aspect": "certifications", "count": 44 },
+        { "aspect": "regulatory compliance", "count": 42 },
+        { "aspect": "legal compliance", "count": 26 },
+        { "aspect": "board composition", "count": 24 },
+        { "aspect": "governance structure", "count": 23 },
+        { "aspect": "Corporate Governance", "count": 22 },
+        { "aspect": "Risk Management", "count": 18 },
+        { "aspect": "sustainability reporting", "count": 15 },
+        { "aspect": "ethics", "count": 14 },
+        { "aspect": "ethics policies", "count": 12 },
+        { "aspect": "risk management system", "count": 11 },
+        { "aspect": "Governance structure", "count": 11 },
+        { "aspect": "information disclosure", "count": 10 },
+        { "aspect": "executive compensation", "count": 9 },
+        { "aspect": "disclosure", "count": 9 },
+        { "aspect": "Legal Compliance", "count": 9 },
+        { "aspect": "conflict of interest", "count": 9 },
+        { "aspect": "internal controls", "count": 9 },
+        { "aspect": "whistleblowing", "count": 9 },
+        { "aspect": "sustainability strategy", "count": 9 },
+        { "aspect": "internal control system", "count": 9 },
+        { "aspect": "Regulatory Compliance", "count": 9 },
+        { "aspect": "Governance Structure", "count": 8 }
+      ]
+    },
+    "emissions": {
+      "total_count": 347,
+      "members": [
+        { "aspect": "emissions", "count": 300 },
+        { "aspect": "GHG emissions", "count": 14 },
+        { "aspect": "carbon emissions", "count": 12 },
+        { "aspect": "greenhouse gas emissions", "count": 12 },
+        { "aspect": "emissions reduction", "count": 9 }
+      ]
+    },
+    "environment": {
+      "total_count": 311,
+      "members": [
+        { "aspect": "environmental management", "count": 64 },
+        { "aspect": "biodiversity", "count": 47 },
+        { "aspect": "environmental compliance", "count": 17 },
+        { "aspect": "circular economy", "count": 17 },
+        { "aspect": "sustainable materials", "count": 16 },
+        { "aspect": "sustainability", "count": 16 },
+        { "aspect": "biodiversity conservation", "count": 16 },
+        { "aspect": "resource efficiency", "count": 15 },
+        { "aspect": "environmental responsibility", "count": 13 },
+        { "aspect": "recycled materials", "count": 12 },
+        { "aspect": "ecosystem enhancement", "count": 11 },
+        { "aspect": "climate risk", "count": 11 },
+        { "aspect": "reforestation", "count": 10 },
+        { "aspect": "climate change", "count": 10 },
+        { "aspect": "environmental impact", "count": 9 },
+        { "aspect": "peatland management", "count": 9 },
+        { "aspect": "environmental performance", "count": 9 },
+        { "aspect": "environmental stewardship", "count": 9 }
+      ]
+    },
+    "energy": {
+      "total_count": 222,
+      "members": [
+        { "aspect": "renewable energy", "count": 91 },
+        { "aspect": "energy consumption", "count": 77 },
+        { "aspect": "energy efficiency", "count": 36 },
+        { "aspect": "renewable energy usage", "count": 10 },
+        { "aspect": "renewable energy adoption", "count": 8 }
+      ]
+    },
+    "waste": {
+      "total_count": 169,
+      "members": [
+        { "aspect": "waste management", "count": 109 },
+        { "aspect": "waste", "count": 60 }
+      ]
+    },
+    "water": {
+      "total_count": 95,
+      "members": [
+        { "aspect": "water usage", "count": 62 },
+        { "aspect": "water management", "count": 23 },
+        { "aspect": "water consumption", "count": 10 }
+      ]
+    },
+    "social": {
+      "total_count": 674,
+      "members": [
+        { "aspect": "diversity", "count": 121 },
+        { "aspect": "community engagement", "count": 104 },
+        { "aspect": "stakeholder engagement", "count": 77 },
+        { "aspect": "gender equality", "count": 67 },
+        { "aspect": "education", "count": 52 },
+        { "aspect": "workforce diversity", "count": 46 },
+        { "aspect": "community development", "count": 34 },
+        { "aspect": "social responsibility", "count": 28 },
+        { "aspect": "human rights", "count": 28 },
+        { "aspect": "community empowerment", "count": 23 },
+        { "aspect": "health", "count": 19 },
+        { "aspect": "stakeholder collaboration", "count": 19 },
+        { "aspect": "Community Engagement", "count": 15 },
+        { "aspect": "Stakeholder Engagement", "count": 11 },
+        { "aspect": "stakeholder communication", "count": 11 },
+        { "aspect": "economic empowerment", "count": 10 },
+        { "aspect": "healthcare", "count": 9 }
+      ]
+    },
+    "labor": {
+      "total_count": 512,
+      "members": [
+        { "aspect": "employee training", "count": 67 },
+        { "aspect": "employee relations", "count": 45 },
+        { "aspect": "occupational health & safety", "count": 43 },
+        { "aspect": "employee benefits", "count": 33 },
+        { "aspect": "employee development", "count": 29 },
+        { "aspect": "occupational health and safety", "count": 26 },
+        { "aspect": "safety", "count": 25 },
+        { "aspect": "workplace safety", "count": 23 },
+        { "aspect": "workforce development", "count": 22 },
+        { "aspect": "health and safety", "count": 18 },
+        { "aspect": "employee welfare", "count": 18 },
+        { "aspect": "labor practices", "count": 18 },
+        { "aspect": "employee engagement", "count": 16 },
+        { "aspect": "employee compensation", "count": 13 },
+        { "aspect": "employee turnover", "count": 11 },
+        { "aspect": "fire prevention", "count": 10 },
+        { "aspect": "performance management", "count": 10 },
+        { "aspect": "Occupational Health and Safety", "count": 10 },
+        { "aspect": "training", "count": 10 },
+        { "aspect": "career development", "count": 10 },
+        { "aspect": "work environment", "count": 9 },
+        { "aspect": "employment", "count": 9 },
+        { "aspect": "labor rights", "count": 8 },
+        { "aspect": "performance evaluation", "count": 8 },
+        { "aspect": "human capital", "count": 8 },
+        { "aspect": "remuneration", "count": 13 }
+      ]
+    },
+    "supply_chain": {
+      "total_count": 52,
+      "members": [
+        { "aspect": "supply chain", "count": 26 },
+        { "aspect": "supply chain management", "count": 9 },
+        { "aspect": "traceability", "count": 9 },
+        { "aspect": "supply chain sustainability", "count": 8 }
+      ]
+    },
+    "finance": {
+      "total_count": 185,
+      "members": [
+        { "aspect": "capital structure", "count": 31 },
+        { "aspect": "tax compliance", "count": 27 },
+        { "aspect": "credit risk management", "count": 19 },
+        { "aspect": "financial reporting", "count": 16 },
+        { "aspect": "liquidity management", "count": 16 },
+        { "aspect": "economic performance", "count": 16 },
+        { "aspect": "taxation", "count": 15 },
+        { "aspect": "interest rate risk management", "count": 13 },
+        { "aspect": "accounting policies", "count": 11 },
+        { "aspect": "financial risk management", "count": 11 },
+        { "aspect": "sustainable finance", "count": 10 }
+      ]
+    },
+    "product": {
+      "total_count": 44,
+      "members": [
+        { "aspect": "product safety", "count": 20 },
+        { "aspect": "product innovation", "count": 13 },
+        { "aspect": "materials", "count": 11 }
+      ]
+    },
+    "other": {
+      "total_count": 86,
+      "members": [
+        { "aspect": "resilience", "count": 43 },
+        { "aspect": "operational efficiency", "count": 15 },
+        { "aspect": "customer satisfaction", "count": 12 },
+        { "aspect": "digital transformation", "count": 8 },
+        { "aspect": "customer engagement", "count": 8 }
+      ]
+    }
+  }}

@@ -1,0 +1,1007 @@
+[
+{
+    "timestamp": "2026-03-19T07:54:59.449726Z",
+    "input_text": "Our approach to sustainability is also informed by\nthe interests and concerns of our stakeholders and\ntheir input is greatly valued in our decision making.\nBy engaging with stakeholders, companies can\nbetter understand their needs and concerns, and\nensure that their sustainability efforts are aligned\nwith the needs of the wider community.\nThere are different types of stakeholders that we\ntypically engages: employees, local communities,\ngovernment, NGOs, suppliers and buyers and they\nare each engaged in different manners. We engage\nour employees through our annual employee\nsurvey and bipartite meeting with our workers\nunion. Local communities, government and NGOs\nare engaged through our annual stakeholder\nconsultation meeting as well as other coordination\nvisits. We send out annual questionnaires and\nconducted annual workshop to engage with our\nsuppliers. We participate in our buyer’s workshop\nand responded to their questionnaires. We also\nparticipate in various ESG ratings and scorings\nsuch as Ecovadis, CDP and SPOTT",
+    "rule_based": {
+      "aspects": [
+        "Community Welfare",
+        "General"
+      ],
+      "polarity": "Positive",
+      "tone": "Action"
+    },
+    "classical_ml": {
+      "out_csv": "/var/folders/nc/g1m7qlxd28nc60lgd8z9wncm0000gn/T/esg_classical_ml_outputs.csv",
+      "out_df": [
+        {
+          "Sentence_ID": 8,
+          "Sentence_Text": "typically engages: employees, local communities,",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 13,
+          "Sentence_Text": "survey and bipartite meeting with our workers",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 9,
+          "Sentence_Text": "government, NGOs, suppliers and buyers and they",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 21,
+          "Sentence_Text": "suppliers.",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 0,
+          "Sentence_Text": "Our approach to sustainability is also informed by",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Positive",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 11,
+          "Sentence_Text": "We engage",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 16,
+          "Sentence_Text": "are engaged through our annual stakeholder",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 17,
+          "Sentence_Text": "consultation meeting as well as other coordination",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 12,
+          "Sentence_Text": "our employees through our annual employee",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 24,
+          "Sentence_Text": "We also",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 1,
+          "Sentence_Text": "the interests and concerns of our stakeholders and",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        }
+      ],
+      "coef_sent": [
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "aligned",
+          "Coefficient": 0.17235995415318522
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "ensure",
+          "Coefficient": 0.17235995415318522
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "that their",
+          "Coefficient": 0.17235995415318522
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "sustainability efforts",
+          "Coefficient": 0.17235995415318522
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "sustainability",
+          "Coefficient": 0.17235995415318522
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "ensure that",
+          "Coefficient": 0.17235995415318522
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 7,
+          "Feature": "their sustainability",
+          "Coefficient": 0.17235995415318522
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 8,
+          "Feature": "efforts are",
+          "Coefficient": 0.17235995415318522
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "and",
+          "Coefficient": -0.17623216377710194
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "visits",
+          "Coefficient": -0.14551280955003604
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "union",
+          "Coefficient": -0.14445207691477466
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "in",
+          "Coefficient": -0.115914731119914
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "we",
+          "Coefficient": -0.09879601294243412
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "with",
+          "Coefficient": -0.09315307661610843
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 7,
+          "Feature": "our",
+          "Coefficient": -0.09240729837180109
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 8,
+          "Feature": "questionnaires",
+          "Coefficient": -0.08095245149184269
+        }
+      ],
+      "coef_aspect": [
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "the",
+          "Coefficient": 0.2805381828121161
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "with the",
+          "Coefficient": 0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "needs of",
+          "Coefficient": 0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "of the",
+          "Coefficient": 0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "the wider",
+          "Coefficient": 0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "wider community",
+          "Coefficient": 0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "and",
+          "Coefficient": -0.17842873923662217
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "union",
+          "Coefficient": -0.14577378952932524
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "visits",
+          "Coefficient": -0.14521734039669082
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "their",
+          "Coefficient": -0.11766123144277091
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "in",
+          "Coefficient": -0.11363752522861771
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "we",
+          "Coefficient": -0.09681765972380887
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "and",
+          "Coefficient": 0.17842873923662217
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "union",
+          "Coefficient": 0.14577378952932524
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "visits",
+          "Coefficient": 0.14521734039669082
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "their",
+          "Coefficient": 0.11766123144277091
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "in",
+          "Coefficient": 0.11363752522861771
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "we",
+          "Coefficient": 0.09681765972380887
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "the",
+          "Coefficient": -0.2805381828121161
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "community",
+          "Coefficient": -0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "wider community",
+          "Coefficient": -0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "with the",
+          "Coefficient": -0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "wider",
+          "Coefficient": -0.16569037000040282
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "of the",
+          "Coefficient": -0.16569037000040282
+        }
+      ]
+    },
+    "deep_model": {
+      "ran": false,
+      "out_df": [
+        {
+          "Sentence_ID": 8,
+          "Sentence_Text": "typically engages: employees, local communities,",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 13,
+          "Sentence_Text": "survey and bipartite meeting with our workers",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 9,
+          "Sentence_Text": "government, NGOs, suppliers and buyers and they",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 21,
+          "Sentence_Text": "suppliers.",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 0,
+          "Sentence_Text": "Our approach to sustainability is also informed by",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Positive",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 11,
+          "Sentence_Text": "We engage",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 16,
+          "Sentence_Text": "are engaged through our annual stakeholder",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 17,
+          "Sentence_Text": "consultation meeting as well as other coordination",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 12,
+          "Sentence_Text": "our employees through our annual employee",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 24,
+          "Sentence_Text": "We also",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 1,
+          "Sentence_Text": "the interests and concerns of our stakeholders and",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        }
+      ],
+      "interpretability": "None"
+    },
+    "hybrid_model": {
+      "out_df": [
+        {
+          "Sentence_Text": "Our approach to sustainability is also informed by",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "the interests and concerns of our stakeholders and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "their input is greatly valued in our decision making.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "By engaging with stakeholders, companies can",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "better understand their needs and concerns, and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "ensure that their sustainability efforts are aligned",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "with the needs of the wider community.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "There are different types of stakeholders that we",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "typically engages: employees, local communities,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "government, NGOs, suppliers and buyers and they",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "are each engaged in different manners.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We engage",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "our employees through our annual employee",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "survey and bipartite meeting with our workers",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "union.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Local communities, government and NGOs",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "are engaged through our annual stakeholder",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "consultation meeting as well as other coordination",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "visits.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We send out annual questionnaires and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "conducted annual workshop to engage with our",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "suppliers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We participate in our buyer’s workshop",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "and responded to their questionnaires.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We also",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "participate in various ESG ratings and scorings",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "such as Ecovadis, CDP and SPOTT",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.037
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 27.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    },
+    "explainability": {
+      "compare_df": [
+        {
+          "Sentence_Text": "Our approach to sustainability is also informed by",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "the interests and concerns of our stakeholders and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "their input is greatly valued in our decision making.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "By engaging with stakeholders, companies can",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "better understand their needs and concerns, and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "ensure that their sustainability efforts are aligned",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "with the needs of the wider community.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "There are different types of stakeholders that we",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "typically engages: employees, local communities,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "government, NGOs, suppliers and buyers and they",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "are each engaged in different manners.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We engage",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "our employees through our annual employee",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "survey and bipartite meeting with our workers",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "union.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Local communities, government and NGOs",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "are engaged through our annual stakeholder",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "consultation meeting as well as other coordination",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "visits.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We send out annual questionnaires and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "conducted annual workshop to engage with our",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "suppliers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We participate in our buyer’s workshop",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "and responded to their questionnaires.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We also",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "participate in various ESG ratings and scorings",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "such as Ecovadis, CDP and SPOTT",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        }
+      ]
+    }
+  }
+]

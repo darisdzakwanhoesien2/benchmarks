@@ -38,8 +38,13 @@ st.dataframe(filtered_df, use_container_width=True)
 
 # Show bar chart for visualization
 if not filtered_df.empty:
+    # sort by 'count' descending and use 'aspect' as index for plotting
+    plot_series = (
+        filtered_df.sort_values("count", ascending=False)
+        .set_index("aspect")["count"]
+    )
     st.bar_chart(
-        filtered_df.set_index("aspect")["count"],
+        plot_series,
         use_container_width=True
     )
 else:

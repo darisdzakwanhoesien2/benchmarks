@@ -1,0 +1,32 @@
+[
+  {
+    "text": "Our approach to sustainability is informed by stakeholders",
+    "labels": ["strategy", "environmental-claims"],
+    "esg": "G",
+    "sentiment": "positive"
+  },
+  {
+    "text": "By engaging with stakeholders, companies can better understand their needs",
+    "labels": ["governance"],
+    "esg": "G",
+    "sentiment": "positive"
+  },
+  {
+    "text": "We engage employees through surveys and union meetings",
+    "labels": ["none"],
+    "esg": "S",
+    "sentiment": "neutral"
+  },
+  {
+    "text": "We engage local communities, government and NGOs",
+    "labels": ["none"],
+    "esg": "S",
+    "sentiment": "neutral"
+  },
+  {
+    "text": "We participate in ESG ratings such as Ecovadis, CDP and SPOTT",
+    "labels": ["metrics", "climate-detection"],
+    "esg": "G",
+    "sentiment": "positive"
+  }
+]

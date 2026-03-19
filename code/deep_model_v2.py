@@ -23,16 +23,15 @@ from .app_state import app_state
 
 # Use transformers if available; otherwise provide graceful fallback
 try:
-    from transformers import AutoTokenizer, AutoModel, AutoConfig
+    from transformers import BertTokenizer, BertModel
     _TRANSFORMERS_AVAILABLE = True
 except Exception:
     _TRANSFORMERS_AVAILABLE = False
 
-# Default model name (override with env var ESG_BERT_MODEL)
-BERT_BASE = os.environ.get("ESG_BERT_MODEL", "xlm-roberta-base")
+# Default model names
+BERT_BASE = "bert-base-multilingual-cased"
 
-# prefer GPU if available
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cpu")
 
 
 # -------------------------
@@ -52,13 +51,11 @@ class SimpleDLModel(nn.Module):
         # We'll load BertModel lazily (inside `init_base`), to allow graceful fallback
         if _TRANSFORMERS_AVAILABLE:
             try:
-                # Use AutoModel + config so we support XLM-RoBERTa, DeBERTa, etc.
-                cfg = AutoConfig.from_pretrained(base_model_name, output_attentions=True)
-                self.bert = AutoModel.from_pretrained(base_model_name, config=cfg)
-                # update hidden dim to model's hidden size if present
+                self.bert = BertModel.from_pretrained(base_model_name, output_attentions=True)
+                # if model has different hidden size, update hidden_dim accordingly
                 self.hidden_dim = getattr(self.bert.config, "hidden_size", self.hidden_dim)
-            except Exception:
-                # fallback to None; we will use deterministic demo embeddings if model unavailable
+            except Exception as e:
+                # fallback to None; we will use random embeddings if Bert unavailable
                 self.bert = None
 
         # heads
@@ -71,28 +68,9 @@ class SimpleDLModel(nn.Module):
         If self.bert is available, run it and return (sent_logits, tone_logits, attentions).
         Otherwise, generate random embeddings for demo mode.
         """
-        if self.bert is not None and ids is not None:
-            # ensure we request attentions and return dict for consistency
+        if self.bert is not None and ids is not None and mask is not None:
             out = self.bert(ids, attention_mask=mask, output_attentions=True, return_dict=True)
-            # robust pooling: prefer pooler_output, otherwise mean-pool valid tokens
-            pooled = None
-            if hasattr(out, "pooler_output") and out.pooler_output is not None:
-                pooled = out.pooler_output  # (B, hidden)
-            else:
-                # last_hidden_state: (B, seq, hidden)
-                last = getattr(out, "last_hidden_state", None)
-                if last is not None:
-                    if mask is not None:
-                        mask_f = mask.unsqueeze(-1).type_as(last)
-                        summed = (last * mask_f).sum(dim=1)
-                        denom = mask_f.sum(dim=1).clamp(min=1e-9)
-                        pooled = summed / denom
-                    else:
-                        pooled = last[:, 0, :]  # fallback to CLS token
-                else:
-                    # extremely unlikely: fall back to zeros
-                    B = ids.size(0)
-                    pooled = torch.zeros(B, self.hidden_dim, device=ids.device)
+            pooled = out.pooler_output  # (B, hidden)
             pooled = self.drop(pooled)
             s = self.sent_head(pooled)
             t = self.tone_head(pooled)
@@ -208,7 +186,7 @@ def run_deep_learning(raw_text: str, epochs: int = 1) -> Tuple[Optional[str], pd
     tokenizer = None
     if _TRANSFORMERS_AVAILABLE:
         try:
-            tokenizer = AutoTokenizer.from_pretrained(BERT_BASE, use_fast=True)
+            tokenizer = BertTokenizer.from_pretrained(BERT_BASE)
         except Exception:
             tokenizer = None
 

@@ -112,6 +112,13 @@ if missing:
     st.stop()
 
 st.success("✅ File loaded successfully")
+# --- ADDED: show dataset size / row count ---
+row_count = len(df)
+unique_sentences = df["sentence"].nunique() if "sentence" in df.columns else row_count
+col_a, col_b = st.columns([1, 3])
+col_a.metric("Rows", row_count)
+col_b.caption(f"Unique sentences: {unique_sentences}")
+
 st.dataframe(df.head(), use_container_width=True)
 
 # =================================================
@@ -206,26 +213,188 @@ TONE_ORDER = ["OUTCOME", "ACTION", "COMMITMENT", "OTHER"]
 # =================================================
 st.subheader("1️⃣ Aspect Category Distribution")
 
-fig1_data = (
-    df["aspect_category_norm"]
-    .value_counts()
-    .reindex(ESG_ORDER, fill_value=0)
-    .reset_index()
+# show totals / unique aspects
+unique_aspects = df["aspect"].nunique()
+col1, col2 = st.columns([1, 2])
+col1.metric("Rows", row_count)
+col2.metric("Unique aspects", unique_aspects)
+
+# allow switching between normalized category view and raw aspect view
+view = st.radio(
+    "View",
+    ("Normalized Category (canonical)", "Raw Aspect (distinct)"),
+    horizontal=True,
 )
 
-fig1_data.columns = ["aspect_category_norm", "count"]
-fig1_data["label"] = fig1_data["aspect_category_norm"].apply(aspect_label)
+if view == "Normalized Category (canonical)":
+    # normalized category counts (keeps ESG_ORDER first, includes others)
+    counts = df["aspect_category_norm"].value_counts()
+    ordered_index = [c for c in ESG_ORDER if c in counts.index] + [c for c in counts.index if c not in ESG_ORDER]
+    fig1_data = counts.reindex(ordered_index).fillna(0).reset_index()
+    fig1_data.columns = ["aspect_category_norm", "count"]
+    fig1_data["label"] = fig1_data["aspect_category_norm"].apply(aspect_label)
 
-fig1 = px.bar(
-    fig1_data,
-    x="label",
-    y="count",
-    text="count",
-    title="Aspect Category Frequency",
+    fig1 = px.bar(
+        fig1_data,
+        x="label",
+        y="count",
+        text="count",
+        title="Aspect Category Frequency (normalized)",
+    )
+    fig1.update_layout(xaxis_tickangle=-30)
+    st.plotly_chart(fig1, use_container_width=True)
+
+    # --- ADDED: table for the chart ---
+    st.dataframe(fig1_data, use_container_width=True)
+
+else:
+    # raw aspect counts (allow showing all or top-N)
+    raw_counts_all = (
+        df["aspect"].fillna("UNKNOWN")
+        .value_counts()
+        .reset_index()
+    )
+    raw_counts_all.columns = ["aspect", "count"]
+
+    show_all = st.checkbox("Show all raw aspects", value=False, help="Display the full aspect distribution (may be large).")
+    if show_all:
+        viz = raw_counts_all.copy()
+    else:
+        TOP_N = st.slider("Top N Raw Aspects to show", 5, 500, 50)
+        viz = raw_counts_all.head(TOP_N).copy()
+
+    # choose orientation for better readability when many items
+    if len(viz) > 40:
+        fig1 = px.bar(
+            viz,
+            x="count",
+            y="aspect",
+            orientation="h",
+            text="count",
+            title=f"{'All' if show_all else f'Top {len(viz)}'} Raw Aspects by Frequency",
+        )
+        fig1.update_layout(height=max(400, len(viz) * 18), yaxis={"automargin": True})
+    else:
+        fig1 = px.bar(
+            viz,
+            x="aspect",
+            y="count",
+            text="count",
+            title=f"{'All' if show_all else f'Top {len(viz)}'} Raw Aspects by Frequency",
+        )
+        fig1.update_layout(xaxis_tickangle=-45)
+
+    st.plotly_chart(fig1, use_container_width=True)
+
+    # table + download
+    st.dataframe(viz.reset_index(drop=True), use_container_width=True)
+    csv = viz.to_csv(index=False)
+    st.download_button("Download Raw Aspect Distribution CSV", csv, "raw_aspect_distribution.csv")
+
+# --- ADDED: Feature Distributions (ontology_uri / sentiment / tone / confidence) ---
+st.subheader("🔎 Feature Distributions")
+
+# allow optional filtering by aspect category
+aspect_options = ["All"] + [
+    (c, aspect_label(c)) for c in sorted(df["aspect_category_norm"].unique())
+]
+# build a map for display -> canonical
+display_map = {"All": "All"}
+for canon, lbl in aspect_options[1:]:
+    display_map[f"{lbl} ({canon})"] = canon
+
+selected_aspect_display = st.selectbox(
+    "Filter by Aspect Category",
+    ["All"] + [f"{lbl} ({canon})" for canon, lbl in aspect_options[1:]],
+    help="Limit distributions to a specific aspect category (optional).",
+)
+selected_aspect = display_map.get(selected_aspect_display, "All")
+
+if selected_aspect == "All":
+    feat_df = df.copy()
+else:
+    feat_df = df[df["aspect_category_norm"] == selected_aspect].copy()
+
+st.caption(f"Rows in selection: {len(feat_df)}")
+
+feature = st.selectbox(
+    "Feature",
+    ["Ontology URI", "Sentiment (normalized)", "Tone (normalized)", "Confidence"],
+    index=0,
 )
 
-fig1.update_layout(xaxis_tickangle=-30)
-st.plotly_chart(fig1, use_container_width=True)
+if feature == "Ontology URI":
+    vc = feat_df["ontology_uri"].fillna("UNKNOWN").value_counts()
+    top_n = st.slider("Top N URIs to show", 5, 200, 30)
+    viz = vc.head(top_n).reset_index()
+    viz.columns = ["ontology_uri", "count"]
+    viz["percent"] = (viz["count"] / len(feat_df)).round(4)
+    fig = px.bar(viz, x="ontology_uri", y="count", text="count", title="Ontology URI Frequency")
+    fig.update_layout(xaxis_tickangle=-45)
+    st.plotly_chart(fig, use_container_width=True)
+    st.dataframe(viz, use_container_width=True)
+
+elif feature == "Sentiment (normalized)":
+    # use sentiment_label for human readable labels
+    vc = feat_df["sentiment_norm"].fillna("OTHER").value_counts()
+    viz = vc.reset_index()
+    viz.columns = ["sentiment_norm", "count"]
+    viz["label"] = viz["sentiment_norm"].apply(sentiment_label)
+    viz["percent"] = (viz["count"] / len(feat_df)).round(4)
+    # keep SENTIMENT_ORDER if present
+    order = [s for s in SENTIMENT_ORDER if s in viz["sentiment_norm"].values] + [s for s in viz["sentiment_norm"].values if s not in SENTIMENT_ORDER]
+    viz = viz.set_index("sentiment_norm").reindex(order).reset_index()
+    fig = px.bar(viz, x="label", y="count", text="count", title="Sentiment Distribution (normalized)")
+    fig.update_layout(xaxis_tickangle=-20)
+    st.plotly_chart(fig, use_container_width=True)
+    st.dataframe(viz[["label", "count", "percent"]], use_container_width=True)
+
+elif feature == "Tone (normalized)":
+    vc = feat_df["tone_norm"].fillna("OTHER").value_counts()
+    viz = vc.reset_index()
+    viz.columns = ["tone_norm", "count"]
+    viz["label"] = viz["tone_norm"].apply(tone_label)
+    viz["percent"] = (viz["count"] / len(feat_df)).round(4)
+    order = [t for t in TONE_ORDER if t in viz["tone_norm"].values] + [t for t in viz["tone_norm"].values if t not in TONE_ORDER]
+    viz = viz.set_index("tone_norm").reindex(order).reset_index()
+    fig = px.bar(viz, x="label", y="count", text="count", title="Tone Distribution (normalized)")
+    fig.update_layout(xaxis_tickangle=-20)
+    st.plotly_chart(fig, use_container_width=True)
+    st.dataframe(viz[["label", "count", "percent"]], use_container_width=True)
+
+else:  # Confidence
+    if "confidence" not in feat_df.columns:
+        st.info("No 'confidence' column found in the dataset.")
+    else:
+        conf = pd.to_numeric(feat_df["confidence"], errors="coerce")
+        missing = conf.isna().sum()
+        stats_col1, stats_col2, stats_col3 = st.columns(3)
+        stats_col1.metric("Mean", f"{conf.mean():.3f}")
+        stats_col2.metric("Median", f"{conf.median():.3f}")
+        stats_col3.metric("Missing", f"{missing}")
+
+        # histogram
+        bins = st.slider("Histogram bins", 10, 200, 30)
+        fig_h = px.histogram(feat_df, x="confidence", nbins=bins, title="Confidence Histogram")
+        st.plotly_chart(fig_h, use_container_width=True)
+
+        # boxplot grouped
+        group_by = st.selectbox("Group confidence by (optional)", ["None", "Sentiment", "Tone", "Aspect Category"])
+        if group_by != "None":
+            if group_by == "Sentiment":
+                col = "sentiment_label"
+                feat_df["sentiment_label"] = feat_df["sentiment_norm"].apply(sentiment_label)
+                fig_b = px.box(feat_df, x=col, y="confidence", title="Confidence by Sentiment")
+            elif group_by == "Tone":
+                col = "tone_label"
+                feat_df["tone_label"] = feat_df["tone_norm"].apply(tone_label)
+                fig_b = px.box(feat_df, x=col, y="confidence", title="Confidence by Tone")
+            else:
+                col = "aspect_label"
+                feat_df["aspect_label"] = feat_df["aspect_category_norm"].apply(aspect_label)
+                fig_b = px.box(feat_df, x=col, y="confidence", title="Confidence by Aspect Category")
+            fig_b.update_layout(xaxis_tickangle=-25)
+            st.plotly_chart(fig_b, use_container_width=True)
 
 # =================================================
 # 2️⃣ Ontology URI Distribution
@@ -251,6 +420,9 @@ fig2 = px.bar(
 
 fig2.update_layout(xaxis_tickangle=-45)
 st.plotly_chart(fig2, use_container_width=True)
+
+# --- ADDED: show data table for ontology URI chart ---
+st.dataframe(fig2_data, use_container_width=True)
 
 # =================================================
 # 3️⃣ Sentiment Distribution by Aspect Category
@@ -278,6 +450,12 @@ fig3 = px.bar(
 fig3.update_layout(xaxis_tickangle=-30)
 st.plotly_chart(fig3, use_container_width=True)
 
+# --- ADDED: show underlying table for sentiment by aspect ---
+st.dataframe(
+    sent_aspect.sort_values(["aspect_label", "sentiment_label", "count"], ascending=[True, True, False]).reset_index(drop=True),
+    use_container_width=True,
+)
+
 # =================================================
 # 4️⃣ Tone Distribution by Aspect Category ✅ FIXED
 # =================================================
@@ -303,6 +481,12 @@ fig4 = px.bar(
 
 fig4.update_layout(xaxis_tickangle=-30)
 st.plotly_chart(fig4, use_container_width=True)
+
+# --- ADDED: show underlying table for tone by aspect ---
+st.dataframe(
+    tone_aspect.sort_values(["aspect_label", "tone_label", "count"], ascending=[True, True, False]).reset_index(drop=True),
+    use_container_width=True,
+)
 
 # =================================================
 # 5️⃣ Heatmaps
@@ -337,6 +521,13 @@ ax[1].set_title("Tone Heatmap")
 
 st.pyplot(fig)
 
+# --- ADDED: show pivot tables used for heatmaps side-by-side ---
+col_left, col_right = st.columns(2)
+col_left.subheader("Pivot: Aspect × Sentiment")
+col_left.dataframe(pivot_sent.reset_index(), use_container_width=True)
+col_right.subheader("Pivot: Aspect × Tone")
+col_right.dataframe(pivot_tone.reset_index(), use_container_width=True)
+#
 # =================================================
 # 📤 JSON EXPORTS
 # =================================================

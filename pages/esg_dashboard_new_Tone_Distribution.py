@@ -46,24 +46,99 @@ if dataset_names:
 
 uploaded_file = st.sidebar.file_uploader("Or upload your CSV file", type=["csv"])
 
+# -------------------------
+# RESOLVE MASTER_PATH (with fallbacks)
+# -------------------------
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = PROJECT_ROOT / "data"
+
+if uploaded_file is not None:
+    # UploadedFile (file-like) is accepted by pd.read_csv
+    MASTER_PATH = uploaded_file
+elif selected_file:
+    p = Path(selected_file)
+    if not p.exists():
+        # Try resolving relative to project root if the path in config is relative
+        p = (PROJECT_ROOT / selected_file).resolve()
+    MASTER_PATH = p
+else:
+    # Candidate locations (project-level data, benchmarks/data, repo root data, cwd)
+    candidates = [
+        DATA_DIR / "output_in_csv.csv",
+        Path(__file__).resolve().parents[1] / "data" / "output_in_csv.csv",  # benchmarks/data
+        Path(__file__).resolve().parents[3] / "data" / "output_in_csv.csv",  # alternative layout
+        Path.cwd() / "data" / "output_in_csv.csv",
+    ]
+    # pick first existing candidate, otherwise use the primary project DATA_DIR path
+    MASTER_PATH = next((c for c in candidates if c.exists()), candidates[0])
 
 # ----------------------------------------------------------
-# LOAD ONTOLOGIES (CORRECT LOCATION)
+# LOAD ONTOLOGIES (robust: try multiple locations, fallback)
 # ----------------------------------------------------------
-ONTOLOGY_DIR = Path.cwd() / "data"
-try:
-    with open(ONTOLOGY_DIR / "aspect_category_ontology.json") as f:
-        ASPECT_ONTOLOGY = json.load(f)
+def load_json_from_candidates(filename, project_root):
+    candidates = [
+        project_root / "data" / filename,                                # project data
+        Path(__file__).resolve().parents[1] / "data" / filename,        # benchmarks/data
+        project_root.parents[0] / "data" / filename,                    # repo parent data (if layout differs)
+        Path.cwd() / "data" / filename,                                 # current working dir /data
+        Path(filename).resolve()                                        # absolute / provided path
+    ]
+    tried = []
+    for p in candidates:
+        tried.append(str(p))
+        try:
+            if p.exists():
+                with open(p, "r", encoding="utf-8") as f:
+                    return json.load(f), tried
+        except Exception:
+            # ignore read errors and continue trying other locations
+            continue
+    return None, tried
 
-    with open(ONTOLOGY_DIR / "sentiment_ontology.json") as f:
-        SENTIMENT_ONTOLOGY = json.load(f)
+# try to load each ontology, collecting attempted paths for helpful error messages
+ASPECT_ONTOLOGY, tried_aspect = load_json_from_candidates("aspect_category_ontology.json", PROJECT_ROOT)
+SENTIMENT_ONTOLOGY, tried_sent = load_json_from_candidates("sentiment_ontology.json", PROJECT_ROOT)
+TONE_ONTOLOGY, tried_tone = load_json_from_candidates("tone_ontology.json", PROJECT_ROOT)
 
-    with open(ONTOLOGY_DIR / "tone_ontology.json") as f:
-        TONE_ONTOLOGY = json.load(f)
+missing_files = []
+if ASPECT_ONTOLOGY is None:
+    missing_files.append(("aspect_category_ontology.json", tried_aspect))
+if SENTIMENT_ONTOLOGY is None:
+    missing_files.append(("sentiment_ontology.json", tried_sent))
+if TONE_ONTOLOGY is None:
+    missing_files.append(("tone_ontology.json", tried_tone))
 
-except FileNotFoundError as e:
-    st.error(f"❌ Ontology file not found:\n{e}")
-    st.stop()
+if missing_files:
+    # show which files / paths were attempted
+    msg_lines = []
+    for fname, tried in missing_files:
+        msg_lines.append(f"- {fname} (checked {len(tried)} locations, examples:\n    {tried[:3]})")
+    st.warning(
+        "Some ontology files were not found. Checked several locations.\n\n"
+        + "\n".join(msg_lines)
+        + "\n\nPlace the JSON files under the project data directory "
+        f"({PROJECT_ROOT / 'data'}) or the benchmarks/data folder."
+    )
+    # fallback: minimal ontologies so UI can still run
+    if ASPECT_ONTOLOGY is None:
+        ASPECT_ONTOLOGY = {
+            "OTHER": {"aliases": ["other", None]},
+            "SERVICE": {"aliases": ["service", "customer service"]},
+            "PRODUCT": {"aliases": ["product", "item"]}
+        }
+    if SENTIMENT_ONTOLOGY is None:
+        SENTIMENT_ONTOLOGY = {
+            "OTHER": {"aliases": ["other", None]},
+            "POSITIVE": {"aliases": ["positive", "pos", "good"]},
+            "NEGATIVE": {"aliases": ["negative", "neg", "bad"]}
+        }
+    if TONE_ONTOLOGY is None:
+        TONE_ONTOLOGY = {
+            "OTHER": {"aliases": ["other", None]},
+            "FORMAL": {"aliases": ["formal"]},
+            "INFORMAL": {"aliases": ["informal"]},
+            "NEUTRAL": {"aliases": ["neutral"]}
+        }
 
 
 def build_alias_map(ontology):

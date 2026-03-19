@@ -1,0 +1,568 @@
+[
+  {
+    "timestamp": "2026-03-19T09:07:03.137142Z",
+    "input_text": "With Covid-19 pandemic which also impacted on\nPermataBank’s performanceto realize the programs\nestablished in the 2020 SFAP, PermataBank remained\nconsistently implemented its inclusive finance programs,\nnamely enhancement of Microfinancing portfolio and\nloan channeling with P2P lending fintech and Rural\nBanks for MSMEs.\nOn the digital transformation perspective aimed at\nreducing environmental impacts by going paperless,\nPermataBank consistently developed electronic\nchannel (e-channel) services for account opening and\nbanking transactions. In 2020, PermataMobile X was also launched for sharia customers. In the same year,\nPermataBank also launched a new version of its internet\nbanking service, PermataNet, which provided more\nconvenience banking transactions for customers. As of\n2020, the number of PermataMobile X users grew by\nmore than 50%.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Positive",
+      "tone": "Action"
+    },
+    "classical_ml": {
+      "out_csv": "/var/folders/nc/g1m7qlxd28nc60lgd8z9wncm0000gn/T/esg_classical_ml_outputs.csv",
+      "out_df": [
+        {
+          "Sentence_ID": 0,
+          "Sentence_Text": "With Covid",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 13,
+          "Sentence_Text": "banking transactions.",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 8,
+          "Sentence_Text": "On the digital transformation perspective aimed at",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 1,
+          "Sentence_Text": "19 pandemic which also impacted on",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 15,
+          "Sentence_Text": "In the same year,",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 5,
+          "Sentence_Text": "namely enhancement of Microfinancing portfolio and",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Positive",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 20,
+          "Sentence_Text": "2020, the number of PermataMobile X users grew by",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 11,
+          "Sentence_Text": "channel (e",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 3,
+          "Sentence_Text": "established in the 2020 SFAP, PermataBank remained",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        }
+      ],
+      "coef_sent": [],
+      "coef_aspect": []
+    },
+    "deep_model": {
+      "ran": false,
+      "out_df": [
+        {
+          "Sentence_ID": 0,
+          "Sentence_Text": "With Covid",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 13,
+          "Sentence_Text": "banking transactions.",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 8,
+          "Sentence_Text": "On the digital transformation perspective aimed at",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 1,
+          "Sentence_Text": "19 pandemic which also impacted on",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 15,
+          "Sentence_Text": "In the same year,",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 5,
+          "Sentence_Text": "namely enhancement of Microfinancing portfolio and",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Positive",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 20,
+          "Sentence_Text": "2020, the number of PermataMobile X users grew by",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 11,
+          "Sentence_Text": "channel (e",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 3,
+          "Sentence_Text": "established in the 2020 SFAP, PermataBank remained",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        }
+      ],
+      "interpretability": "None"
+    },
+    "hybrid_model": {
+      "out_df": [
+        {
+          "Sentence_Text": "With Covid",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "19 pandemic which also impacted on",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank’s performanceto realize the programs",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "established in the 2020 SFAP, PermataBank remained",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "consistently implemented its inclusive finance programs,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "namely enhancement of Microfinancing portfolio and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "loan channeling with P2P lending fintech and Rural",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Banks for MSMEs.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "On the digital transformation perspective aimed at",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "reducing environmental impacts by going paperless,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank consistently developed electronic",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "channel (e",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "channel) services for account opening and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "banking transactions.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "In 2020, PermataMobile X was also launched for sharia customers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "In the same year,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank also launched a new version of its internet",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "banking service, PermataNet, which provided more",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "convenience banking transactions for customers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "As of",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "2020, the number of PermataMobile X users grew by",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "more than 50%.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 22.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    },
+    "explainability": {
+      "compare_df": [
+        {
+          "Sentence_Text": "With Covid",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "19 pandemic which also impacted on",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank’s performanceto realize the programs",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "established in the 2020 SFAP, PermataBank remained",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "consistently implemented its inclusive finance programs,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "namely enhancement of Microfinancing portfolio and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "loan channeling with P2P lending fintech and Rural",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Banks for MSMEs.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "On the digital transformation perspective aimed at",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "reducing environmental impacts by going paperless,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank consistently developed electronic",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "channel (e",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "channel) services for account opening and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "banking transactions.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "In 2020, PermataMobile X was also launched for sharia customers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "In the same year,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank also launched a new version of its internet",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "banking service, PermataNet, which provided more",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "convenience banking transactions for customers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "As of",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "2020, the number of PermataMobile X users grew by",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "more than 50%.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        }
+      ]
+    }
+  }
+]

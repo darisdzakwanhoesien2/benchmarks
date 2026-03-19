@@ -1,0 +1,5098 @@
+﻿,aspect,count
+0,governance,345
+1,emissions,300
+2,diversity,121
+3,waste management,109
+4,community engagement,104
+5,corporate governance,104
+6,risk management,93
+7,renewable energy,91
+8,Governance,90
+9,stakeholder engagement,77
+10,energy consumption,77
+11,transparency,75
+12,anti-corruption,70
+13,gender equality,67
+14,employee training,67
+15,environmental management,64
+16,water usage,62
+17,waste,60
+18,board diversity,52
+19,education,52
+20,compliance,50
+21,biodiversity,47
+22,workforce diversity,46
+23,employee relations,45
+24,certifications,44
+25,resilience,43
+26,occupational health & safety,43
+27,regulatory compliance,42
+28,energy efficiency,36
+29,gender diversity,35
+30,community development,34
+31,employee benefits,33
+32,capital structure,31
+33,employee development,29
+34,social responsibility,28
+35,human rights,28
+36,tax compliance,27
+37,legal compliance,26
+38,supply chain,26
+39,occupational health and safety,26
+40,safety,25
+41,board composition,24
+42,workplace safety,23
+43,governance structure,23
+44,water management,23
+45,community empowerment,23
+46,workforce development,22
+47,Corporate Governance,22
+48,product safety,20
+49,credit risk management,19
+50,health,19
+51,stakeholder collaboration,19
+52,health and safety,18
+53,employee welfare,18
+54,labor practices,18
+55,Risk Management,18
+56,environmental compliance,17
+57,circular economy,17
+58,employee engagement,16
+59,sustainable materials,16
+60,sustainability,16
+61,financial reporting,16
+62,liquidity management,16
+63,economic performance,16
+64,biodiversity conservation,16
+65,Community Engagement,15
+66,resource efficiency,15
+67,operational efficiency,15
+68,taxation,15
+69,sustainability reporting,15
+70,GHG emissions,14
+71,ethics,14
+72,employee compensation,13
+73,interest rate risk management,13
+74,remuneration,13
+75,product innovation,13
+76,environmental responsibility,13
+77,customer satisfaction,12
+78,carbon emissions,12
+79,greenhouse gas emissions,12
+80,ethics policies,12
+81,recycled materials,12
+82,risk management system,11
+83,accounting policies,11
+84,ecosystem enhancement,11
+85,Stakeholder Engagement,11
+86,stakeholder communication,11
+87,employee turnover,11
+88,Governance structure,11
+89,financial risk management,11
+90,climate risk,11
+91,materials,11
+92,fire prevention,10
+93,performance management,10
+94,sustainable finance,10
+95,Occupational Health and Safety,10
+96,reforestation,10
+97,water consumption,10
+98,training,10
+99,economic empowerment,10
+100,information disclosure,10
+101,climate change,10
+102,career development,10
+103,renewable energy usage,10
+104,executive compensation,9
+105,disclosure,9
+106,environmental impact,9
+107,Legal Compliance,9
+108,emissions reduction,9
+109,supply chain management,9
+110,work environment,9
+111,conflict of interest,9
+112,traceability,9
+113,internal controls,9
+114,whistleblowing,9
+115,sustainability strategy,9
+116,peatland management,9
+117,internal control system,9
+118,environmental performance,9
+119,healthcare,9
+120,employment,9
+121,environmental stewardship,9
+122,Regulatory Compliance,9
+123,digital transformation,8
+124,labor rights,8
+125,renewable energy adoption,8
+126,performance evaluation,8
+127,human capital,8
+128,supply chain sustainability,8
+129,customer engagement,8
+130,Governance Structure,8
+131,board governance,8
+132,training programs,8
+133,infrastructure,8
+134,resource use,8
+135,product recalls,8
+136,supply chain traceability,8
+137,education access,8
+138,hazardous waste management,8
+139,sustainable development goals,8
+140,asset management,8
+141,financial performance,8
+142,healthcare access,8
+143,sustainable bonds,8
+144,financial inclusion,8
+145,sustainability integration,8
+146,environmental sustainability,8
+147,materiality assessment,8
+148,tree planting,7
+149,workforce size,7
+150,SDG alignment,7
+151,wages,7
+152,lingkungan,7
+153,independence,7
+154,accounting standards,7
+155,air quality,7
+156,energy intensity,7
+157,capacity building,7
+158,employee retention,7
+159,financial compliance,7
+160,environmental costs,7
+161,community impact,7
+162,recycling,7
+163,economic growth,7
+164,MSMEs,7
+165,strategic partnerships,7
+166,tax,7
+167,leadership development,7
+168,accounting standards compliance,7
+169,legal proceedings,7
+170,community relations,6
+171,governance structures,6
+172,accountability,6
+173,community welfare,6
+174,waste reduction,6
+175,energy,6
+176,grievance mechanism,6
+177,sustainable agriculture,6
+178,Diversity,6
+179,dividend policy,6
+180,climate resilience,6
+181,environment,6
+182,worker safety,6
+183,geothermal energy,6
+184,environmental,6
+185,water,6
+186,emission reduction,6
+187,remuneration policy,6
+188,debt-to-equity ratio,6
+189,governance compliance,6
+190,Economic and Community Guarantee,6
+191,environmental complaints,6
+192,data security,6
+193,foreign exchange risk,6
+194,internal control,6
+195,Anti-Corruption,6
+196,shareholder rights,6
+197,wage equality,6
+198,Occupational Safety,6
+199,community health and safety,6
+200,board meetings,6
+201,sustainability performance,6
+202,Tax Compliance,6
+203,diversity and inclusion,6
+204,Waste Management,6
+205,energy management,6
+206,CSR,6
+207,water access,6
+208,ethical compliance,6
+209,mangrove restoration,6
+210,financial risk,6
+211,sustainable product innovation,6
+212,GHG emissions reduction,6
+213,partnerships,6
+214,governance principles,6
+215,infrastructure development,6
+216,economic development,6
+217,anti-money laundering,6
+218,food security,6
+219,corporate meetings,6
+220,climate change mitigation,6
+221,cultural preservation,5
+222,shareholder engagement,5
+223,sustainable development,5
+224,reporting transparency,5
+225,Employee Benefits,5
+226,employee rights,5
+227,community infrastructure,5
+228,social,5
+229,supply chain partnerships,5
+230,competency development,5
+231,audit committee independence,5
+232,UNKNOWN,5
+233,interest rate risk,5
+234,sustainability culture,5
+235,smallholder support,5
+236,governance accountability,5
+237,sustainability governance,5
+238,minimum wage,5
+239,Youth Access Prevention,5
+240,corporate actions,5
+241,income_tax_payment,5
+242,disaster response,5
+243,tax management,5
+244,gender balance,5
+245,whistleblowing system,5
+246,share ownership,5
+247,land restoration,5
+248,water conservation,5
+249,community,5
+250,communication,5
+251,related party transactions,5
+252,mining practices,5
+253,species conservation,5
+254,diversity and equity,5
+255,environmental impact reduction,5
+256,community investment,5
+257,sustainable operations,5
+258,Compliance,5
+259,community collaboration,5
+260,employee safety,5
+261,plastic recycling,5
+262,sustainable growth,5
+263,governance practices,5
+264,CSR programs,5
+265,supply chain efficiency,5
+266,social inclusion,5
+267,education support,5
+268,risk mitigation,5
+269,social impact,5
+270,ethical conduct,5
+271,non-discrimination,5
+272,corporate governance structure,4
+273,business ethics,4
+274,Transparency,4
+275,leadership,4
+276,sustainability commitment,4
+277,employee well-being,4
+278,sustainable infrastructure,4
+279,data confidentiality,4
+280,corruption risk assessment,4
+281,grievance resolution,4
+282,sustainability performance evaluation,4
+283,continuous improvement,4
+284,safety protocols,4
+285,Risk management,4
+286,supply chain transparency,4
+287,administrative sanctions,4
+288,land management,4
+289,community education,4
+290,community education programs,4
+291,audit governance,4
+292,employee satisfaction,4
+293,gearing ratio,4
+294,energi,4
+295,scholarships,4
+296,feedback,4
+297,product quality,4
+298,ownership,4
+299,occupational health,4
+300,air quality monitoring,4
+301,revenue,4
+302,waste disposal,4
+303,Economic Performance,4
+304,governance_governance,4
+305,Board composition,4
+306,herbicide procurement,4
+307,fertilizer procurement,4
+308,carbon footprint,4
+309,remuneration policies,4
+310,health education,4
+311,land use,4
+312,public-private partnerships,4
+313,employee sustainability training,4
+314,share issuance,4
+315,grievance mechanisms,4
+316,community economic development,4
+317,Credit risk management,4
+318,Education support,4
+319,debt management,4
+320,MSME support,4
+321,wildlife conservation,4
+322,asset-backed securities,4
+323,internal audits,4
+324,education outreach,4
+325,customer service,4
+326,forest preservation,4
+327,financial stability,4
+328,water pollution,4
+329,procurement practices,4
+330,digitalization,4
+331,Community engagement,4
+332,labor relations,4
+333,public health,4
+334,AIR QUALITY,4
+335,land use management,4
+336,gender pay equity,4
+337,social performance,4
+338,child labor,4
+339,business sustainability,4
+340,environmental awareness,4
+341,sustainable business practices,4
+342,conflict_of_interest,4
+343,transparency and accountability,4
+344,business performance,4
+345,Community Impact,4
+346,integrity,4
+347,financial allocation,4
+348,capital goods investment,4
+349,employee health,4
+350,hcv assessment,4
+351,renewable energy supply,4
+352,Supplier Compliance,4
+353,mangrove conservation,4
+354,governance independence,4
+355,climate risk management,4
+356,sustainable innovation,4
+357,sustainability practices,4
+358,Audit Committee,4
+359,Ethical Compliance,4
+360,Sustainability,4
+361,water resource management,4
+362,biodiversity impact,4
+363,foreign exchange risk management,4
+364,financial transparency,4
+365,tax reporting,4
+366,ethical governance,4
+367,anti-bribery and corruption,4
+368,taxes,4
+369,insider trading,4
+370,business continuity,4
+371,asset impairment,3
+372,pension liabilities,3
+373,local communities,3
+374,reserve funds,3
+375,financial hedging,3
+376,training hours,3
+377,resource management,3
+378,corporate governance implementation,3
+379,Governance performance evaluation,3
+380,gender inclusion,3
+381,economic recovery,3
+382,financial instruments,3
+383,service quality,3
+384,employees,3
+385,employee benefits liabilities,3
+386,shareholder disclosure,3
+387,capital management,3
+388,working hours,3
+389,human resources,3
+390,plastic packaging,3
+391,hazard identification and risk assessment,3
+392,Shareholder Engagement,3
+393,training and development,3
+394,energy consumption reduction,3
+395,Board Composition,3
+396,Stakeholder Collaboration,3
+397,sustainable resource management,3
+398,environmental management systems,3
+399,education infrastructure,3
+400,minimum wage compliance,3
+401,work environment safety,3
+402,health access,3
+403,material safety,3
+404,community complaints,3
+405,monetary policy,3
+406,Whistleblowing System,3
+407,sustainable financing,3
+408,cybersecurity,3
+409,joint meetings,3
+410,HR management,3
+411,pest control,3
+412,sosial,3
+413,executive accountability,3
+414,executive remuneration,3
+415,employee recognition,3
+416,financial liabilities,3
+417,revenue recognition,3
+418,committee formation,3
+419,fair value measurement,3
+420,succession planning,3
+421,land rights,3
+422,business integrity,3
+423,independent verification,3
+424,Sustainability Reporting,3
+425,data protection,3
+426,anti-bribery,3
+427,compliance monitoring,3
+428,food safety,3
+429,community well-being,3
+430,certification,3
+431,corporate_governance,3
+432,waste and effluent,3
+433,maternity leave,3
+434,customer complaint resolution,3
+435,waste recycling,3
+436,information accessibility,3
+437,recruitment practices,3
+438,conflict of interest management,3
+439,anti-corruption policy,3
+440,Corporate governance,3
+441,employee training and development,3
+442,educational partnerships,3
+443,national development,3
+444,sustainable urban development,3
+445,regulatory adaptation,3
+446,environmentally friendly materials,3
+447,financial management,3
+448,risiko kesehatan,3
+449,community health,3
+450,deforestation,3
+451,retained earnings,3
+452,eco-friendly materials,3
+453,product impact,3
+454,fire risk management,3
+455,Community Development,3
+456,credit risk assessment,3
+457,customer feedback,3
+458,recyclability,3
+459,AML/CFT/WMD Proliferation Programs,3
+460,strategic alignment,3
+461,governance oversight,3
+462,SDGs,3
+463,productivity,3
+464,going concern assessment,3
+465,occupational safety,3
+466,Product Safety,3
+467,inclusive workplace,3
+468,ecosystem restoration,3
+469,employee productivity,3
+470,Energy Efficiency,3
+471,child and forced labor,3
+472,paper consumption,3
+473,fairness,3
+474,packaging waste,3
+475,Terrorism Financing Prevention,3
+476,data privacy,3
+477,workplace culture,3
+478,clean water infrastructure,3
+479,asset adaptation,3
+480,Board resignation policy for financial crime,3
+481,Resignation for financial crime enforcement,3
+482,Insider trading policy,3
+483,Global insider trading policy enforcement,3
+484,Anti-corruption and anti-fraud policy,3
+485,Global anti-corruption and anti-fraud policy enforcement,3
+486,mental health support,3
+487,ethics training,3
+488,stock market listing,3
+489,ethics policy enforcement,3
+490,whistleblower policy,3
+491,training and awareness,3
+492,inclusive practices,3
+493,risk mitigation strategy,3
+494,market monitoring,3
+495,ecosystem rehabilitation,3
+496,energy consumption efficiency,3
+497,low carbon economy,3
+498,board independence,3
+499,environmental performance monitoring,3
+500,social_responsibility,3
+501,audit evidence,3
+502,whistleblower protection,3
+503,strategic planning,3
+504,Credit exposure limits,3
+505,Counterparty creditworthiness,3
+506,Credit risk monitoring,3
+507,High-risk lending policies,3
+508,Collateral use,3
+509,Collateral assets,3
+510,Credit risk allowances,3
+511,Credit risk diversification,3
+512,foreign exchange transactions,3
+513,currency matching strategy,3
+514,fixed exchange rate agreement,3
+515,currency position limitation,3
+516,production volume,3
+517,safety awareness campaigns,3
+518,resource utilization efficiency,3
+519,environmental transparency reporting,3
+520,resource allocation,3
+521,production leadership,3
+522,sustainable efforts,3
+523,audit practices,3
+524,infrastructure maintenance,3
+525,local supplier engagement,3
+526,supplier collaboration,3
+527,commitment,3
+528,land use efficiency,3
+529,community support,3
+530,product environmental impact,3
+531,stakeholder partnerships,3
+532,Fire Prevention,3
+533,geothermal exploration,3
+534,water use,3
+535,fire monitoring,3
+536,corporate social responsibility,3
+537,local sourcing,3
+538,governance framework,3
+539,information access,3
+540,electric vehicle adoption support,3
+541,environmental audit reliability,3
+542,climate action,3
+543,employee ownership,3
+544,Sustainability reporting,3
+545,confidentiality,3
+546,voting procedures,3
+547,accident-free operational performance,3
+548,equity management,3
+549,occupational safety and health,3
+550,financial literacy,3
+551,Stakeholder engagement,3
+552,stakeholder trust,3
+553,employment opportunities,3
+554,asset valuation,3
+555,human rights due diligence,3
+556,peat management,3
+557,Environmental Management Systems,3
+558,health insurance,3
+559,environmental conservation,3
+560,mining,3
+561,ethics training completion,3
+562,work-life balance,3
+563,smoke-free products,3
+564,travel policy,3
+565,agriculture,3
+566,revegetation,3
+567,business strategy,3
+568,share structure,3
+569,share buyback,3
+570,blood donation,3
+571,loan acquisition,3
+572,women empowerment,3
+573,Whistleblowing,3
+574,double materiality assessment,3
+575,logistics efficiency,3
+576,ethics and compliance,3
+577,financial ratio compliance,3
+578,Anti-Money Laundering,3
+579,bauxite residue,3
+580,equity,3
+581,Corporate Social Responsibility,3
+582,client collaboration for ESG initiatives,3
+583,collaboration,3
+584,coastal cleanup,3
+585,travel,3
+586,sustainability goals,3
+587,Regulatory compliance,3
+588,wellbeing,3
+589,electricity consumption,3
+590,fair compensation,3
+591,clean energy,3
+592,Sustainability Policy,3
+593,financial resilience,3
+594,reclamation and post-mining activities,2
+595,disclosure quality,2
+596,equipment rental,2
+597,wastewater discharge,2
+598,land use rights,2
+599,reservoir management,2
+600,reservoir modeling,2
+601,water quality,2
+602,industry collaboration,2
+603,stakeholder dialogue,2
+604,independent assurance,2
+605,social welfare,2
+606,audit oversight,2
+607,control systems,2
+608,regulatory adherence,2
+609,liability classification,2
+610,governance integration,2
+611,human resource management,2
+612,fuel consumption,2
+613,digital governance,2
+614,financial instrument classification,2
+615,hazardous waste handling,2
+616,policy commitments,2
+617,Sustainability Disclosure,2
+618,product development,2
+619,environmental protection,2
+620,ownership and control,2
+621,energy and natural resources,2
+622,environmental and reclamation expenditures,2
+623,fossil fuel usage,2
+624,tax liabilities,2
+625,employee incentives,2
+626,internal control deficiencies,2
+627,supply chain resilience,2
+628,measurement of environmental impacts,2
+629,employee health and safety,2
+630,ecosystem,2
+631,renewable energy contribution,2
+632,geothermal energy development,2
+633,watershed management,2
+634,currency risk mitigation,2
+635,occupational health services,2
+636,environmental impact management,2
+637,environmental issues,2
+638,community livelihood support,2
+639,Audit Committee formation,2
+640,sistem manajemen lingkungan,2
+641,Code of Ethics,2
+642,forest fire prevention,2
+643,geothermal energy operations,2
+644,Stakeholder Identification,2
+645,environmental investment,2
+646,CSR funding,2
+647,inflation,2
+648,geothermal energy capacity,2
+649,associations,2
+650,traffic management,2
+651,risk_management,2
+652,community participation,2
+653,renewable energy mix,2
+654,geothermal energy generation,2
+655,Customer Satisfaction,2
+656,plastic packaging production,2
+657,Renewable Energy Mix,2
+658,community feedback access,2
+659,air quality management,2
+660,community well-being impact,2
+661,sustainability programs,2
+662,HCV assessment,2
+663,CSR/ESG expenditure,2
+664,mangrove rehabilitation,2
+665,vehicle emissions,2
+666,Net Zero Emission targets,2
+667,habitat connectivity,2
+668,natural disaster risk,2
+669,employee skill development,2
+670,Career Development,2
+671,skill development,2
+672,community resources,2
+673,endemic tree planting,2
+674,Financial Transparency,2
+675,water efficiency,2
+676,employee classification,2
+677,regulatory communication,2
+678,employee competence,2
+679,financial reporting classification,2
+680,goodwill valuation,2
+681,impact prioritization,2
+682,bauxite mining,2
+683,risk governance,2
+684,water usage intensity,2
+685,disease prevalence,2
+686,resource exploration,2
+687,capital expenditure,2
+688,job opportunities,2
+689,industry association membership,2
+690,Food security,2
+691,sanctions,2
+692,decision-making process,2
+693,reclamation,2
+694,regional income,2
+695,project management,2
+696,local economy empowerment,2
+697,village development,2
+698,financial governance,2
+699,infrastructure access,2
+700,clean water access,2
+701,pengelolaan lingkungan,2
+702,hazard identification,2
+703,non-controlling interest,2
+704,environmental footprint,2
+705,parental leave,2
+706,production optimization,2
+707,accounting assumptions,2
+708,indirect economic impacts,2
+709,social equity,2
+710,CSR initiatives,2
+711,climate protection,2
+712,material innovation,2
+713,market stability,2
+714,eco-friendly products,2
+715,surface water discharge,2
+716,carbon trading,2
+717,environmental monitoring,2
+718,compliance with regulations,2
+719,local economic development,2
+720,ESG integration,2
+721,sanitation,2
+722,economic sustainability,2
+723,Reforestation,2
+724,Liquidity Risk,2
+725,ownership structure,2
+726,workforce competence,2
+727,documentation management,2
+728,healthy lifestyle promotion,2
+729,teacher development,2
+730,diversification,2
+731,holiday allowance,2
+732,diversity and equal opportunity,2
+733,equal pay,2
+734,board performance evaluation,2
+735,workplace facilities,2
+736,water infrastructure,2
+737,Whistleblower Protection,2
+738,economic investment,2
+739,digital infrastructure,2
+740,employee participation,2
+741,coal production,2
+742,equal employment opportunities,2
+743,Corporate Reporting,2
+744,mining license revocation,2
+745,payment options,2
+746,retirement policies,2
+747,accounting policy consistency,2
+748,spills,2
+749,community partnerships,2
+750,community grievances,2
+751,legal governance,2
+752,audit procedures,2
+753,sustainable finance disclosures,2
+754,employment equality,2
+755,local stakeholder engagement,2
+756,digital innovation,2
+757,lease accounting,2
+758,employee benefits liability,2
+759,deferred tax assets,2
+760,related parties,2
+761,employee commitment,2
+762,Debt Management,2
+763,production facilities,2
+764,diversity inclusion,2
+765,tax transparency,2
+766,disaster relief,2
+767,business skills training,2
+768,credit risk concentration,2
+769,strategic governance,2
+770,environmental preservation,2
+771,Education Accessibility,2
+772,health safety,2
+773,financial crimes,2
+774,Governance Framework,2
+775,Financial Compliance,2
+776,infrastructure_facilities,2
+777,ESG strategy alignment,2
+778,Environmental Sustainability,2
+779,watershed conservation,2
+780,policy engagement,2
+781,smoking health risks,2
+782,corporate ethics,2
+783,Social Responsibility,2
+784,Remuneration structure,2
+785,anti-corruption awareness,2
+786,teacher compensation,2
+787,Healthcare Access,2
+788,equal opportunity,2
+789,gender equity,2
+790,forced labor and child labor,2
+791,labor law compliance,2
+792,Complaint Mechanisms,2
+793,organic fertilizer production,2
+794,pemberdayaan masyarakat,2
+795,Board Diversity,2
+796,depreciation policy,2
+797,internal control systems and risk management,2
+798,climate,2
+799,performance-based remuneration,2
+800,governance evaluation,2
+801,Audit Planning,2
+802,internal control systems,2
+803,board attendance,2
+804,GCG principles implementation,2
+805,sustainable business growth,2
+806,environmental education,2
+807,cost efficiency,2
+808,meeting frequency,2
+809,Risk Management Effectiveness,2
+810,information security,2
+811,social development,2
+812,welfare improvement,2
+813,HR Competency,2
+814,agricultural production,2
+815,ESG implementation,2
+816,crop diversification,2
+817,food assistance,2
+818,legal disputes,2
+819,forest management,2
+820,audit,2
+821,communication policy,2
+822,financial reporting transparency,2
+823,waste upcycling,2
+824,Wastewater Management,2
+825,disclosure methods,2
+826,vendor selection,2
+827,asset depreciation,2
+828,workforce,2
+829,financial ethics policy,2
+830,fixed assets,2
+831,debt repayment,2
+832,control activities,2
+833,debt reduction,2
+834,credit rating,2
+835,disaster resilience,2
+836,manajemen risiko kredit,2
+837,compensation structure,2
+838,liquidity risk management,2
+839,Anti-corruption,2
+840,Grievance Mechanisms,2
+841,corporate governance policies,2
+842,governance governance principles,2
+843,board performance,2
+844,stakeholder accountability,2
+845,income_generating_activities,2
+846,audit effectiveness,2
+847,Supplier Engagement,2
+848,GHG Emissions,2
+849,EUDR Compliance,2
+850,Education,2
+851,process improvement,2
+852,grievance handling,2
+853,customer relations,2
+854,disease prevention,2
+855,child labor/forced labor,2
+856,fair remuneration,2
+857,emission control,2
+858,Energy consumption,2
+859,remuneration compliance,2
+860,climate strategy,2
+861,operations in conflict-affected regions,2
+862,Sumber daya manusia,2
+863,share ownership transparency,2
+864,human resources management,2
+865,Workforce Diversity,2
+866,energy conservation,2
+867,Sustainability Indicators,2
+868,Supplier Performance,2
+869,safety training,2
+870,age distribution,2
+871,Board Governance,2
+872,employee representation,2
+873,plastic waste management,2
+874,spill prevention,2
+875,Net Zero Emission,2
+876,pilar sosial (people),2
+877,drainage system development,2
+878,energy use,2
+879,Operational Efficiency,2
+880,firefighting response,2
+881,monitoring continuity,2
+882,hotspot monitoring,2
+883,renewable_energy,2
+884,regulatory engagement,2
+885,packaging,2
+886,measurement systems,2
+887,fire danger rating systems,2
+888,inclusion and diversity,2
+889,labor agreements,2
+890,procurement efficiency,2
+891,pollution prevention,2
+892,manajemen risiko,2
+893,waste segregation,2
+894,climate monitoring,2
+895,financial disclosure,2
+896,environmental cost,2
+897,ethical_behavior,2
+898,public disclosure,2
+899,ethical business management,2
+900,social and environmental responsibility,2
+901,corporate governance framework,2
+902,ethical decision-making,2
+903,economic,2
+904,research collaboration,2
+905,community contribution,2
+906,governance reporting,2
+907,equity accounting,2
+908,external audit,2
+909,number of employees,2
+910,governance effectiveness,2
+911,oil palm seed procurement,2
+912,transportation units,2
+913,FFB transport units,2
+914,sports participation,2
+915,shareholder returns,2
+916,relationships,2
+917,financial program facilitation,2
+918,internal audit,2
+919,financial literacy and planning,2
+920,accessibility audits for disabled employees,2
+921,disability awareness and inclusion training,2
+922,self-assessment policy,2
+923,audit committee oversight,2
+924,fire safety,2
+925,strategy implementation,2
+926,economic policy,2
+927,climate impact,2
+928,equity growth,2
+929,product certification,2
+930,Sustainability Strategy,2
+931,GREENHOUSE GAS EMISSIONS,2
+932,customer experience,2
+933,business innovation,2
+934,resource optimization,2
+935,market expansion,2
+936,employee sustainability engagement,2
+937,income generation,2
+938,community programs,2
+939,third-party verification,2
+940,physical activity and health promotion,2
+941,training participation,2
+942,compliance with labor laws,2
+943,disability inclusion,2
+944,economic resilience,2
+945,workforce composition,2
+946,social security,2
+947,risk assessment,2
+948,pension,2
+949,pension contributions,2
+950,double materiality,2
+951,decent work,2
+952,corruption,2
+953,supply chain risk management,2
+954,auditor appointment,2
+955,dampak sosial,2
+956,policy alignment,2
+957,occupational health management,2
+958,decarbonization,2
+959,zero waste,2
+960,technology innovation,2
+961,governance processes,2
+962,carbon footprint reduction,2
+963,Data Security,2
+964,intellectual property rights,2
+965,organizational structure,2
+966,recycled materials usage,2
+967,risk monitoring,2
+968,Board independence,2
+969,workplace equality,2
+970,Board Structure,2
+971,Health and Safety,2
+972,environmental grievance handling,2
+973,CO2 sequestration,2
+974,biodiversity preservation,2
+975,strategic preparedness,2
+976,debt-to-EBITDA ratio,2
+977,inclusivity,2
+978,Education encouragement,2
+979,Work environment,2
+980,Product Innovation,2
+981,emission intensity,2
+982,tax strategy,2
+983,ethics and integrity,2
+984,Training & Development,2
+985,debt_to_equity_ratio,2
+986,disclosure accuracy,2
+987,customer complaints,2
+988,employee count,2
+989,customer satisfaction survey,2
+990,waste reuse,2
+991,compliance with laws,2
+992,sustainable practices,2
+993,audit processes,2
+994,Conflict of Interest,2
+995,supply chain labor practices,2
+996,conservation,2
+997,compensation,2
+998,carbon sequestration,2
+999,workplace fatalities,2
+1000,renewable energy policies,2
+1001,Stakeholder Communication,2
+1002,Governance Evaluation,2
+1003,organic waste recycling,2
+1004,Industrial waste upcycling,2
+1005,Accounting estimates and policy changes,2
+1006,employee sustainability education,2
+1007,Accounting policies for fixed assets,2
+1008,digital transformation for waste reduction,2
+1009,Tax Provisions,2
+1010,Circular Economy,2
+1011,corruption incidents,2
+1012,material usage,2
+1013,sustainability training,2
+1014,education partnerships,2
+1015,stakeholder identification,2
+1016,kesehatan dan keselamatan karyawan,2
+1017,energy efficiency improvement,2
+1018,director tenure,2
+1019,vacancy management,2
+1020,sustainable communities,2
+1021,material topics,2
+1022,governance policies,2
+1023,freedom of association,2
+1024,affiliation compliance,2
+1025,environmental reporting,2
+1026,green building certification,2
+1027,sustainability framework,2
+1028,sustainability reporting framework,2
+1029,recruitment,2
+1030,ESG risk management,2
+1031,employment status,2
+1032,health outreach,2
+1033,environmentally friendly products,2
+1034,data management,2
+1035,supplier compliance,2
+1036,plastic waste reduction,2
+1037,supplier engagement,2
+1038,sustainable product development,2
+1039,green building,2
+1040,project delays,2
+1041,workforce training,2
+1042,production capacity expansion,2
+1043,local workforce engagement,2
+1044,energy usage,2
+1045,community livelihoods,2
+1046,product transparency,2
+1047,community involvement,2
+1048,biodiversity impacts,2
+1049,Ownership structure,2
+1050,sustainability reporting transparency,2
+1051,customer safety,2
+1052,government collaboration,2
+1053,investor relations,2
+1054,work-related injuries,2
+1055,digital meetings,2
+1056,collateral management,2
+1057,waste management efficiency,2
+1058,code of conduct implementation,2
+1059,bribery,2
+1060,share ownership reporting,2
+1061,beneficiaries,2
+1062,environmental initiatives,2
+1063,corporate conduct guidelines,2
+1064,wastewater testing,2
+1065,recycled material usage,2
+1066,tax accounting,2
+1067,workforce demographics,2
+1068,domestic component procurement,2
+1069,community outreach,2
+1070,board self-assessment,2
+1071,fraud prevention,2
+1072,beneficial ownership disclosure,2
+1073,risk management effectiveness,2
+1074,environmental targets,2
+1075,ekonomi,2
+1076,supplier compliance monitoring,2
+1077,stakeholder welfare,2
+1078,risk identification,2
+1079,Independent member inclusion,1
+1080,Supplier environmental screening,1
+1081,Member qualifications,1
+1082,expected credit loss calculation,1
+1083,financial regulatory compliance,1
+1084,Supply chain environmental impacts,1
+1085,supply chain development,1
+1086,Agricultural Training,1
+1087,Waste diversion,1
+1088,Waste generation,1
+1089,Waste disposal,1
+1090,market partnerships,1
+1091,food supply chain efficiency,1
+1092,social change,1
+1093,Committee size,1
+1094,agricultural practices,1
+1095,loans,1
+1096,Expertise requirements,1
+1097,Sustainable Farming,1
+1098,General Meetings,1
+1099,REMUNERATION,1
+1100,terms of office,1
+1101,corporate financial obligations,1
+1102,Conflict of interest management,1
+1103,power plant construction,1
+1104,financial instrument valuation,1
+1105,ownership stake and financial commitment,1
+1106,shareholder concentration,1
+1107,HR expertise integration,1
+1108,insider ownership,1
+1109,legislative changes,1
+1110,Corporate Guarantees,1
+1111,credit policy,1
+1112,Financial Obligations,1
+1113,health support,1
+1114,community agricultural development,1
+1115,healthcare referral,1
+1116,medical transportation,1
+1117,mobile health services,1
+1118,healthcare program effectiveness,1
+1119,community health outreach,1
+1120,legal identity,1
+1121,civil registration,1
+1122,Social Security Access,1
+1123,clean water,1
+1124,Waste impact management,1
+1125,public cemetery,1
+1126,Aquaculture Development,1
+1127,Community Welfare,1
+1128,Sustainable Livelihood Support,1
+1129,fire mitigation,1
+1130,ecosystem quality,1
+1131,GHG emissions intensity,1
+1132,Scope 3 GHG emissions,1
+1133,emission factors,1
+1134,CO2 measurement,1
+1135,sustainable peat management,1
+1136,water level monitoring,1
+1137,audit committee meeting frequency,1
+1138,supply chain continuity,1
+1139,supply chain monitoring,1
+1140,member independence,1
+1141,SAT compliance,1
+1142,carbon stock measurement,1
+1143,term limits,1
+1144,Age group distribution,1
+1145,remediation mechanisms,1
+1146,RSPO certification,1
+1147,supply chain compliance,1
+1148,Aquaculture Yield Outcomes,1
+1149,Fisheries Support,1
+1150,community facilities,1
+1151,credit risk diversification,1
+1152,community economy,1
+1153,infrastructure support,1
+1154,cultural heritage preservation,1
+1155,impairment management,1
+1156,VOLUNTARY TURNOVER,1
+1157,maternal and child health,1
+1158,Waste generation and impacts,1
+1159,"Air emissions (NOx, SOx)",1
+1160,"Micro, small and medium enterprises (MSMEs)",1
+1161,Resource provision,1
+1162,Human capital development,1
+1163,Educational infrastructure,1
+1164,Community education,1
+1165,ODS emissions,1
+1166,committee performance,1
+1167,Environmental transparency,1
+1168,HCV assessment progression,1
+1169,ecosystem health,1
+1170,fire training,1
+1171,fire readiness,1
+1172,community livelihood,1
+1173,PARENTAL LEAVE,1
+1174,Employee benefits disparity,1
+1175,Employee hires and turnover,1
+1176,directors' expertise,1
+1177,organizational compliance,1
+1178,economic risk,1
+1179,raw material risk,1
+1180,accessibility,1
+1181,technology risk,1
+1182,business competition risk,1
+1183,product recall process,1
+1184,contract implementation,1
+1185,local recruitment,1
+1186,ketenagakerjaan,1
+1187,Risk Management Committee Structure,1
+1188,kesehatan dan keselamatan kerja,1
+1189,OHS impact prevention/mitigation,1
+1190,Worker health promotion,1
+1191,member competence,1
+1192,struktur komite,1
+1193,efektivitas komite,1
+1194,tata kelola teknologi informasi,1
+1195,Worker training on OHS,1
+1196,disclosure policy,1
+1197,efektivitas kompensasi,1
+1198,Worker participation in OHS,1
+1199,resignation policy,1
+1200,strategic decision-making,1
+1201,board structure,1
+1202,Risk Management Committee Meetings,1
+1203,asset recognition criteria,1
+1204,sustainable products,1
+1205,sustainable lifestyles,1
+1206,waste percentage,1
+1207,recycled waste,1
+1208,shareholding,1
+1209,reserves management,1
+1210,payables,1
+1211,related parties transactions,1
+1212,effluent and water management,1
+1213,contract cost capitalization,1
+1214,revenue measurement,1
+1215,Pengembangan Sumber Daya Manusia,1
+1216,water and energy efficiency,1
+1217,waste management policies,1
+1218,environmentally friendly technology innovation,1
+1219,waste management program,1
+1220,Risk Management Framework Evaluation,1
+1221,procurement policy,1
+1222,market consultation,1
+1223,community rights,1
+1224,Lingkungan Kerja,1
+1225,Risk Management Collaboration,1
+1226,succession policy,1
+1227,annual self-assessment,1
+1228,GOVERNANCE STRUCTURE,1
+1229,tax obligations,1
+1230,risk assessment methodologies,1
+1231,scope of risk assessment,1
+1232,Occupational health and safety management,1
+1233,hazard identification factors,1
+1234,risk control hierarchy,1
+1235,natural disaster risks,1
+1236,Right to Stop program,1
+1237,anonymous hazard reporting,1
+1238,incident investigation,1
+1239,continuous improvement from lessons learned,1
+1240,occupational health and safety (K3) system updates,1
+1241,General ESG Responsibility,1
+1242,Parental leave policy,1
+1243,Environmental Management,1
+1244,Anti-Corruption Policies,1
+1245,Ethics and Compliance,1
+1246,Transparency and Disclosure,1
+1247,community land ownership,1
+1248,land use designation restoration,1
+1249,Employment distribution,1
+1250,assessment of financial assets,1
+1251,DATA ACCURACY,1
+1252,LOCAL WORKFORCE,1
+1253,governance discretion,1
+1254,contract compliance,1
+1255,organizational leadership,1
+1256,meeting participation,1
+1257,tax payments,1
+1258,modal struktur,1
+1259,keuangan strategi,1
+1260,kompensasi struktur,1
+1261,Occupational health services,1
+1262,pendekatan risiko,1
+1263,rapat keuangan,1
+1264,kelestarian korporat,1
+1265,conflict of interest avoidance,1
+1266,resolution validity,1
+1267,transparency of governance processes,1
+1268,Opportunity Creation,1
+1269,remote resolutions,1
+1270,training and competency development,1
+1271,yearbook donation,1
+1272,educational support,1
+1273,meeting attendance,1
+1274,sustainability reporting commitment,1
+1275,reporting standards,1
+1276,notice communication,1
+1277,OHS hazard identification,1
+1278,none,1
+1279,support programs,1
+1280,economic inclusion,1
+1281,Workforce composition,1
+1282,loan_provision_restrictions,1
+1283,sustainable combustible cigarette performance,1
+1284,Climate risk insurance,1
+1285,smoke-free product commercialization,1
+1286,ecosystem value creation,1
+1287,asset_security_c.csv,1
+1288,economic value creation,1
+1289,health and safety management,1
+1290,UMKM,1
+1291,Climate risk management,1
+1292,financial_instrument,1
+1293,peritel tradisional,1
+1294,Climate-resilient agriculture,1
+1295,Sustainable sourcing,1
+1296,pendidikan dan digitalisasi,1
+1297,Board performance evaluation,1
+1298,akselerasi digitalisasi,1
+1299,pelatihan kewirausahaan,1
+1300,Bisnis 20,1
+1301,MSME Collaboration,1
+1302,Board meetings conducted,1
+1303,Agricultural Support,1
+1304,financial covenants compliance,1
+1305,Sustainable Production,1
+1306,sustainability embedded in operations,1
+1307,smoke-free product availability,1
+1308,Governance policies,1
+1309,management_changes_notification,1
+1310,Governance Support,1
+1311,board committee meetings,1
+1312,Sustainable Product Innovation,1
+1313,Economic Growth,1
+1314,sustainable_financing,1
+1315,Economic Hub Development,1
+1316,Job Creation,1
+1317,asset sale,1
+1318,financial_rating,1
+1319,Technological Innovation,1
+1320,workforce and production infrastructure,1
+1321,komite struktur,1
+1322,Shariah compliance,1
+1323,interest_rate_risk,1
+1324,Sustainable food production and climate resilience,1
+1325,agricultural partnerships,1
+1326,sustainable bond issuance,1
+1327,bond ratings,1
+1328,local economy development,1
+1329,labor-intensive hand-rolled category,1
+1330,loan_repayment,1
+1331,overdraft_cross_clearing,1
+1332,Employee compensation,1
+1333,tax policy,1
+1334,Shareholder composition,1
+1335,affordability,1
+1336,kesehatan keuangan,1
+1337,decision-making independence,1
+1338,capital commitments,1
+1339,contingent liabilities,1
+1340,consumer affordability,1
+1341,management structure,1
+1342,Legal compliance and governance procedures,1
+1343,Audit process,1
+1344,leadership change,1
+1345,corporate guarantee,1
+1346,collateral security,1
+1347,financial facility acquisition,1
+1348,Regulatory compliance and stakeholder coordination,1
+1349,Shareholder communication and transparency,1
+1350,Meeting scheduling compliance,1
+1351,Flexible governance processes,1
+1352,Governance thresholds and board accountability,1
+1353,Governance Process,1
+1354,board composition change,1
+1355,financial leverage monitoring,1
+1356,infrastructure financing,1
+1357,financial covenants,1
+1358,transition mechanisms,1
+1359,financial distribution,1
+1360,employee ownership program,1
+1361,manajemen struktur modal,1
+1362,dividend payout ratio,1
+1363,leverage ratio,1
+1364,dividend payments,1
+1365,loan repayment,1
+1366,loan to equity ratio compliance,1
+1367,loan-to-equity ratio,1
+1368,controversial products,1
+1369,brand positioning,1
+1370,employee wellbeing,1
+1371,physical wellbeing,1
+1372,work flexibility,1
+1373,diversity & inclusion,1
+1374,board meetings conducted,1
+1375,board meeting frequency,1
+1376,gender equality diagnostic,1
+1377,sustainability leadership,1
+1378,sustainable people practices,1
+1379,personalized learning,1
+1380,Transparan Laporan Keuangan,1
+1381,employee numbers,1
+1382,production capacity,1
+1383,machinery sufficiency,1
+1384,distribution partnerships,1
+1385,fuel prices,1
+1386,decision-making efficiency,1
+1387,Governance Oversight,1
+1388,exports,1
+1389,board committee structure,1
+1390,Economic Diversification,1
+1391,Healthcare Support,1
+1392,Healthcare Education,1
+1393,Agricultural Partnerships,1
+1394,Infrastructure Development,1
+1395,remuneration criteria,1
+1396,Satellite Partnerships,1
+1397,Program Suppliers,1
+1398,aquaculture,1
+1399,Installation Services,1
+1400,leadership transition,1
+1401,education financing,1
+1402,Retailer Partnerships,1
+1403,Bank Partnerships,1
+1404,Affordable housing,1
+1405,target achievement,1
+1406,Housing sales performance,1
+1407,Infrastructure development,1
+1408,employee termination costs,1
+1409,duties fulfillment,1
+1410,employee pension management,1
+1411,Remuneration Governance,1
+1412,environmental standards,1
+1413,climate risk assessments,1
+1414,board remuneration,1
+1415,Community Empowerment,1
+1416,long-term employee benefits,1
+1417,cultural infrastructure,1
+1418,Gender diversity,1
+1419,social welfare data systems,1
+1420,management governance,1
+1421,Crop Cultivation,1
+1422,Pest Management,1
+1423,audit committees monitoring,1
+1424,external auditor management,1
+1425,audit functions,1
+1426,financial statements,1
+1427,Crop Yield,1
+1428,Sustainable Farming Practices,1
+1429,health assistance,1
+1430,economic prosperity,1
+1431,competition law compliance,1
+1432,Collateral,1
+1433,student health,1
+1434,educator involvement,1
+1435,documentation compliance,1
+1436,livelihoods,1
+1437,healthcare employment,1
+1438,Collateral Usage,1
+1439,youth economic empowerment,1
+1440,remuneration amount,1
+1441,sustainable investment,1
+1442,Allowance for Impairment Losses,1
+1443,health-focused product marketing,1
+1444,Expenditure Realization,1
+1445,Smoke-Free Production Innovation,1
+1446,Export Market Expansion,1
+1447,internal audit and internal control systems,1
+1448,Executive compensation,1
+1449,Legal Governance,1
+1450,digital public relations,1
+1451,workplace development,1
+1452,sales team management,1
+1453,financial_instrument_issuance,1
+1454,"diversity, equity, and inclusion",1
+1455,media content diversity,1
+1456,Remuneration criteria,1
+1457,sustainable agricultural partnerships,1
+1458,cost management,1
+1459,sustainability focus,1
+1460,smoke-free product alternatives,1
+1461,employee and community development,1
+1462,economic development and skilled labor,1
+1463,media content licensing,1
+1464,prosedur remunerasi,1
+1465,smoke-free product accessibility,1
+1466,kontribusi komite,1
+1467,evaluasi kinerja komite,1
+1468,Government Policy Alignment,1
+1469,"anti-bribery, corruption, data privacy training",1
+1470,Equal Salary certification,1
+1471,Production Facilities Operation,1
+1472,Top Employer recognition,1
+1473,Women empowerment,1
+1474,equity level,1
+1475,Owned manufacturing facilities,1
+1476,meeting scheduling,1
+1477,Third-party production operators,1
+1478,Permanent employees,1
+1479,Third-party employees,1
+1480,salary risk,1
+1481,land tenure,1
+1482,pensiun through BPJSK JP,1
+1483,International Cooperation,1
+1484,asset value,1
+1485,Digitalization and multi-category business ecosystem,1
+1486,MSME product distribution support,1
+1487,Financial education and store management training,1
+1488,Governance and Sustainability,1
+1489,SME capacity building,1
+1490,environmental health and safety,1
+1491,Economic Contribution,1
+1492,Production Facilities Investment,1
+1493,aktuarial valuation methodology,1
+1494,mining assets,1
+1495,Long-term economic value creation,1
+1496,long-term stakeholder value,1
+1497,emission targets,1
+1498,product value alignment,1
+1499,Environment,1
+1500,beneficiation process,1
+1501,aluminium content,1
+1502,downstream processing,1
+1503,leadership responsibilities,1
+1504,resource recycling,1
+1505,asset optimization,1
+1506,climate risks,1
+1507,operations in diverse markets,1
+1508,sustainability reporting standards,1
+1509,Data Collection,1
+1510,stock listing,1
+1511,climate risk reporting,1
+1512,securities transparency,1
+1513,investasi pada entitas asosiasi,1
+1514,penyertaan saham,1
+1515,aset tetap,1
+1516,program pelatihan digital,1
+1517,properti pertambangan,1
+1518,environmental management and reclamation,1
+1519,solvency,1
+1520,receivables collectability,1
+1521,capital investment commitments,1
+1522,fixed asset investments,1
+1523,pengembangan kompetensi karyawan,1
+1524,water certification,1
+1525,electric vehicle demand,1
+1526,communication strategy planning,1
+1527,tax ethics,1
+1528,protection of endangered species,1
+1529,electric vehicle demand growth,1
+1530,production targets,1
+1531,domestic sales,1
+1532,business strategy governance,1
+1533,strategic initiatives,1
+1534,political risk,1
+1535,conflicts of interest,1
+1536,material transactions,1
+1537,affiliate transactions,1
+1538,Organisasi,1
+1539,comfort minerals limitation,1
+1540,bauxite exports,1
+1541,investments in aluminum smeltery infrastructure,1
+1542,financial profitability,1
+1543,CSR in Economic Elements,1
+1544,carbon policy initiatives,1
+1545,industry infrastructure,1
+1546,reputational risk,1
+1547,efisiensi pertambangan,1
+1548,smelter aluminium,1
+1549,dividen tunai,1
+1550,proses pengolahan SGA,1
+1551,produksi SGA,1
+1552,struktur perusahaan,1
+1553,Surface Water Tax,1
+1554,Export Contribution,1
+1555,Clean Water Facilities,1
+1556,smelter projects,1
+1557,cigarette butt waste,1
+1558,bauxite mining value addition,1
+1559,currency exchange rate management,1
+1560,pengendalian internal,1
+1561,efektivitas audit,1
+1562,nomasi dan remunerasi,1
+1563,kualitas hidup karyawan,1
+1564,financial information reliability,1
+1565,social and environmental risks,1
+1566,environmental risks,1
+1567,corporate governance transparency,1
+1568,audit responsibility,1
+1569,commodity price risk mitigation,1
+1570,mineral resources estimation,1
+1571,operational risk mitigation,1
+1572,commodity price fluctuations,1
+1573,kualitas laporan keuangan,1
+1574,exchange rate fluctuations,1
+1575,political instability,1
+1576,legal risk management,1
+1577,audit evidence gathering,1
+1578,Data privacy,1
+1579,audit-based decision making,1
+1580,transparency in financial reporting,1
+1581,Compliance Reporting,1
+1582,Violation Handling Focus,1
+1583,Data-Driven Governance,1
+1584,accounting policies evaluation,1
+1585,board member attendance,1
+1586,manajemen keuangan,1
+1587,kompetensi audit,1
+1588,aluminum processing investments,1
+1589,appointments,1
+1590,eksplorasi sumber daya,1
+1591,optimalisasi produksi,1
+1592,efisiensi operasional,1
+1593,profitabilitas,1
+1594,post-consumer waste,1
+1595,waste education,1
+1596,penyusunan anggaran,1
+1597,peruntukan laba,1
+1598,distribusi dividen,1
+1599,dividend distribution governance,1
+1600,natural resource management,1
+1601,board authority,1
+1602,dismissal procedures,1
+1603,compliance with governance charter,1
+1604,learning and development,1
+1605,waste management compliance,1
+1606,private sector involvement,1
+1607,"emission reduction, waste management, water management",1
+1608,carbon neutrality in operations,1
+1609,Employee Compensation,1
+1610,Transparency & Reporting,1
+1611,management separation,1
+1612,self-assessment,1
+1613,board member selection criteria,1
+1614,internal control and financial report oversight,1
+1615,risk management and compliance,1
+1616,site closure,1
+1617,mining efficiency,1
+1618,board expertise,1
+1619,smelter construction oversight,1
+1620,wages-policy compliance,1
+1621,sustainable facilities development,1
+1622,healthcare coverage,1
+1623,return-to-work ratio,1
+1624,non-discrimination policy,1
+1625,monitoring of internal control systems,1
+1626,complaint handling,1
+1627,keberadaan prosedur whistleblowing,1
+1628,pelanggaran,1
+1629,diskriminasi dan tata bergerakmunity,1
+1630,komunikasi internal,1
+1631,penyelesaian keluhan,1
+1632,employee wages and benefits,1
+1633,infrastructure investment and support services,1
+1634,GHG intensity,1
+1635,waste intensity,1
+1636,water quality (COD),1
+1637,information and communication systems,1
+1638,CO emissions,1
+1639,NO₂ emissions,1
+1640,TSP emissions,1
+1641,workplace injuries,1
+1642,occupational injuries,1
+1643,contract labor,1
+1644,local management diversity,1
+1645,Pay Equity,1
+1646,Grievance Handling,1
+1647,wages-gender equity,1
+1648,community social programs,1
+1649,workforce and community capacity building,1
+1650,GHG emissions reporting scope,1
+1651,nilai wajar aset dan liabilitas,1
+1652,reclamation funding,1
+1653,land preparation and revegetation,1
+1654,plant survival rate,1
+1655,financial investment in biodiversity conservation,1
+1656,industry_sectors,1
+1657,media monitoring,1
+1658,knowledge dissemination,1
+1659,biodiesel usage,1
+1660,sustainability communication,1
+1661,solar power usage,1
+1662,GHG emissions reporting,1
+1663,Governance Selection,1
+1664,environmental sustainability in digital platforms,1
+1665,supplier sustainability,1
+1666,compliance reporting,1
+1667,public communication,1
+1668,Supplier Selection,1
+1669,local supplier prioritization,1
+1670,supplier governance,1
+1671,customer service delivery,1
+1672,human resource development,1
+1673,employee environmental education,1
+1674,work ethic creativity,1
+1675,employee activities,1
+1676,digital innovation for environmental impact reduction,1
+1677,local procurement,1
+1678,control environment,1
+1679,hazardous substances,1
+1680,Child Labor,1
+1681,anti-corruption training,1
+1682,material,1
+1683,Coal usage,1
+1684,Facilities development,1
+1685,environmental aspects,1
+1686,Community infrastructure,1
+1687,Community development,1
+1688,sustainable finance implementation,1
+1689,energy efficiency and renewable energy usage,1
+1690,Equity in Products/Services,1
+1691,Equal Employment,1
+1692,strategic alignment for sustainable growth,1
+1693,Minimum Wage,1
+1694,local supplier procurement,1
+1695,Work Environment Safety,1
+1696,Employee Training,1
+1697,Community Complaints,1
+1698,Environmental Impact,1
+1699,Product Withdrawals,1
+1700,strategic supply chain partnership,1
+1701,corporate governance integration,1
+1702,workforce competency,1
+1703,organizational resilience,1
+1704,audit committee,1
+1705,strategic investment policies,1
+1706,energy infrastructure investment,1
+1707,anti-corruption risk management,1
+1708,senior management diversity,1
+1709,greenhouse gases,1
+1710,value chain activities,1
+1711,post-mining land management,1
+1712,mining permits,1
+1713,mining impacts,1
+1714,climate impacts,1
+1715,compliance risk management,1
+1716,meeting_frequency,1
+1717,safety management system,1
+1718,smelter grade alumina,1
+1719,TRIFR,1
+1720,total suspended solids,1
+1721,corporate partnership,1
+1722,ESG reporting framework,1
+1723,external assurance,1
+1724,wage ratios by gender,1
+1725,governance leadership,1
+1726,impact management oversight,1
+1727,impact management delegation,1
+1728,sustainability reporting governance,1
+1729,critical concern communication,1
+1730,competency,1
+1731,governance body knowledge,1
+1732,governance body performance evaluation,1
+1733,remuneration determination process,1
+1734,compensation ratio,1
+1735,remediation,1
+1736,visual representation,1
+1737,report dissemination,1
+1738,annual reporting transparency,1
+1739,emissions tracking,1
+1740,payment systems,1
+1741,plastic waste recycling,1
+1742,decent wages,1
+1743,labor hours,1
+1744,technology adoption,1
+1745,local community engagement,1
+1746,HCV assessments,1
+1747,fair treatment and competition,1
+1748,Rehabilitation programs,1
+1749,Biodiversity monitoring,1
+1750,direct communication,1
+1751,Fire management collaboration,1
+1752,Peatland management,1
+1753,Responsible CPO and FFB sourcing,1
+1754,Smallholder support programs,1
+1755,Orang Rimba initiatives,1
+1756,career path clarity,1
+1757,Community empowerment in Sulawesi,1
+1758,fair treatment,1
+1759,community understanding,1
+1760,Gearing ratio,1
+1761,Net profit margin,1
+1762,Revenue in billion rupiah,1
+1763,sustainability policy compliance,1
+1764,capacity-building,1
+1765,ecosystem protection,1
+1766,collaborative stakeholder engagement,1
+1767,Revenue generation,1
+1768,EBITDA margin,1
+1769,EBITDA performance,1
+1770,sales performance,1
+1771,mineral processing investments,1
+1772,production efficiency,1
+1773,royalty payments,1
+1774,government regulations,1
+1775,export proceeds regulation,1
+1776,mineral resource estimation,1
+1777,mineral content risk,1
+1778,Environmental reporting standards,1
+1779,environmental considerations in reserve calculations,1
+1780,industry regulations,1
+1781,social considerations in reserve calculations,1
+1782,governmental regulations in resource reporting,1
+1783,mining reserve management,1
+1784,governance of mining operations,1
+1785,"target efisiensi energi, air, dan energi terbarukan",1
+1786,Kepelolaan Berkelanjutan,1
+1787,liquidity risk,1
+1788,sustainability management,1
+1789,Accounting Policies,1
+1790,accounting standards evaluation,1
+1791,accounting standards nomenclature,1
+1792,business impact,1
+1793,"keseimbangan ESG (ekonomi, lingkungan, sosial)",1
+1794,kadangunan pengehargaan,1
+1795,program CSR dan penegakan kebijakan lingkungan,1
+1796,"target reduksi emisi, daur ulang limbah, dan pengendalian polusi",1
+1797,internship programs,1
+1798,Deferred tax related to single transactio,1
+1799,Education and public engagement,1
+1800,habitat conservation,1
+1801,manajemen suku bunga,1
+1802,wastewater discharge compliance,1
+1803,wastewater discharge measurement,1
+1804,water quality monitoring,1
+1805,wastewater treatment optimization,1
+1806,stakeholder relationships,1
+1807,cost effectiveness,1
+1808,occupational health and safety compliance,1
+1809,use of non-renewable resources,1
+1810,environmental and safety product responsibility,1
+1811,ISO certifications,1
+1812,quality control procedures,1
+1813,paper reduction,1
+1814,risiko mata uang foreign exchange,1
+1815,profit distribution,1
+1816,sustainable agriculture practices,1
+1817,bertumbuhnya pendapatan,1
+1818,capacity-building participation,1
+1819,agricultural input procurement,1
+1820,FFB evacuation logistics,1
+1821,FFB transportation logistics,1
+1822,kepercayaan institusi keuangan,1
+1823,worker mobility support,1
+1824,educational outcomes,1
+1825,social integration,1
+1826,financial covenant monitoring,1
+1827,collaborative governance,1
+1828,wastewater reuse,1
+1829,fund management collaboration,1
+1830,tree planting initiative,1
+1831,fires,1
+1832,biodiversity monitoring,1
+1833,species identification,1
+1834,endangered flora,1
+1835,endangered fauna,1
+1836,species count,1
+1837,health counseling,1
+1838,umbrella species conservation,1
+1839,habitat sustainability,1
+1840,health service delivery,1
+1841,Environmental Monitoring,1
+1842,retained earnings policy,1
+1843,Community Collaboration,1
+1844,community awareness,1
+1845,concurrent positions,1
+1846,fire prevention through MPA establishment,1
+1847,MPA establishment scale,1
+1848,fire risk reduction,1
+1849,inventory guarantee,1
+1850,trade receivables guarantee,1
+1851,insider control policies,1
+1852,corporate governance restrictions,1
+1853,safety standards,1
+1854,customer health and safety,1
+1855,quality management,1
+1856,competency programs,1
+1857,affiliations,1
+1858,strategic investment,1
+1859,domestic procurement,1
+1860,Insider Trading prevention,1
+1861,two-way communication,1
+1862,resource categories,1
+1863,Mining Operations,1
+1864,Exploration Expenditure,1
+1865,Resource Management,1
+1866,financial empowerment,1
+1867,exploration,1
+1868,permit revocation,1
+1869,employee networking,1
+1870,operational readiness,1
+1871,vaccination programs,1
+1872,well-being programs,1
+1873,compliance with accounting standards,1
+1874,consistent accounting policies,1
+1875,adoption of updated accounting standards,1
+1876,financial reporting methodology,1
+1877,reporting currency selection,1
+1878,governance of subsidiaries,1
+1879,pengelolaan uang asing,1
+1880,transaksi pihak berelasi,1
+1881,risiko kurs,1
+1882,pemaksaban keuangan,1
+1883,fixed asset reclassification,1
+1884,capitalization of asset renewals,1
+1885,impairment loss accounting,1
+1886,mineral exploration,1
+1887,workforce sustainability,1
+1888,resource depletion,1
+1889,accumulated production,1
+1890,mining license,1
+1891,disclosure transparency,1
+1892,material financial statement restatements,1
+1893,Anticorruption and Anti Fraud,1
+1894,reporting,1
+1895,Supplier selection and capacity building,1
+1896,Creditors' rights,1
+1897,Whistleblowing system,1
+1898,modern slavery,1
+1899,equity method of accounting,1
+1900,third-party audit independence,1
+1901,accounting policies compliance,1
+1902,financial reconciliation processes,1
+1903,dividend verification processes,1
+1904,disclosure adequacy assessments,1
+1905,management responsibility for reporting,1
+1906,equity recognition,1
+1907,fraud and error detection,1
+1908,fraud risk,1
+1909,professional skepticism,1
+1910,audit risk assessment,1
+1911,operations,1
+1912,accounting policy evaluation,1
+1913,material uncertainty and going concern,1
+1914,fair financial reporting,1
+1915,mining operations,1
+1916,audit committee structure,1
+1917,internal control framework,1
+1918,employee feedback,1
+1919,straight-line amortization,1
+1920,environmental reclamation,1
+1921,vaccination,1
+1922,mineral resource sales,1
+1923,tax dispute,1
+1924,pension expense,1
+1925,annual_report,1
+1926,pension calculation methodology,1
+1927,operational delays,1
+1928,regional diversity,1
+1929,shareholder ownership structure,1
+1930,dividends,1
+1931,external communication,1
+1932,environmental_management,1
+1933,mining_environmental_contributions,1
+1934,taxes_and_licenses,1
+1935,Resource rights and compliance,1
+1936,listing,1
+1937,environmental regulation compliance,1
+1938,governance structure change,1
+1939,Domestic Processing,1
+1940,Export Duty Compliance,1
+1941,Resource Efficiency,1
+1942,resource export regulations,1
+1943,land reclamation,1
+1944,Mining Permit Procedures,1
+1945,Material Export Compliance,1
+1946,compliance impact,1
+1947,regulation impact,1
+1948,land clearing,1
+1949,tax refund,1
+1950,Tax transparency,1
+1951,leases,1
+1952,environmental provisions,1
+1953,well-being,1
+1954,regulatory framework,1
+1955,lease accounting policies,1
+1956,lease expense recognition,1
+1957,share issuance costs accounting,1
+1958,mineral export standards,1
+1959,downstream export policies,1
+1960,business model assessment,1
+1961,accounting judgments,1
+1962,discount rate determination for pension liabilities,1
+1963,fixed asset depreciation policies,1
+1964,deferred tax asset recognition,1
+1965,accounting policy,1
+1966,environmental guarantees,1
+1967,environmental rehabilitation,1
+1968,environmental and reclamation liabilities,1
+1969,Receivables Collectibility,1
+1970,Inventory Risk Management,1
+1971,Inventory Valuation Accuracy,1
+1972,Collateralized Inventory Disclosure,1
+1973,asset recoverability,1
+1974,investment in subsidiaries,1
+1975,mining operations status,1
+1976,mining development,1
+1977,processing and refining,1
+1978,environmental expenditures,1
+1979,revenue recognition process,1
+1980,risk management governance,1
+1981,Governance Reporting,1
+1982,sustainable framework development,1
+1983,recycled plastic in packaging,1
+1984,circular design,1
+1985,circular economy planning,1
+1986,sustainably sourced packaging,1
+1987,governance and business ethics,1
+1988,second-hand item reuse,1
+1989,recycling infrastructure investment,1
+1990,board representation,1
+1991,supplier union representation,1
+1992,health and safety protocols,1
+1993,female representation in supply chain,1
+1994,Ethics & Compliance,1
+1995,Climate Change Mitigation,1
+1996,Climate Risk Management,1
+1997,environmentally friendly technologies,1
+1998,Pollution Prevention,1
+1999,sustainability performance measurement and reporting,1
+2000,Human Rights Due Diligence,1
+2001,Environmental Alignment,1
+2002,Human Rights Compliance,1
+2003,sustainability in business strategy,1
+2004,sustainability policies and commitments,1
+2005,green bond issuance for climate and circularity projects,1
+2006,fossil fuel phase-out,1
+2007,sustainable sourcing and decarbonization,1
+2008,supplier energy transition funding,1
+2009,carbon removal agreements,1
+2010,plastic packaging reduction,1
+2011,recycled material ambition,1
+2012,chemicals assurance,1
+2013,"resilience, climate strategy",1
+2014,Risk reporting,1
+2015,risk reporting,1
+2016,collaborative implementation,1
+2017,data governance,1
+2018,climate scenario,1
+2019,energy and water costs,1
+2020,water strategy,1
+2021,renewable energy procurement,1
+2022,"recycled materials, agriculture",1
+2023,"climate risks, financial planning",1
+2024,"climate impact, business model",1
+2025,"green finance, renewable energy",1
+2026,"raw materials, climate resilience",1
+2027,Circular business models,1
+2028,Electricity intensity reduction,1
+2029,Coal use reduction,1
+2030,Renewable energy procurement,1
+2031,Sustainable finance initiatives,1
+2032,compliance standards,1
+2033,long-term stakeholder value creation,1
+2034,Renewable energy investments,1
+2035,Climate strategy development,1
+2036,Chemical compliance,1
+2037,stakeholder management principles,1
+2038,Sustainable packaging materials,1
+2039,Sustainable material investment,1
+2040,ESG criteria integration in investments,1
+2041,counterparty risk management,1
+2042,tax payment,1
+2043,environmental levies,1
+2044,investment access,1
+2045,program lingkungan,1
+2046,education and entrepreneurial financing,1
+2047,urban economic development,1
+2048,infrastructure connectivity,1
+2049,large-scale project development,1
+2050,Digitalization,1
+2051,tata kelola,1
+2052,Performance Monitoring,1
+2053,pengelolaan limbah,1
+2054,internal control enhancements,1
+2055,lokasin kerjasama,1
+2056,komitmen,1
+2057,konsumsi energi,1
+2058,keberhasilan kolaborasi,1
+2059,ekosistem,1
+2060,kolaborasi,1
+2061,konflik kepentingan,1
+2062,tanaman strategis,1
+2063,anti-korupsi,1
+2064,organizational history,1
+2065,business focus,1
+2066,Economic Development,1
+2067,environmental resource use,1
+2068,business model innovation,1
+2069,community cultural engagement,1
+2070,cultural accessibility,1
+2071,financial education and literacy,1
+2072,financial solutions innovation,1
+2073,financial service reach,1
+2074,sustainable infrastructure development,1
+2075,pension schemes,1
+2076,goodwill,1
+2077,pensions,1
+2078,share buyback programs,1
+2079,environmental and social responsibility recognition,1
+2080,social responsibility recognition,1
+2081,disaster relief and health initiatives,1
+2082,workforce welfare and safety,1
+2083,pension expenses,1
+2084,environmental management in mining,1
+2085,sustainable land and water management,1
+2086,recycled polyester,1
+2087,SDG Alignment,1
+2088,digital services,1
+2089,Digital Services Efficiency,1
+2090,Sustainable Investment,1
+2091,Eco-Friendly Technology,1
+2092,forward-looking risk disclosure,1
+2093,Carbon Emissions Reduction,1
+2094,digital ecosystem,1
+2095,technological innovation,1
+2096,digital leadership,1
+2097,Environmental Awareness,1
+2098,digital capabilities,1
+2099,Environmental Stewardship,1
+2100,kelautan jangka panjang,1
+2101,marketing,1
+2102,public policy,1
+2103,hak asasi manusia,1
+2104,virgin resource use,1
+2105,innovative services,1
+2106,urban green spaces,1
+2107,transport emissions,1
+2108,environmental funding,1
+2109,accessible activewear,1
+2110,geographic expansion,1
+2111,supply chain logistics,1
+2112,creative expression,1
+2113,product diversity,1
+2114,sustainable development partnerships,1
+2115,circular economy through second-hand resale,1
+2116,waste recycling through reuse and recycling programs,1
+2117,resource efficient production,1
+2118,material recycling from production scraps,1
+2119,garment collecting,1
+2120,digital receipts,1
+2121,logistics emissions,1
+2122,garment rental,1
+2123,digital returns,1
+2124,energy emissions,1
+2125,fair purchasing practices,1
+2126,social responsibility in sourcing,1
+2127,water consumption reduction,1
+2128,sustainable development integration,1
+2129,chemical consumption reduction,1
+2130,supplier technology innovation for sustainability,1
+2131,reverse logistics for recycling,1
+2132,recycling education,1
+2133,single-use plastics,1
+2134,material selection,1
+2135,industry-wide sustainability change,1
+2136,inclusive financial products,1
+2137,consumer expectation management,1
+2138,climate management,1
+2139,renewable energy investment,1
+2140,renewable energy financing,1
+2141,energy efficiency financing,1
+2142,sustainable water management,1
+2143,socioeconomic inclusion,1
+2144,customer feedback for media quality improvement,1
+2145,water and oceans,1
+2146,biodiversity and land,1
+2147,quality and equitable services,1
+2148,sustainable product accessibility,1
+2149,employee environmental training,1
+2150,sustainable business investment,1
+2151,paper waste reduction,1
+2152,gender representation,1
+2153,gender inclusivity,1
+2154,product durability,1
+2155,product circulation,1
+2156,product resale,1
+2157,upcycling,1
+2158,product reuse,1
+2159,circular offerings,1
+2160,product life extension,1
+2161,design process,1
+2162,supply chain environmental footprint,1
+2163,innovation,1
+2164,access to water,1
+2165,investment strategy,1
+2166,sustainability prioritization,1
+2167,Sustainable finance,1
+2168,ESG reporting frameworks,1
+2169,Sustainability disclosure standards,1
+2170,green finance,1
+2171,share buybacks,1
+2172,climate financing,1
+2173,management accountability,1
+2174,share classification,1
+2175,Sustainability performance measurement,1
+2176,environmental investments,1
+2177,remuneration transparency,1
+2178,Impact analysis,1
+2179,CEO Governance,1
+2180,Executive Independence,1
+2181,Board Evaluation,1
+2182,Board Transparency,1
+2183,Sustainability risk management,1
+2184,Board Independence,1
+2185,Code Compliance,1
+2186,Gender Balance,1
+2187,Board Gender Diversity,1
+2188,Gender Balance Policy,1
+2189,Privacy,1
+2190,child labour,1
+2191,forced labour,1
+2192,chemicals,1
+2193,sustainable finance risk management,1
+2194,employee empowerment,1
+2195,store portfolio optimization,1
+2196,international standards compliance,1
+2197,climate policy,1
+2198,carbon removal partnerships,1
+2199,renewable electricity,1
+2200,environmental standards and policies,1
+2201,environmental due diligence,1
+2202,company reputation,1
+2203,sustainable financial literacy,1
+2204,sustainable logistics partners,1
+2205,GHG emissions reduction initiatives,1
+2206,low-carbon delivery options,1
+2207,streaming technology efficiency,1
+2208,responsible content production,1
+2209,plastic pollution,1
+2210,corporate governance oversight,1
+2211,remedy,1
+2212,perspective diversity,1
+2213,sustainable resource use,1
+2214,youth empowerment,1
+2215,sports inclusion,1
+2216,Sustainability Goals,1
+2217,Circular Economy Investments,1
+2218,Second-hand Marketplaces,1
+2219,risk management supervision,1
+2220,Geopolitical Risk Exposure,1
+2221,Geopolitical Engagement,1
+2222,Geopolitical Risk Management,1
+2223,community engagement and education,1
+2224,sustainability integration into operations,1
+2225,Management Transparency,1
+2226,governance committee competency development,1
+2227,Oversight Compliance,1
+2228,WMD Proliferation and Terrorism Financing Prevention,1
+2229,accountability governance,1
+2230,AML/CFT/WMD Programs and SIGAP Development,1
+2231,performance metrics in compliance,1
+2232,non-proliferation governance,1
+2233,confidentiality management,1
+2234,training development,1
+2235,membership criteria,1
+2236,information systems governance,1
+2237,amenagement of governance frameworks,1
+2238,weapons of mass destruction non-proliferation,1
+2239,committee qualifications,1
+2240,counter-terrorism financing,1
+2241,financial crime prevention,1
+2242,WBS Reporting Activity,1
+2243,Whistleblower Officer Garantee,1
+2244,education and training,1
+2245,committee attendance,1
+2246,risk management policy implementation,1
+2247,corporate reporting,1
+2248,Protection Against Retaliation,1
+2249,risk governance planning,1
+2250,governance structure evaluation,1
+2251,governance principles implementation,1
+2252,governance policy approval,1
+2253,governance charter maintenance,1
+2254,Governance Procedures,1
+2255,Risk Policy Alignment,1
+2256,Regulation Implementation (AML/CFT/WMD),1
+2257,Weapons of Mass Destruction Financing Prevention,1
+2258,policy disclosure,1
+2259,remuneration feasibility,1
+2260,stakeholder input inclusion,1
+2261,multilingual disclosure of agm summaries,1
+2262,annual remuneration evaluation,1
+2263,disclosure of agm records,1
+2264,performance evaluations,1
+2265,board member participation,1
+2266,annual general meeting management,1
+2267,shareholder voting independence,1
+2268,Money Laundering Prevention,1
+2269,Prevention of Terrorism Financing,1
+2270,Weapons of Mass Destruction Funding Prevention,1
+2271,Sectoral Risk Assessment for AML/CFT/WMD,1
+2272,Financial Crime Proceeds Safeguarding,1
+2273,executive training,1
+2274,Fraud Mitigation,1
+2275,nomination transparency,1
+2276,Terrorism Financing Prevention Risk Assessment,1
+2277,remuneration-performance alignment,1
+2278,Governance Committee,1
+2279,Governance Charter Procedures,1
+2280,Risk Management Oversight,1
+2281,Policy Implementation,1
+2282,AML/CFT Training,1
+2283,Customer Due Diligence,1
+2284,governance committee independence,1
+2285,Identity Confidentiality,1
+2286,performance assessment,1
+2287,governance committee meeting effectiveness,1
+2288,Corporate Operations Monitoring,1
+2289,Corrective Action Planning,1
+2290,Audit Reporting,1
+2291,Process Improvement Tracking,1
+2292,Ethical Reporting,1
+2293,Gift and Bribery Policy,1
+2294,Compliance & Accountability,1
+2295,Audit Self-Assessment,1
+2296,Special Audits,1
+2297,Business Ethics,1
+2298,governance documentation,1
+2299,Risk Governance Adequacy,1
+2300,Risk Communication Mechanisms,1
+2301,Internal Control Improvements,1
+2302,Key Risk Indicators,1
+2303,environmental controls,1
+2304,asset security,1
+2305,Compliance Alignment,1
+2306,segregation of duties,1
+2307,transaction execution,1
+2308,Risk Management Integration,1
+2309,record-keeping,1
+2310,access control,1
+2311,documentation practices,1
+2312,Stakeholder Trust,1
+2313,System Effectiveness,1
+2314,internal control system effectiveness,1
+2315,Accountability Mechanism,1
+2316,Audit Oversight,1
+2317,sustainability disclosure,1
+2318,employee socialization,1
+2319,Confidential Reporting Channels,1
+2320,corporate education,1
+2321,corporate secretary competency enhancement,1
+2322,transparency governance,1
+2323,ethical performance,1
+2324,financial sector resilience,1
+2325,voter participation,1
+2326,financial services innovation,1
+2327,organizational ethics,1
+2328,ethical behavior,1
+2329,national resilience,1
+2330,economic globalization,1
+2331,carbon reduction,1
+2332,fraud,1
+2333,electric vehicles,1
+2334,ESG management,1
+2335,carbon trading procedures,1
+2336,Carbon Exchange,1
+2337,ethical guidelines,1
+2338,Law Enforcement,1
+2339,Shareholder Meetings,1
+2340,Accounting Standards,1
+2341,accounting procedures,1
+2342,carbon regulations,1
+2343,internal audit governance,1
+2344,professional certifications,1
+2345,remuneration procedures implementation,1
+2346,remuneration structure recommendation,1
+2347,sustainability and environmental conservation,1
+2348,capital structure composition,1
+2349,Corporate Strategy,1
+2350,Sustainable Financial Services,1
+2351,Educational Digital Content,1
+2352,civil society engagement,1
+2353,digital inclusion,1
+2354,Sustainable business growth,1
+2355,social activities,1
+2356,insurance literacy,1
+2357,Self-learning sustainability programs,1
+2358,banking policy,1
+2359,Sustainability communication,1
+2360,consumption patterns,1
+2361,Employee sustainability training,1
+2362,piracy,1
+2363,exchange rate stability,1
+2364,foreign direct investment,1
+2365,Corporate cultural values,1
+2366,Corporate stakeholder value,1
+2367,Digital Inclusion,1
+2368,Financial Inclusion,1
+2369,Ecosystem maximization,1
+2370,sustainable sukuk,1
+2371,financial liquidity,1
+2372,non-current liabilities,1
+2373,long-term loans,1
+2374,financial activities,1
+2375,capital structure management,1
+2376,globalization,1
+2377,Sustainable Facilities Management,1
+2378,Sustainability Values,1
+2379,strategic communication,1
+2380,mineral extraction,1
+2381,spatial development,1
+2382,clean and affordable energy,1
+2383,fossil fuels,1
+2384,sustainable urbanization,1
+2385,position level,1
+2386,"sustainable energy, water, and waste management",1
+2387,digital insurance offerings,1
+2388,gender,1
+2389,age,1
+2390,financial services governance,1
+2391,investor protection,1
+2392,organizational agility,1
+2393,integration of ESG aspects,1
+2394,human capital management,1
+2395,paperless transactions,1
+2396,paper and physical waste reduction,1
+2397,digital content and platforms,1
+2398,stakeholder decision-making,1
+2399,digital partnerships,1
+2400,inclusive development,1
+2401,education funding,1
+2402,philanthropy,1
+2403,digital banking access,1
+2404,synergy in harmony,1
+2405,sustainable value creation,1
+2406,capital structure policy,1
+2407,Sustainability principles,1
+2408,remuneration policy evaluation,1
+2409,dividend policy flexibility,1
+2410,boarding supervision effectiveness,1
+2411,governance procedures,1
+2412,kehadiran Dewan Komisaris,1
+2413,Pengembangan Kompetensi Dewan Komisaris,1
+2414,Board orientation programs,1
+2415,fair business practices,1
+2416,creditor's rights,1
+2417,supplier management,1
+2418,Board evaluation processes,1
+2419,Performance evaluation framework,1
+2420,Audit oversight,1
+2421,Board resignation policy,1
+2422,Comprehensive performance assessments,1
+2423,Board succession,1
+2424,Governance alignment,1
+2425,Executive development,1
+2426,Remuneration policies,1
+2427,Board self-assessment policy,1
+2428,Board member expertise,1
+2429,Remuneration indicators,1
+2430,Transparency and governance practices,1
+2431,Governance accountability,1
+2432,ethical accountability,1
+2433,independent audit,1
+2434,leadership governance,1
+2435,membership governance,1
+2436,complaints management,1
+2437,board orientation program,1
+2438,competency development for directors,1
+2439,supplier improvement,1
+2440,Role Diversity,1
+2441,capital risk management,1
+2442,capital expenditure optimization,1
+2443,organizational digitalization,1
+2444,Technology Adoption,1
+2445,Public Offering,1
+2446,Material Transactions with Conflict of Interest,1
+2447,Environmental Data Collection,1
+2448,Governance Principles,1
+2449,Digital Implementation,1
+2450,Governance Recognition,1
+2451,Governance Policies,1
+2452,Shareholder Attendance,1
+2453,sustainable finance governance alignment,1
+2454,Communications strategy,1
+2455,environmental responsibility reporting,1
+2456,Executive Governance,1
+2457,corporate social responsibility reporting,1
+2458,kewujudan laporan keuangan,1
+2459,kuasa dan wewenang board of directors,1
+2460,pelaksanaan tindak lanjut,1
+2461,executive governance,1
+2462,director skill diversity,1
+2463,financial oversight,1
+2464,organizational development,1
+2465,corporate planning,1
+2466,Legal compliance,1
+2467,circular fashion,1
+2468,diverse consumer accessibility,1
+2469,financial service inclusivity,1
+2470,asset valuation policy,1
+2471,portfolio diversification,1
+2472,Capital market supporting institutions,1
+2473,risk analysis,1
+2474,Share registration and corporate governance,1
+2475,Independent auditing,1
+2476,Tax Refund Claims,1
+2477,market fluctuations,1
+2478,Tax Judgment Process,1
+2479,Tax Regulation Uncertainty,1
+2480,Tax Risk Management,1
+2481,Tax Control Procedures,1
+2482,Tax Position Assessment,1
+2483,Management Tax Position Evaluation,1
+2484,disclosure adequacy,1
+2485,credit risk,1
+2486,fraud risk management,1
+2487,professional ethics,1
+2488,Independent Commissioners,1
+2489,subsidiaries,1
+2490,Accounting policy for acquisition costs,1
+2491,Business combination accounting approach,1
+2492,Equity component treatment in acquisitions,1
+2493,pollution,1
+2494,Recycling policy in common control dissolution,1
+2495,Investment in associates accounting method,1
+2496,Profit/loss recognition in associates,1
+2497,Loss recognition policy in associates,1
+2498,negative impact reduction,1
+2499,Internal audit governance,1
+2500,tobacco control,1
+2501,Renewable energy adoption,1
+2502,pemberdayaan ekonomi lokal,1
+2503,pengelolaan bencana,1
+2504,MSME support in digital ecosystem,1
+2505,social responsibility activities,1
+2506,economic recovery support,1
+2507,global supply chain integration,1
+2508,equality in consumer services,1
+2509,equal employment opportunity,1
+2510,waste and effluent management,1
+2511,Environmental and Occupational Health and Safety Certifications,1
+2512,waste and effluent quantity,1
+2513,Occupational Health and Safety (K3),1
+2514,Occupational Health and Safety Incidents,1
+2515,Sustainable finance governance,1
+2516,Sustainable materials,1
+2517,Occupational Health and Safety Management System Audits,1
+2518,Compliance with Health and Safety Regulations,1
+2519,Implementation challenges,1
+2520,Sustainability training,1
+2521,product standards,1
+2522,process monitoring,1
+2523,consumer complaints,1
+2524,feedback channels,1
+2525,complaint resolution,1
+2526,emissions reporting,1
+2527,supply chain diversity,1
+2528,investment properties policy,1
+2529,lease income recognition,1
+2530,manajemen kebijakan air,1
+2531,lease accounting policy,1
+2532,risk communication,1
+2533,content security and compliance,1
+2534,sustainable mining practices,1
+2535,salary increase rate risk,1
+2536,labor regulations,1
+2537,employee benefit obligations duration,1
+2538,merger,1
+2539,Performance evaluation linked to remuneration,1
+2540,Board composition criteria,1
+2541,Capacity building programs,1
+2542,shareholder governance,1
+2543,communication strategies,1
+2544,annual reporting,1
+2545,risiko inventaris,1
+2546,manajemen risiko industri,1
+2547,manajemen cost,1
+2548,key management compensation,1
+2549,Smoke Free Products,1
+2550,social pillars,1
+2551,ethical sourcing,1
+2552,socioeconomic wellbeing,1
+2553,working environment,1
+2554,governance performance,1
+2555,stunting prevention,1
+2556,stakeholder inclusion,1
+2557,society,1
+2558,ESG framework,1
+2559,product and service impacts,1
+2560,awareness of sustainability issues,1
+2561,employee benefit obligations,1
+2562,tarif pajak,1
+2563,incremental borrowing rate calculation,1
+2564,tax recognition,1
+2565,tax position evaluation,1
+2566,income tax provision,1
+2567,deferred tax management,1
+2568,employee benefits obligations,1
+2569,Tax Provisions and Compliance,1
+2570,investment services,1
+2571,financial services,1
+2572,Foreign Exchange Risk Management,1
+2573,beban pajak,1
+2574,SME support,1
+2575,affordable housing,1
+2576,cultural sustainability values,1
+2577,poverty eradication,1
+2578,penyesuaian periode,1
+2579,tax expense,1
+2580,post-employment benefits,1
+2581,"property, plant, and equipment",1
+2582,tax assessment claims without refunds,1
+2583,income tax,1
+2584,VAT tax,1
+2585,post-employment benefit commitments,1
+2586,actuarial valuation of post-employment benefits,1
+2587,workforce stability,1
+2588,sustainable employment,1
+2589,sustainable financial product innovation,1
+2590,diversitas dan kesetaraan,1
+2591,service improvement,1
+2592,Workplace inclusivity,1
+2593,risk and compliance governance,1
+2594,employee influence on governance,1
+2595,liability derecognition,1
+2596,equity repurchase,1
+2597,share ownership program,1
+2598,credit recovery accounting,1
+2599,reporting mechanisms,1
+2600,financial performance reporting,1
+2601,asset transfer risk management,1
+2602,financial asset management,1
+2603,compliance follow-up,1
+2604,confidentiality of investigations,1
+2605,anti-retaliation measures,1
+2606,compliance reporting volume,1
+2607,evidence sufficiency for sanctions,1
+2608,enforcement actions,1
+2609,Compliance Risk Management,1
+2610,Compliance Training,1
+2611,Fraud Prevention Programs,1
+2612,Workplace Sexual Harassment Prevention,1
+2613,Fraud Investigation,1
+2614,trading objectives,1
+2615,Ethics and compliance,1
+2616,Governance integration,1
+2617,trading asset classification criteria,1
+2618,Company culture,1
+2619,Stakeholder commitment,1
+2620,corporate governance alignment,1
+2621,supply chain risk,1
+2622,loan impairment management,1
+2623,Action Plan Monitoring,1
+2624,Data Privacy,1
+2625,ESG Governance,1
+2626,Islamic financial partnership,1
+2627,asset impairment losses,1
+2628,foreclosed collateral management,1
+2629,ESG capacity building,1
+2630,data loss prevention,1
+2631,joint operations,1
+2632,transparency in communication,1
+2633,land revaluation surplus,1
+2634,reinsurance contracts,1
+2635,Risk Assessment,1
+2636,Internal Control,1
+2637,finance lease classification,1
+2638,Reporting,1
+2639,Best Practices Sharing,1
+2640,External Audit Coordination,1
+2641,Auditor Qualification,1
+2642,internal audit independence,1
+2643,audit outcome management,1
+2644,compliance training,1
+2645,external audit collaboration,1
+2646,audit scope,1
+2647,impairment,1
+2648,audit fees,1
+2649,country risk,1
+2650,ETHICS AND COMPLIANCE,1
+2651,Performance evaluation,1
+2652,kesetaraan gaji,1
+2653,equal opportunity and diversity,1
+2654,expertise diversity,1
+2655,Board self-assessment,1
+2656,financial disclosure adequacy,1
+2657,anti-fraud policy,1
+2658,supplier selection,1
+2659,asset transactions,1
+2660,anti-corruption compliance,1
+2661,transparency and accuracy,1
+2662,creditor rights,1
+2663,grievance reporting system,1
+2664,anonymous reporting,1
+2665,speak-up system,1
+2666,financial reporting compliance,1
+2667,sustainability report feedback response,1
+2668,feedback mechanism,1
+2669,ESG alignment,1
+2670,sustainable energy transition,1
+2671,community value,1
+2672,sustainable product customer satisfaction,1
+2673,ESG pillars alignment,1
+2674,product/service environmental impact,1
+2675,zero waste goal,1
+2676,consumer waste awareness,1
+2677,impact sosial,1
+2678,keahlian kerja dan kesejahteraan,1
+2679,product safety evaluation,1
+2680,kesejahteraan karyawan,1
+2681,board composition size,1
+2682,going concern,1
+2683,transparent governance,1
+2684,ethics education,1
+2685,employee respect,1
+2686,conflicts of interest disclosure,1
+2687,bribery and corruption,1
+2688,contraband trade,1
+2689,illegal product sales,1
+2690,contraband monitoring,1
+2691,financial asset categorization,1
+2692,third-party due diligence,1
+2693,ethical partnerships,1
+2694,training and resources,1
+2695,impairment handling,1
+2696,asset valuation caption treatment,1
+2697,awareness initiatives,1
+2698,divestiture,1
+2699,FVOCI accounting practices,1
+2700,governance frameworks,1
+2701,compliance enforcement,1
+2702,voting mechanisms,1
+2703,shareholder communication,1
+2704,Board representation,1
+2705,Document accessibility,1
+2706,related party governance,1
+2707,business combination accounting,1
+2708,asset-liability reclassification,1
+2709,Communication policy,1
+2710,Information transparency,1
+2711,ESG materiality assessment,1
+2712,societal concerns (ESG),1
+2713,pandemic response,1
+2714,pertumbuhan bisnis,1
+2715,product compliance,1
+2716,excise revenue loss,1
+2717,reputational damage and sales revenue loss,1
+2718,illicit tobacco prevalence,1
+2719,illicit product management,1
+2720,data collaboration,1
+2721,local MSME development,1
+2722,impact of pandemic on MSMEs,1
+2723,MSME adaptation to new normal,1
+2724,MSME capability development,1
+2725,Skills training and entrepreneurship support,1
+2726,Training outcomes for SMEs,1
+2727,Diversity and inclusion of informal workers/women,1
+2728,Digitalization for market access,1
+2729,research projects,1
+2730,gizi,1
+2731,cacat lahir (stunting),1
+2732,Entrepreneurship training,1
+2733,Business licensing,1
+2734,digitalization training for MSMEs,1
+2735,partnerships for MSME growth,1
+2736,support for MSMEs' global competitiveness,1
+2737,stakeholder collaboration for MSME growth,1
+2738,collaboration and inclusivity,1
+2739,participation in entrepreneurship events,1
+2740,entrepreneurship training,1
+2741,economic community reach,1
+2742,consumer complaints management,1
+2743,product labeling,1
+2744,cross-departmental governance,1
+2745,akses fasilitas kesehatan,1
+2746,youth smoking prevention program,1
+2747,retail partner collaboration,1
+2748,awareness-raising campaigns,1
+2749,religious community support,1
+2750,Partnerships for the Goals,1
+2751,Gender equality,1
+2752,Smoke-Free Product Innovation,1
+2753,Tobacco Use Prevention,1
+2754,Smoke-Free Future Commitment,1
+2755,Smoke-Free Product Portfolio Development,1
+2756,scientific methodology,1
+2757,health risks,1
+2758,harmful substances,1
+2759,responsible marketing practices,1
+2760,smoke-free product innovation,1
+2761,smoke-free product adoption,1
+2762,public-private partnership alignment,1
+2763,smoker verification,1
+2764,target audience restriction,1
+2765,regulatory alignment,1
+2766,consumer targeting,1
+2767,consumer health awareness,1
+2768,health warning disclosure,1
+2769,marketing integrity,1
+2770,truthful marketing,1
+2771,adult consumer targeting,1
+2772,local entrepreneurship,1
+2773,akses pendanaan,1
+2774,cataract and pterygium surgery,1
+2775,pertumbuhan économique,1
+2776,offline learning hours,1
+2777,remuneration policy factors,1
+2778,labor standards,1
+2779,diversity management,1
+2780,remuneration system,1
+2781,gender equity in remuneration,1
+2782,green report status,1
+2783,workforce accessibility,1
+2784,public perception of labor practices,1
+2785,disability support and recruitment practices,1
+2786,compliance with labor regulations,1
+2787,labor practices in contracts,1
+2788,land restoration preparation,1
+2789,child labor and forced labor,1
+2790,job vacancy transparency,1
+2791,facility safety and comfort,1
+2792,employee well-being policy,1
+2793,work-life balance initiatives,1
+2794,employee support during crises,1
+2795,equal career advancement,1
+2796,financial literacy and skill development,1
+2797,financial stability and business growth,1
+2798,flexible working arrangements,1
+2799,consumer diversity,1
+2800,sustainable materials usage,1
+2801,fair hiring practices,1
+2802,non-discriminatory employment practices,1
+2803,learning platform access,1
+2804,gender equality in remuneration,1
+2805,performance management system,1
+2806,contract environmental compliance,1
+2807,disaster preparedness,1
+2808,kontribusi finansial CSR,1
+2809,workplace motivation,1
+2810,pelaksanaan CSR,1
+2811,pandemic response protocols,1
+2812,hazard prevention,1
+2813,energy and water conservation,1
+2814,Occupational Health and Safety Management System,1
+2815,employee involvement,1
+2816,OHS programs,1
+2817,incident and hazard reporting system,1
+2818,EHS knowledge sharing,1
+2819,OHS training programs,1
+2820,talent development,1
+2821,pengembangan infrastruktur,1
+2822,targeted training programs,1
+2823,pencilanggan CSR,1
+2824,employee skills development,1
+2825,experiential learning initiatives,1
+2826,Complaint Resolution,1
+2827,external certification programs,1
+2828,organizational culture,1
+2829,Negative Impact Mitigation,1
+2830,management practices,1
+2831,training hours equality,1
+2832,safety and health,1
+2833,access to tobacco products,1
+2834,post-consumption waste management,1
+2835,youth access prevention,1
+2836,responsible marketing,1
+2837,environmental impact evaluation,1
+2838,social impact evaluation,1
+2839,external sustainability integration,1
+2840,double materiality integration,1
+2841,sustainability materiality assessment,1
+2842,cleft prevention and post-surgery care,1
+2843,Sustainability Approach,1
+2844,"Socioeconomic Wellbeing, Product Innovations, Healthy Working Environment",1
+2845,"Sustainable Supply Chain, Waste Management, Water Management, Energy Efficiency and Emission Reduction, Respecting Human Rights, Business Integrity, Stakeholders Engagement",1
+2846,Responsible Sales and Marketing,1
+2847,societal welfare,1
+2848,SDG prioritization,1
+2849,Sustainable Development Contributions,1
+2850,pay equity,1
+2851,inclusion,1
+2852,community program growth,1
+2853,vocational educator training,1
+2854,"business integrity, anti-corruption, anti-fraud compliance",1
+2855,stakeholder representation,1
+2856,supply chain disruptions,1
+2857,environmental aspect,1
+2858,resource use and waste generation,1
+2859,environmental performance and community benefits,1
+2860,environmental management framework participation,1
+2861,integrasi sistem manajemen,1
+2862,kompatibilitas standar,1
+2863,keluhan lingkungan,1
+2864,economic impact evaluation,1
+2865,strategic prioritization,1
+2866,environmental governance,1
+2867,kesejahteraan petani,1
+2868,food waste management,1
+2869,first aid training,1
+2870,MSME development,1
+2871,water recycling,1
+2872,cataract surgery,1
+2873,farmers' welfare and economic recovery,1
+2874,health risks from smoking,1
+2875,economic challenge support,1
+2876,MSME entrepreneurship training,1
+2877,MSME community development,1
+2878,digital ecosystem participation,1
+2879,governance collaboration,1
+2880,kualitas produksi,1
+2881,social care programs,1
+2882,produksi berkelanjutan,1
+2883,praktik pertanian berkelanjutan,1
+2884,pelatihan pertanian,1
+2885,pendapatan petani,1
+2886,children's literacy,1
+2887,production_facility,1
+2888,economic_development,1
+2889,environmental care programs,1
+2890,Business Integrity Compliance,1
+2891,Human Rights,1
+2892,Social Programs,1
+2893,"Environmental, Social, Governance",1
+2894,biaya pengelolaan lingkungan,1
+2895,pembayaran retribusi limbah,1
+2896,cataract and cleft lip surgeries,1
+2897,kesehatan masyarakat,1
+2898,waste disposal behavior,1
+2899,cigarette butt waste management,1
+2900,consumer engagement for waste reduction,1
+2901,upcycled material usage,1
+2902,Community participation,1
+2903,charitable donations to religious institutions,1
+2904,social sustainability commitment,1
+2905,mental health infrastructure,1
+2906,religious facilities,1
+2907,penghindaran merokok,1
+2908,educational infrastructure,1
+2909,risiko kesehatan sosial,1
+2910,food aid,1
+2911,cigarette butt littering prevention,1
+2912,Environmental Education,1
+2913,Carbon Sequestration Initiatives,1
+2914,pengembangan solusi,1
+2915,pengembangan UMKM,1
+2916,Smoke-free product alternatives,1
+2917,Social impact management,1
+2918,Community Resilience Infrastructure,1
+2919,Socioeconomic well-being,1
+2920,Community Disaster Relief,1
+2921,Workplace safety and fair working conditions,1
+2922,poverty alleviation,1
+2923,sustainable sourcing,1
+2924,public awareness,1
+2925,clean and healthy behavior education,1
+2926,pengukuran kualitas lingkungan,1
+2927,sustainable urban environments,1
+2928,climate change mitigation and resilience,1
+2929,greenhouse gas emissions reduction,1
+2930,global climate temperature regulation,1
+2931,climate target reporting,1
+2932,decarbonization targets and strategies,1
+2933,manufacturing GHG emissions reduction,1
+2934,annual emissions monitoring,1
+2935,Net zero emissions,1
+2936,carbon neutrality,1
+2937,enerogi,1
+2938,strategic approach,1
+2939,CSER programs,1
+2940,efisiensi energi,1
+2941,clean water facilities,1
+2942,vehicles,1
+2943,carbon offset,1
+2944,prosthetic assistance,1
+2945,water governance,1
+2946,boiler systems,1
+2947,water stewardship,1
+2948,water management efficiency,1
+2949,WASH,1
+2950,Monitoring and Reporting,1
+2951,Disability Support,1
+2952,Community Engagement in Water Management,1
+2953,water resources conservation,1
+2954,land rehabilitation,1
+2955,CSRD compliance,1
+2956,mining method,1
+2957,Hak dan Tanggung Jawab Karyawan,1
+2958,social issues,1
+2959,quality products,1
+2960,customer and community engagement,1
+2961,conveyor system,1
+2962,contamination risk mitigation,1
+2963,terminal clustering,1
+2964,cargo segregation,1
+2965,logistics sustainability,1
+2966,pest management,1
+2967,sustainability risk management,1
+2968,social assistance,1
+2969,logistics monitoring,1
+2970,data analytics efficiency,1
+2971,conflict,1
+2972,Kode Etik dan Nillai Organisasi,1
+2973,water pollution control,1
+2974,Pelatihan dan Pengembangan Sumber Daya Manusia,1
+2975,Keterampilan Karyawan,1
+2976,Komunikasi dan Kolaborasi,1
+2977,warehouse management,1
+2978,teamwork,1
+2979,urban development,1
+2980,public-private partnership,1
+2981,family leave,1
+2982,healthy lifestyle,1
+2983,employee pension and social security,1
+2984,social consequences,1
+2985,hydrometeorological hazards mitigation,1
+2986,industrial compliance,1
+2987,industrial regulation compliance,1
+2988,whistleblowing mechanism,1
+2989,workplace collaboration,1
+2990,business partnerships,1
+2991,environmentally friendly development,1
+2992,impact assessment,1
+2993,material topic determination,1
+2994,materiality thresholds,1
+2995,Product Quality,1
+2996,Food Loss,1
+2997,Food Safety Practices,1
+2998,Marketing and Communication,1
+2999,energy and emissions,1
+3000,governance and reporting standards,1
+3001,quality management system,1
+3002,anti-bribery management system,1
+3003,sustainable product diversification,1
+3004,workforce recruitment,1
+3005,operational issue mitigation,1
+3006,governance engagement,1
+3007,remuneration governance,1
+3008,stakeholder feedback,1
+3009,Code of conduct and conflict of interest policy,1
+3010,Ethical work environment and stakeholder trust,1
+3011,Annual code of conduct refreshment,1
+3012,Strategic Planning,1
+3013,Operational Effectiveness,1
+3014,Strategic Resilience,1
+3015,Financial Performance,1
+3016,Resilience Management,1
+3017,Operational Balance,1
+3018,code_of_conduct,1
+3019,sustainable investments,1
+3020,long-term compensation,1
+3021,toxic waste management,1
+3022,reuse and recycling,1
+3023,Workplace Safety,1
+3024,Transparency in operations,1
+3025,environmental decision-making,1
+3026,social decision-making,1
+3027,board supervision,1
+3028,general meetings,1
+3029,committee evaluation,1
+3030,Audit Committee Charter,1
+3031,Audit Committee Charter update,1
+3032,Audit Committee Membership,1
+3033,Nomination and Remuneration Committee formation,1
+3034,Nomination and Remuneration Committee duties,1
+3035,Socialization of I4C Values,1
+3036,Continuous Improvement Culture,1
+3037,Communication and Collaboration,1
+3038,Integrity in Workplace Culture,1
+3039,Ethics Committee,1
+3040,reduction of virgin resin usage,1
+3041,Reporting channels,1
+3042,Investigation process,1
+3043,Whistleblower protection,1
+3044,Encouragement of reporting,1
+3045,Report handling process,1
+3046,Enforcement actions,1
+3047,Internal controls improvement,1
+3048,No compliance issues,1
+3049,License management,1
+3050,Procurement transparency and performance evaluation,1
+3051,Financial supervision,1
+3052,Transparency and information disclosure,1
+3053,MSME Collaboration for Economic Empowerment,1
+3054,Community Support Programs,1
+3055,economic decision-making,1
+3056,intra-organizational governance,1
+3057,equality and fairness,1
+3058,net profit,1
+3059,raw materials,1
+3060,coal-based electricity generation,1
+3061,energy-efficient machinery procurement,1
+3062,LED lighting adoption,1
+3063,solar cell installation,1
+3064,LPG consumption,1
+3065,natural gas consumption,1
+3066,solar energy consumption,1
+3067,energy efficiency measures,1
+3068,sustainability reporting continuity,1
+3069,compliance to sustainability reporting standards,1
+3070,data comparability,1
+3071,market presence,1
+3072,materiality,1
+3073,water and effluents,1
+3074,age demographics,1
+3075,employee education and training,1
+3076,gaji layak,1
+3077,benefits community,1
+3078,plastic material management,1
+3079,non-renewable energy management,1
+3080,employee competency,1
+3081,product and service quality,1
+3082,market position,1
+3083,customer base growth,1
+3084,customer collaboration,1
+3085,customer focus,1
+3086,pakaging,1
+3087,operations location,1
+3088,Fair Remuneration,1
+3089,Employment Opportunities,1
+3090,Community Welfare Engagement,1
+3091,Contribution to Communities,1
+3092,use of environmentally friendly materials,1
+3093,water usage disclosure,1
+3094,product design for inclusivity,1
+3095,accessibility in services,1
+3096,safety information disclosure,1
+3097,non-discrimination in recruitment,1
+3098,community feedback platform,1
+3099,customer feedback system,1
+3100,Product Recall Prevention,1
+3101,Property Portfolio,1
+3102,Service Quality,1
+3103,Employee Care,1
+3104,Offered Products and Services,1
+3105,Contribution to Environment,1
+3106,community_water_access,1
+3107,Tax compliance evaluation,1
+3108,financial disclosures,1
+3109,ethics compliance,1
+3110,note,1
+3111,environmental infrastructure,1
+3112,Accounting policy disclosure,1
+3113,Accounting estimates,1
+3114,Tax asset/liability recognition,1
+3115,financial provisioning,1
+3116,financial measurement,1
+3117,financial accounting,1
+3118,related-party transactions,1
+3119,akuntansi proyek,1
+3120,estimasi anggaran,1
+3121,manajemen perubahan anggaran,1
+3122,environmental program participation,1
+3123,employee sustainability practices,1
+3124,ESG information dissemination,1
+3125,sustainability mapping,1
+3126,jumlah pengaduan,1
+3127,Board Meeting Participation,1
+3128,AGM Disclosure,1
+3129,Shareholder Communication Policy,1
+3130,Communication Policy Disclosure,1
+3131,performance evaluation linked to compensation,1
+3132,diversity in board composition,1
+3133,financial expertise of directors,1
+3134,board evaluation,1
+3135,Directors resignation for financial crimes,1
+3136,insider trading prevention,1
+3137,anti-corruption and anti-fraud,1
+3138,supplier selection and capability improvement,1
+3139,creditor rights fulfillment,1
+3140,contributions to Sustainable Development Goals (SDGs),1
+3141,external verification,1
+3142,environmental strategy,1
+3143,social strategy,1
+3144,governance strategy,1
+3145,governance improvement,1
+3146,technology optimization,1
+3147,supply chain collaboration,1
+3148,policy determination,1
+3149,governance coordination,1
+3150,sustainability committee,1
+3151,ESG practices,1
+3152,climate change risks,1
+3153,customer security and safety,1
+3154,ESG knowledge and human resource management,1
+3155,beban akuntansi,1
+3156,Tax dispute resolution,1
+3157,Government Policy Dissemination,1
+3158,Food loss,1
+3159,employee training programs,1
+3160,economic strategy,1
+3161,business adaptation,1
+3162,strategic monitoring,1
+3163,philosophical commitment,1
+3164,cross-cutting collaboration,1
+3165,Environmental,1
+3166,Social,1
+3167,strategi keberlanjutan,1
+3168,kenyamanan tempat kerja,1
+3169,pengembangan masyarakat,1
+3170,kontribusi terhadap SDGs,1
+3171,Food safety,1
+3172,Supply chain traceability,1
+3173,Customer support,1
+3174,Tax Policy,1
+3175,onboarding,1
+3176,performance appraisal,1
+3177,local employment opportunities,1
+3178,diversity and human rights,1
+3179,SDG achievement,1
+3180,ESG performance synchronization,1
+3181,present status of environmental indicators,1
+3182,scope of information disclosure,1
+3183,Employment/Welfare,1
+3184,Company Financial Performance,1
+3185,Products/Services,1
+3186,Certifications,1
+3187,Supply Chain Governance,1
+3188,Compliance Management,1
+3189,plastic reduction,1
+3190,environmental programs,1
+3191,ESG initiatives,1
+3192,general performance overview,1
+3193,Deferred Tax Management,1
+3194,contract accounting practices,1
+3195,Taxation,1
+3196,Taxation Uncertainty,1
+3197,Lease Management,1
+3198,accounting uncertainty,1
+3199,financing component consideration,1
+3200,interest rate determination,1
+3201,fair value accounting impact,1
+3202,land rights certification,1
+3203,investment properties,1
+3204,fair value,1
+3205,insurance coverage,1
+3206,capital expenditures,1
+3207,Asset Security and Risk Mitigation,1
+3208,fixed assets management,1
+3209,land acquisition,1
+3210,reserve fund,1
+3211,facility operations,1
+3212,revenue allocation,1
+3213,long-term liabilities,1
+3214,lease liabilities,1
+3215,work safety,1
+3216,social programs,1
+3217,education initiatives,1
+3218,local infrastructure,1
+3219,ESG compliance,1
+3220,business synergy,1
+3221,sustainability alignment,1
+3222,Local Business Talent Recruitment,1
+3223,resource availability,1
+3224,ownership diversification,1
+3225,pengelolaan sumber daya dan limbah,1
+3226,Employee Commitment,1
+3227,sustainability and integrity,1
+3228,business risk management,1
+3229,supply chain dependence,1
+3230,sustainable product procurement,1
+3231,product diversification,1
+3232,sales growth,1
+3233,asset growth,1
+3234,pemasaran produk ramah lingkungan,1
+3235,integrasi pengelolaan keberlanjutan,1
+3236,identifikasi dan solusi isuiis keberlanjutan,1
+3237,landasan kebijakan berbasis VOICES,1
+3238,kesehatan karyawan,1
+3239,kesehatan kerja,1
+3240,tata kelola perusahaan (GCG),1
+3241,dampak ekonomi,1
+3242,internal controls and risk management,1
+3243,business ethics and accountability,1
+3244,stakeholder support,1
+3245,organizational changes,1
+3246,ownership concentration,1
+3247,foreign institution ownership,1
+3248,domestic institution ownership,1
+3249,foreign individual ownership,1
+3250,domestic individual ownership,1
+3251,director_share_ownership,1
+3252,coal exports,1
+3253,capital accessibility,1
+3254,asset utilization,1
+3255,financial stewardship,1
+3256,Business Resilience and Adaptability,1
+3257,dukungan regulasi,1
+3258,pembiayaan pemerintah,1
+3259,literasi,1
+3260,supplier relationships,1
+3261,implementation challenges,1
+3262,information transparency,1
+3263,product information availability,1
+3264,product-service insurance,1
+3265,employee competency development,1
+3266,unique customer health and safety,1
+3267,customer and business partner satisfaction,1
+3268,social and community development,1
+3269,sustainability strategies,1
+3270,economic productivity,1
+3271,employee performance,1
+3272,human resources quality,1
+3273,leadership training,1
+3274,educational sponsorship,1
+3275,employee residency,1
+3276,workplace fatality incidents,1
+3277,healthcare collaboration,1
+3278,information security management,1
+3279,national debt,1
+3280,household consumption,1
+3281,profitability,1
+3282,leadership principles,1
+3283,strategic policy implementation,1
+3284,corporate governance (GCG),1
+3285,governance framework adoption,1
+3286,employee accountability,1
+3287,pertumbuhan industri,1
+3288,infrastruktur digital,1
+3289,ekonomi yang ditahan,1
+3290,rasio likuiditas,1
+3291,environmental quality improvement,1
+3292,compliance_coordination,1
+3293,shareholder participation,1
+3294,Audit Accountability,1
+3295,Annual Report,1
+3296,Board Accountability,1
+3297,Legal Documentation,1
+3298,business activities expansion,1
+3299,executive authority,1
+3300,governance awareness,1
+3301,evidence-based governance,1
+3302,policy supervision,1
+3303,board_meetings,1
+3304,legal_advisory,1
+3305,supervisory_reporting,1
+3306,governance_transparency,1
+3307,meeting_efficacy,1
+3308,rasio capaian likuiditas,1
+3309,strategic_advisory,1
+3310,stakeholder_communication,1
+3311,audit_supervision,1
+3312,Competency Development,1
+3313,ethics and accountability,1
+3314,governance continuity,1
+3315,competence-based governance,1
+3316,governance tenure,1
+3317,internal business processes,1
+3318,internal control and risk management,1
+3319,Sustainability Awareness,1
+3320,leadership transparency,1
+3321,Audit Committee Composition,1
+3322,business relationship transparency,1
+3323,investor confidence,1
+3324,shareholder value,1
+3325,stakeholder awareness,1
+3326,decision-making governance,1
+3327,rasio cepat,1
+3328,rasio utang terhadap total aset,1
+3329,rasio utang terhadap total ekuitas,1
+3330,rasio utang berbunga,1
+3331,kolektibilitas piutang,1
+3332,kolekibilitas piutang,1
+3333,pajak,1
+3334,distribution strategy,1
+3335,asset testing expenses,1
+3336,corporate culture,1
+3337,social responsibility programs,1
+3338,environmental responsibility programs,1
+3339,corporate governance adoption,1
+3340,corporate governance review,1
+3341,internal_controls,1
+3342,corporate_governance_frameworks,1
+3343,corporate_governance_issues,1
+3344,transparency in decision-making,1
+3345,investor communication policy,1
+3346,equal access to material information,1
+3347,transparent disclosure,1
+3348,financial and sustainability reporting,1
+3349,public exposure obligations,1
+3350,equal shareholder rights,1
+3351,sustainable finance practices,1
+3352,investor communication strategy,1
+3353,corporate governance pillars,1
+3354,management empowerment,1
+3355,management transparency,1
+3356,environmental stakeholder engagement,1
+3357,emissions control,1
+3358,implementation standards,1
+3359,economic impact through recycling,1
+3360,CSR contributions,1
+3361,pension liability management,1
+3362,employee benefit expense,1
+3363,liability trends,1
+3364,GHG emission intensity,1
+3365,Scope 3 emissions,1
+3366,Business travel frequency,1
+3367,GHG emission calculation method,1
+3368,non-economic waste,1
+3369,solid waste generated,1
+3370,solid waste reuse,1
+3371,hazardous solid waste generated,1
+3372,hazardous liquid waste generated,1
+3373,solid waste landfilling,1
+3374,kepemuanan pemangku kepentingan,1
+3375,Training Duration Efficiency,1
+3376,komitmen pemangku kepentingan,1
+3377,hubungan pemangku kepentingan,1
+3378,job creation policies,1
+3379,industrial regulatory compliance,1
+3380,consumer protection,1
+3381,local workforce development,1
+3382,equity in leadership,1
+3383,geographic diversity,1
+3384,skilled employee retention,1
+3385,turnover calculation methodology,1
+3386,turnover data reporting,1
+3387,job enrichment,1
+3388,minimum wage adjustments,1
+3389,Training Equality,1
+3390,environmental financing investments,1
+3391,sustainable production infrastructure,1
+3392,machine energy efficiency,1
+3393,recycled plastic usage,1
+3394,sustainable economic performance,1
+3395,political policies,1
+3396,trade tensions,1
+3397,political and economic governance,1
+3398,investment realization,1
+3399,packaging materials domestic utilization,1
+3400,processing industry productivity,1
+3401,monetary policy adjustments,1
+3402,social cooperation and collaboration,1
+3403,oil price volatility,1
+3404,capital increase implementation,1
+3405,financial funding,1
+3406,sustainable financial resource management,1
+3407,organizational structure optimization,1
+3408,adaptive governance mechanisms,1
+3409,operational cost efficiency,1
+3410,budget efficiency,1
+3411,organizational collaboration,1
+3412,strategic program execution,1
+3413,Net Sales,1
+3414,Cost of Goods Sold Ratio,1
+3415,EBITDA Performance,1
+3416,Profit Margin,1
+3417,cost of goods sold ratio,1
+3418,loss-to-sales ratio,1
+3419,EBITDA-to-sales ratio,1
+3420,natural resource efficiency,1
+3421,environmental damage prevention,1
+3422,climate change adaptation,1
+3423,Employee Training Participation,1
+3424,Training Types,1
+3425,Innovation Strategy,1
+3426,Material aspects,1
+3427,work environment deficiencies,1
+3428,financial contribution,1
+3429,Health & Wellbeing,1
+3430,Health Facilities,1
+3431,ethical grievances,1
+3432,stakeholder grievances,1
+3433,customer service quality,1
+3434,equal treatment,1
+3435,discrimination prevention,1
+3436,material alternatif,1
+3437,material perubahan,1
+3438,ekonomi sirkular,1
+3439,kebijakan lingkungan,1
+3440,claim frequency,1
+3441,Sustainable investments,1
+3442,Training Distribution by Demographics,1
+3443,Environmental management,1
+3444,Environmental costs,1
+3445,Material usage,1
+3446,Energy efficiency,1
+3447,Water management,1
+3448,Conservation areas,1
+3449,Biodiversity,1
+3450,Emissions,1
+3451,Emission reduction,1
+3452,water discharge management,1
+3453,GHG emissions (Scope 1),1
+3454,GHG emissions (Scope 2),1
+3455,Leadership Development,1
+3456,Collaboration,1
+3457,work behavior non-compliance,1
+3458,loss manhours prevention,1
+3459,zero work accident target,1
+3460,Emergency response collaboration,1
+3461,gender gap in training hours,1
+3462,education and training expenses,1
+3463,training hours by job hierarchy,1
+3464,promotions,1
+3465,forced labor prevention,1
+3466,labor compliance,1
+3467,child labor incidents,1
+3468,Occupational health and safety,1
+3469,Occupational accident/communicable diseases,1
+3470,Occupational health and safety facilities,1
+3471,Occupational health and safety facilities maintenance,1
+3472,Occupational health and safety training,1
+3473,OHS protocol compliance,1
+3474,Occupational health and safety management systems,1
+3475,Employee health insurance,1
+3476,personal hygiene,1
+3477,emergency response,1
+3478,PPE usage,1
+3479,fire safety equipment,1
+3480,bahan berbahaya dan beracun,1
+3481,ketahanan kerja,1
+3482,ketenaguesitas keselamatan operasional,1
+3483,pengoperaan mesin industri,1
+3484,pengelolaan risiko kerja,1
+3485,pengolahan limbah cair,1
+3486,pengelolaan limbah B3,1
+3487,hazard control,1
+3488,administrative controls,1
+3489,personal protective equipment (PPE),1
+3490,transparansi pemeriksaan,1
+3491,penanganan pengaduan,1
+3492,kerahasiaan pelapor,1
+3493,Labor risk management,1
+3494,financial commitments,1
+3495,green financing,1
+3496,ethical integrity,1
+3497,industry association memberships,1
+3498,green building sustainability,1
+3499,indoor air quality,1
+3500,workforce education,1
+3501,ethical responsibility,1
+3502,long-term business impact,1
+3503,ESG Risk Management,1
+3504,Business Continuity Risk Management,1
+3505,Risk Management Work Unit,1
+3506,Risk Management Team Structure,1
+3507,Procurement stability,1
+3508,labor relations management,1
+3509,Fraud and Corruption Prevention,1
+3510,supply chain diversification,1
+3511,cyber security threats,1
+3512,cyber security risk mitigation,1
+3513,cyber risk adaptation,1
+3514,data confidentiality measures,1
+3515,carbon taxes,1
+3516,emission monitoring,1
+3517,physical risks,1
+3518,operational disruptions,1
+3519,sustainable materials demand,1
+3520,material circularity and low-carbon products,1
+3521,facility diversification,1
+3522,asset insurance,1
+3523,Sustainable Supply Chain,1
+3524,sanitary facilities,1
+3525,CSER activities,1
+3526,pollution prevention and control,1
+3527,supplier principles,1
+3528,climate-related risks and opportunities,1
+3529,consumer health,1
+3530,procurement,1
+3531,material resource use,1
+3532,material topic determination process,1
+3533,Board approval of material topics,1
+3534,anti-fraud,1
+3535,natural resource use,1
+3536,product quality and safety,1
+3537,sustainable supply chain,1
+3538,marketing transparency,1
+3539,Kesehatan dan Keselamatan Karya,1
+3540,Efisiensi Biaya,1
+3541,Hak dan Kesejahteran Karya,1
+3542,Hak Haman,1
+3543,Reputasi Perusahaan,1
+3544,sustainability performance review,1
+3545,sustainability action plans,1
+3546,healthcare provision,1
+3547,monthly sustainability review,1
+3548,planning commitment,1
+3549,fair labor practices,1
+3550,collective labor agreements,1
+3551,transparent remuneration,1
+3552,ethical operations,1
+3553,infrastructure collaboration,1
+3554,product delivery,1
+3555,community outreach programs,1
+3556,product information updates,1
+3557,Governance and Anti-Corruption,1
+3558,CO2 emissions,1
+3559,market leadership in innovative building products,1
+3560,energy intensity improvement,1
+3561,battery-powered equipment adoption,1
+3562,scope 3 energy use calculation,1
+3563,energy usage intensity,1
+3564,Scope 1 emissions,1
+3565,NOx and SOx emissions,1
+3566,Scope 3 emissions and ozone-depleting substances,1
+3567,energy transition,1
+3568,sustainable buildings,1
+3569,environmental grievance mechanism,1
+3570,sustainable materials sourcing,1
+3571,environmental management funding,1
+3572,operational resource efficiency,1
+3573,operational efficiency monitoring,1
+3574,equipment energy efficiency,1
+3575,sustainability competency,1
+3576,material use,1
+3577,work culture sustainability,1
+3578,Sustainable Product Development,1
+3579,ESG Implementation,1
+3580,ESG Reporting,1
+3581,Responsible Business Conduct,1
+3582,Kalitas Program Pelatihan,1
+3583,Keamanan Kerja,1
+3584,Tata Kelola,1
+3585,Manajemen Lingkungan,1
+3586,Komunikasi Intern,1
+3587,recycled materials use,1
+3588,zero waste policy,1
+3589,recyclable material selection,1
+3590,post-consumer plastic waste utilization (LDPE),1
+3591,electricity and gasoline consumption,1
+3592,gasoline consumption,1
+3593,solar energy usage,1
+3594,emissions targets,1
+3595,environmental policy,1
+3596,raw material efficiency,1
+3597,environmental production practices,1
+3598,sustainable building certifications,1
+3599,sustainability performance improvement,1
+3600,environmental technologies,1
+3601,renewable energy implementation,1
+3602,clean technology adoption,1
+3603,Sustainability Director,1
+3604,climate change management,1
+3605,sustainability priorities,1
+3606,performance monitoring,1
+3607,climate change strategy,1
+3608,short-term climate action,1
+3609,mid-term climate strategy,1
+3610,long-term climate strategy,1
+3611,extreme heat waves,1
+3612,medium-low emissions scenario,1
+3613,carbon tax,1
+3614,low-carbon building products,1
+3615,asset damage,1
+3616,climate-related costs,1
+3617,climate readiness,1
+3618,diversification of manufacturing sites,1
+3619,climate risk governance,1
+3620,risk mapping,1
+3621,risk prioritization,1
+3622,compliance verification,1
+3623,control improvement,1
+3624,low-carbon economy,1
+3625,circular economy and waste management,1
+3626,proses pengaduan,1
+3627,IDEA Progress Measurement,1
+3628,corporate initiatives,1
+3629,reporting practices,1
+3630,impact management,1
+3631,stakeholder impact,1
+3632,whistleblower channels,1
+3633,employee health initiatives,1
+3634,part-time employment accommodation,1
+3635,involuntary part-time work,1
+3636,employee survey practices,1
+3637,"Inclusion, Diversity, and Equity (IDE)",1
+3638,Safe and Inclusive Work Environment,1
+3639,IDE Initiatives,1
+3640,Employee Empowerment,1
+3641,Female Leadership Retention,1
+3642,Employee-Centric Prioritization,1
+3643,sustainable solutions,1
+3644,workplace diversity,1
+3645,diversity education,1
+3646,DII initiatives,1
+3647,LGBTQ+ support,1
+3648,disability awareness,1
+3649,mental health stigma reduction,1
+3650,parental leave support,1
+3651,leadership diversity,1
+3652,workplace well-being,1
+3653,supply chain risk categorization,1
+3654,leverage-based risk mitigation,1
+3655,ESG risk assessment integration,1
+3656,supply chain visibility,1
+3657,risk-based mapping,1
+3658,carbon accounting,1
+3659,carbon storage,1
+3660,carbon markets,1
+3661,timber management,1
+3662,transparency and governance,1
+3663,CSRD preparation,1
+3664,transparency improvement,1
+3665,double materiality analysis,1
+3666,diversity initiatives,1
+3667,sustainability promotion,1
+3668,interdisciplinary teams,1
+3669,supply chain due diligence,1
+3670,environmental requirements,1
+3671,sustainability plan updates,1
+3672,environmental certification,1
+3673,social responsibility guidelines,1
+3674,sustainability assessment participation,1
+3675,sustainability assessment scope,1
+3676,self-assessment outcomes,1
+3677,client-driven transparency needs,1
+3678,ESG organizational structure,1
+3679,social and governance alignment,1
+3680,employee inclusion initiatives,1
+3681,employee education on sustainability,1
+3682,climate action focus,1
+3683,climate goals,1
+3684,environmental policies,1
+3685,climate footprint,1
+3686,climate targets,1
+3687,emissions management,1
+3688,emission compensation,1
+3689,climate finance,1
+3690,climate innovation,1
+3691,sustainability awareness,1
+3692,societal performance,1
+3693,reducing environmental footprint,1
+3694,product marketing,1
+3695,Solar energy usage for community resilience,1
+3696,Recycled building materials,1
+3697,Waste collection collaboration,1
+3698,Product and renovation scrap recycling,1
+3699,R&D innovation in eco-products,1
+3700,Single-use packaging recycling (EPR),1
+3701,Solar energy for food security,1
+3702,Recycled materials for construction,1
+3703,Upstream recycling partnerships,1
+3704,Product scraps recycling,1
+3705,R&D for sustainable building materials,1
+3706,FMCG packaging recycling,1
+3707,business expansion,1
+3708,product sustainability,1
+3709,strategic acquisitions,1
+3710,quality assurance,1
+3711,employee social security,1
+3712,safety culture,1
+3713,employee health monitoring,1
+3714,procurement ethics,1
+3715,ethical business practices,1
+3716,quality and safety,1
+3717,social hours,1
+3718,social investment,1
+3719,sirkularitas,1
+3720,transparansi,1
+3721,manajemen risiko iklim,1
+3722,pemanfaatan bahan daur ulang,1
+3723,produk bangunan berkelanjutan,1
+3724,pemanfaatan sumber daya,1
+3725,supplier performance monitoring,1
+3726,material safety innovation,1
+3727,product safety testing,1
+3728,quality standards adherence,1
+3729,governance process,1
+3730,quality framework,1
+3731,values,1
+3732,culture,1
+3733,tax reporting accuracy,1
+3734,fair economic system,1
+3735,supplier labor standards,1
+3736,procurement technology,1
+3737,policy governance,1
+3738,supplier risk management,1
+3739,environmental impact assessment,1
+3740,general report structure,1
+3741,policy compliance,1
+3742,environmental policy governance,1
+3743,R&D investment,1
+3744,market diversification,1
+3745,sustainable material advocacy,1
+3746,business-society impact,1
+3747,SDG contribution,1
+3748,sustainability pillars,1
+3749,Agenda 2030 progress monitoring,1
+3750,impact,1
+3751,production,1
+3752,stakeholder value,1
+3753,internal community,1
+3754,growth strategy,1
+3755,recycling initiative,1
+3756,3R principle,1
+3757,community and environmental partnerships,1
+3758,post-consumer plastic waste utilization (PET),1
+3759,post-consumer plastic waste upcycling (PP),1
+3760,recycling technology,1
+3761,supplier diversity,1
+3762,national investor ownership,1
+3763,governance_structure,1
+3764,audit_independence,1
+3765,financial_reporting_quality,1
+3766,employee adaptability,1
+3767,employment rights,1
+3768,corporate responsibility,1
+3769,workforce capabilities,1
+3770,workforce allocation,1
+3771,employee health benefits,1
+3772,employee relationships,1
+3773,employee team-building,1
+3774,employee health and pension benefits,1
+3775,governance ethics,1
+3776,climate adaptation,1
+3777,profit utilization,1
+3778,innovation_sustainability,1
+3779,social needs,1
+3780,Financial reporting audit,1
+3781,Cash and cash equivalents,1
+3782,cash management,1
+3783,liquidity,1
+3784,debt-to-assets ratio,1
+3785,corporate restructuring,1
+3786,Employee and management share ownership,1
+3787,Conflict of interest transactions,1
+3788,supporting governance organs,1
+3789,environmental_sustainability,1
+3790,stakeholder_relations,1
+3791,legal_compliance,1
+3792,foreign institutional investor ownership,1
+3793,public shareholder ownership,1
+3794,shareholder composition,1
+3795,association membership,1
+3796,Wood Sourcing Certification,1
+3797,Sustainable Development,1
+3798,Innovation,1
+3799,Climate Resilience,1
+3800,Employee Well-being,1
+3801,Human Capital Management,1
+3802,Ethical Marketing,1
+3803,integrity and compliance,1
+3804,perencanaan strategi,1
+3805,keseimbangan,1
+3806,productivitas,1
+3807,strategi berkelanjutan,1
+3808,keceraman lingkungan,1
+3809,proyek terintegrasi,1
+3810,employee competitiveness,1
+3811,employee collaboration,1
+3812,corporate integrity,1
+3813,property quality,1
+3814,consumer trends,1
+3815,operational performance,1
+3816,reputation management,1
+3817,business improvement,1
+3818,LST integration,1
+3819,social support,1
+3820,stakeholder responsibility,1
+3821,sustainable urban planning,1
+3822,corporate office development,1
+3823,environmental design,1
+3824,recreation facilities,1
+3825,profit allocation,1
+3826,auditor_appointment,1
+3827,in-house recycling,1
+3828,Ethics Compliance,1
+3829,capital market relations,1
+3830,corporate secretarial services,1
+3831,shareholder monitoring,1
+3832,information dissemination,1
+3833,ESG strategy,1
+3834,stakeholder fairness,1
+3835,external training participation,1
+3836,competence development,1
+3837,internal control evaluation,1
+3838,audit execution,1
+3839,audit follow-up monitoring,1
+3840,audit quality evaluation,1
+3841,Internal Audit Charter,1
+3842,Audit Charter Evaluation,1
+3843,Reporting Lines,1
+3844,auditor_honorarium,1
+3845,Risk-Based Audit Focus,1
+3846,Financial Reporting Reliability,1
+3847,Ethical Culture,1
+3848,System Evaluation,1
+3849,Internal Control Adequacy,1
+3850,risk management policies,1
+3851,ownership diversity,1
+3852,risk management adequacy,1
+3853,ethics enforcement,1
+3854,political transparency,1
+3855,procurement governance,1
+3856,compensation policies,1
+3857,share ownership reporting process,1
+3858,whistleblowing system scope,1
+3859,Governance Activities,1
+3860,Governance Engagement,1
+3861,Corporate governance leadership,1
+3862,Governance compliance,1
+3863,remuneration_policy,1
+3864,implementation,1
+3865,human rights reporting,1
+3866,audit reports,1
+3867,Audit Firm Selection,1
+3868,Executive Compensation,1
+3869,annual report review,1
+3870,committee establishment,1
+3871,governance obligations,1
+3872,shareholder interest alignment,1
+3873,environmental ethics,1
+3874,Board meetings,1
+3875,Meeting transparency,1
+3876,Board appointment process,1
+3877,Independent director,1
+3878,Internal Controls & Audit,1
+3879,Stakeholder Value Optimization,1
+3880,Decision-Making Efficiency,1
+3881,Board Meetings,1
+3882,Board Effectiveness,1
+3883,orientation program,1
+3884,internal audit unit performance,1
+3885,independent director representation,1
+3886,audit independence,1
+3887,accountant appointment governance,1
+3888,financial reporting governance,1
+3889,internal audit follow-up,1
+3890,accounting complaints,1
+3891,Financial reporting violations,1
+3892,Material Recovery and Recycling,1
+3893,Sustainable Product Lifecycle Management,1
+3894,Chemical Risk Management Processes,1
+3895,Teacher competency development,1
+3896,policy integration,1
+3897,resource efficiency improvement,1
+3898,vocational training and skill development,1
+3899,income generation for marginalized groups,1
+3900,product packaging innovation,1
+3901,Creating Shared Value (CSV),1
+3902,Sosial (GRI203),1
+3903,donasi materi,1
+3904,biodiversitas,1
+3905,pembaukan limbah plastik,1
+3906,bringkas plastik,1
+3907,reuse PET,1
+3908,reuse PP,1
+3909,welfare,1
+3910,Education quality and student development,1
+3911,Energy Management Metrics,1
+3912,endangered species protection,1
+3913,forest conservation,1
+3914,Grievance Mechanism,1
+3915,Community Grievance Management,1
+3916,Product Lifecycle Management,1
+3917,durability_safety,1
+3918,waste_management,1
+3919,animal_welfare,1
+3920,resource_efficiency,1
+3921,health & safety,1
+3922,environmental collaboration,1
+3923,sustainable R&D,1
+3924,cost savings,1
+3925,health & safety improvements,1
+3926,farmer income,1
+3927,agricultural product value,1
+3928,renewable energy technology,1
+3929,post-harvest management,1
+3930,recycled material utilization rate,1
+3931,materials usage,1
+3932,material recycling,1
+3933,recycled material volume,1
+3934,operational responsibility,1
+3935,waste volume,1
+3936,waste recycling rate,1
+3937,socially responsible production,1
+3938,sustainable production processes,1
+3939,hazardous material avoidance,1
+3940,UV protective materials,1
+3941,customer satisfaction rate,1
+3942,customer satisfaction improvement,1
+3943,survey methodology,1
+3944,national economy support & job creation,1
+3945,supplier selection criteria,1
+3946,supplier evaluation,1
+3947,labor standards compliance,1
+3948,supply chain impact remediation,1
+3949,ESG compliance in supplier selection,1
+3950,labor rights enforcement,1
+3951,domestic suppliers,1
+3952,domestic materials procurement,1
+3953,domestic supplier concentration,1
+3954,business model,1
+3955,komunitas,1
+3956,infrastruktur,1
+3957,Earthquake resilience in housing,1
+3958,Sanitation facilities,1
+3959,Financial Reporting,1
+3960,labor disputes,1
+3961,remuneration equity,1
+3962,community feedback responsiveness,1
+3963,Reporting Scope,1
+3964,Reporting Period,1
+3965,Data Accuracy,1
+3966,External Assurance,1
+3967,Board Selection,1
+3968,Impact Management,1
+3969,Responsibility Delegation,1
+3970,Reporting Accountability,1
+3971,Conflict Management,1
+3972,Remuneration Policy,1
+3973,anti-corruption policies,1
+3974,energy consumption outside organization,1
+3975,water resource sharing,1
+3976,water discharge impact management,1
+3977,water withdrawal,1
+3978,operational sites near biodiversity areas,1
+3979,habitat protection/restoration,1
+3980,direct greenhouse gas emissions (Scope 1),1
+3981,indirect energy emissions (Scope 2),1
+3982,work-related ill health,1
+3983,discrimination incidents,1
+3984,forced labor,1
+3985,supplier screening,1
+3986,social impacts,1
+3987,health and safety incidents,1
+3988,Labeling and Product Information,1
+3989,Non-compliance Incidents (Product/Service Info),1
+3990,Non-compliance Incidents (Marketing),1
+3991,Customer Privacy Breaches,1
+3992,Data Governance,1
+3993,community feedback,1
+3994,health benefits,1
+3995,sustainable finance innovation,1
+3996,stock ownership,1
+3997,meal allowances,1
+3998,performance incentives,1
+3999,retirement,1
+4000,paternity leave,1
+4001,menstrual leave,1
+4002,leave utilization,1
+4003,hazardous material management,1
+4004,employee engagement in OHS,1
+4005,govemanance of OHS,1
+4006,behavioral safety training,1
+4007,tool-specific safety training,1
+4008,noise exposure control,1
+4009,dust exposure mitigation,1
+4010,workplace accidents,1
+4011,safety risk mitigation,1
+4012,workplace safety awareness,1
+4013,workplace severity,1
+4014,kemanangan karyawan,1
+4015,alattreatment yang aman,1
+4016,pelatihan keselamatan,1
+4017,kesisaman kerja,1
+4018,infrastruktur kerja,1
+4019,manajemen lingkungan,1
+4020,komitmen kelancaran,1
+4021,renewable energy use,1
+4022,emissions by type,1
+4023,cultural empowerment,1
+4024,environmental and social impact,1
+4025,management relationship transparency,1
+4026,Internal controls,1
+4027,land use planning,1
+4028,navigable waterways management,1
+4029,plant reliability,1
+4030,geothermal reserve exploration,1
+4031,wind energy acquisition,1
+4032,wind energy development,1
+4033,geothermal capacity growth,1
+4034,geothermal capacity leadership,1
+4035,Government policy support for economic recovery,1
+4036,Net Zero Emissions target,1
+4037,energy supply distribution,1
+4038,geothermal resource exploration,1
+4039,geothermal energy expansion,1
+4040,geothermal asset acquisition,1
+4041,clean energy production,1
+4042,product responsibility,1
+4043,operational capacity,1
+4044,geothermal steam efficiency,1
+4045,resource ownership,1
+4046,Power generation technology,1
+4047,Drilling site selection and subsurface targeting,1
+4048,R&D for drilling and efficiency improvement,1
+4049,Geothermal exploration partnerships,1
+4050,Well optimization techniques,1
+4051,Well productivity maintenance,1
+4052,technology leadership,1
+4053,technology strategy development,1
+4054,steam management,1
+4055,energy production capacity,1
+4056,internal governance practices,1
+4057,steam reserve quality,1
+4058,energy production,1
+4059,steam sales capacity,1
+4060,geothermal power plant capacity,1
+4061,geothermal power plants,1
+4062,renewable energy capacity,1
+4063,equal services,1
+4064,employment equity,1
+4065,geothermal energy supply,1
+4066,renewable energy strategies,1
+4067,geothermal exploration permits,1
+4068,geothermal capacity expansion,1
+4069,electricity and steam supply,1
+4070,cleaner energy future,1
+4071,workplace gender challenges,1
+4072,renewable energy infrastructure,1
+4073,power plant development,1
+4074,geothermal exploration infrastructure,1
+4075,wind energy,1
+4076,net zero emission,1
+4077,clean energy provision,1
+4078,wildlife release initiatives,1
+4079,clean energy supply,1
+4080,renewable energy sector development,1
+4081,innovation in renewable energy,1
+4082,transition to renewable energy,1
+4083,subsidiary ownership,1
+4084,geothermal energy production,1
+4085,initial public offering (IPO),1
+4086,renewable energy usage expansion,1
+4087,renewable energy innovation,1
+4088,Pollution Control,1
+4089,HIV/AIDS Prevention,1
+4090,HIV/AIDS Prevention and Control,1
+4091,Occupational Safety and Health,1
+4092,energy supply,1
+4093,water reinjection,1
+4094,sustainable finance alignment,1
+4095,Ethics monitoring,1
+4096,bonuses,1
+4097,technical training,1
+4098,environmental and safety compliance,1
+4099,regulatory monitoring,1
+4100,risk management audit,1
+4101,Business ethics,1
+4102,Ethical principles,1
+4103,Ethics training,1
+4104,Ethics compliance,1
+4105,Ethics enforcement,1
+4106,Ethics violations,1
+4107,Information technology,1
+4108,Stakeholder communication,1
+4109,Whistleblower confidentiality,1
+4110,Stakeholder Relationships,1
+4111,energy resource sustainability,1
+4112,Energy Supply Reliability,1
+4113,Employee Development,1
+4114,Sustainable Business Practices,1
+4115,Community Relations,1
+4116,Land Management,1
+4117,Environmental Compliance,1
+4118,Environmental Licensing,1
+4119,Environmental Impact Management,1
+4120,Environmental Performance Ratings,1
+4121,ISO 14001:2015 Certification,1
+4122,endangered species,1
+4123,encroachment/illegal logging,1
+4124,Wildlife Conservation,1
+4125,Species Rehabilitation,1
+4126,technical skill development,1
+4127,expenditure management,1
+4128,best practices in maintenance,1
+4129,maintenance practices,1
+4130,geothermal energy resource management,1
+4131,electricity generation capacity,1
+4132,reservoir enhancement,1
+4133,energy reserve sustainability,1
+4134,third-party validation,1
+4135,energy generation efficiency,1
+4136,supply chain management procedures,1
+4137,supplier evaluation criteria,1
+4138,corporate governance principles,1
+4139,governance responsibilities,1
+4140,stakeholder accountability reporting,1
+4141,conflict prevention,1
+4142,sustainability principles,1
+4143,kelayanan CSR,1
+4144,lapaporan keberlanjutan,1
+4145,risiko iklim,1
+4146,komite keberlanjutan,1
+4147,penyusunan kebijakan keberlanjutan,1
+4148,geological uncertainty,1
+4149,environmental risk mitigation,1
+4150,renewable energy expansion,1
+4151,ESG risks,1
+4152,subsurface data acquisition,1
+4153,geological data integration,1
+4154,peer review process,1
+4155,reservoir surveillance,1
+4156,steam supply and reinjection,1
+4157,organizational capacity,1
+4158,energy supply dependency,1
+4159,waste generation,1
+4160,community_impact,1
+4161,Habitat Restoration,1
+4162,supplier ESG awareness,1
+4163,Telecommunications Society Engagement,1
+4164,Infrastructure Partnerships,1
+4165,Sustainability Governance framework,1
+4166,Governance framework (audits and consultations),1
+4167,corporate strategy integration,1
+4168,board-level committee,1
+4169,produk dan layanan,1
+4170,diversitas,1
+4171,operational sustainability,1
+4172,employee education,1
+4173,risk awareness training,1
+4174,risk disclosure,1
+4175,risk policy evaluation,1
+4176,ESG training,1
+4177,infrastructure theft,1
+4178,vat_payment,1
+4179,land conflicts,1
+4180,communication access,1
+4181,stakeholder reporting,1
+4182,performance measurement,1
+4183,roadmap execution,1
+4184,prinsip keberlanjutan,1
+4185,mendeteksi governança (governance),1
+4186,manajemen infrastruktur,1
+4187,perolehan dan pengembangan (HR development),1
+4188,kolaborasi pemangku kepentingan,1
+4189,perefekasan performa,1
+4190,perumusan risiko,1
+4191,cost management strategy,1
+4192,governance-related taxation compliance and economic contribution,1
+4193,Regulatory Compliance Collaboration,1
+4194,Capital Market Engagement,1
+4195,Telecommunications Infrastructure Collaboration,1
+4196,local supplier participation,1
+4197,Pelestarian Alam,1
+4198,Kesan Budaya,1
+4199,asset acquisition,1
+4200,sustainable societal impact,1
+4201,teamwork collaboration,1
+4202,stakeholder value creation,1
+4203,core values adoption,1
+4204,ethics and trustworthiness,1
+4205,national interest prioritization,1
+4206,Trustworthiness,1
+4207,Integrity,1
+4208,Responsibility,1
+4209,Ethical Standards,1
+4210,Ethical Leadership,1
+4211,Employee Competence,1
+4212,Team Learning,1
+4213,Operational Excellence,1
+4214,technology for social impact,1
+4215,adaptability,1
+4216,technological improvement,1
+4217,proactive behavior,1
+4218,resource synergy,1
+4219,resource utilization,1
+4220,power supply,1
+4221,battery backup,1
+4222,collaboration with SOEs and subsidiaries,1
+4223,domestic production prioritization,1
+4224,domestic product preference,1
+4225,local supplier collaboration,1
+4226,tax_payments,1
+4227,environmental management system and sustainability policy,1
+4228,customer experience monitoring,1
+4229,social responsibility spending,1
+4230,remuneration factors,1
+4231,3P remuneration method,1
+4232,above minimum wage,1
+4233,diversity training,1
+4234,career equality,1
+4235,diversity strategy,1
+4236,labor practice compliance,1
+4237,Occupational Health and Safety Management,1
+4238,continuous improvement in occupational health,1
+4239,workplace safety outcomes,1
+4240,worker competency development,1
+4241,management review,1
+4242,CSR implementation,1
+4243,orphan welfare,1
+4244,environmental spending,1
+4245,energi terbarukan,1
+4246,grievance redressal mechanism,1
+4247,SLA fulfillment,1
+4248,sustainable_materials,1
+4249,customer_health_safety,1
+4250,renewable_energy_usage,1
+4251,radiation_safety,1
+4252,product_recalls,1
+4253,quality_management_system,1
+4254,customer_satisfaction_survey,1
+4255,complaint_resolution,1
+4256,customer complaints handling,1
+4257,technology integration for service delivery,1
+4258,customer service responsiveness,1
+4259,complaint resolution process,1
+4260,competitive salary,1
+4261,energy generation,1
+4262,Education and Training Funding,1
+4263,Employee Scholarships,1
+4264,pemanfaatan energi,1
+4265,Pengemission,1
+4266,air pollution,1
+4267,sistem energi,1
+4268,carbon management,1
+4269,material efficiency,1
+4270,infrastructure sustainability,1
+4271,digital systems integration,1
+4272,hazardous waste,1
+4273,final disposal,1
+4274,social impact awareness,1
+4275,community benefits,1
+4276,complaint management,1
+4277,Employment Equality,1
+4278,Diversity and Inclusion,1
+4279,Equal Opportunity Policies,1
+4280,Promotion Opportunities,1
+4281,Non-Discrimination,1
+4282,Transparency in Recruitment,1
+4283,Workforce Size,1
+4284,demographic diversity,1
+4285,voluntary turnover rate,1
+4286,Pelatihan dan pengembangan karyawan,1
+4287,Kesetaraan akses,1
+4288,Manajemen program pelatihan,1
+4289,Investasi jangka panjang SDM,1
+4290,Inklusifitas,1
+4291,ISO 14001 Implementation,1
+4292,Employee Training Programs,1
+4293,Habitat Assessment,1
+4294,Biodiversity Monitoring,1
+4295,Auditor independence,1
+4296,export tax contributions,1
+4297,stakeholder obligations,1
+4298,sustainability standards,1
+4299,Sustainability reporting framework,1
+4300,sustainability aligns with SDGs,1
+4301,safety incidents,1
+4302,emission management,1
+4303,mining and processing,1
+4304,hilirisasi,1
+4305,industry focus,1
+4306,mining investment,1
+4307,company rebranding,1
+4308,compliance with government regulations,1
+4309,community disaster response,1
+4310,water tax compliance,1
+4311,ESG disclosure maturity,1
+4312,water contamination,1
+4313,economic CSR performance,1
+4314,social governance,1
+4315,stakeholder engagement strategy,1
+4316,community-based water facilities,1
+4317,environmental footprint reduction,1
+4318,climate resilience strategies,1
+4319,business continuity planning,1
+4320,ESG integration frameworks,1
+4321,bauxite_residue_utilization,1
+4322,air_emissions,1
+4323,water_intensity,1
+4324,mine_rehabilitation,1
+4325,management system effectiveness,1
+4326,continuous monitoring,1
+4327,bauxite residue reuse,1
+4328,economic risk management,1
+4329,sustainability targets,1
+4330,sustainability initiatives,1
+4331,transformation,1
+4332,property portfolio development,1
+4333,innovation in products,1
+4334,housing safety and environmental health,1
+4335,green environment,1
+4336,management experience,1
+4337,cultural/religious events,1
+4338,sustainable design,1
+4339,green infrastructure,1
+4340,religious community engagement,1
+4341,cultural events,1
+4342,economic growth stabilization,1
+4343,tourism and cultural engagement,1
+4344,ethics and values,1
+4345,violation reporting system,1
+4346,infrastruktur ramah lingkungan,1
+4347,property management,1
+4348,urban housing development,1
+4349,green residences,1
+4350,societal impact,1
+4351,smelter and supporting facilities,1
+4352,environmental implementation,1
+4353,social implementation,1
+4354,governance implementation,1
+4355,economic performance and value to society,1
+4356,village intervention,1
+4357,workforce gender diversity,1
+4358,workplace safety incidents,1
+4359,sustainability framework alignment,1
+4360,people and culture,1
+4361,water use efficiency,1
+4362,local community engagement and development,1
+4363,financing capital,1
+4364,contractor compliance,1
+4365,fatigue management,1
+4366,fatigue mitigation,1
+4367,OHS program implementation,1
+4368,workplace accident prevention,1
+4369,community input integration,1
+4370,community development programs,1
+4371,blood donation programs,1
+4372,community partnership,1
+4373,public health outcomes,1
+4374,award recognition,1
+4375,education methodologies,1
+4376,CSR award,1
+4377,market access,1
+4378,business licensing,1
+4379,environmental violations,1
+4380,traditional business development,1
+4381,women entrepreneurship,1
+4382,dust management,1
+4383,hazardous waste spills,1
+4384,chemical use,1
+4385,waste classification,1
+4386,residue monitoring,1
+4387,soil stability,1
+4388,groundwater usage,1
+4389,dust control,1
+4390,vegetation management,1
+4391,dust,1
+4392,dust mitigation,1
+4393,air quality compliance,1
+4394,personal data confidentiality,1
+4395,employee health services,1
+4396,behavior-based safety,1
+4397,pelatihan dan pemeriksaan kesehatan,1
+4398,waste capacity,1
+4399,community conflict,1
+4400,process innovation,1
+4401,community program implementation,1
+4402,illegal land clearing,1
+4403,sustainable food systems,1
+4404,job creation,1
+4405,SME formalization,1
+4406,Water usage,1
+4407,Carbon emissions,1
+4408,Safety incidents,1
+4409,water usage efficiency,1
+4410,climate action policies,1
+4411,workplace,1
+4412,training alignment,1
+4413,esg training,1
+4414,board training,1
+4415,tailored training,1
+4416,training coverage,1
+4417,employee training hours,1
+4418,ESG training for executives,1
+4419,standar K3,1
+4420,implementasi sistem K3,1
+4421,audit sistem K3,1
+4422,kebijakan dan evaluasi K3,1
+4423,identifikasi bahaya,1
+4424,pengesahan dan pembaruan penilaian risiko,1
+4425,rambu-rambu keselamatan,1
+4426,prosedur dan pelindung diri,1
+4427,asset quality,1
+4428,occupational health and safety system coverage,1
+4429,flagship species conservation,1
+4430,training methodology,1
+4431,health awareness programs,1
+4432,OSH Management System auditing,1
+4433,certification maintenance,1
+4434,Contractor safety compliance,1
+4435,digitalization of safety evaluations,1
+4436,document management for CSMS,1
+4437,SHE performance commitments,1
+4438,SHE procedure development,1
+4439,public safety awareness,1
+4440,emergency response systems,1
+4441,national security measures,1
+4442,employee innovation,1
+4443,workplace conditions,1
+4444,geothermal technology expertise,1
+4445,reservoir simulation design,1
+4446,employee knowledge sharing,1
+4447,renewable energy education,1
+4448,machine learning application,1
+4449,geothermal technology innovation,1
+4450,academic standards,1
+4451,Training programs for fresh graduates,1
+4452,Technical skills development for graduates,1
+4453,Financial and strategic skill development,1
+4454,Program participation rates,1
+4455,Internship programs for student development,1
+4456,functional safety,1
+4457,operational training,1
+4458,energy auditing,1
+4459,gas hazard management,1
+4460,workforce certification,1
+4461,health promotion activities,1
+4462,employee medical records confidentiality,1
+4463,Occupational Health Monitoring,1
+4464,Health Risk Mitigation,1
+4465,endemic wildlife conservation,1
+4466,biodiversity reforestation,1
+4467,invertebrate conservation,1
+4468,wildlife monitoring,1
+4469,steam reserve decline rate,1
+4470,electricity generation energy consumption,1
+4471,oil waste,1
+4472,expired chemical waste,1
+4473,non-hazardous waste recycling,1
+4474,water preservation,1
+4475,water resource use,1
+4476,effluent management,1
+4477,domestic water use,1
+4478,wastewater treatment,1
+4479,effluent reduction,1
+4480,effluent generation,1
+4481,wastewater reduction,1
+4482,cooling water reuse,1
+4483,accidents,1
+4484,HIV-AIDS,1
+4485,COVID-19,1
+4486,Community Engagement and Participation,1
+4487,Employee Training and Development,1
+4488,Occupational Health and Safety (OSH),1
+4489,Workforce Safety Training,1
+4490,Policy Governance,1
+4491,Hazard Management Training,1
+4492,Health Services Access,1
+4493,Employee Health Insurance,1
+4494,employee innovation and creativity,1
+4495,social security insurance,1
+4496,prevention of occupational health and safety impacts,1
+4497,coffee residue utilization,1
+4498,Eco-Tourism Development,1
+4499,Entrepreneurship Program,1
+4500,Entrepreneurship Training,1
+4501,Economic Impact,1
+4502,Energy Access,1
+4503,Forest Restoration,1
+4504,Conservation-Based Economic Empowerment,1
+4505,Social Impact Measurement,1
+4506,income,1
+4507,business registration,1
+4508,tourism infrastructure,1
+4509,business revenue,1
+4510,waste management education,1
+4511,waste bank establishment,1
+4512,organic waste management with BSF larvae,1
+4513,overtime allowance,1
+4514,organic waste to fertilizer conversion,1
+4515,waste management quantity,1
+4516,tree planting with stakeholder engagement,1
+4517,community empowerment programs,1
+4518,community satisfaction surveys,1
+4519,community satisfaction,1
+4520,reporting practice,1
+4521,reporting assurance,1
+4522,commitment to equality,1
+4523,whistleblower mechanisms,1
+4524,occupational health and safety management system,1
+4525,worker participation in occupational health and safety,1
+4526,worker training,1
+4527,worker health promotion,1
+4528,Beekeeping Empowerment,1
+4529,Mushroom Farming Empowerment,1
+4530,Coffee Farming Empowerment,1
+4531,Support for Local Enterprises,1
+4532,leave allowance,1
+4533,recreation allowance,1
+4534,field employee allowance,1
+4535,performance bonus,1
+4536,phone credit programs,1
+4537,travel expense reimbursement,1
+4538,education allowance,1
+4539,birth allowance,1
+4540,work accident compensation,1
+4541,bereavement benefits,1
+4542,employee uniforms,1
+4543,employee health coverage,1
+4544,eyewear allowance,1
+4545,homeownership assistance,1
+4546,pension funds,1
+4547,social security participation,1
+4548,occupational health insurance,1
+4549,work-related death insurance,1
+4550,non-work-related death insurance,1
+4551,spouse health insurance,1
+4552,child health insurance,1
+4553,religious pilgrimage leave,1
+4554,severance pay,1
+4555,geothermal operations,1
+4556,educational programs,1
+4557,community library development,1
+4558,library facilities,1
+4559,cultural education,1
+4560,Economic Empowerment,1
+4561,digital innovation for sustainability,1
+4562,environmental and social strategy,1
+4563,sustainable future,1
+4564,credit loss allowances,1
+4565,equity instrument repurchase handling,1
+4566,equity instrument transaction neutrality,1
+4567,financial instrument offsetting policy,1
+4568,environmental costs in land development,1
+4569,asset disposal policy,1
+4570,tax expense recognition,1
+4571,deferred tax accounting,1
+4572,deferred tax benefits,1
+4573,Tax assessment penalties,1
+4574,Final tax obligations,1
+4575,Borrowing costs,1
+4576,Provisions,1
+4577,operating segments,1
+4578,fair value financial instruments,1
+4579,credit risk evaluation,1
+4580,mortality_rate,1
+4581,financial reporting instability,1
+4582,asset impairment assessment,1
+4583,tax provisions,1
+4584,Related party finances,1
+4585,deferred tax,1
+4586,tax credit,1
+4587,tax assessments,1
+4588,property risk management,1
+4589,contract liabilities,1
+4590,interest expenses,1
+4591,asset disposition policies,1
+4592,employee pensions,1
+4593,employee financial liabilities,1
+4594,discount_rate,1
+4595,equity instrument valuation,1
+4596,financial instrument modification policy,1
+4597,financial liability derecognition,1
+4598,financial liabilities classification,1
+4599,toner waste,1
+4600,environmental complaints management,1
+4601,environmental expenditure,1
+4602,Sustainability Reporting Quality,1
+4603,employment opportunity equity,1
+4604,accuracy,1
+4605,truthfulness,1
+4606,subsidiary ownership structure,1
+4607,Tax compliance,1
+4608,Financial reporting integrity,1
+4609,masa manfaat aset tetap,1
+4610,teknologi,1
+4611,pengelolaan kredit,1
+4612,risiko kredit,1
+4613,inventory management,1
+4614,income tax calculation,1
+4615,allowance for credit losses,1
+4616,impaired inventory management,1
+4617,financial ratios,1
+4618,Receivables Management,1
+4619,Ownership Structure,1
+4620,tax rate regulation,1
+4621,discount rate,1
+4622,salary rate,1
+4623,Supply Chain,1
+4624,overdue receivables exposure,1
+4625,key management personnel,1
+4626,financial reporting policies,1
+4627,financial asset classification,1
+4628,salary_increase,1
+4629,Corporate transactions,1
+4630,Paper Waste,1
+4631,Supplier engagement,1
+4632,subsidiary collaboration,1
+4633,planting targets,1
+4634,ecosystem management,1
+4635,restorasi ekologis,1
+4636,fire incidents,1
+4637,peat ecosystem restoration,1
+4638,peat management standards,1
+4639,peat management training,1
+4640,supply source composition,1
+4641,supplier sustainability assessment,1
+4642,supplier sustainability gaps,1
+4643,ESG commitment,1
+4644,SDGs alignment,1
+4645,Sustainability commitment,1
+4646,Supplier compliance,1
+4647,tax amnesty,1
+4648,Traceability,1
+4649,smallholder engagement,1
+4650,agricultural training,1
+4651,agricultural support programs,1
+4652,agricultural procurement,1
+4653,transportation logistics,1
+4654,equipment procurement,1
+4655,food distribution,1
+4656,education equity,1
+4657,organic fertilizers,1
+4658,agricultural counseling,1
+4659,sustainable farming techniques,1
+4660,agricultural skills development,1
+4661,positive impacts,1
+4662,high conservation value management,1
+4663,indigenous community support,1
+4664,conservation value,1
+4665,Report comprehensiveness,1
+4666,transactions with non-controlling interests,1
+4667,related party transparency,1
+4668,pengembangan kawasan urban,1
+4669,buyback guarantee,1
+4670,Deposit placement policy,1
+4671,Payment fine enforcement,1
+4672,Unit handover policy,1
+4673,Advance payment and security deposit requirement,1
+4674,Employee loan guarantee policy,1
+4675,Related party receivables management,1
+4676,Receivables monitoring,1
+4677,Allowance for impairment,1
+4678,Receivable aging analysis disclosure,1
+4679,Financial asset exposure reporting,1
+4680,foreign exchange hedging policy,1
+4681,interest rate management,1
+4682,fair value estimation,1
+4683,short-term financial instrument valuation,1
+4684,bonds payable valuation,1
+4685,fair value hierarchy application,1
+4686,re-pricing of financial instruments,1
+4687,derivative hedging,1
+4688,foreign currency risk management,1
+4689,indirect emissions,1
+4690,socioeconomic compliance,1
+4691,Content completeness,1
+4692,Clarity,1
+4693,Information accessibility,1
+4694,Stakeholder information needs,1
+4695,Waste Management Cost,1
+4696,AC refrigerants,1
+4697,sustainability awareness programs,1
+4698,technology adaptation,1
+4699,Internal Control System,1
+4700,Internal Control Enhancement,1
+4701,Board Management,1
+4702,Asset Management,1
+4703,governance values,1
+4704,internal control procedures,1
+4705,internal control communication,1
+4706,monitoring effectiveness,1
+4707,internal control adequacy,1
+4708,market risk (interest rate),1
+4709,investment planning,1
+4710,permit compliance,1
+4711,dependency,1
+4712,distribution network,1
+4713,technology upskilling,1
+4714,IT Infrastructure Upgrades,1
+4715,material choice,1
+4716,cable protection,1
+4717,electrical safety,1
+4718,board oversight,1
+4719,compliance management,1
+4720,risk optimization,1
+4721,employee awareness and training,1
+4722,cybersecurity standards implementation,1
+4723,third-party security audits,1
+4724,IT governance integration in corporate governance,1
+4725,information integrity,1
+4726,Decision-Making Process,1
+4727,Executive Information System,1
+4728,Cloud Technology Adoption,1
+4729,Knowledge Management,1
+4730,Internal Audit Competency Development,1
+4731,Audit Implementation,1
+4732,Audit Follow-up,1
+4733,Conflict of interest,1
+4734,Data security,1
+4735,Internal Controls,1
+4736,Independent Oversight,1
+4737,Audit Effectiveness,1
+4738,Vendor Management,1
+4739,System Improvement,1
+4740,Nomination Committee Governance,1
+4741,Guidelines Implementation,1
+4742,Governance Responsibilities,1
+4743,Nomination Policies,1
+4744,Performance Evaluation,1
+4745,Capacity Building,1
+4746,Candidate Proposals,1
+4747,Nomination Process,1
+4748,Policy Development,1
+4749,Governance Accountability,1
+4750,board competency development,1
+4751,board member nomination process,1
+4752,remuneration policy alignment,1
+4753,remuneration structure balance,1
+4754,annual remuneration policy review,1
+4755,internal governance meetings,1
+4756,executive compensation determination,1
+4757,board engagement,1
+4758,data accuracy,1
+4759,audit committee collaboration,1
+4760,audit quality standards,1
+4761,compliance audits,1
+4762,Cybersecurity,1
+4763,Real-Time Monitoring,1
+4764,business travel,1
+4765,plastic materials in packaging,1
+4766,SDG 16 integration into business strategy,1
+4767,gender-based violence prevention,1
+4768,organizational governance,1
+4769,competency assessment,1
+4770,HR development expenditure,1
+4771,HR quality improvement,1
+4772,local labor employment,1
+4773,social sustainability programs,1
+4774,collaboration with educational institutions,1
+4775,sustainable education programs,1
+4776,community development activities,1
+4777,youth leadership development,1
+4778,pton.305,1
+4779,recyclable packaging,1
+4780,recycled materials in packaging,1
+4781,B2B Efficient Transfers,1
+4782,marketing strategy,1
+4783,reconditioned products,1
+4784,shipping optimization,1
+4785,employee/customer education,1
+4786,customer/employee safety,1
+4787,customer satisfaction assessment,1
+4788,product quality assurance,1
+4789,customer feedback mechanisms,1
+4790,customer grievance resolution,1
+4791,supplier relationship management,1
+4792,sustainable forestry,1
+4793,CO₂ reduction,1
+4794,transportation emissions,1
+4795,green spaces,1
+4796,women's empowerment,1
+4797,workplace safety and human rights,1
+4798,ESG reporting practices,1
+4799,operational efficiency and policy alignment,1
+4800,Direct Consumer Sales,1
+4801,Public Sector Access,1
+4802,Direct Government Procurement,1
+4803,customers,1
+4804,partners,1
+4805,shareholders,1
+4806,government,1
+4807,assets,1
+4808,legal matters,1
+4809,workplace environment,1
+4810,penanganan pelaporan,1
+4811, perlindungan pelapor,1
+4812,laporan pelanggaran,1
+4813,program kepemilikan saham,1
+4814,pelaksanaan program saham,1
+4815,kualifikasi pelamar,1
+4816,Employee Allotment Criteria,1
+4817,Employee Allotment Compliance,1
+4818,Employment Eligibility Criteria,1
+4819,Insider Trading Prevention,1
+4820,Legal Compliance Framework,1
+4821,Conflict of Interest Mitigation,1
+4822,Policy Enforcement,1
+4823,Ownership Disclosure Compliance,1
+4824,Supply Chain Management,1
+4825,Information Disclosure,1
+4826,innovation in creative industry,1
+4827,organizational values,1
+4828,sustainability measurement and collaboration,1
+4829,social commitment,1
+4830,agricultural land management,1
+4831,community food provision,1
+4832,product satisfaction,1
+4833,total assets and liabilities,1
+4834,employee demographics,1
+4835,shareholding structure,1
+4836,operational area,1
+4837,Sustainable Finance,1
+4838,Workforce Competencies,1
+4839,Financial Sustainability Issues,1
+4840,Environmental Costs,1
+4841,Sustainable Procurement,1
+4842,Energy Usage,1
+4843,spillage,1
+4844,consumer equality,1
+4845,public complaints,1
+4846,sustainable finance products,1
+4847,feedback response,1
+4848,Agricultural Livelihoods,1
+4849,control mechanisms,1
+4850,contract fairness,1
+4851,material misstatement risk assessment,1
+4852,fraud risk in audits,1
+4853,internal control assessment,1
+4854,Governance structures,1
+4855,human resources development,1
+4856,employee equity,1
+4857,employee potential development,1
+4858,Governance Process Compliance,1
+4859,Governance Implementation,1
+4860,Stakeholder Appreciation,1
+4861,Women's Empowerment,1
+4862,Infrastructure,1
+4863,sustainability vision and values,1
+4864,social and environmental impacts,1
+4865,waste and effluents reduction,1
+4866,emission reductions,1
+4867,soft skill and hard skill competency,1
+4868,performance improvement,1
+4869,employee performance evaluation,1
+4870,non-discrimination in compensation,1
+4871,zero accidents,1
+4872,safety patrols,1
+4873,standard operating procedures,1
+4874,safety awareness training,1
+4875,emergency preparedness,1
+4876,fire safety training,1
+4877,fire safety protocols,1
+4878,internal OHS audits,1
+4879,employee health insurance,1
+4880,CSR Program Management,1
+4881,community quality of life,1
+4882,noise pollution,1
+4883,CSR fund allocation,1
+4884,CSR transparency,1
+4885,cultural heritage,1
+4886,materiality determination,1
+4887,reporting scope,1
+4888,environmental scope,1
+4889,data transparency,1
+4890,emission,1
+4891,keterlibatan pemangku kepentingan,1
+4892,kualitas data,1
+4893,production quantity,1
+4894,net profit or loss,1
+4895,environmental-friendly products,1
+4896,Education Support,1
+4897,legal documentation,1
+4898,economic circularity,1
+4899,Customer Engagement,1
+4900,Distributor Obligations,1
+4901,Confidentiality Compliance,1
+4902,Legal Disclosures,1
+4903,Intellectual Property Rights,1
+4904,payment terms,1
+4905,customer service and product support,1
+4906,marketing promotion,1
+4907,tax refunds,1
+4908,sustainability principles integration,1
+4909,community responsibility,1
+4910,electricity usage,1
+4911,Public Relations Strategy,1
+4912,Business Profitability,1
+4913,Leadership Quality,1
+4914,Leadership,1
+4915,property development,1
+4916,Strategic Partnerships,1
+4917,social well-being,1
+4918,eco-friendly technology adoption,1
+4919,employee awareness,1
+4920,innovation in sustainability,1
+4921,stakeholder participation,1
+4922,those impacted,1
+4923,corporate targets,1
+4924,carbon mitigation,1
+4925,leadership in sustainable telecom,1
+4926,transparency in reporting,1
+4927,internal culture,1
+4928,Business sustainability governance,1
+4929,social development programs,1
+4930,sales performance obligations,1
+4931,distribution agreements,1
+4932,business agreements,1
+4933,legal compliance (export controls),1
+4934,organizational membership,1
+4935,Economic stimulation,1
+4936,Community welfare,1
+4937,Economic development,1
+4938,Youth transportation support,1
+4939,Youth sports achievements,1
+4940,health services,1
+4941,Support for small-scale farmers,1
+4942,operational excellence,1
+4943,customer relationships,1
+4944,townships,1
+4945,transportation access,1
+4946,perencanaan ekologi,1
+4947,ruang terbuka hijau,1
+4948,kemanggilan lingkungan,1
+4949,green areas allocation,1
+4950,solar water heater usage,1
+4951,sports facilities and community amenities,1
+4952,access to public transportation,1
+4953,employee comfort,1
+4954,green building concept,1
+4955,supply chain infrastructure,1
+4956,urban planning,1
+4957,indirect worker tracking,1
+4958,Share Ownership,1
+4959,Affiliation Disclosure,1
+4960,consolidation principles,1
+4961,equity transactions,1
+4962,Financial transparency,1
+4963,Child and forced labor prevention,1
+4964,Employee turnover,1
+4965,Diversity and inclusion,1
+4966,Oversight enforcement,1
+4967,asset leverage,1
+4968,transactions,1
+4969,capital investment,1
+4970,public offering proceeds,1
+4971,tax expenses,1
+4972,code of conduct,1
+4973,informasi penyaluran,1
+4974,penyalurhan laba,1
+4975,appoinment of independent auditor,1
+4976,Board meeting frequency,1
+4977,Joint meetings with Board of Commissioners,1
+4978,Director attendance,1
+4979,Internal controls and governance structure,1
+4980,Governance meetings,1
+4981,Conflict of interest prevention,1
+4982,workforce count,1
+4983,Governance standards compliance,1
+4984,decision documentation,1
+4985,committee governance,1
+4986,performance management reports,1
+4987,performance evaluation frequency,1
+4988,board meeting participation,1
+4989,shareholder independence,1
+4990,nomination policy,1
+4991,candidate identification,1
+4992,Audit Committee governance,1
+4993,location,1
+4994,auditor assignment governance,1
+4995,audit appointment and oversight,1
+4996,strategic planning and accountability,1
+4997,financial leverage,1
+4998,cash reserves,1
+4999,debt management strategy,1
+5000,investment cash management,1
+5001,community health services,1
+5002,community food access,1
+5003,local crop production,1
+5004,agricultural development,1
+5005,crop yield,1
+5006,community self-sufficiency,1
+5007,agricultural support,1
+5008,local economic engagement,1
+5009,agricultural education,1
+5010,partnership development,1
+5011,mutual benefit initiative,1
+5012,affordable goods,1
+5013,education quality,1
+5014,learning equipment provision,1
+5015,education equality,1
+5016,clean water provision,1
+5017,health education/training,1
+5018,cadres support,1
+5019,community assistance,1
+5020,access to resources,1
+5021,environmental maintenance,1
+5022,government policy support,1
+5023,Profit,1
+5024,Profit for the Year,1
+5025,Comprehensive Income,1
+5026,Operating Cash Flow,1
+5027,Investing Cash Flow,1
+5028,Financing Cash Flow,1
+5029,Cash Reserves,1
+5030,audit result evaluation,1
+5031,remuneration policy governance,1
+5032,governance structure and independence,1
+5033,balance sheet strength,1
+5034,product quality standards,1
+5035,building materials,1
+5036,green ecological method compliance,1
+5037,material durability,1
+5038,earthquake resistance,1
+5039,emergency response capabilities,1
+5040,security infrastructure,1
+5041,physical security measures,1
+5042,health and safety monitoring,1
+5043,operational safety protocols,1
+5044,safety governance,1
+5045,service equity,1
+5046,environmental harmony,1
+5047,environmental pillars,1
+5048,carbon absorption,1
+5049,natural lighting and ventilation,1
+5050,green building materials,1
+5051,waste decomposition,1
+5052,non-renewable energy sources,1
+5053,energy reporting scope,1
+5054,fuel consumption reporting,1
+5055,non-renewable energy use,1
+5056,total energy consumption,1
+5057,Tree Planting,1
+5058,CO2 Absorption,1
+5059,Water Quality Assurance,1
+5060,waste processing,1
+5061,livestock management,1
+5062,workplace relationships,1
+5063,safe working environment,1
+5064,sustainable residential complexes,1
+5065,board composition and nomination policies,1
+5066,Human Capital Excellence,1
+5067,remuneration and performance evaluation,1
+5068,directors' development programs,1
+5069,documentation and transparency,1
+5070,information systems,1
+5071,monitoring,1
+5072,economic factors,1
+5073,natural disasters,1
+5074,land ownership,1
+5075,Administrative Compliance,1
+5076,Code of Conduct,1
+5077,Ethical Conduct,1
+5078,violation handling,1
+5079,incident reporting,1
+5080,anti-corruption policy compliance,1
+5081,anti-corruption policy socialization,1
+5082,shareholder voting procedures,1
+5083,AGM attendance,1
+5084,AGM minutes availability,1
+5085,board commissioners diversity in skills and experience,1
+5086,board size and decision effectiveness,1
+5087,director diversity in skills and experience,1
+5088,accounting and finance skills among board members,1
+5089,work-related fatalities,1
+5090,CSR beneficiaries,1
+5091,Sustainable urban development,1
+5092,Sustainability strategy,1
+5093,Triple bottom line approach,1
+5094,Healthy Business Growth,1
+5095,Sustainable Environment,1
+5096,pengaturanan octa prenyewaan,1

@@ -1,0 +1,423 @@
+text,true_labels,true_esg,true_sentiment,absa_sentiment,absa_aspects,bench_label,bench_sent,final_label_pred,final_sentiment_pred,bench_controversy-classification,bench_controversy-bert,bench_netzero-reduction,bench_transition-physical,bench_renewable,bench_climate-detector,bench_climate-f,bench_climate-d-s,bench_environmental-claims,bench_climate-s,bench_climate-specificity,bench_climate-sentiment,bench_climate-tcfd,bench_climate-d,bench_climate-commitment,bench_econbert
+Our approach to sustainability is informed by stakeholders,"['strategy', 'environmental-claims']",G,positive,Neutral,['General'],"[""Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>"", '). See the original errors:\n\nwhile loading with AutoModelForSequenceClassification', 'an error is thrown:\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 293', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\nDuring handling of the above exception', 'another exception occurred:\n\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 311', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**fp32_kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\n\n (Check input length or model card for details).']","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","**kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""",Neutral,"Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Error: Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+none: 1.00","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+yes: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_0: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+no: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.53","Predictions for 'Our approach to sustainability is also informed by...':
+non: 0.79","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","Predictions for 'Our approach to sustainability is also informed by...':
+governance: 0.57",{'error': '_ssl.c:990: The handshake operation timed out'},{'error': '_ssl.c:990: The handshake operation timed out'},{'error': 'The read operation timed out'}
+"By engaging with stakeholders, companies can better understand their needs",['governance'],G,positive,none,[],"[""Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>"", '). See the original errors:\n\nwhile loading with AutoModelForSequenceClassification', 'an error is thrown:\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 293', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\nDuring handling of the above exception', 'another exception occurred:\n\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 311', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**fp32_kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\n\n (Check input length or model card for details).']","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","**kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Error: Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+none: 1.00","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+yes: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_0: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+no: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.53","Predictions for 'Our approach to sustainability is also informed by...':
+non: 0.79","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","Predictions for 'Our approach to sustainability is also informed by...':
+governance: 0.57",{'error': '_ssl.c:990: The handshake operation timed out'},{'error': '_ssl.c:990: The handshake operation timed out'},{'error': 'The read operation timed out'}
+We engage employees through surveys and union meetings,['none'],S,neutral,Neutral,['General'],"[""Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>"", '). See the original errors:\n\nwhile loading with AutoModelForSequenceClassification', 'an error is thrown:\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 293', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\nDuring handling of the above exception', 'another exception occurred:\n\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 311', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**fp32_kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\n\n (Check input length or model card for details).']","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","**kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""",Neutral,"Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Error: Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+none: 1.00","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+yes: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_0: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+no: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.53","Predictions for 'Our approach to sustainability is also informed by...':
+non: 0.79","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","Predictions for 'Our approach to sustainability is also informed by...':
+governance: 0.57",{'error': '_ssl.c:990: The handshake operation timed out'},{'error': '_ssl.c:990: The handshake operation timed out'},{'error': 'The read operation timed out'}
+"We engage local communities, government and NGOs",['none'],S,neutral,Neutral,['General'],"[""Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>"", '). See the original errors:\n\nwhile loading with AutoModelForSequenceClassification', 'an error is thrown:\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 293', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\nDuring handling of the above exception', 'another exception occurred:\n\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 311', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**fp32_kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\n\n (Check input length or model card for details).']","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","**kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""",Neutral,"Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Error: Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+none: 1.00","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+yes: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_0: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+no: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.53","Predictions for 'Our approach to sustainability is also informed by...':
+non: 0.79","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","Predictions for 'Our approach to sustainability is also informed by...':
+governance: 0.57",{'error': '_ssl.c:990: The handshake operation timed out'},{'error': '_ssl.c:990: The handshake operation timed out'},{'error': 'The read operation timed out'}
+"We participate in ESG ratings such as Ecovadis, CDP and SPOTT","['metrics', 'climate-detection']",G,positive,none,[],"[""Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>"", '). See the original errors:\n\nwhile loading with AutoModelForSequenceClassification', 'an error is thrown:\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 293', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\nDuring handling of the above exception', 'another exception occurred:\n\nTraceback (most recent call last):\n  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py""', 'line 311', 'in infer_framework_load_model\n    model = model_class.from_pretrained(model', '**fp32_kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py""', 'line 604', 'in from_pretrained\n    return model_class.from_pretrained(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 288', 'in _wrapper\n    return func(*args', '**kwargs)\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 5030', 'in from_pretrained\n    checkpoint_files', 'sharded_metadata = _get_resolved_checkpoint_files(\n  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""', 'line 1256', 'in _get_resolved_checkpoint_files\n    raise OSError(\nOSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin', 'model.safetensors', 'tf_model.h5', 'model.ckpt or flax_model.msgpack.\n\n\n (Check input length or model card for details).']","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","**kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py""","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","Error: Could not load model climatebert/ClimateControversyBERT_classification with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBERT_classification does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Error: Could not load model climatebert/ClimateControversyBert with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForSequenceClassification'>,). See the original errors:
+
+while loading with AutoModelForSequenceClassification, an error is thrown:
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/site-packages/transformers/pipelines/base.py"", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py"", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 288, in _wrapper
+    return func(*args, **kwargs)
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 5030, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+  File ""/usr/local/lib/python3.10/site-packages/transformers/modeling_utils.py"", line 1256, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: climatebert/ClimateControversyBert does not appear to have a file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt or flax_model.msgpack.
+
+
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+none: 1.00","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Error: 
+ requires the protobuf library but it was not found in your environment. Check out the instructions on the
+installation page of its repo: https://github.com/protocolbuffers/protobuf/tree/master/python#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+ (Check input length or model card for details).","Predictions for 'Our approach to sustainability is also informed by...':
+yes: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_0: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.51","Predictions for 'Our approach to sustainability is also informed by...':
+no: 1.00","Predictions for 'Our approach to sustainability is also informed by...':
+LABEL_1: 0.53","Predictions for 'Our approach to sustainability is also informed by...':
+non: 0.79","Predictions for 'Our approach to sustainability is also informed by...':
+neutral: 0.93","Predictions for 'Our approach to sustainability is also informed by...':
+governance: 0.57",{'error': '_ssl.c:990: The handshake operation timed out'},{'error': '_ssl.c:990: The handshake operation timed out'},{'error': 'The read operation timed out'}
