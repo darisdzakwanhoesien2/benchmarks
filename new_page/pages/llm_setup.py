@@ -1,33 +1,40 @@
 """
-OpenRouter client helper to run the ESG prompt and return structured JSON.
+Streamlit page wrapper for the OpenRouter ESG extractor.
 
-Usage:
-  export OPENROUTER_API_KEY="sk_..."
-  from llm_setup import generate_esg_structured
-  records = generate_esg_structured("Your input text here")
+Drop this file into a Streamlit `pages/` folder (already located there) and run:
+  streamlit run path/to/your/app
 
-This is a lightweight, dependency-only-on-requests implementation.
+This file preserves the OpenRouter helper functions and exposes a Streamlit UI:
+- fetch model list from https://openrouter.ai/api/v1/models (cached)
+- run structured ESG extraction via generate_esg_structured(...)
+- save/download results
+- optional mock mode for offline testing
 """
 import os
 import re
 import time
 import json
+import socket
 from typing import List, Dict, Any, Optional
 import requests
 from pathlib import Path
 from requests.adapters import HTTPAdapter, Retry
+from urllib.parse import urlparse
+
+import streamlit as st
 
 # Config
-OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "gpt-4o-mini"  # adjust if you have a preferred model name on OpenRouter
+OPENROUTER_API_URL = os.getenv("OPENROUTER_API_URL", "https://openrouter.ai/api/v1/chat/completions")
+OPENROUTER_MODELS_PATH = os.getenv("OPENROUTER_MODELS_URL", "https://openrouter.ai/api/v1/models")
+DEFAULT_MODEL = "gpt-4o-mini"
 PROMPT_TEMPLATE_PATH = Path(__file__).parent / "prompt" / "data.md"
 API_KEY_ENV = "OPENROUTER_API_KEY"
+MODELS_CACHE = Path(__file__).parent / "models_cache.json"
 
 
 def _load_prompt_template() -> str:
     if PROMPT_TEMPLATE_PATH.exists():
         return PROMPT_TEMPLATE_PATH.read_text(encoding="utf8")
-    # fallback: small inline prompt if file missing
     return (
         "You are an ESG text analysis expert.\n\n"
         "For each meaningful sentence or segment in the text:\n"
@@ -37,8 +44,6 @@ def _load_prompt_template() -> str:
 
 
 def _extract_first_json(text: str) -> Optional[str]:
-    # try to find first JSON code block or first top-level JSON array/object
-    # common patterns: ```json ... ``` or just starting with [ or {
     m = re.search(r"```json\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*```", text, re.IGNORECASE)
     if m:
         return m.group(1)
@@ -54,24 +59,19 @@ def _requests_session_with_retries(retries: int = 3, backoff_factor: float = 0.6
                   status_forcelist=(429, 500, 502, 503, 504),
                   allowed_methods=["POST", "GET"])
     s.mount("https://", HTTPAdapter(max_retries=retry))
+    s.mount("http://", HTTPAdapter(max_retries=retry))
     return s
 
 
 def parse_json_from_model(text: str) -> Any:
-    """
-    Try to parse model output into JSON. Use robust fallbacks.
-    """
-    # direct parse
     try:
         return json.loads(text)
     except Exception:
-        # extract first JSON-like block
         js = _extract_first_json(text)
         if js:
             try:
                 return json.loads(js)
             except Exception:
-                # last resort: use ast.literal_eval
                 import ast
                 try:
                     return ast.literal_eval(js)
@@ -89,10 +89,6 @@ def generate_esg_structured(
     timeout: int = 60,
     retries: int = 3,
 ) -> List[Dict[str, Any]]:
-    """
-    Send the ESG prompt to OpenRouter and return parsed JSON records (list of dicts).
-    Raises on unrecoverable errors.
-    """
     if not api_key:
         api_key = os.getenv(API_KEY_ENV)
     if not api_key:
@@ -109,8 +105,6 @@ def generate_esg_structured(
         ],
         "temperature": float(temperature),
         "max_tokens": int(max_tokens),
-        # "top_p": 1.0,
-        # "n": 1,
     }
 
     s = _requests_session_with_retries(retries=retries)
@@ -122,37 +116,26 @@ def generate_esg_structured(
             resp = s.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=timeout)
             resp.raise_for_status()
             data = resp.json()
-            # OpenRouter response shape is like OpenAI chat completions; get assistant content
-            # try a few known paths
             content = None
             if isinstance(data, dict):
-                # choices -> message -> content
                 choices = data.get("choices") or data.get("output") or []
                 if choices and isinstance(choices, list):
-                    # pick first
                     first = choices[0]
-                    # openrouter sometimes: {message: {content: {...}}}
                     if isinstance(first, dict):
                         msg = first.get("message") or first.get("delta") or first.get("content")
                         if isinstance(msg, dict):
                             content = msg.get("content") or msg.get("text") or None
                         else:
-                            # first might have 'content' directly
                             content = first.get("content") or first.get("text") or None
                     elif isinstance(first, str):
                         content = first
-                # fallback to data.get("data") or data.get("response")
                 if content is None:
-                    # try common fields
                     content = data.get("response") or data.get("text") or None
             if content is None:
-                # fallback: raw text of response
                 content = resp.text
 
-            # parse JSON from content
             parsed = parse_json_from_model(content)
             if not isinstance(parsed, list):
-                # expected a list of records; if dict, wrap
                 if isinstance(parsed, dict):
                     parsed = [parsed]
             return parsed
@@ -165,49 +148,136 @@ def generate_esg_structured(
     raise RuntimeError(f"OpenRouter request failed after {retries} attempts: {last_exc}")
 
 
-# -----------------------
-# Streamlit page UI below
-# -----------------------
-if __name__ == "__main__" or True:
-    import streamlit as st
+# Model fetcher + cache
+def _models_cache_age_seconds() -> float:
+    try:
+        return time.time() - MODELS_CACHE.stat().st_mtime
+    except Exception:
+        return float("inf")
 
-    st.set_page_config(page_title="ESG LLM Extractor", layout="wide")
-    st.title("ESG Structured Extraction (OpenRouter)")
 
-    input_text = st.text_area("Input text to analyze", height=240)
+def fetch_openrouter_models(api_key: Optional[str] = None, cache_seconds: int = 3600) -> List[str]:
+    # determine base models URL
+    url = OPENROUTER_MODELS_PATH
+    # use cache when fresh
+    if MODELS_CACHE.exists() and _models_cache_age_seconds() < cache_seconds:
+        try:
+            cached = json.loads(MODELS_CACHE.read_text(encoding="utf-8"))
+            if isinstance(cached, list):
+                return cached
+        except Exception:
+            pass
 
-    with st.expander("Advanced settings", expanded=False):
-        api_key_input = st.text_input("OpenRouter API Key (optional — set env OPENROUTER_API_KEY otherwise)", type="password")
+    s = _requests_session_with_retries()
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+    resp = s.get(url, headers=headers, timeout=10)
+    resp.raise_for_status()
+    data = resp.json()
+
+    models_list: List[str] = []
+    if isinstance(data, list):
+        for item in data:
+            if isinstance(item, dict):
+                models_list.append(item.get("id") or item.get("name") or item.get("model") or str(item))
+            else:
+                models_list.append(str(item))
+    elif isinstance(data, dict):
+        candidates = data.get("models") or data.get("data") or data.get("result") or []
+        if isinstance(candidates, list) and candidates:
+            for item in candidates:
+                if isinstance(item, dict):
+                    models_list.append(item.get("id") or item.get("name") or item.get("model") or str(item))
+                else:
+                    models_list.append(str(item))
+    models_list = [m for m in models_list if m]
+    if not models_list:
+        models_list = [DEFAULT_MODEL]
+    try:
+        MODELS_CACHE.write_text(json.dumps(models_list, ensure_ascii=False, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+    return models_list
+
+
+# Streamlit UI
+st.set_page_config(page_title="ESG LLM Extractor (OpenRouter)", layout="wide")
+st.title("ESG Structured Extraction (OpenRouter)")
+
+# store/load API key in session state optionally
+if "openrouter_key" not in st.session_state:
+    st.session_state.openrouter_key = os.getenv(API_KEY_ENV, "")
+
+with st.sidebar:
+    st.header("Connection")
+    api_key_input = st.text_input("OpenRouter API Key", value=st.session_state.openrouter_key, type="password")
+    if api_key_input:
+        st.session_state.openrouter_key = api_key_input.strip()
+    endpoint_input = st.text_input("API URL override", value=os.getenv("OPENROUTER_API_URL", OPENROUTER_API_URL))
+    models_base_override = st.text_input("Models endpoint override", value=os.getenv("OPENROUTER_MODELS_URL", OPENROUTER_MODELS_PATH))
+    use_mock = st.checkbox("Use mock responses (offline)", value=False)
+    if st.button("Run connectivity check"):
+        try:
+            host = urlparse(endpoint_input).hostname or endpoint_input
+            addr = socket.getaddrinfo(host, 443)
+            st.success(f"DNS OK: {', '.join({ai[4][0] for ai in addr})}")
+        except Exception as e:
+            st.error(f"Connectivity/DNS issue: {e}")
+    st.markdown("---")
+
+# Main UI
+input_text = st.text_area("Input text to analyze", height=240)
+
+with st.expander("Advanced settings", expanded=False):
+    st.write("Model selection")
+    refresh_models = st.button("Refresh model list")
+    # determine API key to fetch models (prefer explicit)
+    api_for_models = api_key_input.strip() if api_key_input else st.session_state.openrouter_key or None
+    # allow override of models endpoint
+    if models_base_override:
+        OPENROUTER_MODELS_PATH = models_base_override  # local override used by fetcher
+    try:
+        models = fetch_openrouter_models(api_key=api_for_models)
+    except Exception as e:
+        st.warning(f"Could not fetch models: {e}")
+        models = [DEFAULT_MODEL]
+
+    if models:
+        default_index = models.index(DEFAULT_MODEL) if DEFAULT_MODEL in models else 0
+        model_input = st.selectbox("Model", options=models, index=default_index)
+    else:
         model_input = st.text_input("Model", value=DEFAULT_MODEL)
-        temperature_input = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.0, step=0.01)
-        max_tokens_input = st.number_input("Max tokens", value=1500, min_value=64, step=1)
-        retries_input = st.number_input("Retries", value=3, min_value=0, step=1)
 
-        # new: option to save the API key for this Streamlit session (not written to disk)
-        save_key_session = st.checkbox("Save API key for this session (process env)", value=False)
-        if api_key_input and save_key_session:
-            # store in process env and session_state so subsequent runs use it
-            os.environ[API_KEY_ENV] = api_key_input.strip()
-            st.session_state[API_KEY_ENV] = api_key_input.strip()
-            st.success("API key stored for this session (not saved to disk).")
+    temperature_input = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.0, step=0.01)
+    max_tokens_input = st.number_input("Max tokens", value=1500, min_value=64, step=1)
+    retries_input = st.number_input("Retries", value=3, min_value=0, step=1)
+    save_key_session = st.checkbox("Save API key to session (not disk)", value=False)
+    if save_key_session and api_key_input:
+        st.session_state[API_KEY_ENV] = api_key_input.strip()
+        os.environ[API_KEY_ENV] = api_key_input.strip()
 
-    run_button = st.button("Generate structured ESG JSON")
+run_button = st.button("Generate structured ESG JSON")
 
-    if run_button:
-        if not input_text.strip():
-            st.warning("Enter text to analyze.")
+if run_button:
+    if not input_text.strip():
+        st.warning("Enter text to analyze.")
+    else:
+        api_key_to_use = (
+            api_key_input.strip()
+            if api_key_input and api_key_input.strip()
+            else st.session_state.get(API_KEY_ENV)
+            if API_KEY_ENV in st.session_state
+            else os.getenv(API_KEY_ENV)
+        )
+
+        if use_mock:
+            # simple mock response
+            assistant_text = f"(mock) Echo: {input_text[:200]}"
+            parsed = [{"text": input_text, "esg": [], "labels": [], "sentiment": "neutral", "note": assistant_text}]
+            st.success(f"Parsed {len(parsed)} mock record(s)")
+            st.json(parsed)
         else:
-            # prefer explicit input, then session_state, then environment variable
-            api_key_to_use = (
-                api_key_input.strip()
-                if api_key_input and api_key_input.strip()
-                else st.session_state.get(API_KEY_ENV)
-                if API_KEY_ENV in st.session_state
-                else os.getenv(API_KEY_ENV)
-            )
-
             if not api_key_to_use:
-                st.error("OpenRouter API key not provided. Set it in Advanced settings, save for session, or set env OPENROUTER_API_KEY.")
+                st.error("OpenRouter API key not provided. Set it in sidebar or env OPENROUTER_API_KEY.")
             else:
                 try:
                     with st.spinner("Contacting OpenRouter and parsing results..."):
@@ -222,7 +292,6 @@ if __name__ == "__main__" or True:
                     st.success(f"Parsed {len(records)} record(s)")
                     st.json(records)
 
-                    # Save option
                     save_results = st.checkbox("Save results to results/esg_records.json (append)", value=True)
                     if save_results:
                         base_dir = Path(__file__).resolve().parents[1]
@@ -242,7 +311,6 @@ if __name__ == "__main__" or True:
                             except Exception:
                                 existing = []
 
-                        # append and save
                         timestamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
                         to_append = {"timestamp": timestamp, "model": model_input, "records": records}
                         existing.append(to_append)

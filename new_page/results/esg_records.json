@@ -57,5 +57,77 @@
         }
       }
     ]
+  },
+  {
+    "timestamp": "2026-03-19T09:42:15Z",
+    "model": "x-ai/grok-4.20-beta",
+    "records": [
+      {
+        "result": [
+          {
+            "text": "There were challenges in the implementation of the SFAP programs concerning credit portfolio, namely improving credit disbursement and improving credit quality with no more than 5% Non-Performing Loan (NPL) to credit facility ratio.",
+            "labels": [
+              "credit risk",
+              "portfolio management"
+            ],
+            "esg": "G",
+            "sentiment": "negative"
+          },
+          {
+            "text": "This was important due to at the beginning of 2021, the Covid-19 pandemic has not been fully mitigated.",
+            "labels": [
+              "pandemic impact"
+            ],
+            "esg": "S",
+            "sentiment": "negative"
+          },
+          {
+            "text": "We will strive to solve these challenges through the implementation of business strategies that aim to increase revenue and reduce costs, including risk control to prevent losses.",
+            "labels": [
+              "risk management",
+              "cost efficiency"
+            ],
+            "esg": "G",
+            "sentiment": "positive"
+          },
+          {
+            "text": "We also shall address the external challenges included global and national economic conditions that were still affected by the Covid-19 pandemic and macro policies that could potentially impact on PermataBank’s effort to achieve sustainable goals.",
+            "labels": [
+              "macroeconomic risk",
+              "sustainable goals"
+            ],
+            "esg": "G",
+            "sentiment": "negative"
+          },
+          {
+            "text": "Indonesia will always face the environmental challenge of natural disasters and climate change.",
+            "labels": [
+              "climate change",
+              "natural disasters"
+            ],
+            "esg": "E",
+            "sentiment": "negative"
+          },
+          {
+            "text": "Despite that, Indonesia’s natural resources and human resources open up opportunities and challenges since they need to be sustainably and fairly managed.",
+            "labels": [
+              "natural resource management",
+              "human capital"
+            ],
+            "esg": "E",
+            "sentiment": "neutral"
+          },
+          {
+            "text": "Considering the above conditions, we have established nine priority programs on sustainable finance development in the 2021 SFAP.",
+            "labels": [
+              "sustainable finance",
+              "priority programs"
+            ],
+            "esg": "E",
+            "sentiment": "positive"
+          }
+        ]
+      }
+    ]
   }
 ]
