@@ -27,6 +27,12 @@ import streamlit as st
 OPENROUTER_API_URL = os.getenv("OPENROUTER_API_URL", "https://openrouter.ai/api/v1/chat/completions")
 OPENROUTER_MODELS_PATH = os.getenv("OPENROUTER_MODELS_URL", "https://openrouter.ai/api/v1/models")
 DEFAULT_MODEL = "gpt-4o-mini"
+# curated free models (can be expanded)
+FREE_MODELS = [
+    "stepfun/step-3.5-flash:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "meta-llama/llama-3.3-70b-instruct:free",
+]
 PROMPT_TEMPLATE_PATH = Path(__file__).parent / "prompt" / "data.md"
 API_KEY_ENV = "OPENROUTER_API_KEY"
 MODELS_CACHE = Path(__file__).parent / "models_cache.json"
@@ -235,17 +241,61 @@ with st.expander("Advanced settings", expanded=False):
     # allow override of models endpoint
     if models_base_override:
         OPENROUTER_MODELS_PATH = models_base_override  # local override used by fetcher
+
     try:
-        models = fetch_openrouter_models(api_key=api_for_models)
+        # when user requests refresh, bypass cache
+        if refresh_models:
+            models = fetch_openrouter_models(api_key=api_for_models, cache_seconds=0)
+        else:
+            models = fetch_openrouter_models(api_key=api_for_models)
     except Exception as e:
         st.warning(f"Could not fetch models: {e}")
         models = [DEFAULT_MODEL]
 
-    if models:
-        default_index = models.index(DEFAULT_MODEL) if DEFAULT_MODEL in models else 0
-        model_input = st.selectbox("Model", options=models, index=default_index)
+    # free models filtering / inclusion UI
+    include_curated_free = st.checkbox("Include curated free models", value=False, help="Add curated list of known free models")
+    free_only = st.checkbox("Show only ':free' models", value=False, help="Filter models to entries containing ':free'")
+
+    # merge / filter models list based on options
+    merged_models = []
+    seen = set()
+    # start with fetched models
+    for m in models:
+        if m not in seen:
+            merged_models.append(m)
+            seen.add(m)
+    # optionally add curated free models
+    if include_curated_free:
+        for m in FREE_MODELS:
+            if m not in seen:
+                merged_models.append(m)
+                seen.add(m)
+
+    if free_only:
+        filtered = [m for m in merged_models if ":free" in m]
+        # fallback to curated free models if filter returns empty
+        if not filtered:
+            filtered = FREE_MODELS.copy()
+        final_models = filtered
     else:
-        model_input = st.text_input("Model", value=DEFAULT_MODEL)
+        final_models = merged_models
+
+    if final_models:
+        # allow selecting multiple models; default to DEFAULT_MODEL if present
+        default_choice = DEFAULT_MODEL if DEFAULT_MODEL in final_models else final_models[0]
+        model_inputs = st.multiselect(
+            "Models (select one or more)",
+            options=final_models,
+            default=[default_choice],
+            help="Choose one or more models to run the analysis with."
+        )
+        if not model_inputs:
+            # ensure at least one model is selected
+            st.warning(f"No models selected — defaulting to {default_choice}")
+            model_inputs = [default_choice]
+    else:
+        model_inputs = [st.text_input("Model", value=DEFAULT_MODEL)]
+
 
     temperature_input = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.0, step=0.01)
     max_tokens_input = st.number_input("Max tokens", value=1500, min_value=64, step=1)
@@ -281,17 +331,34 @@ if run_button:
             else:
                 try:
                     with st.spinner("Contacting OpenRouter and parsing results..."):
-                        records = generate_esg_structured(
-                            input_text,
-                            api_key=api_key_to_use,
-                            model=model_input,
-                            temperature=temperature_input,
-                            max_tokens=int(max_tokens_input),
-                            retries=int(retries_input),
-                        )
-                    st.success(f"Parsed {len(records)} record(s)")
-                    st.json(records)
+                        # run the analysis for each selected model and collect results
+                        all_results = {}
+                        for model in model_inputs:
+                            try:
+                                recs = generate_esg_structured(
+                                    input_text,
+                                    api_key=api_key_to_use,
+                                    model=model,
+                                    temperature=temperature_input,
+                                    max_tokens=int(max_tokens_input),
+                                    retries=int(retries_input),
+                                )
+                                all_results[model] = {"ok": True, "count": len(recs), "records": recs}
+                            except Exception as me:
+                                all_results[model] = {"ok": False, "error": str(me), "records": []}
 
+                    # show results per model
+                    total_parsed = sum(v.get("count", 0) for v in all_results.values() if v.get("ok"))
+                    st.success(f"Parsed {total_parsed} record(s) across {len(all_results)} model(s)")
+                    for model, info in all_results.items():
+                        with st.expander(f"Model: {model} — {'OK' if info.get('ok') else 'ERROR'}"):
+                            if info.get("ok"):
+                                st.write(f"Records: {info.get('count')}")
+                                st.json(info.get("records"))
+                            else:
+                                st.error(f"Error for model {model}: {info.get('error')}")
+
+                    # save combined results (append) with per-model entries
                     save_results = st.checkbox("Save results to results/esg_records.json (append)", value=True)
                     if save_results:
                         base_dir = Path(__file__).resolve().parents[1]
@@ -306,22 +373,20 @@ if run_button:
                                     loaded = json.load(f)
                                 if isinstance(loaded, list):
                                     existing = loaded
-                                elif isinstance(loaded, dict):
-                                    existing = [loaded]
                             except Exception:
                                 existing = []
 
                         timestamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-                        to_append = {"timestamp": timestamp, "model": model_input, "records": records}
+                        to_append = {"timestamp": timestamp, "models": all_results}
                         existing.append(to_append)
                         with fname.open("w", encoding="utf-8") as f:
                             json.dump(existing, f, ensure_ascii=False, indent=2)
 
-                        st.success(f"Appended {len(records)} records to {fname}")
+                        st.success(f"Appended results for {len(all_results)} model(s) to {fname}")
                         st.download_button(
-                            "Download last results (JSON)",
+                            "Download combined results (JSON)",
                             json.dumps(to_append, ensure_ascii=False, indent=2),
-                            file_name=f"esg_records_{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}.json",
+                            file_name=f"esg_models_results_{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}.json",
                             mime="application/json",
                         )
 

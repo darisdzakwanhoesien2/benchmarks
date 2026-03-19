@@ -129,5 +129,59 @@
         ]
       }
     ]
+  },
+  {
+    "timestamp": "2026-03-19T09:46:58Z",
+    "model": "liquid/lfm-2.5-1.2b-thinking:free",
+    "records": [
+      {
+        "text": "There were challenges in the implementation of the SFAP programs concerning credit portfolio, namely improving credit disbursement and improving credit quality with no more than 5% Non-Performing Loan (NPL) to credit facility ratio. This was important due to at the beginning of 2021, the Covid-19 pandemic has not been fully mitigated. We will strive to solve these challenges through the implementation of business strategies that aim to increase revenue and reduce costs, including risk control to prevent losses.",
+        "labels": "challenge",
+        "esg": "risk",
+        "sentiment": "negative"
+      },
+      {
+        "text": "We also shall address the external challenges included global and national economic conditions that were still affected by the Covid-19 pandemic and macro policies that could potentially impact on PermataBank’s effort to achieve sustainable goals.",
+        "labels": "strategy",
+        "esg": "sustainability",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Indonesia will always face the environmental challenge of natural disasters and climate change.",
+        "labels": "environmental",
+        "esg": "environmental",
+        "sentiment": "negative"
+      },
+      {
+        "text": "Despite that, Indonesia’s natural resources and human resources open up opportunities and challenges since they need to be sustainably and fairly managed.",
+        "labels": "opportunity",
+        "esg": "sustainability",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Considering the above conditions, we have established nine priority programs on sustainable finance development in the 2021 SFAP:",
+        "labels": "analysis",
+        "esg": "sustainability",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "We will strive to solve these challenges through the implementation of business strategies that aim to increase revenue and reduce costs, including risk control to prevent losses.",
+        "labels": "strategy",
+        "esg": "risk",
+        "sentiment": "negative"
+      },
+      {
+        "text": "We also shall address the external challenges included global and national economic conditions that were still affected by the Covid-19 pandemic and macro policies that could potentially impact on PermataBank’s effort to achieve sustainable goals.",
+        "labels": "external",
+        "esg": "sustainability",
+        "sentiment": "negative"
+      },
+      {
+        "text": "Indonesia will always face the environmental challenge of natural disasters and climate change.",
+        "labels": "environmental",
+        "esg": "environmental",
+        "sentiment": "negative"
+      }
+    ]
   }
 ]
