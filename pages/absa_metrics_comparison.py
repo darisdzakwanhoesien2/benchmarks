@@ -41,13 +41,17 @@ def compute_metrics(y_true, y_pred, label):
     st.write("Confusion Matrix:")
     st.dataframe(pd.DataFrame(cm, index=list(set(y_true) | set(y_pred)), columns=list(set(y_true) | set(y_pred))))
 
-    # TP, FP, FN (for each class)
-    st.write("True Positives, False Positives, False Negatives per class:")
-    for i, label in enumerate(list(set(y_true) | set(y_pred))):
+    # TP, FP, FN (for each class) as table
+    class_labels = list(set(y_true) | set(y_pred))
+    tp_fp_fn_data = []
+    for i, class_label in enumerate(class_labels):
         tp = cm[i, i]
         fp = cm[:, i].sum() - tp
         fn = cm[i, :].sum() - tp
-        st.write(f"{label}: TP={tp}, FP={fp}, FN={fn}")
+        tp_fp_fn_data.append({"Class": class_label, "TP": tp, "FP": fp, "FN": fn})
+    tp_fp_fn_df = pd.DataFrame(tp_fp_fn_data)
+    st.write("True Positives, False Positives, False Negatives per class:")
+    st.dataframe(tp_fp_fn_df)
 
 
 # Map categories to clusters for majority category
@@ -78,7 +82,19 @@ if "sentiments_gt" in merged.columns and "sentiments_baseline" in merged.columns
     # Clustered metrics
     compute_metrics(map_sentiment_cluster(sentiments_gt), map_sentiment_cluster(sentiments_baseline), "Sentiments (Clustered)")
 if "tones_gt" in merged.columns and "tones_baseline" in merged.columns:
-    compute_metrics(merged["tones_gt"].astype(str), merged["tones_baseline"].astype(str), "Tones")
+    # Load tone mapping
+    with open("data/tone_category.json", "r") as f:
+        tone_mapping = json.load(f)
+
+    def map_tone_cluster(series):
+        return series.apply(lambda x: tone_mapping.get(str(x), "none"))
+
+    tones_gt = merged["tones_gt"].astype(str)
+    tones_baseline = merged["tones_baseline"].astype(str)
+    # Original metrics
+    compute_metrics(tones_gt, tones_baseline, "Tones (Original)")
+    # Clustered metrics
+    compute_metrics(map_tone_cluster(tones_gt), map_tone_cluster(tones_baseline), "Tones (Clustered)")
 
 st.write("\n---\n")
 st.write("Compared on column:", merge_col)
