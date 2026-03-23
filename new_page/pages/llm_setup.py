@@ -377,7 +377,12 @@ if run_button:
                                 existing = []
 
                         timestamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-                        to_append = {"timestamp": timestamp, "models": all_results}
+                        # include the original input text alongside model outputs
+                        to_append = {
+                            "timestamp": timestamp,
+                            "input": input_text,
+                            "models": all_results
+                        }
                         existing.append(to_append)
                         with fname.open("w", encoding="utf-8") as f:
                             json.dump(existing, f, ensure_ascii=False, indent=2)

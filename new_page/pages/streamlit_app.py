@@ -5,10 +5,11 @@ import io
 import sys
 import os
 import importlib
+import json
 
 # Ensure both repo root and code/ are on sys.path so imports work in different run contexts
-PROJECT_DIR = Path(__file__).parent.resolve()        # .../benchmarks/code
-REPO_ROOT = PROJECT_DIR.parent.resolve()            # .../benchmarks
+PROJECT_DIR = Path(__file__).parents[1].resolve()        # .../benchmarks/code
+REPO_ROOT = PROJECT_DIR.parents[1].resolve()            # .../benchmarks
 for p in (str(REPO_ROOT), str(PROJECT_DIR)):
     if p not in sys.path:
         sys.path.insert(0, p)
@@ -35,20 +36,46 @@ except Exception:
 st.set_page_config(page_title="ESG Alignment / Evaluation", layout="wide")
 st.title("ESG Alignment & Evaluation (interactive)")
 
+# settings persistence
+SETTINGS_PATH = Path(__file__).parents[1] / "settings.json"
+
+def load_settings() -> dict:
+    if SETTINGS_PATH.exists():
+        try:
+            return json.loads(SETTINGS_PATH.read_text(encoding="utf8"))
+        except Exception:
+            return {}
+    return {}
+
+def save_settings(cfg: dict):
+    try:
+        SETTINGS_PATH.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf8")
+    except Exception as e:
+        st.sidebar.error(f"Failed to save settings: {e}")
+
+# load saved settings (if any) to prefill sidebar defaults
+_saved = load_settings()
+
 st.sidebar.header("Inputs")
-gt_file = st.sidebar.text_input("GT JSON path", str(DATA_DIR / "data.json"))
-absa_file = st.sidebar.text_input("ABSA JSON path", str(DATA_DIR / "data_initial_absa.json"))
-bench_file = st.sidebar.text_input("Benchmark JSON path", str(DATA_DIR / "data_benchmark.json"))
+# defaults updated to new_page/results
+base_results = Path(__file__).parents[1] / "results"
+default_gt = _saved.get("gt_file", str(base_results / "esg_records.json"))
+default_absa = _saved.get("absa_file", str(base_results / "absa_results.json"))
+default_bench = _saved.get("bench_file", str(base_results / "predictions.json"))
+
+gt_file = st.sidebar.text_input("GT JSON path", default_gt)
+absa_file = st.sidebar.text_input("ABSA JSON path", default_absa)
+bench_file = st.sidebar.text_input("Benchmark JSON path", default_bench)
 
 st.sidebar.markdown("### Matching thresholds")
-fuzzy_threshold = st.sidebar.slider("Fuzzy match threshold", 0.0, 1.0, 0.75, 0.01)
-substr_threshold = st.sidebar.slider("Substring min length fraction (unused currently)", 0.0, 1.0, 0.01, 0.01)
+fuzzy_threshold = st.sidebar.slider("Fuzzy match threshold", 0.0, 1.0, float(_saved.get("fuzzy_threshold", 0.75)), 0.01)
+substr_threshold = st.sidebar.slider("Substring min length fraction (unused currently)", 0.0, 1.0, float(_saved.get("substr_threshold", 0.01)), 0.01)
 
-save_confusion = st.sidebar.checkbox("Save confusion matrices", value=True)
-save_csv = st.sidebar.checkbox("Save CSV", value=True)
+save_confusion = st.sidebar.checkbox("Save confusion matrices", value=_saved.get("save_confusion", True))
+save_csv = st.sidebar.checkbox("Save CSV", value=_saved.get("save_csv", True))
 
 st.sidebar.markdown("### Advanced")
-show_absa_matches = st.sidebar.checkbox("Show ABSA matched sentences for a selected row", value=True)
+show_absa_matches = st.sidebar.checkbox("Show ABSA matched sentences for a selected row", value=_saved.get("show_absa_matches", True))
 
 if st.sidebar.button("Run pipeline"):
     with st.spinner("Running alignment & evaluation..."):
@@ -111,3 +138,26 @@ if st.sidebar.button("Run pipeline"):
 
         except Exception as e:
             st.error(f"Pipeline failed: {e}")
+
+# add Save / Load settings controls
+if st.sidebar.button("Save sidebar settings"):
+    cfg = {
+        "gt_file": gt_file,
+        "absa_file": absa_file,
+        "bench_file": bench_file,
+        "fuzzy_threshold": float(fuzzy_threshold),
+        "substr_threshold": float(substr_threshold),
+        "save_confusion": bool(save_confusion),
+        "save_csv": bool(save_csv),
+        "show_absa_matches": bool(show_absa_matches),
+    }
+    save_settings(cfg)
+    st.sidebar.success("Settings saved to new_page/settings.json")
+
+if st.sidebar.button("Clear saved settings"):
+    try:
+        if SETTINGS_PATH.exists():
+            SETTINGS_PATH.unlink()
+        st.sidebar.success("Saved settings cleared")
+    except Exception as e:
+        st.sidebar.error(f"Failed to clear settings: {e}")
