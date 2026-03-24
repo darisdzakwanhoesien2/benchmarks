@@ -944,5 +944,203 @@
         "reasoning": "This is a footer with no ESG content or climate-related information."
       }
     ]
+  },
+  {
+    "timestamp": "2026-03-24T00:40:22Z",
+    "source": "allo_bank_2024_pdf/page_0066.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "zero_shot_english.md",
+    "input": "2024 Performance\nManagement Report\nCompany Profile\nManagement Discussion and Analysis\nGood Corporate Governance\nSustainability Report\n\nSejalan dengan dinamika bisnis yang semakin berkembang serta ketatnya persaingan perbankan berbasis digital, Allo Bank terus memperbaiki dan memperkuat struktur organisasinya guna mencapai tujuan yang telah ditetapkan. Struktur organisasi Bank terakhir disahkan melalui Surat Keputusan Direksi No. 082/DIRAB/24 tanggal 18 September 2024 tentang Perubahan Struktur Organisasi. Adapun struktur organisasi Bank di tahun 2024 dapat dilihat sebagai berikut:\n\nIn response to the growing dynamics of the business environment and increasing competition in digital banking, Allo Bank continues to enhance and strengthen its organizational structure to achieve its established goals. The Bank's current organizational structure was last ratified through the Decree of the Board of Directors No. 082/DIRAB/24, dated September 18, 2024, concerning changes to the organizational structure. Details of the Bank's organizational structure for 2024 are as follows:\n\n![img-73.jpeg](img-73.jpeg)\n\n2024 Annual Report &amp; Sustainability Report",
+    "ok": true,
+    "records": [
+      {
+        "text": "Sejalan dengan dinamika bisnis yang semakin berkembang serta ketatnya persaingan perbankan berbasis digital, Allo Bank terus memperbaiki dan memperkuat struktur organisasinya guna mencapai tujuan yang telah ditetapkan.",
+        "aspect": "organizational structure",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses improving and strengthening organizational structure, which falls under governance. The sentiment is positive as it indicates proactive enhancement."
+      },
+      {
+        "text": "Struktur organisasi Bank terakhir disahkan melalui Surat Keputusan Direksi No. 082/DIRAB/24 tanggal 18 September 2024 tentang Perubahan Struktur Organisasi.",
+        "aspect": "organizational structure approval",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a factual statement about the approval of organizational structure changes through a board decree, which is a governance matter. The sentiment is neutral as it's purely informational."
+      },
+      {
+        "text": "Adapun struktur organisasi Bank di tahun 2024 dapat dilihat sebagai berikut:",
+        "aspect": "organizational structure",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is an introductory statement about presenting the organizational structure, which is a governance aspect. The sentiment is neutral as it's merely an introduction."
+      },
+      {
+        "text": "In response to the growing dynamics of the business environment and increasing competition in digital banking, Allo Bank continues to enhance and strengthen its organizational structure to achieve its established goals.",
+        "aspect": "organizational structure",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses enhancing organizational structure in response to business dynamics, which is a governance matter. The sentiment is positive as it shows proactive improvement."
+      },
+      {
+        "text": "The Bank's current organizational structure was last ratified through the Decree of the Board of Directors No. 082/DIRAB/24, dated September 18, 2024, concerning changes to the organizational structure.",
+        "aspect": "organizational structure approval",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a factual statement about the approval of organizational structure changes through a board decree, which is a governance matter. The sentiment is neutral as it's purely informational."
+      },
+      {
+        "text": "Details of the Bank's organizational structure for 2024 are as follows:",
+        "aspect": "organizational structure",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is an introductory statement about presenting the organizational structure, which is a governance aspect. The sentiment is neutral as it's merely an introduction."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-24T00:40:32Z",
+    "source": "allo_bank_2024_pdf/page_0065.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "zero_shot_english.md",
+    "input": "Performa 2024\n\nLaporan Manajemen\n\nProfil Perusahaan\n\nAnalisis dan Pembahasan Manajemen\n\nTata Kelola Perusahaan yang Baik\n\nLaporan Keberlanjutan\n\n# Struktur\n\n# Organisasi\n\nOrganizational structure\n\n![img-72.jpeg](img-72.jpeg)\n\nLaporan Tahunan &amp; Laporan Keberlanjutan 2024",
+    "ok": true,
+    "records": [
+      {
+        "text": "Performa 2024",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a title indicating the year of performance; no ESG aspects are mentioned."
+      },
+      {
+        "text": "Laporan Manajemen",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section title for Management Report; no ESG content is present."
+      },
+      {
+        "text": "Profil Perusahaan",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section title for Company Profile; no ESG aspects are mentioned."
+      },
+      {
+        "text": "Analisis dan Pembahasan Manajemen",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section title for Management Analysis and Discussion; no ESG content is present."
+      },
+      {
+        "text": "Tata Kelola Perusahaan yang Baik",
+        "aspect": "governance",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This phrase translates to 'Good Corporate Governance', which is an ESG governance aspect. The sentiment is neutral as it is a descriptive title without positive or negative framing."
+      },
+      {
+        "text": "Laporan Keberlanjutan",
+        "aspect": "sustainability",
+        "labels": [
+          "environmental-claims"
+        ],
+        "esg": "E/S/G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a Sustainability Report section title. Sustainability reports typically cover environmental, social, and governance aspects, so the ESG category is E/S/G. The sentiment is neutral as it is a descriptive title."
+      },
+      {
+        "text": "Struktur",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section title for 'Structure'; no ESG aspects are mentioned."
+      },
+      {
+        "text": "Organisasi",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section title for 'Organization'; no ESG content is present."
+      },
+      {
+        "text": "Organizational structure",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an English section title for organizational structure; no ESG aspects are mentioned."
+      },
+      {
+        "text": "Laporan Tahunan &amp; Laporan Keberlanjutan 2024",
+        "aspect": "sustainability",
+        "labels": [
+          "environmental-claims"
+        ],
+        "esg": "E/S/G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a combined Annual and Sustainability Report title for 2024. Sustainability reports cover E/S/G aspects, so the ESG category is E/S/G. The sentiment is neutral as it is a descriptive title."
+      }
+    ]
   }
 ]
