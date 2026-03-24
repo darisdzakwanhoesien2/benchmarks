@@ -1,81 +1,316 @@
 [
   {
-    "timestamp": "2026-03-19T12:14:50Z",
-    "input": "PermataBank’s challenges thus far are the same as the\nprevious year’s which is not yet available specific unit\nto supervise the implementation and the execution of\nsustainable finance. The Management of PermataBank is\ncommitted to re-evaluating the organizational needs to\nbe adjusted including those of the specific unit",
-    "models": {
-      "xiaomi/mimo-v2-omni": {
-        "ok": true,
-        "count": 2,
-        "records": [
-          {
-            "text": "PermataBank’s challenges thus far are the same as the previous year’s which is not yet available specific unit to supervise the implementation and the execution of sustainable finance.",
-            "labels": [
-              "Sustainable Finance",
-              "Organizational Challenge",
-              "Governance Gap"
-            ],
-            "esg": "Governance",
-            "sentiment": "negative"
-          },
-          {
-            "text": "The Management of PermataBank is committed to re-evaluating the organizational needs to be adjusted including those of the specific unit",
-            "labels": [
-              "Management Commitment",
-              "Organizational Re-evaluation",
-              "Governance Improvement"
-            ],
-            "esg": "Governance",
-            "sentiment": "positive"
-          }
-        ]
+    "timestamp": "2026-03-23T23:43:50Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0024.md",
+    "model": "xiaomi/mimo-v2-omni",
+    "input": "Profil Perusahaan\nCompany Profile\n\n# PRODUK DAN LAYANAN\n# PRODUCTS AND SERVICES\n\n[GRI 2-6] [OJK C.4]\n\n1. Televisi (Saluran televisi FTA dan DTH berlangganan)\n2. Digital dan Iklan Luar Ruangan (Megaportal website, video-on demand, Digital Brand Integrated (\"DBI\") dan periklanan luar ruangan)\n3. Konten dan Lainnya (Produksi film dan video, perdagangan film dan konten, rumah produksi, industri multimedia, KOL/ Influencers dan manajemen artis)\n\nInformasi lebih rinci mengenai ketiga bidang usaha utama Perseroan dijabarkan dalam diagram berikut:\n\n1. Television (FTA and DTH subscription television channels)\n2. Digital and Outdoor Advertising (Megaportal website, video-on demand, Digital Brand Integrated (\"DBI\") and outdoor advertising)\n3. Content and Others (Film and video production, film and content trade, production houses, multimedia industry, KOL/ Influencers and artist management)\n\nDetailed information regarding the three main businesses of the Company is described in the following table:\n\n# Pasar yang Dilayani\nMarket Served\n\n|  Uraian Description | Satuan Unit | 2023 | 2022 | 2021  |\n| --- | --- | --- | --- | --- |\n|  Cakupan Analog (Provinsi)*\nAnalog Coverage (Province) | SCTV | 29 | 29 | 29  |\n|   |  Indosiar | 25 | 25 | 25  |\n|  Cakupan Digital (Provinsi)*\nDigital Coverage (Province) | SCTV | 31 | 31 | 30  |\n|   |  Indosiar | 32 | 32 | 31  |\n\n*Jangkauan analog efektif s.d. 2 Agustus 2023\n*Effective analog coverage up to August 2, 2023\n\n# PENGHARGAAN\nAWARDS\n\n![img-30.jpeg](img-30.jpeg)\n\"Outstanding Contribution to Asian Television\" di/at 28th Asian Television Award (SCM)\n\n![img-31.jpeg](img-31.jpeg)\n1st Place for The Best Indonesia Finance 2023\n\n![img-32.jpeg](img-32.jpeg)\nHR Excellence Award 2023\n\n![img-33.jpeg](img-33.jpeg)\nGreat Place To Work\n\n![img-34.jpeg](img-34.jpeg)\nContentAsia Awards 2023\n\nPT Surya Citra Media Tbk\nLaporan Keberlanjutan 2023 Sustainability Report",
+    "ok": true,
+    "records": [
+      {
+        "text": "Television (FTA and DTH subscription television channels)",
+        "labels": [
+          "products",
+          "television_services"
+        ],
+        "esg": "Governance",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Digital and Outdoor Advertising (Megaportal website, video-on demand, Digital Brand Integrated (\"DBI\") and outdoor advertising)",
+        "labels": [
+          "products",
+          "digital_advertising"
+        ],
+        "esg": "Governance",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Content and Others (Film and video production, film and content trade, production houses, multimedia industry, KOL/ Influencers and artist management)",
+        "labels": [
+          "products",
+          "content_production"
+        ],
+        "esg": "Governance",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Detailed information regarding the three main businesses of the Company is described in the following table:",
+        "labels": [
+          "information_disclosure",
+          "business_overview"
+        ],
+        "esg": "Governance",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Analog Coverage (Province) for SCTV: 29 provinces in 2023, 29 in 2022, 29 in 2021",
+        "labels": [
+          "market_coverage",
+          "analog_reach"
+        ],
+        "esg": "Social",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Analog Coverage (Province) for Indosiar: 25 provinces in 2023, 25 in 2022, 25 in 2021",
+        "labels": [
+          "market_coverage",
+          "analog_reach"
+        ],
+        "esg": "Social",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Digital Coverage (Province) for SCTV: 31 provinces in 2023, 31 in 2022, 30 in 2021",
+        "labels": [
+          "market_coverage",
+          "digital_reach"
+        ],
+        "esg": "Social",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Digital Coverage (Province) for Indosiar: 32 provinces in 2023, 32 in 2022, 31 in 2021",
+        "labels": [
+          "market_coverage",
+          "digital_reach"
+        ],
+        "esg": "Social",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "*Effective analog coverage up to August 2, 2023",
+        "labels": [
+          "data_footnote",
+          "coverage_date"
+        ],
+        "esg": "Governance",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Outstanding Contribution to Asian Television at 28th Asian Television Award (SCM)",
+        "labels": [
+          "award",
+          "television_industry"
+        ],
+        "esg": "Social",
+        "sentiment": "positive"
+      },
+      {
+        "text": "1st Place for The Best Indonesia Finance 2023",
+        "labels": [
+          "award",
+          "finance"
+        ],
+        "esg": "Governance",
+        "sentiment": "positive"
+      },
+      {
+        "text": "HR Excellence Award 2023",
+        "labels": [
+          "award",
+          "human_resources"
+        ],
+        "esg": "Social",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Great Place To Work",
+        "labels": [
+          "award",
+          "workplace_culture"
+        ],
+        "esg": "Social",
+        "sentiment": "positive"
+      },
+      {
+        "text": "ContentAsia Awards 2023",
+        "labels": [
+          "award",
+          "content_industry"
+        ],
+        "esg": "Social",
+        "sentiment": "positive"
+      },
+      {
+        "text": "PT Surya Citra Media Tbk Sustainability Report 2023",
+        "labels": [
+          "report_title",
+          "company_name"
+        ],
+        "esg": "Governance",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "[GRI 2-6] [OJK C.4]",
+        "labels": [
+          "reporting_standards",
+          "compliance"
+        ],
+        "esg": "Governance",
+        "sentiment": "neutral"
       }
-    }
+    ]
   },
   {
-    "timestamp": "2026-03-19T12:54:02Z",
-    "input": "PermataBank realizes that to support the achievement\nof the SDGs, PermataBank needs commitment from all\nrelevant stakeholders. This commitment is reflected in\nPermataBank’s implementation of sustainable finance\nactions that began in 2019.\nThe implementation of sustainable finance actions in\nPermataBank’s operations is an act of support from\nPermataBank to nurture sustainable economic growth\nby considering economic, social, and environmental\ninterests. This implementation is also reflected in\nthe Sustainability Report prepared every year by\nPermataBank.",
-    "models": {
-      "nvidia/nemotron-3-super-120b-a12b:free": {
-        "ok": true,
-        "count": 4,
-        "records": [
-          {
-            "text": "PermataBank realizes that to support the achievement of the SDGs, PermataBank needs commitment from all relevant stakeholders.",
-            "labels": [
-              "SDGs",
-              "Stakeholder Commitment"
-            ],
-            "esg": true,
-            "sentiment": "positive"
-          },
-          {
-            "text": "This commitment is reflected in PermataBank’s implementation of sustainable finance actions that began in 2019.",
-            "labels": [
-              "Sustainable Finance"
-            ],
-            "esg": true,
-            "sentiment": "positive"
-          },
-          {
-            "text": "The implementation of sustainable finance actions in PermataBank’s operations is an act of support from PermataBank to nurture sustainable economic growth by considering economic, social, and environmental interests.",
-            "labels": [
-              "Economic",
-              "Social",
-              "Environmental"
-            ],
-            "esg": true,
-            "sentiment": "positive"
-          },
-          {
-            "text": "This implementation is also reflected in the Sustainability Report prepared every year by PermataBank.",
-            "labels": [
-              "Sustainability Reporting"
-            ],
-            "esg": true,
-            "sentiment": "positive"
-          }
-        ]
+    "timestamp": "2026-03-23T23:44:21Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0025.md",
+    "model": "xiaomi/mimo-v2-omni",
+    "input": "26\n\nPT Surya Citra Media Tbk\n\nLaporan Keberlanjutan 2023 Sustainability Report\n\n# LIPUTAN 6\n\n![img-35.jpeg](img-35.jpeg)\nKASAD Awards 2023\n\n![img-36.jpeg](img-36.jpeg)\nAMSI Award 2023\n\n| Entitas Penerima Percenian Entity | Penghargaan Award | Pemberi Penghargaan Awarding Institution |\n| --- | --- | --- |\n| SCM | Outstanding Contribution to Asian Television (for Sutanto Hartono) | 28th Asian Television Awards |\n| Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) | 19th Indonesia Best Ceo Forum Majalah\nSwa dan Dunamis Organization |\n| The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) | Markplus, Inc. |\n| Juara 1 Kategori Media, Hiburan dan Film\n1st Place in the Media, Entertainment and Film Category | Bisnis Indonesia Award 2023 |\n| Juara 1 untuk The Best Indonesia Finance 2023\nKategory Trade Investment Service Industry Total Asset 1 -10 Triliun\n1st Place for The Best Indonesia Finance 2023\nTrade Investment Service Industry Total Assets 1 -10 Trillion Category | Economic Review |\n| Juara 2 untuk The Best Indonesia Enterprise Risk Management\n2nd place for The Best Indonesian Enterprise Risk Management | Economic Review |\n| Juara 3 The Best Indonesia GCG 2023\n3rd place in The Best Indonesia GCG 2023 | Economic Review |\n| Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan\nAsia's Outstanding Company 2023 category Media and entertainment | Asia Money Award 2023 |\n| Indosiar | Media Televisi Pewarta Gerakan Zakat Terbaik\nBest Television Media Reporter of Zakat Movement | BAZNAS AWARD 2023\n(21 Maret 2023)\nBAZNAS AWARD 2023\n(March 21, 2023) |\n| Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab\nCategory of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab | Anugerah Syiar Ramadan 2023\n(26 Mei 2023)\nAnugerah Syiar Ramadan 2023\n(May 26, 2023) |\n| Kategori Program Ajang Bakat: AKSI INDONESIA 2023\nCategory of Talent Search Program: AKSI INDONESIA 2023 | Anugerah Syiar Ramadan 2023\n(26 Mei 2023)\nAnugerah Syiar Ramadan 2023\n(May 26, 2023) |\n|  | Televisi SSJ yang Konsisten Memenuhi Kewajiban\n10% Konten Lokal Bengkulu\nSSJ Television Consistently Fulfills\n10% Bengkulu Local Content Obligation | Penghargaan Khusus KPID Bengkulu\nAwards 2023 (15 November 2023)\nKPID Bengkulu Special Award\nAwards 2023 (November 15, 2023) |",
+    "ok": true,
+    "records": [
+      {
+        "text": "PT Surya Citra Media Tbk",
+        "labels": [
+          "company name"
+        ],
+        "esg": false,
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Laporan Keberlanjutan 2023 Sustainability Report",
+        "labels": [
+          "report title",
+          "sustainability"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "# LIPUTAN 6",
+        "labels": [
+          "section heading"
+        ],
+        "esg": false,
+        "sentiment": "neutral"
+      },
+      {
+        "text": "KASAD Awards 2023",
+        "labels": [
+          "award",
+          "image caption"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "AMSI Award 2023",
+        "labels": [
+          "award",
+          "image caption"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM received Outstanding Contribution to Asian Television (for Sutanto Hartono) from 28th Asian Television Awards",
+        "labels": [
+          "award",
+          "social"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM received Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) from 19th Indonesia Best Ceo Forum Majalah Swa dan Dunamis Organization",
+        "labels": [
+          "award",
+          "governance"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM received The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) from Markplus, Inc.",
+        "labels": [
+          "award",
+          "marketing"
+        ],
+        "esg": false,
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM received Juara 1 Kategori Media, Hiburan dan Film / 1st Place in the Media, Entertainment and Film Category from Bisnis Indonesia Award 2023",
+        "labels": [
+          "award",
+          "social"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM received Juara 1 untuk The Best Indonesia Finance 2023 Kategory Trade Investment Service Industry Total Asset 1 -10 Triliun / 1st Place for The Best Indonesia Finance 2023 Trade Investment Service Industry Total Assets 1 -10 Trillion Category from Economic Review",
+        "labels": [
+          "award",
+          "finance"
+        ],
+        "esg": false,
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM received Juara 2 untuk The Best Indonesia Enterprise Risk Management / 2nd place for The Best Indonesian Enterprise Risk Management from Economic Review",
+        "labels": [
+          "award",
+          "governance"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM received Juara 3 The Best Indonesia GCG 2023 / 3rd place in The Best Indonesia GCG 2023 from Economic Review",
+        "labels": [
+          "award",
+          "governance"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM received Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan / Asia's Outstanding Company 2023 category Media and entertainment from Asia Money Award 2023",
+        "labels": [
+          "award",
+          "social"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "Indosiar received Media Televisi Pewarta Gerakan Zakat Terbaik / Best Television Media Reporter of Zakat Movement from BAZNAS AWARD 2023 (21 Maret 2023)",
+        "labels": [
+          "award",
+          "social"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "Indosiar received Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab / Category of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab from Anugerah Syiar Ramadan 2023 (26 Mei 2023)",
+        "labels": [
+          "award",
+          "social"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "Indosiar received Kategori Program Ajang Bakat: AKSI INDONESIA 2023 / Category of Talent Search Program: AKSI INDONESIA 2023 from Anugerah Syiar Ramadan 2023 (26 Mei 2023)",
+        "labels": [
+          "award",
+          "social"
+        ],
+        "esg": true,
+        "sentiment": "positive"
+      },
+      {
+        "text": "Indosiar received Televisi SSJ yang Konsisten Memenuhi Kewajiban 10% Konten Lokal Bengkulu / SSJ Television Consistently Fulfills 10% Bengkulu Local Content Obligation from Penghargaan Khusus KPID Bengkulu Awards 2023 (15 November 2023)",
+        "labels": [
+          "award",
+          "social",
+          "governance"
+        ],
+        "esg": true,
+        "sentiment": "positive"
       }
-    }
+    ]
   }
 ]

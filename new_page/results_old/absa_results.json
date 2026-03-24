@@ -1,0 +1,1945 @@
+[
+  {
+    "timestamp": "2026-03-19T09:07:03.137142Z",
+    "input_text": "With Covid-19 pandemic which also impacted on\nPermataBank’s performanceto realize the programs\nestablished in the 2020 SFAP, PermataBank remained\nconsistently implemented its inclusive finance programs,\nnamely enhancement of Microfinancing portfolio and\nloan channeling with P2P lending fintech and Rural\nBanks for MSMEs.\nOn the digital transformation perspective aimed at\nreducing environmental impacts by going paperless,\nPermataBank consistently developed electronic\nchannel (e-channel) services for account opening and\nbanking transactions. In 2020, PermataMobile X was also launched for sharia customers. In the same year,\nPermataBank also launched a new version of its internet\nbanking service, PermataNet, which provided more\nconvenience banking transactions for customers. As of\n2020, the number of PermataMobile X users grew by\nmore than 50%.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Positive",
+      "tone": "Action"
+    },
+    "classical_ml": {
+      "out_csv": "/var/folders/nc/g1m7qlxd28nc60lgd8z9wncm0000gn/T/esg_classical_ml_outputs.csv",
+      "out_df": [
+        {
+          "Sentence_ID": 0,
+          "Sentence_Text": "With Covid",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 13,
+          "Sentence_Text": "banking transactions.",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 8,
+          "Sentence_Text": "On the digital transformation perspective aimed at",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 1,
+          "Sentence_Text": "19 pandemic which also impacted on",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 15,
+          "Sentence_Text": "In the same year,",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 5,
+          "Sentence_Text": "namely enhancement of Microfinancing portfolio and",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Positive",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 20,
+          "Sentence_Text": "2020, the number of PermataMobile X users grew by",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 11,
+          "Sentence_Text": "channel (e",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 3,
+          "Sentence_Text": "established in the 2020 SFAP, PermataBank remained",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        }
+      ],
+      "coef_sent": [],
+      "coef_aspect": []
+    },
+    "deep_model": {
+      "ran": false,
+      "out_df": [
+        {
+          "Sentence_ID": 0,
+          "Sentence_Text": "With Covid",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 13,
+          "Sentence_Text": "banking transactions.",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 8,
+          "Sentence_Text": "On the digital transformation perspective aimed at",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 1,
+          "Sentence_Text": "19 pandemic which also impacted on",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 15,
+          "Sentence_Text": "In the same year,",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 5,
+          "Sentence_Text": "namely enhancement of Microfinancing portfolio and",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Positive",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 20,
+          "Sentence_Text": "2020, the number of PermataMobile X users grew by",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 11,
+          "Sentence_Text": "channel (e",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 3,
+          "Sentence_Text": "established in the 2020 SFAP, PermataBank remained",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        }
+      ],
+      "interpretability": "None"
+    },
+    "hybrid_model": {
+      "out_df": [
+        {
+          "Sentence_Text": "With Covid",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "19 pandemic which also impacted on",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank’s performanceto realize the programs",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "established in the 2020 SFAP, PermataBank remained",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "consistently implemented its inclusive finance programs,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "namely enhancement of Microfinancing portfolio and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "loan channeling with P2P lending fintech and Rural",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Banks for MSMEs.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "On the digital transformation perspective aimed at",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "reducing environmental impacts by going paperless,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank consistently developed electronic",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "channel (e",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "channel) services for account opening and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "banking transactions.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "In 2020, PermataMobile X was also launched for sharia customers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "In the same year,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank also launched a new version of its internet",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "banking service, PermataNet, which provided more",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "convenience banking transactions for customers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "As of",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "2020, the number of PermataMobile X users grew by",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "more than 50%.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 22.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    },
+    "explainability": {
+      "compare_df": [
+        {
+          "Sentence_Text": "With Covid",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "19 pandemic which also impacted on",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank’s performanceto realize the programs",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "established in the 2020 SFAP, PermataBank remained",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "consistently implemented its inclusive finance programs,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "namely enhancement of Microfinancing portfolio and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "loan channeling with P2P lending fintech and Rural",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Banks for MSMEs.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "On the digital transformation perspective aimed at",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "reducing environmental impacts by going paperless,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank consistently developed electronic",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "channel (e",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "channel) services for account opening and",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "banking transactions.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "In 2020, PermataMobile X was also launched for sharia customers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "In the same year,",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "PermataBank also launched a new version of its internet",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "banking service, PermataNet, which provided more",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "convenience banking transactions for customers.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "As of",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "2020, the number of PermataMobile X users grew by",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "more than 50%.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-23T14:34:04.639762Z",
+    "source": "2024-tesla-impact-report_pdf/page_0035.md",
+    "input_text": "Impact Report 2024\n\nOur Supply Chain\n\n# Achieving our mission through our sourcing\n\nTesla has positive impact on the world not only through the sustainability of our products, but also by making our supply chain more sustainable. Tesla is one of the largest EV and energy storage system (ESS) material buyers in the world. We use our purchasing power to avoid, prevent or mitigate any adverse impacts from our supply chain so that our sourcing supports a sustainable future.\n\nWe work directly with our suppliers to reduce the environmental and social impacts of our material sourcing, particularly in the most critical and impactful areas of our supply chain.\n\n![img-40.jpeg](img-40.jpeg)",
+    "rule_based": {
+      "aspects": [
+        "Supply Chain",
+        "General"
+      ],
+      "polarity": "Positive",
+      "tone": "Unknown"
+    },
+    "classical_ml": {
+      "out_csv": "/var/folders/nc/g1m7qlxd28nc60lgd8z9wncm0000gn/T/esg_classical_ml_outputs.csv",
+      "out_df": [
+        {
+          "Sentence_ID": 8,
+          "Sentence_Text": "40.jpeg](img",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 1,
+          "Sentence_Text": "Our Supply Chain",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "Supply Chain",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General, Supply Chain",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc; Economic → Operational → Supply Chain"
+        },
+        {
+          "Sentence_ID": 5,
+          "Sentence_Text": "We use our purchasing power to avoid, prevent or mitigate any adverse impacts from our supply chain so that our sourcing supports a sustainable future.",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "Supply Chain",
+          "Sentiment_Weak": "Positive",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 0,
+          "Sentence_Text": "Impact Report 2024",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        }
+      ],
+      "coef_sent": [
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "our",
+          "Coefficient": 0.15801443887264055
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "through",
+          "Coefficient": 0.15378391591447632
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "our sourcing",
+          "Coefficient": 0.12518006796275272
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "our mission",
+          "Coefficient": 0.12518006796275272
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "mission",
+          "Coefficient": 0.12518006796275272
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "through our",
+          "Coefficient": 0.12518006796275272
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 7,
+          "Feature": "achieving our",
+          "Coefficient": 0.12518006796275272
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Positive",
+          "Rank": 8,
+          "Feature": "achieving",
+          "Coefficient": 0.12518006796275272
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "img",
+          "Coefficient": -0.2832671902178724
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "40",
+          "Coefficient": -0.16354438852487757
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "40 jpeg",
+          "Coefficient": -0.16354438852487757
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "jpeg",
+          "Coefficient": -0.16354438852487757
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "<char>_img",
+          "Coefficient": -0.11564334615094832
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "<char>_![i",
+          "Coefficient": -0.11564334615094832
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 7,
+          "Feature": "<char>_![im",
+          "Coefficient": -0.11564334615094832
+        },
+        {
+          "Task": "Sentiment",
+          "Class": "Neutral",
+          "Direction": "Negative",
+          "Rank": 8,
+          "Feature": "<char>_![img",
+          "Coefficient": -0.11564334615094832
+        }
+      ],
+      "coef_aspect": [
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "img",
+          "Coefficient": 0.23474563903473727
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "40",
+          "Coefficient": 0.13553045788779627
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "40 jpeg",
+          "Coefficient": 0.13553045788779627
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "jpeg",
+          "Coefficient": 0.13553045788779627
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "<char>_img",
+          "Coefficient": 0.09583450582977855
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "<char>_![img",
+          "Coefficient": 0.09583450582977855
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "impacts of",
+          "Coefficient": -0.06750672409946487
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "work",
+          "Coefficient": -0.06750672409946487
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "with our",
+          "Coefficient": -0.06750672409946487
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "environmental",
+          "Coefficient": -0.06750672409946487
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "environmental and",
+          "Coefficient": -0.06750672409946487
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "most critical",
+          "Coefficient": -0.06750672409946487
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "of our",
+          "Coefficient": 0.12725405408695437
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "our supply",
+          "Coefficient": 0.09570686055764734
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "supply chain",
+          "Coefficient": 0.09570686055764734
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "supply",
+          "Coefficient": 0.09570686055764734
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "chain",
+          "Coefficient": 0.09570686055764734
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "the",
+          "Coefficient": 0.07037875100855684
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "img",
+          "Coefficient": -0.28058758453573374
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "40",
+          "Coefficient": -0.16199731746297277
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "40 jpeg",
+          "Coefficient": -0.16199731746297277
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "jpeg",
+          "Coefficient": -0.16199731746297277
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "<char>_[img",
+          "Coefficient": -0.11454940171209796
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "<char>_[im",
+          "Coefficient": -0.11454940171209796
+        }
+      ]
+    },
+    "deep_model": {
+      "ran": false,
+      "out_df": "None",
+      "interpretability": "None"
+    },
+    "hybrid_model": {
+      "out_df": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Impact Report 2024",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.038427941501140594,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7139294743537903,
+          "tone_pred": 3,
+          "tone_score": 0.9325365424156189
+        },
+        {
+          "Sentence_ID": 1,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Our Supply Chain",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.01695789210498333,
+          "Ontology_Path": "Economic → Operational → Supply Chain",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7383074164390564,
+          "tone_pred": 3,
+          "tone_score": 0.8720638751983643
+        },
+        {
+          "Sentence_ID": 2,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "# Achieving our mission through our sourcing",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.04223699867725372,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.6931002736091614,
+          "tone_pred": 3,
+          "tone_score": 0.9397271871566772
+        },
+        {
+          "Sentence_ID": 3,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Tesla has positive impact on the world not only through the sustainability of our products, but also by making our supply chain more sustainable.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.05229944363236427,
+          "Ontology_Path": "Economic → Operational → Supply Chain; General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7331177592277527,
+          "tone_pred": 3,
+          "tone_score": 0.9217368364334106
+        },
+        {
+          "Sentence_ID": 4,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Tesla is one of the largest EV and energy storage system (ESS) material buyers in the world.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.02992704138159752,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.726289689540863,
+          "tone_pred": 3,
+          "tone_score": 0.9411367774009705
+        },
+        {
+          "Sentence_ID": 5,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "We use our purchasing power to avoid, prevent or mitigate any adverse impacts from our supply chain so that our sourcing supports a sustainable future.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.034815479069948196,
+          "Ontology_Path": "Economic → Operational → Supply Chain",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7311237454414368,
+          "tone_pred": 3,
+          "tone_score": 0.8871702551841736
+        },
+        {
+          "Sentence_ID": 6,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "We work directly with our suppliers to reduce the environmental and social impacts of our material sourcing, particularly in the most critical and impactful areas of our supply chain.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.011230496689677238,
+          "Ontology_Path": "Economic → Operational → Supply Chain",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7278072237968445,
+          "tone_pred": 3,
+          "tone_score": 0.8857560753822327
+        },
+        {
+          "Sentence_ID": 7,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "![img",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.037152983248233795,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7262837886810303,
+          "tone_pred": 3,
+          "tone_score": 0.9386387467384338
+        },
+        {
+          "Sentence_ID": 8,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "40.jpeg](img",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.021753622218966484,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7226488590240479,
+          "tone_pred": 3,
+          "tone_score": 0.9399052262306213
+        },
+        {
+          "Sentence_ID": 9,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "40.jpeg)",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.03535304218530655,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7127872109413147,
+          "tone_pred": 3,
+          "tone_score": 0.9366889595985413
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.4
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 10.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    },
+    "explainability": {
+      "compare_df": [
+        {
+          "Sentence_Text": "Impact Report 2024",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Our Supply Chain",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "# Achieving our mission through our sourcing",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Tesla has positive impact on the world not only through the sustainability of our products, but also by making our supply chain more sustainable.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "Tesla is one of the largest EV and energy storage system (ESS) material buyers in the world.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We use our purchasing power to avoid, prevent or mitigate any adverse impacts from our supply chain so that our sourcing supports a sustainable future.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "We work directly with our suppliers to reduce the environmental and social impacts of our material sourcing, particularly in the most critical and impactful areas of our supply chain.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "![img",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "40.jpeg](img",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "40.jpeg)",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-23T14:34:13.485454Z",
+    "source": "2024-tesla-impact-report_pdf/page_0036.md",
+    "input_text": "![img-41.jpeg](img-41.jpeg)\n\n# Minimizing the environmental impact of our supply chain\n\nFor the most GHG emission-intensive areas in our supply chain, we work directly with suppliers to develop on-site emissions reduction plans. These plans include advancing decarbonization efforts, increasing renewable energy usage and implementing more efficient processes.\n\n77% of our battery materials suppliers set a net-zero or carbon-neutral goal\n\n1st\n\nEV manufacturer to launch a program to reduce the environmental impacts of nickel production in Indonesia",
+    "rule_based": {
+      "aspects": [
+        "Supply Chain",
+        "Energy Efficiency",
+        "Emission Reduction",
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Action"
+    },
+    "classical_ml": {
+      "out_csv": "/var/folders/nc/g1m7qlxd28nc60lgd8z9wncm0000gn/T/esg_classical_ml_outputs.csv",
+      "out_df": [
+        {
+          "Sentence_ID": 10,
+          "Sentence_Text": "neutral goal",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 9,
+          "Sentence_Text": "zero or carbon",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "Emission Reduction",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 0,
+          "Sentence_Text": "![img",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "id",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 8,
+          "Sentence_Text": "77% of our battery materials suppliers set a net",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "General",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        },
+        {
+          "Sentence_ID": 5,
+          "Sentence_Text": "intensive areas in our supply chain, we work directly with suppliers to develop on",
+          "Section": "General",
+          "Section_Type": "General",
+          "Language": "en",
+          "Aspect_Weak": "Supply Chain",
+          "Sentiment_Weak": "Neutral",
+          "Tone_Weak": "Unknown",
+          "Aspect_Pred": "General",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Path": "General → Misc"
+        }
+      ],
+      "coef_sent": [],
+      "coef_aspect": [
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "usage",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "decarbonization",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "energy",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "efforts increasing",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "efforts",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "efficient processes",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "41",
+          "Coefficient": -0.19316848516076113
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "jpeg",
+          "Coefficient": -0.19316848516076113
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "41 jpeg",
+          "Coefficient": -0.19316848516076113
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "the",
+          "Coefficient": -0.12242818521262747
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "jpeg img",
+          "Coefficient": -0.09685373062449544
+        },
+        {
+          "Task": "Aspect",
+          "Class": 0,
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "img",
+          "Coefficient": -0.09685373062449544
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "usage",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "decarbonization",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "energy",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "efforts increasing",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "efforts",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "efficient processes",
+          "Coefficient": 0.08821840884366786
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "41",
+          "Coefficient": -0.19316848516076113
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "jpeg",
+          "Coefficient": -0.19316848516076113
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "41 jpeg",
+          "Coefficient": -0.19316848516076113
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "the",
+          "Coefficient": -0.12242818521262747
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "jpeg img",
+          "Coefficient": -0.09685373062449544
+        },
+        {
+          "Task": "Aspect",
+          "Class": 1,
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "img",
+          "Coefficient": -0.09685373062449544
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "41",
+          "Coefficient": 0.22973251255405178
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "jpeg",
+          "Coefficient": 0.22973251255405178
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "41 jpeg",
+          "Coefficient": 0.22973251255405178
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "img",
+          "Coefficient": 0.11518675454788131
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "jpeg img",
+          "Coefficient": 0.11518675454788131
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "emissions reduction",
+          "Coefficient": 0.1028902620274858
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "of our",
+          "Coefficient": -0.11573166053715568
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "our supply",
+          "Coefficient": -0.11573166053715568
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "our",
+          "Coefficient": -0.11573166053715568
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "minimizing the",
+          "Coefficient": -0.11573166053715568
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "minimizing",
+          "Coefficient": -0.11573166053715568
+        },
+        {
+          "Task": "Aspect",
+          "Class": 2,
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "supply",
+          "Coefficient": -0.11573166053715568
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Positive",
+          "Rank": 1,
+          "Feature": "supply",
+          "Coefficient": 0.13174456109907157
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Positive",
+          "Rank": 2,
+          "Feature": "minimizing the",
+          "Coefficient": 0.13174456109907157
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Positive",
+          "Rank": 3,
+          "Feature": "our supply",
+          "Coefficient": 0.13174456109907157
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Positive",
+          "Rank": 4,
+          "Feature": "chain",
+          "Coefficient": 0.13174456109907157
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Positive",
+          "Rank": 5,
+          "Feature": "our",
+          "Coefficient": 0.13174456109907157
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Positive",
+          "Rank": 6,
+          "Feature": "environmental impact",
+          "Coefficient": 0.13174456109907157
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Negative",
+          "Rank": 1,
+          "Feature": "41",
+          "Coefficient": -0.19204953335757327
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Negative",
+          "Rank": 2,
+          "Feature": "41 jpeg",
+          "Coefficient": -0.19204953335757327
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Negative",
+          "Rank": 3,
+          "Feature": "jpeg",
+          "Coefficient": -0.19204953335757327
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Negative",
+          "Rank": 4,
+          "Feature": "plans",
+          "Coefficient": -0.10213310602377164
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Negative",
+          "Rank": 5,
+          "Feature": "jpeg img",
+          "Coefficient": -0.0962926936808265
+        },
+        {
+          "Task": "Aspect",
+          "Class": 3,
+          "Direction": "Negative",
+          "Rank": 6,
+          "Feature": "img",
+          "Coefficient": -0.0962926936808265
+        }
+      ]
+    },
+    "deep_model": {
+      "ran": false,
+      "out_df": "None",
+      "interpretability": "None"
+    },
+    "hybrid_model": {
+      "out_df": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "![img",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.03466034308075905,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8522602319717407,
+          "tone_pred": 3,
+          "tone_score": 0.910588800907135
+        },
+        {
+          "Sentence_ID": 1,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "41.jpeg](img",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.04423768073320389,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8431819677352905,
+          "tone_pred": 3,
+          "tone_score": 0.9084892272949219
+        },
+        {
+          "Sentence_ID": 2,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "41.jpeg)",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.043182507157325745,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8363205790519714,
+          "tone_pred": 3,
+          "tone_score": 0.900612473487854
+        },
+        {
+          "Sentence_ID": 3,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "# Minimizing the environmental impact of our supply chain",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.04797503352165222,
+          "Ontology_Path": "Economic → Operational → Supply Chain",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7316850423812866,
+          "tone_pred": 3,
+          "tone_score": 0.7573625445365906
+        },
+        {
+          "Sentence_ID": 4,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "For the most GHG emission",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.019639790058135986,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8438529372215271,
+          "tone_pred": 3,
+          "tone_score": 0.8893023133277893
+        },
+        {
+          "Sentence_ID": 5,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "intensive areas in our supply chain, we work directly with suppliers to develop on",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.010800566524267197,
+          "Ontology_Path": "Economic → Operational → Supply Chain",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7201046943664551,
+          "tone_pred": 3,
+          "tone_score": 0.7492169141769409
+        },
+        {
+          "Sentence_ID": 6,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "site emissions reduction plans.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.004355957731604576,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8479022979736328,
+          "tone_pred": 3,
+          "tone_score": 0.8869833946228027
+        },
+        {
+          "Sentence_ID": 7,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "These plans include advancing decarbonization efforts, increasing renewable energy usage and implementing more efficient processes.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.11332637071609497,
+          "Ontology_Path": "Environmental → Energy Efficiency; Environmental → Emission Reduction",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7224922776222229,
+          "tone_pred": 3,
+          "tone_score": 0.7071385383605957
+        },
+        {
+          "Sentence_ID": 8,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "77% of our battery materials suppliers set a net",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.05199126526713371,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8447317481040955,
+          "tone_pred": 3,
+          "tone_score": 0.8903433084487915
+        },
+        {
+          "Sentence_ID": 9,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "zero or carbon",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.01592983677983284,
+          "Ontology_Path": "Environmental → Emission Reduction",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.692681610584259,
+          "tone_pred": 3,
+          "tone_score": 0.7158023118972778
+        },
+        {
+          "Sentence_ID": 10,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "neutral goal",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.01337079331278801,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.842115044593811,
+          "tone_pred": 3,
+          "tone_score": 0.8879122734069824
+        },
+        {
+          "Sentence_ID": 11,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "EV manufacturer to launch a program to reduce the environmental impacts of nickel production in Indonesia",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.018319373950362206,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8528560996055603,
+          "tone_pred": 3,
+          "tone_score": 0.8894697427749634
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.3333
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 12.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    },
+    "explainability": {
+      "compare_df": [
+        {
+          "Sentence_Text": "![img",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "41.jpeg](img",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "41.jpeg)",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "# Minimizing the environmental impact of our supply chain",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "For the most GHG emission",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "intensive areas in our supply chain, we work directly with suppliers to develop on",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "site emissions reduction plans.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "These plans include advancing decarbonization efforts, increasing renewable energy usage and implementing more efficient processes.",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "77% of our battery materials suppliers set a net",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "zero or carbon",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "neutral goal",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        },
+        {
+          "Sentence_Text": "EV manufacturer to launch a program to reduce the environmental impacts of nickel production in Indonesia",
+          "Sentiment": "Neutral",
+          "Tone": "Unknown",
+          "Model": "Hybrid"
+        }
+      ]
+    }
+  }
+]
