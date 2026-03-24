@@ -1,315 +1,947 @@
 [
   {
-    "timestamp": "2026-03-23T23:43:50Z",
-    "source": "SCM_2023_sr-scma_pdf/page_0024.md",
-    "model": "xiaomi/mimo-v2-omni",
-    "input": "Profil Perusahaan\nCompany Profile\n\n# PRODUK DAN LAYANAN\n# PRODUCTS AND SERVICES\n\n[GRI 2-6] [OJK C.4]\n\n1. Televisi (Saluran televisi FTA dan DTH berlangganan)\n2. Digital dan Iklan Luar Ruangan (Megaportal website, video-on demand, Digital Brand Integrated (\"DBI\") dan periklanan luar ruangan)\n3. Konten dan Lainnya (Produksi film dan video, perdagangan film dan konten, rumah produksi, industri multimedia, KOL/ Influencers dan manajemen artis)\n\nInformasi lebih rinci mengenai ketiga bidang usaha utama Perseroan dijabarkan dalam diagram berikut:\n\n1. Television (FTA and DTH subscription television channels)\n2. Digital and Outdoor Advertising (Megaportal website, video-on demand, Digital Brand Integrated (\"DBI\") and outdoor advertising)\n3. Content and Others (Film and video production, film and content trade, production houses, multimedia industry, KOL/ Influencers and artist management)\n\nDetailed information regarding the three main businesses of the Company is described in the following table:\n\n# Pasar yang Dilayani\nMarket Served\n\n|  Uraian Description | Satuan Unit | 2023 | 2022 | 2021  |\n| --- | --- | --- | --- | --- |\n|  Cakupan Analog (Provinsi)*\nAnalog Coverage (Province) | SCTV | 29 | 29 | 29  |\n|   |  Indosiar | 25 | 25 | 25  |\n|  Cakupan Digital (Provinsi)*\nDigital Coverage (Province) | SCTV | 31 | 31 | 30  |\n|   |  Indosiar | 32 | 32 | 31  |\n\n*Jangkauan analog efektif s.d. 2 Agustus 2023\n*Effective analog coverage up to August 2, 2023\n\n# PENGHARGAAN\nAWARDS\n\n![img-30.jpeg](img-30.jpeg)\n\"Outstanding Contribution to Asian Television\" di/at 28th Asian Television Award (SCM)\n\n![img-31.jpeg](img-31.jpeg)\n1st Place for The Best Indonesia Finance 2023\n\n![img-32.jpeg](img-32.jpeg)\nHR Excellence Award 2023\n\n![img-33.jpeg](img-33.jpeg)\nGreat Place To Work\n\n![img-34.jpeg](img-34.jpeg)\nContentAsia Awards 2023\n\nPT Surya Citra Media Tbk\nLaporan Keberlanjutan 2023 Sustainability Report",
+    "timestamp": "2026-03-24T00:12:13Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0025.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "data.md",
+    "input": "26\n\nPT Surya Citra Media Tbk\n\nLaporan Keberlanjutan 2023 Sustainability Report\n\n# LIPUTAN 6\n\n![img-35.jpeg](img-35.jpeg)\nKASAD Awards 2023\n\n![img-36.jpeg](img-36.jpeg)\nAMSI Award 2023\n\n| Entitas Penerima Percenian Entity | Penghargaan Award | Pemberi Penghargaan Awarding Institution |\n| --- | --- | --- |\n| SCM | Outstanding Contribution to Asian Television (for Sutanto Hartono) | 28th Asian Television Awards |\n| Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) | 19th Indonesia Best Ceo Forum Majalah\nSwa dan Dunamis Organization |\n| The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) | Markplus, Inc. |\n| Juara 1 Kategori Media, Hiburan dan Film\n1st Place in the Media, Entertainment and Film Category | Bisnis Indonesia Award 2023 |\n| Juara 1 untuk The Best Indonesia Finance 2023\nKategory Trade Investment Service Industry Total Asset 1 -10 Triliun\n1st Place for The Best Indonesia Finance 2023\nTrade Investment Service Industry Total Assets 1 -10 Trillion Category | Economic Review |\n| Juara 2 untuk The Best Indonesia Enterprise Risk Management\n2nd place for The Best Indonesian Enterprise Risk Management | Economic Review |\n| Juara 3 The Best Indonesia GCG 2023\n3rd place in The Best Indonesia GCG 2023 | Economic Review |\n| Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan\nAsia's Outstanding Company 2023 category Media and entertainment | Asia Money Award 2023 |\n| Indosiar | Media Televisi Pewarta Gerakan Zakat Terbaik\nBest Television Media Reporter of Zakat Movement | BAZNAS AWARD 2023\n(21 Maret 2023)\nBAZNAS AWARD 2023\n(March 21, 2023) |\n| Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab\nCategory of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab | Anugerah Syiar Ramadan 2023\n(26 Mei 2023)\nAnugerah Syiar Ramadan 2023\n(May 26, 2023) |\n| Kategori Program Ajang Bakat: AKSI INDONESIA 2023\nCategory of Talent Search Program: AKSI INDONESIA 2023 | Anugerah Syiar Ramadan 2023\n(26 Mei 2023)\nAnugerah Syiar Ramadan 2023\n(May 26, 2023) |\n|  | Televisi SSJ yang Konsisten Memenuhi Kewajiban\n10% Konten Lokal Bengkulu\nSSJ Television Consistently Fulfills\n10% Bengkulu Local Content Obligation | Penghargaan Khusus KPID Bengkulu\nAwards 2023 (15 November 2023)\nKPID Bengkulu Special Award\nAwards 2023 (November 15, 2023) |",
     "ok": true,
     "records": [
       {
-        "text": "Television (FTA and DTH subscription television channels)",
+        "text": "PT Surya Citra Media Tbk Laporan Keberlanjutan 2023 Sustainability Report",
         "labels": [
-          "products",
-          "television_services"
+          "none"
         ],
-        "esg": "Governance",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Digital and Outdoor Advertising (Megaportal website, video-on demand, Digital Brand Integrated (\"DBI\") and outdoor advertising)",
+        "text": "LIPUTAN 6",
         "labels": [
-          "products",
-          "digital_advertising"
+          "none"
         ],
-        "esg": "Governance",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Content and Others (Film and video production, film and content trade, production houses, multimedia industry, KOL/ Influencers and artist management)",
+        "text": "KASAD Awards 2023",
         "labels": [
-          "products",
-          "content_production"
+          "none"
         ],
-        "esg": "Governance",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Detailed information regarding the three main businesses of the Company is described in the following table:",
+        "text": "AMSI Award 2023",
         "labels": [
-          "information_disclosure",
-          "business_overview"
+          "none"
         ],
-        "esg": "Governance",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Analog Coverage (Province) for SCTV: 29 provinces in 2023, 29 in 2022, 29 in 2021",
+        "text": "SCM Outstanding Contribution to Asian Television (for Sutanto Hartono) 28th Asian Television Awards",
         "labels": [
-          "market_coverage",
-          "analog_reach"
+          "none"
         ],
-        "esg": "Social",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Analog Coverage (Province) for Indosiar: 25 provinces in 2023, 25 in 2022, 25 in 2021",
+        "text": "Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) 19th Indonesia Best Ceo Forum Majalah Swa dan Dunamis Organization",
         "labels": [
-          "market_coverage",
-          "analog_reach"
+          "none"
         ],
-        "esg": "Social",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Digital Coverage (Province) for SCTV: 31 provinces in 2023, 31 in 2022, 30 in 2021",
+        "text": "The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) Markplus, Inc.",
         "labels": [
-          "market_coverage",
-          "digital_reach"
+          "none"
         ],
-        "esg": "Social",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Digital Coverage (Province) for Indosiar: 32 provinces in 2023, 32 in 2022, 31 in 2021",
+        "text": "Juara 1 Kategori Media, Hiburan dan Film 1st Place in the Media, Entertainment and Film Category Bisnis Indonesia Award 2023",
         "labels": [
-          "market_coverage",
-          "digital_reach"
+          "none"
         ],
-        "esg": "Social",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "*Effective analog coverage up to August 2, 2023",
+        "text": "Juara 1 untuk The Best Indonesia Finance 2023 Kategory Trade Investment Service Industry Total Asset 1 -10 Triliun 1st Place for The Best Indonesia Finance 2023 Trade Investment Service Industry Total Assets 1 -10 Trillion Category Economic Review",
         "labels": [
-          "data_footnote",
-          "coverage_date"
+          "none"
         ],
-        "esg": "Governance",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Outstanding Contribution to Asian Television at 28th Asian Television Award (SCM)",
+        "text": "Juara 2 untuk The Best Indonesia Enterprise Risk Management 2nd place for The Best Indonesian Enterprise Risk Management Economic Review",
         "labels": [
-          "award",
-          "television_industry"
+          "none"
         ],
-        "esg": "Social",
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "1st Place for The Best Indonesia Finance 2023",
+        "text": "Juara 3 The Best Indonesia GCG 2023 3rd place in The Best Indonesia GCG 2023 Economic Review",
         "labels": [
-          "award",
-          "finance"
+          "none"
         ],
-        "esg": "Governance",
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "HR Excellence Award 2023",
+        "text": "Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan Asia's Outstanding Company 2023 category Media and entertainment Asia Money Award 2023",
         "labels": [
-          "award",
-          "human_resources"
+          "none"
         ],
-        "esg": "Social",
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "Great Place To Work",
+        "text": "Indosiar Media Televisi Pewarta Gerakan Zakat Terbaik Best Television Media Reporter of Zakat Movement BAZNAS AWARD 2023 (21 Maret 2023) BAZNAS AWARD 2023 (March 21, 2023)",
         "labels": [
-          "award",
-          "workplace_culture"
+          "none"
         ],
-        "esg": "Social",
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "ContentAsia Awards 2023",
+        "text": "Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab Category of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab Anugerah Syiar Ramadan 2023 (26 Mei 2023) Anugerah Syiar Ramadan 2023 (May 26, 2023)",
         "labels": [
-          "award",
-          "content_industry"
+          "none"
         ],
-        "esg": "Social",
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "PT Surya Citra Media Tbk Sustainability Report 2023",
+        "text": "Kategori Program Ajang Bakat: AKSI INDONESIA 2023 Category of Talent Search Program: AKSI INDONESIA 2023 Anugerah Syiar Ramadan 2023 (26 Mei 2023) Anugerah Syiar Ramadan 2023 (May 26, 2023)",
         "labels": [
-          "report_title",
-          "company_name"
+          "none"
         ],
-        "esg": "Governance",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       },
       {
-        "text": "[GRI 2-6] [OJK C.4]",
+        "text": "Televisi SSJ yang Konsisten Memenuhi Kewajiban 10% Konten Lokal Bengkulu SSJ Television Consistently Fulfills 10% Bengkulu Local Content Obligation Penghargaan Khusus KPID Bengkulu Awards 2023 (15 November 2023) KPID Bengkulu Special Award Awards 2023 (November 15, 2023)",
         "labels": [
-          "reporting_standards",
-          "compliance"
+          "none"
         ],
-        "esg": "Governance",
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none"
       }
     ]
   },
   {
-    "timestamp": "2026-03-23T23:44:21Z",
+    "timestamp": "2026-03-24T00:13:19Z",
     "source": "SCM_2023_sr-scma_pdf/page_0025.md",
-    "model": "xiaomi/mimo-v2-omni",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "few_shot_english.md",
+    "input": "26\n\nPT Surya Citra Media Tbk\n\nLaporan Keberlanjutan 2023 Sustainability Report\n\n# LIPUTAN 6\n\n![img-35.jpeg](img-35.jpeg)\nKASAD Awards 2023\n\n![img-36.jpeg](img-36.jpeg)\nAMSI Award 2023\n\n| Entitas Penerima Percenian Entity | Penghargaan Award | Pemberi Penghargaan Awarding Institution |\n| --- | --- | --- |\n| SCM | Outstanding Contribution to Asian Television (for Sutanto Hartono) | 28th Asian Television Awards |\n| Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) | 19th Indonesia Best Ceo Forum Majalah\nSwa dan Dunamis Organization |\n| The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) | Markplus, Inc. |\n| Juara 1 Kategori Media, Hiburan dan Film\n1st Place in the Media, Entertainment and Film Category | Bisnis Indonesia Award 2023 |\n| Juara 1 untuk The Best Indonesia Finance 2023\nKategory Trade Investment Service Industry Total Asset 1 -10 Triliun\n1st Place for The Best Indonesia Finance 2023\nTrade Investment Service Industry Total Assets 1 -10 Trillion Category | Economic Review |\n| Juara 2 untuk The Best Indonesia Enterprise Risk Management\n2nd place for The Best Indonesian Enterprise Risk Management | Economic Review |\n| Juara 3 The Best Indonesia GCG 2023\n3rd place in The Best Indonesia GCG 2023 | Economic Review |\n| Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan\nAsia's Outstanding Company 2023 category Media and entertainment | Asia Money Award 2023 |\n| Indosiar | Media Televisi Pewarta Gerakan Zakat Terbaik\nBest Television Media Reporter of Zakat Movement | BAZNAS AWARD 2023\n(21 Maret 2023)\nBAZNAS AWARD 2023\n(March 21, 2023) |\n| Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab\nCategory of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab | Anugerah Syiar Ramadan 2023\n(26 Mei 2023)\nAnugerah Syiar Ramadan 2023\n(May 26, 2023) |\n| Kategori Program Ajang Bakat: AKSI INDONESIA 2023\nCategory of Talent Search Program: AKSI INDONESIA 2023 | Anugerah Syiar Ramadan 2023\n(26 Mei 2023)\nAnugerah Syiar Ramadan 2023\n(May 26, 2023) |\n|  | Televisi SSJ yang Konsisten Memenuhi Kewajiban\n10% Konten Lokal Bengkulu\nSSJ Television Consistently Fulfills\n10% Bengkulu Local Content Obligation | Penghargaan Khusus KPID Bengkulu\nAwards 2023 (15 November 2023)\nKPID Bengkulu Special Award\nAwards 2023 (November 15, 2023) |",
+    "ok": true,
+    "records": [
+      {
+        "text": "Laporan Keberlanjutan 2023 Sustainability Report",
+        "aspect": "sustainability reporting",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "E",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title indicating the publication of a sustainability report, which is a standard ESG disclosure practice. It does not contain specific climate or environmental content, sentiment, or actionable information, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "KASAD Awards 2023",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "AMSI Award 2023",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "SCM | Outstanding Contribution to Asian Television (for Sutanto Hartono) | 28th Asian Television Awards",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) | 19th Indonesia Best Ceo Forum Majalah Swa dan Dunamis Organization",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) | Markplus, Inc.",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Juara 1 Kategori Media, Hiburan dan Film 1st Place in the Media, Entertainment and Film Category | Bisnis Indonesia Award 2023",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Juara 1 untuk The Best Indonesia Finance 2023 Kategory Trade Investment Service Industry Total Asset 1 -10 Triliun 1st Place for The Best Indonesia Finance 2023 Trade Investment Service Industry Total Assets 1 -10 Trillion Category | Economic Review",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Juara 2 untuk The Best Indonesia Enterprise Risk Management 2nd place for The Best Indonesian Enterprise Risk Management | Economic Review",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Juara 3 The Best Indonesia GCG 2023 3rd place in The Best Indonesia GCG 2023 | Economic Review",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan Asia's Outstanding Company 2023 category Media and entertainment | Asia Money Award 2023",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Media Televisi Pewarta Gerakan Zakat Terbaik Best Television Media Reporter of Zakat Movement | BAZNAS AWARD 2023 (21 Maret 2023) BAZNAS AWARD 2023 (March 21, 2023)",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab Category of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab | Anugerah Syiar Ramadan 2023 (26 Mei 2023) Anugerah Syiar Ramadan 2023 (May 26, 2023)",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Kategori Program Ajang Bakat: AKSI INDONESIA 2023 Category of Talent Search Program: AKSI INDONESIA 2023 | Anugerah Syiar Ramadan 2023 (26 Mei 2023) Anugerah Syiar Ramadan 2023 (May 26, 2023)",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      },
+      {
+        "text": "Televisi SSJ yang Konsisten Memenuhi Kewajiban 10% Konten Lokal Bengkulu SSJ Television Consistently Fulfills 10% Bengkulu Local Content Obligation | Penghargaan Khusus KPID Bengkulu Awards 2023 (15 November 2023) KPID Bengkulu Special Award Awards 2023 (November 15, 2023)",
+        "aspect": "awards recognition",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s",
+          "climate-f",
+          "climate-tcfd",
+          "governance",
+          "strategy",
+          "risk",
+          "opportunity",
+          "environmental-claims",
+          "none"
+        ],
+        "esg": "N",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a title of an awards event with no specific ESG or climate-related content, so it is categorized as neutral with no specific sentiment."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-24T00:19:19Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0025.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "zero_shot_english.md",
     "input": "26\n\nPT Surya Citra Media Tbk\n\nLaporan Keberlanjutan 2023 Sustainability Report\n\n# LIPUTAN 6\n\n![img-35.jpeg](img-35.jpeg)\nKASAD Awards 2023\n\n![img-36.jpeg](img-36.jpeg)\nAMSI Award 2023\n\n| Entitas Penerima Percenian Entity | Penghargaan Award | Pemberi Penghargaan Awarding Institution |\n| --- | --- | --- |\n| SCM | Outstanding Contribution to Asian Television (for Sutanto Hartono) | 28th Asian Television Awards |\n| Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) | 19th Indonesia Best Ceo Forum Majalah\nSwa dan Dunamis Organization |\n| The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) | Markplus, Inc. |\n| Juara 1 Kategori Media, Hiburan dan Film\n1st Place in the Media, Entertainment and Film Category | Bisnis Indonesia Award 2023 |\n| Juara 1 untuk The Best Indonesia Finance 2023\nKategory Trade Investment Service Industry Total Asset 1 -10 Triliun\n1st Place for The Best Indonesia Finance 2023\nTrade Investment Service Industry Total Assets 1 -10 Trillion Category | Economic Review |\n| Juara 2 untuk The Best Indonesia Enterprise Risk Management\n2nd place for The Best Indonesian Enterprise Risk Management | Economic Review |\n| Juara 3 The Best Indonesia GCG 2023\n3rd place in The Best Indonesia GCG 2023 | Economic Review |\n| Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan\nAsia's Outstanding Company 2023 category Media and entertainment | Asia Money Award 2023 |\n| Indosiar | Media Televisi Pewarta Gerakan Zakat Terbaik\nBest Television Media Reporter of Zakat Movement | BAZNAS AWARD 2023\n(21 Maret 2023)\nBAZNAS AWARD 2023\n(March 21, 2023) |\n| Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab\nCategory of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab | Anugerah Syiar Ramadan 2023\n(26 Mei 2023)\nAnugerah Syiar Ramadan 2023\n(May 26, 2023) |\n| Kategori Program Ajang Bakat: AKSI INDONESIA 2023\nCategory of Talent Search Program: AKSI INDONESIA 2023 | Anugerah Syiar Ramadan 2023\n(26 Mei 2023)\nAnugerah Syiar Ramadan 2023\n(May 26, 2023) |\n|  | Televisi SSJ yang Konsisten Memenuhi Kewajiban\n10% Konten Lokal Bengkulu\nSSJ Television Consistently Fulfills\n10% Bengkulu Local Content Obligation | Penghargaan Khusus KPID Bengkulu\nAwards 2023 (15 November 2023)\nKPID Bengkulu Special Award\nAwards 2023 (November 15, 2023) |",
     "ok": true,
     "records": [
       {
         "text": "PT Surya Citra Media Tbk",
+        "aspect": "none",
         "labels": [
-          "company name"
+          "none"
         ],
-        "esg": false,
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is just the company name with no ESG or climate-related content."
       },
       {
         "text": "Laporan Keberlanjutan 2023 Sustainability Report",
+        "aspect": "none",
         "labels": [
-          "report title",
-          "sustainability"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is the title of a sustainability report, but contains no specific ESG aspects or climate-related content."
       },
       {
         "text": "# LIPUTAN 6",
+        "aspect": "none",
         "labels": [
-          "section heading"
+          "none"
         ],
-        "esg": false,
-        "sentiment": "neutral"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This appears to be a section header with no ESG or climate-related content."
       },
       {
         "text": "KASAD Awards 2023",
+        "aspect": "none",
         "labels": [
-          "award",
-          "image caption"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award name with no ESG or climate-related content."
       },
       {
         "text": "AMSI Award 2023",
+        "aspect": "none",
         "labels": [
-          "award",
-          "image caption"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award name with no ESG or climate-related content."
       },
       {
-        "text": "SCM received Outstanding Contribution to Asian Television (for Sutanto Hartono) from 28th Asian Television Awards",
+        "text": "SCM | Outstanding Contribution to Asian Television (for Sutanto Hartono) | 28th Asian Television Awards",
+        "aspect": "none",
         "labels": [
-          "award",
-          "social"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a media/entertainment award with no ESG or climate-related content."
       },
       {
-        "text": "SCM received Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) from 19th Indonesia Best Ceo Forum Majalah Swa dan Dunamis Organization",
+        "text": "Best CEO 2023 for Emerging Growth Company (for Sutanto Hartono) | 19th Indonesia Best Ceo Forum Majalah Swa dan Dunamis Organization",
+        "aspect": "none",
         "labels": [
-          "award",
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a business leadership award with no ESG or climate-related content."
+      },
+      {
+        "text": "The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) | Markplus, Inc.",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a marketing award with no ESG or climate-related content."
+      },
+      {
+        "text": "Juara 1 Kategori Media, Hiburan dan Film 1st Place in the Media, Entertainment and Film Category | Bisnis Indonesia Award 2023",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a media/entertainment award with no ESG or climate-related content."
+      },
+      {
+        "text": "Juara 1 untuk The Best Indonesia Finance 2023 Kategory Trade Investment Service Industry Total Asset 1 -10 Triliun 1st Place for The Best Indonesia Finance 2023 Trade Investment Service Industry Total Assets 1 -10 Trillion Category | Economic Review",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a finance award with no ESG or climate-related content."
+      },
+      {
+        "text": "Juara 2 untuk The Best Indonesia Enterprise Risk Management 2nd place for The Best Indonesian Enterprise Risk Management | Economic Review",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a risk management award with no ESG or climate-related content."
+      },
+      {
+        "text": "Juara 3 The Best Indonesia GCG 2023 3rd place in The Best Indonesia GCG 2023 | Economic Review",
+        "aspect": "governance",
+        "labels": [
           "governance"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "GCG stands for Good Corporate Governance, which is a governance aspect. The award indicates positive recognition of governance practices."
       },
       {
-        "text": "SCM received The Best Industry Marketing Champion 2023 Media Sector (for Sutanto Hartono) from Markplus, Inc.",
+        "text": "Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan Asia's Outstanding Company 2023 category Media and entertainment | Asia Money Award 2023",
+        "aspect": "none",
         "labels": [
-          "award",
-          "marketing"
+          "none"
         ],
-        "esg": false,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a business excellence award with no ESG or climate-related content."
       },
       {
-        "text": "SCM received Juara 1 Kategori Media, Hiburan dan Film / 1st Place in the Media, Entertainment and Film Category from Bisnis Indonesia Award 2023",
+        "text": "Indosiar | Media Televisi Pewarta Gerakan Zakat Terbaik Best Television Media Reporter of Zakat Movement | BAZNAS AWARD 2023 (21 Maret 2023) BAZNAS AWARD 2023 (March 21, 2023)",
+        "aspect": "none",
         "labels": [
-          "award",
-          "social"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a religious/social award with no ESG or climate-related content."
       },
       {
-        "text": "SCM received Juara 1 untuk The Best Indonesia Finance 2023 Kategory Trade Investment Service Industry Total Asset 1 -10 Triliun / 1st Place for The Best Indonesia Finance 2023 Trade Investment Service Industry Total Assets 1 -10 Trillion Category from Economic Review",
+        "text": "Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab Category of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab | Anugerah Syiar Ramadan 2023 (26 Mei 2023) Anugerah Syiar Ramadan 2023 (May 26, 2023)",
+        "aspect": "none",
         "labels": [
-          "award",
-          "finance"
+          "none"
         ],
-        "esg": false,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a religious programming award with no ESG or climate-related content."
       },
       {
-        "text": "SCM received Juara 2 untuk The Best Indonesia Enterprise Risk Management / 2nd place for The Best Indonesian Enterprise Risk Management from Economic Review",
+        "text": "Kategori Program Ajang Bakat: AKSI INDONESIA 2023 Category of Talent Search Program: AKSI INDONESIA 2023 | Anugerah Syiar Ramadan 2023 (26 Mei 2023) Anugerah Syiar Ramadan 2023 (May 26, 2023)",
+        "aspect": "none",
         "labels": [
-          "award",
-          "governance"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a talent show award with no ESG or climate-related content."
       },
       {
-        "text": "SCM received Juara 3 The Best Indonesia GCG 2023 / 3rd place in The Best Indonesia GCG 2023 from Economic Review",
+        "text": "Televisi SSJ yang Konsisten Memenuhi Kewajiban 10% Konten Lokal Bengkulu SSJ Television Consistently Fulfills 10% Bengkulu Local Content Obligation | Penghargaan Khusus KPID Bengkulu Awards 2023 (15 November 2023) KPID Bengkulu Special Award Awards 2023 (November 15, 2023)",
+        "aspect": "none",
         "labels": [
-          "award",
-          "governance"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a local content compliance award with no ESG or climate-related content."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-24T00:19:45Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0026.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "zero_shot_english.md",
+    "input": "Profil Perusahaan\nCompany Profile\n\n|  Entitas Penerima\nReceiving Entity | Penghargaan\nAward | Pemberi Penghargaan\nAwarding Institution  |\n| --- | --- | --- |\n|   | Pemenang Kategori Program Televisi Budaya Bengkulu Terbaik\nTelevision Program Category Winners Best Bengkulu Culture | Penghargaan Khusus KPID Bengkulu Awards 2023 (15 November 2023)\nKPID Bengkulu Special Award Awards 2023 (November 15, 2023)  |\n|   |  JUARA 3: Penghargaan untuk Kategori Program Feature Televisi Terbaik\n\"Tradisi Kampung Menari\"\nPRIZE 3: Award for Category Best Television Feature Program\n\"Tradisi Kampung Menari\" | Anugerah Penyiaran KPID Jawa Tengah 2023 (17 November 2023)\nAnugerah Penyiaran KPID Central Java 2023 (November 17, 2023)  |\n|   |  Kategori Feature Televisi Berjaringan\nNetwork Television Feature Category | Piagam KPID Lampung Awards 2023 (28 November 2023)\nKPID Lampung Awards Charter 2023 (November 28, 2023)  |\n|   |  Terbaik 1: Kategori Program Berita dan Talkshow (Lokal)\nBest 1: News and Talk Show (Local) | Anugerah Penyiaran KPID Kepulauan Bangka Belitung (6 December 2023)\nBroadcasting Award KPID Kepulauan Bangka Belitung (December 6, 2023)  |\n|  SCTV | Live Streaming secara Nonstop melalui Platform Terbanyak\nNonstop Live Streaming through Most Platforms | Museum Rekor Indonesia (MURI)  |\n|   |  Best Sport Program (Tournament Olahraga Selebriti Indonesia/TOSI) | Asian Television Awards ke-28\n28th Asian Television Awards  |\n|   |  KASAU Awards - 1 Silver | Kepala Staf Angkatan Udara (KASAU)\nTentara Nasional Indonesia (TNI)\nChief of Staff of the Air Force (KASAU) of the Indonesian National Armed Force (TNI)  |\n|   |  PARA PENCARI TUHAN\nSerial Religi Ramadan Berkelanjutan Terlama\nPARA PENCARI TUHAN\nLongest Continuous Religious Ramadan Series | Museum Rekor Indonesia (MURI)  |\n|   |  GEMA RAMADAN\nPemenang kategori program VARIETY/REALITY SHOW\nGEMA RAMADAN\nWinner of the VARIETY/REALITY SHOW | ANUGERAH SYIAR RAMADAN 2023\nANUGERAH SYIAR RAMADAN 2023  |\n|   |  LORONG WAKTU\nPemenang kategori program ANIMASI INDONESIA\nLORONG WAKTU\nWinner of INDONESIA ANIMATION program category | ANUGERAH SYIAR RAMADAN 2023\nANUGERAH SYIAR RAMADAN 2023  |\n|   |  PARA PENCARI TUHAN\nPemenang kategori program SINETRON\nPARA PENCARI TUHAN\nWinner of SINETRON program category | LEMBAGA SENSOR FILM\nFILM CENSORSHIP BOARD  |\n|   |  CINTA LUAR BIASA DARI LAKI-LAKI BIASA\nPemenang kategori program FTV\nCINTA LUAR BIASA DARI LAKI-LAKI BIASA\nWinner of the FTV program category | LEMBAGA SENSOR FILM\nFILM CENSORSHIP BOARD  |\n|   |  SCTV - KALIMANTAN TENGAH\nKategori Siaran Agama dan Kepercayaan\nSCTV - CENTRAL KALIMANTAN\nReligion and Belief Broadcast Category | KPID KALIMANTAN TENGAH\nKPID CENTRAL KALIMANTAN  |\n|   |  RIZKY NAZAR\nPemenang kategori AKTOR SINETRON TERPOPULER\nRIZKY NAZAR\nWinner of MOST POPULAR SINETRON ACTOR category | INDONESIAN TELEVISION AWARDS - RCTI  |\n|   |  TAJWID CINTA\nPemenang kategori PROGRAM NON PRIME TIME TERPOPULER\nTAJWID CINTA\nWinner of MOST POPULAR NON PRIME TIME category | INDONESIAN TELEVISION AWARDS - RCTI  |\n|   |  POINT OF VIEW\nPemenang Best Asian Talk Show\nPOINT OF VIEW\nWinner of Best Asian Talk Show | CONTENT ASIA AWARDS 2023  |\n|  Vidio.com | Tempat yang Bagus untuk Bekerja periode Februari 2023 - Februari 2024.\nGreat Place to Work period of Februari 2023 - Februari 2024. | Great Place to Work  |\n|   |  Pemeran Pendukung Terbaik \"Teuku Rifnu Wikana\" di \"96 Jam\"\nBest Actor in A Supporting Role \"Teuku Rifnu Wikana\" in \"96 Jam\" | Asian Academy Creative Awards 2023  |\n|   |  Platform Streaming Terbaik di Indonesia\nBest Streaming Platform in Indonesia | Indonesia Best Millennials\nBrand Choice 2023  |\n\nPT Surya Citra Media Tbk\nLaporan Keberlanjutan 2023 Sustainability Report\n27",
+    "ok": true,
+    "records": [
+      {
+        "text": "Profil Perusahaan Company Profile",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a header/title with no ESG content or climate-related information."
       },
       {
-        "text": "SCM received Perusahaan Berprestasi Asia 2023 kategori Media dan hiburan / Asia's Outstanding Company 2023 category Media and entertainment from Asia Money Award 2023",
+        "text": "Entitas Penerima Receiving Entity | Penghargaan Award | Pemberi Penghargaan Awarding Institution",
+        "aspect": "none",
         "labels": [
-          "award",
-          "social"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a table header with no ESG content or climate-related information."
       },
       {
-        "text": "Indosiar received Media Televisi Pewarta Gerakan Zakat Terbaik / Best Television Media Reporter of Zakat Movement from BAZNAS AWARD 2023 (21 Maret 2023)",
+        "text": "Pemenang Kategori Program Televisi Budaya Bengkulu Terbaik Television Program Category Winners Best Bengkulu Culture | Penghargaan Khusus KPID Bengkulu Awards 2023 (15 November 2023) KPID Bengkulu Special Award Awards 2023 (November 15, 2023)",
+        "aspect": "none",
         "labels": [
-          "award",
-          "social"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
       },
       {
-        "text": "Indosiar received Kategori Program Dakwah Non-Talkshow (Kultum): Shihab & Shihab / Category of Non-Talkshow Dawah Program (Kultum): Shihab & Shihab from Anugerah Syiar Ramadan 2023 (26 Mei 2023)",
+        "text": "JUARA 3: Penghargaan untuk Kategori Program Feature Televisi Terbaik \"Tradisi Kampung Menari\" PRIZE 3: Award for Category Best Television Feature Program \"Tradisi Kampung Menari\" | Anugerah Penyiaran KPID Jawa Tengah 2023 (17 November 2023) Anugerah Penyiaran KPID Central Java 2023 (November 17, 2023)",
+        "aspect": "none",
         "labels": [
-          "award",
-          "social"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
       },
       {
-        "text": "Indosiar received Kategori Program Ajang Bakat: AKSI INDONESIA 2023 / Category of Talent Search Program: AKSI INDONESIA 2023 from Anugerah Syiar Ramadan 2023 (26 Mei 2023)",
+        "text": "Kategori Feature Televisi Berjaringan Network Television Feature Category | Piagam KPID Lampung Awards 2023 (28 November 2023) KPID Lampung Awards Charter 2023 (November 28, 2023)",
+        "aspect": "none",
         "labels": [
-          "award",
-          "social"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
       },
       {
-        "text": "Indosiar received Televisi SSJ yang Konsisten Memenuhi Kewajiban 10% Konten Lokal Bengkulu / SSJ Television Consistently Fulfills 10% Bengkulu Local Content Obligation from Penghargaan Khusus KPID Bengkulu Awards 2023 (15 November 2023)",
+        "text": "Terbaik 1: Kategori Program Berita dan Talkshow (Lokal) Best 1: News and Talk Show (Local) | Anugerah Penyiaran KPID Kepulauan Bangka Belitung (6 December 2023) Broadcasting Award KPID Kepulauan Bangka Belitung (December 6, 2023)",
+        "aspect": "none",
         "labels": [
-          "award",
-          "social",
-          "governance"
+          "none"
         ],
-        "esg": true,
-        "sentiment": "positive"
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "SCTV Live Streaming secara Nonstop melalui Platform Terbanyak Nonstop Live Streaming through Most Platforms | Museum Rekor Indonesia (MURI)",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "Best Sport Program (Tournament Olahraga Selebriti Indonesia/TOSI) | Asian Television Awards ke-28 28th Asian Television Awards",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "KASAU Awards - 1 Silver | Kepala Staf Angkatan Udara (KASAU) Tentara Nasional Indonesia (TNI) Chief of Staff of the Air Force (KASAU) of the Indonesian National Armed Force (TNI)",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "PARA PENCARI TUHAN Serial Religi Ramadan Berkelanjutan Terlama PARA PENCARI TUHAN Longest Continuous Religious Ramadan Series | Museum Rekor Indonesia (MURI)",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "GEMA RAMADAN Pemenang kategori program VARIETY/REALITY SHOW GEMA RAMADAN Winner of the VARIETY/REALITY SHOW | ANUGERAH SYIAR RAMADAN 2023 ANUGERAH SYIAR RAMADAN 2023",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "LORONG WAKTU Pemenang kategori program ANIMASI INDONESIA LORONG WAKTU Winner of INDONESIA ANIMATION program category | ANUGERAH SYIAR RAMADAN 2023 ANUGERAH SYIAR RAMADAN 2023",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "PARA PENCARI TUHAN Pemenang kategori program SINETRON PARA PENCARI TUHAN Winner of SINETRON program category | LEMBAGA SENSOR FILM FILM CENSORSHIP BOARD",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "CINTA LUAR BIASA DARI LAKI-LAKI BIASA Pemenang kategori program FTV CINTA LUAR BIASA DARI LAKI-LAKI BIASA Winner of the FTV program category | LEMBAGA SENSOR FILM FILM CENSORSHIP BOARD",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "SCTV - KALIMANTAN TENGAH Kategori Siaran Agama dan Kepercayaan SCTV - CENTRAL KALIMANTAN Religion and Belief Broadcast Category | KPID KALIMANTAN TENGAH KPID CENTRAL KALIMANTAN",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "RIZKY NAZAR Pemenang kategori AKTOR SINETRON TERPOPULER RIZKY NAZAR Winner of MOST POPULAR SINETRON ACTOR category | INDONESIAN TELEVISION AWARDS - RCTI",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "TAJWID CINTA Pemenang kategori PROGRAM NON PRIME TIME TERPOPULER TAJWID CINTA Winner of MOST POPULAR NON PRIME TIME category | INDONESIAN TELEVISION AWARDS - RCTI",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "POINT OF VIEW Pemenang Best Asian Talk Show POINT OF VIEW Winner of Best Asian Talk Show | CONTENT ASIA AWARDS 2023",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "Vidio.com Tempat yang Bagus untuk Bekerja periode Februari 2023 - Februari 2024. Great Place to Work period of Februari 2023 - Februari 2024. | Great Place to Work",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "Pemeran Pendukung Terbaik \"Teuku Rifnu Wikana\" di \"96 Jam\" Best Actor in A Supporting Role \"Teuku Rifnu Wikana\" in \"96 Jam\" | Asian Academy Creative Awards 2023",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "Platform Streaming Terbaik di Indonesia Best Streaming Platform in Indonesia | Indonesia Best Millennials Brand Choice 2023",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is an award entry with no ESG content or climate-related information."
+      },
+      {
+        "text": "PT Surya Citra Media Tbk Laporan Keberlanjutan 2023 Sustainability Report 27",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a footer with no ESG content or climate-related information."
       }
     ]
   }
