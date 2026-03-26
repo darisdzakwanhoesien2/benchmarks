@@ -4957,5 +4957,2438 @@
       }
     ],
     "raw_output": "[\n{\n\"text\": \"We are a leading provider of next-generation technology services, dedicated to enabling our customers to drive real impact and meaningful change.\",\n\"aspect\": \"dedikasi untuk dampak positif\",\n\"labels\": [\"climate-commitment\", \"opportunity\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan komitmen untuk memberikan dampak positif melalui layanan teknologi, mencerminkan peluang sosial dan komitmen masa depan.\"\n},\n{\n\"text\": \"Our approach is centred around enhancing our customers' systems and utilising innovative technologies to create modern value propositions that fuel our clients' competitive edge in the market.\",\n\"aspect\": \"pendekatan berbasis inovasi\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Fokus pada inovasi dan peningkatan sistem menunjukkan strategi untuk memberikan nilai tambah dan peluang bagi klien.\"\n},\n{\n\"text\": \"We empower people to interact with innovative technology and reap transformational results.\",\n\"aspect\": \"pemberdayaan melalui teknologi\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menekankan pemberdayaan orang melalui teknologi inovatif, mencerminkan peluang dan strategi positif.\"\n},\n{\n\"text\": \"Our people are at the heart of who we are and drive our success.\",\n\"aspect\": \"fokus pada sumber daya manusia\",\n\"labels\": [\"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan strategi perusahaan yang menempatkan orang sebagai pusat kesuksesan, mencerminkan komitmen sosial.\"\n},\n{\n\"text\": \"We are committed to contributing to our local communities and, more broadly, the technology and services industry.\",\n\"aspect\": \"komitmen terhadap komunitas dan industri\",\n\"labels\": [\"commitment\", \"opportunity\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan komitmen untuk berkontribusi pada komunitas lokal dan industri, mencerminkan peluang sosial dan komitmen masa depan.\"\n},\n{\n\"text\": \"In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTI.\",\n\"aspect\": \"target pengurangan emisi berbasis sains\",\n\"labels\": [\"climate-commitment\", \"netzero-reduction\", \"metrics\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan komitmen lingkungan dengan target pengurangan emisi yang disetujui oleh SBTi, mencerminkan komitmen masa depan dan data kuantitatif.\"\n},\n{\n\"text\": \"Additionally, we completed our Double Materiality Assessment, the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).\",\n\"aspect\": \"penilaian materialitas ganda\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan langkah strategis untuk mematuhi regulasi CSRD, mencerminkan tata kelola yang baik dan strategi kepatuhan.\"\n},\n{\n\"text\": \"We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.\",\n\"aspect\": \"kesadaran operasional bertanggung jawab\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan upaya untuk meningkatkan kesadaran tentang operasi bertanggung jawab dan keberlanjutan rantai pasok, mencerminkan tata kelola dan strategi yang baik.\"\n},\n{\n\"text\": \"In April 2024, we announced the creation of our Agentic AI Industry Accelerator, internally designated as 'Morpheus.'\",\n\"aspect\": \"peluncuran akselerator AI industri\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan peluncuran akselerator AI baru, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"The first of its kind, the accelerator and its AI-powered industry tools combine the power of data and multi-agent working to tackle complex challenges across all industries, including highly regulated fields like healthcare, insurance, financial services and private equity.\",\n\"aspect\": \"solusi AI untuk tantangan industri\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menekankan kemampuan solusi AI untuk mengatasi tantangan kompleks di berbagai industri, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"Large language models (LLMs) and AI have existed in a 'black box' with little insight into how the systems arrive at the answers they provide.\",\n\"aspect\": \"transparansi model bahasa besar\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"Pernyataan ini menyoroti masalah transparansi dalam model AI, mencerminkan aspek tata kelola dan strategi untuk peningkatan.\"\n},\n{\n\"text\": \"Endava is changing this by operationalising LLMs around data to overcome common barriers caused by hallucinations, ensuring that all activity is transparent, knowable and auditable.\",\n\"aspect\": \"operasionalisasi LLM untuk transparansi\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan upaya untuk meningkatkan transparansi dan auditabilitas dalam penggunaan LLM, mencerminkan tata kelola dan strategi yang baik.\"\n},\n{\n\"text\": \"Throughout regulated industries, Endava's agentic accelerator can deliver value in countless ways, such as helping insurers more efficiently underwrite policies, working with analysts on legal or financial research and due diligence or driving the development and testing of new healthcare products.\",\n\"aspect\": \"nilai akselerator AI di industri terregulasi\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menyoroti berbagai cara akselerator AI dapat memberikan nilai di industri terregulasi, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"Morpheus represents the first significant step in applying advanced language model operations to automate complex processes within industries with strict regulatory requirements or data transparency needs.\",\n\"aspect\": \"langkah awal otomatisasi proses\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan langkah awal dalam menerapkan operasi model bahasa canggih untuk otomatisasi proses, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"The heart of the design is based on three foundational themes: Data at the core with full transparency, Teams of agents to break down complex workflows, Dynamic scaling of teams to accelerate processes\",\n\"aspect\": \"tema desain akselerator AI\",\n\"labels\": [\"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menyoroti tiga tema inti dalam desain akselerator AI, mencerminkan strategi inovasi dan transparansi.\"\n},\n{\n\"text\": \"Lead AI agents distribute the workload amongst a team of specialist agents, collating their results and orchestrating the next workflow steps while capturing data for traceability and governance at every step.\",\n\"aspect\": \"distribusi beban kerja AI\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan bagaimana agen AI memimpin distribusi beban kerja dengan fokus pada pelacakan dan tata kelola, mencerminkan tata kelola dan strategi yang baik.\"\n},\n{\n\"text\": \"LLM—and cloud-agnostic, Endava's AI accelerator is a flexible way to rapidly transform businesses across any industry.\",\n\"aspect\": \"fleksibilitas akselerator AI\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menyoroti fleksibilitas akselerator AI untuk transformasi bisnis cepat di berbagai industri, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"Creating data products in this way enables a new avenue of thinking about autonomous teams, removing constraints and freeing up entire workforces to perform more meaningful work.\",\n\"aspect\": \"pemikiran baru tentang tim otonom\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan pemikiran baru tentang tim otonom yang membebaskan tenaga kerja untuk pekerjaan yang lebih bermakna, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"We are rapidly moving to the point where AI touches almost every project.\",\n\"aspect\": \"integrasi AI dalam proyek\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan integrasi cepat AI dalam berbagai proyek, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"Our clients are increasingly interested in exploring the potential of generative AI, investigating specific applications for their business and working with us for AI implementation roadmaps.\",\n\"aspect\": \"minat klien pada AI generatif\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan meningkatnya minat klien pada AI generatif dan kolaborasi untuk implementasi, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"During a hackathon organised by Endava and Microsoft, we were challenged to develop a prototype for an Emergency Room (ER) Triage Agent.\",\n\"aspect\": \"pengembangan prototipe agen triase ER\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan pengembangan prototipe untuk aplikasi kesehatan, mencerminkan pelu"
+  },
+  {
+    "timestamp": "2026-03-26T19:51:05.068794Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "In FY2024, we ran a marketing campaign to highlight AI's transformative potential across various industries.",
+        "aspect": "AI",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses AI's transformative potential, which is not directly related to ESG aspects. The sentiment is positive as it highlights the potential benefits of AI."
+      },
+      {
+        "text": "The campaign provided insights into AI applications in sectors including pharmaceuticals, finance, gaming, aviation and more.",
+        "aspect": "AI applications",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions AI applications in various sectors, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the sectors involved."
+      },
+      {
+        "text": "Our campaign featured expert articles, webinars, e-books and whitepapers exploring how businesses can leverage AI for innovation, efficiency and new revenue opportunities.",
+        "aspect": "AI campaign",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the features of the AI campaign, which is not directly related to ESG aspects. The sentiment is positive as it highlights the potential benefits of AI for businesses."
+      },
+      {
+        "text": "Additionally, it included case studies showcasing Endava's successful AI projects.",
+        "aspect": "AI projects",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions successful AI projects, which is not directly related to ESG aspects. The sentiment is positive as it highlights the success of these projects."
+      },
+      {
+        "text": "To ride the AI wave, we've upskilled our specialists in efficient LLM fine-tuning, RAG solutions, and multi-agent frameworks through our Data Academy programmes and various AI hackathons.",
+        "aspect": "AI upskilling",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses upskilling in AI technologies, which is not directly related to ESG aspects. The sentiment is positive as it highlights the proactive approach to AI education."
+      },
+      {
+        "text": "These events enhanced learning and tackled industry challenges.",
+        "aspect": "AI events",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions AI events that enhanced learning and tackled challenges, which is not directly related to ESG aspects. The sentiment is positive as it highlights the benefits of these events."
+      },
+      {
+        "text": "Notably, one of Endava's teams won the grand prize at the Global Microsoft Fabric Hackathon.",
+        "aspect": "AI hackathon",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions winning a prize at an AI hackathon, which is not directly related to ESG aspects. The sentiment is positive as it highlights the achievement."
+      },
+      {
+        "text": "Endava's team from Skopje, North Macedonia, won the grand prize for its solution, PINovators.",
+        "aspect": "AI solution",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions winning a prize for an AI solution, which is not directly related to ESG aspects. The sentiment is positive as it highlights the success of the solution."
+      },
+      {
+        "text": "PINovators is a cloud-native data solution that integrates Open AI for document analysis to detect personally identifiable information (PII) in files and images.",
+        "aspect": "AI solution",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text describes an AI solution for document analysis, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of the solution."
+      },
+      {
+        "text": "Team members were Elena Donev, Slave Tasev and Katerina Stankovska.",
+        "aspect": "AI team",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions the team members of the AI solution, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the names of the team members."
+      },
+      {
+        "text": "In addition to winning the grand prize, two other Endava teams received honourable mentions:",
+        "aspect": "AI teams",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions other AI teams receiving honourable mentions, which is not directly related to ESG aspects. The sentiment is positive as it highlights the recognition of these teams."
+      },
+      {
+        "text": "Our team from the Adriatic region developed an approach for anomaly detection in email datasets, using Azure OpenAI.",
+        "aspect": "AI approach",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text describes an AI approach for anomaly detection, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of the approach."
+      },
+      {
+        "text": "Team members were Armin Okic, Maruska Budic and Aleksandar Miodragovic.",
+        "aspect": "AI team",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions the team members of the AI approach, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the names of the team members."
+      },
+      {
+        "text": "Our team from Iasi, Romania, worked on automating synthetic data creation and reporting.",
+        "aspect": "AI project",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions an AI project on synthetic data creation, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of the project."
+      },
+      {
+        "text": "Team members were Miroslav Cojocari and Gabriela Neagu.",
+        "aspect": "AI team",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions the team members of the AI project, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the names of the team members."
+      },
+      {
+        "text": "Using a similar format, we held 48-hour hackathon events in Charlotte (U.S.) and Bucharest (Romania).",
+        "aspect": "AI hackathon",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions AI hackathon events, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the occurrence of these events."
+      },
+      {
+        "text": "We teamed up with Microsoft, one of our strategic partners, to build proofs of concept (POC) and to better understand the Semantic Kernel software development kit and other Azure tools.",
+        "aspect": "AI collaboration",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses collaboration with Microsoft on AI projects, which is not directly related to ESG aspects. The sentiment is positive as it highlights the partnership and learning opportunities."
+      },
+      {
+        "text": "The collaborative effort proved instrumental in building solutions for two industry verticals, healthcare and travel.",
+        "aspect": "AI solutions",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions building AI solutions for healthcare and travel, which is not directly related to ESG aspects. The sentiment is positive as it highlights the success of these solutions."
+      },
+      {
+        "text": "We built two solutions for healthcare and life sciences: one centered around patient care and the other around assisting pharmacists in providing personalised medicine.",
+        "aspect": "AI solutions",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text describes AI solutions for healthcare, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of these solutions."
+      },
+      {
+        "text": "We also built two solutions for the travel industry to enhance social media customer reviews and to revamp customer service through artificial intelligence (AI).",
+        "aspect": "AI solutions",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions AI solutions for the travel industry, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of these solutions."
+      },
+      {
+        "text": "Read more about the highlights of the gathering in Charlotte (U.S.) and Bucharest (Romania)",
+        "aspect": "AI event",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions an AI event in Charlotte and Bucharest, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the occurrence of this event."
+      },
+      {
+        "text": "As the teams proved during the hackathon, the challenges the airline and the wider travel industry have traditionally faced can be solved differently, with solutions that provide a wider impact for their businesses.",
+        "aspect": "AI solutions",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses AI solutions for the travel industry, which is not directly related to ESG aspects. The sentiment is positive as it highlights the potential benefits of these solutions."
+      },
+      {
+        "text": "We're already discussing with our clients the positive impact AI can have on their businesses, and we're lining up multiple hackathons, proofs of concepts (PoC), and projects aligned with their business ambitions.",
+        "aspect": "AI discussions",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions discussions with clients about AI, which is not directly related to ESG aspects. The sentiment is positive as it highlights the proactive approach to AI engagement."
+      },
+      {
+        "text": "At the hackathon held in Charlotte, we addressed major healthcare challenges and demonstrated how generative AI can streamline operations and improve patient care.",
+        "aspect": "AI hackathon",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions an AI hackathon addressing healthcare challenges, which is not directly related to ESG aspects. The sentiment is positive as it highlights the potential benefits of AI in healthcare."
+      },
+      {
+        "text": "This effort deepened our understanding and reinforced our commitment to transforming healthcare with innovative technologies.",
+        "aspect": "AI commitment",
+        "labels": [
+          "climate-d",
+          "climate-sentiment"
+        ],
+        "esg": "none",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses commitment to transforming healthcare with AI, which is not directly related to ESG aspects. The sentiment is positive as it highlights the dedication to innovation."
+      }
+    ],
+    "raw_output": "[\n{\n\"text\": \"In FY2024, we ran a marketing campaign to highlight AI's transformative potential across various industries.\",\n\"aspect\": \"AI\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses AI's transformative potential, which is not directly related to ESG aspects. The sentiment is positive as it highlights the potential benefits of AI.\"\n},\n{\n\"text\": \"The campaign provided insights into AI applications in sectors including pharmaceuticals, finance, gaming, aviation and more.\",\n\"aspect\": \"AI applications\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions AI applications in various sectors, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the sectors involved.\"\n},\n{\n\"text\": \"Our campaign featured expert articles, webinars, e-books and whitepapers exploring how businesses can leverage AI for innovation, efficiency and new revenue opportunities.\",\n\"aspect\": \"AI campaign\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses the features of the AI campaign, which is not directly related to ESG aspects. The sentiment is positive as it highlights the potential benefits of AI for businesses.\"\n},\n{\n\"text\": \"Additionally, it included case studies showcasing Endava's successful AI projects.\",\n\"aspect\": \"AI projects\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text mentions successful AI projects, which is not directly related to ESG aspects. The sentiment is positive as it highlights the success of these projects.\"\n},\n{\n\"text\": \"To ride the AI wave, we've upskilled our specialists in efficient LLM fine-tuning, RAG solutions, and multi-agent frameworks through our Data Academy programmes and various AI hackathons.\",\n\"aspect\": \"AI upskilling\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses upskilling in AI technologies, which is not directly related to ESG aspects. The sentiment is positive as it highlights the proactive approach to AI education.\"\n},\n{\n\"text\": \"These events enhanced learning and tackled industry challenges.\",\n\"aspect\": \"AI events\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text mentions AI events that enhanced learning and tackled challenges, which is not directly related to ESG aspects. The sentiment is positive as it highlights the benefits of these events.\"\n},\n{\n\"text\": \"Notably, one of Endava's teams won the grand prize at the Global Microsoft Fabric Hackathon.\",\n\"aspect\": \"AI hackathon\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text mentions winning a prize at an AI hackathon, which is not directly related to ESG aspects. The sentiment is positive as it highlights the achievement.\"\n},\n{\n\"text\": \"Endava's team from Skopje, North Macedonia, won the grand prize for its solution, PINovators.\",\n\"aspect\": \"AI solution\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text mentions winning a prize for an AI solution, which is not directly related to ESG aspects. The sentiment is positive as it highlights the success of the solution.\"\n},\n{\n\"text\": \"PINovators is a cloud-native data solution that integrates Open AI for document analysis to detect personally identifiable information (PII) in files and images.\",\n\"aspect\": \"AI solution\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text describes an AI solution for document analysis, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of the solution.\"\n},\n{\n\"text\": \"Team members were Elena Donev, Slave Tasev and Katerina Stankovska.\",\n\"aspect\": \"AI team\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions the team members of the AI solution, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the names of the team members.\"\n},\n{\n\"text\": \"In addition to winning the grand prize, two other Endava teams received honourable mentions:\",\n\"aspect\": \"AI teams\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text mentions other AI teams receiving honourable mentions, which is not directly related to ESG aspects. The sentiment is positive as it highlights the recognition of these teams.\"\n},\n{\n\"text\": \"Our team from the Adriatic region developed an approach for anomaly detection in email datasets, using Azure OpenAI.\",\n\"aspect\": \"AI approach\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text describes an AI approach for anomaly detection, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of the approach.\"\n},\n{\n\"text\": \"Team members were Armin Okic, Maruska Budic and Aleksandar Miodragovic.\",\n\"aspect\": \"AI team\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions the team members of the AI approach, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the names of the team members.\"\n},\n{\n\"text\": \"Our team from Iasi, Romania, worked on automating synthetic data creation and reporting.\",\n\"aspect\": \"AI project\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions an AI project on synthetic data creation, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of the project.\"\n},\n{\n\"text\": \"Team members were Miroslav Cojocari and Gabriela Neagu.\",\n\"aspect\": \"AI team\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions the team members of the AI project, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the names of the team members.\"\n},\n{\n\"text\": \"Using a similar format, we held 48-hour hackathon events in Charlotte (U.S.) and Bucharest (Romania).\",\n\"aspect\": \"AI hackathon\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions AI hackathon events, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the occurrence of these events.\"\n},\n{\n\"text\": \"We teamed up with Microsoft, one of our strategic partners, to build proofs of concept (POC) and to better understand the Semantic Kernel software development kit and other Azure tools.\",\n\"aspect\": \"AI collaboration\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses collaboration with Microsoft on AI projects, which is not directly related to ESG aspects. The sentiment is positive as it highlights the partnership and learning opportunities.\"\n},\n{\n\"text\": \"The collaborative effort proved instrumental in building solutions for two industry verticals, healthcare and travel.\",\n\"aspect\": \"AI solutions\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text mentions building AI solutions for healthcare and travel, which is not directly related to ESG aspects. The sentiment is positive as it highlights the success of these solutions.\"\n},\n{\n\"text\": \"We built two solutions for healthcare and life sciences: one centered around patient care and the other around assisting pharmacists in providing personalised medicine.\",\n\"aspect\": \"AI solutions\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text describes AI solutions for healthcare, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of these solutions.\"\n},\n{\n\"text\": \"We also built two solutions for the travel industry to enhance social media customer reviews and to revamp customer service through artificial intelligence (AI).\",\n\"aspect\": \"AI solutions\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions AI solutions for the travel industry, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the functionality of these solutions.\"\n},\n{\n\"text\": \"Read more about the highlights of the gathering in Charlotte (U.S.) and Bucharest (Romania)\",\n\"aspect\": \"AI event\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions an AI event in Charlotte and Bucharest, which is not directly related to ESG aspects. The sentiment is neutral as it simply states the occurrence of this event.\"\n},\n{\n\"text\": \"As the teams proved during the hackathon, the challenges the airline and the wider travel industry have traditionally faced can be solved differently, with solutions that provide a wider impact for their businesses.\",\n\"aspect\": \"AI solutions\",\n\"labels\": [\"climate-d\", \"climate-sentiment\"],\n\"esg\": \"none\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses AI solutions for the trav"
+  },
+  {
+    "timestamp": "2026-03-26T19:53:29.699116Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.",
+        "aspect": "commitment to positive impact",
+        "labels": [
+          "commitment",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Statement expresses commitment to positive impact across stakeholders, indicating a sustainability-oriented mindset."
+      },
+      {
+        "text": "We are a leading provider of next-generation technology services dedicated to helping our customers drive real impact and meaningful change globally.",
+        "aspect": "technology services for impact",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Emphasizes positive contribution through technology services, indicating a beneficial impact on customers and society."
+      },
+      {
+        "text": "Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction.",
+        "aspect": "customer satisfaction through service",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Focuses on service quality and partnerships, which indirectly supports sustainable business practices."
+      },
+      {
+        "text": "We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities.",
+        "aspect": "supporting client sustainability",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Directly mentions supporting clients' sustainability efforts, indicating a positive environmental contribution."
+      },
+      {
+        "text": "We also use technology as a force for good in collaboration with our customers.",
+        "aspect": "technology as force for good",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Highlights the positive use of technology, aligning with sustainable and ethical practices."
+      },
+      {
+        "text": "In FY2024, we made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi).",
+        "aspect": "science-based emissions targets",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction",
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Approval of science-based targets by SBTi demonstrates a concrete commitment to emissions reduction and net-zero goals."
+      },
+      {
+        "text": "Our governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "CSRD compliance preparation",
+        "labels": [
+          "governance",
+          "climate-d"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Focus on regulatory compliance indicates a structured approach to sustainability governance."
+      },
+      {
+        "text": "We recently completed our Double Materiality Assessment (DMA), the first step in this process.",
+        "aspect": "Double Materiality Assessment",
+        "labels": [
+          "governance",
+          "climate-d"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Completion of DMA is a procedural step in sustainability reporting, indicating progress in governance."
+      },
+      {
+        "text": "We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.",
+        "aspect": "awareness of responsible operations",
+        "labels": [
+          "governance",
+          "climate-d"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Raising awareness about responsible operations and sustainability indicates a positive cultural shift within the organization."
+      },
+      {
+        "text": "We are committed to contributing to our local communities and, more broadly, the technology and services industry.",
+        "aspect": "community contribution",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Commitment to community contribution reflects a broader social responsibility."
+      },
+      {
+        "text": "In FY2024, we ran a marketing campaign to highlight AI's transformative potential across various industries.",
+        "aspect": "AI marketing campaign",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Campaign highlights AI's potential, indicating a focus on innovation and positive industry impact."
+      },
+      {
+        "text": "Our campaign featured expert articles, webinars, e-books and whitepapers exploring how businesses can leverage AI for innovation, efficiency and new revenue opportunities.",
+        "aspect": "AI educational content",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Educational content on AI benefits indicates a commitment to knowledge sharing and innovation."
+      },
+      {
+        "text": "Additionally, it included case studies showcasing Endava's successful AI projects.",
+        "aspect": "AI project case studies",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Showcasing successful projects demonstrates practical application and positive outcomes of AI initiatives."
+      },
+      {
+        "text": "To ride the AI wave, we've upskilled our specialists in efficient LLM fine-tuning, RAG solutions, and multi-agent frameworks through our Data Academy programmes and various AI hackathons.",
+        "aspect": "AI upskilling initiatives",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Upskilling initiatives indicate investment in human capital and technological advancement."
+      },
+      {
+        "text": "These events enhanced learning and tackled industry challenges.",
+        "aspect": "learning and industry challenges",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Focus on learning and addressing challenges indicates a proactive approach to industry issues."
+      },
+      {
+        "text": "Notably, one of Endava's teams won the grand prize at the Global Microsoft Fabric Hackathon.",
+        "aspect": "hackathon success",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Winning a hackathon demonstrates innovation and competitive success."
+      },
+      {
+        "text": "We aim to embed AI in our daily engineering work by following our effective AI learning paths and developing AI accelerators that create a paradigm shift.",
+        "aspect": "AI integration in engineering",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Embedding AI in daily work indicates a strategic focus on technological integration and innovation."
+      },
+      {
+        "text": "The Endava Coding Assistant is an AI-driven tool that aims to streamline onboarding and coding processes for developers.",
+        "aspect": "Endava Coding Assistant",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of AI tools indicates a focus on efficiency and innovation in software development."
+      },
+      {
+        "text": "It leverages advanced technology, such as GPT-4 and open-source language models, to provide context-aware code generation, semantic search and compliance checks.",
+        "aspect": "advanced AI technology",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Use of advanced AI technology indicates a commitment to cutting-edge solutions and efficiency."
+      },
+      {
+        "text": "Hosted on Azure, the platform integrates with popular IDEs like VS Code and IntelliJ, offering a user-friendly interface to enhance code quality and promote standardised workflows.",
+        "aspect": "AI tool integration",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Integration with popular tools and focus on user experience indicates a practical and user-centric approach."
+      },
+      {
+        "text": "While tools like Copilot and TabNine can improve coding speed for general tasks, they provide little benefits for domain-specific code.",
+        "aspect": "limitations of existing tools",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Acknowledgement of limitations indicates a realistic assessment of current tools and the need for improvement."
+      },
+      {
+        "text": "To address these limitations, we developed Coding Assistant, incorporating advanced search capabilities over existing codebases and documentation to provide relevant code suggestions.",
+        "aspect": "development of Coding Assistant",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of a new tool to address limitations indicates innovation and problem-solving."
+      },
+      {
+        "text": "This tool implements the design pattern of retrieval augmented generation (RAG) and allows for the addition of custom commands to address specific domain needs.",
+        "aspect": "RAG design pattern",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Use of advanced design patterns indicates a sophisticated approach to tool development."
+      },
+      {
+        "text": "TaskMate is an innovative approach to automating web interface navigation for comprehensive testing of web component functionalities.",
+        "aspect": "TaskMate automation tool",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of automation tools indicates a focus on efficiency and innovation in testing processes."
+      },
+      {
+        "text": "It reduces operational costs by minimising the need for manual testing, shortens the time to market for web applications and decreases the ramp-up time for new users.",
+        "aspect": "benefits of TaskMate",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Benefits of automation tools indicate a focus on efficiency and cost reduction."
+      },
+      {
+        "text": "TaskMate also enhances knowledge sharing by utilising cutting-edge technology for practical applications and allows for developing more reliable and user-friendly web applications.",
+        "aspect": "knowledge sharing and reliability",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Focus on knowledge sharing and reliability indicates a commitment to quality and user experience."
+      },
+      {
+        "text": "We are developing AI skills across our delivery locations:",
+        "aspect": "AI skills development",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of AI skills indicates investment in human capital and technological advancement."
+      },
+      {
+        "text": "AI Caravan - organised in delivery locations to foster conversations on AI and to expand our collective understanding of this technology.",
+        "aspect": "AI Caravan initiative",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Initiative to foster AI conversations indicates a focus on knowledge sharing and collective understanding."
+      },
+      {
+        "text": "Generative AI Essentials Learning Path - an internal initiative designed to deepen our understanding and mastery of Generative AI technologies, aimed at our development discipline.",
+        "aspect": "Generative AI Learning Path",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Internal learning initiatives indicate a commitment to continuous improvement and mastery of new technologies."
+      },
+      {
+        "text": "AI testing tools - introduced as a team project between our analysis, data and testing disciplines to resolve the paradigm shift in manual testing.",
+        "aspect": "AI testing tools",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Introduction of AI testing tools indicates a focus on innovation and efficiency in testing processes."
+      },
+      {
+        "text": "AI micro tools - developed to bridge the gap between small, often abandoned proof-of-concept projects and complex enterprise systems.",
+        "aspect": "AI micro tools",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of micro tools indicates a focus on practical solutions and bridging gaps in technology adoption."
+      },
+      {
+        "text": "'HackTogether: The Microsoft Fabric Global AI Hack' is a global online hackathon allowing participants to build innovative AI solutions using Microsoft's data platform, Fabric.",
+        "aspect": "Microsoft Fabric Global AI Hack",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Participation in global hackathons indicates a commitment to innovation and collaboration."
+      },
+      {
+        "text": "This year, three Endava teams successfully participated with original solutions aimed at solving real-world challenges.",
+        "aspect": "hackathon participation",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Successful participation in hackathons indicates a focus on practical problem-solving and innovation."
+      },
+      {
+        "text": "Endava's team from Skopje, North Macedonia, won the grand prize for its solution, PINovators.",
+        "aspect": "hackathon success",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Winning a hackathon demonstrates innovation and competitive success."
+      },
+      {
+        "text": "PINovators is a cloud-native data solution that integrates Open AI for document analysis to detect personally identifiable information (PII) in files and images.",
+        "aspect": "PINovators solution",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of a solution for PII detection indicates a focus on data privacy and security."
+      },
+      {
+        "text": "Team members were Elena Donev, Slave Tasev and Katerina Stankovska.",
+        "aspect": "team members",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Mention of team members indicates recognition of individual contributions."
+      },
+      {
+        "text": "In addition to winning the grand prize, two other Endava teams received honourable mentions:",
+        "aspect": "honourable mentions",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Receiving honourable mentions indicates recognition of innovative efforts."
+      },
+      {
+        "text": "Our team from the Adriatic region developed an approach for anomaly detection in email datasets, using Azure OpenAI.",
+        "aspect": "anomaly detection approach",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of anomaly detection indicates a focus on data analysis and security."
+      },
+      {
+        "text": "Team members were Armin Okic, Maruska Budic and Aleksandar Miodragovic.",
+        "aspect": "team members",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Mention of team members indicates recognition of individual contributions."
+      },
+      {
+        "text": "Our team from Iasi, Romania, worked on automating synthetic data creation and reporting.",
+        "aspect": "synthetic data automation",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Automation of data creation indicates a focus on efficiency and innovation in data management."
+      },
+      {
+        "text": "Team members were Miroslav Cojocari and Gabriela Neagu.",
+        "aspect": "team members",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Mention of team members indicates recognition of individual contributions."
+      },
+      {
+        "text": "Using a similar format, we held 48-hour hackathon events in Charlotte (U.S.) and Bucharest (Romania).",
+        "aspect": "hackathon events",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Holding hackathon events indicates a commitment to innovation and collaboration."
+      },
+      {
+        "text": "We teamed up with Microsoft, one of our strategic partners, to build proofs of concept (POC) and to better understand the Semantic Kernel software development kit and other Azure tools.",
+        "aspect": "collaboration with Microsoft",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Collaboration with strategic partners indicates a focus on leveraging external expertise and resources."
+      },
+      {
+        "text": "The collaborative effort proved instrumental in building solutions for two industry verticals, healthcare and travel.",
+        "aspect": "industry solutions",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Building solutions for specific industries indicates a focus on practical applications and industry impact."
+      },
+      {
+        "text": "We built two solutions for healthcare and life sciences: one centered around patient care and the other around assisting pharmacists in providing personalised medicine.",
+        "aspect": "healthcare solutions",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of healthcare solutions indicates a focus on improving patient care and personalized medicine."
+      },
+      {
+        "text": "We also built two solutions for the travel industry to enhance social media customer reviews and to revamp customer service through artificial intelligence (AI).",
+        "aspect": "travel industry solutions",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Development of travel industry solutions indicates a focus on enhancing customer experience and service."
+      },
+      {
+        "text": "As the teams proved during the hackathon, the challenges the airline and the wider travel industry have traditionally faced can be solved differently, with solutions that provide a wider impact for their businesses.",
+        "aspect": "industry challenges and solutions",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Addressing industry challenges with innovative solutions indicates a focus on practical impact and business improvement."
+      },
+      {
+        "text": "We're already discussing with our clients the positive impact AI can have on their businesses, and we're lining up multiple hackathons, proofs of concepts (PoC), and projects aligned with their business ambitions.",
+        "aspect": "client discussions and future plans",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Discussions with clients and future plans indicate a commitment to ongoing innovation and client collaboration."
+      },
+      {
+        "text": "At the hackathon held in Charlotte, we addressed major healthcare challenges and demonstrated how generative AI can streamline operations and improve patient care.",
+        "aspect": "healthcare hackathon",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Addressing healthcare challenges with AI indicates a focus on improving patient care and operational efficiency."
+      },
+      {
+        "text": "This effort deepened our understanding and reinforced our commitment to transforming healthcare with innovative technologies.",
+        "aspect": "commitment to healthcare transformation",
+        "labels": [
+          "opportunity",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Commitment to transforming healthcare with technology indicates a focus on innovation and positive impact."
+      }
+    ],
+    "raw_output": "[\n{\n\"text\": \"We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.\",\n\"aspect\": \"commitment to positive impact\",\n\"labels\": [\"commitment\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Statement expresses commitment to positive impact across stakeholders, indicating a sustainability-oriented mindset.\"\n},\n{\n\"text\": \"We are a leading provider of next-generation technology services dedicated to helping our customers drive real impact and meaningful change globally.\",\n\"aspect\": \"technology services for impact\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Emphasizes positive contribution through technology services, indicating a beneficial impact on customers and society.\"\n},\n{\n\"text\": \"Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction.\",\n\"aspect\": \"customer satisfaction through service\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Focuses on service quality and partnerships, which indirectly supports sustainable business practices.\"\n},\n{\n\"text\": \"We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities.\",\n\"aspect\": \"supporting client sustainability\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Directly mentions supporting clients' sustainability efforts, indicating a positive environmental contribution.\"\n},\n{\n\"text\": \"We also use technology as a force for good in collaboration with our customers.\",\n\"aspect\": \"technology as force for good\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Highlights the positive use of technology, aligning with sustainable and ethical practices.\"\n},\n{\n\"text\": \"In FY2024, we made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi).\",\n\"aspect\": \"science-based emissions targets\",\n\"labels\": [\"climate-commitment\", \"netzero-reduction\", \"metrics\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Approval of science-based targets by SBTi demonstrates a concrete commitment to emissions reduction and net-zero goals.\"\n},\n{\n\"text\": \"Our governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD).\",\n\"aspect\": \"CSRD compliance preparation\",\n\"labels\": [\"governance\", \"climate-d\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"Focus on regulatory compliance indicates a structured approach to sustainability governance.\"\n},\n{\n\"text\": \"We recently completed our Double Materiality Assessment (DMA), the first step in this process.\",\n\"aspect\": \"Double Materiality Assessment\",\n\"labels\": [\"governance\", \"climate-d\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"Completion of DMA is a procedural step in sustainability reporting, indicating progress in governance.\"\n},\n{\n\"text\": \"We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.\",\n\"aspect\": \"awareness of responsible operations\",\n\"labels\": [\"governance\", \"climate-d\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Raising awareness about responsible operations and sustainability indicates a positive cultural shift within the organization.\"\n},\n{\n\"text\": \"We are committed to contributing to our local communities and, more broadly, the technology and services industry.\",\n\"aspect\": \"community contribution\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Commitment to community contribution reflects a broader social responsibility.\"\n},\n{\n\"text\": \"In FY2024, we ran a marketing campaign to highlight AI's transformative potential across various industries.\",\n\"aspect\": \"AI marketing campaign\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Campaign highlights AI's potential, indicating a focus on innovation and positive industry impact.\"\n},\n{\n\"text\": \"Our campaign featured expert articles, webinars, e-books and whitepapers exploring how businesses can leverage AI for innovation, efficiency and new revenue opportunities.\",\n\"aspect\": \"AI educational content\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Educational content on AI benefits indicates a commitment to knowledge sharing and innovation.\"\n},\n{\n\"text\": \"Additionally, it included case studies showcasing Endava's successful AI projects.\",\n\"aspect\": \"AI project case studies\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Showcasing successful projects demonstrates practical application and positive outcomes of AI initiatives.\"\n},\n{\n\"text\": \"To ride the AI wave, we've upskilled our specialists in efficient LLM fine-tuning, RAG solutions, and multi-agent frameworks through our Data Academy programmes and various AI hackathons.\",\n\"aspect\": \"AI upskilling initiatives\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Upskilling initiatives indicate investment in human capital and technological advancement.\"\n},\n{\n\"text\": \"These events enhanced learning and tackled industry challenges.\",\n\"aspect\": \"learning and industry challenges\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Focus on learning and addressing challenges indicates a proactive approach to industry issues.\"\n},\n{\n\"text\": \"Notably, one of Endava's teams won the grand prize at the Global Microsoft Fabric Hackathon.\",\n\"aspect\": \"hackathon success\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Winning a hackathon demonstrates innovation and competitive success.\"\n},\n{\n\"text\": \"We aim to embed AI in our daily engineering work by following our effective AI learning paths and developing AI accelerators that create a paradigm shift.\",\n\"aspect\": \"AI integration in engineering\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Embedding AI in daily work indicates a strategic focus on technological integration and innovation.\"\n},\n{\n\"text\": \"The Endava Coding Assistant is an AI-driven tool that aims to streamline onboarding and coding processes for developers.\",\n\"aspect\": \"Endava Coding Assistant\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Development of AI tools indicates a focus on efficiency and innovation in software development.\"\n},\n{\n\"text\": \"It leverages advanced technology, such as GPT-4 and open-source language models, to provide context-aware code generation, semantic search and compliance checks.\",\n\"aspect\": \"advanced AI technology\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Use of advanced AI technology indicates a commitment to cutting-edge solutions and efficiency.\"\n},\n{\n\"text\": \"Hosted on Azure, the platform integrates with popular IDEs like VS Code and IntelliJ, offering a user-friendly interface to enhance code quality and promote standardised workflows.\",\n\"aspect\": \"AI tool integration\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Integration with popular tools and focus on user experience indicates a practical and user-centric approach.\"\n},\n{\n\"text\": \"While tools like Copilot and TabNine can improve coding speed for general tasks, they provide little benefits for domain-specific code.\",\n\"aspect\": \"limitations of existing tools\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"Acknowledgement of limitations indicates a realistic assessment of current tools and the need for improvement.\"\n},\n{\n\"text\": \"To address these limitations, we developed Coding Assistant, incorporating advanced search capabilities over existing codebases and documentation to provide relevant code suggestions.\",\n\"aspect\": \"development of Coding Assistant\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Development of a new tool to address limitations indicates innovation and problem-solving.\"\n},\n{\n\"text\": \"This tool implements the design pattern of retrieval augmented generation (RAG) and allows for the addition of custom commands to address specific domain needs.\",\n\"aspect\": \"RAG design pattern\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Use of advanced design patterns indicates a sophisticated approach to tool development.\"\n},\n{\n\"text\": \"TaskMate is an innovative approach to automating web interface navigation for comprehensive testing of web component functionalities.\",\n\"aspect\": \"TaskMate automation tool\",\n\"labels\": [\"opportunity\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"Development of automat"
+  },
+  {
+    "timestamp": "2026-03-26T19:54:48.868304Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "Ourpeople",
+        "aspect": "Nurturing our people",
+        "labels": [
+          "diversity-equity-inclusion",
+          "wellbeing"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit mention of diversity, equity, inclusion and wellbeing initiatives under 'Our People' section indicates positive social focus."
+      },
+      {
+        "text": "Education: Endava Tech Campus",
+        "aspect": "Education initiatives",
+        "labels": [
+          "education"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit reference to 'Endava Tech Campus' as an educational initiative demonstrates positive social investment."
+      },
+      {
+        "text": "Health initiatives",
+        "aspect": "Health programs",
+        "labels": [
+          "health"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Direct mention of 'Health' under Social Impact section indicates positive social focus on employee wellbeing."
+      },
+      {
+        "text": "Climate-related risk assessment process",
+        "aspect": "Climate risk management",
+        "labels": [
+          "climate-risks"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit discussion of climate risk assessment process demonstrates proactive environmental governance."
+      },
+      {
+        "text": "Journey to Net Zero",
+        "aspect": "Net zero commitment",
+        "labels": [
+          "net-zero-reduction"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit mention of approved science-based net-zero target indicates positive environmental commitment."
+      },
+      {
+        "text": "Governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD)",
+        "aspect": "Governance compliance",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit reference to CSRD compliance efforts demonstrates positive governance focus."
+      },
+      {
+        "text": "Agentic AI Industry Accelerator",
+        "aspect": "AI innovation",
+        "labels": [
+          "innovation"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit mention of AI accelerator initiative demonstrates positive governance of technological innovation."
+      },
+      {
+        "text": "AI is set to drive the new digital transformation era",
+        "aspect": "AI transformation",
+        "labels": [
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit reference to AI's transformative potential indicates positive governance of strategic direction."
+      },
+      {
+        "text": "We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.",
+        "aspect": "Corporate commitment",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit commitment statement demonstrates positive governance of corporate responsibility."
+      }
+    ],
+    "raw_output": "\n\n[\n{\n  \"text\": \"Ourpeople\",\n  \"aspect\": \"Nurturing our people\",\n  \"labels\": [\"diversity-equity-inclusion\", \"wellbeing\"],\n  \"esg\": \"S\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit mention of diversity, equity, inclusion and wellbeing initiatives under 'Our People' section indicates positive social focus.\"\n},\n{\n  \"text\": \"Education: Endava Tech Campus\",\n  \"aspect\": \"Education initiatives\",\n  \"labels\": [\"education\"],\n  \"esg\": \"S\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit reference to 'Endava Tech Campus' as an educational initiative demonstrates positive social investment.\"\n},\n{\n  \"text\": \"Health initiatives\",\n  \"aspect\": \"Health programs\",\n  \"labels\": [\"health\"],\n  \"esg\": \"S\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Direct mention of 'Health' under Social Impact section indicates positive social focus on employee wellbeing.\"\n},\n{\n  \"text\": \"Climate-related risk assessment process\",\n  \"aspect\": \"Climate risk management\",\n  \"labels\": [\"climate-risks\"],\n  \"esg\": \"E\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit discussion of climate risk assessment process demonstrates proactive environmental governance.\"\n},\n{\n  \"text\": \"Journey to Net Zero\",\n  \"aspect\": \"Net zero commitment\",\n  \"labels\": [\"net-zero-reduction\"],\n  \"esg\": \"E\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit mention of approved science-based net-zero target indicates positive environmental commitment.\"\n},\n{\n  \"text\": \"Governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD)\",\n  \"aspect\": \"Governance compliance\",\n  \"labels\": [\"governance\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit reference to CSRD compliance efforts demonstrates positive governance focus.\"\n},\n{\n  \"text\": \"Agentic AI Industry Accelerator\",\n  \"aspect\": \"AI innovation\",\n  \"labels\": [\"innovation\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit mention of AI accelerator initiative demonstrates positive governance of technological innovation.\"\n},\n{\n  \"text\": \"AI is set to drive the new digital transformation era\",\n  \"aspect\": \"AI transformation\",\n  \"labels\": [\"strategy\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit reference to AI's transformative potential indicates positive governance of strategic direction.\"\n},\n{\n  \"text\": \"We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.\",\n  \"aspect\": \"Corporate commitment\",\n  \"labels\": [\"commitment\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit commitment statement demonstrates positive governance of corporate responsibility.\"\n}\n]"
+  },
+  {
+    "timestamp": "2026-03-26T19:56:11.596717Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTi.",
+        "aspect": "climate commitment",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction",
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The text explicitly states approval of science-based targets by SBTi, indicating a formal commitment to emissions reduction with quantifiable goals."
+      },
+      {
+        "text": "We completed our Double Materiality Assessment (DMA), the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "governance",
+        "labels": [
+          "governance",
+          "climate-specificity"
+        ],
+        "esg": "E",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The completion of a Double Materiality Assessment is a governance process to identify material ESG factors, including climate-specific issues, without expressing sentiment."
+      },
+      {
+        "text": "Our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, were approved by the Science Based Targets initiative (SBTi).",
+        "aspect": "climate commitment",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction",
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Approval by SBTi confirms validated, science-based targets for emissions reduction and net-zero, demonstrating formal commitment with measurable metrics."
+      },
+      {
+        "text": "We are a leading provider of next-generation technology services dedicated to enabling our customers to drive real impact and meaningful change.",
+        "aspect": "climate commitment",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The statement positions the company as a leader in enabling customer impact, implying commitment to positive environmental outcomes through technology."
+      },
+      {
+        "text": "The heart of the design is based on three foundational themes: Data at the core with full transparency, Teams of agents to break down complex workflows, Dynamic scaling of teams to accelerate processes.",
+        "aspect": "climate-specificity",
+        "labels": [
+          "climate-specificity"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The description of agentic AI design emphasizes transparency and scalability, which are specific technical approaches to addressing climate-related challenges."
+      },
+      {
+        "text": "We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities.",
+        "aspect": "climate commitment",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The company explicitly states support for clients' sustainability journeys, indicating commitment to environmental goals through partnerships and capabilities."
+      },
+      {
+        "text": "Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction.",
+        "aspect": "climate commitment",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Customer satisfaction through partnerships implies commitment to sustainable practices that meet client expectations and environmental standards."
+      },
+      {
+        "text": "We are committed to making a positive impact. We enable change.",
+        "aspect": "climate commitment",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The direct statement of commitment to positive impact and enabling change explicitly addresses climate-related environmental goals."
+      },
+      {
+        "text": "The chatbot solution utilises Semantic Kernel from Microsoft Azure Open AI large language model and implements an Azure Chat Completion pattern.",
+        "aspect": "climate-specificity",
+        "labels": [
+          "climate-specificity"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The technical implementation of AI for healthcare triage demonstrates specific climate-related applications in regulated industries."
+      },
+      {
+        "text": "News searches are performed using a combination of semantic and fuzzy keyword searches, leveraging OpenAI embeddings, the extended LlamaIndex framework and Elasticsearch's native fuzzy search capability.",
+        "aspect": "climate-specificity",
+        "labels": [
+          "climate-specificity"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The use of advanced AI techniques for news search in regulated industries like healthcare shows specific climate-related applications."
+      },
+      {
+        "text": "We also provide financial advisers with semantic search-based chat capability, allowing them to ask additional questions regarding the news stories.",
+        "aspect": "climate-specificity",
+        "labels": [
+          "climate-specificity"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Enhanced AI capabilities for financial advisers in regulated sectors demonstrate specific climate-related applications in industry practices."
+      },
+      {
+        "text": "To enhance the overall customer experience and perform more targeted searches for real estate buyers, we developed a solution empowering potential buyers to conduct interactive searches using natural human language.",
+        "aspect": "climate-specificity",
+        "labels": [
+          "climate-specificity"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "AI-driven real estate search applications in regulated industries represent specific climate-related technological implementations."
+      }
+    ],
+    "raw_output": "\n\n[\n{\n\"text\":\"In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTi.\",\n\"aspect\": \"climate commitment\",\n\"labels\": [\"climate-commitment\", \"netzero-reduction\", \"metrics\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The text explicitly states approval of science-based targets by SBTi, indicating a formal commitment to emissions reduction with quantifiable goals.\"\n},\n{\n\"text\": \"We completed our Double Materiality Assessment (DMA), the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).\",\n\"aspect\": \"governance\",\n\"labels\": [\"governance\", \"climate-specificity\"],\n\"esg\": \"E\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The completion of a Double Materiality Assessment is a governance process to identify material ESG factors, including climate-specific issues, without expressing sentiment.\"\n},\n{\n\"text\": \"Our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, were approved by the Science Based Targets initiative (SBTi).\",\n\"aspect\": \"climate commitment\",\n\"labels\": [\"climate-commitment\", \"netzero-reduction\", \"metrics\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Approval by SBTi confirms validated, science-based targets for emissions reduction and net-zero, demonstrating formal commitment with measurable metrics.\"\n},\n{\n\"text\": \"We are a leading provider of next-generation technology services dedicated to enabling our customers to drive real impact and meaningful change.\",\n\"aspect\": \"climate commitment\",\n\"labels\": [\"climate-commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The statement positions the company as a leader in enabling customer impact, implying commitment to positive environmental outcomes through technology.\"\n},\n{\n\"text\": \"The heart of the design is based on three foundational themes: Data at the core with full transparency, Teams of agents to break down complex workflows, Dynamic scaling of teams to accelerate processes.\",\n\"aspect\": \"climate-specificity\",\n\"labels\": [\"climate-specificity\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The description of agentic AI design emphasizes transparency and scalability, which are specific technical approaches to addressing climate-related challenges.\"\n},\n{\n\"text\": \"We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities.\",\n\"aspect\": \"climate commitment\",\n\"labels\": [\"climate-commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The company explicitly states support for clients' sustainability journeys, indicating commitment to environmental goals through partnerships and capabilities.\"\n},\n{\n\"text\": \"Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction.\",\n\"aspect\": \"climate commitment\",\n\"labels\": [\"climate-commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Customer satisfaction through partnerships implies commitment to sustainable practices that meet client expectations and environmental standards.\"\n},\n{\n\"text\": \"We are committed to making a positive impact. We enable change.\",\n\"aspect\": \"climate commitment\",\n\"labels\": [\"climate-commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The direct statement of commitment to positive impact and enabling change explicitly addresses climate-related environmental goals.\"\n},\n{\n\"text\": \"The chatbot solution utilises Semantic Kernel from Microsoft Azure Open AI large language model and implements an Azure Chat Completion pattern.\",\n\"aspect\": \"climate-specificity\",\n\"labels\": [\"climate-specificity\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The technical implementation of AI for healthcare triage demonstrates specific climate-related applications in regulated industries.\"\n},\n{\n\"text\": \"News searches are performed using a combination of semantic and fuzzy keyword searches, leveraging OpenAI embeddings, the extended LlamaIndex framework and Elasticsearch's native fuzzy search capability.\",\n\"aspect\": \"climate-specificity\",\n\"labels\": [\"climate-specificity\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The use of advanced AI techniques for news search in regulated industries like healthcare shows specific climate-related applications.\"\n},\n{\n\"text\": \"We also provide financial advisers with semantic search-based chat capability, allowing them to ask additional questions regarding the news stories.\",\n\"aspect\": \"climate-specificity\",\n\"labels\": [\"climate-specificity\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Enhanced AI capabilities for financial advisers in regulated sectors demonstrate specific climate-related applications in industry practices.\"\n},\n{\n\"text\": \"To enhance the overall customer experience and perform more targeted searches for real estate buyers, we developed a solution empowering potential buyers to conduct interactive searches using natural human language.\",\n\"aspect\": \"climate-specificity\",\n\"labels\": [\"climate-specificity\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"AI-driven real estate search applications in regulated industries represent specific climate-related technological implementations.\"\n}\n]"
+  },
+  {
+    "timestamp": "2026-03-26T19:57:50.237041Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "Our people",
+        "aspect": "Nurturing our people",
+        "labels": [
+          "diversity-equity-inclusion",
+          "wellbeing"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of diversity, equity, inclusion and wellbeing initiatives directly relates to Social (S) category. Positive language indicates commitment to employee welfare."
+      },
+      {
+        "text": "Education: Endava Tech Campus",
+        "aspect": "Education initiatives",
+        "labels": [
+          "education"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit reference to educational programs for employees falls under Social (S) category. Positive framing of skill development initiatives."
+      },
+      {
+        "text": "Climate-related risk assessment process",
+        "aspect": "Climate risk assessment",
+        "labels": [
+          "climate-risk"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of climate risk assessment process directly relates to Environmental (E) category. Positive framing of proactive risk management."
+      },
+      {
+        "text": "Journey to Net Zero",
+        "aspect": "Net zero commitment",
+        "labels": [
+          "netzero-reduction"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit reference to science-based net-zero target approved by SBTi falls under Environmental (E) category. Commitment language indicates future-oriented action."
+      },
+      {
+        "text": "Governance efforts continue to focus on preparing for CSRD compliance",
+        "aspect": "CSR compliance preparation",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of governance efforts for EU CSRD compliance directly relates to Governance (G) category. Positive framing of regulatory preparedness."
+      },
+      {
+        "text": "AI-driven tool for streamlining onboarding and coding processes",
+        "aspect": "AI coding assistant",
+        "labels": [
+          "innovation",
+          "data-integrity"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit reference to AI implementation for operational efficiency falls under Governance (G) category. Positive framing of technological innovation."
+      },
+      {
+        "text": "Grand prize at Microsoft Fabric Global AI Hack",
+        "aspect": "AI hackathon success",
+        "labels": [
+          "innovation"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of AI innovation achievement relates to Governance (G) category. Positive framing of competitive success in AI development."
+      },
+      {
+        "text": "Climate-related risk assessment process",
+        "aspect": "Climate risk assessment",
+        "labels": [
+          "climate-risk"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of climate risk assessment process directly relates to Environmental (E) category. Positive framing of proactive risk management."
+      },
+      {
+        "text": "We are committed to making a positive impact",
+        "aspect": "Corporate commitment",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "G",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit commitment statement relates to Governance (G) category. Commitment language indicates future-oriented action."
+      },
+      {
+        "text": "UN Global Compact signatory",
+        "aspect": "UN Global Compact",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of UN Global Compact participation relates to Governance (G) category. Positive framing of international sustainability commitment."
+      }
+    ],
+    "raw_output": "\n\n[\n{\n  \"text\": \"Our people\",\n  \"aspect\": \"Nurturing our people\",\n  \"labels\": [\"diversity-equity-inclusion\", \"wellbeing\"],\n  \"esg\": \"S\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of diversity, equity, inclusion and wellbeing initiatives directly relates to Social (S) category. Positive language indicates commitment to employee welfare.\"\n},\n{\n  \"text\": \"Education: Endava Tech Campus\",\n  \"aspect\": \"Education initiatives\",\n  \"labels\": [\"education\"],\n  \"esg\": \"S\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit reference to educational programs for employees falls under Social (S) category. Positive framing of skill development initiatives.\"\n},\n{\n  \"text\": \"Climate-related risk assessment process\",\n  \"aspect\": \"Climate risk assessment\",\n  \"labels\": [\"climate-risk\"],\n  \"esg\": \"E\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of climate risk assessment process directly relates to Environmental (E) category. Positive framing of proactive risk management.\"\n},\n{\n  \"text\": \"Journey to Net Zero\",\n  \"aspect\": \"Net zero commitment\",\n  \"labels\": [\"netzero-reduction\"],\n  \"esg\": \"E\",\n  \"sentiment\": \"commitment\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit reference to science-based net-zero target approved by SBTi falls under Environmental (E) category. Commitment language indicates future-oriented action.\"\n},\n{\n  \"text\": \"Governance efforts continue to focus on preparing for CSRD compliance\",\n  \"aspect\": \"CSR compliance preparation\",\n  \"labels\": [\"governance\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of governance efforts for EU CSRD compliance directly relates to Governance (G) category. Positive framing of regulatory preparedness.\"\n},\n{\n  \"text\": \"AI-driven tool for streamlining onboarding and coding processes\",\n  \"aspect\": \"AI coding assistant\",\n  \"labels\": [\"innovation\", \"data-integrity\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit reference to AI implementation for operational efficiency falls under Governance (G) category. Positive framing of technological innovation.\"\n},\n{\n  \"text\": \"Grand prize at Microsoft Fabric Global AI Hack\",\n  \"aspect\": \"AI hackathon success\",\n  \"labels\": [\"innovation\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of AI innovation achievement relates to Governance (G) category. Positive framing of competitive success in AI development.\"\n},\n{\n  \"text\": \"Climate-related risk assessment process\",\n  \"aspect\": \"Climate risk assessment\",\n  \"labels\": [\"climate-risk\"],\n  \"esg\": \"E\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of climate risk assessment process directly relates to Environmental (E) category. Positive framing of proactive risk management.\"\n},\n{\n  \"text\": \"We are committed to making a positive impact\",\n  \"aspect\": \"Corporate commitment\",\n  \"labels\": [\"commitment\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"commitment\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit commitment statement relates to Governance (G) category. Commitment language indicates future-oriented action.\"\n},\n{\n  \"text\": \"UN Global Compact signatory\",\n  \"aspect\": \"UN Global Compact\",\n  \"labels\": [\"governance\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of UN Global Compact participation relates to Governance (G) category. Positive framing of international sustainability commitment.\"\n}\n]"
+  },
+  {
+    "timestamp": "2026-03-26T19:59:06.519027Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "In FY2024, we made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi).",
+        "aspect": "science-based emissions reduction targets",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The text explicitly states the achievement of approved science-based targets for emissions reduction and net-zero commitment, indicating a formal commitment to environmental goals."
+      },
+      {
+        "text": "Our governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "CSRD compliance preparation",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The statement describes ongoing governance activities related to regulatory compliance without expressing positive or negative sentiment."
+      },
+      {
+        "text": "We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.",
+        "aspect": "supply chain sustainability awareness",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text indicates governance initiatives focused on supply chain sustainability education, reflecting responsible operational practices."
+      },
+      {
+        "text": "We are committed to making a positive impact. We enable change.",
+        "aspect": "positive impact commitment",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The statement directly expresses commitment to positive environmental impact and change, aligning with ESG commitment sentiment."
+      },
+      {
+        "text": "We are a leading provider of next-generation technology services dedicated to enabling our customers to drive real impact and meaningful change globally.",
+        "aspect": "customer impact enabling",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The text emphasizes commitment to enabling customer-driven impact and change, reflecting environmental commitment sentiment."
+      },
+      {
+        "text": "Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction.",
+        "aspect": "customer satisfaction maintenance",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The statement highlights commitment to service excellence and partnerships, contributing to customer satisfaction and operational commitment."
+      },
+      {
+        "text": "We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities.",
+        "aspect": "client sustainability support",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The text demonstrates commitment to supporting clients' sustainability efforts through expertise and partnerships, reflecting environmental commitment."
+      },
+      {
+        "text": "We are committed to contributing to our local communities and, more broadly, the technology and services industry.",
+        "aspect": "community contribution commitment",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The statement explicitly states commitment to community contributions and industry involvement, indicating environmental commitment sentiment."
+      },
+      {
+        "text": "We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.",
+        "aspect": "positive impact commitment",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The text directly expresses commitment to positive impact across people, customers, and communities, reflecting environmental commitment sentiment."
+      },
+      {
+        "text": "We are a leading provider of next-generation technology services dedicated to enabling our customers to drive real impact and meaningful change globally.",
+        "aspect": "global impact enabling",
+        "labels": [
+          "commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The statement emphasizes commitment to enabling global impact and change through technology services, reflecting environmental commitment sentiment."
+      }
+    ],
+    "raw_output": "[\n{\n\"text\": \"In FY2024, we made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi).\",\n\"aspect\": \"science-based emissions reduction targets\",\n\"labels\": [\"climate-commitment\", \"netzero-reduction\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The text explicitly states the achievement of approved science-based targets for emissions reduction and net-zero commitment, indicating a formal commitment to environmental goals.\"\n},\n{\n\"text\": \"Our governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD).\",\n\"aspect\": \"CSRD compliance preparation\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The statement describes ongoing governance activities related to regulatory compliance without expressing positive or negative sentiment.\"\n},\n{\n\"text\": \"We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.\",\n\"aspect\": \"supply chain sustainability awareness\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text indicates governance initiatives focused on supply chain sustainability education, reflecting responsible operational practices.\"\n},\n{\n\"text\": \"We are committed to making a positive impact. We enable change.\",\n\"aspect\": \"positive impact commitment\",\n\"labels\": [\"commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The statement directly expresses commitment to positive environmental impact and change, aligning with ESG commitment sentiment.\"\n},\n{\n\"text\": \"We are a leading provider of next-generation technology services dedicated to enabling our customers to drive real impact and meaningful change globally.\",\n\"aspect\": \"customer impact enabling\",\n\"labels\": [\"commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The text emphasizes commitment to enabling customer-driven impact and change, reflecting environmental commitment sentiment.\"\n},\n{\n\"text\": \"Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction.\",\n\"aspect\": \"customer satisfaction maintenance\",\n\"labels\": [\"commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The statement highlights commitment to service excellence and partnerships, contributing to customer satisfaction and operational commitment.\"\n},\n{\n\"text\": \"We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities.\",\n\"aspect\": \"client sustainability support\",\n\"labels\": [\"commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The text demonstrates commitment to supporting clients' sustainability efforts through expertise and partnerships, reflecting environmental commitment.\"\n},\n{\n\"text\": \"We are committed to contributing to our local communities and, more broadly, the technology and services industry.\",\n\"aspect\": \"community contribution commitment\",\n\"labels\": [\"commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The statement explicitly states commitment to community contributions and industry involvement, indicating environmental commitment sentiment.\"\n},\n{\n\"text\": \"We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.\",\n\"aspect\": \"positive impact commitment\",\n\"labels\": [\"commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The text directly expresses commitment to positive impact across people, customers, and communities, reflecting environmental commitment sentiment.\"\n},\n{\n\"text\": \"We are a leading provider of next-generation technology services dedicated to enabling our customers to drive real impact and meaningful change globally.\",\n\"aspect\": \"global impact enabling\",\n\"labels\": [\"commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The statement emphasizes commitment to enabling global impact and change through technology services, reflecting environmental commitment sentiment.\"\n}\n]"
+  },
+  {
+    "timestamp": "2026-03-26T20:10:50.659617Z",
+    "model": "openrouter/free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "we·care",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text 'we·care' is a brand name or slogan and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "# Sustainability Report 2024",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a title for a report and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "Introduction",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section header and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "Letter from our CEO",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section header and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "Hello and welcome, I am pleased to present our We Care Sustainability Report for the Fiscal Year 2024. As our organisation continues to evolve, our focus remains on the Environmental, Social and Governance (ESG) issues that are most relevant to our business.",
+        "aspect": "ESG",
+        "labels": [
+          "climate-d",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions ESG issues and the company's focus on them, indicating a positive sentiment towards ESG governance."
+      },
+      {
+        "text": "We Care is in our DNA. We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.",
+        "aspect": "ESG commitment",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly states a commitment to ESG principles and making a positive impact, indicating a positive sentiment towards ESG governance."
+      },
+      {
+        "text": "This report is also our annual Communication on Progress as a UN Global Compact signatory, reaffirming our commitment to shaping a sustainable future aligned with the UN Sustainable Development Goals.",
+        "aspect": "ESG commitment",
+        "labels": [
+          "climate-commitment",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions the UN Global Compact and Sustainable Development Goals, indicating a positive sentiment towards ESG governance and commitment."
+      },
+      {
+        "text": "As a growing global organisation, it is critical for us to stay true to our core purpose and values and to continue to focus on enabling our people to be the best they can be. We embrace strategic improvements to enhance our people skills and capabilities while fostering innovation and positioning ourselves for future growth.",
+        "aspect": "ESG strategy",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses strategic improvements and focus on people, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "We are a leading provider of next-generation technology services dedicated to helping our customers drive real impact and meaningful change globally. As AI is set to drive the new digital transformation era, our commitment to innovation excellence is evident in the design of our agentic AI Industry Accelerator, Morpheus. This is powered by our focus on developing AI skills across delivery locations and embedding AI in our daily engineering work.",
+        "aspect": "Innovation",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses innovation and AI, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction. We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities. We also use technology as a force for good in collaboration with our customers.",
+        "aspect": "ESG partnerships",
+        "labels": [
+          "governance",
+          "environmental-claims"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text mentions ESG partnerships and green software capabilities, indicating a positive sentiment towards ESG governance and environmental claims."
+      },
+      {
+        "text": "In FY2024, we made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi). Our governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD). We recently completed our Double Materiality Assessment (DMA), the first step in this process.",
+        "aspect": "Environmental targets",
+        "labels": [
+          "netzero-reduction",
+          "climate-commitment",
+          "governance"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions science-based emissions reduction targets and net-zero target, indicating a positive sentiment towards environmental governance and commitment."
+      },
+      {
+        "text": "We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.",
+        "aspect": "Supply chain sustainability",
+        "labels": [
+          "governance",
+          "environmental-claims"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses raising awareness of sustainability in the supply chain, indicating a positive sentiment towards ESG governance and environmental claims."
+      },
+      {
+        "text": "Our sustainability journey is moving forward. I invite you to discover more about our great work to create a positive impact supporting our people, customers, communities and stakeholders.",
+        "aspect": "Sustainability journey",
+        "labels": [
+          "climate-commitment",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions the sustainability journey and creating a positive impact, indicating a positive sentiment towards ESG governance and commitment."
+      },
+      {
+        "text": "We care about making a positive difference for our stakeholders:",
+        "aspect": "Stakeholder engagement",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions caring about stakeholders, indicating a positive sentiment towards ESG governance."
+      },
+      {
+        "text": "For our people We are committed to being an inclusive community, and our core purpose is to enable our people to be the best they can be.",
+        "aspect": "People",
+        "labels": [
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses commitment to people and inclusivity, indicating a positive sentiment towards ESG social governance."
+      },
+      {
+        "text": "For our clients We focus on building partnerships with our clients to provide innovative digital solutions to increase the positive impact we have on our clients' businesses and sustainability.",
+        "aspect": "Client partnerships",
+        "labels": [
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses building partnerships with clients and increasing positive impact, indicating a positive sentiment towards ESG social governance."
+      },
+      {
+        "text": "For our investors We aim to provide our investors with the information they need to understand our ESG priorities and how these initiatives drive the future resilience of our business, allowing them to make informed decisions.",
+        "aspect": "Investor relations",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses providing information to investors about ESG priorities, indicating a positive sentiment towards ESG governance."
+      },
+      {
+        "text": "In our supply chain We promote sustainable procurement practices and aim to make purchasing decisions that decrease negative effects on society and the environment.",
+        "aspect": "Sustainable procurement",
+        "labels": [
+          "governance",
+          "environmental-claims"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions sustainable procurement practices, indicating a positive sentiment towards ESG governance and environmental claims."
+      },
+      {
+        "text": "In our communities We aim to support the communities where we live and have strategic partnerships with non-governmental organisations (NGOs).",
+        "aspect": "Community support",
+        "labels": [
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses supporting communities and partnerships with NGOs, indicating a positive sentiment towards ESG social governance."
+      },
+      {
+        "text": "We are a leading next-generation technology services company.",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general statement about the company and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "We are a leading provider of next-generation technology services, dedicated to enabling our customers to drive real impact and meaningful change. By combining world-class engineering, deep industry expertise and a customer-centric mindset, we consult and partner with our customers to create technological solutions that fuel transformation and empower businesses to succeed in the AI-driven digital shift. From ideation to production, we support our customers with tailor-made solutions at every stage of their digital transformation, regardless of industry, region or scale.",
+        "aspect": "Innovation",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses innovation and customer-centric solutions, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "For over 20 years, we have helped businesses accelerate and take advantage of new business models and market opportunities across various industries, including payments, insurance, finance and banking, technology, media, telecommunications, healthcare and life sciences, mobility, retail and consumer goods and more. Operating across 71 cities in 29 countries, Endavans synthesise creativity, technology and delivery at scale in multi-disciplinary teams to support our clients from ideation to production. As of 30 June 2024, we employed 12,085 Endavans across locations in Europe, the Americas, Asia-Pacific and the Middle East.",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general statement about the company's operations and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "In FY2024, we reported revenue of £740.8 million, a 6.8% decrease from the previous year. In August 2023, through our acquisition of TLM Partners, Inc., or TLM, we have gained expertise in outsourced development services across design, engineering and art/animation for PC and console video games and other digital entertainment. Our acquisition of EQ Tek, in February 2024 increased our presence in Poland, providing IT software development services to financial services, gaming, sports betting and other technology-led B2C businesses. Through our acquisition of GalaxE in April 2024, we have expanded our healthcare footprint in North America and added our first delivery units located in India.",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general statement about the company's financial performance and acquisitions and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "We are committed to making a positive impact. We enable change.",
+        "aspect": "ESG commitment",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly states a commitment to making a positive impact, indicating a positive sentiment towards ESG governance and environmental claims."
+      },
+      {
+        "text": "The Digital Transformation approach we have been honing for two decades is the cornerstone of our approach to the new AI-driven Digital Transformation era.",
+        "aspect": "Digital transformation",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses digital transformation and AI, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "Our approach is centred around enhancing our customers' systems and utilising innovative technologies to create modern value propositions that fuel our clients' competitive edge in the market.",
+        "aspect": "Innovation",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses enhancing customers' systems and innovative technologies, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "This approach is powered by our multi-disciplinary teams who combine decades of expertise, creativity, technology and delivery at scale to support our clients in achieving their ambitious goals.",
+        "aspect": "Team expertise",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses multi-disciplinary teams and expertise, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "We empower people to interact with innovative technology and reap transformational results.",
+        "aspect": "Empowerment",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses empowering people with technology, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "Our people are at the heart of who we are and drive our success. We enable Endavans to be the best they can be by fostering an inclusive environment where they can be creative and develop their professional skills.",
+        "aspect": "People",
+        "labels": [
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses enabling people and fostering an inclusive environment, indicating a positive sentiment towards ESG social governance."
+      },
+      {
+        "text": "We are committed to contributing to our local communities and, more broadly, the technology and services industry.",
+        "aspect": "Community contribution",
+        "labels": [
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses contributing to local communities, indicating a positive sentiment towards ESG social governance."
+      },
+      {
+        "text": "Our ESG journey continues, and we are pleased with the efforts we are making. In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTI. Additionally, we completed our Double Materiality Assessment, the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "Environmental targets",
+        "labels": [
+          "netzero-reduction",
+          "climate-commitment",
+          "governance"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions science-based emissions reduction targets and net-zero target, indicating a positive sentiment towards environmental governance and commitment."
+      },
+      {
+        "text": "Multi-agent working represents a significant advancement in AI technology, and we believe there are limitless possibilities for its long-term application. Morpheus brings new ways of solving complex industry challenges, optimising processes and delivering unprecedented value to businesses and their customers.",
+        "aspect": "AI technology",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses AI technology and its applications, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "AI is an exciting technology which will positively impact our clients and businesses.",
+        "aspect": "AI impact",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the positive impact of AI, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "In April 2024, we announced the creation of our Agentic AI Industry Accelerator, internally designated as 'Morpheus.' The first of its kind, the accelerator and its AI-powered industry tools combine the power of data and multi-agent working to tackle complex challenges across all industries, including highly regulated fields like healthcare, insurance, financial services and private equity.",
+        "aspect": "AI accelerator",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the creation of an AI accelerator, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "Large language models (LLMs) and AI have existed in a 'black box' with little insight into how the systems arrive at the answers they provide. Endava is changing this by operationalising LLMs around data to overcome common barriers caused by hallucinations, ensuring that all activity is transparent, knowable and auditable.",
+        "aspect": "AI transparency",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses operationalising LLMs for transparency, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "Throughout regulated industries, Endava's agentic accelerator can deliver value in countless ways, such as helping insurers more efficiently underwrite policies, working with analysts on legal or financial research and due diligence or driving the development and testing of new healthcare products.",
+        "aspect": "AI applications",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses various applications of the AI accelerator, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "Morpheus represents the first significant step in applying advanced language model operations to automate complex processes within industries with strict regulatory requirements or data transparency needs. The heart of the design is based on three foundational themes: Data at the core with full transparency - Teams of agents to break down complex workflows - Dynamic scaling of teams to accelerate processes",
+        "aspect": "AI design",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the design of the AI accelerator, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "Lead AI agents distribute the workload amongst a team of specialist agents, collating their results and orchestrating the next workflow steps while capturing data for traceability and governance at every step. LLM—and cloud-agnostic, Endava's AI accelerator is a flexible way to rapidly transform businesses across any industry.",
+        "aspect": "AI governance",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses AI governance and flexibility, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "Creating data products in this way enables a new avenue of thinking about autonomous teams, removing constraints and freeing up entire workforces to perform more meaningful work.",
+        "aspect": "AI workforce",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the impact of AI on the workforce, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "We are rapidly moving to the point where AI touches almost every project. Our clients are increasingly interested in exploring the potential of generative AI, investigating specific applications for their business and working with us for AI implementation roadmaps.",
+        "aspect": "AI adoption",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the increasing adoption of AI, indicating a positive sentiment towards ESG governance and strategy."
+      },
+      {
+        "text": "During a hackathon organised by Endava and Microsoft, we were challenged to develop a prototype for an Emergency Room (ER) Triage Agent. The goal was to build a chatbot-like application to guide patients through the triage process in the healthcare industry. In this application, patients are asked a series of questions to assess the severity of their medical condition. The patients are then prioritised accordingly.",
+        "aspect": "Healthcare AI",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the development of a healthcare AI application, indicating a positive sentiment towards ESG social governance and strategy."
+      },
+      {
+        "text": "The chatbot solution utilises Semantic Kernel from Microsoft Azure Open AI large language model and implements an Azure Chat Completion pattern. It uses a system prompt to adapt the large language model's answers to the triage agent's function. Depending on the severity of the medical condition, the agent is tasked to ask a series of questions to obtain more detailed information on the patient's condition. The system is programmed with predefined cases with verified diagnoses and triage severity levels to receive a correct output calibration, and the patients are then ranked in order of severity.",
+        "aspect": "Healthcare AI",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the technical details of the healthcare AI application, indicating a positive sentiment towards ESG social governance and strategy."
+      },
+      {
+        "text": "As part of an AI-native wealth management platform, we built a personalised news recommendation engine tailored to client portfolios. Financial advisors spend an average of 15% of their working day completing client market research. Our solution pulls information relevant to each client's portfolio and provides the adviser with key talking points. This tool helps free up advisers to focus on non-routine work.",
+        "aspect": "Wealth management AI",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the development of a wealth management AI application, indicating a positive sentiment towards ESG social governance and strategy."
+      },
+      {
+        "text": "News searches are performed using a combination of semantic and fuzzy keyword searches, leveraging OpenAI embeddings, the extended LlamaIndex framework and Elasticsearch's native fuzzy search capability. News summaries, as well as key talking points, are generated using OpenAI GPT-4. We also provide financial advisers with semantic search-based chat capability, allowing them to ask additional questions regarding the news stories. Guardrails and moderation capability protect interactions to help enhance security and compliance.",
+        "aspect": "Wealth management AI",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the technical details of the wealth management AI application, indicating a positive sentiment towards ESG social governance and strategy."
+      },
+      {
+        "text": "To enhance the overall customer experience and perform more targeted searches for real estate buyers, we developed a solution empowering potential buyers to conduct interactive searches using natural human language. Potential buyers can describe their ideal property parameters, then OpenAI capabilities seamlessly translate the free-text input and retrieve matching properties. This approach eliminates the need to access traditional individual brokers' websites.",
+        "aspect": "Real estate AI",
+        "labels": [
+          "strategy",
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text discusses the development of a real estate AI application, indicating a positive sentiment towards ESG social governance and strategy."
+      }
+    ],
+    "raw_output": "[\n{\n\"text\": \"we·care\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text 'we·care' is a brand name or slogan and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"# Sustainability Report 2024\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a title for a report and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"Introduction\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a section header and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"Letter from our CEO\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a section header and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"Hello and welcome, I am pleased to present our We Care Sustainability Report for the Fiscal Year 2024. As our organisation continues to evolve, our focus remains on the Environmental, Social and Governance (ESG) issues that are most relevant to our business.\",\n\"aspect\": \"ESG\",\n\"labels\": [\"climate-d\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions ESG issues and the company's focus on them, indicating a positive sentiment towards ESG governance.\"\n},\n{\n\"text\": \"We Care is in our DNA. We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.\",\n\"aspect\": \"ESG commitment\",\n\"labels\": [\"climate-commitment\", \"environmental-claims\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly states a commitment to ESG principles and making a positive impact, indicating a positive sentiment towards ESG governance.\"\n},\n{\n\"text\": \"This report is also our annual Communication on Progress as a UN Global Compact signatory, reaffirming our commitment to shaping a sustainable future aligned with the UN Sustainable Development Goals.\",\n\"aspect\": \"ESG commitment\",\n\"labels\": [\"climate-commitment\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions the UN Global Compact and Sustainable Development Goals, indicating a positive sentiment towards ESG governance and commitment.\"\n},\n{\n\"text\": \"As a growing global organisation, it is critical for us to stay true to our core purpose and values and to continue to focus on enabling our people to be the best they can be. We embrace strategic improvements to enhance our people skills and capabilities while fostering innovation and positioning ourselves for future growth.\",\n\"aspect\": \"ESG strategy\",\n\"labels\": [\"strategy\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses strategic improvements and focus on people, indicating a positive sentiment towards ESG governance and strategy.\"\n},\n{\n\"text\": \"We are a leading provider of next-generation technology services dedicated to helping our customers drive real impact and meaningful change globally. As AI is set to drive the new digital transformation era, our commitment to innovation excellence is evident in the design of our agentic AI Industry Accelerator, Morpheus. This is powered by our focus on developing AI skills across delivery locations and embedding AI in our daily engineering work.\",\n\"aspect\": \"Innovation\",\n\"labels\": [\"strategy\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses innovation and AI, indicating a positive sentiment towards ESG governance and strategy.\"\n},\n{\n\"text\": \"Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction. We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities. We also use technology as a force for good in collaboration with our customers.\",\n\"aspect\": \"ESG partnerships\",\n\"labels\": [\"governance\", \"environmental-claims\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text mentions ESG partnerships and green software capabilities, indicating a positive sentiment towards ESG governance and environmental claims.\"\n},\n{\n\"text\": \"In FY2024, we made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi). Our governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD). We recently completed our Double Materiality Assessment (DMA), the first step in this process.\",\n\"aspect\": \"Environmental targets\",\n\"labels\": [\"netzero-reduction\", \"climate-commitment\", \"governance\"],\n\"esg\": \"E\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions science-based emissions reduction targets and net-zero target, indicating a positive sentiment towards environmental governance and commitment.\"\n},\n{\n\"text\": \"We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.\",\n\"aspect\": \"Supply chain sustainability\",\n\"labels\": [\"governance\", \"environmental-claims\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses raising awareness of sustainability in the supply chain, indicating a positive sentiment towards ESG governance and environmental claims.\"\n},\n{\n\"text\": \"Our sustainability journey is moving forward. I invite you to discover more about our great work to create a positive impact supporting our people, customers, communities and stakeholders.\",\n\"aspect\": \"Sustainability journey\",\n\"labels\": [\"climate-commitment\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions the sustainability journey and creating a positive impact, indicating a positive sentiment towards ESG governance and commitment.\"\n},\n{\n\"text\": \"We care about making a positive difference for our stakeholders:\",\n\"aspect\": \"Stakeholder engagement\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions caring about stakeholders, indicating a positive sentiment towards ESG governance.\"\n},\n{\n\"text\": \"For our people We are committed to being an inclusive community, and our core purpose is to enable our people to be the best they can be.\",\n\"aspect\": \"People\",\n\"labels\": [\"governance\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses commitment to people and inclusivity, indicating a positive sentiment towards ESG social governance.\"\n},\n{\n\"text\": \"For our clients We focus on building partnerships with our clients to provide innovative digital solutions to increase the positive impact we have on our clients' businesses and sustainability.\",\n\"aspect\": \"Client partnerships\",\n\"labels\": [\"governance\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses building partnerships with clients and increasing positive impact, indicating a positive sentiment towards ESG social governance.\"\n},\n{\n\"text\": \"For our investors We aim to provide our investors with the information they need to understand our ESG priorities and how these initiatives drive the future resilience of our business, allowing them to make informed decisions.\",\n\"aspect\": \"Investor relations\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses providing information to investors about ESG priorities, indicating a positive sentiment towards ESG governance.\"\n},\n{\n\"text\": \"In our supply chain We promote sustainable procurement practices and aim to make purchasing decisions that decrease negative effects on society and the environment.\",\n\"aspect\": \"Sustainable procurement\",\n\"labels\": [\"governance\", \"environmental-claims\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions sustainable procurement practices, indicating a positive sentiment towards ESG governance and environmental claims.\"\n},\n{\n\"text\": \"In our communities We aim to support the communities where we live and have strategic partnerships with non-governmental organisations (NGOs).\",\n\"aspect\": \"Community support\",\n\"labels\": [\"governance\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses supporting communities and partnerships with NGOs, indicating a positive sentiment towards ESG social governance.\"\n},\n{\n\"text\": \"We are a leading next-generation technology services company.\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a general statement about the company and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"We are a leading provider of next-generation technology services, dedicated to enabling our customers to drive real impact and meaningful change. By combining world-class engineering, deep industry expertise and a customer-centric mindset, we consult and partner with our customers to create technological solutions that fuel transformation and empower businesses to succeed in the AI-driven digital shift. From ideation to production, we support our customers with tailor-made solutions at every stage of their digital transformation, regardless of industry, region or scale.\",\n\"aspect\": \"Innovation\",\n\"labels\": [\"strategy\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text discusses innovation and custom"
+  },
+  {
+    "timestamp": "2026-03-26T20:17:54.534007Z",
+    "model": "openrouter/free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "We made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi).",
+        "aspect": "Approval of science-based net-zero targets by SBTi",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction",
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The approval of science-based targets by SBTi demonstrates a formal commitment to measurable environmental goals with quantifiable data."
+      },
+      {
+        "text": "We recently completed our Double Materiality Assessment (DMA), the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "Completion of Double Materiality Assessment",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Completing the DMA shows proactive governance efforts to align with regulatory requirements."
+      },
+      {
+        "text": "We support our clients in their sustainability journeys by leveraging our industry expertise, ESG partnerships, and green software capabilities.",
+        "aspect": "Supporting clients' sustainability initiatives",
+        "labels": [
+          "strategy",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Leveraging expertise and partnerships to aid client sustainability efforts reflects strategic environmental commitment."
+      },
+      {
+        "text": "Morpheus brings new ways of solving complex industry challenges, optimising processes and delivering unprecedented value to businesses and their customers.",
+        "aspect": "Agentic AI (Morpheus) for industry challenges",
+        "labels": [
+          "innovation",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Development of advanced AI tools demonstrates innovative governance and strategic alignment with technological progress."
+      },
+      {
+        "text": "Climate-related risks and opportunities require proactive management to ensure long-term resilience.",
+        "aspect": "Climate-related risks and opportunities",
+        "labels": [
+          "risk",
+          "opportunity",
+          "climate-sentiment"
+        ],
+        "esg": "E",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text acknowledges both risks and opportunities without explicit positive or negative sentiment."
+      },
+      {
+        "text": "We promote sustainable procurement practices to decrease negative effects on society and the environment.",
+        "aspect": "Sustainable procurement practices",
+        "labels": [
+          "environmental-claims",
+          "strategy"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Promoting sustainable procurement aligns with environmental goals and strategic responsibility."
+      },
+      {
+        "text": "Our We Care approach is based on five key pillars: Our People, Social Impact, Operating Responsibly, Innovation, and Data Integrity.",
+        "aspect": "We Care approach pillars",
+        "labels": [
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "The We Care framework highlights a strategic commitment to social and operational responsibility."
+      },
+      {
+        "text": "The ER triage agent uses AI to prioritize patients based on medical severity, improving healthcare efficiency.",
+        "aspect": "AI in healthcare triage",
+        "labels": [
+          "innovation",
+          "social-impact"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "AI application in healthcare addresses social impact through improved service delivery."
+      },
+      {
+        "text": "Personalised news recommendations for wealth management free up advisers' time for non-routine work.",
+        "aspect": "AI in wealth management",
+        "labels": [
+          "innovation",
+          "social-impact"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Automating financial research enhances social impact by optimizing resource allocation."
+      },
+      {
+        "text": "AI-augmented real estate search improves customer experience through natural language queries.",
+        "aspect": "AI in real estate",
+        "labels": [
+          "innovation",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Enhancing real estate search with AI supports sustainable and efficient property management."
+      }
+    ],
+    "raw_output": "[\n{\n\"text\": \"We made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi).\",\n\"aspect\": \"Approval of science-based net-zero targets by SBTi\",\n\"labels\": [\"climate-commitment\", \"netzero-reduction\", \"metrics\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The approval of science-based targets by SBTi demonstrates a formal commitment to measurable environmental goals with quantifiable data.\"\n},\n{\n\"text\": \"We recently completed our Double Materiality Assessment (DMA), the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).\",\n\"aspect\": \"Completion of Double Materiality Assessment\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Completing the DMA shows proactive governance efforts to align with regulatory requirements.\"\n},\n{\n\"text\": \"We support our clients in their sustainability journeys by leveraging our industry expertise, ESG partnerships, and green software capabilities.\",\n\"aspect\": \"Supporting clients' sustainability initiatives\",\n\"labels\": [\"strategy\", \"environmental-claims\"],\n\"esg\": \"E\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Leveraging expertise and partnerships to aid client sustainability efforts reflects strategic environmental commitment.\"\n},\n{\n\"text\": \"Morpheus brings new ways of solving complex industry challenges, optimising processes and delivering unprecedented value to businesses and their customers.\",\n\"aspect\": \"Agentic AI (Morpheus) for industry challenges\",\n\"labels\": [\"innovation\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Development of advanced AI tools demonstrates innovative governance and strategic alignment with technological progress.\"\n},\n{\n\"text\": \"Climate-related risks and opportunities require proactive management to ensure long-term resilience.\",\n\"aspect\": \"Climate-related risks and opportunities\",\n\"labels\": [\"risk\", \"opportunity\", \"climate-sentiment\"],\n\"esg\": \"E\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text acknowledges both risks and opportunities without explicit positive or negative sentiment.\"\n},\n{\n\"text\": \"We promote sustainable procurement practices to decrease negative effects on society and the environment.\",\n\"aspect\": \"Sustainable procurement practices\",\n\"labels\": [\"environmental-claims\", \"strategy\"],\n\"esg\": \"E\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Promoting sustainable procurement aligns with environmental goals and strategic responsibility.\"\n},\n{\n\"text\": \"Our We Care approach is based on five key pillars: Our People, Social Impact, Operating Responsibly, Innovation, and Data Integrity.\",\n\"aspect\": \"We Care approach pillars\",\n\"labels\": [\"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The We Care framework highlights a strategic commitment to social and operational responsibility.\"\n},\n{\n\"text\": \"The ER triage agent uses AI to prioritize patients based on medical severity, improving healthcare efficiency.\",\n\"aspect\": \"AI in healthcare triage\",\n\"labels\": [\"innovation\", \"social-impact\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"AI application in healthcare addresses social impact through improved service delivery.\"\n},\n{\n\"text\": \"Personalised news recommendations for wealth management free up advisers' time for non-routine work.\",\n\"aspect\": \"AI in wealth management\",\n\"labels\": [\"innovation\", \"social-impact\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Automating financial research enhances social impact by optimizing resource allocation.\"\n},\n{\n\"text\": \"AI-augmented real estate search improves customer experience through natural language queries.\",\n\"aspect\": \"AI in real estate\",\n\"labels\": [\"innovation\", \"environmental-claims\"],\n\"esg\": \"E\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Enhancing real estate search with AI supports sustainable and efficient property management.\"\n}\n]\n"
+  },
+  {
+    "timestamp": "2026-03-26T20:20:14.291957Z",
+    "model": "openrouter/free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "Our people",
+        "aspect": "Nurturing our people",
+        "labels": [
+          "diversity-equity-inclusion",
+          "wellbeing"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit focus on employee development, diversity, equity, inclusion, and wellbeing initiatives."
+      },
+      {
+        "text": "Education: Endava Tech Campus",
+        "aspect": "Education initiatives",
+        "labels": [
+          "education"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of educational programs for employee development."
+      },
+      {
+        "text": "Health",
+        "aspect": "Health initiatives",
+        "labels": [
+          "health"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of health programs for employee wellbeing."
+      },
+      {
+        "text": "Integrity and ethics",
+        "aspect": "Ethical operations",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit focus on ethical business practices and governance."
+      },
+      {
+        "text": "Human rights and labour relations",
+        "aspect": "Human rights compliance",
+        "labels": [
+          "human-rights"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit commitment to human rights and fair labour practices."
+      },
+      {
+        "text": "Tax transparency",
+        "aspect": "Tax compliance",
+        "labels": [
+          "tax-transparency"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit emphasis on transparent tax practices."
+      },
+      {
+        "text": "Rewarding shared efforts: Share Success Plan",
+        "aspect": "Employee compensation",
+        "labels": [
+          "rewarding-shared-efforts"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit mention of equitable compensation structures."
+      },
+      {
+        "text": "Corporate governance",
+        "aspect": "Corporate governance",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit focus on governance frameworks and oversight."
+      },
+      {
+        "text": "Climate-related risks and opportunities",
+        "aspect": "Climate risk assessment",
+        "labels": [
+          "climate-risks",
+          "climate-opportunities"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit discussion of climate-related business risks and opportunities."
+      },
+      {
+        "text": "Journey to Net Zero",
+        "aspect": "Net zero commitment",
+        "labels": [
+          "net-zero-reduction"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit science-based net-zero target commitment."
+      },
+      {
+        "text": "Total GHG emissions",
+        "aspect": "GHG emissions data",
+        "labels": [
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit reporting of emissions data for transparency."
+      },
+      {
+        "text": "We Care is in our DNA",
+        "aspect": "Corporate values",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Explicit statement of core values driving ESG commitment."
+      },
+      {
+        "text": "AI-driven digital transformation",
+        "aspect": "AI implementation",
+        "labels": [
+          "innovation",
+          "tech-for-good"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit focus on AI for positive societal impact."
+      },
+      {
+        "text": "AI for patient care",
+        "aspect": "AI in healthcare",
+        "labels": [
+          "tech-for-good"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit application of AI for healthcare improvement."
+      },
+      {
+        "text": "AI for travel industry",
+        "aspect": "AI in travel",
+        "labels": [
+          "tech-for-good"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit use of AI to enhance travel industry services."
+      },
+      {
+        "text": "Upskilling in AI",
+        "aspect": "AI training",
+        "labels": [
+          "innovation"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "Explicit investment in employee AI skill development."
+      }
+    ],
+    "raw_output": "\n\n[\n{\n  \"text\":\"Our people\",\n  \"aspect\": \"Nurturing our people\",\n  \"labels\": [\"diversity-equity-inclusion\", \"wellbeing\"],\n  \"esg\": \"S\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit focus on employee development, diversity, equity, inclusion, and wellbeing initiatives.\"\n},\n{\n  \"text\": \"Education: Endava Tech Campus\",\n  \"aspect\": \"Education initiatives\",\n  \"labels\": [\"education\"],\n  \"esg\": \"S\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of educational programs for employee development.\"\n},\n{\n  \"text\": \"Health\",\n  \"aspect\": \"Health initiatives\",\n  \"labels\": [\"health\"],\n  \"esg\": \"S\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of health programs for employee wellbeing.\"\n},\n{\n  \"text\": \"Integrity and ethics\",\n  \"aspect\": \"Ethical operations\",\n  \"labels\": [\"governance\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit focus on ethical business practices and governance.\"\n},\n{\n  \"text\": \"Human rights and labour relations\",\n  \"aspect\": \"Human rights compliance\",\n  \"labels\": [\"human-rights\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit commitment to human rights and fair labour practices.\"\n},\n{\n  \"text\": \"Tax transparency\",\n  \"aspect\": \"Tax compliance\",\n  \"labels\": [\"tax-transparency\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit emphasis on transparent tax practices.\"\n},\n{\n  \"text\": \"Rewarding shared efforts: Share Success Plan\",\n  \"aspect\": \"Employee compensation\",\n  \"labels\": [\"rewarding-shared-efforts\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit mention of equitable compensation structures.\"\n},\n{\n  \"text\": \"Corporate governance\",\n  \"aspect\": \"Corporate governance\",\n  \"labels\": [\"governance\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit focus on governance frameworks and oversight.\"\n},\n{\n  \"text\": \"Climate-related risks and opportunities\",\n  \"aspect\": \"Climate risk assessment\",\n  \"labels\": [\"climate-risks\", \"climate-opportunities\"],\n  \"esg\": \"E\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit discussion of climate-related business risks and opportunities.\"\n},\n{\n  \"text\": \"Journey to Net Zero\",\n  \"aspect\": \"Net zero commitment\",\n  \"labels\": [\"net-zero-reduction\"],\n  \"esg\": \"E\",\n  \"sentiment\": \"commitment\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit science-based net-zero target commitment.\"\n},\n{\n  \"text\": \"Total GHG emissions\",\n  \"aspect\": \"GHG emissions data\",\n  \"labels\": [\"metrics\"],\n  \"esg\": \"E\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit reporting of emissions data for transparency.\"\n},\n{\n  \"text\": \"We Care is in our DNA\",\n  \"aspect\": \"Corporate values\",\n  \"labels\": [\"governance\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"commitment\",\n  \"sentiment_score\": 0.5,\n  \"reasoning\": \"Explicit statement of core values driving ESG commitment.\"\n},\n{\n  \"text\": \"AI-driven digital transformation\",\n  \"aspect\": \"AI implementation\",\n  \"labels\": [\"innovation\", \"tech-for-good\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit focus on AI for positive societal impact.\"\n},\n{\n  \"text\": \"AI for patient care\",\n  \"aspect\": \"AI in healthcare\",\n  \"labels\": [\"tech-for-good\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit application of AI for healthcare improvement.\"\n},\n{\n  \"text\": \"AI for travel industry\",\n  \"aspect\": \"AI in travel\",\n  \"labels\": [\"tech-for-good\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit use of AI to enhance travel industry services.\"\n},\n{\n  \"text\": \"Upskilling in AI\",\n  \"aspect\": \"AI training\",\n  \"labels\": [\"innovation\"],\n  \"esg\": \"G\",\n  \"sentiment\": \"positive\",\n  \"sentiment_score\": 1,\n  \"reasoning\": \"Explicit investment in employee AI skill development.\"\n}\n]"
+  },
+  {
+    "timestamp": "2026-03-26T20:21:16.439933Z",
+    "model": "openrouter/free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTi.",
+        "aspect": "journey to net zero",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction",
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The text explicitly states approved science-based targets for emissions reduction and net-zero commitment, demonstrating proactive environmental stewardship with quantifiable goals."
+      },
+      {
+        "text": "We completed our Double Materiality Assessment (DMA), the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "double materiality assessment",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "The completion of the DMA represents a governance milestone for regulatory compliance, indicating structured environmental reporting processes."
+      }
+    ],
+    "raw_output": "\n\n[\n{\n\"text\": \"In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTi.\",\n\"aspect\": \"journey to net zero\",\n\"labels\": [\"climate-commitment\", \"netzero-reduction\", \"metrics\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The text explicitly states approved science-based targets for emissions reduction and net-zero commitment, demonstrating proactive environmental stewardship with quantifiable goals.\"\n},\n{\n\"text\": \"We completed our Double Materiality Assessment (DMA), the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).\",\n\"aspect\": \"double materiality assessment\",\n\"labels\": [\"governance\", \"metrics\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"The completion of the DMA represents a governance milestone for regulatory compliance, indicating structured environmental reporting processes.\"\n}\n]"
+  },
+  {
+    "timestamp": "2026-03-26T20:21:16.947569Z",
+    "model": "google/gemma-3-12b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 105026 tokens (5026 of text input, 100000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:21:17.355081Z",
+    "model": "google/gemma-3-12b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 104933 tokens (4933 of text input, 100000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:21:17.868604Z",
+    "model": "google/gemma-3-12b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 105232 tokens (5232 of text input, 100000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:21:18.311103Z",
+    "model": "google/gemma-3-12b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 105139 tokens (5139 of text input, 100000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:21:36.204414Z",
+    "model": "google/gemma-3-27b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"Provider returned error\",\"code\":400,\"metadata\":{\"raw\":\"{\\n  \\\"error\\\": {\\n    \\\"code\\\": 400,\\n    \\\"message\\\": \\\"Developer instruction is not enabled for models/gemma-3-27b-it\\\",\\n    \\\"status\\\": \\\"INVALID_ARGUMENT\\\"\\n  }\\n}\\n\",\"provider_name\":\"Google AI Studio\",\"is_byok\":false}},\"user_id\":\"user_2vxfHCGKsJqTq7YvY6QuzwMhY0f\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:22:06.314281Z",
+    "model": "google/gemma-3-27b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: HTTPSConnectionPool(host='openrouter.ai', port=443): Max retries exceeded with url: /api/v1/chat/completions (Caused by ResponseError('too many 429 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:22:35.912196Z",
+    "model": "google/gemma-3-27b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: HTTPSConnectionPool(host='openrouter.ai', port=443): Max retries exceeded with url: /api/v1/chat/completions (Caused by ResponseError('too many 429 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:23:05.605745Z",
+    "model": "google/gemma-3-27b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: HTTPSConnectionPool(host='openrouter.ai', port=443): Max retries exceeded with url: /api/v1/chat/completions (Caused by ResponseError('too many 429 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:23:06.053141Z",
+    "model": "google/gemma-3-4b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 105026 tokens (5026 of text input, 100000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:23:06.513172Z",
+    "model": "google/gemma-3-4b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 104933 tokens (4933 of text input, 100000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:23:07.202603Z",
+    "model": "google/gemma-3-4b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 105232 tokens (5232 of text input, 100000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T20:23:07.368815Z",
+    "model": "google/gemma-3-4b-it:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 400 Client Error: {\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 105139 tokens (5139 of text input, 100000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}",
+    "raw_output": ""
   }
 ]
