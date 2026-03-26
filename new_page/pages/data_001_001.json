@@ -1,0 +1,99 @@
+[
+{
+"text": "Kami menargetkan pengurangan emisi karbon sebesar 40% pada tahun 2030.",
+"aspect": "target pengurangan emisi karbon",
+"labels": ["climate-commitment", "netzero-reduction", "metrics"],
+"esg": "E",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan target masa depan yang terukur (40% pada 2030), sehingga merupakan komitmen lingkungan dengan data kuantitatif."
+},
+{
+"text": "Perubahan iklim menimbulkan risiko besar terhadap rantai pasok kami.",
+"aspect": "risiko iklim terhadap rantai pasok",
+"labels": ["risk", "climate-sentiment"],
+"esg": "E",
+"sentiment": "negative",
+"sentiment_score": -1,
+"reasoning": "Kalimat menekankan dampak negatif dari perubahan iklim terhadap operasi bisnis, sehingga termasuk risiko dengan sentimen negatif."
+},
+{
+"text": "Perseroan memiliki komitmen untuk menerapkan nilai-nilai keberlanjutan di segenap aspek usaha dan di seluruh ekosistem bisnisnya.",
+"aspect": "komitmen keberlanjutan",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk menerapkan nilai-nilai keberlanjutan, sehingga termasuk komitmen dengan sentimen positif."
+},
+{
+"text": "Perseroan telah menggulirkan transformasi di segenap aspek bisnis, termasuk memperkuat ekosistem, mendorong inovasi dan investasi untuk menghasilkan konten berkualitas.",
+"aspect": "transformasi bisnis",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk melakukan transformasi bisnis, sehingga termasuk komitmen dengan sentimen positif."
+},
+{
+"text": "Perseroan juga mendorong penerapan prinsip-prinsip ESG (Environment, Social, and Governance) sehingga dapat membangun keunggulan kompetitif yang akan mendukung pencapaian pertumbuhan bisnis yang berkualitas.",
+"aspect": "penerapan prinsip ESG",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk menerapkan prinsip-prinsip ESG, sehingga termasuk komitmen dengan sentimen positif."
+},
+{
+"text": "Perseroan telah menggulirkan transformasi di segenap aspek bisnis, termasuk memperkuat ekosistem, mendorong inovasi dan investasi untuk menghasilkan konten berkualitas untuk mempertahankan tingkat kepemirsaan.",
+"aspect": "transformasi bisnis",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk melakukan transformasi bisnis, sehingga termasuk komitmen dengan sentimen positif."
+},
+{
+"text": "Perseroan juga telah menerapkan sejumlah inisiatif strategis lainnya, yaitu: Meningkatkan kontribusinya untuk mewujudkan masyarakat yang sejahtera, di antaranya melalui peningkatan kualitas pendidikan.",
+"aspect": "inisiatif strategis",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk menerapkan inisiatif strategis, sehingga termasuk komitmen dengan sentimen positif."
+},
+{
+"text": "Perseroan juga telah menerapkan sejumlah inisiatif strategis lainnya, yaitu: Meminimalisir dampak negatif dari kegiatan operasional yang dilakukan oleh Perseroan dan entitas anaknya terhadap lingkungan sekitar.",
+"aspect": "inisiatif strategis",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk menerapkan inisiatif strategis, sehingga termasuk komitmen dengan sentimen positif."
+},
+{
+"text": "Perseroan juga telah menerapkan sejumlah inisiatif strategis lainnya, yaitu: Meningkatkan kapabilitas entitas anak yang tergabung dalam ekosistemnya dalam rangka memperkuat go-to-market alliance untuk mengoptimalkan peluang bisnis yang ada.",
+"aspect": "inisiatif strategis",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk menerapkan inisiatif strategis, sehingga termasuk komitmen dengan sentimen positif."
+},
+{
+"text": "Perseroan juga telah menerapkan sejumlah inisiatif strategis lainnya, yaitu: Mendorong penggunaan energi secara bijak di lingkungan Perseroan.",
+"aspect": "inisiatif strategis",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk menerapkan inisiatif strategis, sehingga termasuk komitmen dengan sentimen positif."
+},
+{
+"text": "Perseroan juga telah menerapkan sejumlah inisiatif strategis lainnya, yaitu: Mengimbau penggunaan material ramah lingkungan dalam kegiatan operasional sehari-hari.",
+"aspect": "inisiatif strategis",
+"labels": ["climate-commitment", "governance"],
+"esg": "G",
+"sentiment": "commitment",
+"sentiment_score": 0.5,
+"reasoning": "Kalimat menunjukkan komitmen Perseroan untuk menerapkan inis

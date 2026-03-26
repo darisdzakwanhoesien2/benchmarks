@@ -1142,5 +1142,1557 @@
         "reasoning": "This is a combined Annual and Sustainability Report title for 2024. Sustainability reports cover E/S/G aspects, so the ESG category is E/S/G. The sentiment is neutral as it is a descriptive title."
       }
     ]
+  },
+  {
+    "timestamp": "2026-03-24T02:35:54Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0085.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "zero_shot_english.md",
+    "input": "86\n\nPT Surya Citra Media Tbk\nLaporan Keberlanjutan 2023 Sustainability Report\n\n# LEMBAR UMPAN BALIK\nFEEDBACK SHEET\n\n[OJK G.2]\n\nLaporan Keberlanjutan PT Surya Citra Media Tbk Tahun 2023 telah memberikan gambaran kinerja keberlanjutan yang mencakup aspek ekonomi, lingkungan maupun sosial. Guna meningkatkan kualitas pelaporan kami di masa datang, kami mengharapkan masukan, kritik, dan saran dari Bapak/Ibu/Saudara atas penyajian Laporan Keberlanjutan 2023 ini melalui kontak atau email di bagian bawah lembar ini:\n\nPT Surya Citra Media Tbk's 2023 Sustainability Report has provided an overview of sustainability performance covering economic, environmental and social aspects. In order to improve our reporting quality in the future, we look forward to your feedback, criticism, and suggestions on the presentation of this 2023 Sustainability Report through the contact or email at the bottom of this sheet:\n\n## Profil Anda/Your Profile\n\nNama (bila berkenan)/Name (optional) : ...\nInstitusi/Perusahaan/Institution/Company : ...\nSurel/Email : ...\nTelp/Hp/Phone/Mobile : ...\n\n## Profil Pemangku Kepentingan/Stakeholder Profile\n\n☐ Pemegang Saham/Investor Shareholder/Investor\n☐ Karyawan Employee\n☐ Konsumen Customer\n\n☐ Masyarakat Community\n☐ Pemerintah Government\n☐ Mitra bisnis Business Partner\n\n☐ Media Media\n☐ Lembaga Swadaya Masyarakat (LSM)\nNon-Governmental Organization (LSM)\n☐ Lainnya... Others...\n\n## Mohon pilih jawaban berikut yang paling sesuai dengan pertanyaan di bawah\nPlease choose the most appropriate answer to the following questions\n\nYa/Yes Tidak/No\n\nLaporan ini memberi informasi yang bermanfaat.\nThis report has provided a useful information.\n\nLaporan ini mudah dimengerti.\nThis report is easy to understand.\n\nLaporan ini telah mendorong saudara untuk berkontribusi dalam kinerja keberlanjutan Perusahaan.\nThis report has encouraged you to contribute to the Company's sustainability performance.\n\n## Mohon berikan penilaian topik material yang paling penting menurut anda bagi keberlanjutan\nPT Surya Citra Media Tbk (nilai 1 = paling tidak penting s.d. 5 = paling penting)\nPlease rate the material topics that are most important to you for the sustainability of\nPT Surya Citra Media Tbk (1: not useful, 5: very useful).\n\n- Kinerja Ekonomi/Economic Performance ☐\n- Ketenagakerjaan/Employment ☐\n- Pelatihan dan Pendidikan/Training and Education ☐\n- Perilaku Kompetitif/Competitive Behavior ☐\n\n- Antikorupsi/Anti-corruption ☐\n- Etika Media/Media Ethics ☐\n- Privasi Pelanggan/Customer Privacy ☐\n\nSaran atau kritik terkait laporan/Suggestion or criticism regarding the report:\n\n...",
+    "ok": true,
+    "records": [
+      {
+        "text": "Laporan Keberlanjutan PT Surya Citra Media Tbk Tahun 2023 telah memberikan gambaran kinerja keberlanjutan yang mencakup aspek ekonomi, lingkungan maupun sosial.",
+        "aspect": "sustainability performance covering economic, environmental and social aspects",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text describes the content of a sustainability report but does not mention any specific ESG aspects or climate-related topics. It is a general statement about the report's coverage."
+      },
+      {
+        "text": "Laporan ini memberi informasi yang bermanfaat.",
+        "aspect": "report usefulness",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general question about the report's usefulness without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Laporan ini mudah dimengerti.",
+        "aspect": "report clarity",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general question about the report's clarity without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Laporan ini telah mendorong saudara untuk berkontribusi dalam kinerja keberlanjutan Perusahaan.",
+        "aspect": "report's impact on sustainability contribution",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general question about the report's impact on sustainability contribution without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Mohon berikan penilaian topik material yang paling penting menurut anda bagi keberlanjutan PT Surya Citra Media Tbk",
+        "aspect": "material topics for sustainability",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general question about material topics for sustainability without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Kinerja Ekonomi/Economic Performance",
+        "aspect": "economic performance",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general topic for sustainability without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Ketenagakerjaan/Employment",
+        "aspect": "employment",
+        "labels": [
+          "none"
+        ],
+        "esg": "S",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general topic for sustainability without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Pelatihan dan Pendidikan/Training and Education",
+        "aspect": "training and education",
+        "labels": [
+          "none"
+        ],
+        "esg": "S",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general topic for sustainability without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Perilaku Kompetitif/Competitive Behavior",
+        "aspect": "competitive behavior",
+        "labels": [
+          "none"
+        ],
+        "esg": "G",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general topic for sustainability without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Antikorupsi/Anti-corruption",
+        "aspect": "anti-corruption",
+        "labels": [
+          "none"
+        ],
+        "esg": "G",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general topic for sustainability without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Etika Media/Media Ethics",
+        "aspect": "media ethics",
+        "labels": [
+          "none"
+        ],
+        "esg": "G",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general topic for sustainability without any specific ESG or climate-related content."
+      },
+      {
+        "text": "Privasi Pelanggan/Customer Privacy",
+        "aspect": "customer privacy",
+        "labels": [
+          "none"
+        ],
+        "esg": "S",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a general topic for sustainability without any specific ESG or climate-related content."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-24T02:37:03Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0086.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "zero_shot_english.md",
+    "input": "Lampiran\nAppendices\n\n# TANGGAPAN TERHADAP UMPAN BALIK LAPORAN KEBERLANJUTAN TAHUN SEBELUMNYA\n# RESPONSE TO THE PREVIOUS YEAR'S SUSTAINABILITY REPORT FEEDBACK\n\n[OJK G.3]\n\nPerseroan mengucapkan terima kasih kepada seluruh pemangku kepentingan yang telah memberikan saran, kritik, serta tanggapan atas Laporan Keberlanjutan SCM 2022. Kami telah menerima dan menanggapi seluruh saran, kritik, maupun tanggapan yang diberikan dengan menyampaikan hasil kinerja yang lebih komprehensif dalam Laporan ini. Seluruh pemangku kepentingan juga dapat memberikan saran, kritik, dan tanggapan, maupun pertanyaan terkait Laporan Keberlanjutan 2023 melalui lembar umpan balik yang dilampirkan di halaman akhir laporan ini, maupun melalui:\n\nThe Company would like to thank all stakeholders who have provided suggestions, criticisms, and responses to the 2022. SCM Sustainability Report. We have received and responded to all incoming suggestions, criticisms, and responses by presenting more comprehensive performance results in this Report. All stakeholders can also provide suggestions, criticisms, and responses, as well as questions related to the 2023 Sustainability Report through the feedback sheet attached on the last page of this report, or through:\n\nKomite Environment, Social, and Governance (ESG)\nEnvironment, Social, and Governance Committee (ESG)\nSCTV Tower - Senayan City. Jalan Asia Afrika Lot 19, Jakarta 10270, Indonesia\nTelp: (021) 2793 5599 | Fax: (021) 2793 5598 | E-mail: investor.relation@scm.co.id\n\n# DAFTAR PENGUNGKAPAN SESUAI PERATURAN OTORITAS JASA\n# LIST OF DISCLOSURES IN ACCORDANCE WITH THE AUTHORITY SERVICES REGULATION\n\n[OJK G.4]\n\n|  POJK 51\nOJK.03/2017 | Pengungkapan\nDisclosure | Halaman\nPage  |\n| --- | --- | --- |\n|  A. Strategi Keberlanjutan/Sustainability Strategy  |   |   |\n|  A.1 Penjelasan Strategi Keberlanjutan\nExplanation of Sustainability Strategy |  | 5  |\n|  B. Penjelasan Strategi Keberlanjutan/Sustainability Aspect Performance Highlights  |   |   |\n|  B.1. Aspek Ekonomi\n(3 tahun terakhir)\nB.1 Economic Aspect\n(last 3 years) | Pendapatan atau penjualan\nRevenues or sales | 6  |\n|   |  Laba atau rugi bersih\nNet profits or loss | 6  |\n|   |  Pelibatan pihak lokal yang berkaitan dengan proses bisnis Keuangan Berkelanjutan\nInvolving local party who are related to Sustainable Financial business process | 6  |\n|  B.2. Aspek\nLingkungan Hidup\nB.2. Environmental Aspect | Penggunaan energi\nEnergy usage | 7  |\n|   |  Pengurangan emisi yang dihasilkan\nReducing emission production | 7  |\n|   |  Pelestarian keanekaragaman hayati\nBiodiversity preservation | -  |\n\nPT Surya Citra Media Tbk\nLaporan Keberlanjutan 2023 Sustainability Report",
+    "ok": true,
+    "records": [
+      {
+        "text": "Perseroan mengucapkan terima kasih kepada seluruh pemangku kepentingan yang telah memberikan saran, kritik, serta tanggapan atas Laporan Keberlanjutan SCM 2022.",
+        "aspect": "stakeholder feedback on sustainability report",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a general statement of gratitude with no explicit ESG aspects mentioned."
+      },
+      {
+        "text": "Kami telah menerima dan menanggapi seluruh saran, kritik, maupun tanggapan yang diberikan dengan menyampaikan hasil kinerja yang lebih komprehensif dalam Laporan ini.",
+        "aspect": "response to stakeholder feedback",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This describes the company's response to feedback but does not mention any specific ESG aspects."
+      },
+      {
+        "text": "Seluruh pemangku kepentingan juga dapat memberikan saran, kritik, dan tanggapan, maupun pertanyaan terkait Laporan Keberlanjutan 2023 melalui lembar umpan balik yang dilampirkan di halaman akhir laporan ini, maupun melalui:",
+        "aspect": "stakeholder engagement",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is an invitation for stakeholder engagement without mentioning specific ESG aspects."
+      },
+      {
+        "text": "Komite Environment, Social, and Governance (ESG)",
+        "aspect": "ESG committee",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This mentions the ESG committee, which relates to governance oversight of ESG matters."
+      },
+      {
+        "text": "A.1 Penjelasan Strategi Keberlanjutan/Explanation of Sustainability Strategy",
+        "aspect": "sustainability strategy",
+        "labels": [
+          "strategy"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a section heading about sustainability strategy without specific ESG content."
+      },
+      {
+        "text": "B.1. Aspek Ekonomi (3 tahun terakhir) B.1 Economic Aspect (last 3 years)",
+        "aspect": "economic performance",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a section heading about economic performance without specific ESG content."
+      },
+      {
+        "text": "Pendapatan atau penjualan Revenues or sales",
+        "aspect": "revenue/sales",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a financial metric without explicit ESG relevance."
+      },
+      {
+        "text": "Laba atau rugi bersih Net profits or loss",
+        "aspect": "net profit/loss",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a financial metric without explicit ESG relevance."
+      },
+      {
+        "text": "Pelibatan pihak lokal yang berkaitan dengan proses bisnis Keuangan Berkelanjutan Involving local party who are related to Sustainable Financial business process",
+        "aspect": "local stakeholder involvement in sustainable finance",
+        "labels": [
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This mentions involving local parties in sustainable financial processes, which relates to social aspects of ESG."
+      },
+      {
+        "text": "B.2. Aspek Lingkungan Hidup B.2. Environmental Aspect",
+        "aspect": "environmental aspect",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This is a section heading about environmental aspects without specific content."
+      },
+      {
+        "text": "Penggunaan energi Energy usage",
+        "aspect": "energy usage",
+        "labels": [
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This mentions energy usage, which is an environmental metric."
+      },
+      {
+        "text": "Pengurangan emisi yang dihasilkan Reducing emission production",
+        "aspect": "emission reduction",
+        "labels": [
+          "climate-detection",
+          "climate-d",
+          "climate-specificity",
+          "climate-sentiment",
+          "climate-s"
+        ],
+        "esg": "E",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This mentions reducing emission production, which is an environmental aspect related to climate change."
+      },
+      {
+        "text": "Pelestarian keanekaragaman hayati Biodiversity preservation",
+        "aspect": "biodiversity preservation",
+        "labels": [
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "This mentions biodiversity preservation, which is an environmental claim."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-24T02:40:21Z",
+    "model": "qwen/qwen3-next-80b-a3b-instruct:free",
+    "backend": "OpenRouter",
+    "prompt": "data.md",
+    "context_pages": 97,
+    "targeted_pages": [
+      "SCM_2023_sr-scma_pdf/page_0081.md",
+      "SCM_2023_sr-scma_pdf/page_0082.md"
+    ],
+    "prompt_tokens_est": 85557,
+    "completion_tokens_est": 1595,
+    "estimated_cost_usd": 0.0,
+    "ok": true,
+    "records": [
+      {
+        "text": "Perseroan juga meningkatkan investasinya pada sistem keamanan informasi yang merupakan bagian dari tata kelola TI untuk menjaga semua kerahasiaan data pelanggan yang terdapat di pusat data Perseroan.",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Memberikan akses kepada pelanggan untuk memperbarui data pribadi guna meminimalisasi peluang penyalahgunaan data oleh pihak yang tidak bertanggung jawab.",
+        "labels": [
+          "metrics",
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Memperkuat sistem keamanan data agar dapat melakukan tindak lanjut yang cepat dan responsif apabila terjadi penyalahgunaan data.",
+        "labels": [
+          "metrics",
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Perseroan melibatkan pihak independen yang terikat dalam perjanjian kerahasiaan data untuk melakukan pemeriksaan terhadap sistem keamanan TI yang ada.",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Memberikan pelatihan dan program peningkatan kompetensi terkait perkembangan teknologi informasi dan komunikasi kepada karyawan yang bertanggung jawab mengelola dan mengamankan data, khususnya Divisi IT.",
+        "labels": [
+          "metrics",
+          "opportunity"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Hingga akhir periode pelaporan, SCM tidak menerima adanya pengaduan mengenai pelanggaran terhadap privasi pelanggan dalam bentuk laporan kebocoran, pencurian, dan kehilangan data.",
+        "labels": [
+          "risk",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Industri media dan hiburan mengalami perkembangan yang sangat dinamis dalam beberapa tahun terakhir seiring dengan kemajuan teknologi dan perubahan preferensi konsumen untuk mengonsumsi informasi dan konten dari platform OTT dan media digital lainnya.",
+        "labels": [
+          "opportunity"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM telah melakukan investasi yang memadai pada infrastruktur digital yang akan memfasilitasi berbagai inovasi produk dan layanan kepada para pemirsa.",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Dukungan teknologi terkini yang diadopsi dalam proses produksi program maupun konten juga memampukan SCM untuk terus berkarya dan menghasilkan program dan konten yang berkualitas sehingga SCM senantiasa dapat memenuhi selera dan kebutuhan pemirsa secara berkelanjutan pada semua platform media yang dimilikinya.",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "SCM juga memastikan program acara dan konten yang ditayangkan telah melalui proses evaluasi keamanan dan sesuai dengan ketentuan perundang-perundangan yang berlaku.",
+        "labels": [
+          "governance",
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Evaluasi secara berkala dilakukan atas setiap konten, program atau tayangan yang ditampilkan pada semua platform media di bawah Grup SCM dengan tujuan untuk memastikan bahwa informasi yang disampaikan melalui tayangan tersebut dapat tepat sasaran dan tidak menimbulkan dampak negatif bagi masyarakat.",
+        "labels": [
+          "risk",
+          "metrics"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Terhadap konten, program atau tayangan bagi anak-anak dan remaja, Perseroan menerapkan evaluasi yang lebih ketat, termasuk memastikan adanya unsur edukatif, agar setiap konten atau program tersebut dapat berkontribusi untuk meningkatkan pengetahuan dan membentuk nilai-nilai positif dalam rangka menciptakan generasi unggul Indonesia.",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Perseroan memiliki komitmen untuk menghasilkan konten atau program yang mendidik sekaligus menghibur dan memenuhi unsur-unsur etika media, baik konten/program yang tayang di TV FTA nasional maupun platform media digital.",
+        "labels": [
+          "commitment",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Untuk itu, kami melakukan investasi yang berkelanjutan untuk mendukung inovasi dalam memproduksi konten atau program yang orisinil dan berkualitas yang diminati oleh berbagai kalangan.",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Untuk memastikan kualitas program atau konten kami, seluruh program acara maupun konten yang diproduksi oleh Perseroan wajib melalui proses seleksi yang ketat dan memenuhi unsur etika media sebagaimana diatur dalam peraturan perundang-undangan yang berlaku.",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Perseroan juga memastikan bahwa informasi yang disampaikan telah diverifikasi kebenarannya melalui: Cek Fakta, sehingga tidak mengandung unsur SARA atau diskriminatif terhadap ras, suku, agama ataupun golongan tertentu yang dapat memicu keresahan dan disintegrasi bangsa.",
+        "labels": [
+          "risk",
+          "metrics"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Pada tahun 2023 hingga akhir periode pelaporan, tidak ada tayangan program, konten, maupun produk multimedia lainnya yang dilakukan pemberhentian penyiarannya.",
+        "labels": [
+          "metrics"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Hingga akhir tahun 2023, SCM berhasil mencatatkan kinerja positif sebagaimana diindikasikan dari keberhasilan SCTV dan Indosiar menunjukkan dominasinya dalam hal tingkat kepermirasan di antara TV FTA nasional pada survei tingkat kepemirsaan yang dilakukan oleh Nielsen tahun 2023.",
+        "labels": [
+          "metrics"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Kemudian, Media Partner Asia (MPA) menunjukkan platform OTT Perseroan, Vidio, berhasil menduduki posisi ke-1, baik dalam hal jumlah Pengguna Aktif Bulanan (Monthly Active Users (MAU) di kawasan Asia Tenggara maupun jumlah durasi streaming pada kuartal III/2023.",
+        "labels": [
+          "metrics"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Pada kuartal IV/2023, Vidio mencapai posisi platform OTT No. 1 dalam hal jumlah pelanggan terbanyak di Indonesia.",
+        "labels": [
+          "metrics"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-24T02:58:55Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0052.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "data.md",
+    "input": "Kinerja Keberlanjutan\nSustainability Performance\n\n# Rantai Pasokan\n\nSupply Chain\n\n[GRI 2-6] [GRI 204-1]\n\nDalam rangka memenuhi kebutuhan kegiatan operasional Perseroan, Perseroan bekerja sama dengan sejumlah institusi maupun korporasi yang menyediakan barang dan jasa yang dibutuhkan dalam mendukung kelancaran kegiatan operasi Perseroan. Perusahaan penyedia barang dan jasa ini menjadi bagian dari rantai pasok Perusahaan yang telah melalui proses seleksi yang ketat, transparan, dan profesional agar dapat menjamin ketersediaan produk dan jasa yang berkualitas yang dibutuhkan oleh Perseroan.\n\nSelama proses seleksi, Perseroan menunjuk Divisi Procurement untuk melaksanakan kegiatan pengadaan barang dan jasa secara terbuka bagi pemasok lokal maupun pemasok asing. Namun demikian, dalam rangka menciptakan rantai ekonomi yang saling menguntungkan dan berkelanjutan, maka Perseroan memprioritaskan kerja sama dengan pemasok nasional maupun lokal sehingga secara tidak langsung Perseroan berkontribusi pada terwujudnya kesejahteraan masyarakat.\n\nSelain itu, Perseroan juga menjamin kesetaraan selama proses seleksi pemasok dengan menerapkan kebijakan non diskriminatif bagi pemasok yang ingin bekerja sama dengan Perseroan. Di samping menerapkan kriteria atau spesifikasi untuk produk dan jasa yang akan dipasok, proses seleksi juga dilakukan dengan memperhatikan aspek lain, termasuk sumber material yang digunakan, kualitas dan daya saing produk dan jasa yang dihasilkan sehingga dapat berdampak positif terhadap daya saing Perseroan secara umum.\n\nPada tahun 2023, SCTV dan Indosiar menjalin kerja sama dengan 470 pemasok lokal (pelibatan pihak lokal) dengan nilai kontrak sebesar Rp1.670,09 miliar, dibandingkan dengan 471 pemasok lokal yang terlibat dalam kegiatan usaha Perseroan di tahun 2022 dengan nilai kontrak mencapai Rp1.846,30 miliar.\n\nIn order to fulfill its operational needs, the Company cooperates with a number of institutions and corporations that provide goods and services needed to support its operations. These providers are part of the Company's supply chain that have passed a strict, transparent, and professional selection process in order to ensure the availability of quality products and services needed by the Company.\n\nDuring the selection process, the Company appoints the Procurement Division to carry out goods and services procurement activities openly for local and foreign suppliers. However, in order to create a mutually beneficial and sustainable economic chain, the Company prioritizes cooperation with national and local suppliers so that the Company indirectly contributes to the realization of community welfare.\n\nIn addition, the Company also ensures equality during the supplier selection process by implementing a non-discriminatory policy for suppliers who wish to cooperate with the Company. In addition to applying criteria or specifications for the supplied products and services, the selection process is also carried out by considering other aspects, including the source of materials used, the quality and competitiveness of the products and services produced so that it can have a positive impact on the Company's competitiveness in general.\n\nIn 2023, SCTV and Indosiar cooperated with 470 local suppliers (local party involvement) with a contract value of Rp1,670.09 billion, compared to 471 local suppliers involved in the Company's business activities in 2022 with a contract value of Rp1,846.30 billion.\n\nJumlah Pemasok/Total Suppliers\n\n|  Uraian Description | 2023 Total SCTV & Indosiar | 2022 Total SCTV & Indosiar | 2021 Total SCTV & Indosiar  |\n| --- | --- | --- | --- |\n|  Pemasok Lokal (Nasional)/Local Supplier | 470 | 471 | 407  |\n|  Pemasok Luar Negeri /Overseas Supplier | 23 | 17 | 18  |\n|  Total Pemasok/Total Supplier | 493 | 488 | 425  |\n\nNilai Kontrak Pengadaan (Rp Miliar)/Procurement Contract Value (Rp Billion)\n\n|  Uraian Description | 2022 Total SCTV & Indosiar | 2022* Total SCTV & Indosiar | 2021 Total SCTV & Indosiar  |\n| --- | --- | --- | --- |\n|  Pemasok Lokal (Nasional)/Local Supplier | 1.670,09 | 1.846,30 | 1.860,36  |\n|  Pemasok Luar Negeri /Overseas Supplier | 335,02 | 525,19 | 109,86  |\n|  Total Nilai Kontrak/Total Contract Value | 2.005,11 | 2.371,49 | 1.970,22  |\n\n* Pernyataan ulang atas perhitungan dalam laporan sebelumnya/Reslatement from previous report\n\nPT Surya Citra Media Tbk\nLaporan Keberlanjutan 2023 Sustainability Report",
+    "ok": true,
+    "records": [
+      {
+        "text": "Dalam rangka memenuhi kebutuhan kegiatan operasional Perseroan, Perseroan bekerja sama dengan sejumlah institusi maupun korporasi yang menyediakan barang dan jasa yang dibutuhkan dalam mendukung kelancaran kegiatan operasi Perseroan.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Perusahaan penyedia barang dan jasa ini menjadi bagian dari rantai pasok Perusahaan yang telah melalui proses seleksi yang ketat, transparan, dan profesional agar dapat menjamin ketersediaan produk dan jasa yang berkualitas yang dibutuhkan oleh Perseroan.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Selama proses seleksi, Perseroan menunjuk Divisi Procurement untuk melaksanakan kegiatan pengadaan barang dan jasa secara terbuka bagi pemasok lokal maupun pemasok asing.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Namun demikian, dalam rangka menciptakan rantai ekonomi yang saling menguntungkan dan berkelanjutan, maka Perseroan memprioritaskan kerja sama dengan pemasok nasional maupun lokal sehingga secara tidak langsung Perseroan berkontribusi pada terwujudnya kesejahteraan masyarakat.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Selain itu, Perseroan juga menjamin kesetaraan selama proses seleksi pemasok dengan menerapkan kebijakan non diskriminatif bagi pemasok yang ingin bekerja sama dengan Perseroan.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Di samping menerapkan kriteria atau spesifikasi untuk produk dan jasa yang akan dipasok, proses seleksi juga dilakukan dengan memperhatikan aspek lain, termasuk sumber material yang digunakan, kualitas dan daya saing produk dan jasa yang dihasilkan sehingga dapat berdampak positif terhadap daya saing Perseroan secara umum.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Pada tahun 2023, SCTV dan Indosiar menjalin kerja sama dengan 470 pemasok lokal (pelibatan pihak lokal) dengan nilai kontrak sebesar Rp1.670,09 miliar, dibandingkan dengan 471 pemasok lokal yang terlibat dalam kegiatan usaha Perseroan di tahun 2022 dengan nilai kontrak mencapai Rp1.846,30 miliar.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "In order to fulfill its operational needs, the Company cooperates with a number of institutions and corporations that provide goods and services needed to support its operations.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "These providers are part of the Company's supply chain that have passed a strict, transparent, and professional selection process in order to ensure the availability of quality products and services needed by the Company.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "During the selection process, the Company appoints the Procurement Division to carry out goods and services procurement activities openly for local and foreign suppliers.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "However, in order to create a mutually beneficial and sustainable economic chain, the Company prioritizes cooperation with national and local suppliers so that the Company indirectly contributes to the realization of community welfare.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "In addition, the Company also ensures equality during the supplier selection process by implementing a non-discriminatory policy for suppliers who wish to cooperate with the Company.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "In addition to applying criteria or specifications for the supplied products and services, the selection process is also carried out by considering other aspects, including the source of materials used, the quality and competitiveness of the products and services produced so that it can have a positive impact on the Company's competitiveness in general.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "In 2023, SCTV and Indosiar cooperated with 470 local suppliers (local party involvement) with a contract value of Rp1,670.09 billion, compared to 471 local suppliers involved in the Company's business activities in 2022 with a contract value of Rp1,846.30 billion.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-24T02:59:54Z",
+    "source": "SCM_2023_sr-scma_pdf/page_0053.md",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "data.md",
+    "input": "54\n\nPT Surya Citra Media Tbk\n\nLaporan Keberlanjutan 2023 Sustainability Report\n\n# Kebijakan Perpajakan\n\n## Taxation Policy\n\n[GRI 207-1]\n\nKebijakan perpajakan Perseroan dilaksanakan dengan memenuhi prinsip tanggung jawab serta prinsip transparansi dan akuntabilitas untuk memenuhi seluruh ketentuan pajak yang dikeluarkan oleh otoritas perpajakan. Perseroan memahami pentingnya kepatuhan terhadap peraturan perundang-undangan perpajakan yang berlaku sebagai bentuk tanggung jawabnya sebagai corporate citizen yang berkewajiban memberikan kontribusi sosial kepada bangsa. Perseroan berkomitmen untuk memastikan bahwa semua masalah perpajakan ditangani secara proaktif, transparan, dan bertanggung jawab, dengan tetap menyeimbangkan kepentingan para pemangku kepentingan kami serta tidak menggunakan negara suaka pajak (tax haven) dalam perencanaan pajaknya.\n\nKemudian, sebagai kontribusi kami terhadap negara, Perseroan telah memenuhi komitmennya untuk membayar pajak secara tepat jumlah dan tepat waktu sesuai dengan peraturan perpajakan yang berlaku di Indonesia. Perseroan juga memastikan seluruh informasi keuangan yang disajikan telah diaudit oleh pihak independen. [GRI 3-3]\n\nThe Company's taxation policy is implemented by fulfilling the principles of responsibility as well as the principles of transparency and accountability to fulfill all tax provisions issued by the taxation authority. The Company understands the importance of compliance with applicable tax laws and regulations as a form of its responsibility as a corporate citizen who is obligated to make a social contribution to the nation. The Company is committed to ensuring that all tax affairs are handled proactively, transparently and responsibly, while balancing the interests of our stakeholders and not using tax havens in its tax planning.\n\nFurthermore, as our contribution to the country, the Company has fulfilled its commitment to pay taxes in the right amount and on time in accordance with applicable tax regulations in Indonesia. The Company also ensures that all financial information presented has been audited by an independent party. [GRI 3-3]\n\n![img-43.jpeg](img-43.jpeg)",
+    "ok": true,
+    "records": [
+      {
+        "text": "Kebijakan perpajakan Perseroan dilaksanakan dengan memenuhi prinsip tanggung jawab serta prinsip transparansi dan akuntabilitas untuk memenuhi seluruh ketentuan pajak yang dikeluarkan oleh otoritas perpajakan.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Perseroan memahami pentingnya kepatuhan terhadap peraturan perundang-undangan perpajakan yang berlaku sebagai bentuk tanggung jawabnya sebagai corporate citizen yang berkewajiban memberikan kontribusi sosial kepada bangsa.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Perseroan berkomitmen untuk memastikan bahwa semua masalah perpajakan ditangani secara proaktif, transparan, dan bertanggung jawab, dengan tetap menyeimbangkan kepentingan para pemangku kepentingan kami serta tidak menggunakan negara suaka pajak (tax haven) dalam perencanaan pajaknya.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Kemudian, sebagai kontribusi kami terhadap negara, Perseroan telah memenuhi komitmennya untuk membayar pajak secara tepat jumlah dan tepat waktu sesuai dengan peraturan perpajakan yang berlaku di Indonesia.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Perseroan juga memastikan seluruh informasi keuangan yang disajikan telah diaudit oleh pihak independen.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Company's taxation policy is implemented by fulfilling the principles of responsibility as well as the principles of transparency and accountability to fulfill all tax provisions issued by the taxation authority.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Company understands the importance of compliance with applicable tax laws and regulations as a form of its responsibility as a corporate citizen who is obligated to make a social contribution to the nation.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Company is committed to ensuring that all tax affairs are handled proactively, transparently and responsibly, while balancing the interests of our stakeholders and not using tax havens in its tax planning.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Furthermore, as our contribution to the country, the Company has fulfilled its commitment to pay taxes in the right amount and on time in accordance with applicable tax regulations in Indonesia.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Company also ensures that all financial information presented has been audited by an independent party.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-24T03:4727Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "backend": "OpenRouter",
+    "prompt": "data.md",
+    "context_pages": 102,
+    "targeted_pages": [
+      "SCM_2024_090425-sr24-scma-pdf-final_pdf/page_0049.md",
+      "SCM_2024_090425-sr24-scma-pdf-final_pdf/page_0051.md",
+      "SCM_2024_090425-sr24-scma-pdf-final_pdf/page_0052.md",
+      "SCM_2024_090425-sr24-scma-pdf-final_pdf/page_0050.md"
+    ],
+    "prompt_tokens_est": 15875,
+    "completion_tokens_est": 7107,
+    "estimated_cost_usd": 0.0,
+    "context_truncated": true,
+    "pages_truncated": false,
+    "ok": true,
+    "records": [
+      {
+        "text": "The demand for commitment to sustainability in every business sector shows an increase, including for media companies.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In order to support the realization of a sustainable media industry, the Company, together with its subsidiaries, has an important role to contribute in providing benefits that can impact its users, without neglecting the Company's goal of achieving quality and sustainable business growth.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The sustainability approach related to environmental aspects is carried out by increasing its contribution to reducing greenhouse gas (Green House Gas/GHG) emissions.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company has made a number of initiatives, such as building environmentally friendly studios and providing accommodation for crews in order to reduce the use of transportation that can increase pollution.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In addition, the Company encourages energy conservation in its environment.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In order to support sustainable growth, the Company consolidates the advantages of each portfolio in its ecosystem by encouraging innovation and investment in the latest technology.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In this case, the Company utilizes Artificial Intelligence (AI) technology to develop personalized products and services for each market segment and achieve efficiency in business processes.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company also builds synergies among its media portfolio, which includes the Company's national Free-To-Air (FTA) television station and Over-The-Top (OTT) platform, to strengthen its go-to-market alliance and optimize existing business opportunities to maintain advertising revenue and viewership levels.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Subsequently, in order to increase its contribution in realizing a prosperous society, the Company ensures that the presence of its business can positively impact the community through the availability of employment, provision of humanitarian social assistance, and maintenance of the quality of content broadcasted on its media in order to provide precise and accurate information to its viewers which in accordance with media ethics.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "S",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The implementation of those strategic initiatives mentioned above also solidifies the prospects of business sustainability for the Company and its subsidiaries, enabling the Company to continue providing benefits that impact both internal and external stakeholders.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company's products and services have minimum environmental impacts.",
+        "labels": [
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "However, the Company and its subsidiaries are taking initiatives to encourage the use of environmentally friendly products in its business processes, including the utilization of digital technologies to reduce the use of paper in printing documents, as well as our campaign to minimize the use of plastics in daily operational activities.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company also encourages the use of non-plastic food/beverage packaging to reduce the volume of plastic waste generated by the Company's operational activities.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company has again proven its success in maintaining its positive performance by recording an increase of 8.36% in the Company's net revenue of Rp7.06 trillion, compared to Rp6.51 trillion in previous year.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Rupiah exchange rate depreciated throughout the year due to the strengthening of the US dollar.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "negative"
+      },
+      {
+        "text": "Notwithstanding that the inflation rate was very low, at 1.57% year-on-year (yoy), there was a decline in consumer purchasing power, especially among the middle class.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "negative"
+      },
+      {
+        "text": "Indonesia concluded the year with a growth rate of 5.03%, which was lower than the growth rate in 2023 of 5.05%.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "negative"
+      },
+      {
+        "text": "The challenging macroeconomic conditions and the weakening of purchasing power have also exerted pressure on advertisers.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "negative"
+      },
+      {
+        "text": "They ultimately prioritized on efficiency and reduced advertising spending.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "50% of top 20 advertisers in 2023 experienced a 19% decline in ads spending during the period of January-December 2024.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "negative"
+      },
+      {
+        "text": "The political dynamics also influenced the economic activities, creating both opportunities and challenges for various business sectors.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Meanwhile, the media landscape continues to move dynamically, as indicated by an increased consumption of video streaming through digital media and social media platforms.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "With the support of technology that allows widespread access through various platforms, the demand for local Indonesian content is also increasing.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "This certainly creates both challenges and opportunities for the Group to consolidate its leading position in digital media platforms by providing quality local content that is produced in collaboration with talented and prominent filmmakers in Indonesia.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Given the macroeconomic dynamics and changing consumer preferences in enjoying information and entertainment content, the Company needs to formulate an effective and accurate business strategy while also prioritizing on sustainability objectives.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "We have noted a number of key issues and stakeholders' expectations that require significant attention from the management due to their potential impact on the Company and its subsidiaries in order to maintain long-term business continuity.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "We respond to these issues and expectations by formulating strategies and policies to fulfill our responsibilities to create sustainable business, including: (a) By prioritizing cost leadership to achieve efficiency targets, both in work processes and in financial aspects, and (b) by investing in environmentally friendly sectors.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Based on the main approaches above, the Company and its subsidiaries build its sustainability strategy as part of a comprehensive framework of transformation policy to be implemented across various aspects of its business.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Supported by the adoption of the latest technology in providing quality content, the transformation has been crucial for the success of SCMA Group in maintaining its leadership in the media and entertainment industry.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Sustainable transformation is increasingly important to ensure that the media businesses under SCMA Group are able to navigate all existing business challenges and adapt quickly to the evolving media industry trends in order to maintain a sustainable business outlook.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In order to support the Group's goals for sustainable growth, the Company synergizes the advantages of each portfolio company in its media ecosystem, including its national Free-To-Air (FTA) television stations and Over-The-Top (OTT) platform to strengthen the go-to-market alliance so that existing business opportunities can be optimized.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In addition, continuous innovation and investment in the latest Artificial Intelligence (AI) technologies also help the Company to provide personalized products and services for each market segment and achieve efficiency in business processes.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "At the same time, the Company increases its contribution to the realization of a sustainable environment through a number of initiatives, such as building an environmentally friendly studios and upholding efficiency in the use of energy at its headquarters and at the production sites for content or programs that will be aired on its FTA TV stations or digital media platforms.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Other everyday activities include providing a separate garbage can for recycling items, reducing paper usage by using online systems for all its internal approval processes (paperless) and there are many more actions that we have implemented in our daily operational activities.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company's sustainability transformation policy has positively impacted its business performance.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "This year, the Company's media and entertainment portfolio has successfully maintained its dominance in the country's media industry.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Total audience share contributed by the Company's FTA television station reached 32.9%.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Group also managed to position all of its FTA TV stations in the top 10 of the national media industry based on viewership.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Even as a newcomer, Mentari achieved a 5.3% audience rating in 2024, placing it at the 7th of the top 10 FTA TV stations.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Meanwhile, SCTV and Indosiar reached the first and seconding with audience ratings of 14.1% and 13.5%, respectively.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "One of the supporting pillars of this television segment's performance is quality entertainment programs and various world-class sports events.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Through a collaboration between the FTA television station and the Vidio OTT platform, a distinct advantage has been created to achieve greater business opportunities through a go-to-market alliance, especially in obtaining exclusive broadcasting rights for both national and international sports events.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Throughout 2024, SCMA's media segment has broadcasted 4,487 sports matches, including volleyball, badminton tournaments and football competitions, including the 2024 Presidential Cup, the 2024 AFF U-19 Cup and the 2024 AFF U-16 Cup.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The 2024 Olympics which were held on July 26-August 11 in Paris, France successfully attracted greater viewers' interest than the last three previous Olympics.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Meanwhile, according to MPA data, the OTT platform, Vidio, is still ahead of other foreign OTT platforms in terms of the number of subscribers and Monthly Active Users.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "This also includes the number of video downloads.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Data from AppAnnie shows that Vidio has the highest number of downloads compared to similar OTT platforms with local original content being the most in demand.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Furthermore, based on Consumer Spending, Google Play Store reported that Vidio is a platform with the highest number of Video Streaming downloads in 2024.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "In 2024, Vidio recorded a 16% increase in the number of paid subscribers and a 41% increase in transactions.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Vidio's success was facilitated by extracting synergies with SCTV in the quality of its local series, one of which is 'Asmara Gen Z' which was watched by 1.77 million viewers in just the first 3 weeks of its premier broadcast, making it the most watched drama series.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "This consistent quality also adapted as a standard in its Vidio Original Series has earned Vidio a number of awards at the ContentAsia Awards 2024, including Best Drama Series Made for a Single Market in Asia for the drama series 'Ratu Adil' (Gold Award) and 'Pertaruhan the Series 2' (Silver Award), Best Supporting Actor in a TV Program/Series for Teuku Rifnu Wikana (Silver Award) for his role in 'Cinta Pertama Ayah' and Best Director of a Scripted TV Program for Hadrah Daeng Ratu (Bronze Award) in the drama 'Cinta Pertama Ayah'.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "In addition, Vidio's success in the domestic market has also made this platform particularly attractive to the regional market.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "This year, through a partnership with Unifi TV Malaysia, Vidio has successfully penetrated the neighboring country's market.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "In the content & talent segment, quality content produced by production houses under the banner of SCMA has become featured content on various leading video streaming platforms, such as 'The Shadow Strays' produced by Screenplay through its subsidiary Frontier, which has become a favorite film in 85 countries and is available on Netflix.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Company also takes advantage of the increased use of video commerce uploaded on various social media networks in order to support brand activation activities for product promotion.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The use of influencers/KOLs (Key Opinion Leaders) managed under FAS and Super Fantasy has provided an alternative source of income for the Company and its subsidiaries.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "In order to respond to the dynamics in the media industry, the Company constantly pays close attention to the development of existing human resource competencies.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "By prioritizing the principle of continuous learning for the Company's human resources, SCMA and its subsidiaries have received recognition from various institutions for its human resource management.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "In 2024, Vidio won a number of awards at the 15th Indonesia HR Excellence Awards 2024, including in the categories of 'Learning Development & Knowledge Management', 'Reward Management & Talent Retention Strategy' and 'Employer Branding & Talent Acquisition'.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "At the same time, the Company continues to increase its contribution to environmental conservation by planting 1,000 fruit trees at the Cijayanti Nature Studio in September 2024 to prevent erosion given the area has a relatively high rainfall.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The centralized content production at Cijayanti Nature Studio, which is complemented by accommodation for the crew, not only creates cost efficiencies but also represents the Company's contribution to the reduction of greenhouse gas (Green House Gas/GHG) emissions due to reduced transportation use.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Besides paying attention to environmental preservation, the Company also increases its social contribution to the general public.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "S",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "This social contribution is realized by distributing donations to communities who are affected by disasters in various regions in Indonesia.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "S",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "These social donations are expected to ensure that the basic needs of the community are fulfilled.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "S",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "As a result of the Company's efforts to increase social contributions through CSR activities, the Company received appreciation at the Bisnis Indonesia CSR Award 2024 event, which featured the theme 'Paving the Way to Sustainable Business Innovation in CSR'.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "This award was given specifically to the Company for their free cataract surgery operations for underprivileged people throughout Indonesia.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Furthermore, at the 2024 BUMN Corporate Communication & Sustainability Summit (BCOMSS), SCTV and Indosiar also won the 'Best Contributed Media Group' award, while SCTV and Indosiar Editor-in-Chief Retno Pinasti also won the 'Best Contributed Editor in Chief' award.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "These awards demonstrate the Company's commitment to always provide independent and trusted news that can bestow upon its stakeholders with a significant impact from its operations.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "S",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company realizes that sustainable investment has a positive impact on the Company's performance.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Therefore, SCMA continues to adapt to dynamic trends in the media and entertainment industry by strengthening digital infrastructure and applying the latest technology.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The application of AI technology this year has been expanded to SCMA's subsidiaries in order to improve the quality of content production.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Through Whisper Media, SCMA enhances its capabilities to produce virtual content with high-quality visual effects which are faster and more cost-efficient.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "With the Company's ability to utilize technology to create excellence in all content production and other services, SCMA believes in its ability to navigate the risks arising from competition with existing digital media companies or platforms and maintain its leadership in the country's media and entertainment industry.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Moving into 2025, the Company believes that consumer preferences for local content will continue to increase.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Company's strategies to address this challenge include increasing the amount of quality original drama series to be aired on its media platforms as well as other media platforms outside of SCMA.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Company will collaborate with the best filmmakers in the country by utilizing its eight production houses to produce quality original content that emphasizes local cultural values.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "At the same time, the Company is also pursuing various initiatives to support the efficiency measures that were initiated in the previous year in order to maintain its competitiveness in the Indonesian media and entertainment industry.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Company is committed to continuously investing in the latest technologies in order to improve the organization's capabilities and encourage the productivity of existing human resources.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "SCMA aims to increase its contribution to the development of the digital media ecosystem in Indonesia and become the backbone for job creation in the country's media and entertainment industry.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "S",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "To conclude these remarks, the Board of Directors would like to thank the management, Board of Commissioners and employees for their dedication and valuable contributions for the satisfactory performance in 2024.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The teamwork within the SCMA ecosystem is crucial for the Company's success in maintaining its leadership in the Indonesian media and entertainment industry.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "positive"
+      },
+      {
+        "text": "We expect all of the Company's stakeholders to fully support our initiatives so that SCMA can continue thriving in terms of quality and sustainability.",
+        "labels": [
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company compiles material topics based on the GRI Standards reporting guidelines.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The material topics presented in this Sustainability Report are deemed important to the Company due to their impact on the organization's value and reputation in environmental, economic and social aspects, including human rights.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "However, since the GRI Standards guidelines did not provide specific references for industries relevant to the Company's business activities, the material topics were compiled by the Company based on evaluation results and input from stakeholders, the positive and negative impacts or risks caused by the Company's business activities to stakeholders, and an analysis of sustainability trends or issues that occur and are relevant to the Company's industry.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The following are the main material topics of the Company in this Sustainability Report:",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Anti-Corruption, Bribery, and Illegal Donation Policy is formulated and socialized as a form of the Company's commitment to the realization of an accountable organization.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "This policy prohibits the practices of corruption, bribery, gratification, and kickbacks, and is integrated into the Code of Conduct.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Referring to this policy, every employee is required to submit a report on any findings of such practices to the Human Resources Division.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company has identified the following types of actions that potentially trigger corruption:",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The act of giving and receiving all kinds of bribery, regardless of the recipient; and",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The act of giving or offering money, fees, commissions, credits, gifts, valuables, or compensation of any kind, whether directly or indirectly, to government agencies, officials, contractors, or sub-contractors to obtain a contract or special treatment.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company categorizes the above forms of bribery as serious violations with high-risk potential that could significantly impact the Company's reputation and the Group's long-term sustainability prospects.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Therefore, the Company strongly urges the Board of Commissioners, Board of Directors, and employees to comply with applicable laws and regulations by upholding the principles of fair business competition and promoting the values of sportsmanship and professionalism.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In order to ensure an effective implementation of this policy, the Audit Committee and the Corporate Legal Department are tasked with overseeing the implementation of anti-corruption and anti-bribery policies within the company.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Audit Committee and the Corporate Legal Department collaborate with the Internal Audit Department to share the responsibility of conducting risk assessments, which includes risks arising from corruption and bribery, determining risk categories, and proposing recommendations for mitigation measures.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Through the implementation of this anti-corruption policy, the Company ensures that its business activities are carried out in accordance with GCG principles and the provisions of Law No. 20 of 2001 concerning the Eradication of Corruption.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Furthermore, this policy is constantly being socialized to employees and all of the Company's business partners through training activities on the introduction of the 'Company Code of Ethics' in order to prevent potential conflicts of interest and other violations.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company upholds transparency in its procurement processes, which are considered to be vulnerable to corruption and bribery.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In this regard, the anti-corruption and anti-bribery provisions have been incorporated into written agreements or contracts between the Company and its suppliers or business partners in order to ensure that they have understood and implemented the policy, thereby ensuring fair and transparent operations for all stakeholders.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company has socialized the policy to all employees.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "In 2024, the Company did not record any violations of anti-corruption and anti-bribery policies, whether committed by employees or suppliers or business partners.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Company ensures that its organization has no affiliation or contribution of any kind to any political party during the 2024 Presidential and Legislative Elections.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      }
+    ]
   }
 ]

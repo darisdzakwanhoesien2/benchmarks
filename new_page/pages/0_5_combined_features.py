@@ -258,54 +258,142 @@ def fetch_lmstudio_models(base_url: str) -> list[dict]:
 # ══════════════════════════════════════════════════════════════════════════════
 # HELPERS — LLM CALLERS
 # ══════════════════════════════════════════════════════════════════════════════
+# def parse_json_from_model(text: str) -> Any:
+#     import json, re
+#     # Try direct JSON
+#     try:
+#         return json.loads(text)
+#     except Exception:
+#         pass
+#     # Try to extract JSON from code block or anywhere in text
+#     matches = re.findall(r'(\{[\s\S]*?\}|\[[\s\S]*?\])', text)
+#     for m in matches:
+#         try:
+#             return json.loads(m)
+#         except Exception:
+#             continue
+#     # Try ast.literal_eval as a last resort
+#     import ast
+#     for m in matches:
+#         try:
+#             return ast.literal_eval(m)
+#         except Exception:
+#             continue
+#     raise ValueError("Could not parse JSON from model output.")
+
+
 def parse_json_from_model(text: str) -> Any:
+    import json, re, ast
+
+    if not text or not text.strip():
+        raise ValueError("Empty response from model.")
+
+    text = text.strip()
+
+    # 🔹 Remove markdown code blocks
+    text = re.sub(r"```(?:json)?", "", text, flags=re.IGNORECASE).strip("` \n")
+
+    # 🔹 Try direct JSON
     try:
         return json.loads(text)
     except Exception:
-        m = re.search(r"```json\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*```", text, re.IGNORECASE)
-        if not m:
-            m = re.search(r"(\[[\s\S]*\]|\{[\s\S]*\})", text)
-        if m:
-            try:
-                return json.loads(m.group(1))
-            except Exception:
-                import ast
-                try:    return ast.literal_eval(m.group(1))
-                except Exception: pass
-    raise ValueError("Could not parse JSON from model output.")
+        pass
 
+    # 🔹 Extract largest JSON block
+    matches = re.findall(r'(\{[\s\S]*\}|\[[\s\S]*\])', text)
+
+    if matches:
+        matches = sorted(matches, key=len, reverse=True)
+        for m in matches:
+            try:
+                return json.loads(m)
+            except Exception:
+                try:
+                    return ast.literal_eval(m)
+                except Exception:
+                    continue
+
+    raise ValueError(f"Could not parse JSON. Raw output:\n{text[:500]}")
 
 def _call_openrouter(prompt: str, model: str, api_key: str,
                      temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
+
     payload = {
         "model": model,
         "messages": [
-            {"role": "system", "content": "You are a helpful assistant that outputs strict JSON."},
-            {"role": "user",   "content": prompt},
+            {
+                "role": "system",
+                "content": (
+                    "You are a strict JSON generator. "
+                    "Return ONLY valid JSON. "
+                    "Do NOT include markdown, explanations, comments, or text outside JSON. "
+                    "If unsure, return an empty JSON list []."
+                )
+            },
+            {"role": "user", "content": prompt},
         ],
         "temperature": temperature,
-        "max_tokens":  max_tokens,
+        "max_tokens": max_tokens,
     }
-    s       = _requests_session(retries=retries)
+
+    s = _requests_session(retries=retries)
+
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "Content-Type":  "application/json",
-        "HTTP-Referer":  "https://esg-project.app",
-        "X-Title":       "ESG Extractor",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://esg-project.app",
+        "X-Title": "ESG Extractor",
     }
+
     last_exc = None
     for attempt in range(1, retries + 1):
         try:
-            resp    = s.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=90)
+            resp = s.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=90)
             resp.raise_for_status()
             choices = resp.json().get("choices", [])
+
             if choices:
                 return choices[0].get("message", {}).get("content", "")
+
             return resp.text
+
         except Exception as e:
             last_exc = e
             time.sleep(min(10, 2 ** attempt))
+
     raise RuntimeError(f"OpenRouter failed after {retries} attempts: {last_exc}")
+
+# def _call_openrouter(prompt: str, model: str, api_key: str,
+#                      temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
+#     payload = {
+#         "model": model,
+#         "messages": [
+#             {"role": "system", "content": "You are an API. Output only valid JSON. Do not include explanations, markdown, or any extra text."},
+#             {"role": "user",   "content": prompt},
+#         ],
+#         "temperature": temperature,
+#         "max_tokens":  max_tokens,
+#     }
+#     s       = _requests_session(retries=retries)
+#     headers = {
+#         "Authorization": f"Bearer {api_key}",
+#         "Content-Type":  "application/json",
+#         "HTTP-Referer":  "https://esg-project.app",
+#         "X-Title":       "ESG Extractor",
+#     }
+#     last_exc = None
+#     for attempt in range(1, retries + 1):
+#         try:
+#             resp    = s.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=90)
+#             resp.raise_for_status()
+#             choices = resp.json().get("choices", [])
+#             if choices:
+#                 return choices[0].get("message", {}).get("content", "")
+#             return resp.text
+#         except Exception as e:
+#             last_exc = e
+#             time.sleep(min(10, 2 ** attempt))
+#     raise RuntimeError(f"OpenRouter failed after {retries} attempts: {last_exc}")
 
 
 def _call_lmstudio(prompt: str, model: str, base_url: str,
@@ -841,6 +929,9 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
     # ─────────────────────────────────────────────────────────────────────────
     # T3 · LLM ESG Extraction  (saves immediately after each model)
     # ─────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────
+# T3 · LLM ESG Extraction (FIXED VERSION)
+# ─────────────────────────────────────────────────────────────────────────
     if run_t3:
         st.markdown("---")
         st.subheader("🌿 T3 · LLM ESG Structured Extraction")
@@ -852,11 +943,12 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
         elif backend == BACKEND_OPENROUTER and not use_mock_t3 and not st.session_state.openrouter_key:
             st.error("❌ OpenRouter API key not set.")
         else:
+
             if selected_prompt_path:
-                base_prompt  = prompt_override.strip() or load_prompt_file(selected_prompt_path)
+                base_prompt = prompt_override.strip() or load_prompt_file(selected_prompt_path)
                 prompt_label = "custom override" if prompt_override.strip() else selected_prompt_path.name
             else:
-                base_prompt  = "You are an ESG expert. Analyze:\n{{INPUT_TEXT}}\nOutput a JSON list of ESG records."
+                base_prompt = "Extract ESG records as JSON list from:\n{{INPUT_TEXT}}"
                 prompt_label = "default fallback"
 
             st.info(f"📝 Prompt: **{prompt_label}**")
@@ -865,108 +957,623 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
                 page_section = "\n\n---\n\n".join(
                     f"[PAGE: {p['label']}]\n{p['text']}" for p in page_texts
                 )
+
                 combined = (
-                    f"### FULL DOCUMENT CONTEXT (for reference)\n\n{full_doc}\n\n"
-                    f"### PAGES TO EXTRACT FROM (focus here)\n\n{page_section}"
+                    f"FULL DOCUMENT:\n{full_doc}\n\n"
+                    f"TARGET PAGES:\n{page_section}\n\n"
+                    f"Return JSON array of ESG records."
                 )
+
                 return apply_prompt(template, combined)
 
-            t3_fname       = RESULTS_DIR / "esg_records.json"
+            t3_fname = RESULTS_DIR / "esg_records.json"
             all_t3_records = []
-            t3_total       = len(selected_llm_models)
-            t3_progress    = st.progress(0)
-            t3_status      = st.empty()
 
-            for t3_step, model in enumerate(selected_llm_models, 1):
-                m_info      = id_to_model.get(model, {})
-                model_label = m_info.get("label", model)
-                t3_status.info(
-                    f"⏳ [{t3_step}/{t3_total}] **{model_label}** · "
-                    f"context ~{len(doc_full_text):,} chars · "
-                    f"{len(selected_page_texts)} page(s) targeted"
-                )
+            t3_progress = st.progress(0)
+            t3_total = len(selected_llm_models)
+
+            for i, model in enumerate(selected_llm_models, 1):
+
+                st.info(f"⏳ Running model: {model} ({i}/{t3_total})")
 
                 final_prompt = build_context_prompt(doc_full_text, selected_page_texts, base_prompt)
 
-                if use_mock_t3:
-                    parsed  = [
-                        {"text": p["text"][:120], "esg": "Environmental",
-                         "sentiment": "Positive", "labels": ["mock"],
-                         "note": "mock response", "source": p["label"]}
-                        for p in selected_page_texts
-                    ]
-                    ok, err = True, None
-                else:
-                    try:
+                try:
+                    if use_mock_t3:
+                        raw_output = json.dumps([
+                            {"text": "mock", "esg": "Environmental", "sentiment": "Positive"}
+                        ])
+                    else:
                         raw_output = call_llm(
-                            prompt       = final_prompt,
-                            model        = model,
-                            backend      = backend,
-                            api_key      = st.session_state.openrouter_key,
-                            lmstudio_url = st.session_state.lmstudio_url,
-                            temperature  = float(temperature_input),
-                            max_tokens   = int(max_tokens_input),
-                            retries      = int(retries_input),
+                            prompt=final_prompt,
+                            model=model,
+                            backend=backend,
+                            api_key=st.session_state.openrouter_key,
+                            lmstudio_url=st.session_state.lmstudio_url,
+                            temperature=float(temperature_input),
+                            max_tokens=int(max_tokens_input),
+                            retries=int(retries_input),
                         )
+
+                    # 🔍 DEBUG OUTPUT
+                    with st.expander(f"🧪 Raw Output — {model}"):
+                        st.code(raw_output)
+
+                    # ✅ SAFE PARSING
+                    try:
                         parsed = parse_json_from_model(raw_output)
-                        if not isinstance(parsed, list):
-                            parsed = [parsed] if isinstance(parsed, dict) else []
-                        ok, err = True, None
-                    except Exception as e:
-                        parsed  = []
-                        ok, err = False, str(e)
+
+                        if isinstance(parsed, dict):
+                            parsed = [parsed]
+                        elif not isinstance(parsed, list):
+                            parsed = []
+
+                        ok = True
+                        err = None
+
+                    except Exception as parse_err:
+                        parsed = []
+                        ok = False
+                        err = f"Parse error: {parse_err}"
+
+                except Exception as e:
+                    parsed = []
+                    ok = False
+                    err = str(e)
+                    raw_output = ""
 
                 record = {
-                    "timestamp":      datetime.utcnow().strftime("%Y-%m-%dT%H:%M%SZ"),
-                    "model":          model,
-                    "backend":        backend,
-                    "prompt":         prompt_label,
-                    "context_pages":  len(all_page_files) if input_mode != "Manual text" else 1,
-                    "targeted_pages": [p["label"] for p in selected_page_texts],
-                    "ok":             ok,
-                    "records":        parsed,
-                    **({"error": err} if err else {}),
+                    "timestamp": datetime.utcnow().isoformat() + "Z",
+                    "model": model,
+                    "ok": ok,
+                    "records": parsed,
+                    "error": err,
                 }
+
                 all_t3_records.append(record)
 
                 if ok:
-                    with st.expander(
-                        f"✅ **{model_label}** — {len(parsed)} record(s) extracted",
-                        expanded=True,
-                    ):
-                        st.json(parsed)
+                    st.success(f"✅ {model} → {len(parsed)} records")
+                    st.json(parsed)
                 else:
-                    st.error(f"❌ **{model_label}**: {err}")
+                    st.error(f"❌ {model} failed: {err}")
 
-                # ── immediate save after each model ──
+                # 💾 SAVE IMMEDIATELY
                 if save_t3 and ok:
                     try:
                         append_record(record, t3_fname)
-                        st.caption(f"💾 T3 saved · **{model_label}**")
+                        st.caption(f"💾 Saved: {model}")
                     except Exception as save_err:
-                        st.warning(f"⚠️ T3 save failed: {save_err}")
+                        st.warning(f"Save failed: {save_err}")
 
-                t3_progress.progress(t3_step / t3_total)
+                t3_progress.progress(i / t3_total)
 
             t3_progress.empty()
-            t3_status.empty()
 
-            ok_count = sum(1 for r in all_t3_records if r.get("ok"))
-            cc1, cc2, cc3 = st.columns(3)
-            cc1.metric("Models run",    t3_total)
-            cc2.metric("✅ Successful", ok_count)
-            cc3.metric("❌ Failed",     t3_total - ok_count)
-
-            if save_t3 and ok_count:
-                st.info(f"📁 T3 records appended live to `{t3_fname}`")
+            st.success("🎉 T3 Completed")
 
             st.download_button(
-                "⬇️ Download T3 ESG records (JSON)",
-                json.dumps(all_t3_records, ensure_ascii=False, indent=2),
-                file_name=f"esg_records_{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}.json",
+                "⬇️ Download T3 JSON",
+                json.dumps(all_t3_records, indent=2, ensure_ascii=False),
+                file_name="t3_results.json",
                 mime="application/json",
-                key="dl_t3",
             )
 
     st.markdown("---")
     st.caption("ESG Combined Pipeline · T1 ClimateBERT · T2 ABSA · T3 LLM Extraction")
+
+    # if run_t3:
+    #     st.markdown("---")
+    #     st.subheader("🌿 T3 · LLM ESG Structured Extraction")
+
+    #     if not selected_llm_models:
+    #         st.warning("⚠️ No LLM model selected for T3.")
+    #     elif not doc_full_text:
+    #         st.warning("⚠️ No document text available.")
+    #     elif backend == BACKEND_OPENROUTER and not use_mock_t3 and not st.session_state.openrouter_key:
+    #         st.error("❌ OpenRouter API key not set.")
+    #     else:
+    #         if selected_prompt_path:
+    #             base_prompt  = prompt_override.strip() or load_prompt_file(selected_prompt_path)
+    #             prompt_label = "custom override" if prompt_override.strip() else selected_prompt_path.name
+    #         else:
+    #             base_prompt  = "You are an ESG expert. Analyze:\n{{INPUT_TEXT}}\nOutput a JSON list of ESG records."
+    #             prompt_label = "default fallback"
+
+    #         st.info(f"📝 Prompt: **{prompt_label}**")
+
+    #         def build_context_prompt(full_doc: str, page_texts: list[dict], template: str) -> str:
+    #             page_section = "\n\n---\n\n".join(
+    #                 f"[PAGE: {p['label']}]\n{p['text']}" for p in page_texts
+    #             )
+    #             combined = (
+    #                 f"### FULL DOCUMENT CONTEXT (for reference)\n\n{full_doc}\n\n"
+    #                 f"### PAGES TO EXTRACT FROM (focus here)\n\n{page_section}"
+    #             )
+    #             return apply_prompt(template, combined)
+
+    #         t3_fname       = RESULTS_DIR / "esg_records.json"
+    #         all_t3_records = []
+    #         t3_total       = len(selected_llm_models)
+    #         t3_progress    = st.progress(0)
+    #         t3_status      = st.empty()
+
+    #         for t3_step, model in enumerate(selected_llm_models, 1):
+    #             m_info      = id_to_model.get(model, {})
+    #             model_label = m_info.get("label", model)
+    #             t3_status.info(
+    #                 f"⏳ [{t3_step}/{t3_total}] **{model_label}** · "
+    #                 f"context ~{len(doc_full_text):,} chars · "
+    #                 f"{len(selected_page_texts)} page(s) targeted"
+    #             )
+
+    #             final_prompt = build_context_prompt(doc_full_text, selected_page_texts, base_prompt)
+
+    #             if use_mock_t3:
+    #                 parsed  = [
+    #                     {"text": p["text"][:120], "esg": "Environmental",
+    #                      "sentiment": "Positive", "labels": ["mock"],
+    #                      "note": "mock response", "source": p["label"]}
+    #                     for p in selected_page_texts
+    #                 ]
+    #                 ok, err = True, None
+    #             else:
+    #                 try:
+    #                     raw_output = call_llm(
+    #                         prompt       = final_prompt,
+    #                         model        = model,
+    #                         backend      = backend,
+    #                         api_key      = st.session_state.openrouter_key,
+    #                         lmstudio_url = st.session_state.lmstudio_url,
+    #                         temperature  = float(temperature_input),
+    #                         max_tokens   = int(max_tokens_input),
+    #                         retries      = int(retries_input),
+    #                     )
+    #                     parsed = parse_json_from_model(raw_output)
+    #                     if not isinstance(parsed, list):
+    #                         parsed = [parsed] if isinstance(parsed, dict) else []
+    #                     ok, err = True, None
+    #                 except Exception as e:
+    #                     parsed  = []
+    #                     ok, err = False, str(e)
+
+    #             record = {
+    #                 "timestamp":      datetime.utcnow().strftime("%Y-%m-%dT%H:%M%SZ"),
+    #                 "model":          model,
+    #                 "backend":        backend,
+    #                 "prompt":         prompt_label,
+    #                 "context_pages":  len(all_page_files) if input_mode != "Manual text" else 1,
+    #                 "targeted_pages": [p["label"] for p in selected_page_texts],
+    #                 "ok":             ok,
+    #                 "records":        parsed,
+    #                 **({"error": err} if err else {}),
+    #             }
+    #             all_t3_records.append(record)
+
+    #             if ok:
+    #                 with st.expander(
+    #                     f"✅ **{model_label}** — {len(parsed)} record(s) extracted",
+    #                     expanded=True,
+    #                 ):
+    #                     st.json(parsed)
+    #             else:
+    #                 st.error(f"❌ **{model_label}**: {err}")
+
+    #             # ── immediate save after each model ──
+    #             if save_t3 and ok:
+    #                 try:
+    #                     append_record(record, t3_fname)
+    #                     st.caption(f"💾 T3 saved · **{model_label}**")
+    #                 except Exception as save_err:
+    #                     st.warning(f"⚠️ T3 save failed: {save_err}")
+
+    #             t3_progress.progress(t3_step / t3_total)
+
+    #         t3_progress.empty()
+    #         t3_status.empty()
+
+    #         ok_count = sum(1 for r in all_t3_records if r.get("ok"))
+    #         cc1, cc2, cc3 = st.columns(3)
+    #         cc1.metric("Models run",    t3_total)
+    #         cc2.metric("✅ Successful", ok_count)
+    #         cc3.metric("❌ Failed",     t3_total - ok_count)
+
+    #         if save_t3 and ok_count:
+    #             st.info(f"📁 T3 records appended live to `{t3_fname}`")
+
+    #         st.download_button(
+    #             "⬇️ Download T3 ESG records (JSON)",
+    #             json.dumps(all_t3_records, ensure_ascii=False, indent=2),
+    #             file_name=f"esg_records_{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}.json",
+    #             mime="application/json",
+    #             key="dl_t3",
+    #         )
+
+# # https://huggingface.co/spaces/darisdzakwanhoesien/climatebert-multi-model-demo-docker-new
+
+# import os
+# import io
+# import json
+# import streamlit as st
+# from pathlib import Path
+# from datetime import datetime
+
+# st.set_page_config(page_title="ClimateBERT · Combined Demo", page_icon="🌡️", layout="wide")
+# st.title("🌡️ ClimateBERT — Combined (Remote Space & Local HF Model)")
+
+# # --- results storage setup (new) ---
+# RESULTS_DIR = Path(__file__).resolve().parents[1] / "results"
+# RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+# RESULTS_FPATH = RESULTS_DIR / "climatebert_results.json"
+
+# def _json_default(o):
+#     try:
+#         import numpy as _np
+#         if isinstance(o, _np.ndarray):
+#             return o.tolist()
+#         if isinstance(o, (_np.integer, _np.floating)):
+#             return float(o)
+#     except Exception:
+#         pass
+#     try:
+#         import torch as _torch
+#         if isinstance(o, _torch.Tensor):
+#             return o.cpu().detach().numpy().tolist()
+#     except Exception:
+#         pass
+#     if isinstance(o, (Path,)):
+#         return str(o)
+#     if isinstance(o, datetime):
+#         return o.isoformat()
+#     return str(o)
+
+# def append_json_record(path: Path, record: dict) -> None:
+#     existing = []
+#     if path.exists():
+#         try:
+#             with path.open("r", encoding="utf-8") as f:
+#                 loaded = json.load(f)
+#             existing = loaded if isinstance(loaded, list) else [loaded]
+#         except Exception:
+#             existing = []
+#     existing.append(record)
+#     tmp = path.with_suffix(".tmp")
+#     with tmp.open("w", encoding="utf-8") as f:
+#         json.dump(existing, f, ensure_ascii=False, indent=2, default=_json_default)
+#     tmp.replace(path)
+
+# # --- New: improved parser for `response_raw` from ClimateBERT space ----
+# import re
+# def parse_response_raw(raw: str) -> dict:
+#     """
+#     Parse the text blob returned by /predict_all_models into structured JSON.
+#     Expected format (examples):
+#       ### model-name
+#       ❌ Error: ...
+#       ### model2
+#       • label: 0.92
+#       • other: 0.08
+
+#     Returns:
+#       {"raw": raw, "models": [ {"name": str, "status": "ok"|"error", "error": str|null, "scores": {label: value}} , ... ] }
+#     """
+#     if raw is None:
+#         return {"raw": raw, "models": []}
+#     text = raw.decode("utf-8") if isinstance(raw, (bytes, bytearray)) else str(raw)
+#     lines = [ln.strip() for ln in text.splitlines()]
+#     models = []
+#     cur = None
+
+#     bullet_re = re.compile(r"^[•\-\*\u2022]\s*(.+)$")
+#     label_val_re = re.compile(r"^(.+?)\s*[:\-]\s*([-+]?\d*\.?\d+(?:[eE][-+]?\d+)?)\s*$")
+#     # fallback for lines like "• Not about renewables: 1.00" (label contains spaces)
+#     for ln in lines:
+#         if not ln:
+#             continue
+#         if ln.startswith("###"):
+#             # new model header
+#             name = ln[3:].strip()
+#             if cur is not None:
+#                 models.append(cur)
+#             cur = {"name": name, "status": "ok", "error": None, "scores": {}}
+#             continue
+#         if cur is None:
+#             # preamble / stray lines -> skip or collect under intro model
+#             continue
+#         # detect explicit error marker
+#         if "❌" in ln or ln.lower().startswith("error:") or "unrecognized model" in ln.lower():
+#             # collect error message (rest of line)
+#             msg = ln.replace("❌", "").strip()
+#             if msg.lower().startswith("error:"):
+#                 msg = msg[6:].strip()
+#             # append to error field (concatenate if multiple lines)
+#             if cur.get("error"):
+#                 cur["error"] += " | " + msg
+#             else:
+#                 cur["error"] = msg
+#             cur["status"] = "error"
+#             continue
+#         # bullets
+#         m = bullet_re.match(ln)
+#         candidate = ln
+#         if m:
+#             candidate = m.group(1).strip()
+#         # try label:value numeric
+#         m2 = label_val_re.match(candidate)
+#         if m2:
+#             key = m2.group(1).strip()
+#             try:
+#                 val = float(m2.group(2))
+#             except Exception:
+#                 val = m2.group(2)
+#             cur["scores"][key] = val
+#             continue
+#         # lines like "• no: 0.99" handled above; fallback: lines "• key value"
+#         # attempt split on last space and parse numeric tail
+#         if m:
+#             parts = candidate.rsplit(" ", 1)
+#             if len(parts) == 2:
+#                 key, tail = parts[0].strip(), parts[1].strip()
+#                 try:
+#                     val = float(tail)
+#                     cur["scores"][key] = val
+#                     continue
+#                 except Exception:
+#                     pass
+#         # if we reach here, treat line as free-text message (append to error or store under misc)
+#         if "note" not in cur:
+#             cur["note"] = ln
+#         else:
+#             cur["note"] += " | " + ln
+
+#     if cur is not None:
+#         models.append(cur)
+
+#     return {"raw": text, "models": models}
+
+# # -------------------------
+# # Sidebar / options
+# # -------------------------
+# st.sidebar.header("Mode")
+# mode = st.sidebar.selectbox("Run mode", ["Remote Space (gradio)", "Local HF model (transformers)"])
+
+# # Common inputs
+# hf_token_input = st.sidebar.text_input("HF token (optional)", value=os.getenv("HF_TOKEN", ""), type="password")
+# use_env_token = st.sidebar.checkbox("Use HF_TOKEN from env if input empty", value=True)
+
+# if use_env_token and not hf_token_input:
+#     hf_token = os.getenv("HF_TOKEN", "") or None
+# else:
+#     hf_token = hf_token_input or None
+
+# # --- results auto-save toggle (added) ---
+# auto_save = st.sidebar.checkbox("Auto-save predictions to results/climatebert_results.json", value=True)
+# st.sidebar.markdown(f"Results file: `{RESULTS_FPATH}`")
+
+# # -------------------------
+# # Remote Space (gradio_client)
+# # -------------------------
+# if mode == "Remote Space (gradio)":
+#     st.header("Remote Space — call /predict_all_models")
+#     space_url = st.text_input(
+#         "Space URL",
+#         value=os.getenv("CLIMATEBERT_SPACE_URL", "https://darisdzakwanhoesien-climatebert-multi-model-demo-8aae81e.hf.space/"),
+#         help="HF Space URL (leave default for demo)"
+#     )
+#     text = st.text_area("Input text", "Hello world — ESG / climate example", height=200)
+#     timeout = st.number_input("Timeout (seconds)", value=120, min_value=10, max_value=600, step=10)
+
+#     col1, col2 = st.columns([3, 1])
+#     with col1:
+#         predict_btn = st.button("Predict (all models)")
+#     with col2:
+#         st.markdown("Connection test")
+#         test_btn = st.button("Test connect")
+
+#     def call_space_predict(url: str, txt: str, token: str | None, timeout_sec: int):
+#         try:
+#             from gradio_client import Client
+#         except Exception as e:
+#             raise RuntimeError(f"gradio-client not installed: {e}")
+#         kwargs = {}
+#         if token:
+#             kwargs["hf_token"] = token
+#         # instantiate client (do not pass timeout here — gradio_client.Client may not accept it)
+#         client = Client(url, **kwargs)
+#         # call using named parameter to match space input
+#         return client.predict(text=txt, api_name="/predict_all_models")
+
+#     if test_btn:
+#         try:
+#             st.info("Testing connection…")
+#             # a lightweight call: instantiate client and optionally call a health endpoint by predict empty text
+#             from gradio_client import Client  # might raise
+#             kwargs = {}
+#             if hf_token:
+#                 kwargs["hf_token"] = hf_token
+#             # instantiate client (no timeout argument)
+#             Client(space_url, **kwargs)
+#             st.success("Client instantiated successfully (no network call performed yet).")
+#         except Exception as e:
+#             st.error("Connection test failed")
+#             st.exception(e)
+
+#     if predict_btn:
+#         if not text.strip():
+#             st.warning("Enter input text first.")
+#         else:
+#             try:
+#                 with st.spinner("Calling remote space…"):
+#                     resp = call_space_predict(space_url, text, hf_token, int(timeout))
+#                 st.subheader("Raw response")
+#                 # try to pretty-print JSON if possible
+#                 parsed = None
+#                 try:
+#                     parsed = json.loads(resp) if isinstance(resp, (str, bytes)) else resp
+#                     st.json(parsed)
+#                 except Exception:
+#                     st.text(str(resp))
+
+#                 # --- save remote response (new) ---
+#                 if auto_save or st.button("Save this remote prediction"):
+#                     rec = {
+#                         "timestamp": datetime.utcnow().isoformat() + "Z",
+#                         "mode": "remote_space",
+#                         "space_url": space_url,
+#                         "input_text": text,
+#                         "response_raw": resp,
+#                         "response_parsed": parsed,
+#                     }
+#                     try:
+#                         append_json_record(RESULTS_FPATH, rec)
+#                         st.success(f"Saved result to {RESULTS_FPATH.name}")
+#                     except Exception as e:
+#                         st.error(f"Save failed: {e}")
+
+#             except Exception as e:
+#                 st.error("Prediction failed")
+#                 st.exception(e)
+
+# # -------------------------
+# # Local HF model (transformers)
+# # -------------------------
+# else:
+#     st.header("Local model — Hugging Face transformers")
+#     st.markdown("Load tokenizer + model locally and run a forward pass. Provide HF repo id or local path.")
+#     model_repo = st.text_input("Model repo or path", value=os.getenv("HF_MODEL", "climatebert/econbert"))
+#     use_fast = st.checkbox("Use fast tokenizer", value=True)
+#     max_len = st.slider("Max tokens", min_value=32, max_value=2048, value=512, step=32)
+#     text = st.text_area("Input text", "The Federal Reserve increased interest rates by 25 basis points.", height=200)
+
+#     col1, col2 = st.columns([2, 1])
+#     with col1:
+#         load_btn = st.button("Load tokenizer & model")
+#         run_btn = st.button("Run tokenizer + model")
+#     with col2:
+#         clear_cache = st.button("Clear cached model")
+
+#     if clear_cache:
+#         try:
+#             st.cache_resource.clear()
+#             st.success("Cleared cached resources")
+#         except Exception as e:
+#             st.error(f"Clear cache failed: {e}")
+
+#     @st.cache_resource(show_spinner=False)
+#     def _load_transformers(repo: str, use_fast_tok: bool, token: str | None):
+#         try:
+#             from transformers import AutoTokenizer, AutoModel
+#         except Exception as e:
+#             raise RuntimeError(f"transformers not installed: {e}")
+#         kwargs = {}
+#         if token:
+#             kwargs["use_auth_token"] = token
+#         tokenizer = AutoTokenizer.from_pretrained(repo, use_fast=use_fast_tok, **kwargs)
+#         model = AutoModel.from_pretrained(repo, **kwargs)
+#         return tokenizer, model
+
+#     tokenizer = None
+#     model = None
+#     if load_btn:
+#         try:
+#             st.info(f"Loading {model_repo} … this may take time and disk space.")
+#             tokenizer, model = _load_transformers(model_repo, use_fast, hf_token or None)
+#             st.success("Model & tokenizer loaded")
+#             st.write("Tokenizer:", type(tokenizer).__name__, "Model:", type(model).__name__)
+#         except Exception as e:
+#             st.error("Load failed")
+#             st.exception(e)
+#     else:
+#         # try reuse cached resources
+#         try:
+#             tokenizer, model = _load_transformers(model_repo, use_fast, hf_token or None)
+#         except Exception:
+#             tokenizer = None
+#             model = None
+
+#     if tokenizer is None or model is None:
+#         st.warning("Tokenizer / model not loaded. Click 'Load tokenizer & model' to initialize.")
+#     else:
+#         st.markdown("### Tokenizer / inputs")
+#         if st.button("Show tokenization only"):
+#             try:
+#                 inputs = tokenizer(text, truncation=True, max_length=max_len)
+#                 token_ids = inputs.get("input_ids", [])
+#                 tokens = tokenizer.convert_ids_to_tokens(token_ids)
+#                 st.write({"tokens_count": len(tokens)})
+#                 st.write(tokens[:200])
+#             except Exception as e:
+#                 st.exception(e)
+
+#         if run_btn:
+#             try:
+#                 import torch
+#                 inputs = tokenizer(
+#                     text,
+#                     return_tensors="pt",
+#                     truncation=True,
+#                     max_length=max_len,
+#                     padding="longest",
+#                 )
+#                 st.write("Input IDs shape:", inputs["input_ids"].shape)
+#                 tokens = tokenizer.convert_ids_to_tokens(inputs["input_ids"][0].tolist())
+#                 st.write("Tokens (first 200):", tokens[:200])
+
+#                 with st.spinner("Running model forward…"):
+#                     model.eval()
+#                     with torch.no_grad():
+#                         outputs = model(**inputs)
+#                 # Handle common outputs
+#                 last_hidden = getattr(outputs, "last_hidden_state", None)
+#                 pooled = getattr(outputs, "pooler_output", None)
+#                 st.subheader("Model outputs")
+#                 if last_hidden is not None:
+#                     st.write("last_hidden_state shape:", tuple(last_hidden.shape))
+#                 else:
+#                     st.write("Raw outputs:")
+#                     st.write(outputs)
+
+#                 if pooled is None and last_hidden is not None:
+#                     emb = last_hidden.mean(dim=1)
+#                     arr = emb.detach().cpu().numpy().tolist()
+#                     st.write("Pooled embedding (mean) shape:", tuple(emb.shape))
+#                 elif pooled is not None:
+#                     arr = pooled.detach().cpu().numpy().tolist()
+#                     st.write("Pooler output shape:", tuple(pooled.shape))
+#                 else:
+#                     arr = None
+
+#                 if arr is not None:
+#                     # show brief preview and allow download
+#                     st.write("Embedding (first 3 dims):", [row[:3] for row in arr])
+#                     b = io.BytesIO(json.dumps(arr, ensure_ascii=False).encode("utf-8"))
+#                     st.download_button("Download embedding (JSON)", b, file_name="embedding.json", mime="application/json")
+
+#                     # --- save local run results (new) ---
+#                     if auto_save or st.button("Save this local run"):
+#                         rec = {
+#                             "timestamp": datetime.utcnow().isoformat() + "Z",
+#                             "mode": "local_model",
+#                             "model_repo": model_repo,
+#                             "input_text": text,
+#                             "embedding_shape": (len(arr), len(arr[0])) if arr else None,
+#                             "embedding_preview": [row[:3] for row in arr],
+#                         }
+#                         try:
+#                             append_json_record(RESULTS_FPATH, rec)
+#                             st.success(f"Saved result to {RESULTS_FPATH.name}")
+#                         except Exception as e:
+#                             st.error(f"Save failed: {e}")
+#             except Exception as e:
+#                 st.error("Model run failed")
+#                 st.exception(e)
+
+# st.markdown("---")
+# st.caption("Use Remote Space mode to call the hosted ClimateBERT demo (gradio). Use Local HF model mode to load and run a HF model locally. Ensure dependencies: gradio-client and/or transformers + torch installed in the environment.")
+
+# # Add a short sidebar / footer control to download or view stored results
+# if RESULTS_FPATH.exists():
+#     with st.sidebar.expander("Stored results"):
+#         st.write(f"Records: {len(json.loads(RESULTS_FPATH.read_text(encoding='utf-8')))}")
+#         if st.button("Download stored results"):
+#             st.download_button("Download results JSON", RESULTS_FPATH.read_bytes(), file_name=RESULTS_FPATH.name, mime="application/json")
