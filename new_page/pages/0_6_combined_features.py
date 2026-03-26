@@ -255,32 +255,6 @@ def fetch_lmstudio_models(base_url: str) -> list[dict]:
         return []
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# HELPERS — LLM CALLERS
-# ══════════════════════════════════════════════════════════════════════════════
-# def parse_json_from_model(text: str) -> Any:
-#     import json, re
-#     # Try direct JSON
-#     try:
-#         return json.loads(text)
-#     except Exception:
-#         pass
-#     # Try to extract JSON from code block or anywhere in text
-#     matches = re.findall(r'(\{[\s\S]*?\}|\[[\s\S]*?\])', text)
-#     for m in matches:
-#         try:
-#             return json.loads(m)
-#         except Exception:
-#             continue
-#     # Try ast.literal_eval as a last resort
-#     import ast
-#     for m in matches:
-#         try:
-#             return ast.literal_eval(m)
-#         except Exception:
-#             continue
-#     raise ValueError("Could not parse JSON from model output.")
-
 
 def parse_json_from_model(text: str) -> Any:
     import json, re, ast
@@ -362,39 +336,6 @@ def _call_openrouter(prompt: str, model: str, api_key: str,
             time.sleep(min(10, 2 ** attempt))
 
     raise RuntimeError(f"OpenRouter failed after {retries} attempts: {last_exc}")
-
-# def _call_openrouter(prompt: str, model: str, api_key: str,
-#                      temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
-#     payload = {
-#         "model": model,
-#         "messages": [
-#             {"role": "system", "content": "You are an API. Output only valid JSON. Do not include explanations, markdown, or any extra text."},
-#             {"role": "user",   "content": prompt},
-#         ],
-#         "temperature": temperature,
-#         "max_tokens":  max_tokens,
-#     }
-#     s       = _requests_session(retries=retries)
-#     headers = {
-#         "Authorization": f"Bearer {api_key}",
-#         "Content-Type":  "application/json",
-#         "HTTP-Referer":  "https://esg-project.app",
-#         "X-Title":       "ESG Extractor",
-#     }
-#     last_exc = None
-#     for attempt in range(1, retries + 1):
-#         try:
-#             resp    = s.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=90)
-#             resp.raise_for_status()
-#             choices = resp.json().get("choices", [])
-#             if choices:
-#                 return choices[0].get("message", {}).get("content", "")
-#             return resp.text
-#         except Exception as e:
-#             last_exc = e
-#             time.sleep(min(10, 2 ** attempt))
-#     raise RuntimeError(f"OpenRouter failed after {retries} attempts: {last_exc}")
-
 
 def _call_lmstudio(prompt: str, model: str, base_url: str,
                    temperature: float = 0.0, max_tokens: int = 1500) -> str:
@@ -677,23 +618,41 @@ else:
                 )
                 chosen_pages = [pages_dir / n for n in chosen_names]
 
-            if chosen_pages:
-                with st.expander(f"📄 Preview ({len(chosen_pages)} page(s))", expanded=False):
-                    for pf in chosen_pages[:5]:
-                        st.markdown(f"**{pf.name}**")
-                        content = pf.read_text(encoding="utf-8")
-                        st.text(content[:400] + ("…" if len(content) > 400 else ""))
-                    if len(chosen_pages) > 5:
-                        st.caption(f"… and {len(chosen_pages) - 5} more page(s)")
+                # Add batch size selector
+                batch_size = st.number_input(
+                    "Batch size (pages per group)", min_value=1, max_value=len(chosen_pages), value=2, step=1
+                )
 
-                selected_page_texts = [
-                    {"label": f"{selected_doc}/{pf.name}", "text": pf.read_text(encoding="utf-8").strip()}
-                    for pf in chosen_pages
-                    if pf.read_text(encoding="utf-8").strip()
+                # Split chosen_pages into batches
+                def batch_pages(pages, size):
+                    return [pages[i:i+size] for i in range(0, len(pages), size)]
+
+                page_batches = batch_pages(chosen_pages, batch_size)
+
+                st.info(f"Processing {len(page_batches)} batch(es) of {batch_size} page(s) each.")
+
+                # Preview batches
+                with st.expander("Preview batches", expanded=False):
+                    for idx, batch in enumerate(page_batches, 1):
+                        st.markdown(f"**Batch {idx}:** {[p.name for p in batch]}")
+
+                # Process ALL batches (recursively) — create one texts_to_process entry per batch
+                texts_to_process = [
+                    {
+                        "label": f"{selected_doc}/batch_{idx+1}",
+                        "text": "\n\n".join(p.read_text(encoding="utf-8").strip() for p in batch if p.read_text(encoding="utf-8").strip())
+                    }
+                    for idx, batch in enumerate(page_batches)
                 ]
-                texts_to_process = selected_page_texts
 
-# ══════════════════════════════════════════════════════════════════════════════
+                # Also expose for components that expect selected_page_texts (a list of page-like dicts)
+                # For batch-level processing we keep selected_page_texts as the flattened pages of the first batch
+                selected_page_texts = [
+                    {"label": f"{selected_doc}/{p.name}", "text": p.read_text(encoding="utf-8").strip()}
+                    for p in page_batches[0]
+                    if p.read_text(encoding="utf-8").strip()
+                ]
+# ...existing code...
 # RUN SUMMARY
 # ══════════════════════════════════════════════════════════════════════════════
 if texts_to_process:
@@ -975,84 +934,91 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
             t3_fname = RESULTS_DIR / "esg_records.json"
             all_t3_records = []
 
+            # progress is now total runs = models * batches (texts_to_process items)
             t3_progress = st.progress(0)
-            t3_total = len(selected_llm_models)
+            t3_total = max(1, len(selected_llm_models) * max(1, len(texts_to_process)))
+            t3_step = 0
 
             for i, model in enumerate(selected_llm_models, 1):
 
-                st.info(f"⏳ Running model: {model} ({i}/{t3_total})")
+                m_info = id_to_model.get(model, {})
+                st.info(f"⏳ Running model: {model} ({i}/{len(selected_llm_models)})")
 
-                final_prompt = build_context_prompt(doc_full_text, selected_page_texts, base_prompt)
+                # iterate over all batches / target items (recursive processing)
+                for b_idx, target in enumerate(texts_to_process, 1):
+                    final_prompt = build_context_prompt(doc_full_text, [ {"label": target["label"], "text": target["text"]} ], base_prompt)
 
-                try:
-                    if use_mock_t3:
-                        raw_output = json.dumps([
-                            {"text": "mock", "esg": "Environmental", "sentiment": "Positive"}
-                        ])
-                    else:
-                        raw_output = call_llm(
-                            prompt=final_prompt,
-                            model=model,
-                            backend=backend,
-                            api_key=st.session_state.openrouter_key,
-                            lmstudio_url=st.session_state.lmstudio_url,
-                            temperature=float(temperature_input),
-                            max_tokens=int(max_tokens_input),
-                            retries=int(retries_input),
-                        )
-
-                    # 🔍 DEBUG OUTPUT
-                    with st.expander(f"🧪 Raw Output — {model}"):
-                        st.code(raw_output)
-
-                    # ✅ SAFE PARSING
                     try:
-                        parsed = parse_json_from_model(raw_output)
+                        if use_mock_t3:
+                            raw_output = json.dumps([
+                                {"text": "mock", "esg": "Environmental", "sentiment": "Positive", "source": target["label"]}
+                            ])
+                        else:
+                            raw_output = call_llm(
+                                prompt=final_prompt,
+                                model=model,
+                                backend=backend,
+                                api_key=st.session_state.openrouter_key,
+                                lmstudio_url=st.session_state.lmstudio_url,
+                                temperature=float(temperature_input),
+                                max_tokens=int(max_tokens_input),
+                                retries=int(retries_input),
+                            )
 
-                        if isinstance(parsed, dict):
-                            parsed = [parsed]
-                        elif not isinstance(parsed, list):
+                        # 🔍 DEBUG OUTPUT
+                        with st.expander(f"🧪 Raw Output — {model} — {target['label']}"):
+                            st.code(raw_output)
+
+                        # ✅ SAFE PARSING
+                        try:
+                            parsed = parse_json_from_model(raw_output)
+
+                            if isinstance(parsed, dict):
+                                parsed = [parsed]
+                            elif not isinstance(parsed, list):
+                                parsed = []
+
+                            ok = True
+                            err = None
+
+                        except Exception as parse_err:
                             parsed = []
+                            ok = False
+                            err = f"Parse error: {parse_err}"
 
-                        ok = True
-                        err = None
-
-                    except Exception as parse_err:
+                    except Exception as e:
                         parsed = []
                         ok = False
-                        err = f"Parse error: {parse_err}"
+                        err = str(e)
+                        raw_output = ""
 
-                except Exception as e:
-                    parsed = []
-                    ok = False
-                    err = str(e)
-                    raw_output = ""
+                    record = {
+                        "timestamp": datetime.utcnow().isoformat() + "Z",
+                        "model": model,
+                        "target": target["label"],
+                        "ok": ok,
+                        "records": parsed,
+                        "error": err,
+                    }
 
-                record = {
-                    "timestamp": datetime.utcnow().isoformat() + "Z",
-                    "model": model,
-                    "ok": ok,
-                    "records": parsed,
-                    "error": err,
-                }
+                    all_t3_records.append(record)
 
-                all_t3_records.append(record)
+                    if ok:
+                        st.success(f"✅ {model} · {target['label']} → {len(parsed)} records")
+                        st.json(parsed)
+                    else:
+                        st.error(f"❌ {model} · {target['label']} failed: {err}")
 
-                if ok:
-                    st.success(f"✅ {model} → {len(parsed)} records")
-                    st.json(parsed)
-                else:
-                    st.error(f"❌ {model} failed: {err}")
+                    # 💾 SAVE IMMEDIATELY
+                    if save_t3 and ok:
+                        try:
+                            append_record(record, t3_fname)
+                            st.caption(f"💾 Saved: {model} · {target['label']}")
+                        except Exception as save_err:
+                            st.warning(f"Save failed: {save_err}")
 
-                # 💾 SAVE IMMEDIATELY
-                if save_t3 and ok:
-                    try:
-                        append_record(record, t3_fname)
-                        st.caption(f"💾 Saved: {model}")
-                    except Exception as save_err:
-                        st.warning(f"Save failed: {save_err}")
-
-                t3_progress.progress(i / t3_total)
+                    t3_step += 1
+                    t3_progress.progress(t3_step / t3_total)
 
             t3_progress.empty()
 
@@ -1067,6 +1033,67 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
 
     st.markdown("---")
     st.caption("ESG Combined Pipeline · T1 ClimateBERT · T2 ABSA · T3 LLM Extraction")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# HELPERS — LLM CALLERS
+# ══════════════════════════════════════════════════════════════════════════════
+# def parse_json_from_model(text: str) -> Any:
+#     import json, re
+#     # Try direct JSON
+#     try:
+#         return json.loads(text)
+#     except Exception:
+#         pass
+#     # Try to extract JSON from code block or anywhere in text
+#     matches = re.findall(r'(\{[\s\S]*?\}|\[[\s\S]*?\])', text)
+#     for m in matches:
+#         try:
+#             return json.loads(m)
+#         except Exception:
+#             continue
+#     # Try ast.literal_eval as a last resort
+#     import ast
+#     for m in matches:
+#         try:
+#             return ast.literal_eval(m)
+#         except Exception:
+#             continue
+#     raise ValueError("Could not parse JSON from model output.")
+
+
+# def _call_openrouter(prompt: str, model: str, api_key: str,
+#                      temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
+#     payload = {
+#         "model": model,
+#         "messages": [
+#             {"role": "system", "content": "You are an API. Output only valid JSON. Do not include explanations, markdown, or any extra text."},
+#             {"role": "user",   "content": prompt},
+#         ],
+#         "temperature": temperature,
+#         "max_tokens":  max_tokens,
+#     }
+#     s       = _requests_session(retries=retries)
+#     headers = {
+#         "Authorization": f"Bearer {api_key}",
+#         "Content-Type":  "application/json",
+#         "HTTP-Referer":  "https://esg-project.app",
+#         "X-Title":       "ESG Extractor",
+#     }
+#     last_exc = None
+#     for attempt in range(1, retries + 1):
+#         try:
+#             resp    = s.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=90)
+#             resp.raise_for_status()
+#             choices = resp.json().get("choices", [])
+#             if choices:
+#                 return choices[0].get("message", {}).get("content", "")
+#             return resp.text
+#         except Exception as e:
+#             last_exc = e
+#             time.sleep(min(10, 2 ** attempt))
+#     raise RuntimeError(f"OpenRouter failed after {retries} attempts: {last_exc}")
+
 
     # if run_t3:
     #     st.markdown("---")
