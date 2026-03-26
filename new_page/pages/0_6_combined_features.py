@@ -323,6 +323,12 @@ def _call_openrouter(prompt: str, model: str, api_key: str,
     for attempt in range(1, retries + 1):
         try:
             resp = s.post(OPENROUTER_API_URL, headers=headers, json=payload, timeout=90)
+
+            # If client error (4xx) return server body immediately (retries won't help)
+            if 400 <= resp.status_code < 500:
+                body = resp.text
+                raise RuntimeError(f"OpenRouter returned {resp.status_code} Client Error: {body}")
+
             resp.raise_for_status()
             choices = resp.json().get("choices", [])
 
@@ -331,6 +337,9 @@ def _call_openrouter(prompt: str, model: str, api_key: str,
 
             return resp.text
 
+        except RuntimeError:
+            # Raise immediately for RuntimeError (e.g. 4xx with server body)
+            raise
         except Exception as e:
             last_exc = e
             time.sleep(min(10, 2 ** attempt))
@@ -490,31 +499,46 @@ with st.sidebar:
 
     st.subheader("⚙️ Generation (T3)")
     temperature_input = st.slider("Temperature", 0.0, 1.0, 0.0, 0.01)
-    max_tokens_input  = st.number_input("Max tokens", value=1500, min_value=64, step=100)
+    max_tokens_input  = st.number_input("Max tokens", value=100000, min_value=64, step=100)
     retries_input     = st.number_input("Retries", value=3, min_value=0, step=1)
 
     st.divider()
 
     st.subheader("📝 Prompt Template (T3)")
-    prompt_files         = list_prompt_files()
-    selected_prompt_path = None
-    prompt_override      = ""
+    prompt_files = list_prompt_files()
+    # allow selecting multiple prompt templates (order matters)
+    selected_prompt_paths: list[Path] = []
+    prompt_override = ""
     if not prompt_files:
         st.warning(f"No .md files in `{PROMPT_DIR}`")
     else:
-        prompt_names  = [p.name for p in prompt_files]
-        selected_name = st.selectbox(
-            "Select prompt", prompt_names,
-            index=prompt_names.index("data.md") if "data.md" in prompt_names else 0,
+        prompt_names = [p.name for p in prompt_files]
+        # default to data.md if present
+        default = ["data.md"] if "data.md" in prompt_names else [prompt_names[0]]
+        selected_prompt_names = st.multiselect(
+            "Select prompt(s) — choose one or more (order matters)",
+            prompt_names,
+            default=default,
         )
-        selected_prompt_path = PROMPT_DIR / selected_name
-        with st.expander("👁️ Preview prompt", expanded=False):
-            raw_prompt = load_prompt_file(selected_prompt_path)
-            st.markdown(raw_prompt[:1500] + ("…" if len(raw_prompt) > 1500 else ""))
+        selected_prompt_paths = [PROMPT_DIR / n for n in selected_prompt_names]
+
+        with st.expander("👁️ Preview selected prompt(s)", expanded=False):
+            if not selected_prompt_paths:
+                st.markdown("_No prompt selected — default fallback will be used._")
+            else:
+                for p in selected_prompt_paths:
+                    raw_prompt = load_prompt_file(p)
+                    st.markdown(f"**{p.name}**")
+                    st.markdown(raw_prompt[:1500] + ("…" if len(raw_prompt) > 1500 else ""))
+
         with st.expander("✏️ Override prompt (optional)", expanded=False):
-            st.caption("Use `{{INPUT_TEXT}}` as placeholder. Leave blank to use file.")
-            prompt_override = st.text_area("Custom prompt", value="", height=150,
-                                           placeholder="Leave blank to use the selected file…")
+            st.caption("Use `{{INPUT_TEXT}}` as placeholder. Leave blank to use file(s).")
+            prompt_override = st.text_area(
+                "Custom prompt",
+                value="",
+                height=150,
+                placeholder="Leave blank to use the selected file(s)…",
+            )
 
     st.divider()
 
@@ -908,22 +932,26 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
             st.error("❌ OpenRouter API key not set.")
         else:
 
-            if selected_prompt_path:
-                base_prompt = prompt_override.strip() or load_prompt_file(selected_prompt_path)
-                prompt_label = "custom override" if prompt_override.strip() else selected_prompt_path.name
+            if selected_prompt_paths:
+                plabels = ", ".join(p.name for p in selected_prompt_paths)
+                st.info(f"📝 Prompt(s): **{plabels}**")
             else:
-                base_prompt = "Extract ESG records as JSON list from:\n{{INPUT_TEXT}}"
-                prompt_label = "default fallback"
-
-            st.info(f"📝 Prompt: **{prompt_label}**")
+                st.info("📝 Prompt(s): default fallback")
 
             def build_context_prompt(full_doc: str, page_texts: list[dict], template: str) -> str:
+                # Respect the context_length slider to avoid sending huge prompts that cause 400 errors
+                trimmed_doc = full_doc[:context_length] if context_length and len(full_doc) > context_length else full_doc
+                if len(full_doc) > len(trimmed_doc):
+                    trimmed_note = f"\n\n[NOTE: full document truncated to {len(trimmed_doc):,} chars of {len(full_doc):,} total]"
+                else:
+                    trimmed_note = ""
+
                 page_section = "\n\n---\n\n".join(
                     f"[PAGE: {p['label']}]\n{p['text']}" for p in page_texts
                 )
 
                 combined = (
-                    f"FULL DOCUMENT:\n{full_doc}\n\n"
+                    f"FULL DOCUMENT:\n{trimmed_doc}{trimmed_note}\n\n"
                     f"TARGET PAGES:\n{page_section}\n\n"
                     f"Return JSON array of ESG records."
                 )
@@ -941,17 +969,20 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
                 except Exception:
                     existing_records = []
 
-            # build set of successfully completed (model, target) pairs to skip on resume
+            # build set of successfully completed (model, target, prompt) triples to skip on resume
             processed_success = {
-                (r.get("model"), r.get("target")) for r in existing_records if r.get("ok")
+                (r.get("model"), r.get("target"), r.get("prompt")) for r in existing_records if r.get("ok")
             }
 
             # present combined results in-memory (existing + new)
             all_t3_records.extend(existing_records)
 
-            # progress is now total runs = models * batches (texts_to_process items)
+            # progress is now total runs = models * batches * prompts
+            n_models = len(selected_llm_models) if selected_llm_models else 1
+            n_batches = max(1, len(texts_to_process))
+            n_prompts = max(1, len(selected_prompt_paths) if selected_prompt_paths else 1)
+            t3_total = max(1, n_models * n_batches * n_prompts)
             t3_progress = st.progress(0)
-            t3_total = max(1, len(selected_llm_models) * max(1, len(texts_to_process)))
             t3_step = 0
 
             for i, model in enumerate(selected_llm_models, 1):
@@ -959,94 +990,116 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
                 m_info = id_to_model.get(model, {})
                 st.info(f"⏳ Running model: {model} ({i}/{len(selected_llm_models)})")
 
-                # iterate over all batches / target items (recursive processing)
+                # iterate over all batches / target items
                 for b_idx, target in enumerate(texts_to_process, 1):
 
-                    # Skip if already completed successfully in a previous run
-                    if (model, target["label"]) in processed_success:
-                        st.info(f"⏭️ Skipping already-successful: {model} · {target['label']}")
-                        t3_step += 1
-                        t3_progress.progress(t3_step / t3_total)
-                        continue
+                    # iterate over selected prompts (or single default fallback)
+                    prompt_paths = selected_prompt_paths or []
+                    if not prompt_paths:
+                        # keep a single None to indicate default fallback usage later
+                        prompt_paths = [None]
 
-                    final_prompt = build_context_prompt(doc_full_text, [ {"label": target["label"], "text": target["text"]} ], base_prompt)
-
-                    try:
-                        if use_mock_t3:
-                            raw_output = json.dumps([
-                                {"text": "mock", "esg": "Environmental", "sentiment": "Positive", "source": target["label"]}
-                            ])
+                    for p_idx, prompt_path in enumerate(prompt_paths, 1):
+                        # determine prompt text & label
+                        if prompt_override.strip():
+                            base_prompt = prompt_override.strip()
+                            prompt_label = "override"
+                        elif prompt_path is None:
+                            base_prompt = "You are an ESG expert. Analyze:\n{{INPUT_TEXT}}\nOutput a JSON list of ESG records."
+                            prompt_label = "default_fallback"
                         else:
-                            raw_output = call_llm(
-                                prompt=final_prompt,
-                                model=model,
-                                backend=backend,
-                                api_key=st.session_state.openrouter_key,
-                                lmstudio_url=st.session_state.lmstudio_url,
-                                temperature=float(temperature_input),
-                                max_tokens=int(max_tokens_input),
-                                retries=int(retries_input),
-                            )
+                            try:
+                                base_prompt = load_prompt_file(prompt_path)
+                            except Exception:
+                                base_prompt = "You are an ESG expert. Analyze:\n{{INPUT_TEXT}}\nOutput a JSON list of ESG records."
+                            prompt_label = prompt_path.name
 
-                        # 🔍 DEBUG OUTPUT
-                        with st.expander(f"🧪 Raw Output — {model} — {target['label']}"):
-                            st.code(raw_output)
+                        # Skip if already completed successfully in a previous run
+                        if (model, target["label"], prompt_label) in processed_success:
+                            st.info(f"⏭️ Skipping already-successful: {model} · {target['label']} · {prompt_label}")
+                            t3_step += 1
+                            t3_progress.progress(t3_step / t3_total)
+                            continue
 
-                        # ✅ SAFE PARSING
+                        final_prompt = build_context_prompt(doc_full_text, [ {"label": target["label"], "text": target["text"]} ], base_prompt)
+
                         try:
-                            parsed = parse_json_from_model(raw_output)
+                            if use_mock_t3:
+                                raw_output = json.dumps([
+                                    {"text": "mock", "esg": "Environmental", "sentiment": "Positive", "source": target["label"]}
+                                ])
+                            else:
+                                raw_output = call_llm(
+                                    prompt=final_prompt,
+                                    model=model,
+                                    backend=backend,
+                                    api_key=st.session_state.openrouter_key,
+                                    lmstudio_url=st.session_state.lmstudio_url,
+                                    temperature=float(temperature_input),
+                                    max_tokens=int(max_tokens_input),
+                                    retries=int(retries_input),
+                                )
 
-                            if isinstance(parsed, dict):
-                                parsed = [parsed]
-                            elif not isinstance(parsed, list):
+                            # 🔍 DEBUG OUTPUT
+                            with st.expander(f"🧪 Raw Output — {model} — {target['label']} — {prompt_label}"):
+                                st.code(raw_output)
+
+                            # ✅ SAFE PARSING
+                            try:
+                                parsed = parse_json_from_model(raw_output)
+
+                                if isinstance(parsed, dict):
+                                    parsed = [parsed]
+                                elif not isinstance(parsed, list):
+                                    parsed = []
+
+                                ok = True
+                                err = None
+
+                            except Exception as parse_err:
                                 parsed = []
+                                ok = False
+                                err = f"Parse error: {parse_err}"
 
-                            ok = True
-                            err = None
-
-                        except Exception as parse_err:
+                        except Exception as e:
                             parsed = []
                             ok = False
-                            err = f"Parse error: {parse_err}"
+                            err = str(e)
+                            raw_output = ""
 
-                    except Exception as e:
-                        parsed = []
-                        ok = False
-                        err = str(e)
-                        raw_output = ""
+                        # include raw_output (truncated) and prompt_label to help resume/debug
+                        record = {
+                            "timestamp": datetime.utcnow().isoformat() + "Z",
+                            "model": model,
+                            "target": target["label"],
+                            "prompt": prompt_label,
+                            "ok": ok,
+                            "records": parsed,
+                            **({"error": err} if err else {}),
+                            "raw_output": (raw_output[:10000] if raw_output else ""),
+                        }
 
-                    # include raw_output (truncated) to help resume/debug
-                    record = {
-                        "timestamp": datetime.utcnow().isoformat() + "Z",
-                        "model": model,
-                        "target": target["label"],
-                        "ok": ok,
-                        "records": parsed,
-                        "error": err,
-                        "raw_output": (raw_output[:10000] if raw_output else ""),
-                    }
+                        all_t3_records.append(record)
 
-                    all_t3_records.append(record)
+                        if ok:
+                            st.success(f"✅ {model} · {target['label']} · {prompt_label} → {len(parsed)} records")
+                            st.json(parsed)
+                        else:
+                            st.error(f"❌ {model} · {target['label']} · {prompt_label} failed: {err}")
 
-                    if ok:
-                        st.success(f"✅ {model} · {target['label']} → {len(parsed)} records")
-                        st.json(parsed)
-                    else:
-                        st.error(f"❌ {model} · {target['label']} failed: {err}")
+                        # 💾 ALWAYS SAVE IMMEDIATELY (success OR failure) so we can resume later
+                        if save_t3:
+                            try:
+                                append_record(record, t3_fname)
+                                if ok:
+                                    st.caption(f"💾 Saved: {model} · {target['label']} · {prompt_label}")
+                                else:
+                                    st.warning(f"💾 Saved partial/failed result: {model} · {target['label']} · {prompt_label} (error stored)")
+                            except Exception as save_err:
+                                st.warning(f"Save failed: {save_err}")
 
-                    # 💾 ALWAYS SAVE IMMEDIATELY (success OR failure) so we can resume later
-                    if save_t3:
-                        try:
-                            append_record(record, t3_fname)
-                            if ok:
-                                st.caption(f"💾 Saved: {model} · {target['label']}")
-                            else:
-                                st.warning(f"💾 Saved partial/failed result: {model} · {target['label']} (error stored)")
-                        except Exception as save_err:
-                            st.warning(f"Save failed: {save_err}")
-
-                    t3_step += 1
-                    t3_progress.progress(t3_step / t3_total)
+                        t3_step += 1
+                        t3_progress.progress(t3_step / t3_total)
 
             t3_progress.empty()
 

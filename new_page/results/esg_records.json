@@ -2719,5 +2719,2243 @@
     "records": [],
     "error": "Parse error: Could not parse JSON. Raw output:\n[\n    {\n        \"text\": \"SCM\",\n        \"aspect\": \"company\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text 'SCM' is an abbreviation for the company name and does not contain any ESG-related information.\"\n    },\n    {\n        \"text\": \"SURYA CITRA MEDIA\",\n        \"aspect\": \"company\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reas",
     "raw_output": "```json\n[\n    {\n        \"text\": \"SCM\",\n        \"aspect\": \"company\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text 'SCM' is an abbreviation for the company name and does not contain any ESG-related information.\"\n    },\n    {\n        \"text\": \"SURYA CITRA MEDIA\",\n        \"aspect\": \"company\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text 'SURYA CITRA MEDIA' is the full name of the company and does not contain any ESG-related information.\"\n    },\n    {\n        \"text\": \"# Driving Continuous Impact for Brighter Tomorrow\",\n        \"aspect\": \"company\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text is a title or heading and does not contain any ESG-related information.\"\n    },\n    {\n        \"text\": \"2023\\nLaporan Keberlanjutan\\nSustainability Report\\nPT Surya Citra Media Tbk\",\n        \"aspect\": \"company\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text provides the year and title of the sustainability report, which does not contain any ESG-related information.\"\n    },\n    {\n        \"text\": \"Laporan Keberlanjutan ini berisikan pernyataan-pernyataan kinerja ekonomi, lingkungan, sosial, dan tata kelola, serta strategi Perseroan, yang digolongkan sebagai pernyataan ke depan dalam pengertian perundang-undangan yang berlaku, kecuali hal-hal yang bersifat historis. Pernyataan-pernyataan tersebut bersifat prospektif yang memiliki risiko dan ketidakpastian, serta dapat mengakibatkan perkembangan aktual secara material berbeda dari yang tertulis dalam pernyataan-pernyataan tersebut. Pernyataan prospektif dalam Laporan Keberlanjutan ini dibuat berdasarkan berbagai asumsi mengenai kondisi terkini dan kondisi mendatang dari Perseroan, serta lingkungan bisnis, tempat Perseroan menjalankan kegiatan usaha. Perseroan tidak menjamin bahwa segala tindakan yang telah diambil untuk memastikan keabsahan dokumen ini akan membawa hasil-hasil tertentu sesuai harapan. Kata \\\"Perseroan\\\", \\\"SCM\\\", \\\"Grup\\\", \\\"SCMA\\\" dan \\\"Kami\\\" mendefinisikan PT Surya Citra Media Tbk dan entitas anaknya. Penulisan angka-angka pada seluruh tabel dan grafik menggunakan notasi bahasa Indonesia. Pemaparan numerik dalam teks menggunakan standar kaidah Indonesia dan bahasa Inggris sesuai konteksnya.\",\n        \"aspect\": \"sustainability report\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text provides a disclaimer and explanation about the sustainability report, which does not contain any specific ESG-related information.\"\n    },\n    {\n        \"text\": \"This Sustainability Report contains statements of the Company's economic performance, environment, social, corporate governance, and the strategies which are classified as forward-looking statements in the compliance with the applicable laws, excluding historical matters. Such statements are prospective and subject to risks of uncertainties, and may cause actual results to differ materially from expected results. Prospective statements in this Sustainability Report are prepared based on numerous assumptions concerning current conditions and future events of the Company and the business environment where the Company conducts business. The Company does not guarantee that all the actions that have been taken to ensure the validity of this document will bring specific results as expected. The words \\\"the Company\\\", \\\"SCM\\\", \\\"Group\\\", \\\"SCMA\\\" and \\\"We\\\" refer to PT Surya Citra Media Tbk and its subsidiaries. The numbers in all tables and graphs are written in Indonesian notation. Numerical presentation in the text are expressed in the Indonesian and English rules according to the context.\",\n        \"aspect\": \"sustainability report\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text provides a disclaimer and explanation about the sustainability report in English, which does not contain any specific ESG-related information.\"\n    },\n    {\n        \"text\": \"# DRIVING CONTINUOUS IMPACT\\n# FOR BRIGHTER TOMORROW\",\n        \"aspect\": \"company\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text is a title or heading and does not contain any ESG-related information.\"\n    },\n    {\n        \"text\": \"Memasuki era televisi digital, PT Surya Citra Media Tbk menajamkan visinya untuk mempertahankan posisinya yang terdepan di industri media kreatif di Indonesia. Perseroan dalam hal ini meningkatkan kualitas produk dan layanan pada berbagai unit usaha dalam ekosistemnya melalui akselerasi investasi dan inovasi di beberapa konten digital. Hal ini dengan sendirinya meningkatkan daya saing perusahaan sehingga mampu merealisasikan peluang yang ada, salah satunya dengan meraih Hak Siar Eksklusif (Exclusive Live Broadcasts) untuk salah satu event olahraga bergengsi, Piala Dunia U-17 2023. Di saat yang sama, Perseroan juga mendorong penerapan prinsip-prinsip ESG (Environment, Social, and Governance) sehingga dapat membangun keunggulan kompetitif yang akan mendukung pencapaian pertumbuhan bisnis yang berkualitas.\",\n        \"aspect\": \"ESG\",\n        \"labels\": [\"climate-commitment\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The text mentions the implementation of ESG principles, which is a commitment to environmental, social, and governance aspects. This is a forward-looking statement indicating a commitment to sustainability.\"\n    },\n    {\n        \"text\": \"Entering the digital television era, PT Surya Citra Media Tbk sharpened its vision to maintain its leading position in the creative media industry in Indonesia. In this case, the Company improves the quality of products and services in various business units in its ecosystem through accelerated investment and innovation in several digital content. This in itself increases the company's competitiveness so that it is able to realize existing opportunities, one of which is by obtaining Exclusive Live Broadcasts for one of the prestigious sporting events, the 2023 U-"
+  },
+  {
+    "timestamp": "2026-03-26T18:40:59.151871Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "SCM_2023_sr-scma_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": true,
+    "records": [],
+    "raw_output": "[]"
+  },
+  {
+    "timestamp": "2026-03-26T18:41:17.504714Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "SCM_2023_sr-scma_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Parse error: Could not parse JSON. Raw output:\n[\n    {\n        \"text\": \"SCM's business activities are focused on broadcasting services that provide quality content, programs and shows and not manufacturing or trading of certain products or goods.\",\n        \"aspect\": \"business focus\",\n        \"labels\": [\"environmental-claims\", \"none\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"neutral\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The statement describes the nature of SCM's business activities without making any specific environmental ",
+    "raw_output": "```json\n[\n    {\n        \"text\": \"SCM's business activities are focused on broadcasting services that provide quality content, programs and shows and not manufacturing or trading of certain products or goods.\",\n        \"aspect\": \"business focus\",\n        \"labels\": [\"environmental-claims\", \"none\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"neutral\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The statement describes the nature of SCM's business activities without making any specific environmental claims or commitments.\"\n    },\n    {\n        \"text\": \"We are always committed to providing support through various forms of initiatives in the context of environmentally friendly products throughout 2023, including encouraging efficient use of paper for printing documents in daily operational activities and promoting the use of non-plastic food/drink containers.\",\n        \"aspect\": \"environmental initiatives\",\n        \"labels\": [\"environmental-claims\", \"none\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement shows commitment to environmental initiatives through encouraging paper efficiency and reducing plastic use, which are positive environmental actions.\"\n    },\n    {\n        \"text\": \"SCM has built a comprehensive media ecosystem that not only provides equal (inclusive) employment opportunities for employee candidates regardless of gender, ethnicity, religion, race and groups, or even physical condition, but also provides broad access for people from all backgrounds to access accurate, balanced and ethical information presented in accordance with proper journalistic rules, advertising ethics and the prevailing laws and regulations.\",\n        \"aspect\": \"inclusive employment and information access\",\n        \"labels\": [\"governance\", \"strategy\", \"opportunity\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement highlights inclusive employment practices and equal access to information, which are positive social aspects.\"\n    },\n    {\n        \"text\": \"The Company's existence not only provides benefits for shareholders and advertisers who partner with the Company but also encourages the progress of the industry, both corporations and MSMEs, innovation and acceleration of supporting infrastructure development which ultimately benefits the wider community.\",\n        \"aspect\": \"community benefits\",\n        \"labels\": [\"opportunity\", \"none\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement emphasizes the broader community benefits of the Company's existence, including industry progress and infrastructure development.\"\n    },\n    {\n        \"text\": \"The innovations that we introduce to viewers are supported by the latest technology, which includes the use of Artificial Intelligence (AI) technology, that was developed locally, in sports broadcasts to create match highlights clips, news broadcasts where this technology is used to create characters for presenters, artists or public figures.\",\n        \"aspect\": \"AI technology in content\",\n        \"labels\": [\"opportunity\", \"none\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement highlights the use of AI technology to enhance content, which is a positive innovation for viewers.\"\n    },\n    {\n        \"text\": \"AI technology is also used as a tool to analyze and provide recommendations on the quality of a program or content so that the input can be used as a reference for improving the quality of our content or programs.\",\n        \"aspect\": \"AI for content improvement\",\n        \"labels\": [\"opportunity\", \"none\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement shows the use of AI to improve content quality, which is a positive development for the Company.\"\n    },\n    {\n        \"text\": \"In addition, the utilization of this technology is extended as an anti-piracy control instrument so as to protect our works from potential piracy.\",\n        \"aspect\": \"anti-piracy measures\",\n        \"labels\": [\"opportunity\", \"none\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement highlights the use of technology to protect intellectual property, which is a positive measure for the Company.\"\n    },\n    {\n        \"text\": \"The positive impact of the use of AI technology in our media industry not only enhances the viewers' experience when enjoying our programs or content but also motivates SCM Group to continue creating the best and educational content that aims to disseminate the latest information accurately and impartially regardless of ethnicity, religion, race, and groups as our responsibility to respect pluralism in Indonesia's diverse society.\",\n        \"aspect\": \"AI impact on content and society\",\n        \"labels\": [\"opportunity\", \"none\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement emphasizes the positive impact of AI on content and society, promoting pluralism and respect for diversity.\"\n    },\n    {\n        \"text\": \"We support other social aspects through various social donations managed through Yayasan Pundi Amal Peduli Kasih.\",\n        \"aspect\": \"social donations\",\n        \"labels\": [\"opportunity\", \"none\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement shows support for social aspects through donations, which is a positive contribution to society.\"\n    },\n    {\n        \"text\": \"The donations we distribute cover health, education, disaster relief and environment sectors which have always been the Company's focus in order to support the improvement of people's lives in various regions in Indonesia.\",\n        \"aspect\": \"donation sectors\",\n        \"labels\": [\"opportunity\", \"none\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement highlights the focus on key sectors for donations, which is a positive contribution to society.\"\n    },\n    {\n        \"text\": \"Then, in terms of meeting the objectives in the environmental aspect, the Company's strategy is more focused on efforts to minimize the negative impact of operational activities carried out by the Company and its subsidiaries on the surrounding environment.\",\n        \"aspect\": \"environmental strategy\",\n        \"labels\": [\"strategy\", \"none\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"neutral\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The statement describes the Company's strategy to minimize environmental impact, which is a neutral approach to environmental management.\"\n    },\n    {\n        \"text\": \"In this regard, the Company increases its contribution to environmental preservation, including by implementing the principles of reuse, reduce, and recycle so that we can reduce the use of non-environmentally friendly materials in our daily operations.\",\n        \"aspect\": \"environmental preservation\",\n        \"labels\": [\"strategy\", \"none\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The statement shows the Company's efforts to preserve the environment through reuse, reduce, and recycle principles, which is a positive environmental action.\"\n    },\n    {\n        \"text\": \"Through the implementation of"
+  },
+  {
+    "timestamp": "2026-03-26T18:42:34.083491Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "SCM_2023_sr-scma_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Parse error: Could not parse JSON. Raw output:\n[\n{\n\"text\": \"SCM SURYA CITRA MEDIA\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a company name and does not contain any ESG-related content.\"\n},\n{\n\"text\": \"# Driving Continuous Impact for Brighter Tomorrow\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a title/heading without specific ESG content.\"\n},\n{\n\"text\": \"2023 Laporan Keberlanjutan Sustainabil",
+    "raw_output": "[\n{\n\"text\": \"SCM SURYA CITRA MEDIA\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a company name and does not contain any ESG-related content.\"\n},\n{\n\"text\": \"# Driving Continuous Impact for Brighter Tomorrow\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a title/heading without specific ESG content.\"\n},\n{\n\"text\": \"2023 Laporan Keberlanjutan Sustainability Report PT Surya Citra Media Tbk\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a document title and publication information without ESG content.\"\n},\n{\n\"text\": \"Laporan Keberlanjutan ini berisikan pernyataan-pernyataan kinerja ekonomi, lingkungan, sosial, dan tata kelola, serta strategi Perseroan, yang digolongkan sebagai pernyataan ke depan dalam pengertian perundang-undangan yang berlaku, kecuali hal-hal yang bersifat historis.\",\n\"aspect\": \"governance\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This statement mentions governance and sustainability reporting, which falls under the G (Governance) category. The sentiment is neutral as it's a factual statement about the report's content.\"\n},\n{\n\"text\": \"Pernyataan prospektif dalam Laporan Keberlanjutan ini dibuat berdasarkan berbagai asumsi mengenai kondisi terkini dan kondisi mendatang dari Perseroan, serta lingkungan bisnis, tempat Perseroan menjalankan kegiatan usaha.\",\n\"aspect\": \"governance\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This statement discusses forward-looking statements and assumptions about the company's future conditions and business environment, which relates to governance. The sentiment is neutral as it's a factual statement about the report's content.\"\n},\n{\n\"text\": \"Kata \\\"Perseroan\\\", \\\"SCM\\\", \\\"Grup\\\", \\\"SCMA\\\" dan \\\"Kami\\\" mendefinisikan PT Surya Citra Media Tbk dan entitas anaknya.\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a clarification of terminology used in the report and does not contain any ESG-related content.\"\n},\n{\n\"text\": \"Penulisan angka-angka pada seluruh tabel dan grafik menggunakan notasi bahasa Indonesia"
+  },
+  {
+    "timestamp": "2026-03-26T18:42:40.913537Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "SCM_2023_sr-scma_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": true,
+    "records": [],
+    "raw_output": "[]"
+  },
+  {
+    "timestamp": "2026-03-26T18:42:46.656621Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "SCM_2023_sr-scma_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": true,
+    "records": [],
+    "raw_output": "[]"
+  },
+  {
+    "timestamp": "2026-03-26T18:43:02.303866Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "SCM_2023_sr-scma_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Parse error: Could not parse JSON. Raw output:\n[\n    {\n        \"text\": \"Perseroan memiliki komitmen untuk menerapkan nilai-nilai keberlanjutan di segenap aspek usaha dan di seluruh ekosistem bisnisnya.\",\n        \"aspect\": \"sustainability strategy\",\n        \"labels\": [\"climate-commitment\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The text explicitly mentions the Company's commitment to implementing sustainability values across all aspects of its business and ec",
+    "raw_output": "```json\n[\n    {\n        \"text\": \"Perseroan memiliki komitmen untuk menerapkan nilai-nilai keberlanjutan di segenap aspek usaha dan di seluruh ekosistem bisnisnya.\",\n        \"aspect\": \"sustainability strategy\",\n        \"labels\": [\"climate-commitment\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The text explicitly mentions the Company's commitment to implementing sustainability values across all aspects of its business and ecosystem, indicating a future-oriented pledge. The aspect is sustainability strategy, and the sentiment is commitment due to the forward-looking nature of the statement.\"\n    },\n    {\n        \"text\": \"Perseroan dalam hal ini meningkatkan kualitas produk dan layanan pada berbagai unit usaha dalam ekosistemnya melalui akselerasi investasi dan inovasi di beberapa konten digital.\",\n        \"aspect\": \"business transformation\",\n        \"labels\": [\"climate-d\", \"strategy\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text discusses the Company's efforts to improve product and service quality through investment and innovation in digital content, which is a strategic business transformation. The aspect is business transformation, and the sentiment is neutral as it describes an ongoing process without indicating positive or negative sentiment.\"\n    },\n    {\n        \"text\": \"Hal ini dengan sendirinya meningkatkan daya saing perusahaan sehingga mampu merealisasikan peluang yang ada, salah satunya dengan meraih Hak Siar Eksklusif (Exclusive Live Broadcasts) untuk salah satu event olahraga bergengsi, Piala Dunia U-17 2023.\",\n        \"aspect\": \"business opportunity\",\n        \"labels\": [\"climate-d\", \"opportunity\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 1,\n        \"reasoning\": \"The text highlights the Company's ability to realize opportunities, such as securing exclusive broadcasting rights for a prestigious sporting event, which is a positive business outcome. The aspect is business opportunity, and the sentiment is positive due to the successful realization of opportunities.\"\n    },\n    {\n        \"text\": \"Di saat yang sama, Perseroan juga mendorong penerapan prinsip-prinsip ESG (Environment, Social, and Governance) sehingga dapat membangun keunggulan kompetitif yang akan mendukung pencapaian pertumbuhan bisnis yang berkualitas.\",\n        \"aspect\": \"ESG implementation\",\n        \"labels\": [\"climate-commitment\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The text explicitly mentions the Company's encouragement of ESG principles to build competitive advantage and support quality business growth, indicating a future-oriented commitment. The aspect is ESG implementation, and the sentiment is commitment due to the forward-looking nature of the statement.\"\n    },\n    {\n        \"text\": \"Perseroan memiliki komitmen untuk menerapkan nilai-nilai keberlanjutan di segenap aspek usaha dan di seluruh ekosistem bisnisnya.\",\n        \"aspect\": \"sustainability strategy\",\n        \"labels\": [\"climate-commitment\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The text explicitly mentions the Company's commitment to implementing sustainability values across all aspects of its business and ecosystem, indicating a future-oriented pledge. The aspect is sustainability strategy, and the sentiment is commitment due to the forward-looking nature of the statement.\"\n    },\n    {\n        \"text\": \"Perseroan dalam hal ini meningkatkan kualitas produk dan layanan pada berbagai unit usaha dalam ekosistemnya melalui akselerasi investasi dan inovasi di beberapa konten digital.\",\n        \"aspect\": \"business transformation\",\n        \"labels\": [\"climate-d\", \"strategy\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\",\n        \"sentiment_score\": 0,\n        \"reasoning\": \"The text discusses the Company's efforts to improve product and service quality through investment and innovation in digital content, which is a strategic business transformation. The aspect is business transformation, and the sentiment is neutral as it describes an ongoing process without indicating positive or negative sentiment.\"\n    },\n    {\n        \"text\": \"Hal ini dengan sendirinya meningkatkan daya saing perusahaan sehingga mampu merealisasikan peluang yang ada, salah satunya dengan meraih Hak Siar Eksklusif (Exclusive Live Broadcasts) untuk salah satu event olahraga bergengsi, Piala Dunia U-17 2023.\",\n        \"aspect\": \"business opportunity\",\n        \"labels\": [\"climate-d\", \"opportunity\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"positive\",\n        \"sentiment_score\": 1,\n        \"reasoning\": \"The text highlights the Company's ability to realize opportunities, such as securing exclusive broadcasting rights for a prestigious sporting event, which is a positive business outcome. The aspect is business opportunity, and the sentiment is positive due to the successful realization of opportunities.\"\n    },\n    {\n        \"text\": \"Di saat yang sama, Perseroan juga mendorong penerapan prinsip-prinsip ESG (Environment, Social, and Governance) sehingga dapat membangun keunggulan kompetitif yang akan mendukung pencapaian pertumbuhan bisnis yang berkualitas.\",\n        \"aspect\": \"ESG implementation\",\n        \"labels\": [\"climate-commitment\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The text explicitly mentions the Company's encouragement of ESG principles to build competitive advantage and support quality business growth, indicating a future-oriented commitment. The aspect is ESG implementation, and the sentiment is commitment due to the forward-looking nature of the statement.\"\n    },\n    {\n        \"text\": \"Perseroan memiliki komitmen untuk menerapkan nilai-nilai keberlanjutan di segenap aspek usaha dan di seluruh ekosistem bisnisnya.\",\n        \"aspect\": \"sustainability strategy\",\n        \"labels\": [\"climate-commitment\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\",\n        \"sentiment_score\": 0.5,\n        \"reasoning\": \"The text explicitly mentions the Company's commitment to implementing sustainability values across all aspects of its business and ecosystem, indicating a future-oriented pledge. The aspect is sustainability strategy, and the sentiment is commitment due to the forward-looking nature of the statement.\"\n    },\n    {\n        \"text\": \"Perseroan dalam hal ini meningkatkan kualitas produk dan layanan pada berbagai unit usaha dalam ekosistemnya melalui akselerasi investasi dan inovasi di beberapa konten"
+  },
+  {
+    "timestamp": "2026-03-26T18:46:01.058862Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:46:17.686032Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:46:34.624417Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:46:50.814902Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:47:06.433353Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:47:22.630632Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:47:38.433153Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:47:54.353041Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:48:11.166254Z",
+    "model": "openrouter/free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:48:28.785270Z",
+    "model": "openrouter/free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:48:45.250713Z",
+    "model": "openrouter/free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:49:03.413567Z",
+    "model": "openrouter/free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:49:19.444124Z",
+    "model": "google/gemma-3-12b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:49:35.944469Z",
+    "model": "google/gemma-3-12b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:49:52.026202Z",
+    "model": "google/gemma-3-12b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:50:07.967378Z",
+    "model": "google/gemma-3-12b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:50:24.618043Z",
+    "model": "google/gemma-3-27b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:50:40.297304Z",
+    "model": "google/gemma-3-27b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:50:56.360129Z",
+    "model": "google/gemma-3-27b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:51:12.925725Z",
+    "model": "google/gemma-3-27b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:51:28.962352Z",
+    "model": "google/gemma-3-4b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:51:45.612156Z",
+    "model": "google/gemma-3-4b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:52:01.843656Z",
+    "model": "google/gemma-3-4b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:52:18.385920Z",
+    "model": "google/gemma-3-4b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:52:36.306382Z",
+    "model": "google/gemma-3n-e2b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:52:53.699992Z",
+    "model": "google/gemma-3n-e2b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:53:11.578474Z",
+    "model": "google/gemma-3n-e2b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:53:29.815611Z",
+    "model": "google/gemma-3n-e2b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:53:53.718215Z",
+    "model": "google/gemma-3n-e4b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:54:16.454903Z",
+    "model": "google/gemma-3n-e4b-it:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: HTTPSConnectionPool(host='openrouter.ai', port=443): Max retries exceeded with url: /api/v1/chat/completions (Caused by ResponseError('too many 429 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:54:45.469283Z",
+    "model": "google/gemma-3n-e4b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:55:08.367543Z",
+    "model": "google/gemma-3n-e4b-it:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: HTTPSConnectionPool(host='openrouter.ai', port=443): Max retries exceeded with url: /api/v1/chat/completions (Caused by ResponseError('too many 429 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:55:24.997407Z",
+    "model": "liquid/lfm-2.5-1.2b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:55:41.292857Z",
+    "model": "liquid/lfm-2.5-1.2b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:55:58.402441Z",
+    "model": "liquid/lfm-2.5-1.2b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:56:14.214762Z",
+    "model": "liquid/lfm-2.5-1.2b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:56:30.406145Z",
+    "model": "liquid/lfm-2.5-1.2b-thinking:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:56:46.280517Z",
+    "model": "liquid/lfm-2.5-1.2b-thinking:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:57:02.417601Z",
+    "model": "liquid/lfm-2.5-1.2b-thinking:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:57:18.989264Z",
+    "model": "liquid/lfm-2.5-1.2b-thinking:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:57:34.909176Z",
+    "model": "meta-llama/llama-3.2-3b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:57:51.266698Z",
+    "model": "meta-llama/llama-3.2-3b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:58:07.255372Z",
+    "model": "meta-llama/llama-3.2-3b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:58:23.612654Z",
+    "model": "meta-llama/llama-3.2-3b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:58:39.435264Z",
+    "model": "meta-llama/llama-3.3-70b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:58:55.477514Z",
+    "model": "meta-llama/llama-3.3-70b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:59:11.337722Z",
+    "model": "meta-llama/llama-3.3-70b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:59:27.372458Z",
+    "model": "meta-llama/llama-3.3-70b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:59:43.154572Z",
+    "model": "minimax/minimax-m2.5:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T18:59:59.145040Z",
+    "model": "minimax/minimax-m2.5:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:00:15.115368Z",
+    "model": "minimax/minimax-m2.5:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:00:31.854169Z",
+    "model": "minimax/minimax-m2.5:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:00:47.506379Z",
+    "model": "mistralai/mistral-small-3.1-24b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:01:03.330649Z",
+    "model": "mistralai/mistral-small-3.1-24b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:01:19.520915Z",
+    "model": "mistralai/mistral-small-3.1-24b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:01:35.477810Z",
+    "model": "mistralai/mistral-small-3.1-24b-instruct:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:01:51.446662Z",
+    "model": "nousresearch/hermes-3-llama-3.1-405b:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:02:07.396880Z",
+    "model": "nousresearch/hermes-3-llama-3.1-405b:free",
+    "target": "allo_bank_2024_pdf/batch_1",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:02:24.015503Z",
+    "model": "nousresearch/hermes-3-llama-3.1-405b:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:02:40.159593Z",
+    "model": "nousresearch/hermes-3-llama-3.1-405b:free",
+    "target": "allo_bank_2024_pdf/batch_2",
+    "prompt": "zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:05:44.537849Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:05:59.235514Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:06:13.877571Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:06:28.527648Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:06:43.116052Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:06:57.880176Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:07:12.492713Z",
+    "model": "arcee-ai/trinity-mini:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:23:43.439683Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:23:57.901650Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:24:12.687181Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:24:27.336042Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:28:34.425105Z",
+    "model": "meta-llama/llama-guard-3-8b",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:28:49.465707Z",
+    "model": "meta-llama/llama-guard-3-8b",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:29:04.123538Z",
+    "model": "meta-llama/llama-guard-3-8b",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:29:18.775859Z",
+    "model": "meta-llama/llama-guard-3-8b",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:36:32.109093Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:36:46.790578Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:37:01.488348Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:37:16.237378Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_2",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter failed after 3 attempts: 400 Client Error: Bad Request for url: https://openrouter.ai/api/v1/chat/completions",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-03-26T19:44:16.518228Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "zero_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "we·care",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text 'we·care' is a brand name or slogan and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "# Sustainability Report 2024",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a title for the report and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "Introduction",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section heading and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "Letter from our CEO",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "This is a section heading and does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "Hello and welcome, I am pleased to present our We Care Sustainability Report for the Fiscal Year 2024. As our organisation continues to evolve, our focus remains on the Environmental, Social and Governance (ESG) issues that are most relevant to our business.",
+        "aspect": "ESG",
+        "labels": [
+          "climate-d",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions ESG issues and the focus on Environmental, Social, and Governance matters, indicating a positive commitment to ESG."
+      },
+      {
+        "text": "We Care is in our DNA. We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.",
+        "aspect": "ESG commitment",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly states a commitment to making a positive impact and supporting people, customers, and communities, which aligns with social ESG aspects."
+      },
+      {
+        "text": "This report is also our annual Communication on Progress as a UN Global Compact signatory, reaffirming our commitment to shaping a sustainable future aligned with the UN Sustainable Development Goals.",
+        "aspect": "UN SDGs",
+        "labels": [
+          "climate-commitment",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions the UN Global Compact and Sustainable Development Goals, indicating a strategic commitment to sustainability."
+      },
+      {
+        "text": "As a growing global organisation, it is critical for us to stay true to our core purpose and values and to continue to focus on enabling our people to be the best they can be.",
+        "aspect": "People development",
+        "labels": [
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text emphasizes the importance of enabling people to be their best, which aligns with social ESG aspects."
+      },
+      {
+        "text": "We are a leading provider of next-generation technology services dedicated to helping our customers drive real impact and meaningful change globally.",
+        "aspect": "Customer impact",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses customer impact but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "As AI is set to drive the new digital transformation era, our commitment to innovation excellence is evident in the design of our agentic AI Industry Accelerator, Morpheus.",
+        "aspect": "AI innovation",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses AI innovation but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "This is powered by our focus on developing AI skills across delivery locations and embedding AI in our daily engineering work.",
+        "aspect": "AI skills development",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses AI skills development but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction.",
+        "aspect": "Customer satisfaction",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses customer satisfaction but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities.",
+        "aspect": "Client sustainability support",
+        "labels": [
+          "climate-commitment",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions supporting clients in their sustainability journeys and leveraging ESG partnerships, indicating a positive commitment to ESG."
+      },
+      {
+        "text": "We also use technology as a force for good in collaboration with our customers.",
+        "aspect": "Technology for good",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses using technology for good but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "In FY2024, we made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi).",
+        "aspect": "Emissions reduction targets",
+        "labels": [
+          "netzero-reduction",
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions science-based emissions reduction targets and a net-zero target, indicating a positive commitment to environmental ESG."
+      },
+      {
+        "text": "Our governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "CSRD compliance",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions preparing for CSRD compliance, which is a governance-related ESG aspect."
+      },
+      {
+        "text": "We recently completed our Double Materiality Assessment (DMA), the first step in this process.",
+        "aspect": "Double Materiality Assessment",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions completing a Double Materiality Assessment, which is a governance-related ESG aspect."
+      },
+      {
+        "text": "We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.",
+        "aspect": "Supply chain sustainability",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions raising awareness of operating responsibly and driving sustainability through the supply chain, indicating a positive commitment to governance ESG."
+      },
+      {
+        "text": "Our sustainability journey is moving forward. I invite you to discover more about our great work to create a positive impact supporting our people, customers, communities and stakeholders.",
+        "aspect": "Sustainability journey",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions a sustainability journey and creating a positive impact, indicating a positive commitment to social ESG."
+      },
+      {
+        "text": "We care about making a positive difference for our stakeholders:",
+        "aspect": "Stakeholder impact",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions making a positive difference for stakeholders, indicating a positive commitment to social ESG."
+      },
+      {
+        "text": "We are committed to being an inclusive community, and our core purpose is to enable our people to be the best they can be.",
+        "aspect": "Inclusivity and people development",
+        "labels": [
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions being an inclusive community and enabling people to be their best, indicating a positive commitment to social ESG."
+      },
+      {
+        "text": "We focus on building partnerships with our clients to provide innovative digital solutions to increase the positive impact we have on our clients' businesses and sustainability.",
+        "aspect": "Client partnerships",
+        "labels": [
+          "climate-commitment",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions building partnerships with clients to increase positive impact on their businesses and sustainability, indicating a positive commitment to governance ESG."
+      },
+      {
+        "text": "We aim to provide our investors with the information they need to understand our ESG priorities and how these initiatives drive the future resilience of our business, allowing them to make informed decisions.",
+        "aspect": "Investor information",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions providing investors with information on ESG priorities, which is a governance-related ESG aspect."
+      },
+      {
+        "text": "We promote sustainable procurement practices and aim to make purchasing decisions that decrease negative effects on society and the environment.",
+        "aspect": "Sustainable procurement",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions promoting sustainable procurement practices and decreasing negative effects on society and the environment, indicating a positive commitment to governance ESG."
+      },
+      {
+        "text": "We aim to support the communities where we live and have strategic partnerships with non-governmental organisations (NGOs).",
+        "aspect": "Community support",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions supporting communities and having partnerships with NGOs, indicating a positive commitment to social ESG."
+      },
+      {
+        "text": "We are a leading next-generation technology services company.",
+        "aspect": "none",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text describes the company but does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "We are a leading provider of next-generation technology services, dedicated to enabling our customers to drive real impact and meaningful change.",
+        "aspect": "Customer impact",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses customer impact but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "By combining world-class engineering, deep industry expertise and a customer-centric mindset, we consult and partner with our customers to create technological solutions that fuel transformation and empower businesses to succeed in the AI-driven digital shift.",
+        "aspect": "Technological solutions",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses technological solutions but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "From ideation to production, we support our customers with tailor-made solutions at every stage of their digital transformation, regardless of industry, region or scale.",
+        "aspect": "Digital transformation support",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses digital transformation support but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "For over 20 years, we have helped businesses accelerate and take advantage of new business models and market opportunities across various industries, including payments, insurance, finance and banking, technology, media, telecommunications, healthcare and life sciences, mobility, retail and consumer goods and more.",
+        "aspect": "Industry support",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses industry support but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Operating across 71 cities in 29 countries, Endavans synthesise creativity, technology and delivery at scale in multi-disciplinary teams to support our clients from ideation to production.",
+        "aspect": "Global operations",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses global operations but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "As of 30 June 2024, we employed 12,085 Endavans across locations in Europe, the Americas, Asia-Pacific and the Middle East.",
+        "aspect": "Workforce",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text provides workforce information but does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "In FY2024, we reported revenue of £740.8 million, a 6.8% decrease from the previous year.",
+        "aspect": "Financial performance",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses financial performance but does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "In August 2023, through our acquisition of TLM Partners, Inc., or TLM, we have gained expertise in outsourced development services across design, engineering and art/animation for PC and console video games and other digital entertainment.",
+        "aspect": "Acquisition",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses an acquisition but does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "Our acquisition of EQ Tek, in February 2024 increased our presence in Poland, providing IT software development services to financial services, gaming, sports betting and other technology-led B2C businesses.",
+        "aspect": "Acquisition",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses an acquisition but does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "Through our acquisition of GalaxE in April 2024, we have expanded our healthcare footprint in North America and added our first delivery units located in India.",
+        "aspect": "Acquisition",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses an acquisition but does not contain any explicit ESG-related content."
+      },
+      {
+        "text": "We are committed to making a positive impact. We enable change.",
+        "aspect": "Commitment to impact",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions a commitment to making a positive impact, indicating a positive commitment to social ESG."
+      },
+      {
+        "text": "The Digital Transformation approach we have been honing for two decades is the cornerstone of our approach to the new AI-driven Digital Transformation era.",
+        "aspect": "Digital transformation approach",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses a digital transformation approach but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Our approach is centred around enhancing our customers' systems and utilising innovative technologies to create modern value propositions that fuel our clients' competitive edge in the market.",
+        "aspect": "Customer system enhancement",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses enhancing customer systems but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "This approach is powered by our multi-disciplinary teams who combine decades of expertise, creativity, technology and delivery at scale to support our clients in achieving their ambitious goals.",
+        "aspect": "Multi-disciplinary teams",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses multi-disciplinary teams but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "We empower people to interact with innovative technology and reap transformational results.",
+        "aspect": "Empowerment through technology",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses empowerment through technology but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Our people are at the heart of who we are and drive our success.",
+        "aspect": "People-centric approach",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses a people-centric approach but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "We enable Endavans to be the best they can be by fostering an inclusive environment where they can be creative and develop their professional skills.",
+        "aspect": "Inclusivity and professional development",
+        "labels": [
+          "governance"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions fostering an inclusive environment and enabling professional development, indicating a positive commitment to social ESG."
+      },
+      {
+        "text": "We are committed to contributing to our local communities and, more broadly, the technology and services industry.",
+        "aspect": "Community contribution",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions contributing to local communities, indicating a positive commitment to social ESG."
+      },
+      {
+        "text": "Our ESG journey continues, and we are pleased with the efforts we are making.",
+        "aspect": "ESG journey",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions an ESG journey and being pleased with efforts, indicating a positive commitment to governance ESG."
+      },
+      {
+        "text": "In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTI.",
+        "aspect": "Emissions reduction targets",
+        "labels": [
+          "netzero-reduction",
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "positive",
+        "sentiment_score": 1,
+        "reasoning": "The text explicitly mentions science-based emissions reduction targets and a net-zero target, indicating a positive commitment to environmental ESG."
+      },
+      {
+        "text": "Additionally, we completed our Double Materiality Assessment, the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "Double Materiality Assessment",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "The text mentions completing a Double Materiality Assessment, which is a governance-related ESG aspect."
+      },
+      {
+        "text": "Multi-agent working represents a significant advancement in AI technology, and we believe there are limitless possibilities for its long-term application.",
+        "aspect": "AI technology advancement",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses AI technology advancement but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Morpheus brings new ways of solving complex industry challenges, optimising processes and delivering unprecedented value to businesses and their customers.",
+        "aspect": "Morpheus AI",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses Morpheus AI but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "AI is an exciting technology which will positively impact our clients and businesses.",
+        "aspect": "AI impact",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses AI impact but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "In April 2024, we announced the creation of our Agentic AI Industry Accelerator, internally designated as 'Morpheus.'",
+        "aspect": "Agentic AI Industry Accelerator",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses the Agentic AI Industry Accelerator but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "The first of its kind, the accelerator and its AI-powered industry tools combine the power of data and multi-agent working to tackle complex challenges across all industries, including highly regulated fields like healthcare, insurance, financial services and private equity.",
+        "aspect": "AI-powered industry tools",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses AI-powered industry tools but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Large language models (LLMs) and AI have existed in a 'black box' with little insight into how the systems arrive at the answers they provide.",
+        "aspect": "LLMs and AI transparency",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses LLMs and AI transparency but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Endava is changing this by operationalising LLMs around data to overcome common barriers caused by hallucinations, ensuring that all activity is transparent, knowable and auditable.",
+        "aspect": "LLMs operationalisation",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses LLMs operationalisation but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Throughout regulated industries, Endava's agentic accelerator can deliver value in countless ways, such as helping insurers more efficiently underwrite policies, working with analysts on legal or financial research and due diligence or driving the development and testing of new healthcare products.",
+        "aspect": "Agentic accelerator applications",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses agentic accelerator applications but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Morpheus represents the first significant step in applying advanced language model operations to automate complex processes within industries with strict regulatory requirements or data transparency needs.",
+        "aspect": "Morpheus significance",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses the significance of Morpheus but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "The heart of the design is based on three foundational themes: Data at the core with full transparency, Teams of agents to break down complex workflows, Dynamic scaling of teams to accelerate processes.",
+        "aspect": "Morpheus design themes",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses Morpheus design themes but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Lead AI agents distribute the workload amongst a team of specialist agents, collating their results and orchestrating the next workflow steps while capturing data for traceability and governance at every step.",
+        "aspect": "AI agent workload distribution",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses AI agent workload distribution but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "LLM—and cloud-agnostic, Endava's AI accelerator is a flexible way to rapidly transform businesses across any industry.",
+        "aspect": "AI accelerator flexibility",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses AI accelerator flexibility but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Creating data products in this way enables a new avenue of thinking about autonomous teams, removing constraints and freeing up entire workforces to perform more meaningful work.",
+        "aspect": "Data products and autonomous teams",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses data products and autonomous teams but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "We are rapidly moving to the point where AI touches almost every project.",
+        "aspect": "AI integration",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses AI integration but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Our clients are increasingly interested in exploring the potential of generative AI, investigating specific applications for their business and working with us for AI implementation roadmaps.",
+        "aspect": "Client interest in generative AI",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses client interest in generative AI but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "During a hackathon organised by Endava and Microsoft, we were challenged to develop a prototype for an Emergency Room (ER) Triage Agent.",
+        "aspect": "ER Triage Agent hackathon",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses an ER Triage Agent hackathon but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "The goal was to build a chatbot-like application to guide patients through the triage process in the healthcare industry.",
+        "aspect": "ER Triage Agent goal",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses the goal of the ER Triage Agent but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "In this application, patients are asked a series of questions to assess the severity of their medical condition.",
+        "aspect": "ER Triage Agent functionality",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses ER Triage Agent functionality but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "The patients are then prioritised accordingly.",
+        "aspect": "ER Triage Agent prioritization",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses ER Triage Agent prioritization but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "The chatbot solution utilises Semantic Kernel from Microsoft Azure Open AI large language model and implements an Azure Chat Completion pattern.",
+        "aspect": "Chatbot solution technology",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses chatbot solution technology but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "It uses a system prompt to adapt the large language model's answers to the triage agent's function.",
+        "aspect": "Chatbot system prompt",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses chatbot system prompt but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Depending on the severity of the medical condition, the agent is tasked to ask a series of questions to obtain more detailed information on the patient's condition.",
+        "aspect": "Chatbot question series",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses chatbot question series but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "The system is programmed with predefined cases with verified diagnoses and triage severity levels to receive a correct output calibration, and the patients are then ranked in order of severity.",
+        "aspect": "Chatbot predefined cases",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses chatbot predefined cases but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "As part of an AI-native wealth management platform, we built a personalised news recommendation engine tailored to client portfolios.",
+        "aspect": "Personalised news recommendation engine",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses a personalised news recommendation engine but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Financial advisors spend an average of 15% of their working day completing client market research.",
+        "aspect": "Financial advisor market research",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses financial advisor market research but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Our solution pulls information relevant to each client's portfolio and provides the adviser with key talking points.",
+        "aspect": "Solution information relevance",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses solution information relevance but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "This tool helps free up advisers to focus on non-routine work.",
+        "aspect": "Tool impact on advisers",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses tool impact on advisers but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "News searches are performed using a combination of semantic and fuzzy keyword searches, leveraging OpenAI embeddings, the extended LlamaIndex framework and Elasticsearch's native fuzzy search capability.",
+        "aspect": "News search technology",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses news search technology but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "News summaries, as well as key talking points, are generated using OpenAI GPT-4.",
+        "aspect": "News summary generation",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses news summary generation but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "We also provide financial advisers with semantic search-based chat capability, allowing them to ask additional questions regarding the news stories.",
+        "aspect": "Semantic search-based chat capability",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses semantic search-based chat capability but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Guardrails and moderation capability protect interactions to help enhance security and compliance.",
+        "aspect": "Guardrails and moderation",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses guardrails and moderation but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "To enhance the overall customer experience and perform more targeted searches for real estate buyers, we developed a solution empowering potential buyers to conduct interactive searches using natural human language.",
+        "aspect": "Real estate search solution",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses a real estate search solution but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "Potential buyers can describe their ideal property parameters, then OpenAI capabilities seamlessly translate the free-text input and retrieve matching properties.",
+        "aspect": "OpenAI capabilities in real estate",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses OpenAI capabilities in real estate but does not explicitly mention ESG-related content."
+      },
+      {
+        "text": "This approach eliminates the need to access traditional individual brokers' websites.",
+        "aspect": "Approach impact on brokers",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none",
+        "sentiment_score": 0,
+        "reasoning": "The text discusses the impact of the approach on brokers but does not explicitly mention ESG-related content."
+      }
+    ],
+    "raw_output": "[\n{\n\"text\": \"we·care\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text 'we·care' is a brand name or slogan and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"# Sustainability Report 2024\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a title for the report and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"Introduction\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a section heading and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"Letter from our CEO\",\n\"aspect\": \"none\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"This is a section heading and does not contain any explicit ESG-related content.\"\n},\n{\n\"text\": \"Hello and welcome, I am pleased to present our We Care Sustainability Report for the Fiscal Year 2024. As our organisation continues to evolve, our focus remains on the Environmental, Social and Governance (ESG) issues that are most relevant to our business.\",\n\"aspect\": \"ESG\",\n\"labels\": [\"climate-d\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions ESG issues and the focus on Environmental, Social, and Governance matters, indicating a positive commitment to ESG.\"\n},\n{\n\"text\": \"We Care is in our DNA. We are committed to making a positive impact and supporting our people, customers and the communities where we live and work.\",\n\"aspect\": \"ESG commitment\",\n\"labels\": [\"climate-commitment\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly states a commitment to making a positive impact and supporting people, customers, and communities, which aligns with social ESG aspects.\"\n},\n{\n\"text\": \"This report is also our annual Communication on Progress as a UN Global Compact signatory, reaffirming our commitment to shaping a sustainable future aligned with the UN Sustainable Development Goals.\",\n\"aspect\": \"UN SDGs\",\n\"labels\": [\"climate-commitment\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions the UN Global Compact and Sustainable Development Goals, indicating a strategic commitment to sustainability.\"\n},\n{\n\"text\": \"As a growing global organisation, it is critical for us to stay true to our core purpose and values and to continue to focus on enabling our people to be the best they can be.\",\n\"aspect\": \"People development\",\n\"labels\": [\"governance\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text emphasizes the importance of enabling people to be their best, which aligns with social ESG aspects.\"\n},\n{\n\"text\": \"We are a leading provider of next-generation technology services dedicated to helping our customers drive real impact and meaningful change globally.\",\n\"aspect\": \"Customer impact\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text discusses customer impact but does not explicitly mention ESG-related content.\"\n},\n{\n\"text\": \"As AI is set to drive the new digital transformation era, our commitment to innovation excellence is evident in the design of our agentic AI Industry Accelerator, Morpheus.\",\n\"aspect\": \"AI innovation\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text discusses AI innovation but does not explicitly mention ESG-related content.\"\n},\n{\n\"text\": \"This is powered by our focus on developing AI skills across delivery locations and embedding AI in our daily engineering work.\",\n\"aspect\": \"AI skills development\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text discusses AI skills development but does not explicitly mention ESG-related content.\"\n},\n{\n\"text\": \"Our dedication to delivering exceptional service and building strong partnerships enables us to maintain high levels of customer satisfaction.\",\n\"aspect\": \"Customer satisfaction\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text discusses customer satisfaction but does not explicitly mention ESG-related content.\"\n},\n{\n\"text\": \"We support our clients in their sustainability journeys by leveraging our industry expertise, our ESG partnerships and our green software capabilities.\",\n\"aspect\": \"Client sustainability support\",\n\"labels\": [\"climate-commitment\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions supporting clients in their sustainability journeys and leveraging ESG partnerships, indicating a positive commitment to ESG.\"\n},\n{\n\"text\": \"We also use technology as a force for good in collaboration with our customers.\",\n\"aspect\": \"Technology for good\",\n\"labels\": [\"none\"],\n\"esg\": \"none\",\n\"sentiment\": \"none\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text discusses using technology for good but does not explicitly mention ESG-related content.\"\n},\n{\n\"text\": \"In FY2024, we made significant progress with our environmental agenda by getting our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, approved by the Science Based Targets initiative (SBTi).\",\n\"aspect\": \"Emissions reduction targets\",\n\"labels\": [\"netzero-reduction\", \"climate-commitment\"],\n\"esg\": \"E\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions science-based emissions reduction targets and a net-zero target, indicating a positive commitment to environmental ESG.\"\n},\n{\n\"text\": \"Our governance efforts continue to focus on preparing for compliance with the EU Corporate Sustainability Reporting Directive (CSRD).\",\n\"aspect\": \"CSRD compliance\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions preparing for CSRD compliance, which is a governance-related ESG aspect.\"\n},\n{\n\"text\": \"We recently completed our Double Materiality Assessment (DMA), the first step in this process.\",\n\"aspect\": \"Double Materiality Assessment\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions completing a Double Materiality Assessment, which is a governance-related ESG aspect.\"\n},\n{\n\"text\": \"We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.\",\n\"aspect\": \"Supply chain sustainability\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions raising awareness of operating responsibly and driving sustainability through the supply chain, indicating a positive commitment to governance ESG.\"\n},\n{\n\"text\": \"Our sustainability journey is moving forward. I invite you to discover more about our great work to create a positive impact supporting our people, customers, communities and stakeholders.\",\n\"aspect\": \"Sustainability journey\",\n\"labels\": [\"climate-commitment\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions a sustainability journey and creating a positive impact, indicating a positive commitment to social ESG.\"\n},\n{\n\"text\": \"We care about making a positive difference for our stakeholders:\",\n\"aspect\": \"Stakeholder impact\",\n\"labels\": [\"climate-commitment\", \"environmental-claims\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions making a positive difference for stakeholders, indicating a positive commitment to social ESG.\"\n},\n{\n\"text\": \"We are committed to being an inclusive community, and our core purpose is to enable our people to be the best they can be.\",\n\"aspect\": \"Inclusivity and people development\",\n\"labels\": [\"governance\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions being an inclusive community and enabling people to be their best, indicating a positive commitment to social ESG.\"\n},\n{\n\"text\": \"We focus on building partnerships with our clients to provide innovative digital solutions to increase the positive impact we have on our clients' businesses and sustainability.\",\n\"aspect\": \"Client partnerships\",\n\"labels\": [\"climate-commitment\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions building partnerships with clients to increase positive impact on their businesses and sustainability, indicating a positive commitment to governance ESG.\"\n},\n{\n\"text\": \"We aim to provide our investors with the information they need to understand our ESG priorities and how these initiatives drive the future resilience of our business, allowing them to make informed decisions.\",\n\"aspect\": \"Investor information\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"The text mentions providing investors with information on ESG priorities, which is a governance-related ESG aspect.\"\n},\n{\n\"text\": \"We promote sustainable procurement practices and aim to make purchasing decisions that decrease negative effects on society and the environment.\",\n\"aspect\": \"Sustainable procurement\",\n\"labels\": [\"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 1,\n\"reasoning\": \"The text explicitly mentions promoting sustainable procurement practices and decreasing negative effects on society and the environment, indicating a positive commitment to governance ESG.\"\n},\n{\n\"text\": \"We aim to support the communities where we live and have strategic partnerships with non-governmental organisations (NGOs).\",\n\"aspect\": \"Community support\",\n\"labels\": [\"climate-commitment\""
+  },
+  {
+    "timestamp": "2026-03-26T19:44:53.942313Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "target": "Endava We Care Sustainability Report 2024_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "We are a leading provider of next-generation technology services, dedicated to enabling our customers to drive real impact and meaningful change.",
+        "aspect": "dedikasi untuk dampak positif",
+        "labels": [
+          "climate-commitment",
+          "opportunity"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan komitmen untuk memberikan dampak positif melalui layanan teknologi, mencerminkan peluang sosial dan komitmen masa depan."
+      },
+      {
+        "text": "Our approach is centred around enhancing our customers' systems and utilising innovative technologies to create modern value propositions that fuel our clients' competitive edge in the market.",
+        "aspect": "pendekatan berbasis inovasi",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Fokus pada inovasi dan peningkatan sistem menunjukkan strategi untuk memberikan nilai tambah dan peluang bagi klien."
+      },
+      {
+        "text": "We empower people to interact with innovative technology and reap transformational results.",
+        "aspect": "pemberdayaan melalui teknologi",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menekankan pemberdayaan orang melalui teknologi inovatif, mencerminkan peluang dan strategi positif."
+      },
+      {
+        "text": "Our people are at the heart of who we are and drive our success.",
+        "aspect": "fokus pada sumber daya manusia",
+        "labels": [
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan strategi perusahaan yang menempatkan orang sebagai pusat kesuksesan, mencerminkan komitmen sosial."
+      },
+      {
+        "text": "We are committed to contributing to our local communities and, more broadly, the technology and services industry.",
+        "aspect": "komitmen terhadap komunitas dan industri",
+        "labels": [
+          "commitment",
+          "opportunity"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan komitmen untuk berkontribusi pada komunitas lokal dan industri, mencerminkan peluang sosial dan komitmen masa depan."
+      },
+      {
+        "text": "In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTI.",
+        "aspect": "target pengurangan emisi berbasis sains",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction",
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "commitment",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan komitmen lingkungan dengan target pengurangan emisi yang disetujui oleh SBTi, mencerminkan komitmen masa depan dan data kuantitatif."
+      },
+      {
+        "text": "Additionally, we completed our Double Materiality Assessment, the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).",
+        "aspect": "penilaian materialitas ganda",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan langkah strategis untuk mematuhi regulasi CSRD, mencerminkan tata kelola yang baik dan strategi kepatuhan."
+      },
+      {
+        "text": "We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.",
+        "aspect": "kesadaran operasional bertanggung jawab",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan upaya untuk meningkatkan kesadaran tentang operasi bertanggung jawab dan keberlanjutan rantai pasok, mencerminkan tata kelola dan strategi yang baik."
+      },
+      {
+        "text": "In April 2024, we announced the creation of our Agentic AI Industry Accelerator, internally designated as 'Morpheus.'",
+        "aspect": "peluncuran akselerator AI industri",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan peluncuran akselerator AI baru, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "The first of its kind, the accelerator and its AI-powered industry tools combine the power of data and multi-agent working to tackle complex challenges across all industries, including highly regulated fields like healthcare, insurance, financial services and private equity.",
+        "aspect": "solusi AI untuk tantangan industri",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menekankan kemampuan solusi AI untuk mengatasi tantangan kompleks di berbagai industri, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "Large language models (LLMs) and AI have existed in a 'black box' with little insight into how the systems arrive at the answers they provide.",
+        "aspect": "transparansi model bahasa besar",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Pernyataan ini menyoroti masalah transparansi dalam model AI, mencerminkan aspek tata kelola dan strategi untuk peningkatan."
+      },
+      {
+        "text": "Endava is changing this by operationalising LLMs around data to overcome common barriers caused by hallucinations, ensuring that all activity is transparent, knowable and auditable.",
+        "aspect": "operasionalisasi LLM untuk transparansi",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan upaya untuk meningkatkan transparansi dan auditabilitas dalam penggunaan LLM, mencerminkan tata kelola dan strategi yang baik."
+      },
+      {
+        "text": "Throughout regulated industries, Endava's agentic accelerator can deliver value in countless ways, such as helping insurers more efficiently underwrite policies, working with analysts on legal or financial research and due diligence or driving the development and testing of new healthcare products.",
+        "aspect": "nilai akselerator AI di industri terregulasi",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menyoroti berbagai cara akselerator AI dapat memberikan nilai di industri terregulasi, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "Morpheus represents the first significant step in applying advanced language model operations to automate complex processes within industries with strict regulatory requirements or data transparency needs.",
+        "aspect": "langkah awal otomatisasi proses",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan langkah awal dalam menerapkan operasi model bahasa canggih untuk otomatisasi proses, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "The heart of the design is based on three foundational themes: Data at the core with full transparency, Teams of agents to break down complex workflows, Dynamic scaling of teams to accelerate processes",
+        "aspect": "tema desain akselerator AI",
+        "labels": [
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menyoroti tiga tema inti dalam desain akselerator AI, mencerminkan strategi inovasi dan transparansi."
+      },
+      {
+        "text": "Lead AI agents distribute the workload amongst a team of specialist agents, collating their results and orchestrating the next workflow steps while capturing data for traceability and governance at every step.",
+        "aspect": "distribusi beban kerja AI",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan bagaimana agen AI memimpin distribusi beban kerja dengan fokus pada pelacakan dan tata kelola, mencerminkan tata kelola dan strategi yang baik."
+      },
+      {
+        "text": "LLM—and cloud-agnostic, Endava's AI accelerator is a flexible way to rapidly transform businesses across any industry.",
+        "aspect": "fleksibilitas akselerator AI",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menyoroti fleksibilitas akselerator AI untuk transformasi bisnis cepat di berbagai industri, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "Creating data products in this way enables a new avenue of thinking about autonomous teams, removing constraints and freeing up entire workforces to perform more meaningful work.",
+        "aspect": "pemikiran baru tentang tim otonom",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan pemikiran baru tentang tim otonom yang membebaskan tenaga kerja untuk pekerjaan yang lebih bermakna, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "We are rapidly moving to the point where AI touches almost every project.",
+        "aspect": "integrasi AI dalam proyek",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan integrasi cepat AI dalam berbagai proyek, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "Our clients are increasingly interested in exploring the potential of generative AI, investigating specific applications for their business and working with us for AI implementation roadmaps.",
+        "aspect": "minat klien pada AI generatif",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan meningkatnya minat klien pada AI generatif dan kolaborasi untuk implementasi, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "During a hackathon organised by Endava and Microsoft, we were challenged to develop a prototype for an Emergency Room (ER) Triage Agent.",
+        "aspect": "pengembangan prototipe agen triase ER",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan pengembangan prototipe untuk aplikasi kesehatan, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "The goal was to build a chatbot-like application to guide patients through the triage process in the healthcare industry.",
+        "aspect": "aplikasi chatbot untuk triase pasien",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan tujuan pengembangan aplikasi chatbot untuk membantu proses triase pasien, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "In this application, patients are asked a series of questions to assess the severity of their medical condition.",
+        "aspect": "penilaian kondisi medis pasien",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Pernyataan ini menjelaskan proses penilaian kondisi medis pasien, mencerminkan aspek operasional dari strategi inovasi."
+      },
+      {
+        "text": "The patients are then prioritised accordingly.",
+        "aspect": "prioritasi pasien",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Kalimat menunjukkan hasil dari proses penilaian, mencerminkan aspek operasional dari strategi inovasi."
+      },
+      {
+        "text": "The chatbot solution utilises Semantic Kernel from Microsoft Azure Open AI large language model and implements an Azure Chat Completion pattern.",
+        "aspect": "penggunaan teknologi Semantic Kernel",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan penggunaan teknologi canggih untuk solusi chatbot, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "It uses a system prompt to adapt the large language model's answers to the triage agent's function.",
+        "aspect": "adaptasi model bahasa untuk fungsi agen",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Kalimat menjelaskan proses adaptasi model bahasa untuk fungsi spesifik, mencerminkan aspek operasional dari strategi inovasi."
+      },
+      {
+        "text": "Depending on the severity of the medical condition, the agent is tasked to ask a series of questions to obtain more detailed information on the patient's condition.",
+        "aspect": "pengumpulan informasi berdasarkan keparahan",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Pernyataan ini menjelaskan proses pengumpulan informasi berdasarkan keparahan kondisi, mencerminkan aspek operasional dari strategi inovasi."
+      },
+      {
+        "text": "The system is programmed with predefined cases with verified diagnoses and triage severity levels to receive a correct output calibration, and the patients are then ranked in order of severity.",
+        "aspect": "kalibrasi output dengan kasus terverifikasi",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Kalimat menjelaskan proses kalibrasi sistem dengan kasus terverifikasi, mencerminkan aspek operasional dari strategi inovasi."
+      },
+      {
+        "text": "As part of an AI-native wealth management platform, we built a personalised news recommendation engine tailored to client portfolios.",
+        "aspect": "mesin rekomendasi berita personalisasi",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan pengembangan mesin rekomendasi berita personalisasi untuk platform manajemen kekayaan, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "Financial advisors spend an average of 15% of their working day completing client market research.",
+        "aspect": "waktu penasihat keuangan untuk riset pasar",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Kalimat memberikan informasi tentang waktu yang dihabiskan penasihat keuangan untuk riset pasar, mencerminkan aspek operasional dari strategi inovasi."
+      },
+      {
+        "text": "Our solution pulls information relevant to each client's portfolio and provides the adviser with key talking points.",
+        "aspect": "solusi penarikan informasi relevan",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan solusi untuk menarik informasi relevan dan memberikan poin pembicaraan kunci, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "This tool helps free up advisers to focus on non-routine work.",
+        "aspect": "pembebasan penasihat untuk pekerjaan non-rutin",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan manfaat alat dalam membebaskan penasihat untuk fokus pada pekerjaan non-rutin, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "News searches are performed using a combination of semantic and fuzzy keyword searches, leveraging OpenAI embeddings, the extended LlamaIndex framework and Elasticsearch's native fuzzy search capability.",
+        "aspect": "pencarian berita dengan teknologi canggih",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Pernyataan ini menjelaskan teknologi yang digunakan untuk pencarian berita, mencerminkan aspek operasional dari strategi inovasi."
+      },
+      {
+        "text": "News summaries, as well as key talking points, are generated using OpenAI GPT-4.",
+        "aspect": "pembuatan ringkasan berita dengan GPT-4",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "neutral",
+        "sentiment_score": 0,
+        "reasoning": "Kalimat menjelaskan penggunaan GPT-4 untuk membuat ringkasan berita dan poin pembicaraan, mencerminkan aspek operasional dari strategi inovasi."
+      },
+      {
+        "text": "We also provide financial advisers with semantic search-based chat capability, allowing them to ask additional questions regarding the news stories.",
+        "aspect": "kemampuan chat berbasis pencarian semantik",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan penyediaan kemampuan chat berbasis pencarian semantik, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "Guardrails and moderation capability protect interactions to help enhance security and compliance.",
+        "aspect": "pengamanan interaksi untuk keamanan dan kepatuhan",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan penggunaan pengamanan untuk melindungi interaksi dan meningkatkan keamanan serta kepatuhan, mencerminkan tata kelola dan strategi yang baik."
+      },
+      {
+        "text": "To enhance the overall customer experience and perform more targeted searches for real estate buyers, we developed a solution empowering potential buyers to conduct interactive searches using natural human language.",
+        "aspect": "solusi pencarian interaktif untuk pembeli properti",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan pengembangan solusi untuk meningkatkan pengalaman pelanggan dan pencarian terarah, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "Potential buyers can describe their ideal property parameters, then OpenAI capabilities seamlessly translate the free-text input and retrieve matching properties.",
+        "aspect": "penerjemahan input teks bebas untuk pencarian properti",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Kalimat menunjukkan kemampuan OpenAI untuk menerjemahkan input teks bebas dan mengambil properti yang cocok, mencerminkan peluang dan strategi inovasi."
+      },
+      {
+        "text": "This approach eliminates the need to access traditional individual brokers' websites.",
+        "aspect": "penghapusan kebutuhan akses situs broker tradisional",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "positive",
+        "sentiment_score": 0.5,
+        "reasoning": "Pernyataan ini menunjukkan manfaat pendekatan baru dalam menghilangkan kebutuhan akses situs broker tradisional, mencerminkan peluang dan strategi inovasi."
+      }
+    ],
+    "raw_output": "[\n{\n\"text\": \"We are a leading provider of next-generation technology services, dedicated to enabling our customers to drive real impact and meaningful change.\",\n\"aspect\": \"dedikasi untuk dampak positif\",\n\"labels\": [\"climate-commitment\", \"opportunity\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan komitmen untuk memberikan dampak positif melalui layanan teknologi, mencerminkan peluang sosial dan komitmen masa depan.\"\n},\n{\n\"text\": \"Our approach is centred around enhancing our customers' systems and utilising innovative technologies to create modern value propositions that fuel our clients' competitive edge in the market.\",\n\"aspect\": \"pendekatan berbasis inovasi\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Fokus pada inovasi dan peningkatan sistem menunjukkan strategi untuk memberikan nilai tambah dan peluang bagi klien.\"\n},\n{\n\"text\": \"We empower people to interact with innovative technology and reap transformational results.\",\n\"aspect\": \"pemberdayaan melalui teknologi\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menekankan pemberdayaan orang melalui teknologi inovatif, mencerminkan peluang dan strategi positif.\"\n},\n{\n\"text\": \"Our people are at the heart of who we are and drive our success.\",\n\"aspect\": \"fokus pada sumber daya manusia\",\n\"labels\": [\"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan strategi perusahaan yang menempatkan orang sebagai pusat kesuksesan, mencerminkan komitmen sosial.\"\n},\n{\n\"text\": \"We are committed to contributing to our local communities and, more broadly, the technology and services industry.\",\n\"aspect\": \"komitmen terhadap komunitas dan industri\",\n\"labels\": [\"commitment\", \"opportunity\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan komitmen untuk berkontribusi pada komunitas lokal dan industri, mencerminkan peluang sosial dan komitmen masa depan.\"\n},\n{\n\"text\": \"In FY2024, we furthered our environmental ambitions with the approval of our near and long-term science-based emissions reduction targets, and overall science-based net-zero target, by the SBTI.\",\n\"aspect\": \"target pengurangan emisi berbasis sains\",\n\"labels\": [\"climate-commitment\", \"netzero-reduction\", \"metrics\"],\n\"esg\": \"E\",\n\"sentiment\": \"commitment\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan komitmen lingkungan dengan target pengurangan emisi yang disetujui oleh SBTi, mencerminkan komitmen masa depan dan data kuantitatif.\"\n},\n{\n\"text\": \"Additionally, we completed our Double Materiality Assessment, the first step in complying with the EU Corporate Sustainability Reporting Directive (CSRD).\",\n\"aspect\": \"penilaian materialitas ganda\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan langkah strategis untuk mematuhi regulasi CSRD, mencerminkan tata kelola yang baik dan strategi kepatuhan.\"\n},\n{\n\"text\": \"We also continue to raise Endavans' awareness of the importance of operating responsibly and driving sustainability through our supply chain.\",\n\"aspect\": \"kesadaran operasional bertanggung jawab\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan upaya untuk meningkatkan kesadaran tentang operasi bertanggung jawab dan keberlanjutan rantai pasok, mencerminkan tata kelola dan strategi yang baik.\"\n},\n{\n\"text\": \"In April 2024, we announced the creation of our Agentic AI Industry Accelerator, internally designated as 'Morpheus.'\",\n\"aspect\": \"peluncuran akselerator AI industri\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan peluncuran akselerator AI baru, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"The first of its kind, the accelerator and its AI-powered industry tools combine the power of data and multi-agent working to tackle complex challenges across all industries, including highly regulated fields like healthcare, insurance, financial services and private equity.\",\n\"aspect\": \"solusi AI untuk tantangan industri\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menekankan kemampuan solusi AI untuk mengatasi tantangan kompleks di berbagai industri, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"Large language models (LLMs) and AI have existed in a 'black box' with little insight into how the systems arrive at the answers they provide.\",\n\"aspect\": \"transparansi model bahasa besar\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\",\n\"sentiment_score\": 0,\n\"reasoning\": \"Pernyataan ini menyoroti masalah transparansi dalam model AI, mencerminkan aspek tata kelola dan strategi untuk peningkatan.\"\n},\n{\n\"text\": \"Endava is changing this by operationalising LLMs around data to overcome common barriers caused by hallucinations, ensuring that all activity is transparent, knowable and auditable.\",\n\"aspect\": \"operasionalisasi LLM untuk transparansi\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan upaya untuk meningkatkan transparansi dan auditabilitas dalam penggunaan LLM, mencerminkan tata kelola dan strategi yang baik.\"\n},\n{\n\"text\": \"Throughout regulated industries, Endava's agentic accelerator can deliver value in countless ways, such as helping insurers more efficiently underwrite policies, working with analysts on legal or financial research and due diligence or driving the development and testing of new healthcare products.\",\n\"aspect\": \"nilai akselerator AI di industri terregulasi\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menyoroti berbagai cara akselerator AI dapat memberikan nilai di industri terregulasi, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"Morpheus represents the first significant step in applying advanced language model operations to automate complex processes within industries with strict regulatory requirements or data transparency needs.\",\n\"aspect\": \"langkah awal otomatisasi proses\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan langkah awal dalam menerapkan operasi model bahasa canggih untuk otomatisasi proses, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"The heart of the design is based on three foundational themes: Data at the core with full transparency, Teams of agents to break down complex workflows, Dynamic scaling of teams to accelerate processes\",\n\"aspect\": \"tema desain akselerator AI\",\n\"labels\": [\"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menyoroti tiga tema inti dalam desain akselerator AI, mencerminkan strategi inovasi dan transparansi.\"\n},\n{\n\"text\": \"Lead AI agents distribute the workload amongst a team of specialist agents, collating their results and orchestrating the next workflow steps while capturing data for traceability and governance at every step.\",\n\"aspect\": \"distribusi beban kerja AI\",\n\"labels\": [\"governance\", \"strategy\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan bagaimana agen AI memimpin distribusi beban kerja dengan fokus pada pelacakan dan tata kelola, mencerminkan tata kelola dan strategi yang baik.\"\n},\n{\n\"text\": \"LLM—and cloud-agnostic, Endava's AI accelerator is a flexible way to rapidly transform businesses across any industry.\",\n\"aspect\": \"fleksibilitas akselerator AI\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menyoroti fleksibilitas akselerator AI untuk transformasi bisnis cepat di berbagai industri, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"Creating data products in this way enables a new avenue of thinking about autonomous teams, removing constraints and freeing up entire workforces to perform more meaningful work.\",\n\"aspect\": \"pemikiran baru tentang tim otonom\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan pemikiran baru tentang tim otonom yang membebaskan tenaga kerja untuk pekerjaan yang lebih bermakna, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"We are rapidly moving to the point where AI touches almost every project.\",\n\"aspect\": \"integrasi AI dalam proyek\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan integrasi cepat AI dalam berbagai proyek, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"Our clients are increasingly interested in exploring the potential of generative AI, investigating specific applications for their business and working with us for AI implementation roadmaps.\",\n\"aspect\": \"minat klien pada AI generatif\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Kalimat menunjukkan meningkatnya minat klien pada AI generatif dan kolaborasi untuk implementasi, mencerminkan peluang dan strategi inovasi.\"\n},\n{\n\"text\": \"During a hackathon organised by Endava and Microsoft, we were challenged to develop a prototype for an Emergency Room (ER) Triage Agent.\",\n\"aspect\": \"pengembangan prototipe agen triase ER\",\n\"labels\": [\"opportunity\", \"strategy\"],\n\"esg\": \"S\",\n\"sentiment\": \"positive\",\n\"sentiment_score\": 0.5,\n\"reasoning\": \"Pernyataan ini menunjukkan pengembangan prototipe untuk aplikasi kesehatan, mencerminkan pelu"
   }
 ]
