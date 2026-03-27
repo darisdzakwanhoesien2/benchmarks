@@ -128,13 +128,36 @@ if not rows:
 
 df = pd.DataFrame(rows)
 
+# ── New: per-model top_label counts & flag models with multiple top labels ──
+model_label_stats = (
+    df.groupby("model")["top_label"]
+    .agg(lambda s: sorted({str(x) for x in s if x and str(x).strip() != "None"}))
+    .reset_index(name="unique_top_labels")
+)
+model_label_stats["unique_top_label_count"] = model_label_stats["unique_top_labels"].apply(len)
+model_label_stats["multi_top_labels"] = model_label_stats["unique_top_label_count"] >= 2
+
+# merge back to df for easy filtering/flagging
+df = df.merge(model_label_stats, on="model", how="left")
+
 # ensure numeric top_score and string labels
 df["top_score"] = pd.to_numeric(df["top_score"], errors="coerce")
 df["top_label"] = df["top_label"].astype(str).replace("None", "")
 
 st.sidebar.markdown("### Visualization controls")
+# allow quick filter to show only models that have >=2 unique top labels
+show_only_multi = st.sidebar.checkbox("Show only models with ≥2 top labels", value=False)
 model_choices = ["<all>"] + sorted({r["model"] for r in rows if r.get("model")})
 sel_model = st.sidebar.selectbox("Model", model_choices, index=0)
+
+# subset for selected model and multi filter
+if sel_model != "<all>":
+    viz_df = df[df["model"] == sel_model].copy()
+else:
+    viz_df = df.copy()
+if show_only_multi:
+    viz_df = viz_df[viz_df["multi_top_labels"] == True].copy()
+
 label_limit = st.sidebar.number_input("Max labels to show (bar chart)", min_value=5, max_value=100, value=25, step=1)
 
 # subset for selected model
@@ -211,15 +234,86 @@ else:
     ).interactive().properties(height=min(800, 40 * len(models_order)))
     st.altair_chart(scatter, use_container_width=True)
 
-# 4) Summary table per model
+# ─────────────────────────────────────────────────────────────────────
+# NEW VISUALS: per-top_label views for the selected model (histograms, boxplots, pie)
+# ─────────────────────────────────────────────────────────────────────
+st.markdown("### Per-top_label visualizations (selected model)")
+
+# focus on rows with labels and numeric scores
+label_src = viz_df[(viz_df["top_label"].notna()) & (viz_df["top_label"] != "")].copy()
+label_src = label_src.dropna(subset=["top_score"])
+if label_src.empty:
+    st.info("No labeled numeric top_score data for per-label visuals.")
+else:
+    # limit number of distinct labels shown to avoid too many facets
+    unique_labels = sorted(label_src["top_label"].unique())
+    max_labels = st.sidebar.number_input("Max distinct top_labels to visualize", min_value=3, max_value=30, value=8, step=1)
+    labels_show = unique_labels[:max_labels]
+
+    label_src = label_src[label_src["top_label"].isin(labels_show)].copy()
+
+    # 1) Small multiples: histogram of top_score per top_label
+    st.markdown("#### Histogram of top_score per top_label (small multiples)")
+    if len(labels_show) == 1:
+        # single label -> simple histogram
+        hist = alt.Chart(label_src).mark_bar().encode(
+            x=alt.X("top_score:Q", bin=alt.Bin(maxbins=20), title="Top score"),
+            y=alt.Y("count():Q", title="Count"),
+            tooltip=["top_label","count()"]
+        ).properties(height=200)
+    else:
+        # facet per label — set properties on the base chart BEFORE faceting
+        base = alt.Chart(label_src).mark_bar().encode(
+            x=alt.X("top_score:Q", bin=alt.Bin(maxbins=20), title="Top score"),
+            y=alt.Y("count():Q", title="Count"),
+            tooltip=["top_label","top_score"]
+        ).properties(height=140)
+        hist = base.facet(
+            column=alt.Column("top_label:N", title="Top label", header=alt.Header(labelAngle=-45))
+        )
+    st.altair_chart(hist, use_container_width=True)
+
+    # 2) Boxplots per top_label
+    st.markdown("#### Boxplot of top_score by top_label")
+    box = alt.Chart(label_src).mark_boxplot().encode(
+        x=alt.X("top_label:N", sort=labels_show, title="Top label"),
+        y=alt.Y("top_score:Q", title="Top score"),
+        color=alt.Color("top_label:N", legend=None)
+    ).properties(height=300)
+    st.altair_chart(box, use_container_width=True)
+
+    # 3) Pie chart: top_label proportion
+    st.markdown("#### Top-label proportion (pie)")
+    counts = label_src.groupby("top_label").size().reset_index(name="count").sort_values("count", ascending=False)
+    pie = alt.Chart(counts).mark_arc().encode(
+        theta=alt.Theta("count:Q"),
+        color=alt.Color("top_label:N", sort=counts["top_label"].tolist(), title="Top label"),
+        tooltip=["top_label","count"]
+    ).properties(height=300)
+    st.altair_chart(pie, use_container_width=True)
+
+# 4) Summary per model
 st.markdown("### Summary per model")
 summary = (
     df.groupby("model")
-    .agg(rows=("idx", "count"), labels_present=("top_label", lambda s: s.replace("None","").astype(bool).sum()), mean_top_score=("top_score","mean"))
+    .agg(
+        rows=("idx", "count"),
+        unique_top_label_count=("unique_top_label_count", "max"),
+        unique_top_labels=("unique_top_labels", "max"),
+        multi_top_labels=("multi_top_labels", "max"),
+        mean_top_score=("top_score","mean"),
+    )
     .reset_index()
     .sort_values("rows", ascending=False)
 )
 st.dataframe(summary, use_container_width=True)
+
+# add quick view of which models have multiple top labels
+multi_models = summary[summary["multi_top_labels"] == True]
+if not multi_models.empty:
+    st.warning(f"{len(multi_models)} model(s) with ≥2 unique top labels. Expand to inspect.")
+    with st.expander("Models with multiple top labels", expanded=False):
+        st.dataframe(multi_models[["model","unique_top_label_count","unique_top_labels"]], use_container_width=True)
 
 # allow download of visualization-ready table
 if st.button("⬇️ Download viz table (JSON)"):
