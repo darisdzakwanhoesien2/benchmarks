@@ -1,0 +1,1153 @@
+[
+  {
+    "timestamp": "2026-03-26T22:59:24.788044",
+    "text": "Total Emisi (ton CO2e)",
+    "rule_based": {
+      "aspects": [
+        "Emission Reduction"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Total Emisi (ton CO2e)",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.020852021872997284,
+          "Ontology_Path": "Environmental → Emission Reduction",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.683804452419281,
+          "tone_pred": 3,
+          "tone_score": 0.8473146557807922
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:24.995693",
+    "text": "Intensitas emisi gas rumah kaca (GRK) mempertimbangkan ukuran bangunan dan hunian untuk memberikan representasi data yang lebih akurat di seluruh portofolio kami.",
+    "rule_based": {
+      "aspects": [
+        "Emission Reduction"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Intensitas emisi gas rumah kaca (GRK) mempertimbangkan ukuran bangunan dan hunian untuk memberikan representasi data yang lebih akurat di seluruh portofolio kami.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.06085534393787384,
+          "Ontology_Path": "Environmental → Emission Reduction",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7148498892784119,
+          "tone_pred": 3,
+          "tone_score": 0.8369991183280945
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:25.163612",
+    "text": "Intensitas emisi dihitung melalui rasio total emisi GRK terhadap total GFA yang ditempati disesuaikan dengan tingkat hunian rata-rata tahunan, diukur dalam ton setara karbon dioksida per meter persegi (tCO2e/m2).",
+    "rule_based": {
+      "aspects": [
+        "Emission Reduction"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Intensitas emisi dihitung melalui rasio total emisi GRK terhadap total GFA yang ditempati disesuaikan dengan tingkat hunian rata",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.03498192876577377,
+          "Ontology_Path": "Environmental → Emission Reduction",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7694200277328491,
+          "tone_pred": 3,
+          "tone_score": 0.9091089367866516
+        },
+        {
+          "Sentence_ID": 1,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "rata tahunan, diukur dalam ton setara karbon dioksida per meter persegi (tCO2e/m2).",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.028870541602373123,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7968094348907471,
+          "tone_pred": 3,
+          "tone_score": 0.9002472162246704
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.5
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 2.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:25.342671",
+    "text": "Restatement diperlukan untuk Inland Tower Surabaya, 1Park, dan Aeropolis karena koreksi perhitungan pada sisi energi.",
+    "rule_based": {
+      "aspects": [
+        "Energy Efficiency"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Restatement diperlukan untuk Inland Tower Surabaya, 1Park, dan Aeropolis karena koreksi perhitungan pada sisi energi.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.014329415746033192,
+          "Ontology_Path": "Environmental → Energy Efficiency",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8064202666282654,
+          "tone_pred": 3,
+          "tone_score": 0.8769656419754028
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:26.010522",
+    "text": "Perhitungan ulang diperlukan untuk 1Park, dan Aeropolis karena adanya koreksi perhitungan dan area Inland Tower Surabaya (ITS) yang lebih luas.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Perhitungan ulang diperlukan untuk 1Park, dan Aeropolis karena adanya koreksi perhitungan dan area Inland Tower Surabaya (ITS) yang lebih luas.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.03117416985332966,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7152212262153625,
+          "tone_pred": 3,
+          "tone_score": 0.8538529276847839
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:26.135939",
+    "text": "Intensitas GRK di ITS lebih tersebut dibandingkan gedung lainnya terutama karena gedung tersebut ditempati oleh pusat data dan Internet Service Provider (ISP).",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Intensitas GRK di ITS lebih tersebut dibandingkan gedung lainnya terutama karena gedung tersebut ditempati oleh pusat data dan Internet Service Provider (ISP).",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.0011830467265099287,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7946703433990479,
+          "tone_pred": 3,
+          "tone_score": 0.8913503885269165
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:26.254665",
+    "text": "Air merupakan sumber daya yang terbatas yang menjadikan bumi sebagai planet biru.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Air merupakan sumber daya yang terbatas yang menjadikan bumi sebagai planet biru.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.028731143102049828,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7426190376281738,
+          "tone_pred": 3,
+          "tone_score": 0.8603066205978394
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:26.409683",
+    "text": "Ditekankan dalam Tujuan Pembangunan Berkelanjutan PBB sebagai Tujuan 6 - Memastikan ketersediaan dan manajemen air bersih dan sanitasi yang berkelanjutan bagi semua, Intiland berkomitmen untuk berperan dalam mencapai tujuan tersebut dengan secara progresif menerapkan system daur ulang air di properti kami yang sudah ada maupun pengembangan baru kami, dan terus melacak kemajuan kami dalam menuju masa depan yang lebih berkelanjutan.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Positive",
+      "tone": "Outcome"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Ditekankan dalam Tujuan Pembangunan Berkelanjutan PBB sebagai Tujuan 6",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.024959824979305267,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.9005074501037598,
+          "tone_pred": 3,
+          "tone_score": 0.5387102365493774
+        },
+        {
+          "Sentence_ID": 1,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Memastikan ketersediaan dan manajemen air bersih dan sanitasi yang berkelanjutan bagi semua, Intiland berkomitmen untuk berperan dalam mencapai tujuan tersebut dengan secara progresif menerapkan system daur ulang air di properti kami yang sudah ada maupun pengembangan baru kami, dan terus melacak kemajuan kami dalam menuju masa depan yang lebih berkelanjutan.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.05278760939836502,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.899234414100647,
+          "tone_pred": 3,
+          "tone_score": 0.4625881016254425
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 2.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:26.537620",
+    "text": "Dengan bertanggung jawab dalam penggunaan air, Intiland juga berkontribusi dalam memastikan keamanan air di bulan-bulan kering serta mengurangi biaya yang dikeluarkan untuk penggunaan air.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Positive",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Dengan bertanggung jawab dalam penggunaan air, Intiland juga berkontribusi dalam memastikan keamanan air di bulan",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.035840146243572235,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8740489482879639,
+          "tone_pred": 3,
+          "tone_score": 0.9250775575637817
+        },
+        {
+          "Sentence_ID": 1,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "bulan kering serta mengurangi biaya yang dikeluarkan untuk penggunaan air.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.05766044557094574,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8757537007331848,
+          "tone_pred": 3,
+          "tone_score": 0.9263295531272888
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 2.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:26.677431",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Outcome"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.005245991051197052,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.9079236388206482,
+          "tone_pred": 3,
+          "tone_score": 0.44362273812294006
+        },
+        {
+          "Sentence_ID": 1,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "sama kita dapat mencapai keberlanjutan yang sesungguhnya.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Outcome",
+          "Ontology_Alignment": -0.002156432718038559,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.9090707898139954,
+          "tone_pred": 2,
+          "tone_score": 0.4446966350078583
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 2.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:26.797716",
+    "text": "Konsumsi air total adalah jumlah volume semua penarikan air yang tidak dibuang ke system pembuangan kota.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Konsumsi air total adalah jumlah volume semua penarikan air yang tidak dibuang ke system pembuangan kota.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.04665014520287514,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7547293305397034,
+          "tone_pred": 3,
+          "tone_score": 0.9105619788169861
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:26.920169",
+    "text": "Penarikan ini berasal dari semua sumber termasuk air komunal, sumur dalam, air hujan, dan air daur ulang.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Penarikan ini berasal dari semua sumber termasuk air komunal, sumur dalam, air hujan, dan air daur ulang.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.0044964393600821495,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8000231981277466,
+          "tone_pred": 3,
+          "tone_score": 0.8953225016593933
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:27.044555",
+    "text": "Harap dicatat bahwa data konsumsi air ini tidak termasuk penggunaan air di area ritel.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Harap dicatat bahwa data konsumsi air ini tidak termasuk penggunaan air di area ritel.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.006661302875727415,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8255595564842224,
+          "tone_pred": 3,
+          "tone_score": 0.8761496543884277
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:27.172507",
+    "text": "Untuk menghindari salah penafsiran atas istilah yang kami gunakan dalam bagian ini, dapat merujuk pada rumus berikut:",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Untuk menghindari salah penafsiran atas istilah yang kami gunakan dalam bagian ini, dapat merujuk pada rumus berikut:",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.029374204576015472,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7584594488143921,
+          "tone_pred": 3,
+          "tone_score": 0.8833407163619995
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:27.302916",
+    "text": "Konsumsi Air = pengambilan air - pembuangan air",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Konsumsi Air = pengambilan air",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.04709436371922493,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.788622260093689,
+          "tone_pred": 3,
+          "tone_score": 0.921975314617157
+        },
+        {
+          "Sentence_ID": 1,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "pembuangan air",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.04802114516496658,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7938644289970398,
+          "tone_pred": 3,
+          "tone_score": 0.9211792945861816
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 2.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:27.424146",
+    "text": "Pengambilan air = pasokan air kota + sumur dalam + air hujan + air daur ulang",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Pengambilan air = pasokan air kota + sumur dalam + air hujan + air daur ulang",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.0237063430249691,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7621148228645325,
+          "tone_pred": 3,
+          "tone_score": 0.8417929410934448
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:27.545061",
+    "text": "Konsumsi air secara keseluruhan di seluruh properti telah tetap relatif konsisten dibandingkan tahun sebelumnya.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Outcome"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Konsumsi air secara keseluruhan di seluruh properti telah tetap relatif konsisten dibandingkan tahun sebelumnya.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Outcome",
+          "Ontology_Alignment": -0.08780507743358612,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8269292712211609,
+          "tone_pred": 2,
+          "tone_score": 0.8452889919281006
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:27.672196",
+    "text": "Stabilitas ini dapat dikaitkan dengan dua faktor utama: Pertama, kesamaan yang berkelanjutan dalam konsumsi air sebagian besar disebabkan oleh peningkatan tingkat hunian di seluruh properti.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Stabilitas ini dapat dikaitkan dengan dua faktor utama: Pertama, kesamaan yang berkelanjutan dalam konsumsi air sebagian besar disebabkan oleh peningkatan tingkat hunian di seluruh properti.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.03372228890657425,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7356625199317932,
+          "tone_pred": 3,
+          "tone_score": 0.8658332228660583
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:27.949516",
+    "text": "Jumlah penghuni yang lebih tinggi secara alami menghasilkan permintaan penggunaan air yang konsisten di seluruh properti.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Jumlah penghuni yang lebih tinggi secara alami menghasilkan permintaan penggunaan air yang konsisten di seluruh properti.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.036505308002233505,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7916185855865479,
+          "tone_pred": 3,
+          "tone_score": 0.87788325548172
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:28.072579",
+    "text": "Kedua, terjadi penurunan yang signifikan dalam penggunaan air khususnya di Aeropolis pada tahun 2023.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Negative",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Kedua, terjadi penurunan yang signifikan dalam penggunaan air khususnya di Aeropolis pada tahun 2023.",
+          "Sentiment_Pred": "Negative",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.07492463290691376,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 0,
+          "sentiment_score": 0.8315505385398865,
+          "tone_pred": 3,
+          "tone_score": 0.878329873085022
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:28.194969",
+    "text": "Penurunan ini dapat ditelusuri kembali ke peristiwa penting yang terjadi pada pertengahan tahun 2023: perbaikan kebocoran besar pada pipa air bersih bawah tanah.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Negative",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Penurunan ini dapat ditelusuri kembali ke peristiwa penting yang terjadi pada pertengahan tahun 2023: perbaikan kebocoran besar pada pipa air bersih bawah tanah.",
+          "Sentiment_Pred": "Negative",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": -0.029134981334209442,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 0,
+          "sentiment_score": 0.7548838257789612,
+          "tone_pred": 3,
+          "tone_score": 0.8441400527954102
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:28.323649",
+    "text": "Awalnya terdeteksi menjelang akhir tahun 2022, kebocoran ini telah menyebabkan peningkatan besar dalam penarikan dan konsumsi air sepanjang tahun tersebut.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Outcome"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Awalnya terdeteksi menjelang akhir tahun 2022, kebocoran ini telah menyebabkan peningkatan besar dalam penarikan dan konsumsi air sepanjang tahun tersebut.",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Outcome",
+          "Ontology_Alignment": 0.03200959786772728,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.7925774455070496,
+          "tone_pred": 2,
+          "tone_score": 0.871151328086853
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:59:28.455380",
+    "text": "Perbaikan ini berhasil memperbaiki masalah tersebut, menghasilkan peningkatan yang signifikan dalam upaya konservasi air di Aeropolis.",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Positive",
+      "tone": "Unknown"
+    },
+    "hybrid": {
+      "predictions": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Perbaikan ini berhasil memperbaiki masalah tersebut, menghasilkan peningkatan yang signifikan dalam upaya konservasi air di Aeropolis.",
+          "Sentiment_Pred": "Positive",
+          "Tone_Pred": "Unknown",
+          "Ontology_Alignment": 0.006783531978726387,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 2,
+          "sentiment_score": 0.7212715744972229,
+          "tone_pred": 3,
+          "tone_score": 0.8456668257713318
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 1.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    }
+  }
+]

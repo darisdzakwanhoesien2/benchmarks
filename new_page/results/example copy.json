@@ -1,0 +1,278 @@
+[
+  {
+    "text": "Total Emisi (ton CO2e)",
+    "aspect": "total greenhouse gas emissions",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Quantitative metric showing total emissions without evaluative context, hence neutral sentiment."
+  },
+  {
+    "text": "Intensitas emisi gas rumah kaca (GRK) mempertimbangkan ukuran bangunan dan hunian untuk memberikan representasi data yang lebih akurat di seluruh portofolio kami.",
+    "aspect": "GHG emission intensity calculation methodology",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical explanation of emission intensity calculation methodology without evaluative tone."
+  },
+  {
+    "text": "Intensitas emisi dihitung melalui rasio total emisi GRK terhadap total GFA yang ditempati disesuaikan dengan tingkat hunian rata-rata tahunan, diukur dalam ton setara karbon dioksida per meter persegi (tCO2e/m2).",
+    "aspect": "GHG emission intensity calculation formula",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Detailed technical formula for calculating emission intensity without evaluative context."
+  },
+  {
+    "text": "Restatement diperlukan untuk Inland Tower Surabaya, 1Park, dan Aeropolis karena koreksi perhitungan pada sisi energi.",
+    "aspect": "emission data restatement due to calculation corrections",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical note about data correction without evaluative tone."
+  },
+  {
+    "text": "Perhitungan ulang diperlukan untuk 1Park, dan Aeropolis karena adanya koreksi perhitungan dan area Inland Tower Surabaya (ITS) yang lebih luas.",
+    "aspect": "recalculation of emission data",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical explanation of recalculation requirements without evaluative context."
+  },
+  {
+    "text": "Intensitas GRK di ITS lebih tersebut dibandingkan gedung lainnya terutama karena gedung tersebut ditempati oleh pusat data dan Internet Service Provider (ISP).",
+    "aspect": "higher emission intensity due to data center occupancy",
+    "labels": [
+      "climate-sentiment",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Explanatory statement about emission intensity variation without evaluative tone."
+  },
+  {
+    "text": "Air merupakan sumber daya yang terbatas yang menjadikan bumi sebagai planet biru.",
+    "aspect": "water as limited resource",
+    "labels": [
+      "climate-detection",
+      "environmental-claims"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Descriptive statement about water resource without evaluative context."
+  },
+  {
+    "text": "Ditekankan dalam Tujuan Pembangunan Berkelanjutan PBB sebagai Tujuan 6 - Memastikan ketersediaan dan manajemen air bersih dan sanitasi yang berkelanjutan bagi semua, Intiland berkomitmen untuk berperan dalam mencapai tujuan tersebut dengan secara progresif menerapkan system daur ulang air di properti kami yang sudah ada maupun pengembangan baru kami, dan terus melacak kemajuan kami dalam menuju masa depan yang lebih berkelanjutan.",
+    "aspect": "commitment to UN SDG 6 and water recycling",
+    "labels": [
+      "climate-commitment",
+      "strategy",
+      "environmental-claims"
+    ],
+    "esg": "E",
+    "sentiment": "commitment",
+    "sentiment_score": 0.5,
+    "reasoning": "Future-oriented commitment to sustainable water management and recycling systems."
+  },
+  {
+    "text": "Dengan bertanggung jawab dalam penggunaan air, Intiland juga berkontribusi dalam memastikan keamanan air di bulan-bulan kering serta mengurangi biaya yang dikeluarkan untuk penggunaan air.",
+    "aspect": "responsible water use benefits",
+    "labels": [
+      "opportunity",
+      "environmental-claims"
+    ],
+    "esg": "E",
+    "sentiment": "positive",
+    "sentiment_score": 1,
+    "reasoning": "Positive framing of water conservation benefits including cost reduction and water security."
+  },
+  {
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya.",
+    "aspect": "promotion of responsible water management",
+    "labels": [
+      "strategy",
+      "environmental-claims"
+    ],
+    "esg": "E",
+    "sentiment": "positive",
+    "sentiment_score": 1,
+    "reasoning": "Positive statement about collaborative approach to sustainable water management."
+  },
+  {
+    "text": "Konsumsi air total adalah jumlah volume semua penarikan air yang tidak dibuang ke system pembuangan kota.",
+    "aspect": "total water consumption definition",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical definition of water consumption metric without evaluative context."
+  },
+  {
+    "text": "Penarikan ini berasal dari semua sumber termasuk air komunal, sumur dalam, air hujan, dan air daur ulang.",
+    "aspect": "water consumption sources",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical description of water sources without evaluative tone."
+  },
+  {
+    "text": "Harap dicatat bahwa data konsumsi air ini tidak termasuk penggunaan air di area ritel.",
+    "aspect": "exclusion of retail water usage from data",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical note about data scope without evaluative context."
+  },
+  {
+    "text": "Untuk menghindari salah penafsiran atas istilah yang kami gunakan dalam bagian ini, dapat merujuk pada rumus berikut:",
+    "aspect": "clarification of terminology",
+    "labels": [
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical note about terminology without evaluative tone."
+  },
+  {
+    "text": "Konsumsi Air = pengambilan air - pembuangan air",
+    "aspect": "water consumption calculation formula",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical formula for water consumption calculation without evaluative context."
+  },
+  {
+    "text": "Pengambilan air = pasokan air kota + sumur dalam + air hujan + air daur ulang",
+    "aspect": "water withdrawal calculation formula",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Technical formula for water withdrawal calculation without evaluative context."
+  },
+  {
+    "text": "Konsumsi air secara keseluruhan di seluruh properti telah tetap relatif konsisten dibandingkan tahun sebelumnya.",
+    "aspect": "stable water consumption year-over-year",
+    "labels": [
+      "metrics",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Descriptive statement about water consumption stability without evaluative tone."
+  },
+  {
+    "text": "Stabilitas ini dapat dikaitkan dengan dua faktor utama: Pertama, kesamaan yang berkelanjutan dalam konsumsi air sebagian besar disebabkan oleh peningkatan tingkat hunian di seluruh properti.",
+    "aspect": "factors contributing to stable water consumption",
+    "labels": [
+      "climate-sentiment",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Explanatory statement about factors affecting water consumption without evaluative tone."
+  },
+  {
+    "text": "Jumlah penghuni yang lebih tinggi secara alami menghasilkan permintaan penggunaan air yang konsisten di seluruh properti.",
+    "aspect": "impact of occupancy on water demand",
+    "labels": [
+      "climate-sentiment",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "reasoning": "Explanatory statement about occupancy impact on water demand without evaluative tone."
+  },
+  {
+    "text": "Kedua, terjadi penurunan yang signifikan dalam penggunaan air khususnya di Aeropolis pada tahun 2023.",
+    "aspect": "significant water usage reduction in Aeropolis",
+    "labels": [
+      "climate-sentiment",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "positive",
+    "sentiment_score": 1,
+    "reasoning": "Positive framing of water usage reduction achievement."
+  },
+  {
+    "text": "Penurunan ini dapat ditelusuri kembali ke peristiwa penting yang terjadi pada pertengahan tahun 2023: perbaikan kebocoran besar pada pipa air bersih bawah tanah.",
+    "aspect": "water usage reduction due to leak repair",
+    "labels": [
+      "climate-sentiment",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "positive",
+    "sentiment_score": 1,
+    "reasoning": "Positive framing of water conservation achievement through infrastructure repair."
+  },
+  {
+    "text": "Awalnya terdeteksi menjelang akhir tahun 2022, kebocoran ini telah menyebabkan peningkatan besar dalam penarikan dan konsumsi air sepanjang tahun tersebut.",
+    "aspect": "impact of water leak on consumption",
+    "labels": [
+      "climate-sentiment",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "negative",
+    "sentiment_score": -1,
+    "reasoning": "Negative framing of water waste due to infrastructure failure."
+  },
+  {
+    "text": "Perbaikan ini berhasil memperbaiki masalah tersebut, menghasilkan peningkatan yang signifikan dalam upaya konservasi air di Aeropolis.",
+    "aspect": "successful leak repair leading to water conservation",
+    "labels": [
+      "climate-sentiment",
+      "climate-specificity"
+    ],
+    "esg": "E",
+    "sentiment": "positive",
+    "sentiment_score": 1,
+    "reasoning": "Positive framing of successful water conservation through infrastructure repair."
+  }
+]

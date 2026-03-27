@@ -1,0 +1,143 @@
+[
+  {
+    "timestamp": "2026-03-26T22:23:09.930683Z",
+    "source": "manual_input",
+    "input_text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "rule_based": {
+      "aspects": [
+        "General"
+      ],
+      "polarity": "Neutral",
+      "tone": "Outcome"
+    },
+    "classical_ml": {
+      "out_df": {
+        "Sentence_ID": {
+          "0": 1
+        },
+        "Sentence_Text": {
+          "0": "sama kita dapat mencapai keberlanjutan yang sesungguhnya"
+        },
+        "Section": {
+          "0": "General"
+        },
+        "Section_Type": {
+          "0": "General"
+        },
+        "Language": {
+          "0": "id"
+        },
+        "Aspect_Weak": {
+          "0": "General"
+        },
+        "Sentiment_Weak": {
+          "0": "Neutral"
+        },
+        "Tone_Weak": {
+          "0": "Outcome"
+        },
+        "Aspect_Pred": {
+          "0": "General"
+        },
+        "Sentiment_Pred": {
+          "0": "Neutral"
+        },
+        "Tone_Pred": {
+          "0": "Unknown"
+        },
+        "Ontology_Path": {
+          "0": "General → Misc"
+        }
+      },
+      "coef_sent": {
+        "Task": {},
+        "Class": {},
+        "Direction": {},
+        "Rank": {},
+        "Feature": {},
+        "Coefficient": {}
+      },
+      "coef_aspect": {
+        "Task": {},
+        "Class": {},
+        "Direction": {},
+        "Rank": {},
+        "Feature": {},
+        "Coefficient": {}
+      }
+    },
+    "deep_model": {
+      "ran": false
+    },
+    "hybrid_model": {
+      "out_df": [
+        {
+          "Sentence_ID": 0,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Outcome",
+          "Ontology_Alignment": -0.061313994228839874,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8612581491470337,
+          "tone_pred": 2,
+          "tone_score": 0.49494826793670654
+        },
+        {
+          "Sentence_ID": 1,
+          "Section": "General",
+          "Section_Type": "General",
+          "Sentence_Text": "sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+          "Sentiment_Pred": "Neutral",
+          "Tone_Pred": "Outcome",
+          "Ontology_Alignment": -0.07239916920661926,
+          "Ontology_Path": "General → Misc",
+          "sentiment_pred": 1,
+          "sentiment_score": 0.8603935241699219,
+          "tone_pred": 2,
+          "tone_score": 0.55085289478302
+        }
+      ],
+      "metrics": [
+        {
+          "Metric": "Ontology Consistency",
+          "Value": 0.0
+        },
+        {
+          "Metric": "Greenwashing Index",
+          "Value": 0.0
+        },
+        {
+          "Metric": "N Sentences",
+          "Value": 2.0
+        },
+        {
+          "Metric": "Sections",
+          "Value": 1.0
+        }
+      ]
+    },
+    "explainability": {
+      "compare_df": {
+        "Sentence_Text": {
+          "0": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama",
+          "1": "sama kita dapat mencapai keberlanjutan yang sesungguhnya"
+        },
+        "Sentiment": {
+          "0": "Neutral",
+          "1": "Neutral"
+        },
+        "Tone": {
+          "0": "Outcome",
+          "1": "Outcome"
+        },
+        "Model": {
+          "0": "Hybrid",
+          "1": "Hybrid"
+        }
+      }
+    }
+  }
+]

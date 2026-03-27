@@ -1,0 +1,189 @@
+[
+  {
+    "timestamp": "2026-03-26T22:22:26.684405Z",
+    "model": "econbert",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "econbert",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Error: Unrecognized model in climatebert/econbert. Should have a `model_type` key in its config.json. (Check input length or model card for details)."
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:31.962353Z",
+    "model": "econbert",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "econbert",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Error: Unrecognized model in climatebert/econbert. Should have a `model_type` key in its config.json. (Check input length or model card for details)."
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:34.014368Z",
+    "model": "controversy-classification",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "controversy-classification",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Error: Unrecognized model in climatebert/ClimateControversyBERT_classification. Should have a `model_type` key in its config.json. (Check input length or model card for details)."
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:36.203279Z",
+    "model": "controversy-bert",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "controversy-bert",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Error: Unrecognized model in climatebert/ClimateControversyBert. Should have a `model_type` key in its config.json. (Check input length or model card for details)."
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:38.237373Z",
+    "model": "netzero-reduction",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "netzero-reduction",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nnone: 0.52"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:40.401681Z",
+    "model": "transition-physical",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "transition-physical",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nPhysical risk: 1.00"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:42.701673Z",
+    "model": "renewable",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "renewable",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nNot about renewables: 1.00"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:44.970284Z",
+    "model": "climate-detector",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-detector",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nno: 0.94"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:47.306283Z",
+    "model": "climate-commitment",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-commitment",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nno: 0.80"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:49.413969Z",
+    "model": "climate-tcfd",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-tcfd",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nstrategy: 0.56"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:51.475942Z",
+    "model": "climate-s",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-s",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nLABEL_0: 0.52"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:53.521310Z",
+    "model": "climate-specificity",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-specificity",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nspec: 0.60"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:55.587913Z",
+    "model": "climate-sentiment",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-sentiment",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nneutral: 0.58"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:22:58.130932Z",
+    "model": "environmental-claims",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "environmental-claims",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nno: 1.00"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:23:00.423071Z",
+    "model": "climate-f",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-f",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nLABEL_1: 0.53"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:23:02.672272Z",
+    "model": "climate-d-s",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-d-s",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nLABEL_0: 0.54"
+    }
+  },
+  {
+    "timestamp": "2026-03-26T22:23:04.752719Z",
+    "model": "climate-d",
+    "source": "manual_input",
+    "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+    "result": {
+      "model": "climate-d",
+      "text": "Intiland secara aktif mempromosikan manajemen air yang bertanggung jawab baik dalam kegiatan korporat kami maupun kepada penyewa dan/atau penghuni kami, karena setiap pemangku kepentingan memiliki peran yang harus dimainkan dan bahwa hanya bersama-sama kita dapat mencapai keberlanjutan yang sesungguhnya",
+      "prediction": "Predictions for 'Intiland secara aktif mempromosikan manajemen air ...':\nLABEL_0: 0.51"
+    }
+  }
+]
