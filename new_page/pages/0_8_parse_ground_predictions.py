@@ -195,18 +195,20 @@ else:
     st.altair_chart(box, use_container_width=True)
 
 # 3) Scatter: top_score vs top_label (for selected model)
-st.markdown("### Top-score per top-label (scatter)")
+st.markdown("### Top-score per model (scatter)")
 scatter_src = viz_df.dropna(subset=["top_score"]).copy()
 if scatter_src.empty:
     st.info("No numeric top_score values for the selected model.")
 else:
     scatter_src["top_label_short"] = scatter_src["top_label"].fillna("").apply(lambda x: x if len(x) < 80 else x[:77] + "…")
-    scatter = alt.Chart(scatter_src).mark_circle(size=80, opacity=0.7).encode(
+    # preserve model order for plotting
+    models_order = list(dict.fromkeys(scatter_src["model"].tolist()))
+    scatter = alt.Chart(scatter_src).mark_circle(size=80, opacity=0.8).encode(
         x=alt.X("top_score:Q", title="Top score"),
-        y=alt.Y("top_label_short:N", sort="-x", title="Top label"),
-        color=alt.Color("model:N"),
+        y=alt.Y("model:N", sort=models_order, title="Model"),
+        color=alt.Color("top_label_short:N", title="Top label"),
         tooltip=["idx","timestamp","model","text","top_label","top_score"]
-    ).interactive().properties(height=min(800, 30 * len(scatter_src["top_label_short"].unique())))
+    ).interactive().properties(height=min(800, 40 * len(models_order)))
     st.altair_chart(scatter, use_container_width=True)
 
 # 4) Summary table per model
