@@ -23,7 +23,7 @@ except Exception as e:
 # PATHS
 # ───────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parents[1]
-DATA_PATH = ROOT / "results" / "example.json"
+DATA_PATH = ROOT / "results" / "example.json" #  "example.json"
 RESULTS_DIR = ROOT / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 

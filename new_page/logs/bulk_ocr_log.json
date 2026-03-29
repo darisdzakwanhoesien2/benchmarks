@@ -1,0 +1,32 @@
+{
+  "alfamart_sustainability_2025.pdf": {
+    "status": "done",
+    "pages": 510,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/alfamart_sustainability_2025_pdf/ocr_result.json",
+    "time": "2026-03-28 17:05:41"
+  },
+  "IR_2024_AGII_submission.pdf": {
+    "status": "done",
+    "pages": 460,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/IR_2024_AGII_submission_pdf/ocr_result.json",
+    "time": "2026-03-28 17:13:43"
+  },
+  "sustainability-report-pt-smi-2024.pdf": {
+    "status": "done",
+    "pages": 354,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/sustainability-report-pt-smi-2024_pdf/ocr_result.json",
+    "time": "2026-03-29 14:44:42"
+  },
+  "DSNG-Sustainability-Report-24-EN-FinCir-13052025.pdf": {
+    "status": "done",
+    "pages": 132,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/DSNG-Sustainability-Report-24-EN-FinCir-13052025_pdf/ocr_result.json",
+    "time": "2026-03-29 14:44:58"
+  },
+  "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825.pdf": {
+    "status": "done",
+    "pages": 482,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/ocr_result.json",
+    "time": "2026-03-29 14:45:44"
+  }
+}
