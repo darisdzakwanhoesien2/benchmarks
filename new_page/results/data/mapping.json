@@ -7,10 +7,17 @@
   "s": "S",
   "governance": "G",
   "g": "G",
-  "positive": "positive",
-  "strategy": "strategy",
   "none": "none",
   "other": "other",
-  "sosial": "S"
-
-}
+  "sosial": "S",
+  "es": "e/s",
+  "e/s/g": "esg",
+  "e, s, g": "esg",
+  "e, s": "e/s",
+  "n": "none",
+  "o": "opportunity",
+  "tata kelola": "governance",
+  "positive": "others",
+  "strategy": "others",
+  "opportunity": "others",
+  "climate-d": "others"}

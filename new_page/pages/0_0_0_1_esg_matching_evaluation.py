@@ -313,6 +313,21 @@ def main():
         ax3.set_ylabel("esg_group")
         st.pyplot(fig3)
 
+        # ========================================================
+        # 📋 Heatmap table + CSV download (added)
+        # ========================================================
+        st.markdown("### 📋 Heatmap — underlying counts")
+        heatmap_table = pivot.reset_index().rename_axis(None, axis=1)
+        st.dataframe(heatmap_table, use_container_width=True)
+
+        csv_bytes = heatmap_table.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            "Download heatmap table CSV",
+            data=csv_bytes,
+            file_name="esg_pred_heatmap.csv",
+            mime="text/csv",
+        )
+
         st.markdown("### 🎯 Confidence by Label")
         fig4, ax4 = plt.subplots()
         sns.boxplot(data=matched_df, x="pred_label", y="pred_score", ax=ax4)
