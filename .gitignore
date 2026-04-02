@@ -2,6 +2,7 @@
 new_page/.env
 __pycache__/
 *.pyc
+new_page/bulk_ocr_outputs.zip
 
 data/ground_truth_windows/tmp*
 *.tmp
