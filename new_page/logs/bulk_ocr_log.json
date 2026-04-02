@@ -76,5 +76,29 @@
     "pages": 694,
     "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/Bank Neo Commerce Annual and Sustainable Report Tahun 2024_pdf/ocr_result.json",
     "time": "2026-04-02 08:57:02"
+  },
+  "INTEGRA_IR2024_29APR25_FINAL_lores.pdf": {
+    "status": "done",
+    "pages": 293,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/INTEGRA_IR2024_29APR25_FINAL_lores_pdf/ocr_result.json",
+    "time": "2026-04-02 15:36:41"
+  },
+  "growing-together-to-achieve-a-better-impacts-1737540363.pdf": {
+    "status": "done",
+    "pages": 101,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/growing-together-to-achieve-a-better-impacts-1737540363_pdf/ocr_result.json",
+    "time": "2026-04-02 15:36:57"
+  },
+  "collaboration-for-better-engagement-1737540448.pdf": {
+    "status": "done",
+    "pages": 78,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/collaboration-for-better-engagement-1737540448_pdf/ocr_result.json",
+    "time": "2026-04-02 15:37:15"
+  },
+  "vktr_ar_sr_2024.pdf": {
+    "status": "done",
+    "pages": 548,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/vktr_ar_sr_2024_pdf/ocr_result.json",
+    "time": "2026-04-02 15:38:20"
   }
 }
