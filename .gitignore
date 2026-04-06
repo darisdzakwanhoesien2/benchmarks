@@ -27,6 +27,7 @@ data/ground_truth_windows/tmp*
 
 # Entire models directory (safest - keeps all models out of Git)
 model_download/models/
+*.safetensors
 
 # Optional: only ignore specific model folders if you want to keep others
 # model_download/models/distilroberta-base-climate-f/
