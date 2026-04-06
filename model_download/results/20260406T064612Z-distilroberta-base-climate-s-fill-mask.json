@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-04-06T06:46:12.947848Z",
+  "resolved_folder": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/model_download/models/distilroberta-base-climate-s",
+  "task": "fill-mask",
+  "input_text": "The company's sustainability claim was <mask> about emissions.",
+  "params": {
+    "top_k": 5
+  },
+  "results": [
+    {
+      "score": 0.1807241588830948,
+      "token": 45,
+      "token_str": " not",
+      "sequence": "The company's sustainability claim was not about emissions."
+    },
+    {
+      "score": 0.13121244311332703,
+      "token": 70,
+      "token_str": " all",
+      "sequence": "The company's sustainability claim was all about emissions."
+    },
+    {
+      "score": 0.0907551571726799,
+      "token": 2260,
+      "token_str": " mostly",
+      "sequence": "The company's sustainability claim was mostly about emissions."
+    },
+    {
+      "score": 0.08408647030591965,
+      "token": 4212,
+      "token_str": " primarily",
+      "sequence": "The company's sustainability claim was primarily about emissions."
+    },
+    {
+      "score": 0.058855295181274414,
+      "token": 9382,
+      "token_str": " solely",
+      "sequence": "The company's sustainability claim was solely about emissions."
+    }
+  ]
+}

@@ -513,12 +513,51 @@ with st.sidebar:
         st.warning(f"No .md files in `{PROMPT_DIR}`")
     else:
         prompt_names = [p.name for p in prompt_files]
-        # default to data.md if present
+
+        # --- Show a numbered list for easy reference
+        st.markdown("**Available prompt templates (numbered):**")
+        for i, nm in enumerate(prompt_names, start=1):
+            st.markdown(f"{i}. `{nm}`")
+
+        # --- Allow selection by typing 1-based indices (e.g. 1,2,4,5,6)
+        if "_applied_prompt_names" not in st.session_state:
+            st.session_state["_applied_prompt_names"] = None
+
+        index_input = st.text_input(
+            "Select prompts by number (comma-separated, 1-based). Example: 1,2,4,5,6",
+            value="",
+            key="prompt_index_input",
+        )
+
+        if st.button("Apply indices"):
+            chosen = []
+            try:
+                nums = [int(x.strip()) for x in index_input.split(",") if x.strip()]
+                for n in nums:
+                    if 1 <= n <= len(prompt_names):
+                        chosen.append(prompt_names[n - 1])
+                st.session_state["_applied_prompt_names"] = chosen
+                st.success(f"Applied indices → {chosen}")
+            except Exception:
+                st.error("Invalid input. Use comma-separated numbers, e.g. 1,2,4")
+
+        # --- Quick preset button for common selection (example: 1,2,4,5,6)
+        if st.button("Quick select 7,8,9,10,11,12"):
+            preset = []
+            for n in (7, 8, 9, 10, 11, 12):
+                if 1 <= n <= len(prompt_names):
+                    preset.append(prompt_names[n - 1])
+            st.session_state["_applied_prompt_names"] = preset
+            st.success(f"Preset applied → {preset}")
+
+        # default selection logic (preserve order if indices were applied)
         default = ["data.md"] if "data.md" in prompt_names else [prompt_names[0]]
+        applied = st.session_state.get("_applied_prompt_names") or default
+
         selected_prompt_names = st.multiselect(
             "Select prompt(s) — choose one or more (order matters)",
             prompt_names,
-            default=default,
+            default=applied,
         )
         selected_prompt_paths = [PROMPT_DIR / n for n in selected_prompt_names]
 

@@ -100,5 +100,41 @@
     "pages": 548,
     "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/vktr_ar_sr_2024_pdf/ocr_result.json",
     "time": "2026-04-02 15:38:20"
+  },
+  "SR-Astrindo-2024-FINAL-_-highres.pdf": {
+    "status": "done",
+    "pages": 139,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/SR-Astrindo-2024-FINAL-_-highres_pdf/ocr_result.json",
+    "time": "2026-04-03 17:44:47"
+  },
+  "BEST-SR_2024.pdf": {
+    "status": "done",
+    "pages": 75,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/BEST-SR_2024_pdf/ocr_result.json",
+    "time": "2026-04-03 17:45:07"
+  },
+  "Blibli_Tiket_Sustainbility_Report-2024.pdf": {
+    "status": "done",
+    "pages": 105,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/Blibli_Tiket_Sustainbility_Report-2024_pdf/ocr_result.json",
+    "time": "2026-04-03 17:45:26"
+  },
+  "AR SR GTRA 2024__.pdf": {
+    "status": "done",
+    "pages": 266,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/AR SR GTRA 2024___pdf/ocr_result.json",
+    "time": "2026-04-04 15:00:11"
+  },
+  "AR_GRPM_2024.pdf": {
+    "status": "done",
+    "pages": 234,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/AR_GRPM_2024_pdf/ocr_result.json",
+    "time": "2026-04-04 15:00:43"
+  },
+  "SR HOKI 2021_V5_opt.pdf": {
+    "status": "done",
+    "pages": 73,
+    "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/SR HOKI 2021_V5_opt_pdf/ocr_result.json",
+    "time": "2026-04-04 15:01:15"
   }
 }

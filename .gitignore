@@ -3,6 +3,16 @@ new_page/.env
 __pycache__/
 *.pyc
 new_page/bulk_ocr_outputs.zip
-new_page/bulk_ocr_outputs.zip
 data/ground_truth_windows/tmp*
 *.tmp
+
+model_download/models/distilroberta-base-climate-f/pytorch_model.bin
+model_download/models/distilroberta-base-climate-f/pytorch_model.bin
+model_download/models/distilroberta-base-climate-s/pytorch_model.bin
+model_download/models/distilroberta-base-climate-s/pytorch_model.bin
+model_download/models/distilroberta-base-climate-sentiment/pytorch_model.bin
+model_download/models/distilroberta-base-climate-sentiment/pytorch_model.bin
+model_download/models/environmental-claims/pytorch_model.bin
+model_download/models/environmental-claims/pytorch_model.bin
+
+model_download/models/ClimateControversyBERT_classification/model_classification/model.safetensors
