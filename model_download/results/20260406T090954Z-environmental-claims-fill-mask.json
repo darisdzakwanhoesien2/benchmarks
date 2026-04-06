@@ -1,0 +1,40 @@
+{
+  "model_label": "environmental-claims",
+  "resolved_path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/model_download/models/environmental-claims",
+  "started_at": "2026-04-06T09:10:19.369326Z",
+  "success": true,
+  "error": null,
+  "results": [
+    {
+      "score": 0.08891425281763077,
+      "token": 37491,
+      "token_str": " EXT",
+      "sequence": "The company's sustainability claim was EXT about emissions."
+    },
+    {
+      "score": 0.05703584477305412,
+      "token": 30362,
+      "token_str": "itiz",
+      "sequence": "The company's sustainability claim wasitiz about emissions."
+    },
+    {
+      "score": 0.05658631771802902,
+      "token": 25852,
+      "token_str": " SPR",
+      "sequence": "The company's sustainability claim was SPR about emissions."
+    },
+    {
+      "score": 0.05603849142789841,
+      "token": 19621,
+      "token_str": "ANE",
+      "sequence": "The company's sustainability claim wasANE about emissions."
+    },
+    {
+      "score": 0.04678437486290932,
+      "token": 40105,
+      "token_str": "toc",
+      "sequence": "The company's sustainability claim wastoc about emissions."
+    }
+  ],
+  "finished_at": "2026-04-06T09:10:24.064444Z"
+}
