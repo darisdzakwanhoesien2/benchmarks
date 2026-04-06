@@ -1,100 +1,151 @@
+# Environment variables
 .env
 new_page/.env
+
+# Python cache and compiled files
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Temporary and output files
 new_page/bulk_ocr_outputs.zip
 data/ground_truth_windows/tmp*
 *.tmp
+*.log
+*.temp
 
-model_download/models/distilroberta-base-climate-f/pytorch_model.bin
-model_download/models/distilroberta-base-climate-f/pytorch_model.bin
-model_download/models/distilroberta-base-climate-s/pytorch_model.bin
-model_download/models/distilroberta-base-climate-s/pytorch_model.bin
-model_download/models/distilroberta-base-climate-sentiment/pytorch_model.bin
-model_download/models/distilroberta-base-climate-sentiment/pytorch_model.bin
-model_download/models/environmental-claims/pytorch_model.bin
-model_download/models/environmental-claims/pytorch_model.bin
-
-model_download/models/ClimateControversyBERT_classification/model_classification/model.safetensors
-
-cat << 'EOF' > .gitignore
-# ======================
-# Large Model Files (GitHub 100MB limit)
-# ======================
+# Large model files (GitHub rejects anything > 100 MB)
 *.safetensors
 *.bin
 *.pt
 *.pth
 *.onnx
 *.h5
-*.model
 *.ckpt
+*.model
 
-# Specific model folders (recommended to keep models out of Git)
+# Entire models directory (safest - keeps all models out of Git)
 model_download/models/
 
-# Or only specific subfolders if you want to keep some models
+# Optional: only ignore specific model folders if you want to keep others
+# model_download/models/distilroberta-base-climate-f/
 # model_download/models/distilroberta-base-climate-s/
 # model_download/models/distilroberta-base-climate-sentiment/
 # model_download/models/environmental-claims/
-# model_download/models/distilroberta-base-climate-f/
 
-# ======================
-# Common ignores for benchmarks / ML projects
-# ======================
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual environments
-.venv/
-venv/
-ENV/
-env/
-ENV/
-
-# IDEs and editors
+# IDE and OS files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-
-# OS generated files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
-# Logs and temporary files
-*.log
-*.tmp
-*.temp
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
 
-# Benchmark / output folders (add more if needed)
-outputs/
-results/
-checkpoints/
-cache/
-EOF
+# .env
+# new_page/.env
+# __pycache__/
+# *.pyc
+# new_page/bulk_ocr_outputs.zip
+# data/ground_truth_windows/tmp*
+# *.tmp
+
+# model_download/models/distilroberta-base-climate-f/pytorch_model.bin
+# model_download/models/distilroberta-base-climate-f/pytorch_model.bin
+# model_download/models/distilroberta-base-climate-s/pytorch_model.bin
+# model_download/models/distilroberta-base-climate-s/pytorch_model.bin
+# model_download/models/distilroberta-base-climate-sentiment/pytorch_model.bin
+# model_download/models/distilroberta-base-climate-sentiment/pytorch_model.bin
+# model_download/models/environmental-claims/pytorch_model.bin
+# model_download/models/environmental-claims/pytorch_model.bin
+
+# model_download/models/ClimateControversyBERT_classification/model_classification/model.safetensors
+
+# cat << 'EOF' > .gitignore
+# # ======================
+# # Large Model Files (GitHub 100MB limit)
+# # ======================
+# *.safetensors
+# *.bin
+# *.pt
+# *.pth
+# *.onnx
+# *.h5
+# *.model
+# *.ckpt
+
+# # Specific model folders (recommended to keep models out of Git)
+# model_download/models/
+
+# # Or only specific subfolders if you want to keep some models
+# # model_download/models/distilroberta-base-climate-s/
+# # model_download/models/distilroberta-base-climate-sentiment/
+# # model_download/models/environmental-claims/
+# # model_download/models/distilroberta-base-climate-f/
+
+# # ======================
+# # Common ignores for benchmarks / ML projects
+# # ======================
+# # Python
+# __pycache__/
+# *.py[cod]
+# *$py.class
+# *.so
+# .Python
+# build/
+# develop-eggs/
+# dist/
+# downloads/
+# eggs/
+# .eggs/
+# lib/
+# lib64/
+# parts/
+# sdist/
+# var/
+# wheels/
+# *.egg-info/
+# .installed.cfg
+# *.egg
+
+# # Virtual environments
+# .venv/
+# venv/
+# ENV/
+# env/
+# ENV/
+
+# # IDEs and editors
+# .vscode/
+# .idea/
+# *.swp
+# *.swo
+# *~
+
+# # OS generated files
+# .DS_Store
+# .DS_Store?
+# ._*
+# .Spotlight-V100
+# .Trashes
+# ehthumbs.db
+# Thumbs.db
+
+# # Logs and temporary files
+# *.log
+# *.tmp
+# *.temp
+
+# # Benchmark / output folders (add more if needed)
+# outputs/
+# results/
+# checkpoints/
+# cache/
+# EOF
