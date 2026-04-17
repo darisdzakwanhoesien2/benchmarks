@@ -665,56 +665,99 @@ else:
                 "Use this to focus extraction on specific pages."
             )
 
+            # --- new: selection sub-mode (All / Multi / Range) ---
             selection_mode = st.radio(
-                "Page selection", ["All pages", "Select specific pages"],
+                "Page selection",
+                ["All pages", "Select specific pages"],
                 horizontal=True,
                 key="page_selection_radio",
             )
 
             if selection_mode == "All pages":
                 chosen_pages = all_page_files
+                st.info(f"Selected: All {len(chosen_pages)} pages")
             else:
-                chosen_names = st.multiselect(
-                    "Select page(s)", page_names,
-                    default=[page_names[0]],
-                    key="page_multiselect",
-                )
-                chosen_pages = [pages_dir / n for n in chosen_names]
-
-                # Add batch size selector
-                batch_size = st.number_input(
-                    "Batch size (pages per group)", min_value=1, max_value=len(chosen_pages), value=2, step=1
+                # choose how to pick specific pages
+                select_mode = st.radio(
+                    "Choose pages by",
+                    ["Multi-select", "Range"],
+                    horizontal=True,
+                    index=0,
+                    key="page_pick_mode",
                 )
 
-                # Split chosen_pages into batches
-                def batch_pages(pages, size):
-                    return [pages[i:i+size] for i in range(0, len(pages), size)]
+                if select_mode == "Multi-select":
+                    chosen_names = st.multiselect(
+                        "Select page(s)",
+                        page_names,
+                        default=[page_names[0]] if page_names else [],
+                        key="page_multiselect",
+                    )
+                    chosen_pages = [pages_dir / n for n in chosen_names]
+                    st.info(f"Selected {len(chosen_pages)} page(s) via multi-select")
 
-                page_batches = batch_pages(chosen_pages, batch_size)
+                else:  # Range mode
+                    # 1-based slider for user friendliness
+                    max_idx = max(1, len(page_names))
+                    default_end = min( min(10, max_idx), max_idx )
+                    start_end = st.slider(
+                        "Select page range (1-based indices)",
+                        min_value=1,
+                        max_value=max_idx,
+                        value=(1, default_end),
+                        step=1,
+                        format="%d",
+                        key="page_range_slider",
+                    )
+                    start_idx, end_idx = start_end
+                    # convert to 0-based slice
+                    start0, end0 = start_idx - 1, end_idx
+                    chosen_pages = all_page_files[start0:end0]
+                    st.info(f"Selected {len(chosen_pages)} page(s) — indices {start_idx}..{end_idx}")
 
-                st.info(f"Processing {len(page_batches)} batch(es) of {batch_size} page(s) each.")
+                # Add batch size selector (applies to chosen_pages)
+                if chosen_pages:
+                    batch_size = st.number_input(
+                        "Batch size (pages per group)",
+                        min_value=1,
+                        max_value=len(chosen_pages),
+                        value=min(2, len(chosen_pages)),
+                        step=1,
+                    )
 
-                # Preview batches
-                with st.expander("Preview batches", expanded=False):
-                    for idx, batch in enumerate(page_batches, 1):
-                        st.markdown(f"**Batch {idx}:** {[p.name for p in batch]}")
+                    # Split chosen_pages into batches
+                    def batch_pages(pages, size):
+                        return [pages[i:i+size] for i in range(0, len(pages), size)]
 
-                # Process ALL batches (recursively) — create one texts_to_process entry per batch
-                texts_to_process = [
-                    {
-                        "label": f"{selected_doc}/batch_{idx+1}",
-                        "text": "\n\n".join(p.read_text(encoding="utf-8").strip() for p in batch if p.read_text(encoding="utf-8").strip())
-                    }
-                    for idx, batch in enumerate(page_batches)
-                ]
+                    page_batches = batch_pages(chosen_pages, batch_size)
+                    st.info(f"Processing {len(page_batches)} batch(es) of {batch_size} page(s) each.")
 
-                # Also expose for components that expect selected_page_texts (a list of page-like dicts)
-                # For batch-level processing we keep selected_page_texts as the flattened pages of the first batch
-                selected_page_texts = [
-                    {"label": f"{selected_doc}/{p.name}", "text": p.read_text(encoding="utf-8").strip()}
-                    for p in page_batches[0]
-                    if p.read_text(encoding="utf-8").strip()
-                ]
+                    # Preview batches
+                    with st.expander("Preview batches", expanded=False):
+                        for idx, batch in enumerate(page_batches, 1):
+                            st.markdown(f"**Batch {idx}:** {[p.name for p in batch]}")
+
+                    # Build texts_to_process (one entry per batch)
+                    texts_to_process = [
+                        {
+                            "label": f"{selected_doc}/batch_{idx+1}",
+                            "text": "\n\n".join(
+                                p.read_text(encoding="utf-8").strip() for p in batch if p.read_text(encoding="utf-8").strip()
+                            )
+                        }
+                        for idx, batch in enumerate(page_batches)
+                    ]
+
+                    # Expose selected_page_texts as pages for the first batch (for preview components)
+                    selected_page_texts = [
+                        {"label": f"{selected_doc}/{p.name}", "text": p.read_text(encoding="utf-8").strip()}
+                        for p in page_batches[0]
+                        if p.read_text(encoding="utf-8").strip()
+                    ]
+                else:
+                    # no chosen pages
+                    texts_to_process = []
+                    selected_page_texts = []
 # RUN SUMMARY
 # ══════════════════════════════════════════════════════════════════════════════
 if texts_to_process:

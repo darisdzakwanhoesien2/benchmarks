@@ -52,6 +52,39 @@ def load_tokenizer_safe(local_path: str):
     except Exception as e:
         return None, str(e)
 
+def merge_existing_per_model_jsons(results_dir: Path, output_name: str = None) -> Optional[Path]:
+    """
+    Read JSON files in results_dir that look like per-model results and combine into one JSON.
+    Returns path to combined JSON or None on failure/none found.
+    """
+    files = sorted(results_dir.glob("*.json"))
+    per_model_files = []
+    for f in files:
+        try:
+            payload = json.loads(f.read_text(encoding="utf8"))
+        except Exception:
+            continue
+        # heuristic: per-model results contain keys like 'model_label' or 'resolved_path'
+        if isinstance(payload, dict) and ("model_label" in payload or ("models" in payload and isinstance(payload.get("models"), list))):
+            # if payload already a combined bulk, skip
+            if payload.get("task") and payload.get("models"):
+                # treat as combined -> include its models
+                per_model_files.extend(payload.get("models", []))
+            elif "model_label" in payload:
+                per_model_files.append(payload)
+    if not per_model_files:
+        return None
+    combined = {
+        "merged_at": datetime.utcnow().isoformat() + "Z",
+        "source_files": [str(f.name) for f in files],
+        "models": per_model_files
+    }
+    if output_name is None:
+        output_name = f"{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}-merged-results.json"
+    out_path = results_dir / output_name
+    out_path.write_text(json.dumps(combined, ensure_ascii=False, indent=2), encoding="utf8")
+    return out_path
+
 # ---- discover models ----
 candidates = find_all_model_dirs(ROOT_MODELS_DIR)
 if not candidates:
@@ -78,9 +111,9 @@ col1, col2 = st.columns([1,3])
 with col1:
     run_button = st.button("Run bulk inference")
 with col2:
-    st.info(f"Will run across {len(selected_paths)} model(s). Results saved to `{RESULTS_DIR}` after completion.")
+    st.info(f"Will run across {len(selected_paths)} model(s). A single combined JSON will be saved to `{RESULTS_DIR}` after completion.")
 
-# ---- run bulk inference ----
+# ---- run bulk inference (save only one combined JSON) ----
 if run_button:
     if not selected_paths:
         st.error("No models selected.")
@@ -136,7 +169,6 @@ if run_button:
                                 model_entry["results"] = res
                                 model_entry["success"] = True
                                 st.success("Inference completed")
-                                # brief display
                                 st.write(res if isinstance(res, list) and len(res) < 10 else f"Returned {len(res)} items")
                         except Exception as e:
                             model_entry["error"] = str(e)
@@ -146,25 +178,13 @@ if run_button:
             model_entry["finished_at"] = datetime.utcnow().isoformat() + "Z"
             combined_results["models"].append(model_entry)
 
-            # save per-model JSON
-            try:
-                per_fname = f"{timestamp}-{model_entry['model_label'].replace('/', '_')}-{task}.json"
-                per_path = RESULTS_DIR / per_fname
-                with per_path.open("w", encoding="utf8") as f:
-                    json.dump(model_entry, f, ensure_ascii=False, indent=2)
-                st.markdown(f"Saved per-model results → `{per_path}`")
-                st.download_button(f"Download per-model JSON ({model_entry['model_label']})", data=per_path.read_bytes(), file_name=per_fname, mime="application/json")
-            except Exception as e:
-                st.error(f"Failed to save per-model JSON: {e}")
-
             # update overall progress
             overall_progress.progress(int((idx / num_models) * 100))
-            # small sleep so UI updates smoothly
             time.sleep(0.2)
 
-        # save combined JSON
+        # save single combined JSON only
         try:
-            combined_fname = f"{timestamp}-bulk-{task}.json"
+            combined_fname = f"{timestamp}-bulk-{task}-combined.json"
             combined_path = RESULTS_DIR / combined_fname
             with combined_path.open("w", encoding="utf8") as f:
                 json.dump(combined_results, f, ensure_ascii=False, indent=2)
@@ -174,4 +194,16 @@ if run_button:
             st.error(f"Failed to save combined JSON: {e}")
 
 st.divider()
-st.caption("Bulk inference saves per-model and combined JSON files under the `results` folder. Use the downloader page to get full HF repo snapshots (config.json + weights) if needed.")
+
+# ---- utility: merge existing per-model JSONs into one combined JSON ----
+with st.expander("Merge existing per-model JSONs into a single combined JSON", expanded=False):
+    st.markdown("This will scan the results folder for JSON files that look like per-model outputs and merge them into a single JSON.")
+    if st.button("Merge now"):
+        merged = merge_existing_per_model_jsons(RESULTS_DIR)
+        if merged:
+            st.success(f"Merged results saved → `{merged}`")
+            st.download_button("Download merged JSON", data=merged.read_bytes(), file_name=merged.name, mime="application/json")
+        else:
+            st.info("No suitable per-model JSON files found to merge.")
+
+st.caption("Bulk inference saves a single combined JSON file. Use the merge utility to combine older per-model JSON files if needed.")

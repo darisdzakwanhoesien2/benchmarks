@@ -2,7 +2,9 @@ import os
 import json
 from pathlib import Path
 from datetime import datetime
-from typing import Any, Set, Tuple, List
+from typing import Any, Set, Tuple, List, Dict, Optional
+import time
+import traceback
 
 import streamlit as st
 
@@ -22,7 +24,7 @@ except Exception as e:
 # PATHS
 # ───────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parents[1]
-DATA_PATH = ROOT / "results" / "esg_records.json" # "esg_records.json"
+DATA_PATH = ROOT / "results" / "esg_records.json"
 RESULTS_DIR = ROOT / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
@@ -114,6 +116,54 @@ def load_processed_t2(path: Path) -> Set[str]:
 
 
 # ───────────────────────────────────────────────────────────────
+# LOCAL MODEL HELPERS (reuse bulk inference patterns)
+# ───────────────────────────────────────────────────────────────
+
+# Fix: point to the actual model_download/models directory
+ROOT_MODELS_DIR = Path(__file__).parents[2] / "model_download" / "models"
+
+def looks_like_model_dir(p: Path) -> bool:
+    return any((p / fn).exists() for fn in ("config.json", "pytorch_model.bin", "model.safetensors"))
+
+def find_all_model_dirs(root: Path) -> List[Path]:
+    """
+    Recursively find directories that contain HF model files.
+    Returns the directory that *directly* contains config.json / weights.
+    """
+    if not root.exists():
+        return []
+    found = set()
+    # primary: find by config.json presence (most reliable)
+    for f in root.rglob("config.json"):
+        if f.is_file():
+            found.add(f.parent.resolve())
+    # secondary: find by weight files if no config found
+    for name in ("pytorch_model.bin", "model.safetensors", "tf_model.h5"):
+        for f in root.rglob(name):
+            if f.is_file():
+                found.add(f.parent.resolve())
+    return sorted(found)
+
+@st.cache_resource(show_spinner=False)
+def load_pipeline_safe(task: str, local_path: str):
+    try:
+        from transformers import pipeline
+        pipe = pipeline(task, model=local_path, tokenizer=local_path)
+        return pipe, None
+    except Exception as e:
+        return None, str(e)
+
+@st.cache_resource(show_spinner=False)
+def load_tokenizer_safe(local_path: str):
+    try:
+        from transformers import AutoTokenizer
+        tok = AutoTokenizer.from_pretrained(local_path, use_fast=True)
+        return tok, None
+    except Exception as e:
+        return None, str(e)
+
+
+# ───────────────────────────────────────────────────────────────
 # LOAD DATA
 # ───────────────────────────────────────────────────────────────
 if not DATA_PATH.exists():
@@ -190,6 +240,7 @@ if missing_text_count:
 with st.expander("📄 Preview extracted texts"):
     st.json(texts[:10])
 
+
 # ───────────────────────────────────────────────────────────────
 # SIDEBAR
 # ───────────────────────────────────────────────────────────────
@@ -201,30 +252,61 @@ with st.sidebar:
 
     resume_mode = st.checkbox("Resume from previous run", True)
 
-    # --- Auto-select free models when ClimateBERT available (or fallback to cached list)
+    # T1 backend selection
+    t1_backend = st.radio("T1 backend", ("ClimateBERT API", "Local models"), index=0)
+
+    # --- ClimateBERT API models ---
     connected = ClimateBERTClient is not None and not _climatebert_error
     available_models: List[str] = []
     if connected:
         try:
-            # attempt a light-weight instantiation to get available_models
             _api_tmp = ClimateBERTClient()
             available_models = getattr(_api_tmp, "available_models", []) or []
         except Exception:
             available_models = []
 
     model_options = available_models or _cached_models or []
-    # determine "free" models by ':free' marker or 'free' substring
     free_candidates = [m for m in model_options if (":free" in m) or ("free" in m.lower())]
     default_model_selection = free_candidates if free_candidates else (model_options[:6] if model_options else [])
 
-    selected_models = st.multiselect(
-        "Model(s) (select)",
-        options=model_options,
-        default=default_model_selection,
-        help="If ClimateBERT is available this will prefer free models automatically."
-    )
+    if t1_backend == "ClimateBERT API":
+        selected_models = st.multiselect(
+            "ClimateBERT Model(s)",
+            options=model_options,
+            default=default_model_selection,
+        )
+        selected_local: List[str] = []
+    else:
+        selected_models = []
+        # Local model discovery
+        local_candidates = find_all_model_dirs(ROOT_MODELS_DIR)
+        local_map = {str(p.relative_to(ROOT_MODELS_DIR)): p for p in local_candidates}
+        local_labels = sorted(local_map.keys())
 
-    # --- Predefined prompt templates (selected by default)
+        # Debug expander so you can see exactly what was found
+        with st.expander("🔍 Debug: discovered local model folders", expanded=not bool(local_labels)):
+            st.markdown(f"**Scanning:** `{ROOT_MODELS_DIR}`")
+            st.markdown(f"**Exists:** `{ROOT_MODELS_DIR.exists()}`")
+            if local_labels:
+                for lbl in local_labels:
+                    st.markdown(f"- `{lbl}`")
+            else:
+                st.warning("No model dirs found. Check that ROOT_MODELS_DIR is correct.")
+                # show what IS in the directory tree for diagnosis
+                if ROOT_MODELS_DIR.exists():
+                    all_dirs = [str(p.relative_to(ROOT_MODELS_DIR)) for p in ROOT_MODELS_DIR.rglob("*") if p.is_dir()]
+                    st.write("All sub-directories found:", all_dirs[:30])
+                    all_files = [str(p.relative_to(ROOT_MODELS_DIR)) for p in ROOT_MODELS_DIR.rglob("*") if p.is_file()]
+                    st.write("All files found:", all_files[:30])
+
+        selected_local = st.multiselect(
+            "Local model folders (for T1 — text-classification)",
+            options=local_labels,
+            default=local_labels[:1] if local_labels else [],
+            help="Folders are discovered from model_download/models/. Each must contain config.json.",
+        )
+
+    # --- Prompt templates ---
     PROMPT_TEMPLATES = [
         "tone_chain_of_thought_english",
         "tone_chain_of_thought_indonesian",
@@ -237,7 +319,6 @@ with st.sidebar:
         "Prompt templates",
         options=PROMPT_TEMPLATES,
         default=PROMPT_TEMPLATES,
-        help="Predefined prompts to run (order matters)."
     )
 
 # ───────────────────────────────────────────────────────────────
@@ -261,31 +342,64 @@ if st.button("🚀 Run Pipeline"):
     if run_t1:
         st.subheader("📊 T1")
 
-        if ClimateBERTClient is None:
-            st.error("ClimateBERT missing")
+        if t1_backend == "ClimateBERT API":
+            if ClimateBERTClient is None:
+                st.error("ClimateBERT client missing")
+                target_models = []
+            else:
+                api = ClimateBERTClient()
+                client_models = getattr(api, "available_models", []) or []
+                target_models = selected_models if selected_models else client_models
+            local_map = {}
         else:
-            api = ClimateBERTClient()
-            models = getattr(api, "available_models", [])
+            # rebuild local_map inside run block (sidebar may have re-run)
+            local_candidates = find_all_model_dirs(ROOT_MODELS_DIR)
+            local_map = {str(p.relative_to(ROOT_MODELS_DIR)): p for p in local_candidates}
+            target_models = selected_local
 
+        if not target_models:
+            st.warning("No models selected for T1.")
+        else:
+            total_tasks = len(texts) * len(target_models)
             progress = st.progress(0)
-            total = len(texts) * max(len(models), 1)
             step = 0
+            timestamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+            run_records: List[Dict[str, Any]] = []
 
             for item in texts:
-                for m in models:
-
+                for m in target_models:
                     key = (item["label"], m)
 
-                    # 🔥 SKIP IF DONE
-                    if key in done_t1:
+                    if t1_backend == "ClimateBERT API" and key in done_t1:
                         step += 1
-                        progress.progress(step / total)
+                        progress.progress(step / total_tasks)
                         continue
 
-                    try:
-                        res = api.predict(item["text"], model_key=m)
-                    except Exception as e:
-                        res = {"error": str(e)}
+                    if t1_backend == "ClimateBERT API":
+                        try:
+                            res = api.predict(item["text"], model_key=m)
+                            success, error = True, None
+                        except Exception as e:
+                            res = {"error": str(e)}
+                            success, error = False, str(e)
+                    else:
+                        model_path = local_map.get(m)
+                        if model_path is None:
+                            res = {"error": f"Path not found for label: {m}"}
+                            success, error = False, res["error"]
+                        else:
+                            pipe, load_err = load_pipeline_safe("text-classification", str(model_path))
+                            if load_err:
+                                res = {"error": load_err}
+                                success, error = False, load_err
+                            else:
+                                try:
+                                    out = pipe(item["text"])
+                                    res = out
+                                    success, error = True, None
+                                except Exception as e:
+                                    res = {"error": str(e)}
+                                    success, error = False, str(e)
 
                     record = {
                         "timestamp": datetime.utcnow().isoformat(),
@@ -293,16 +407,39 @@ if st.button("🚀 Run Pipeline"):
                         "model": m,
                         "text": item["text"],
                         "result": res,
+                        "success": success,
+                        "error": error,
+                        "backend": t1_backend,
                     }
+                    try:
+                        t1_writer.write(record)
+                    except Exception as e:
+                        st.error(f"Failed to write T1 record: {e}")
 
-                    t1_writer.write(record)
-
-                    st.write(f"✅ {item['label']} × {m}")
+                    run_records.append(record)
+                    st.write(f"✅ {item['label']} × {m}" if success else f"❌ {item['label']} × {m} — {error}")
 
                     step += 1
-                    progress.progress(step / total)
+                    progress.progress(step / total_tasks)
 
-            st.success("T1 done")
+            st.success("T1 run completed")
+
+            try:
+                combined_obj = {
+                    "run_id": timestamp,
+                    "run_at": datetime.utcnow().isoformat() + "Z",
+                    "num_records": len(run_records),
+                    "backend": t1_backend,
+                    "models": target_models,
+                    "records": run_records,
+                }
+                combined_fname = f"t1_run_{timestamp}.json"
+                combined_path = RESULTS_DIR / combined_fname
+                combined_path.write_text(json.dumps(combined_obj, ensure_ascii=False, indent=2), encoding="utf8")
+                st.success(f"Saved combined T1 JSON → `{combined_path}`")
+                st.download_button("Download T1 combined JSON", data=combined_path.read_bytes(), file_name=combined_fname, mime="application/json")
+            except Exception as e:
+                st.error(f"Failed to save combined T1 JSON: {e}")
 
     # ============================================================
     # T2
