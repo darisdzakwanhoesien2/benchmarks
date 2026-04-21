@@ -1,6 +1,8 @@
 # Environment variables
 .env
 new_page/.env
+venv
+.env
 
 # Python cache and compiled files
 __pycache__/
