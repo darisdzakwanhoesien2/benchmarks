@@ -10,6 +10,7 @@ __pycache__/
 *.pyo
 *.pyd
 
+new_page/results/t1_results.jsonl
 # Temporary and output files
 new_page/bulk_ocr_outputs.zip
 data/ground_truth_windows/tmp*
@@ -151,4 +152,4 @@ ENV/
 # results/
 # checkpoints/
 # cache/
-# EOF
+# EOFnew_page/results/*.jsonl
