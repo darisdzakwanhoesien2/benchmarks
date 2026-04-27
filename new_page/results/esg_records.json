@@ -4492,5 +4492,740 @@
     "ok": true,
     "records": [],
     "raw_output": "[]"
+  },
+  {
+    "timestamp": "2026-04-23T03:59:04.359145Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"none\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T03:59:18.647532Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Based on Notarial Deed No. 122 dated 27 October 2020 ... the Company's shareholders has approved the following decisions: a. Approved the Company's plan to conduct an Initial Public Offering (IPO) ... b. Approved the change in status of the Company from a Private Company to a Public Company ...",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"Based on Notarial Deed No. 122 dated 27 October 2020 ... the Company's shareholders has approved the following decisions: a. Approved the Company's plan to conduct an Initial Public Offering (IPO) ... b. Approved the change in status of the Company from a Private Company to a Public Company ...\",\n        \"labels\": [\"governance\", \"strategy\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T03:59:31.098672Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_3",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The composition of the Company's Audit Committee as at 31 December 2022 and 2021 are as follows:",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"The composition of the Company's Audit Committee as at 31 December 2022 and 2021 are as follows:\",\n        \"labels\": [\"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T03:59:40.895877Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_4",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T03:59:52.536695Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_5",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "Dengan adanya Sertifikat Energi Terbarukan yang diperoleh entitas anaknya dari PLN, Perseroan mampu mewujudkan komitmennya dalam mendukung tujuan keberlanjutan para pelanggan melalui penggunaan energi berkelanjutan.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.",
+        "labels": [
+          "opportunity",
+          "strategy",
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"Dengan adanya Sertifikat Energi Terbarukan yang diperoleh entitas anaknya dari PLN, Perseroan mampu mewujudkan komitmennya dalam mendukung tujuan keberlanjutan para pelanggan melalui penggunaan energi berkelanjutan.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.\",\n        \"labels\": [\"opportunity\", \"strategy\", \"climate-commitment\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:00:06.410618Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_6",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.\",\n        \"labels\": [\"governance\", \"strategy\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.\",\n        \"labels\": [\"opportunity\", \"strategy\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:00:22.574827Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_7",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "S",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.\",\n        \"labels\": [\"opportunity\", \"strategy\"],\n        \"esg\": \"S\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.\",\n        \"labels\": [\"none\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"neutral\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:00:33.979538Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_8",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:00:49.505609Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_9",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.",
+        "labels": [
+          "strategy",
+          "opportunity"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Management periodically evaluates its tax positions with respect to situations in which applicable tax regulation is subject to interpretation. Where appropriate, management establishes provisions based on the amounts expected to be paid to the tax authorities.",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Group has defined benefit and defined contribution plans and is required to provide minimum pension benefits as stipulated in the Omnibus Law and related regulations.",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.\",\n        \"labels\": [\"strategy\", \"opportunity\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"Management periodically evaluates its tax positions with respect to situations in which applicable tax regulation is subject to interpretation. Where appropriate, management establishes provisions based on the amounts expected to be paid to the tax authorities.\",\n        \"labels\": [\"governance\", \"metrics\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"The Group has defined benefit and defined contribution plans and is required to provide minimum pension benefits as stipulated in the Omnibus Law and related regulations.\",\n        \"labels\": [\"governance\", \"metrics\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:01:06.456359Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_10",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.",
+        "labels": [
+          "strategy",
+          "opportunity"
+        ],
+        "esg": "S",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.",
+        "labels": [
+          "strategy",
+          "commitment"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "The Group assesses whether a contract is or contains a lease and recognises right‑of‑use assets and lease liabilities in accordance with accounting standards.",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Group does not recognise right‑of‑use assets and lease liabilities for short‑term leases or low‑value assets, charging payments to profit or loss on a straight‑line basis.",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Actuarial gains and losses arising from experience adjustments and changes in actuarial assumptions are charged or credited to equity in other comprehensive income in the period in which they arise.",
+        "labels": [
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      }
+    ],
+    "raw_output": "[\n  {\n    \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n    \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n    \"esg\": \"E\",\n    \"sentiment\": \"positive\"\n  },\n  {\n    \"text\": \"The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.\",\n    \"labels\": [\"strategy\", \"opportunity\"],\n    \"esg\": \"S\",\n    \"sentiment\": \"positive\"\n  },\n  {\n    \"text\": \"Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.\",\n    \"labels\": [\"strategy\", \"commitment\"],\n    \"esg\": \"G\",\n    \"sentiment\": \"commitment\"\n  },\n  {\n    \"text\": \"The Group assesses whether a contract is or contains a lease and recognises right‑of‑use assets and lease liabilities in accordance with accounting standards.\",\n    \"labels\": [\"governance\", \"metrics\"],\n    \"esg\": \"G\",\n    \"sentiment\": \"neutral\"\n  },\n  {\n    \"text\": \"The Group does not recognise right‑of‑use assets and lease liabilities for short‑term leases or low‑value assets, charging payments to profit or loss on a straight‑line basis.\",\n    \"labels\": [\"governance\", \"metrics\"],\n    \"esg\": \"G\",\n    \"sentiment\": \"neutral\"\n  },\n  {\n    \"text\": \"Actuarial gains and losses arising from experience adjustments and changes in actuarial assumptions are charged or credited to equity in other comprehensive income in the period in which they arise.\",\n    \"labels\": [\"governance\", \"metrics\"],\n    \"esg\": \"G\",\n    \"sentiment\": \"neutral\"\n  }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:01:19.655290Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_11",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "Dengan adanya Sertifikat Energi Terbarukan yang diperoleh entitas anaknya dari PLN, Perseroan mampu mewujudkan komitmennya dalam mendukung tujuan keberlanjutan para pelanggan melalui penggunaan energi berkelanjutan.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"Dengan adanya Sertifikat Energi Terbarukan yang diperoleh entitas anaknya dari PLN, Perseroan mampu mewujudkan komitmennya dalam mendukung tujuan keberlanjutan para pelanggan melalui penggunaan energi berkelanjutan.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:01:38.082115Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_12",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Group's activities are exposed to a variety of financial risks such as foreign exchange risk, credit risk and liquidity risk.",
+        "labels": [
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Risk management is carried out by the management of the Group under the direction of the Board of Directors. The Board of Directors identifies and evaluates financial risks.",
+        "labels": [
+          "governance",
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Final dividends distributions are recognised as a liability when the dividends are approved in the Company's General Meeting of Shareholders.",
+        "labels": [
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"The Group's activities are exposed to a variety of financial risks such as foreign exchange risk, credit risk and liquidity risk.\",\n        \"labels\": [\"risk\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"Risk management is carried out by the management of the Group under the direction of the Board of Directors. The Board of Directors identifies and evaluates financial risks.\",\n        \"labels\": [\"governance\", \"risk\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"Final dividends distributions are recognised as a liability when the dividends are approved in the Company's General Meeting of Shareholders.\",\n        \"labels\": [\"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:02:22.435200Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_13",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "The Group is exposed to credit risk arising from the credit granted to its customers.",
+        "labels": [
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "To mitigate this risk, the Group sends the invoices at the beginning of the month and grants a term to personal and corporate customers up to the date of 20th of every month, respectively, to pay the invoice.",
+        "labels": [
+          "risk",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "If up to those dates, the customers do not pay the invoice, the Group will hold the access given to customers, collection department or the sales representative will contact the corporate customer to ask the continuity of the service given by the Group.",
+        "labels": [
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "In addition, receivable balances are monitored on an ongoing basis to reduce the Group's exposure to bad debts.",
+        "labels": [
+          "risk",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "As at 31 December 2022, cash in bank and time deposits maintained with PT Bank China Construction Bank Indonesia Tbk, PT Bank Central Asia Tbk, PT Bank KEB Hana Indonesia, PT OCBC NISP Tbk and PT BPR Sarana Utama Multidana represent 36%, 31%, 16%, 4%, and 3% respectively, of total cash and cash equivalent also constitutes a concentration of credit risk.",
+        "labels": [
+          "risk",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "As at 31 December 2021, cash in bank and time deposits maintained with PT Bank China Construction Bank Indonesia Tbk, PT Bank Central Asia Tbk, PT Bank KEB Hana Indonesia, PT Bank Sahabat Sampoerna and PT BPR Sarana Utama Multidana represent 54%, 22%, 13%, 3%, and 3% respectively, of total cash and cash equivalent also constitutes a concentration of credit risk.",
+        "labels": [
+          "risk",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Group maximum exposure to credit risk for each class of financial assets as at 31 December 2022 and 2021 is equal to the carrying amounts as presented in the consolidated statement of financial position.",
+        "labels": [
+          "risk",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Liquidity risk is the risk that the Group will encounter difficulty in meeting financial obligations due to shortage of funds.",
+        "labels": [
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Group manages its liquidity profile to be able to finance its business activities and capital expenditures and to settle its debts by maintaining sufficient cash and cash equivalents, and the availability of funding through an adequate amount of committed credit facilities.",
+        "labels": [
+          "risk",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Group regularly evaluates its projected and actual cash flow information and continuously assesses conditions in the financial markets for opportunities to pursue fund‑raising initiatives, including bank loans and equity markets.",
+        "labels": [
+          "risk",
+          "opportunity",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      }
+    ],
+    "raw_output": "[\n{\n\"text\": \"The Group is exposed to credit risk arising from the credit granted to its customers.\",\n\"labels\": [\"risk\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\"\n},\n{\n\"text\": \"To mitigate this risk, the Group sends the invoices at the beginning of the month and grants a term to personal and corporate customers up to the date of 20th of every month, respectively, to pay the invoice.\",\n\"labels\": [\"risk\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\"\n},\n{\n\"text\": \"If up to those dates, the customers do not pay the invoice, the Group will hold the access given to customers, collection department or the sales representative will contact the corporate customer to ask the continuity of the service given by the Group.\",\n\"labels\": [\"risk\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\"\n},\n{\n\"text\": \"In addition, receivable balances are monitored on an ongoing basis to reduce the Group's exposure to bad debts.\",\n\"labels\": [\"risk\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\"\n},\n{\n\"text\": \"As at 31 December 2022, cash in bank and time deposits maintained with PT Bank China Construction Bank Indonesia Tbk, PT Bank Central Asia Tbk, PT Bank KEB Hana Indonesia, PT OCBC NISP Tbk and PT BPR Sarana Utama Multidana represent 36%, 31%, 16%, 4%, and 3% respectively, of total cash and cash equivalent also constitutes a concentration of credit risk.\",\n\"labels\": [\"risk\", \"metrics\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\"\n},\n{\n\"text\": \"As at 31 December 2021, cash in bank and time deposits maintained with PT Bank China Construction Bank Indonesia Tbk, PT Bank Central Asia Tbk, PT Bank KEB Hana Indonesia, PT Bank Sahabat Sampoerna and PT BPR Sarana Utama Multidana represent 54%, 22%, 13%, 3%, and 3% respectively, of total cash and cash equivalent also constitutes a concentration of credit risk.\",\n\"labels\": [\"risk\", \"metrics\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\"\n},\n{\n\"text\": \"The Group maximum exposure to credit risk for each class of financial assets as at 31 December 2022 and 2021 is equal to the carrying amounts as presented in the consolidated statement of financial position.\",\n\"labels\": [\"risk\", \"metrics\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\"\n},\n{\n\"text\": \"Liquidity risk is the risk that the Group will encounter difficulty in meeting financial obligations due to shortage of funds.\",\n\"labels\": [\"risk\"],\n\"esg\": \"G\",\n\"sentiment\": \"neutral\"\n},\n{\n\"text\": \"The Group manages its liquidity profile to be able to finance its business activities and capital expenditures and to settle its debts by maintaining sufficient cash and cash equivalents, and the availability of funding through an adequate amount of committed credit facilities.\",\n\"labels\": [\"risk\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\"\n},\n{\n\"text\": \"The Group regularly evaluates its projected and actual cash flow information and continuously assesses conditions in the financial markets for opportunities to pursue fund‑raising initiatives, including bank loans and equity markets.\",\n\"labels\": [\"risk\", \"opportunity\", \"governance\"],\n\"esg\": \"G\",\n\"sentiment\": \"positive\"\n}\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:02:41.815725Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_14",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Group performs a regular review of the impact of interest rate risk to manage the interest rate risk through preparation of regular cash flow projections to monitor the payment of borrowings principal and interest. Interest rates are monitored to minimise negative impact on the Group.",
+        "labels": [
+          "risk",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Group's objectives when managing capital are to safeguard the Group's ability to continue as a going concern whilst seeking to maximise benefits to shareholders and other stakeholders. The Group periodically reviews and manages its optimal capital structure and shareholder returns, taking into consideration future capital requirements, profitability, operating cash flows, capital expenditure and strategic investment opportunities.",
+        "labels": [
+          "risk",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"The Group performs a regular review of the impact of interest rate risk to manage the interest rate risk through preparation of regular cash flow projections to monitor the payment of borrowings principal and interest. Interest rates are monitored to minimise negative impact on the Group.\",\n        \"labels\": [\"risk\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"The Group's objectives when managing capital are to safeguard the Group's ability to continue as a going concern whilst seeking to maximise benefits to shareholders and other stakeholders. The Group periodically reviews and manages its optimal capital structure and shareholder returns, taking into consideration future capital requirements, profitability, operating cash flows, capital expenditure and strategic investment opportunities.\",\n        \"labels\": [\"risk\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:02:55.647646Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_15",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "Dengan adanya Sertifikat Energi Terbarukan yang diperoleh entitas anaknya dari PLN, Perseroan mampu mewujudkan komitmennya dalam mendukung tujuan keberlanjutan para pelanggan melalui penggunaan energi berkelanjutan.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"Dengan adanya Sertifikat Energi Terbarukan yang diperoleh entitas anaknya dari PLN, Perseroan mampu mewujudkan komitmennya dalam mendukung tujuan keberlanjutan para pelanggan melalui penggunaan energi berkelanjutan.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:03:08.801005Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_16",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.",
+        "labels": [
+          "opportunity"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"Through various strategic moves taken to overcome the existing limitations, the Company will continue to seize existing opportunities in order to create added value and sustainable growth in the future.\",\n        \"labels\": [\"opportunity\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:03:16.761314Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_17",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:03:35.644218Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_18",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "environmental-claims",
+          "climate-commitment"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Based on the Minister of Finance of the Republic of Indonesia regulation No. 150/PMK.010/2018 ... EDG applied for tax holiday facility through online single submission (OSS) on 18 December 2019.",
+        "labels": [
+          "governance",
+          "strategy"
+        ],
+        "esg": "G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "On 30 December 2019, the Minister of Finance ... issued Decree ... regarding the granting of corporate income tax reduction facility to EDG ... Up to the completion date of these consolidated financial statements, the application for tax holiday facility is still in the process of review by DGT.",
+        "labels": [
+          "governance",
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "The Company received Underpayment Tax Assessment Letters ... for VAT and PPh 26, did not pay, filed objections and appeals, which were rejected, and later paid the underpayment with penalties.",
+        "labels": [
+          "governance",
+          "risk"
+        ],
+        "esg": "G",
+        "sentiment": "negative"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"environmental-claims\", \"climate-commitment\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"Based on the Minister of Finance of the Republic of Indonesia regulation No. 150/PMK.010/2018 ... EDG applied for tax holiday facility through online single submission (OSS) on 18 December 2019.\",\n        \"labels\": [\"governance\", \"strategy\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"On 30 December 2019, the Minister of Finance ... issued Decree ... regarding the granting of corporate income tax reduction facility to EDG ... Up to the completion date of these consolidated financial statements, the application for tax holiday facility is still in the process of review by DGT.\",\n        \"labels\": [\"governance\", \"risk\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"The Company received Underpayment Tax Assessment Letters ... for VAT and PPh 26, did not pay, filed objections and appeals, which were rejected, and later paid the underpayment with penalties.\",\n        \"labels\": [\"governance\", \"risk\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"negative\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:03:57.337683Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_19",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims",
+          "strategy"
+        ],
+        "esg": "E",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.",
+        "labels": [
+          "opportunity",
+          "strategy"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "On 15 December 2014, the Company filed a judicial review to the Supreme Court of the Republic of Indonesia. On 23 August 2021, the Company received a copy of Supreme Court Verdict that decided to reject the judicial review on the Tax Court decision letter related to PPh 26. The Company accepted the decision and recorded it as “Other operating expense” account amounted to Rp892 in 2021 consolidated statement of profit or loss and other comprehensive income.",
+        "labels": [
+          "risk",
+          "governance"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "On 30 November 2021, the Tax Court fully approved the Company’s appeal in the amount of Rp3,485 and subsequently received the cash refund on 27 January 2022.",
+        "labels": [
+          "risk",
+          "governance",
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "positive"
+      },
+      {
+        "text": "The deferred tax assets for the years ended 31 December 2022 and 2021 are presented in the table, showing amounts related to employee benefits, long‑term liabilities, fixed assets, and other items.",
+        "labels": [
+          "metrics"
+        ],
+        "esg": "G",
+        "sentiment": "neutral"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\", \"strategy\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"The Company has also established numerous strategic partnerships which will support the business to expand services, enhance customer response times, and maximize its potential growth in Indonesia.\",\n        \"labels\": [\"opportunity\", \"strategy\"],\n        \"esg\": \"none\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"On 15 December 2014, the Company filed a judicial review to the Supreme Court of the Republic of Indonesia. On 23 August 2021, the Company received a copy of Supreme Court Verdict that decided to reject the judicial review on the Tax Court decision letter related to PPh 26. The Company accepted the decision and recorded it as “Other operating expense” account amounted to Rp892 in 2021 consolidated statement of profit or loss and other comprehensive income.\",\n        \"labels\": [\"risk\", \"governance\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"On 30 November 2021, the Tax Court fully approved the Company’s appeal in the amount of Rp3,485 and subsequently received the cash refund on 27 January 2022.\",\n        \"labels\": [\"risk\", \"governance\", \"metrics\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"positive\"\n    },\n    {\n        \"text\": \"The deferred tax assets for the years ended 31 December 2022 and 2021 are presented in the table, showing amounts related to employee benefits, long‑term liabilities, fixed assets, and other items.\",\n        \"labels\": [\"metrics\"],\n        \"esg\": \"G\",\n        \"sentiment\": \"neutral\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-04-23T04:04:07.243151Z",
+    "model": "openai/gpt-oss-120b:free",
+    "target": "Indonet-Annual-Report-2022_pdf/batch_20",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims",
+          "climate-specificity"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\", \"climate-specificity\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    }\n]"
   }
 ]

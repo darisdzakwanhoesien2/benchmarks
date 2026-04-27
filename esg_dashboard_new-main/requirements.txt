@@ -1,0 +1,21 @@
+streamlit==1.32.2
+pandas>=2.0
+plotly>=5.18
+matplotlib>=3.6
+seaborn>=0.13
+scikit-learn>=1.2
+python-dotenv>=1.0
+
+# Hugging Face stack
+# Keep huggingface_hub on the 0.x line because this project uses InferenceApi.
+huggingface_hub==0.26.1
+transformers>=4.44.2
+tokenizers>=0.15.2
+sentencepiece>=0.1.99
+safetensors>=0.4.3
+
+# Local model support
+torch>=2.0
+
+# Compatibility used by Streamlit
+rich<14
