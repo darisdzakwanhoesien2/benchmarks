@@ -8,7 +8,7 @@ from utils.data_loader import read_dataset, resolve_data_path
 # -------------------------------------------------------
 # Page Config
 # -------------------------------------------------------
-st.set_page_config(page_title="Parsed ESG JSON Dashboard", layout="wide")
+st.set_page_config(page_title="Parsed ESG Review Workspace", layout="wide")
 st.title("📊 ESG Parsed Sentence-Level Dashboard")
 st.markdown(
     """

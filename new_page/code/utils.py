@@ -43,6 +43,17 @@ SECTION_MAP = {
 
 
 # ======================
+# Item Marker Handling
+# ======================
+
+ITEM_MARKER_PATTERN = r"(?:\(?\d{1,3}\)|\([A-Za-z]\)|[A-Za-z]\))"
+ITEM_BOUNDARY_RE = re.compile(
+    rf"(?m)(?:(?<=^)|(?<=[\n;:]))\s*{ITEM_MARKER_PATTERN}\s+"
+)
+LEADING_ITEM_MARKER_RE = re.compile(rf"^\s*{ITEM_MARKER_PATTERN}\s+")
+
+
+# ======================
 # Language Detection
 # ======================
 
@@ -88,10 +99,12 @@ def parse_document(raw: str) -> List[Sentence]:
 
         section_type = SECTION_MAP.get(header.upper(), "General")
 
-        # Split into sentences
+        # Split into sentences and itemized fragments.
+        # Supports markers such as 1), (1), a), and (a) at item boundaries.
+        body = ITEM_BOUNDARY_RE.sub("\n", body)
         parts = re.split(r"(?<=[\.\?!])\s+(?=[A-ZÀ-ÿK])|[\n•\-;]", body)
         for part in parts:
-            text = (part or "").strip()
+            text = LEADING_ITEM_MARKER_RE.sub("", (part or "").strip()).strip()
             if len(text) < 4:
                 continue
             sentences.append(Sentence(text, sid, header, section_type, detect_lang(text)))

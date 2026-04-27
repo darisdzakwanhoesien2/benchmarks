@@ -76,6 +76,26 @@ st.subheader("🧩 Core Analysis Pages")
 
 page_doc(
     title="Parsed ESG Sentence Dashboard",
+    file="00_Parsed_ESG_JSON.py / 08_Parsed_ESG_Review.py",
+    purpose="""
+Parses raw model output into structured sentence-level ESG records and provides
+a secondary review workspace for parser validation.
+""",
+    inputs="""
+- `data_output.csv`
+- Raw model output containing embedded ESG JSON
+""",
+    outputs="""
+- Parsed sentence-level records
+- Parser audit and review tables
+""",
+    when_to_use="""
+Use these pages before downstream comparison or distribution analysis.
+"""
+)
+
+page_doc(
+    title="Navigation & Documentation Hub",
     file="app.py (this page)",
     purpose="""
 Acts as the **entry point and documentation hub** for the entire ESG dashboard.
