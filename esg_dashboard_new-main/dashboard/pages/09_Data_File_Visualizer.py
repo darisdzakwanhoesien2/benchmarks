@@ -91,18 +91,44 @@ def apply_sidebar_filters(df):
 
 
 def show_value_counts(df, col, limit=25):
-    counts = (
-        df[col]
-        .map(format_display_value)
-        .loc[lambda values: values != ""]
-        .value_counts()
-        .head(limit)
-    )
+    counts = make_value_counts(df, col, limit=limit)
     if counts.empty:
         st.info(f"No values available for {col}.")
         return
     st.bar_chart(counts)
     st.dataframe(counts.rename("count"), use_container_width=True)
+
+
+def make_value_counts(df, col, limit=25, sort_order="Count descending"):
+    counts = (
+        df[col]
+        .map(format_display_value)
+        .loc[lambda values: values != ""]
+        .value_counts()
+    )
+    if sort_order == "Count ascending":
+        counts = counts.sort_values(ascending=True)
+    elif sort_order == "Label A-Z":
+        counts = counts.sort_index(ascending=True)
+    elif sort_order == "Label Z-A":
+        counts = counts.sort_index(ascending=False)
+    else:
+        counts = counts.sort_values(ascending=False)
+    return counts.head(limit)
+
+
+def parsed_dimension_columns(df):
+    excluded = {"sentence", "text", "reasoning", "markdown_full", "cleaned_markdown"}
+    columns = []
+    for col in df.columns:
+        if col in excluded:
+            continue
+        values = df[col].map(format_display_value)
+        values = values[values != ""]
+        if values.empty:
+            continue
+        columns.append(col)
+    return columns
 
 
 selected_label = st.sidebar.selectbox("Dataset", list(DATASETS.keys()))
@@ -190,15 +216,60 @@ with parsed_tab:
         st.info("No JSON-like rows were parsed from the selected data.")
     else:
         st.subheader("Parsed Records")
-        st.dataframe(parsed_df, use_container_width=True)
 
-        parsed_cols = [
-            col for col in ["aspect", "aspect_category", "sentiment", "tone"]
-            if col in parsed_df.columns
-        ]
+        parsed_cols = parsed_dimension_columns(parsed_df)
         if parsed_cols:
-            selected_parsed_col = st.selectbox("Parsed Column", parsed_cols)
-            show_value_counts(parsed_df, selected_parsed_col)
+            default_idx = parsed_cols.index("aspect") if "aspect" in parsed_cols else 0
+            selected_parsed_col = st.selectbox(
+                "Parsed Column",
+                parsed_cols,
+                index=default_idx,
+            )
+            control_cols = st.columns(3)
+            with control_cols[0]:
+                top_n = st.slider(
+                    "Top Values",
+                    5,
+                    100,
+                    25,
+                    key="parsed_top_values",
+                )
+            with control_cols[1]:
+                sort_order = st.selectbox(
+                    "Sort",
+                    ["Count descending", "Count ascending", "Label A-Z", "Label Z-A"],
+                )
+            with control_cols[2]:
+                table_scope = st.radio(
+                    "Table Scope",
+                    ["All parsed rows", "Top graph rows"],
+                    horizontal=True,
+                )
+
+            counts = make_value_counts(
+                parsed_df,
+                selected_parsed_col,
+                limit=top_n,
+                sort_order=sort_order,
+            )
+            top_values = set(counts.index)
+
+            if table_scope == "Top graph rows":
+                table_df = parsed_df[
+                    parsed_df[selected_parsed_col].map(format_display_value).isin(top_values)
+                ]
+            else:
+                table_df = parsed_df
+
+            st.dataframe(table_df, use_container_width=True)
+
+            if counts.empty:
+                st.info(f"No values available for {selected_parsed_col}.")
+            else:
+                st.bar_chart(counts)
+                st.dataframe(counts.rename("count"), use_container_width=True)
+        else:
+            st.dataframe(parsed_df, use_container_width=True)
 
 with table_tab:
     st.subheader("Filtered Table")
