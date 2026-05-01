@@ -1,0 +1,123 @@
+{
+  "aspect_groupings": {
+    "Environmental": {
+      "climate_and_emissions": [
+        "emissions",
+        "emissions control",
+        "greenhouse gas emissions",
+        "carbon footprint",
+        "carbon footprint reduction",
+        "net zero emission",
+        "climate change mitigation"
+      ],
+      "resource_management": [
+        "waste management",
+        "water consumption",
+        "renewable energy",
+        "energy efficiency",
+        "sustainable materials",
+        "biodiversity conservation"
+      ],
+      "conservation_initiatives": [
+        "tree planting",
+        "reforestation",
+        "ecosystem restoration",
+        "mangrove rehabilitation"
+      ]
+    },
+    "Social": {
+      "community_development": [
+        "community development",
+        "community food access",
+        "community health services",
+        "infrastructure development",
+        "social responsibility",
+        "poverty alleviation"
+      ],
+      "human_resources_and_labor": [
+        "employees",
+        "diversity and inclusion",
+        "gender equality",
+        "workforce development",
+        "occupational health and safety",
+        "child and forced labor prevention"
+      ],
+      "education_and_skills": [
+        "agricultural education",
+        "employee training",
+        "scholarships",
+        "literacy"
+      ]
+    },
+    "Governance": {
+      "board_and_leadership": [
+        "governance",
+        "corporate governance",
+        "board composition",
+        "board meeting frequency",
+        "executive accountability",
+        "succession planning"
+      ],
+      "ethics_and_compliance": [
+        "anti-corruption",
+        "code of conduct",
+        "whistleblowing system",
+        "regulatory compliance",
+        "conflict of interest management"
+      ],
+      "audit_and_transparency": [
+        "internal controls",
+        "audit committee",
+        "financial transparency",
+        "transparency",
+        "information disclosure"
+      ]
+    },
+    "Financial": {
+      "performance_indicators": [
+        "financial",
+        "financial reporting",
+        "net profit",
+        "ebitda performance",
+        "revenue recognition",
+        "dividend policy"
+      ],
+      "risk_and_asset_management": [
+        "risk management",
+        "assets",
+        "credit risk management",
+        "liquidity risk",
+        "asset valuation",
+        "debt-to-equity ratio"
+      ],
+      "taxation": [
+        "taxation",
+        "tax",
+        "tax compliance",
+        "deferred tax assets",
+        "income tax payment"
+      ]
+    },
+    "Operational_and_Product": {
+      "innovation_and_technology": [
+        "innovation",
+        "product innovation",
+        "digital transformation",
+        "cybersecurity",
+        "technological innovation"
+      ],
+      "supply_chain": [
+        "supply chain sustainability",
+        "local supplier engagement",
+        "procurement ethics",
+        "traceability"
+      ],
+      "customer_relations": [
+        "customer",
+        "customer satisfaction",
+        "product safety",
+        "complaint resolution"
+      ]
+    }
+  }
+}

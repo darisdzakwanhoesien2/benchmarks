@@ -1,0 +1,110 @@
+{
+  "reporting_framework_aspects": {
+    "Environmental": {
+      "climate_and_energy": [
+        "carbon footprint",
+        "emissions reduction target",
+        "renewable energy",
+        "GHG emissions reduction",
+        "energy consumption",
+        "clean energy development"
+      ],
+      "resource_and_waste": [
+        "waste generation",
+        "waste reduction",
+        "water usage",
+        "paper consumption",
+        "environmental footprint"
+      ],
+      "conservation": [
+        "biodiversity",
+        "conservation",
+        "wildlife release",
+        "environmental stewardship"
+      ]
+    },
+    "Social": {
+      "labor_and_employees": [
+        "employee well-being",
+        "diversity & inclusion",
+        "human rights",
+        "labor standards",
+        "occupational safety and health",
+        "employee benefits liability",
+        "women's leadership program"
+      ],
+      "community_impact": [
+        "community engagement",
+        "community empowerment",
+        "social impact",
+        "scholarship program",
+        "philanthropy",
+        "affordable housing"
+      ]
+    },
+    "Governance": {
+      "board_and_leadership": [
+        "board responsibility",
+        "board of directors",
+        "board of commissioners",
+        "executive compensation",
+        "board diversity",
+        "board evaluation"
+      ],
+      "ethics_and_compliance": [
+        "compliance",
+        "risk management",
+        "ethics",
+        "whistleblowing policy",
+        "internal control system",
+        "anti-corruption"
+      ],
+      "audit_and_transparency": [
+        "internal audit",
+        "audit and assurance",
+        "independent verification",
+        "sustainability reporting",
+        "disclosure policy"
+      ]
+    },
+    "Financial": {
+      "performance_indicators": [
+        "revenue",
+        "profitability",
+        "net profit",
+        "earnings per share",
+        "gross profit",
+        "cash flow from operating activities"
+      ],
+      "asset_and_capital_management": [
+        "assets",
+        "fixed assets",
+        "capital management",
+        "equity",
+        "liabilities",
+        "cash and cash equivalents"
+      ],
+      "accounting_policies": [
+        "accounting policies",
+        "fair value measurement",
+        "audit reporting",
+        "regulasi pajak"
+      ]
+    },
+    "Operations_and_Strategy": {
+      "business_development": [
+        "real estate development",
+        "township development",
+        "business strategy",
+        "innovation",
+        "supply chain management"
+      ],
+      "stakeholder_relations": [
+        "stakeholder engagement",
+        "customer service",
+        "reputation",
+        "supplier sustainability"
+      ]
+    }
+  }
+}

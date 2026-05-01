@@ -26,6 +26,21 @@ MAPPING_PATH = (
     / "data"
     / "aspect_category_group_mapping.json"
 )
+ASPECT_GROUPINGS_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "data"
+    / "aspect_groupings.json"
+)
+CUSTOM_ASPECT_GROUPINGS_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "data"
+    / "custom_aspect_groupings.json"
+)
+REPORTING_FRAMEWORK_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "data"
+    / "reporting_framework_aspects.json"
+)
 
 
 st.set_page_config(page_title="Data File Visualizer", layout="wide")
@@ -50,11 +65,126 @@ def load_aspect_category_group_mapping():
     return mapping_config, aliases
 
 
+@st.cache_data
+def load_aspect_groupings():
+    with open(ASPECT_GROUPINGS_PATH) as f:
+        mapping_config = json.load(f)
+    return mapping_config
+
+
+@st.cache_data
+def load_custom_aspect_groupings():
+    if not CUSTOM_ASPECT_GROUPINGS_PATH.exists():
+        return {"aspect_groupings": {}}
+    with open(CUSTOM_ASPECT_GROUPINGS_PATH) as f:
+        return json.load(f)
+
+
+@st.cache_data
+def load_reporting_framework_aspects():
+    with open(REPORTING_FRAMEWORK_PATH) as f:
+        mapping_config = json.load(f)
+    return mapping_config
+
+
 def normalize_aspect_category_group(value, alias_map):
     key = format_display_value(value).lower()
     if not key:
         return ""
     return alias_map.get(key, "Others")
+
+
+def merge_aspect_groupings(*configs):
+    merged = {"aspect_groupings": {}}
+    for config in configs:
+        for major_group, subgroups in config.get("aspect_groupings", {}).items():
+            merged_major = merged["aspect_groupings"].setdefault(major_group, {})
+            for sub_group, keywords in subgroups.items():
+                merged_keywords = merged_major.setdefault(sub_group, [])
+                existing = {normalize_text(keyword) for keyword in merged_keywords}
+                for keyword in keywords:
+                    normalized = normalize_text(keyword)
+                    if normalized and normalized not in existing:
+                        merged_keywords.append(keyword)
+                        existing.add(normalized)
+    return merged
+
+
+def save_custom_aspect_groupings(new_mapping):
+    existing = load_custom_aspect_groupings()
+    merged = merge_aspect_groupings(existing, new_mapping)
+    CUSTOM_ASPECT_GROUPINGS_PATH.write_text(
+        json.dumps(merged, indent=2, sort_keys=True),
+        encoding="utf-8",
+    )
+    st.cache_data.clear()
+    return merged
+
+
+def normalize_text(value):
+    return re.sub(r"\s+", " ", format_display_value(value).lower()).strip()
+
+
+def map_aspect_group(value, aspect_groupings):
+    normalized = normalize_text(value)
+    if not normalized:
+        return "Other", "other"
+
+    fallback_match = None
+    for major_group, subgroups in aspect_groupings.get("aspect_groupings", {}).items():
+        for subgroup, keywords in subgroups.items():
+            for keyword in keywords:
+                normalized_keyword = normalize_text(keyword)
+                if normalized_keyword and normalized == normalized_keyword:
+                    return major_group, subgroup
+                if normalized_keyword and normalized_keyword in normalized:
+                    fallback_match = fallback_match or (major_group, subgroup)
+
+    return fallback_match or ("Other", "other")
+
+
+def flatten_taxonomy(mapping_config, root_key, source_name):
+    rows = []
+    for major_group, subgroups in mapping_config.get(root_key, {}).items():
+        for subgroup, keywords in subgroups.items():
+            for keyword in keywords:
+                rows.append({
+                    "source": source_name,
+                    "major_group": major_group,
+                    "sub_group": subgroup,
+                    "keyword": keyword,
+                    "keyword_norm": normalize_text(keyword),
+                })
+    return rows
+
+
+def detect_taxonomy_root(mapping_config):
+    for root_key in ["aspect_groupings", "reporting_framework_aspects"]:
+        if isinstance(mapping_config.get(root_key), dict):
+            return root_key
+    return None
+
+
+def flatten_any_taxonomy(mapping_config, source_name):
+    root_key = detect_taxonomy_root(mapping_config)
+    if not root_key:
+        return []
+    return flatten_taxonomy(mapping_config, root_key, source_name)
+
+
+def find_taxonomy_match(value, taxonomy_rows):
+    normalized = normalize_text(value)
+    if not normalized:
+        return None
+
+    fallback_match = None
+    for row in taxonomy_rows:
+        keyword = row["keyword_norm"]
+        if keyword and normalized == keyword:
+            return row
+        if keyword and keyword in normalized:
+            fallback_match = fallback_match or row
+    return fallback_match
 
 
 def extract_json_block(text):
@@ -109,6 +239,19 @@ def add_aspect_category_group(df, alias_map):
     mapped["aspect_category_group"] = mapped["aspect_category"].apply(
         lambda value: normalize_aspect_category_group(value, alias_map)
     )
+    return mapped
+
+
+def add_aspect_groups(df, aspect_groupings):
+    if "aspect" not in df.columns:
+        return df
+
+    mapped = df.copy()
+    groups = mapped["aspect"].apply(
+        lambda value: map_aspect_group(value, aspect_groupings)
+    )
+    mapped["aspect_major_group"] = groups.apply(lambda value: value[0])
+    mapped["aspect_sub_group"] = groups.apply(lambda value: value[1])
     return mapped
 
 
@@ -181,6 +324,105 @@ def parsed_dimension_columns(df):
     return columns
 
 
+def make_other_aspect_counts(df, taxonomy_rows=None):
+    required_cols = {"aspect", "aspect_major_group"}
+    if not required_cols.issubset(df.columns):
+        return pd.DataFrame()
+
+    other_df = df[
+        df["aspect_major_group"].map(format_display_value).str.lower().eq("other")
+    ].copy()
+    if other_df.empty:
+        return pd.DataFrame()
+
+    other_df["aspect_label"] = other_df["aspect"].map(format_display_value)
+    other_df = other_df[other_df["aspect_label"] != ""]
+    if other_df.empty:
+        return pd.DataFrame()
+
+    aggregations = {"count": ("aspect_label", "size")}
+    for col in ["aspect_category_group", "aspect_category_raw", "sentiment", "tone"]:
+        if col in other_df.columns:
+            aggregations[col] = (
+                col,
+                lambda values: ", ".join(sorted(set(filter(None, values.map(format_display_value))))[:8]),
+            )
+
+    counts = (
+        other_df
+        .groupby("aspect_label")
+        .agg(**aggregations)
+        .reset_index()
+        .rename(columns={"aspect_label": "aspect"})
+        .sort_values(["count", "aspect"], ascending=[False, True])
+    )
+
+    if taxonomy_rows:
+        matches = counts["aspect"].apply(lambda value: find_taxonomy_match(value, taxonomy_rows))
+        counts["suggested_source"] = matches.apply(lambda match: match["source"] if match else "")
+        counts["suggested_major_group"] = matches.apply(lambda match: match["major_group"] if match else "")
+        counts["suggested_sub_group"] = matches.apply(lambda match: match["sub_group"] if match else "")
+        counts["suggested_keyword"] = matches.apply(lambda match: match["keyword"] if match else "")
+
+    return counts
+
+
+def build_other_aspect_json_suggestion(other_counts):
+    if other_counts.empty:
+        return {}
+    if {"suggested_major_group", "suggested_sub_group"}.issubset(other_counts.columns):
+        suggested = other_counts[
+            (other_counts["suggested_major_group"] != "")
+            & (other_counts["suggested_sub_group"] != "")
+        ]
+        if not suggested.empty:
+            aspect_groupings = {}
+            for _, row in suggested.iterrows():
+                major_group = row["suggested_major_group"]
+                sub_group = row["suggested_sub_group"]
+                aspect_groupings.setdefault(major_group, {}).setdefault(sub_group, [])
+                aspect_groupings[major_group][sub_group].append(row["aspect"])
+            return {"aspect_groupings": aspect_groupings}
+
+    return {
+        "aspect_groupings": {
+            "Needs_Mapping": {
+                "review_candidates": other_counts["aspect"].tolist()
+            }
+        }
+    }
+
+
+def default_custom_taxonomy_text():
+    return json.dumps({
+        "reporting_framework_aspects": {
+            "Environmental": {
+                "climate_and_energy": [
+                    "carbon footprint",
+                    "emissions reduction target",
+                    "renewable energy"
+                ]
+            },
+            "Social": {
+                "community_impact": [
+                    "community engagement",
+                    "scholarship program"
+                ]
+            },
+            "Operations_and_Strategy": {
+                "business_development": [
+                    "real estate development",
+                    "business strategy"
+                ],
+                "stakeholder_relations": [
+                    "stakeholder engagement",
+                    "supplier sustainability"
+                ]
+            }
+        }
+    }, indent=2)
+
+
 selected_label = st.sidebar.selectbox("Dataset", list(DATASETS.keys()))
 base_name = DATASETS[selected_label]
 data_path = resolve_data_path(base_name)
@@ -192,12 +434,29 @@ except Exception as exc:
     st.stop()
 
 mapping_config, aspect_category_alias_map = load_aspect_category_group_mapping()
+aspect_groupings_config = load_aspect_groupings()
+custom_aspect_groupings_config = load_custom_aspect_groupings()
+combined_aspect_groupings_config = merge_aspect_groupings(
+    aspect_groupings_config,
+    custom_aspect_groupings_config,
+)
+reporting_framework_config = load_reporting_framework_aspects()
+taxonomy_rows = (
+    flatten_taxonomy(combined_aspect_groupings_config, "aspect_groupings", "aspect_groupings")
+    + flatten_taxonomy(
+        reporting_framework_config,
+        "reporting_framework_aspects",
+        "reporting_framework_aspects",
+    )
+)
 df = add_aspect_category_group(df, aspect_category_alias_map)
+df = add_aspect_groups(df, combined_aspect_groupings_config)
 filtered = apply_sidebar_filters(df)
 parsed_df = add_aspect_category_group(
     parse_json_rows(filtered),
     aspect_category_alias_map,
 )
+parsed_df = add_aspect_groups(parsed_df, combined_aspect_groupings_config)
 
 st.caption(f"Using data: `{data_path}`")
 
@@ -245,6 +504,8 @@ with distribution_tab:
             "page_number",
             "model",
             "aspect",
+            "aspect_major_group",
+            "aspect_sub_group",
             "aspect_category_group",
             "aspect_category",
             "aspect_category_raw",
@@ -346,6 +607,133 @@ with parsed_tab:
                                 "label": meta.get("label", group),
                             })
                     st.dataframe(pd.DataFrame(mapping_rows), use_container_width=True)
+
+            if selected_parsed_col in {"aspect_major_group", "aspect_sub_group"}:
+                with st.expander("Aspect Grouping Taxonomy"):
+                    grouping_rows = []
+                    for major_group, subgroups in combined_aspect_groupings_config.get("aspect_groupings", {}).items():
+                        for subgroup, keywords in subgroups.items():
+                            for keyword in keywords:
+                                grouping_rows.append({
+                                    "major_group": major_group,
+                                    "sub_group": subgroup,
+                                    "keyword": keyword,
+                                })
+                    st.dataframe(pd.DataFrame(grouping_rows), use_container_width=True)
+
+                other_counts = make_other_aspect_counts(parsed_df, taxonomy_rows)
+                st.subheader("Other Aspect Mapping Workbench")
+                if other_counts.empty:
+                    st.success("No unmapped aspect values in the current filtered data.")
+                else:
+                    matched_count = 0
+                    if "suggested_major_group" in other_counts.columns:
+                        matched_count = int(other_counts["suggested_major_group"].ne("").sum())
+                    unmapped_total = int(other_counts["count"].sum())
+                    st.caption(
+                        f"{len(other_counts):,} unique unmapped aspect values across "
+                        f"{unmapped_total:,} parsed rows. "
+                        f"{matched_count:,} have a suggested taxonomy match."
+                    )
+                    other_top_n = st.slider(
+                        "Unmapped Top Values",
+                        5,
+                        min(200, max(5, len(other_counts))),
+                        min(50, max(5, len(other_counts))),
+                        key="other_aspect_top_values",
+                    )
+                    top_other = other_counts.head(other_top_n)
+
+                    st.bar_chart(top_other.set_index("aspect")["count"])
+                    st.dataframe(other_counts, use_container_width=True)
+
+                    st.subheader("Map Other Values From JSON Input")
+                    taxonomy_source = st.radio(
+                        "Taxonomy Input",
+                        ["Paste JSON", "Saved taxonomies"],
+                        horizontal=True,
+                        key="other_taxonomy_source",
+                    )
+
+                    active_taxonomy_rows = taxonomy_rows
+                    parsed_custom_taxonomy = None
+                    if taxonomy_source == "Paste JSON":
+                        custom_taxonomy_text = st.text_area(
+                            "Paste taxonomy JSON",
+                            value=default_custom_taxonomy_text(),
+                            height=320,
+                            key="custom_taxonomy_json",
+                        )
+                        try:
+                            parsed_custom_taxonomy = json.loads(custom_taxonomy_text)
+                            active_taxonomy_rows = flatten_any_taxonomy(
+                                parsed_custom_taxonomy,
+                                "pasted_json",
+                            )
+                            if active_taxonomy_rows:
+                                st.success(
+                                    f"Parsed {len(active_taxonomy_rows):,} taxonomy keywords from pasted JSON."
+                                )
+                            else:
+                                st.warning(
+                                    "JSON parsed, but no supported taxonomy root was found. "
+                                    "Use `aspect_groupings` or `reporting_framework_aspects`."
+                                )
+                        except json.JSONDecodeError as exc:
+                            active_taxonomy_rows = []
+                            st.error(f"Invalid JSON: {exc}")
+
+                    rematched_other = make_other_aspect_counts(parsed_df, active_taxonomy_rows)
+                    matched_other = rematched_other[
+                        rematched_other.get("suggested_major_group", pd.Series(dtype=str)).ne("")
+                    ]
+                    unmatched_after_input = rematched_other[
+                        rematched_other.get("suggested_major_group", pd.Series(dtype=str)).eq("")
+                    ]
+
+                    st.subheader("Matches From Active JSON")
+                    if matched_other.empty:
+                        st.info("No unmapped aspect values matched the active taxonomy JSON.")
+                    else:
+                        st.dataframe(matched_other, use_container_width=True)
+
+                    with st.expander("Still Unmatched After Active JSON"):
+                        st.dataframe(unmatched_after_input, use_container_width=True)
+
+                    suggestion = build_other_aspect_json_suggestion(rematched_other)
+                    st.download_button(
+                        "Download Matched Mapping JSON",
+                        json.dumps(suggestion, indent=2).encode("utf-8"),
+                        file_name="matched_aspect_mapping.json",
+                        mime="application/json",
+                    )
+                    with st.expander("Generated Mapping JSON"):
+                        st.json(suggestion)
+
+                    if st.button(
+                        "Save Generated Mapping To Custom Taxonomy",
+                        key="save_generated_aspect_mapping",
+                        disabled=not bool(suggestion.get("aspect_groupings")),
+                    ):
+                        saved_mapping = save_custom_aspect_groupings(suggestion)
+                        saved_count = sum(
+                            len(keywords)
+                            for subgroups in saved_mapping.get("aspect_groupings", {}).values()
+                            for keywords in subgroups.values()
+                        )
+                        st.success(
+                            f"Saved custom taxonomy with {saved_count:,} total keywords. Rerunning..."
+                        )
+                        st.rerun()
+
+                    with st.expander("Active Taxonomy Keywords"):
+                        if active_taxonomy_rows:
+                            st.dataframe(
+                                pd.DataFrame(active_taxonomy_rows).drop(columns=["keyword_norm"]),
+                                use_container_width=True,
+                            )
+                        else:
+                            st.info("No active taxonomy keywords available.")
         else:
             st.dataframe(parsed_df, use_container_width=True)
 
