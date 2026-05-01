@@ -10,19 +10,19 @@
     },
     "G": {
       "label": "Governance",
-      "aliases": ["G", "G E", "G>", "GRI305"]
+      "aliases": ["G",  "G>"]
     },
     "E-S": {
       "label": "Environmental + Social",
-      "aliases": ["E_S", "E/S"]
+      "aliases": ["E_S", "E/S", "S,E", "S/E", "S E", "S_E"]
     },
     "E-G": {
       "label": "Environmental + Governance",
-      "aliases": ["E_G", "E,G"]
+      "aliases": ["E_G", "E,G", "G E"]
     },
     "S-G": {
       "label": "Social + Governance",
-      "aliases": ["S-G", "S,E", "S/E"]
+      "aliases": ["S-G", "GS"]
     },
     "E-S-G": {
       "label": "Environmental + Social + Governance",
@@ -30,7 +30,7 @@
     },
     "Others": {
       "label": "Others",
-      "aliases": ["Economic", "GS", "N/A", "none", "P", "placeholder", "S E", "S_E", "W"]
+      "aliases": ["Economic", "N/A", "none", "P", "placeholder", "W", "GRI305"]
     }
   }
 }
