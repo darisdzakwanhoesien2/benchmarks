@@ -1,0 +1,36 @@
+{
+  "groups": {
+    "E": {
+      "label": "Environmental",
+      "aliases": ["E"]
+    },
+    "S": {
+      "label": "Social",
+      "aliases": ["S"]
+    },
+    "G": {
+      "label": "Governance",
+      "aliases": ["G", "G E", "G>", "GRI305"]
+    },
+    "E-S": {
+      "label": "Environmental + Social",
+      "aliases": ["E_S", "E/S"]
+    },
+    "E-G": {
+      "label": "Environmental + Governance",
+      "aliases": ["E_G", "E,G"]
+    },
+    "S-G": {
+      "label": "Social + Governance",
+      "aliases": ["S-G", "S,E", "S/E"]
+    },
+    "E-S-G": {
+      "label": "Environmental + Social + Governance",
+      "aliases": ["E-S-G", "E,S,G", "ESG"]
+    },
+    "Others": {
+      "label": "Others",
+      "aliases": ["Economic", "GS", "N/A", "none", "P", "placeholder", "S E", "S_E", "W"]
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import json
 import re
+from pathlib import Path
 
 import pandas as pd
 import streamlit as st
@@ -20,6 +21,12 @@ DATASETS = {
     "output_in_csv.txt": "output_in_csv",
 }
 
+MAPPING_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "data"
+    / "aspect_category_group_mapping.json"
+)
+
 
 st.set_page_config(page_title="Data File Visualizer", layout="wide")
 st.title("Data File Visualizer")
@@ -28,6 +35,26 @@ st.title("Data File Visualizer")
 @st.cache_data
 def load_named_dataset(base_name):
     return read_dataset(base_name)
+
+
+@st.cache_data
+def load_aspect_category_group_mapping():
+    with open(MAPPING_PATH) as f:
+        mapping_config = json.load(f)
+
+    aliases = {}
+    for group, meta in mapping_config.get("groups", {}).items():
+        aliases[group.strip().lower()] = group
+        for alias in meta.get("aliases", []):
+            aliases[str(alias).strip().lower()] = group
+    return mapping_config, aliases
+
+
+def normalize_aspect_category_group(value, alias_map):
+    key = format_display_value(value).lower()
+    if not key:
+        return ""
+    return alias_map.get(key, "Others")
 
 
 def extract_json_block(text):
@@ -70,6 +97,19 @@ def parse_json_rows(df):
                 rows.append(row)
 
     return pd.DataFrame(rows)
+
+
+def add_aspect_category_group(df, alias_map):
+    if "aspect_category" not in df.columns:
+        return df
+
+    mapped = df.copy()
+    if "aspect_category_raw" not in mapped.columns:
+        mapped["aspect_category_raw"] = mapped["aspect_category"]
+    mapped["aspect_category_group"] = mapped["aspect_category"].apply(
+        lambda value: normalize_aspect_category_group(value, alias_map)
+    )
+    return mapped
 
 
 def apply_sidebar_filters(df):
@@ -117,6 +157,16 @@ def make_value_counts(df, col, limit=25, sort_order="Count descending"):
     return counts.head(limit)
 
 
+def sort_value_counts(counts, sort_order="Count descending"):
+    if sort_order == "Count ascending":
+        return counts.sort_values(ascending=True)
+    if sort_order == "Label A-Z":
+        return counts.sort_index(ascending=True)
+    if sort_order == "Label Z-A":
+        return counts.sort_index(ascending=False)
+    return counts.sort_values(ascending=False)
+
+
 def parsed_dimension_columns(df):
     excluded = {"sentence", "text", "reasoning", "markdown_full", "cleaned_markdown"}
     columns = []
@@ -141,8 +191,13 @@ except Exception as exc:
     st.error(f"Failed to load {data_path}:\n\n{exc}")
     st.stop()
 
+mapping_config, aspect_category_alias_map = load_aspect_category_group_mapping()
+df = add_aspect_category_group(df, aspect_category_alias_map)
 filtered = apply_sidebar_filters(df)
-parsed_df = parse_json_rows(filtered)
+parsed_df = add_aspect_category_group(
+    parse_json_rows(filtered),
+    aspect_category_alias_map,
+)
 
 st.caption(f"Using data: `{data_path}`")
 
@@ -190,7 +245,9 @@ with distribution_tab:
             "page_number",
             "model",
             "aspect",
+            "aspect_category_group",
             "aspect_category",
+            "aspect_category_raw",
             "sentiment",
             "tone",
             "ontology_uri",
@@ -219,7 +276,8 @@ with parsed_tab:
 
         parsed_cols = parsed_dimension_columns(parsed_df)
         if parsed_cols:
-            default_idx = parsed_cols.index("aspect") if "aspect" in parsed_cols else 0
+            default_col = "aspect_category_group" if "aspect_category_group" in parsed_cols else "aspect"
+            default_idx = parsed_cols.index(default_col) if default_col in parsed_cols else 0
             selected_parsed_col = st.selectbox(
                 "Parsed Column",
                 parsed_cols,
@@ -246,28 +304,48 @@ with parsed_tab:
                     horizontal=True,
                 )
 
-            counts = make_value_counts(
-                parsed_df,
-                selected_parsed_col,
-                limit=top_n,
-                sort_order=sort_order,
+            all_counts = (
+                parsed_df[selected_parsed_col]
+                .map(format_display_value)
+                .loc[lambda values: values != ""]
+                .value_counts()
             )
-            top_values = set(counts.index)
+            sorted_counts = sort_value_counts(all_counts, sort_order)
+            chart_counts = sorted_counts.head(top_n)
+            top_values = set(chart_counts.index)
 
             if table_scope == "Top graph rows":
                 table_df = parsed_df[
                     parsed_df[selected_parsed_col].map(format_display_value).isin(top_values)
                 ]
+                count_table = chart_counts
             else:
                 table_df = parsed_df
+                count_table = sorted_counts
 
+            st.subheader("Parsed Row Table")
             st.dataframe(table_df, use_container_width=True)
 
-            if counts.empty:
+            if chart_counts.empty:
                 st.info(f"No values available for {selected_parsed_col}.")
             else:
-                st.bar_chart(counts)
-                st.dataframe(counts.rename("count"), use_container_width=True)
+                st.subheader("Top Graph")
+                st.bar_chart(chart_counts)
+
+                st.subheader("Count Table")
+                st.dataframe(count_table.rename("count"), use_container_width=True)
+
+            if selected_parsed_col == "aspect_category_group":
+                with st.expander("Aspect Category Group Mapping"):
+                    mapping_rows = []
+                    for group, meta in mapping_config.get("groups", {}).items():
+                        for alias in meta.get("aliases", []):
+                            mapping_rows.append({
+                                "raw_value": alias,
+                                "mapped_group": group,
+                                "label": meta.get("label", group),
+                            })
+                    st.dataframe(pd.DataFrame(mapping_rows), use_container_width=True)
         else:
             st.dataframe(parsed_df, use_container_width=True)
 
