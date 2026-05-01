@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 from utils.aspect_clustering import cluster_aspect
-from utils.data_loader import load_and_parse
+from utils.data_loader import load_and_parse, sorted_unique_values
 
 st.set_page_config(page_title="Aspect Workspace", layout="wide")
 st.title("🧩 Aspect Workspace")
@@ -146,7 +146,32 @@ Use it to audit mapping coverage and verify that high-frequency labels land in t
 """
     )
 
-    cluster_options = sorted(non_empty_df["aspect_cluster"].dropna().astype(str).unique())
+    mapping_scope = st.radio(
+        "Mapping scope",
+        ["All data", "Top raw aspects table"],
+        horizontal=True,
+        help="Use all parsed aspect rows, or limit the mapping review to the same high-frequency labels shown in the raw aspect table.",
+    )
+
+    if mapping_scope == "Top raw aspects table":
+        review_n = st.slider(
+            "Top raw aspects to map",
+            3,
+            100,
+            25,
+            key="aspect_mapping_top_n",
+        )
+        top_aspect_labels = (
+            non_empty_df["aspect"]
+            .value_counts()
+            .head(review_n)
+            .index
+        )
+        mapping_source = non_empty_df[non_empty_df["aspect"].isin(top_aspect_labels)]
+    else:
+        mapping_source = non_empty_df
+
+    cluster_options = sorted_unique_values(mapping_source["aspect_cluster"])
     selected_clusters = st.multiselect(
         "Filter by aspect cluster",
         cluster_options,
@@ -154,7 +179,7 @@ Use it to audit mapping coverage and verify that high-frequency labels land in t
     )
 
     comparison = (
-        non_empty_df[non_empty_df["aspect_cluster"].isin(selected_clusters)][
+        mapping_source[mapping_source["aspect_cluster"].map(str).isin(selected_clusters)][
             ["aspect", "aspect_cluster"]
         ]
         .value_counts()

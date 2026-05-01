@@ -3,14 +3,18 @@ import json
 import re
 from pathlib import Path
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DASHBOARD_DATA_DIR = Path(__file__).resolve().parents[1] / "data" / "data"
+ROOT_DATA_DIR = PROJECT_ROOT / "data"
 
 
 def resolve_data_path(base_name):
-    candidates = [
-        DATA_DIR / f"{base_name}.csv",
-        DATA_DIR / f"{base_name}.txt",
-    ]
+    candidates = []
+    for data_dir in (DASHBOARD_DATA_DIR, ROOT_DATA_DIR):
+        candidates.extend([
+            data_dir / f"{base_name}.csv",
+            data_dir / f"{base_name}.txt",
+        ])
     for path in candidates:
         if path.exists():
             return path
@@ -23,6 +27,32 @@ def resolve_data_path(base_name):
 def read_dataset(base_name):
     path = resolve_data_path(base_name)
     return pd.read_csv(path)
+
+
+def format_display_value(value):
+    if isinstance(value, list):
+        return ", ".join(
+            item for item in (format_display_value(item) for item in value) if item
+        )
+    if isinstance(value, dict):
+        return json.dumps(value, sort_keys=True)
+    try:
+        is_missing = pd.isna(value)
+    except Exception:
+        is_missing = False
+    if (isinstance(is_missing, bool) or type(is_missing).__name__ == "bool_") and is_missing:
+        return ""
+    return str(value).strip()
+
+
+def sorted_unique_values(series):
+    values = series.map(format_display_value)
+    values = values[values != ""]
+    return sorted(values.unique())
+
+
+def value_matches(series, selected_value):
+    return series.map(format_display_value) == selected_value
 
 
 def extract_json_block(text):

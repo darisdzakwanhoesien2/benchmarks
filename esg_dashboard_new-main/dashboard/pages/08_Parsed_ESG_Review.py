@@ -3,7 +3,13 @@ import pandas as pd
 import json
 import os
 import re
-from utils.data_loader import read_dataset, resolve_data_path
+from utils.data_loader import (
+    format_display_value,
+    read_dataset,
+    resolve_data_path,
+    sorted_unique_values,
+    value_matches,
+)
 
 # -------------------------------------------------------
 # Page Config
@@ -131,6 +137,16 @@ df = parse_annotations(raw_df)
 st.success(f"Parsed **{len(df)}** ESG sentence records")
 
 # -------------------------------------------------------
+# Helper: Safe filter labels for scalar/list/dict values
+# -------------------------------------------------------
+def format_filter_value(value):
+    return format_display_value(value)
+
+
+def sorted_unique_filter_values(series):
+    return sorted_unique_values(series)
+
+# -------------------------------------------------------
 # Helper: Parse provider
 # -------------------------------------------------------
 def parse_provider(m):
@@ -144,7 +160,7 @@ df["provider"] = df["model"].apply(parse_provider)
 # Helper: Ensure pivot contains ALL models
 # -------------------------------------------------------
 def ensure_all_models(reference_df, pivot):
-    all_models = sorted(reference_df["model"].dropna().unique())
+    all_models = sorted_unique_values(reference_df["model"])
     for m in all_models:
         if m not in pivot.columns:
             pivot[m] = None
@@ -154,8 +170,8 @@ def ensure_all_models(reference_df, pivot):
 # Helper: completeness scoring
 # -------------------------------------------------------
 def model_completeness(df_pdf, df_page):
-    expected = sorted(df_pdf["model"].dropna().unique())
-    present = sorted(df_page["model"].dropna().unique())
+    expected = sorted_unique_values(df_pdf["model"])
+    present = sorted_unique_values(df_page["model"])
     missing = set(expected) - set(present)
 
     score = len(present) / len(expected) if expected else 1.0
@@ -178,7 +194,7 @@ st.sidebar.header("🔍 Filters")
 def make_multiselect(label, col):
     if col not in df.columns:
         return None
-    vals = sorted(df[col].dropna().unique())
+    vals = sorted_unique_filter_values(df[col])
     return st.sidebar.multiselect(label, vals, default=vals)
 
 aspect_cats = make_multiselect("Aspect Category", "aspect_category")
@@ -204,7 +220,8 @@ filtered = df.copy()
 def apply_filter(col, values):
     global filtered
     if values and col in filtered.columns:
-        filtered = filtered[filtered[col].isin(values)]
+        normalized = filtered[col].map(format_filter_value)
+        filtered = filtered[normalized.isin(values)]
 
 apply_filter("aspect_category", aspect_cats)
 apply_filter("sentiment", sentiments)
@@ -278,17 +295,16 @@ with tab4:
     # ---------------------------------------------------
     # File & Page Selection
     # ---------------------------------------------------
-    filenames = sorted(filtered["filename"].unique())
+    filenames = sorted_unique_values(filtered["filename"])
     selected_file = st.selectbox("Filename", filenames, key="mc_file")
 
-    pages = sorted(
-        filtered[filtered["filename"] == selected_file]["page_number"].unique()
-    )
+    file_mask = value_matches(filtered["filename"], selected_file)
+    pages = sorted_unique_values(filtered.loc[file_mask, "page_number"])
     selected_page = st.selectbox("Page Number", pages, key="mc_page")
 
     subset = filtered[
-        (filtered["filename"] == selected_file) &
-        (filtered["page_number"] == selected_page)
+        file_mask &
+        value_matches(filtered["page_number"], selected_page)
     ]
 
     if subset.empty:
@@ -298,7 +314,7 @@ with tab4:
     # ---------------------------------------------------
     # Model Completeness
     # ---------------------------------------------------
-    df_pdf = filtered[filtered["filename"] == selected_file]
+    df_pdf = filtered[file_mask]
     comp = model_completeness(df_pdf, subset)
 
     st.metric(
@@ -447,27 +463,31 @@ with tab4:
 with tab5:
     st.subheader("LLM Breakdown by Provider")
 
-    filenames = sorted(filtered["filename"].unique())
+    filenames = sorted_unique_values(filtered["filename"])
     selected_file = st.selectbox("Select Report Filename", filenames, key="file_tab5")
 
-    pages = sorted(filtered[filtered["filename"] == selected_file]["page_number"].unique())
+    file_mask = value_matches(filtered["filename"], selected_file)
+    pages = sorted_unique_values(filtered.loc[file_mask, "page_number"])
     selected_page = st.selectbox("Select Page Number", pages, key="page_tab5")
 
     subset = filtered[
-        (filtered["filename"] == selected_file) &
-        (filtered["page_number"] == selected_page)
+        file_mask &
+        value_matches(filtered["page_number"], selected_page)
     ].copy()
 
-    providers = sorted(subset["provider"].unique())
+    providers = sorted_unique_values(subset["provider"])
     selected_provider = st.selectbox("Select Provider", providers, key="provider_tab5")
 
-    provider_subset = subset[subset["provider"] == selected_provider]
+    provider_subset = subset[value_matches(subset["provider"], selected_provider)]
 
-    st.write("Models under provider:", sorted(provider_subset["model"].unique()))
+    st.write("Models under provider:", sorted_unique_values(provider_subset["model"]))
 
     # --- COMPLETENESS FOR PROVIDER ---
-    df_pdf = filtered[filtered["filename"] == selected_file]
-    comp = model_completeness(df_pdf[df_pdf["provider"] == selected_provider], provider_subset)
+    df_pdf = filtered[file_mask]
+    comp = model_completeness(
+        df_pdf[value_matches(df_pdf["provider"], selected_provider)],
+        provider_subset,
+    )
 
     st.metric("Provider Completeness", f"{comp['score']*100:.1f}%")
     if comp["missing_count"] > 0:
@@ -513,30 +533,32 @@ with tab6:
 
     selected_file_cov = st.selectbox(
         "Select Report Filename",
-        sorted(df["filename"].unique()),
+        sorted_unique_values(df["filename"]),
         key="cov_file"
     )
 
     st.subheader("📄 Pages for this File")
     subset = models_per_page[
-        models_per_page["filename"] == selected_file_cov
+        value_matches(models_per_page["filename"], selected_file_cov)
     ].sort_values("page_number")
     st.dataframe(subset)
 
     st.subheader("🧠 Models Used on Each Page")
     model_page_map = (
-        df[df["filename"] == selected_file_cov]
+        df[value_matches(df["filename"], selected_file_cov)]
         .groupby("page_number")["model"]
         .unique()
         .reset_index()
     )
-    model_page_map["models"] = model_page_map["model"].apply(lambda x: ", ".join(sorted(x)))
+    model_page_map["models"] = model_page_map["model"].apply(
+        lambda x: ", ".join(sorted(format_display_value(item) for item in x if format_display_value(item)))
+    )
     model_page_map = model_page_map.drop(columns=["model"])
     st.dataframe(model_page_map)
 
     st.subheader("🔥 Model–Page Heatmap")
     pivot = (
-        df[df["filename"] == selected_file_cov]
+        df[value_matches(df["filename"], selected_file_cov)]
         .pivot_table(
             index="page_number",
             columns="model",
@@ -545,7 +567,7 @@ with tab6:
             fill_value=0
         )
     )
-    pivot = ensure_all_models(df[df["filename"] == selected_file_cov], pivot)
+    pivot = ensure_all_models(df[value_matches(df["filename"], selected_file_cov)], pivot)
     st.dataframe(pivot.style.background_gradient(cmap="Blues"), use_container_width=True)
 
 # -------------------------------------------------------
@@ -554,15 +576,16 @@ with tab6:
 with tab7:
     st.subheader("📦 Raw JSON Data Viewer")
 
-    filenames = sorted(raw_df["filename"].unique())
+    filenames = sorted_unique_values(raw_df["filename"])
     selected_file = st.selectbox("Filename", filenames, key="raw_file")
 
-    pages = sorted(raw_df[raw_df["filename"] == selected_file]["page_number"].unique())
+    raw_file_mask = value_matches(raw_df["filename"], selected_file)
+    pages = sorted_unique_values(raw_df.loc[raw_file_mask, "page_number"])
     selected_page = st.selectbox("Page", pages, key="raw_page")
 
     subset = raw_df[
-        (raw_df["filename"] == selected_file) &
-        (raw_df["page_number"] == selected_page)
+        raw_file_mask &
+        value_matches(raw_df["page_number"], selected_page)
     ]
 
     for _, row in subset.iterrows():
@@ -602,7 +625,7 @@ with tab8:
     # PREPARE PAGE-LEVEL DATA
     # ---------------------------------------------------
     audit_rows = []
-    llm_models = sorted(filtered["model"].dropna().unique())
+    llm_models = sorted_unique_values(filtered["model"])
 
     grouped = filtered.groupby(["filename", "page_number"])
 
@@ -662,13 +685,12 @@ with tab8:
 
     sel_file = st.selectbox(
         "Select Filename",
-        sorted(page_level_df["filename"].unique()),
+        sorted_unique_values(page_level_df["filename"]),
         key="audit_file"
     )
 
-    sel_pages = sorted(
-        page_level_df[page_level_df["filename"] == sel_file]["page_number"].unique()
-    )
+    audit_file_mask = value_matches(page_level_df["filename"], sel_file)
+    sel_pages = sorted_unique_values(page_level_df.loc[audit_file_mask, "page_number"])
 
     sel_page = st.selectbox(
         "Select Page",
@@ -677,8 +699,8 @@ with tab8:
     )
 
     page_subset = filtered[
-        (filtered["filename"] == sel_file) &
-        (filtered["page_number"] == sel_page)
+        value_matches(filtered["filename"], sel_file) &
+        value_matches(filtered["page_number"], sel_page)
     ]
 
     if page_subset.empty:
