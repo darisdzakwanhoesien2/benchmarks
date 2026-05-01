@@ -35,6 +35,13 @@
         "environmental stewardship",
         "green space"
       ],
+      "environmental_management": [
+        "Environment",
+        "environmental",
+        "lingkungan",
+        "sustainability practices",
+        "sustainable performance"
+      ],
       "resource_and_waste": [
         "environmental footprint",
         "environmental management",
@@ -58,7 +65,22 @@
         "Environmental Aspects",
         "environmental cost",
         "environmental maintenance",
-        "environmental products and services"
+        "environmental products and services",
+        "inventory",
+        "plant generation efficiency",
+        "resource allocation",
+        "traffic congestion"
+      ],
+      "sustainability_and_impact": [
+        "Sustainability",
+        "E",
+        "impact",
+        "keberlanjutan",
+        "sustainability awareness",
+        "sustainability challenges",
+        "sustainability guidelines",
+        "sustainability principles",
+        "sustainable future"
       ]
     },
     "Financial": {
@@ -102,7 +124,22 @@
         "human capital management",
         "intangible assets",
         "long-term liabilities",
-        "retained earnings"
+        "retained earnings",
+        "trade receivables",
+        "lease",
+        "financing",
+        "cash",
+        "payables",
+        "related party transactions",
+        "financing component",
+        "related party transaction volume",
+        "reserve fund",
+        "share acquisition",
+        "share issuance",
+        "share issuance expenses",
+        "share premium",
+        "stock_trading",
+        "subsidiary"
       ],
       "capital_and_assets": [
         "Investment",
@@ -116,6 +153,22 @@
         "property acquisition",
         "receivables value",
         "shareholder structure"
+      ],
+      "economic_risk_and_tax": [
+        "contingencies",
+        "government incentive",
+        "monetary policy",
+        "risiko ekonomi",
+        "transaction price"
+      ],
+      "financial_management_and_risk": [
+        "insurance",
+        "defined benefit obligation",
+        "deposit",
+        "finance",
+        "guarantees",
+        "payment",
+        "total"
       ],
       "financial_performance": [
         "revenue",
@@ -139,7 +192,20 @@
         "sales exceed 10% of group revenue",
         "sales exceeding 10%",
         "sales to PT Lazuli Karya Sarana",
-        "sales to PT Pembangunan Property"
+        "sales to PT Pembangunan Property",
+        "Economic Aspect",
+        "program performance",
+        "Economic",
+        "Economic aspects",
+        "cash_flows",
+        "company performance"
+      ],
+      "investor_relations_and_capital_markets": [
+        "acquisition",
+        "investor",
+        "securities listings",
+        "stock exchange",
+        "trading suspension/delisting"
       ],
       "performance_and_reporting": [
         "Sustainable Finance",
@@ -192,6 +258,19 @@
         "special audits",
         "verification"
       ],
+      "board_and_governance": [
+        "performance evaluation",
+        "shareholder_structure",
+        "ESG Performance",
+        "G",
+        "subsidiaries",
+        "decision documentation",
+        "evaluation process",
+        "management",
+        "management responsibility",
+        "oversight",
+        "voting procedure"
+      ],
       "board_and_leadership": [
         "Board Responsibility",
         "Board of Directors",
@@ -220,7 +299,32 @@
         "board member qualifications",
         "board member roles",
         "nominasi",
-        "term of office"
+        "term of office",
+        "committee appointment",
+        "organizational structure",
+        "committee performance evaluation",
+        "committee tenure",
+        "concurrent position",
+        "concurrent positions",
+        "general meeting of shareholders",
+        "internal structure",
+        "jabatan rangkap",
+        "keberagaman komposisi Direksi",
+        "kinerja Direksi",
+        "latar belakang dan kompetensi anggota Direksi",
+        "legal basis of appointment",
+        "performance evaluation procedure",
+        "steering committee"
+      ],
+      "compliance_and_standards": [
+        "agreement",
+        "Standards",
+        "affiliation",
+        "control activities",
+        "corporate actions",
+        "hubungan afiliasi",
+        "information and communication systems",
+        "subsequent events"
       ],
       "ethics_and_compliance": [
         "Risk Management System",
@@ -244,7 +348,28 @@
         "corporate culture",
         "ethics & compliance",
         "internal control environment",
-        "legal risk"
+        "legal risk",
+        "tata kelola",
+        "tata kelola perusahaan",
+        "Ethics",
+        "legal consultant",
+        "policy socialization",
+        "risiko",
+        "risk assessment and management",
+        "risks",
+        "sistem pengendalian internal"
+      ],
+      "reporting_and_transparency": [
+        "report",
+        "Management Report",
+        "data representation",
+        "material information",
+        "meeting minutes",
+        "monitoring",
+        "performance assessment",
+        "report improvement",
+        "report page number",
+        "report_validity"
       ]
     },
     "Operations_and_Strategy": {
@@ -263,7 +388,29 @@
         "business growth",
         "business model",
         "sustainable business growth",
-        "target and projection"
+        "target and projection",
+        "Company Profile",
+        "business segments",
+        "diversification",
+        "industry analysis",
+        "restructuring",
+        "sustainable business practices"
+      ],
+      "business_strategy_and_planning": [
+        "estimation",
+        "Organizational Details",
+        "account manager involvement",
+        "advantages",
+        "appendix",
+        "application success",
+        "assumptions",
+        "company type",
+        "key events",
+        "komunikasi efektif",
+        "management discussion",
+        "performance",
+        "performance criteria",
+        "promotion"
       ],
       "innovation_and_technology": [
         "innovation",
@@ -274,6 +421,21 @@
         "information security",
         "innovation investment",
         "network infrastructure"
+      ],
+      "operational_management": [
+        "Company",
+        "location",
+        "products",
+        "Flavor Bliss",
+        "Pasar 8",
+        "development phase",
+        "development program",
+        "efficiency",
+        "helpdesk",
+        "market testing",
+        "security",
+        "segmen operasi",
+        "third-party operators"
       ],
       "operations_and_supply_chain": [
         "operations",
@@ -309,7 +471,20 @@
         "industrial estate development",
         "infrastructure investment",
         "residential units",
-        "tourism infrastructure"
+        "tourism infrastructure",
+        "infrastructure",
+        "kualitas hunian",
+        "Reseller Service",
+        "central telecommunications construction",
+        "helpdesk system integration",
+        "komersial dan ritel",
+        "luxury development",
+        "mall @Alam Sutera",
+        "monument construction",
+        "project launches",
+        "project monitoring",
+        "telecom expenses",
+        "transportation"
       ],
       "strategy_and_planning": [
         "Sustainability Performance",
@@ -329,7 +504,12 @@
         "supplier criteria",
         "supplier payment",
         "supply_chain",
-        "sustainable sourcing"
+        "sustainable sourcing",
+        "related parties",
+        "suppliers",
+        "contractor",
+        "contractual issues",
+        "contractual terms"
       ]
     },
     "Social": {
@@ -356,7 +536,19 @@
         "community access",
         "community impact",
         "cultural heritage",
-        "scholarship program"
+        "scholarship program",
+        "community",
+        "Social",
+        "awards",
+        "community and the environment",
+        "social_impact",
+        "apresiasi",
+        "community_engagement",
+        "community_impact",
+        "cultural programming",
+        "social_responsibility",
+        "sosial dan lingkungan",
+        "students"
       ],
       "customer_relations": [
         "service quality",
@@ -401,7 +593,29 @@
         "employee evaluation",
         "employee relations",
         "employee rights",
-        "fair remuneration"
+        "fair remuneration",
+        "remuneration",
+        "safety",
+        "employee information",
+        "employee number",
+        "experience",
+        "pengalaman profesional",
+        "pengembangan kompetensi",
+        "remuneration policy",
+        "safety management system"
+      ],
+      "labor_and_workforce": [
+        "indirect worker data collection"
+      ],
+      "stakeholder_engagement": [
+        "event hosting",
+        "responsibility",
+        "S",
+        "SEGWWL involvement",
+        "industry association membership",
+        "ngo",
+        "program",
+        "programs"
       ],
       "stakeholder_relations": [
         "stakeholder engagement",
@@ -411,7 +625,19 @@
         "culinary experience",
         "external communication",
         "feedback form",
-        "shareholder engagement"
+        "shareholder engagement",
+        "stakeholder",
+        "reputation",
+        "stakeholder_engagement",
+        "identifikasi pemangku kepentingan",
+        "komunikasi dengan pemangku kepentingan",
+        "media",
+        "membership in industry associations",
+        "pemangku kepentingan",
+        "stakeholder responsibility",
+        "stakeholder value",
+        "stakeholders",
+        "target audience"
       ]
     }
   }
