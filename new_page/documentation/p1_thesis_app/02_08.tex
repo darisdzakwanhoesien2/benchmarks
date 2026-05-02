@@ -1,0 +1,76 @@
+Literature Gap Summary: Integrated, Explainable, Tone-Aware ESG ABSA for Bilingual Disclosures
+
+Executive framing
+Across the reviewed literatures on ESG ABSA, several persistent gaps recur in a way that directly impedes reliable, regulator-friendly analysis of Indonesian/English disclosures. A unifying thread emerges: there is a lack of integrated pipelines that (i) produce sentence- and region-grounded ESG evidence with explicit tone distinctions (commitment/action/outcome), (ii) operate bidirectionally across Indonesian and English texts with robust cross-language alignment to GRI/SASB/TCFD, (iii) provide explainable outputs suitable for both investors and regulators, and (iv) remain stable under prompt variation, document modality (PDF vs scanned), and multimodal content (tables, charts). The following synthesis articulates how these gaps cohere, why they matter for ESG ABSA, and how this thesis addresses them, setting up a natural transition to the methodology.
+
+1) Absence of an integrated, end-to-end, bilingual ESG ABSA pipeline with tone awareness
+
+What the literature shows
+Much work demonstrates ABSA in ESG domains in isolation: sentence-level ABSA, cross-lingual ABSA, or domain-specific ABSA (e.g., climate or finance) using climate-specific or financial-domain models. However, there is limited evidence of a fully integrated pipeline that combines sentence- and region-level ABSA with a formal tone taxonomy (commitment/action/outcome) and bilingual Indonesian/English processing, all anchored to a unified ESG ontology mapped to GRI/SASB/TCFD (Seow, 2025; , Gorovaia & Makrominas, 2024; , Heever et al., 2024; , Garrido-Merchán et al., 2023; , Hassani et al., 2025; , Schimanski et al., 2023; , Kim et al., 2024).
+What is missing
+A cohesive architecture that (a) converts bilingual PDFs into structured ESG records with provenance, (b) performs sentence- and region-level ABSA with aspect-to-sentinel mappings, (c) classifies tone into commitment, action, and outcome, and (d) links outputs to regulator-ready frameworks. There is also a need for end-to-end evaluation on Indonesian disclosures under OJK/IDX guidelines to demonstrate practical relevance.
+Why this matters for ESG ABSA
+Without integration, ABSA outputs remain brittle, difficult to audit, and hard to compare across firms or jurisdictions. An integrated pipeline enables consistent regulatory mapping, transparent signaling for investors, and robust traceability from textual evidence to regulatory concepts. This gap directly aligns with calls for explainable, auditable ESG analytics in finance and governance literatures (Seow, 2025; , Moreno & Caminero, 2020; , Srivastava & Anand, 2023; , (Abhayawansa & Adams, 2021; , Rowbottom, 2022; , O’Dwyer & Unerman, 2020; .
+Transition cue to methodology
+The methodology chapter will operationalize this integrated pipeline, detailing data flow from PDFs through OCR, multilingual ABSA with tone tagging, ontology-grounded mappings, and regulator-facing outputs, with explicit evaluation protocols.
+2) Tone-aware ABSA as a principled solution to commitment vs. outcome discrimination
+
+What the literature shows
+ABSA work increasingly emphasizes aspect-level sentiment, yet most studies treat sentiment as a single polarity per aspect. Few works formalize a four-dimensional signal for ESG: aspectterm, sentiment, tone (commitment/action/outcome), and regulatoryanchor. This is especially critical for ESG where forward-looking commitments must be weighed against retrospective outcomes and independent verifications (Seow, 2025; , Gorovaia & Makrominas, 2024; , Heever et al., 2024; , Garrido-Merchán et al., 2023; , Hassani et al., 2025; , Schimanski et al., 2023; .
+What is missing
+A validated tone taxonomy for ESG ABSA that explicitly distinguishes commitment (intent), action (execution), and outcome (results), and that is tested cross-lingually in Indonesian/English contexts. There is also a lack of annotated corpora and evaluation metrics that capture tone accuracy, calibration, and the alignment of tone with measurable KPIs across GRI/SASB/TCFD indicators.
+Why this matters for ESG ABSA
+Distinguishing commitment from outcome is central to detecting greenwashing and assessing credibility of ESG disclosures. A tone-aware ABSA framework enhances auditability, regulator compliance checks, and investor due diligence by surfacing when rhetoric outpaces progress or when outcomes are inadequately disclosed. This aligns with legitimacy and signaling theory concerns and with practical needs for materiality-driven disclosure analysis (Zhen et al., 2024; , Gorovaia & Makrominas, 2024; , Mishra, 2023; , Yang et al., 2023).
+Transition cue to methodology
+The methodology will describe the tone taxonomy (commitment/action/outcome), annotation guidelines, and integration with the ESG ontology, including evaluation metrics for tone-classification accuracy and cross-language consistency.
+3) Cross-language (Indonesian/English) integration with regulator-aligned ontology
+
+What the literature shows
+Cross-lingual ABSA and multilingual transformer approaches demonstrate feasibility but also highlight fragility when domain-specific regulatory lexicons and materiality concepts differ across languages. Indonesian regulatory discourse (OJK/IDX) introduces unique lexicons and governance terms not always aligned with international standards, creating a gap for ontology-based alignment that can operate across languages with fidelity Šmíd & Král, 2025; , Gorovaia & Makrominas, 2024; , Hang, 2025; , "The Bond Market in Indonesia:", 2021; , Srivastava & Anand, 2023; , Miglionico, 2022).
+What is missing
+A bilingual ESG ontology and ontology-guided ABSA pipeline that (a) maps Indonesian and English ESG terms to GRI/SASB/TCFD nodes, (b) supports cross-language normalization and synonym handling, and (c) maintains consistent aspect and tone labeling across languages. There is a lack of large, bilingual ESG corpora with ontology-aligned annotations to support robust cross-language transfer.
+Why this matters for ESG ABSA
+Without robust cross-language alignment, Indonesian disclosures cannot be meaningfully benchmarked against global standards or across multinational investors. A bilingual, ontology-driven approach ensures comparability and regulatory fidelity, enabling Indonesia-specific analyses to contribute to broader ESG analytics discourse (Abhayawansa & Adams, 2021; , Rowbottom, 2022; , O’Dwyer & Unerman, 2020; , Hess, 2014), Kansal et al., 2024; , JIA et al., 2025; .
+Transition cue to methodology
+The methodology chapter will specify the bilingual ontology design, Indonesian-English term mappings, cross-language annotation guidelines, and ontological alignment with GRI/SASB/TCFD.
+4) Multimodal and document-structure considerations (OCR, tables, charts, and layout)
+
+What the literature shows
+A substantial portion of ESG documents are multimodal (text with tables, charts, figures), and many studies rely on text-only extracts, ignoring the evidentiary values embedded in tables and visuals. Emerging multimodal ABSA frameworks show promise but remain underdeveloped for long, formal sustainability reports with complex layouts, data tables, and multi-language content (Gao, 2025; , Wang, 2025; , Gu et al., 2022; , Aggarwal et al., 2023; , Li et al., 2024; .
+What is missing
+An end-to-end pipeline that preserves document structure through OCR, layout-aware extraction of tables and charts, and joint text-visual ABSA anchored to ontology nodes, enabling robust sentence-level and table-level sentiment evidence mapping. Critical gaps include handling OCR errors, table cell alignment, and cross-language layout quirks in bilingual reports.
+Why this matters for ESG ABSA
+Emails or reports with misread KPI values, misaligned table headers, or non-textual evidence can derail ABSA outputs. OCR quality directly constrains the fidelity of evidence anchoring and the subsequent sentiment and tone labeling, making it a gating factor for downstream ABSA accuracy and explainability (Ye et al., 2023; , Bai, 2025; , Wang, 2025; , Li et al., 2024; , Wang et al., 2023; .
+Transition cue to methodology
+The methods chapter will outline OCR + layout-aware extraction pipelines, multimodal ABSA integration, and evaluation plans for cross-language multimodal ESG documents.
+5) Reproducibility, explainability, and regulator-facing outputs
+
+What the literature shows
+There is a growing emphasis on explainability (XAI) and reproducibility in NLP/ESG analytics, but many studies do not publish complete experimental pipelines, prompts, schemas, or ground-truth corpora required for external replication. The need for auditable outputs, especially for regulatory review and investor due diligence, is repeatedly called out (Seow, 2025; , Moreno & Caminero, 2020; , Srivastava & Anand, 2023; , Bingler et al., 2021; , Auzepy et al., 2023; , Trajanov et al., 2023; , Lin et al., 2024; , Cardoni et al., 2019; .
+What is missing
+A reproducible, auditable ABSA pipeline with explicit JSON schemas for outputs, seven prompt templates, two model baselines, and a publicly available bilingual ESG corpus with tone annotations. A formal evaluation protocol that captures schema stability and cross-language consistency is also lacking.
+Why this matters for ESG ABSA
+Regulators and investors require transparent methodologies with traceable evidence chains. A reproducible framework enables independent verification, confidence in model outputs, and credible governance of automated ESG analysis, critical for trust in ESG disclosures and for meeting regulatory expectations (Abhayawansa & Adams, 2021; , Rowbottom, 2022; , O’Dwyer & Unerman, 2020; , Pizzi et al., 2022; , Hess, 2014).
+6) How this thesis fills the gaps
+
+Positioning the study
+This thesis targets the identified gaps with an integrated, tone-aware, bilingual ESG ABSA pipeline grounded in a formal ontology aligned to GRI/SASB/TCFD. It introduces a practical tone taxonomy (commitment/action/outcome) as a core methodological contribution for automated greenwashing analysis, and embeds agreement/disagreement diagnostics, cross-model comparisons, and explainability features designed for regulator usability.
+The methodological core
+End-to-end pipeline: PDF/ scanned-doc → OCR/layout-aware extraction → sentence- and region-grounded ABSA with tone tagging → ontology mapping to GRI/SASB/TCFD → knowledge-graph-grounded explanations → regulator-friendly JSON outputs.
+Tone-aware ABSA: explicit tagging of commitment, action, and outcome signals at the sentence level, with bilingual annotation guidelines and cross-language mappings.
+Cross-language ontology: Indonesian-English term mappings, cross-framework alignment, and a bilingual ontology path that supports explainable ABSA outputs.
+Multimodal and OCR-aware processing: integration of tables and charts extraction with text, tying numeric signals to ESG aspects.
+Explainability and reproducibility: seven prompt templates, two model baselines, an open schema for outputs, and a reproducibility package that enables cross-language benchmarking and regulator-facing interpretability.
+Expected impact
+The integrated, explainable, tone-aware pipeline will provide regulators with auditable evidence chains for greenwashing risk, enable investors to discern credible progress from rhetoric, and support the Indonesian market's move toward standardized, trustworthy ESG disclosures. This aligns with established theoretical frameworks (stakeholder theory, legitimacy theory) and with practical needs for materiality and accountability in ESG reporting.
+Transition to the methodology chapter
+The Literature Gap Summary naturally leads into Chapter 3 (Methodology), where the detailed pipeline design, annotation schemas, model configurations, ontology mappings, evaluation plans, and reproducibility artifacts will be described, enabling rigorous implementation and replication.
+References to Ground the Gap Argument
+
+Foundational ABSA and cross-language work, including general ABSA surveys, cross-lingual ABSA studies, and climate-focused ABSA approaches, provide the methodological scaffolding for an integrated bilingual ABSA pipeline (Seow, 2025; , Šmíd & Král, 2025; , Gorovaia & Makrominas, 2024; , Hang, 2025; , Heever et al., 2024; , Garrido-Merchán et al., 2023; , Hassani et al., 2025; , Schimanski et al., 2023; , Kim et al., 2024).
+Ontology and regulatory-aligned information extraction frameworks underpin the explanatory and auditable outputs needed for governance and compliance in ESG reporting (Moreno & Caminero, 2020; , Ko et al., 2022; , Kansal et al., 2024; , JIA et al., 2025; , (Brauwers & Frăsincar, 2022; .
+XAI and disagreement diagnostics support the need for transparent model behavior, regulator-friendly explanations, and robust evaluation across languages and modalities (Brauwers & Frăsincar, 2022; , Lin et al., 2024; , Cardoni et al., 2019; , Yang, 2025; , Wolfe et al., 2024; , Friederich et al., 2021).
+OCR, multimodal document understanding and ToC/table/chart extraction literature provide the practical prerequisites for pushing ABSA beyond text-only analyses to credible, real-world ESG document processing (Gao, 2025; , Wang, 2025; , Gu et al., 2022; , Aggarwal et al., 2023; , Li et al., 2024; , Wang et al., 2023; , Yu, 2025).
+Note on references
+
+The above synthesis references the core ideas and target claims in the literature you provided and the candidate references list. In your final manuscript, please substitute precise IEEE-formatted citations with DOIs and complete bibliographic details corresponding to the exact sources you choose to rely on. If you want, I can generate a fully formatted IEEE references section aligned with this summary.
