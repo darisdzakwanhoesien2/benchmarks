@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -7,6 +8,7 @@ from utils.climatebert_analysis import merge_ground_truth
 
 
 st.title("ClimateBERT Model Deep Explorer")
+add_page_explanation(__file__)
 
 # Load merged dataset
 df = merge_ground_truth()
@@ -36,6 +38,7 @@ model_df = df[df.model == selected_model]
 # =============================
 
 st.header("Model Overview")
+add_section_explanation("Model Overview")
 
 total = len(model_df)
 
@@ -68,6 +71,7 @@ col4.metric("Avg Confidence", f"{avg_conf:.2f}")
 # =============================
 
 st.header("Predicted Label Distribution")
+add_section_explanation("Predicted Label Distribution")
 
 label_counts = success_df.predicted_label.value_counts()
 
@@ -86,6 +90,7 @@ st.plotly_chart(fig, use_container_width=True)
 # =============================
 
 st.header("Confidence Distribution")
+add_section_explanation("Confidence Distribution")
 
 fig2 = px.histogram(
     success_df,
@@ -102,6 +107,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # =============================
 
 st.header("Confidence vs Prediction")
+add_section_explanation("Confidence vs Prediction")
 
 success_df["correct"] = (
     success_df.predicted_label ==
@@ -124,6 +130,7 @@ st.plotly_chart(fig3, use_container_width=True)
 # =============================
 
 st.header("Confusion Matrix")
+add_section_explanation("Confusion Matrix")
 
 cm = pd.crosstab(
     success_df.true_sentiment,
@@ -145,6 +152,7 @@ st.plotly_chart(fig4)
 # =============================
 
 st.header("Prediction Explorer")
+add_section_explanation("Prediction Explorer")
 
 show_errors = st.checkbox("Show only incorrect predictions")
 
@@ -173,6 +181,7 @@ st.dataframe(
 # =============================
 
 st.header("Confidence by Label")
+add_section_explanation("Confidence by Label")
 
 fig5 = px.box(
     success_df,
@@ -189,6 +198,7 @@ st.plotly_chart(fig5)
 # =============================
 
 st.header("Error Analysis")
+add_section_explanation("Error Analysis")
 
 errors = model_df[model_df.status == "error"]
 
@@ -206,6 +216,7 @@ else:
 # =============================
 
 st.header("Export")
+add_section_explanation("Export")
 
 st.download_button(
     "Download Model CSV",
@@ -219,6 +230,7 @@ st.download_button(
 # =============================
 
 st.header("Advanced Metrics")
+add_section_explanation("Advanced Metrics")
 
 precision = {}
 recall = {}

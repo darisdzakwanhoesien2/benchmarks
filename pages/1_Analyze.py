@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 from datetime import datetime
 
@@ -7,6 +8,7 @@ from utils.logger import save_history, load_history
 from utils.formatter import format_result
 
 st.title("🌱 ESG Text Analyzer")
+add_page_explanation(__file__)
 
 text_input = st.text_area(
     "Enter company report, news, or ESG-related text:",
@@ -44,6 +46,7 @@ if analyze_button and text_input.strip():
     st.success("Analysis Complete")
 
     st.subheader("Formatted Result")
+    add_section_explanation("Formatted Result")
     st.json(formatted)
 
 
@@ -53,6 +56,7 @@ if analyze_button and text_input.strip():
 
 st.divider()
 st.subheader("History")
+add_section_explanation("History")
 
 history = load_history()
 

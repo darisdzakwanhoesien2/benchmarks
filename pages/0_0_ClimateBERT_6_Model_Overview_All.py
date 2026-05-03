@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -7,6 +8,7 @@ from utils.climatebert_analysis import merge_ground_truth
 
 
 st.title("ClimateBERT All Models Visualization")
+add_page_explanation(__file__)
 
 # Load merged dataset
 df = merge_ground_truth()
@@ -22,6 +24,7 @@ if df.empty:
 # =====================================================
 
 st.header("Model Leaderboard")
+add_section_explanation("Model Leaderboard")
 
 success_df = df[df.status == "success"].copy()
 
@@ -71,6 +74,7 @@ st.dataframe(metrics_df, use_container_width=True)
 # =====================================================
 
 st.header("Accuracy Comparison")
+add_section_explanation("Accuracy Comparison")
 
 fig_acc = px.bar(
     metrics_df,
@@ -88,6 +92,7 @@ st.plotly_chart(fig_acc, use_container_width=True)
 # =====================================================
 
 st.header("Confidence Distribution (All Models)")
+add_section_explanation("Confidence Distribution (All Models)")
 
 fig_conf = px.box(
     success_df,
@@ -104,6 +109,7 @@ st.plotly_chart(fig_conf, use_container_width=True)
 # =====================================================
 
 st.header("Label Distribution by Model")
+add_section_explanation("Label Distribution by Model")
 
 label_dist = (
     success_df
@@ -123,6 +129,7 @@ fig_label = px.bar(
 st.plotly_chart(fig_label, use_container_width=True)
 
 st.header("Label Distribution by Sentiment")
+add_section_explanation("Label Distribution by Sentiment")
 
 label_dist = (
     success_df
@@ -148,6 +155,7 @@ st.plotly_chart(fig_label, use_container_width=True)
 # =====================================================
 
 st.header("Per-Model Deep Dive")
+add_section_explanation("Per-Model Deep Dive")
 
 models = sorted(success_df.model.unique())
 
@@ -184,6 +192,7 @@ for i, model in enumerate(models):
 
         # Raw data
         st.subheader("Predictions Table")
+        add_section_explanation("Predictions Table")
 
         st.dataframe(
 
@@ -201,6 +210,7 @@ for i, model in enumerate(models):
         )
         # Confidence Histogram
         st.subheader("Confidence Histogram")
+        add_section_explanation("Confidence Histogram")
 
         fig_hist = px.histogram(
             model_df,
@@ -213,6 +223,7 @@ for i, model in enumerate(models):
 
         # Confusion Matrix
         st.subheader("Confusion Matrix")
+        add_section_explanation("Confusion Matrix")
 
         cm = pd.crosstab(
             model_df.true_sentiment,
@@ -230,6 +241,7 @@ for i, model in enumerate(models):
 
         # Label Distribution
         st.subheader("Label Distribution")
+        add_section_explanation("Label Distribution")
 
         label_counts = (
             model_df.predicted_label
@@ -259,6 +271,7 @@ for i, model in enumerate(models):
 # =====================================================
 
 st.header("Export")
+add_section_explanation("Export")
 
 st.download_button(
     "Download All Predictions CSV",

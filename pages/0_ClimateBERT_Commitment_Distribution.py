@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -16,6 +17,7 @@ st.set_page_config(
 )
 
 st.title("Climate Commitment Model Analysis")
+add_page_explanation(__file__)
 
 
 # =========================================================
@@ -69,6 +71,7 @@ model_df = df[df["model"] == selected_model]
 # =========================================================
 
 st.header("Overview")
+add_section_explanation("Overview")
 
 total_predictions = len(model_df)
 
@@ -102,6 +105,7 @@ col3.metric(
 # =========================================================
 
 st.header("Predicted Label Distribution")
+add_section_explanation("Predicted Label Distribution")
 
 label_counts = (
     model_df["predicted_label"]
@@ -117,6 +121,7 @@ label_counts["percentage"] = (
 
 # Summary Metrics
 st.subheader("Prediction Summary")
+add_section_explanation("Prediction Summary")
 
 cols = st.columns(len(label_counts))
 
@@ -136,6 +141,7 @@ col1, col2 = st.columns(2)
 with col1:
 
     st.subheader("Bar Chart")
+    add_section_explanation("Bar Chart")
 
     fig = px.bar(
         label_counts,
@@ -154,6 +160,7 @@ with col1:
 with col2:
 
     st.subheader("Pie Chart")
+    add_section_explanation("Pie Chart")
 
     fig = px.pie(
         label_counts,
@@ -173,6 +180,7 @@ st.dataframe(label_counts, use_container_width=True)
 # =========================================================
 
 st.header("Confidence Analysis")
+add_section_explanation("Confidence Analysis")
 
 col1, col2 = st.columns(2)
 
@@ -180,6 +188,7 @@ col1, col2 = st.columns(2)
 with col1:
 
     st.subheader("Confidence Histogram")
+    add_section_explanation("Confidence Histogram")
 
     fig = px.histogram(
         model_df,
@@ -194,6 +203,7 @@ with col1:
 with col2:
 
     st.subheader("Confidence Box Plot")
+    add_section_explanation("Confidence Box Plot")
 
     fig = px.box(
         model_df,
@@ -209,6 +219,7 @@ with col2:
 # =========================================================
 
 st.header("True vs Predicted Comparison")
+add_section_explanation("True vs Predicted Comparison")
 
 comparison = (
     model_df.groupby(
@@ -235,6 +246,7 @@ st.plotly_chart(fig, use_container_width=True)
 # =========================================================
 
 st.header("Confusion Matrix")
+add_section_explanation("Confusion Matrix")
 
 cm = pd.crosstab(
     model_df["true_sentiment"],
@@ -256,6 +268,7 @@ st.plotly_chart(fig, use_container_width=True)
 # =========================================================
 
 st.header("Global Distribution Across Models")
+add_section_explanation("Global Distribution Across Models")
 
 global_dist = (
     df.groupby(["model", "predicted_label"])
@@ -280,6 +293,7 @@ st.plotly_chart(fig, use_container_width=True)
 # =========================================================
 
 st.header("Prediction Explorer")
+add_section_explanation("Prediction Explorer")
 
 search = st.text_input("Search text")
 
@@ -313,6 +327,7 @@ st.dataframe(
 # =========================================================
 
 st.header("Export")
+add_section_explanation("Export")
 
 st.download_button(
     "Download Model Predictions",

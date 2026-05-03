@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 
@@ -11,6 +12,7 @@ from utils.climatebert_analysis import (
 
 
 st.title("ClimateBERT Model Analysis")
+add_page_explanation(__file__)
 
 # Load merged dataset
 df = merge_ground_truth()
@@ -27,6 +29,7 @@ if df.empty:
 # ======================
 
 st.header("Overview")
+add_section_explanation("Overview")
 
 total_predictions = len(df)
 
@@ -46,6 +49,7 @@ col3.metric("Coverage", f"{coverage:.2%}")
 # ======================
 
 st.header("Model Performance")
+add_section_explanation("Model Performance")
 
 metrics_df = compute_model_metrics(df)
 
@@ -57,6 +61,7 @@ st.dataframe(metrics_df.sort_values("accuracy", ascending=False))
 # ======================
 
 st.subheader("Model Accuracy")
+add_section_explanation("Model Accuracy")
 
 fig = px.bar(
     metrics_df,
@@ -74,6 +79,7 @@ st.plotly_chart(fig, use_container_width=True)
 # ======================
 
 st.subheader("Model Coverage")
+add_section_explanation("Model Coverage")
 
 fig2 = px.bar(
     metrics_df,
@@ -91,6 +97,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # ======================
 
 st.header("Confidence Distribution")
+add_section_explanation("Confidence Distribution")
 
 conf_df = confidence_distribution(df)
 
@@ -109,6 +116,7 @@ st.plotly_chart(fig3, use_container_width=True)
 # ======================
 
 st.header("Error Analysis")
+add_section_explanation("Error Analysis")
 
 errors = model_error_analysis(df)
 
@@ -126,6 +134,7 @@ else:
 # ======================
 
 st.header("Confusion Matrix")
+add_section_explanation("Confusion Matrix")
 
 model_choice = st.selectbox(
     "Select Model",
@@ -162,6 +171,7 @@ else:
 # ======================
 
 st.header("Raw Data Explorer")
+add_section_explanation("Raw Data Explorer")
 
 st.dataframe(df)
 
@@ -171,6 +181,7 @@ st.dataframe(df)
 # ======================
 
 st.header("Export Results")
+add_section_explanation("Export Results")
 
 st.download_button(
     "Download Metrics CSV",

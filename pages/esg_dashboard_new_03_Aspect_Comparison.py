@@ -1,10 +1,12 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 from utils.data_loader import load_and_parse
 from utils.aspect_clustering import cluster_aspect
 
 st.set_page_config(layout="wide")
 st.title("🔍 Aspect Mapping — Before vs After")
+add_page_explanation(__file__)
 
 df = load_and_parse()
 

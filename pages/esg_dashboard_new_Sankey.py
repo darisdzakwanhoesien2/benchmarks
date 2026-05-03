@@ -3,6 +3,7 @@
 # ==========================================================
 
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -15,6 +16,7 @@ from pathlib import Path
 st.set_page_config(page_title="Upload-Based Tone Balancer", layout="wide")
 
 st.title("📤 Upload-Based Tone Distribution & Balancer")
+add_page_explanation(__file__)
 st.write(
     "Upload a dataset and generate ontology-normalized tone distributions, "
     "Sankey graphs, and balanced datasets."
@@ -65,6 +67,7 @@ def normalize(value, mapping):
 # FILE UPLOADER & DATASET SELECTION
 # ----------------------------------------------------------
 st.header("1️⃣ Upload Your Dataset")
+add_section_explanation("1️⃣ Upload Your Dataset")
 from pathlib import Path
 import json
 
@@ -151,6 +154,7 @@ def compute_tone_distribution(df):
 tone_df = compute_tone_distribution(df)
 
 st.header("2️⃣ Generated Tone Distribution Table")
+add_section_explanation("2️⃣ Generated Tone Distribution Table")
 st.dataframe(tone_df, use_container_width=True)
 
 # ----------------------------------------------------------
@@ -189,6 +193,7 @@ st.dataframe(filtered, use_container_width=True)
 # COMBINED TONE DISTRIBUTION PIE
 # ----------------------------------------------------------
 st.markdown("## 🥧 Combined Minimum-Tone Distribution")
+add_section_explanation("## 🥧 Combined Minimum-Tone Distribution")
 
 if not filtered.empty:
     combined = (
@@ -210,6 +215,7 @@ if not filtered.empty:
 # SANKEY — Aspect → Sentiment → Tone (NAMESPACED)
 # ----------------------------------------------------------
 st.markdown("## 🔗 Aspect → Sentiment → Tone Sankey")
+add_section_explanation("## 🔗 Aspect → Sentiment → Tone Sankey")
 
 if not filtered.empty:
     sankey_data = (
@@ -277,6 +283,7 @@ if not filtered.empty:
 # BALANCED DATASET EXPORT
 # ----------------------------------------------------------
 st.markdown("## 🎯 Balanced Dataset Export")
+add_section_explanation("## 🎯 Balanced Dataset Export")
 
 sample_n = st.number_input(
     "Number of samples per group",

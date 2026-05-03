@@ -1,10 +1,12 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix, classification_report
 
 import json
 
 st.title("ABSA Mapping Metrics Comparison")
+add_page_explanation(__file__)
 
 # File paths
 gt_path = "data/ground_truth/absa_mapping.csv"

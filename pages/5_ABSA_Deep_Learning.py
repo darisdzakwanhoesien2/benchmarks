@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 
 from api.absa_client import run_deep
 from utils.dataframe import hf_to_df
@@ -6,6 +7,7 @@ from utils.visualization import render_plot
 
 
 st.title("ABSA Deep Learning")
+add_page_explanation(__file__)
 
 space_url = st.text_input(
     "Hugging Face Space URL (optional)",
@@ -32,6 +34,7 @@ if st.button("Run Deep Learning ABSA"):
     render_plot(plot)
 
     st.subheader("Token Interpretability")
+    add_section_explanation("Token Interpretability")
     st.dataframe(tokens)
 
     st.download_button(

@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 
 from ui.sidebar import render_sidebar
 from ui.text_input import render_text_input
@@ -17,6 +18,7 @@ st.set_page_config(
 )
 
 st.title("🌍 ESG & Climate NLP Model Tester")
+add_page_explanation(__file__)
 st.caption("Test one text against ClimateBERT & ESGBERT models")
 
 HF_TOKEN = get_hf_token()

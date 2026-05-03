@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import json
 import subprocess
@@ -7,6 +8,7 @@ from pathlib import Path
 
 st.set_page_config(layout="wide")
 st.title("🔗 Aspect Clusters Explorer")
+add_page_explanation(__file__)
 
 BASE = Path(__file__).resolve().parents[1]
 JSON_PATH = BASE / "data" / "aspect_cluster.json"
@@ -23,6 +25,7 @@ try:
 except json.decoder.JSONDecodeError as e:
     st.error(f"Failed to parse JSON: {e}")
     st.subheader("Preview of the JSON file (first 4000 chars)")
+    add_section_explanation("Preview of the JSON file (first 4000 chars)")
     txt = JSON_PATH.read_text(encoding="utf-8", errors="replace")
     st.code(txt[:4000])
     if st.button("Regenerate aspect_cluster.json from CSV"):
@@ -31,6 +34,7 @@ except json.decoder.JSONDecodeError as e:
             cmd = [sys.executable, str(script)]
             proc = subprocess.run(cmd, capture_output=True, text=True)
             st.subheader("Regeneration output")
+            add_section_explanation("Regeneration output")
             st.text(proc.stdout or "(no stdout)")
             if proc.stderr:
                 st.text(proc.stderr)
@@ -71,11 +75,13 @@ col1.metric("Clusters", len(clusters))
 col2.metric("Total aspect mentions (sum counts)", total_rows)
 
 st.subheader("Cluster summary")
+add_section_explanation("Cluster summary")
 st.dataframe(summary_df, use_container_width=True)
 
 selected = st.selectbox("Select cluster", ["All"] + summary_df["cluster"].tolist())
 if selected == "All":
     st.subheader("All clusters — top members")
+    add_section_explanation("All clusters — top members")
     # show top member per cluster
     rows = []
     for k, v in clusters.items():

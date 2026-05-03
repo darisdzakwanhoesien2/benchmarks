@@ -1,7 +1,9 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import json
 
 st.title("Documentation JSON Table Viewer")
+add_page_explanation(__file__)
 
 # Read the documentation.md file
 with open("documentation.md", "r") as f:
@@ -16,6 +18,7 @@ if start != -1 and end != -1:
     try:
         data = json.loads(json_str)
         st.subheader("Parsed JSON Table")
+        add_section_explanation("Parsed JSON Table")
         st.dataframe(data)
     except Exception as e:
         st.error(f"Failed to parse JSON: {e}")

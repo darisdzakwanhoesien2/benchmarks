@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from code.classical_ml import Featureizer
@@ -13,12 +14,14 @@ import torch
 
 st.set_page_config(page_title="ABSA Ontology Modules", layout="wide")
 st.title("ABSA Ontology Modules")
+add_page_explanation(__file__)
 
 text_input = st.text_area("Enter text to process with modules:")
 
 
 if text_input:
     st.header("Rule-Based Model Demo")
+    add_section_explanation("Rule-Based Model Demo")
     aspects = collect_aspects(text_input)
     polarity = polarity_basic(text_input)
     tone = tone_basic(text_input)
@@ -29,6 +32,7 @@ if text_input:
 
     # Classical ML
     st.header("Classical ML Pipeline Demo")
+    add_section_explanation("Classical ML Pipeline Demo")
     from code.classical_ml import run_classical_ml
     out_csv, out_df, fig, coef_sent, coef_aspect = run_classical_ml(text_input)
     st.write("Classical ML Output DataFrame:")
@@ -40,6 +44,7 @@ if text_input:
 
     # Deep Model
     st.header("Deep Model (mBERT) Demo")
+    add_section_explanation("Deep Model (mBERT) Demo")
     run_deep = st.checkbox("Run Deep Model (mBERT) Demo (may download models / use GPU)", value=False)
     if run_deep:
         from code.deep_model import run_deep_learning
@@ -53,6 +58,7 @@ if text_input:
 
     # Hybrid Model
     st.header("Hybrid Model (Hierarchical + MTL) Demo")
+    add_section_explanation("Hybrid Model (Hierarchical + MTL) Demo")
     from code.hybrid_model import run_hierarchical_hybrid
     _, df, fig1, _, _, metrics = run_hierarchical_hybrid(text_input)
     st.write("Output DataFrame:")
@@ -61,6 +67,7 @@ if text_input:
 
     # Explainability Comparison
     st.header("Explainability Dashboard")
+    add_section_explanation("Explainability Dashboard")
     from code.explainability import compare_explain
     df, fig, scatter = compare_explain()
     st.write("Comparison DataFrame:")

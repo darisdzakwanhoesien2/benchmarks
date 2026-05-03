@@ -3,6 +3,7 @@
 # ======================================================
 
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
@@ -54,6 +55,7 @@ def normalize_tone(x):
 
 
 st.title("🧠 ESG Sentiment & Tone — Document-Level Analysis")
+add_page_explanation(__file__)
 st.write("Upload a CSV file containing **filename**, **sentiment**, and **tone** columns.")
 
 # ------------------------------------------------
@@ -160,6 +162,7 @@ for col in SENTIMENT_COLS + TONE_COLS:
 # 1️⃣ Sentiment Distribution per Document
 # ------------------------------------------------
 st.subheader("1️⃣ Sentiment Distribution per Document")
+add_section_explanation("1️⃣ Sentiment Distribution per Document")
 
 fig1 = px.bar(
     merged,
@@ -174,6 +177,7 @@ st.plotly_chart(fig1, use_container_width=True)
 # 2️⃣ Tone Distribution per Document
 # ------------------------------------------------
 st.subheader("2️⃣ Tone Distribution per Document")
+add_section_explanation("2️⃣ Tone Distribution per Document")
 
 fig2 = px.bar(
     merged,
@@ -188,6 +192,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # 3️⃣ Overall Sentiment Composition
 # ------------------------------------------------
 st.subheader("3️⃣ Overall Sentiment Composition")
+add_section_explanation("3️⃣ Overall Sentiment Composition")
 
 sent_total = merged[SENTIMENT_COLS].sum().reset_index()
 sent_total.columns = ["sentiment", "count"]
@@ -205,6 +210,7 @@ st.plotly_chart(fig3, use_container_width=True)
 # 4️⃣ Overall Tone Composition
 # ------------------------------------------------
 st.subheader("4️⃣ Overall Tone Composition")
+add_section_explanation("4️⃣ Overall Tone Composition")
 
 tone_total = merged[TONE_COLS].sum().reset_index()
 tone_total.columns = ["tone", "count"]
@@ -222,6 +228,7 @@ st.plotly_chart(fig4, use_container_width=True)
 # 5️⃣ Statistical Summary
 # ------------------------------------------------
 st.subheader("5️⃣ Statistical Summary (Mean ± Std)")
+add_section_explanation("5️⃣ Statistical Summary (Mean ± Std)")
 
 stats_df = merged[SENTIMENT_COLS + TONE_COLS].describe().T[["mean", "std"]]
 stats_df["mean"] = stats_df["mean"].round(2)
@@ -233,6 +240,7 @@ st.dataframe(stats_df, use_container_width=True)
 # 6️⃣ Sentiment–Tone Correlation Heatmap
 # ------------------------------------------------
 st.subheader("6️⃣ Sentiment–Tone Correlation Heatmap")
+add_section_explanation("6️⃣ Sentiment–Tone Correlation Heatmap")
 
 corr = merged[SENTIMENT_COLS + TONE_COLS].corr()
 

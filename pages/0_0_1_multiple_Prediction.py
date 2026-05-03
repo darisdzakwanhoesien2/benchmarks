@@ -1,10 +1,12 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 from api.climatebert_client import ClimateBERTClient
 from pathlib import Path
 from datetime import datetime
 import json
 
 st.title("🔎 Multi-Model Prediction")
+add_page_explanation(__file__)
 
 api = ClimateBERTClient()
 

@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import json
 import os
@@ -9,6 +10,7 @@ import re
 # -------------------------------------------------------
 st.set_page_config(page_title="Parsed ESG JSON Dashboard", layout="wide")
 st.title("📊 ESG Parsed Sentence-Level Dashboard")
+add_page_explanation(__file__)
 
 # -------------------------------------------------------
 # Load CSV
@@ -242,9 +244,11 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
 # -------------------------------------------------------
 with tab1:
     st.subheader("Sentiment Distribution")
+    add_section_explanation("Sentiment Distribution")
     st.bar_chart(filtered["sentiment"].value_counts())
 
     st.subheader("Aspect Category Distribution")
+    add_section_explanation("Aspect Category Distribution")
     st.bar_chart(filtered["aspect_category"].value_counts())
 
 # -------------------------------------------------------
@@ -252,6 +256,7 @@ with tab1:
 # -------------------------------------------------------
 with tab2:
     st.subheader("Top Aspects")
+    add_section_explanation("Top Aspects")
     if "aspect" in filtered:
         n = st.slider("Show Top N", 3, 30, 10)
         topA = filtered["aspect"].value_counts().head(n)
@@ -263,6 +268,7 @@ with tab2:
 # -------------------------------------------------------
 with tab3:
     st.subheader("Full Sentence Table")
+    add_section_explanation("Full Sentence Table")
     wanted = [
         "sentence","aspect","aspect_category","sentiment","sentiment_score",
         "tone","materiality","stakeholder","impact_level","time_horizon",
@@ -276,6 +282,7 @@ with tab3:
 # -------------------------------------------------------
 with tab4:
     st.subheader("🤖 LLM Model Comparison (Grounded & Auditable)")
+    add_section_explanation("🤖 LLM Model Comparison (Grounded & Auditable)")
 
     # ---------------------------------------------------
     # File & Page Selection
@@ -349,9 +356,11 @@ with tab4:
     # MARKDOWN VISUALIZATION
     # ---------------------------------------------------
     st.markdown("## 📄 Source Text vs Highlighted ESG Sentences")
+    add_section_explanation("## 📄 Source Text vs Highlighted ESG Sentences")
 
     # ---- markdown_full ----
     st.markdown("### 🧾 markdown_full")
+    add_section_explanation("### 🧾 markdown_full")
 
     col1, col2 = st.columns(2)
 
@@ -368,6 +377,7 @@ with tab4:
 
     # ---- cleaned_markdown ----
     st.markdown("### ✂️ cleaned_markdown")
+    add_section_explanation("### ✂️ cleaned_markdown")
 
     col3, col4 = st.columns(2)
 
@@ -386,6 +396,7 @@ with tab4:
     # Sentence Legend
     # ---------------------------------------------------
     st.markdown("## 🏷 Sentence Index (Reference)")
+    add_section_explanation("## 🏷 Sentence Index (Reference)")
 
     legend_df = pd.DataFrame({
         "Index": [sentence_index[s] for s in sentences],
@@ -398,6 +409,7 @@ with tab4:
     # Sentence-Level Model Comparison
     # ---------------------------------------------------
     st.markdown("## 🔍 Sentence-Level Model Comparison")
+    add_section_explanation("## 🔍 Sentence-Level Model Comparison")
 
     pivot = subset.pivot_table(
         index="sentence",
@@ -413,6 +425,7 @@ with tab4:
     # Presence Validation
     # ---------------------------------------------------
     st.markdown("## ✅ Sentence Grounding Check")
+    add_section_explanation("## ✅ Sentence Grounding Check")
 
     presence_rows = []
     for s in sentences:
@@ -448,6 +461,7 @@ with tab4:
 # -------------------------------------------------------
 with tab5:
     st.subheader("LLM Breakdown by Provider")
+    add_section_explanation("LLM Breakdown by Provider")
 
     filenames = sorted(filtered["filename"].unique())
     selected_file = st.selectbox("Select Report Filename", filenames, key="file_tab5")
@@ -479,6 +493,7 @@ with tab5:
 
     # Cleaned Markdown
     st.subheader("📖 Cleaned Markdown")
+    add_section_explanation("📖 Cleaned Markdown")
     if "cleaned_markdown" in subset.columns:
         st.markdown(subset["cleaned_markdown"].dropna().iloc[0])
 
@@ -497,6 +512,7 @@ with tab5:
 # -------------------------------------------------------
 with tab6:
     st.subheader("📦 Model Coverage Across PDFs and Pages")
+    add_section_explanation("📦 Model Coverage Across PDFs and Pages")
 
     models_per_pdf = (
         df.groupby("filename")["model"].nunique()
@@ -520,12 +536,14 @@ with tab6:
     )
 
     st.subheader("📄 Pages for this File")
+    add_section_explanation("📄 Pages for this File")
     subset = models_per_page[
         models_per_page["filename"] == selected_file_cov
     ].sort_values("page_number")
     st.dataframe(subset)
 
     st.subheader("🧠 Models Used on Each Page")
+    add_section_explanation("🧠 Models Used on Each Page")
     model_page_map = (
         df[df["filename"] == selected_file_cov]
         .groupby("page_number")["model"]
@@ -537,6 +555,7 @@ with tab6:
     st.dataframe(model_page_map)
 
     st.subheader("🔥 Model–Page Heatmap")
+    add_section_explanation("🔥 Model–Page Heatmap")
     pivot = (
         df[df["filename"] == selected_file_cov]
         .pivot_table(
@@ -555,6 +574,7 @@ with tab6:
 # -------------------------------------------------------
 with tab7:
     st.subheader("📦 Raw JSON Data Viewer")
+    add_section_explanation("📦 Raw JSON Data Viewer")
 
     filenames = sorted(raw_df["filename"].unique())
     selected_file = st.selectbox("Filename", filenames, key="raw_file")
@@ -588,6 +608,7 @@ with tab7:
 # -------------------------------------------------------
 with tab8:
     st.subheader("📊 Cross-Document Grounding Audit")
+    add_section_explanation("📊 Cross-Document Grounding Audit")
 
     # ---------------------------------------------------
     # Helper: sentence grounding check
@@ -655,12 +676,14 @@ with tab8:
     page_level_df = pd.DataFrame(audit_rows)
 
     st.markdown("## 🧾 Table 1 — Page-Level Grounding Scorecard")
+    add_section_explanation("## 🧾 Table 1 — Page-Level Grounding Scorecard")
     st.dataframe(page_level_df, use_container_width=True)
 
     # ---------------------------------------------------
     # PAGE SELECTION FOR DRILL-DOWN
     # ---------------------------------------------------
     st.markdown("## 🔍 Drill-Down: Sentence-Level Audit")
+    add_section_explanation("## 🔍 Drill-Down: Sentence-Level Audit")
 
     sel_file = st.selectbox(
         "Select Filename",
@@ -720,6 +743,7 @@ with tab8:
     # TABLE 2 — GROUNDED SENTENCES
     # ---------------------------------------------------
     st.markdown("## ✅ Table 2 — Grounded Sentences")
+    add_section_explanation("## ✅ Table 2 — Grounded Sentences")
 
     if grounded_df.empty:
         st.info("No grounded sentences on this page.")
@@ -733,6 +757,7 @@ with tab8:
     # TABLE 3 — NOT-GROUNDED SENTENCES
     # ---------------------------------------------------
     st.markdown("## 🚨 Table 3 — Not-Grounded Sentences")
+    add_section_explanation("## 🚨 Table 3 — Not-Grounded Sentences")
 
     if not_grounded_df.empty:
         st.success("🎉 No hallucinated sentences detected on this page.")

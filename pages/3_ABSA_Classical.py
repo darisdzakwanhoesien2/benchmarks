@@ -1,6 +1,7 @@
 # pages/3_ABSA_Classical.py
 
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 
 from api.absa_client import run_classical
 from utils.dataframe import hf_to_df
@@ -8,6 +9,7 @@ from utils.visualization import render_plot
 
 
 st.title("ABSA Classical ML")
+add_page_explanation(__file__)
 
 space_url = st.text_input(
     "Hugging Face Space URL (optional)",
@@ -42,15 +44,19 @@ if st.button("Run Classical ABSA"):
             aspect_coef = hf_to_df(result[4])
 
             st.subheader("Predictions")
+            add_section_explanation("Predictions")
             st.dataframe(predictions)
 
             st.subheader("Visualization")
+            add_section_explanation("Visualization")
             render_plot(plot)
 
             st.subheader("Sentiment Coefficients")
+            add_section_explanation("Sentiment Coefficients")
             st.dataframe(sentiment_coef)
 
             st.subheader("Aspect Coefficients")
+            add_section_explanation("Aspect Coefficients")
             st.dataframe(aspect_coef)
 
             # ✅ SAFE CSV handling

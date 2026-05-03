@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 
 from utils.climatebert_batch_windows import batch_process_csv_windows
@@ -8,6 +9,7 @@ from utils.climatebert_groundtruth_storage_windows import load_results
 CSV = "data/ground_truth_windows/absa_mapping.csv"
 
 st.title("ClimateBERT Batch Processor (Windows)")
+add_page_explanation(__file__)
 
 df = pd.read_csv(CSV)
 

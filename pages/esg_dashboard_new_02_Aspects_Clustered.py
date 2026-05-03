@@ -1,10 +1,12 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 from utils.data_loader import load_and_parse
 from utils.aspect_clustering import cluster_aspect
 
 st.set_page_config(layout="wide")
 st.title("🧩 Aspects — After Manual Clustering")
+add_page_explanation(__file__)
 
 df = load_and_parse()
 
@@ -49,6 +51,7 @@ unclustered_df = (
 )
 
 st.subheader("🚨 Unclustered Aspects (Needs Taxonomy Review)")
+add_section_explanation("🚨 Unclustered Aspects (Needs Taxonomy Review)")
 
 if unclustered_df.empty:
     st.success("🎉 No unclustered aspects found.")

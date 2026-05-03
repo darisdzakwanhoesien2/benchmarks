@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 
 from utils.metrics import compute_metrics
@@ -14,6 +15,7 @@ st.set_page_config(
 )
 
 st.title("📊 Metric Analysis — Ground Truth vs Prediction")
+add_page_explanation(__file__)
 st.caption(
     "Sentence-level alignment with minimum-count matching "
     "(robust for ESG / NLP pipelines)"
@@ -35,6 +37,7 @@ TARGETS = ["aspect_category", "sentiment", "tone"]
 # FILE UPLOAD
 # --------------------------------------------------
 st.header("1️⃣ Upload Data")
+add_section_explanation("1️⃣ Upload Data")
 
 col1, col2 = st.columns(2)
 
@@ -88,6 +91,7 @@ st.success(
 # SENTENCE ALIGNMENT
 # --------------------------------------------------
 st.header("2️⃣ Sentence Alignment")
+add_section_explanation("2️⃣ Sentence Alignment")
 
 aligned_df = align_by_sentence(gt_df, pred_df)
 
@@ -125,6 +129,7 @@ with st.expander("🔍 Preview aligned data"):
 # METRIC COMPUTATION
 # --------------------------------------------------
 st.header("3️⃣ Evaluation Metrics")
+add_section_explanation("3️⃣ Evaluation Metrics")
 
 metric_results = {}
 
@@ -164,6 +169,7 @@ for tab, target in zip(tabs, TARGETS):
 # ERROR ANALYSIS
 # --------------------------------------------------
 st.header("4️⃣ Error Analysis")
+add_section_explanation("4️⃣ Error Analysis")
 
 selected_target = st.selectbox(
     "Select target for error inspection",
@@ -204,6 +210,7 @@ else:
 # --------------------------------------------------
 if "confidence_pred" in aligned_df.columns:
     st.header("5️⃣ Confidence vs Errors")
+    add_section_explanation("5️⃣ Confidence vs Errors")
 
     err_conf = aligned_df.copy()
     err_conf["is_error"] = (

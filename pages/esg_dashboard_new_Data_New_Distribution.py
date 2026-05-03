@@ -2,6 +2,7 @@
 # 🪢 Sankey + Waterfall + Multi-Rule ESG Explorer (ONTOLOGY-AWARE)
 # ==============================================================
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.graph_objects as go
 import json
@@ -14,6 +15,7 @@ from pathlib import Path
 # --------------------------------------------------------------
 st.set_page_config(page_title="ESG Sankey & Filters", layout="wide")
 st.header("🔎 ESG Sankey · Waterfall · Multi-Rule Explorer")
+add_page_explanation(__file__)
 
 # --------------------------------------------------------------
 # PATHS
@@ -87,6 +89,7 @@ df["tone_n"] = df["tone"].apply(lambda x: normalize(x, TONE_MAP))
 # 🪢 GLOBAL SANKEY (SORTED + NAMESPACED)
 # ==============================================================
 st.markdown("## 🪢 Sankey: Aspect → Sentiment → Tone (Ontology Normalized)")
+add_section_explanation("## 🪢 Sankey: Aspect → Sentiment → Tone (Ontology Normalized)")
 
 flow = (
     df.groupby(["aspect_n", "sentiment_n", "tone_n"])
@@ -134,6 +137,7 @@ st.plotly_chart(fig, use_container_width=True)
 # ==============================================================
 st.markdown("---")
 st.subheader("📋 Detected Categories (Ontology vs Data)")
+add_section_explanation("📋 Detected Categories (Ontology vs Data)")
 
 def category_table(df, col, title, ontology):
     summary = (
@@ -175,6 +179,7 @@ with st.expander("📌 Tone Categories", expanded=False):
 # ==============================================================
 st.markdown("---")
 st.subheader("1️⃣ Waterfall Filter")
+add_section_explanation("1️⃣ Waterfall Filter")
 
 a = st.selectbox("Aspect", ["(All)"] + aspect_order)
 s = st.selectbox("Sentiment", ["(All)"] + sentiment_order)
@@ -193,6 +198,7 @@ st.dataframe(tmp, use_container_width=True)
 # ==============================================================
 st.markdown("---")
 st.subheader("2️⃣ Multi-Rule Builder")
+add_section_explanation("2️⃣ Multi-Rule Builder")
 
 if "rules" not in st.session_state:
     st.session_state.rules = []
@@ -251,6 +257,7 @@ for i, rule in enumerate(st.session_state.rules):
 # ==============================================================
 if results:
     st.markdown("### 📊 Rule Summary")
+    add_section_explanation("### 📊 Rule Summary")
     st.dataframe(pd.DataFrame(results), use_container_width=True)
 
 

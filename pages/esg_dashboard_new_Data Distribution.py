@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 import seaborn as sns
@@ -16,6 +17,7 @@ pio.templates.default = "plotly_white"
 # 📌 Page Title
 # ------------------------------------------------
 st.title("🔍 Aspect & Ontology Visualization Dashboard")
+add_page_explanation(__file__)
 st.write(
     "Ontology-driven analysis of aspect categories, ontology URIs, "
     "sentiment, and tone at sentence level."
@@ -212,6 +214,7 @@ TONE_ORDER = ["OUTCOME", "ACTION", "COMMITMENT", "OTHER"]
 # 1️⃣ Aspect Category Distribution
 # =================================================
 st.subheader("1️⃣ Aspect Category Distribution")
+add_section_explanation("1️⃣ Aspect Category Distribution")
 
 # show totals / unique aspects
 unique_aspects = df["aspect"].nunique()
@@ -293,6 +296,7 @@ else:
 
 # --- ADDED: Feature Distributions (ontology_uri / sentiment / tone / confidence) ---
 st.subheader("🔎 Feature Distributions")
+add_section_explanation("🔎 Feature Distributions")
 
 # allow optional filtering by aspect category
 aspect_options = ["All"] + [
@@ -400,6 +404,7 @@ else:  # Confidence
 # 2️⃣ Ontology URI Distribution
 # =================================================
 st.subheader("2️⃣ Ontology URI Distribution")
+add_section_explanation("2️⃣ Ontology URI Distribution")
 
 fig2_data = (
     df["ontology_uri"]
@@ -428,6 +433,7 @@ st.dataframe(fig2_data, use_container_width=True)
 # 3️⃣ Sentiment Distribution by Aspect Category
 # =================================================
 st.subheader("3️⃣ Sentiment Distribution by Aspect Category")
+add_section_explanation("3️⃣ Sentiment Distribution by Aspect Category")
 
 sent_aspect = (
     df.groupby(["aspect_category_norm", "sentiment_norm"])
@@ -460,6 +466,7 @@ st.dataframe(
 # 4️⃣ Tone Distribution by Aspect Category ✅ FIXED
 # =================================================
 st.subheader("4️⃣ Tone Distribution by Aspect Category")
+add_section_explanation("4️⃣ Tone Distribution by Aspect Category")
 
 tone_aspect = (
     df.groupby(["aspect_category_norm", "tone_norm"])
@@ -492,6 +499,7 @@ st.dataframe(
 # 5️⃣ Heatmaps
 # =================================================
 st.subheader("5️⃣ Aspect Category × Sentiment / Tone Heatmaps")
+add_section_explanation("5️⃣ Aspect Category × Sentiment / Tone Heatmaps")
 
 pivot_sent = pd.pivot_table(
     df,
@@ -532,6 +540,7 @@ col_right.dataframe(pivot_tone.reset_index(), use_container_width=True)
 # 📤 JSON EXPORTS
 # =================================================
 st.subheader("📤 Export Normalized JSON Annotations")
+add_section_explanation("📤 Export Normalized JSON Annotations")
 
 # Aspect JSON
 aspect_json = (

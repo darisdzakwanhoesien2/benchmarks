@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 
@@ -15,6 +16,7 @@ st.set_page_config(
 )
 
 st.title("ClimateBERT Full Model Visualization")
+add_page_explanation(__file__)
 
 
 # =========================================================
@@ -63,6 +65,7 @@ st.sidebar.write("Models:", df["model"].nunique())
 # =========================================================
 
 st.header("Leaderboard")
+add_section_explanation("Leaderboard")
 
 
 metrics = (
@@ -101,6 +104,7 @@ col1, col2 = st.columns(2)
 with col1:
 
     st.subheader("Predicted Label Distribution")
+    add_section_explanation("Predicted Label Distribution")
 
     pred_dist = (
 
@@ -125,6 +129,7 @@ with col1:
 with col2:
 
     st.subheader("True Sentiment Distribution")
+    add_section_explanation("True Sentiment Distribution")
 
     true_dist = (
 
@@ -151,6 +156,7 @@ with col2:
 # =========================================================
 
 st.subheader("Confidence Distribution Across Models")
+add_section_explanation("Confidence Distribution Across Models")
 
 fig = px.box(
     df,
@@ -167,6 +173,7 @@ st.plotly_chart(fig, use_container_width=True)
 # =========================================================
 
 st.header("Per-Model Deep Dive")
+add_section_explanation("Per-Model Deep Dive")
 
 models = sorted(df["model"].unique())
 
@@ -205,6 +212,7 @@ col3.metric(
 # =========================================================
 
 st.subheader("Confidence Histogram")
+add_section_explanation("Confidence Histogram")
 
 fig = px.histogram(
     model_df,
@@ -221,6 +229,7 @@ st.plotly_chart(fig, use_container_width=True)
 # =========================================================
 
 st.subheader("Confusion Matrix")
+add_section_explanation("Confusion Matrix")
 
 cm = pd.crosstab(
     model_df["true_sentiment"],
@@ -245,6 +254,7 @@ col1, col2 = st.columns(2)
 with col1:
 
     st.subheader("Predicted Label Distribution")
+    add_section_explanation("Predicted Label Distribution")
 
     fig = px.bar(
         model_df["predicted_label"]
@@ -261,6 +271,7 @@ with col1:
 with col2:
 
     st.subheader("True Label Distribution")
+    add_section_explanation("True Label Distribution")
 
     fig = px.bar(
         model_df["true_sentiment"]
@@ -279,6 +290,7 @@ with col2:
 # =========================================================
 
 st.subheader("Prediction Explorer")
+add_section_explanation("Prediction Explorer")
 
 st.dataframe(
     model_df[
@@ -298,6 +310,7 @@ st.dataframe(
 # =========================================================
 
 st.header("Export")
+add_section_explanation("Export")
 
 st.download_button(
     "Download Model CSV",

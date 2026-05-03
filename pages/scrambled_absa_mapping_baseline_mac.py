@@ -1,9 +1,11 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import numpy as np
 from collections import OrderedDict
 
 st.title('Scrambled ABSA Mapping Baseline')
+add_page_explanation(__file__)
 
 # Load the CSV
 df = pd.read_csv('data/ground_truth/absa_mapping.csv')

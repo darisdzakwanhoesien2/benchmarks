@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 
 from api.absa_client import run_rule
 from utils.dataframe import hf_to_df
@@ -6,6 +7,7 @@ from utils.visualization import render_plot
 
 
 st.title("ABSA Rule-Based Ontology")
+add_page_explanation(__file__)
 
 space_url = st.text_input(
     "Hugging Face Space URL (optional)",
@@ -26,12 +28,15 @@ if st.button("Run Rule-Based ABSA"):
     explanations = hf_to_df(result[3])
 
     st.subheader("Preview")
+    add_section_explanation("Preview")
     st.dataframe(preview)
 
     st.subheader("Visualization")
+    add_section_explanation("Visualization")
     render_plot(plot)
 
     st.subheader("Rule Explanations")
+    add_section_explanation("Rule Explanations")
     st.dataframe(explanations)
 
     st.download_button(

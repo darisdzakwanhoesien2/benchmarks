@@ -1,8 +1,10 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import json
 import pandas as pd
 
 st.title('ABSA Metrics Results Visualization')
+add_page_explanation(__file__)
 
 # Load results
 def load_results(path='absa_metrics_results.json'):
@@ -34,6 +36,7 @@ nonzero = {k: v for k, v in results.items() if is_nonzero(v)}
 zero = {k: v for k, v in results.items() if not is_nonzero(v)}
 
 st.header('Non-zero Results')
+add_section_explanation('Non-zero Results')
 if nonzero:
     for model, metrics in nonzero.items():
         st.subheader(model)
@@ -49,6 +52,7 @@ else:
     st.write('No non-zero results found.')
 
 st.header('Zero Results')
+add_section_explanation('Zero Results')
 if zero:
     st.write(', '.join(zero.keys()))
 else:

@@ -1,4 +1,5 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import matplotlib.pyplot as plt
 from code.rule_based import run_rule_based
@@ -9,6 +10,7 @@ from code.explainability import compare_explain, explain_sentence_across_models
 from code.app_state import app_state
 
 st.title("ESG ABSA Model Tester")
+add_page_explanation(__file__)
 
 st.markdown("Enter ESG report text below and run the models to see predictions.")
 
@@ -43,9 +45,11 @@ if st.button("Run Classical ML Model"):
         st.pyplot(fig)
         if not coef_sent.empty:
             st.subheader("Sentiment Coefficients")
+            add_section_explanation("Sentiment Coefficients")
             st.dataframe(coef_sent)
         if not coef_aspect.empty:
             st.subheader("Aspect Coefficients")
+            add_section_explanation("Aspect Coefficients")
             st.dataframe(coef_aspect)
         st.download_button("Download CSV", df.to_csv(index=False), "classical_ml_results.csv", "text/csv")
     else:
@@ -60,6 +64,7 @@ if st.button("Run Deep Learning Model"):
         st.pyplot(fig)
         if not interp_df.empty:
             st.subheader("Interpretability")
+            add_section_explanation("Interpretability")
             st.dataframe(interp_df)
         st.download_button("Download CSV", df.to_csv(index=False), "deep_learning_results.csv", "text/csv")
     else:
@@ -79,6 +84,7 @@ if st.button("Run Hybrid Model"):
         with col3:
             st.pyplot(fig3)
         st.subheader("Metrics")
+        add_section_explanation("Metrics")
         st.dataframe(metrics)
         st.download_button("Download CSV", df.to_csv(index=False), "hybrid_results.csv", "text/csv")
     else:
@@ -97,6 +103,7 @@ if st.button("Compare Models"):
         st.error("Run at least one model first.")
 
 st.header("Explain Sentence")
+add_section_explanation("Explain Sentence")
 sentence_input = st.text_input("Enter a sentence to explain across models")
 if st.button("Explain Sentence"):
     if sentence_input.strip():

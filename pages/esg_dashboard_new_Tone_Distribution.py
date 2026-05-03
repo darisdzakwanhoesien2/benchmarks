@@ -3,6 +3,7 @@
 # ==========================================================
 
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -15,6 +16,7 @@ from pathlib import Path
 st.set_page_config(page_title="Tone Distribution Explorer", layout="wide")
 
 st.title("📊 Tone Distribution Explorer")
+add_page_explanation(__file__)
 st.write(
     "Ontology-normalized tone distribution computed directly from "
     "`output_in_csv.csv`."
@@ -226,6 +228,7 @@ def compute_tone_distribution(df):
 tone_df = compute_tone_distribution(raw)
 
 st.subheader("Auto-Generated Tone Distribution")
+add_section_explanation("Auto-Generated Tone Distribution")
 st.dataframe(tone_df, use_container_width=True)
 
 # ----------------------------------------------------------
@@ -264,6 +267,7 @@ st.dataframe(filtered, use_container_width=True)
 # PIE — COMBINED MINIMUM TONE
 # ----------------------------------------------------------
 st.markdown("## 🥧 Combined Minimum Tone Distribution")
+add_section_explanation("## 🥧 Combined Minimum Tone Distribution")
 
 if not filtered.empty:
     pie_df = (
@@ -284,6 +288,7 @@ if not filtered.empty:
 # BAR — MINIMUM AMOUNT
 # ----------------------------------------------------------
 st.markdown("## 📦 Minimum Amount per Tone")
+add_section_explanation("## 📦 Minimum Amount per Tone")
 
 fig_bar = px.bar(
     filtered,
@@ -297,6 +302,7 @@ st.plotly_chart(fig_bar, use_container_width=True)
 # SANKEY — NAMESPACED (NO COLLISIONS)
 # ----------------------------------------------------------
 st.markdown("## 🔗 Sankey: Aspect → Sentiment → Minimum Tone")
+add_section_explanation("## 🔗 Sankey: Aspect → Sentiment → Minimum Tone")
 
 if not filtered.empty:
     sankey_df = (
@@ -336,6 +342,7 @@ if not filtered.empty:
 # HEATMAP
 # ----------------------------------------------------------
 st.markdown("## 🔥 Heatmap: Aspect × Sentiment")
+add_section_explanation("## 🔥 Heatmap: Aspect × Sentiment")
 
 pivot = filtered.pivot_table(
     index="aspect_category",
@@ -352,6 +359,7 @@ st.plotly_chart(fig_heat, use_container_width=True)
 # EXPORT
 # ----------------------------------------------------------
 st.markdown("## ⤵ Download Tone Distribution Table")
+add_section_explanation("## ⤵ Download Tone Distribution Table")
 
 st.download_button(
     "Download tone_distribution.csv",

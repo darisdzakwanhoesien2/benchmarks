@@ -1,8 +1,10 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import json
 
 st.title("ABSA Mapping with ClimateBERT Results")
+add_page_explanation(__file__)
 
 # Load ABSA mapping
 absa_df = pd.read_csv('/workspaces/benchmarks/data/ground_truth/absa_mapping.csv')
@@ -44,16 +46,19 @@ st.dataframe(filtered_df)
 
 # Data Distribution
 st.header("Data Distribution")
+add_section_explanation("Data Distribution")
 
 col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("Majority Category Distribution")
+    add_section_explanation("Majority Category Distribution")
     category_counts = filtered_df['majority_category'].value_counts()
     st.bar_chart(category_counts)
 
 with col2:
     st.subheader("Majority Sentiment Distribution")
+    add_section_explanation("Majority Sentiment Distribution")
     sentiment_counts = filtered_df['majority_sentiment'].value_counts()
     st.bar_chart(sentiment_counts)
 
@@ -61,10 +66,12 @@ col3, col4 = st.columns(2)
 
 with col3:
     st.subheader("Majority Tone Distribution")
+    add_section_explanation("Majority Tone Distribution")
     tone_counts = filtered_df['majority_tone'].value_counts()
     st.bar_chart(tone_counts)
 
 with col4:
     st.subheader("Climate Commitment Label Distribution")
+    add_section_explanation("Climate Commitment Label Distribution")
     commitment_counts = filtered_df['climate-commitment_label'].value_counts()
     st.bar_chart(commitment_counts)

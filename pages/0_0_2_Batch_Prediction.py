@@ -1,8 +1,10 @@
 import streamlit as st
+from _shared.page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 from api.climatebert_client import ClimateBERTClient
 
 st.title("📊 Batch Prediction")
+add_page_explanation(__file__)
 
 api = ClimateBERTClient()
 
