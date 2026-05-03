@@ -1,5 +1,5 @@
 # import streamlit as st
-from _shared.page_explanations import add_page_explanation, add_section_explanation
+from _page_explanations import add_page_explanation, add_section_explanation
 # import pandas as pd
 
 # st.set_page_config(layout="wide")

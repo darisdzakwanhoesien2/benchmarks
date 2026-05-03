@@ -1,5 +1,5 @@
 import streamlit as st
-from _shared.page_explanations import add_page_explanation, add_section_explanation
+from _page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 from utils.data_loader import load_and_parse
 from utils.aspect_clustering import cluster_aspect

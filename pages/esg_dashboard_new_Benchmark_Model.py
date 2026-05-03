@@ -1,5 +1,5 @@
 import streamlit as st
-from _shared.page_explanations import add_page_explanation, add_section_explanation
+from _page_explanations import add_page_explanation, add_section_explanation
 
 from ui.sidebar import render_sidebar
 from ui.text_input import render_text_input

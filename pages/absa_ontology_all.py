@@ -1,5 +1,5 @@
 import streamlit as st
-from _shared.page_explanations import add_page_explanation, add_section_explanation
+from _page_explanations import add_page_explanation, add_section_explanation
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from code.classical_ml import Featureizer

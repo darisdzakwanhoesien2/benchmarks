@@ -1,7 +1,7 @@
 # pages/3_ABSA_Classical.py
 
 import streamlit as st
-from _shared.page_explanations import add_page_explanation, add_section_explanation
+from _page_explanations import add_page_explanation, add_section_explanation
 
 from api.absa_client import run_classical
 from utils.dataframe import hf_to_df
