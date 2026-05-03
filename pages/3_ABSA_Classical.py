@@ -1,6 +1,10 @@
 # pages/3_ABSA_Classical.py
 
 import streamlit as st
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _page_explanations import add_page_explanation, add_section_explanation
 
 from api.absa_client import run_classical

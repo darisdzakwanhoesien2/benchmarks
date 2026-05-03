@@ -1,4 +1,8 @@
 import streamlit as st
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _page_explanations import add_page_explanation, add_section_explanation
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))

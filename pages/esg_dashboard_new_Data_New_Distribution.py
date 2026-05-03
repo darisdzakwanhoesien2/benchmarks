@@ -2,6 +2,10 @@
 # 🪢 Sankey + Waterfall + Multi-Rule ESG Explorer (ONTOLOGY-AWARE)
 # ==============================================================
 import streamlit as st
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.graph_objects as go
