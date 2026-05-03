@@ -1,0 +1,2 @@
+comparison,n,percent_agreement,cohen_kappa,tone_commitment_rate,climate_commitment_label_rate
+tone_commitment_vs_climate_commitment_label,332,0.8373493975903614,0.6451446894422231,0.3463855421686747,0.3644578313253012

@@ -1,0 +1,269 @@
+{
+  "name": "ESG Tone ABSA Ontology",
+  "version": "0.1",
+  "nodes": [
+    {
+      "aspect": "Supply Chain",
+      "path": [
+        "Economic",
+        "Operational",
+        "Supply Chain"
+      ],
+      "path_text": "Economic -> Operational -> Supply Chain",
+      "keywords": [
+        "rantai pasok",
+        "supply chain",
+        "disrupsi",
+        "logistik"
+      ]
+    },
+    {
+      "aspect": "Integrated Supply Chain",
+      "path": [
+        "Economic",
+        "Operational",
+        "Integrated Supply Chain"
+      ],
+      "path_text": "Economic -> Operational -> Integrated Supply Chain",
+      "keywords": [
+        "terintegrasi",
+        "integrated system"
+      ]
+    },
+    {
+      "aspect": "Operational Efficiency",
+      "path": [
+        "Economic",
+        "Operational",
+        "Efficiency"
+      ],
+      "path_text": "Economic -> Operational -> Efficiency",
+      "keywords": [
+        "efisiensi operasional",
+        "efisiensi",
+        "otomatisasi",
+        "digitalisasi",
+        "productivity",
+        "automation"
+      ]
+    },
+    {
+      "aspect": "Capacity Expansion",
+      "path": [
+        "Economic",
+        "Operational",
+        "Capacity Expansion"
+      ],
+      "path_text": "Economic -> Operational -> Capacity Expansion",
+      "keywords": [
+        "kapasitas produksi",
+        "kapasitas",
+        "expanding",
+        "new facility"
+      ]
+    },
+    {
+      "aspect": "Value Chain",
+      "path": [
+        "Economic",
+        "Operational",
+        "Value Chain"
+      ],
+      "path_text": "Economic -> Operational -> Value Chain",
+      "keywords": [
+        "rantai nilai",
+        "value chain"
+      ]
+    },
+    {
+      "aspect": "Food Security",
+      "path": [
+        "Economic",
+        "Food Security"
+      ],
+      "path_text": "Economic -> Food Security",
+      "keywords": [
+        "ketahanan pangan",
+        "food security",
+        "protein"
+      ]
+    },
+    {
+      "aspect": "Rural Economy",
+      "path": [
+        "Economic",
+        "Community",
+        "Rural Economy"
+      ],
+      "path_text": "Economic -> Community -> Rural Economy",
+      "keywords": [
+        "ekonomi pedesaan",
+        "rural economy"
+      ]
+    },
+    {
+      "aspect": "Self-sufficiency",
+      "path": [
+        "Economic",
+        "Operational",
+        "Integrated Supply Chain"
+      ],
+      "path_text": "Economic -> Operational -> Integrated Supply Chain",
+      "keywords": [
+        "kemandirian",
+        "self-sufficien",
+        "local sourcing"
+      ]
+    },
+    {
+      "aspect": "Local Partnership",
+      "path": [
+        "Social",
+        "Partnership"
+      ],
+      "path_text": "Social -> Partnership",
+      "keywords": [
+        "petani lokal",
+        "kemitraan",
+        "mitra",
+        "partnership"
+      ]
+    },
+    {
+      "aspect": "Community Welfare",
+      "path": [
+        "Social",
+        "Welfare"
+      ],
+      "path_text": "Social -> Welfare",
+      "keywords": [
+        "masyarakat",
+        "community",
+        "csr",
+        "kesejahteraan"
+      ]
+    },
+    {
+      "aspect": "Education Support",
+      "path": [
+        "Social",
+        "Education"
+      ],
+      "path_text": "Social -> Education",
+      "keywords": [
+        "pendidikan",
+        "education",
+        "literasi"
+      ]
+    },
+    {
+      "aspect": "Worker Safety",
+      "path": [
+        "Social",
+        "Worker Safety"
+      ],
+      "path_text": "Social -> Worker Safety",
+      "keywords": [
+        "lingkungan kerja",
+        "workplace",
+        "safety",
+        "pekerja"
+      ]
+    },
+    {
+      "aspect": "Energy Efficiency",
+      "path": [
+        "Environmental",
+        "Energy Efficiency"
+      ],
+      "path_text": "Environmental -> Energy Efficiency",
+      "keywords": [
+        "energi",
+        "efisiensi energi",
+        "renewable"
+      ]
+    },
+    {
+      "aspect": "Environmental Preservation",
+      "path": [
+        "Environmental",
+        "Preservation"
+      ],
+      "path_text": "Environmental -> Preservation",
+      "keywords": [
+        "lingkungan",
+        "preservation",
+        "biodiversity"
+      ]
+    },
+    {
+      "aspect": "Emission Reduction",
+      "path": [
+        "Environmental",
+        "Emission Reduction"
+      ],
+      "path_text": "Environmental -> Emission Reduction",
+      "keywords": [
+        "emisi",
+        "gas rumah kaca",
+        "carbon",
+        "net zero"
+      ]
+    },
+    {
+      "aspect": "Governance/Transparency",
+      "path": [
+        "Governance",
+        "Transparency"
+      ],
+      "path_text": "Governance -> Transparency",
+      "keywords": [
+        "transparansi",
+        "whistleblowing",
+        "tata kelola",
+        "ethics"
+      ]
+    },
+    {
+      "aspect": "Compliance",
+      "path": [
+        "Governance",
+        "Compliance"
+      ],
+      "path_text": "Governance -> Compliance",
+      "keywords": [
+        "aturan",
+        "regulasi",
+        "compliance",
+        "policy",
+        "standar"
+      ]
+    },
+    {
+      "aspect": "Sustainability Strategy",
+      "path": [
+        "Governance",
+        "Strategy"
+      ],
+      "path_text": "Governance -> Strategy",
+      "keywords": [
+        "strategi keberlanjutan",
+        "sustainability strategy"
+      ]
+    },
+    {
+      "aspect": "General",
+      "path": [
+        "General",
+        "Misc"
+      ],
+      "path_text": "General -> Misc",
+      "keywords": [
+        "keberlanjutan",
+        "sustainability",
+        "strategi",
+        "program"
+      ]
+    }
+  ]
+}
