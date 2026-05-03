@@ -193,8 +193,19 @@ def shard_dataframe(df: pd.DataFrame, worker_count: int, worker_index: int) -> p
 
 
 def make_output_path(output_dir: Path, model_dir: Path, worker_count: int, worker_index: int) -> Path:
-    model_slug = slugify(model_dir.name)
+    model_slug = slugify(str(model_dir).split("/models/")[-1] if "/models/" in str(model_dir) else model_dir.name)
     return output_dir / f"climatebert_{model_slug}_workers{worker_count}_worker{worker_index}.csv"
+
+
+def confidence_bins(series: pd.Series, bins: int = 10) -> pd.DataFrame:
+    scores = pd.to_numeric(series, errors="coerce").dropna()
+    if scores.empty:
+        return pd.DataFrame(columns=["confidence_range", "count"])
+    counts = pd.cut(scores, bins=bins).value_counts().sort_index()
+    return pd.DataFrame({
+        "confidence_range": [str(idx) for idx in counts.index],
+        "count": counts.to_numpy(),
+    })
 
 
 @st.cache_data(show_spinner=False)
@@ -242,17 +253,20 @@ with st.sidebar:
     if discovered_models:
         model_labels = [row["label"] for row in discovered_models]
         default_label = default_model_selection(discovered_models)
-        selected_label = st.selectbox(
-            "Discovered model",
+        selected_labels = st.multiselect(
+            "Discovered models",
             options=model_labels,
-            index=model_labels.index(default_label),
+            default=[default_label],
             format_func=lambda label: label,
         )
-        selected_model = next(row for row in discovered_models if row["label"] == selected_label)
-        model_path_input = selected_model["model_dir"]
-        st.caption(f"Weight: `{selected_model['weight_file']}`")
-        if not selected_model["ready"]:
-            st.warning(f"Possible incomplete model directory. Missing: {selected_model['missing']}")
+        selected_models = [row for row in discovered_models if row["label"] in selected_labels]
+        for selected_model in selected_models[:5]:
+            st.caption(f"{selected_model['label']} weight: `{selected_model['weight_file']}`")
+            if not selected_model["ready"]:
+                st.warning(
+                    f"`{selected_model['label']}` may be incomplete. "
+                    f"Missing: {selected_model['missing']}"
+                )
     else:
         st.warning("No local model weights found under this root.")
         model_path_input = st.text_input(
@@ -260,6 +274,13 @@ with st.sidebar:
             value=str(VPS_MODEL_BIN),
             help="Use the model directory or the pytorch_model.bin/model.safetensors path.",
         )
+        selected_models = [{
+            "label": Path(model_path_input).name,
+            "model_dir": str(normalize_model_path(model_path_input)),
+            "weight_file": model_path_input,
+            "ready": True,
+            "missing": "",
+        }]
 
     manual_override = st.text_input(
         "Manual override",
@@ -267,10 +288,17 @@ with st.sidebar:
         help="Optional. Paste a specific model directory or weight path to override the dropdown.",
     )
     if manual_override.strip():
-        model_path_input = manual_override.strip()
+        override_dir = normalize_model_path(manual_override.strip())
+        selected_models = [{
+            "label": override_dir.name,
+            "model_dir": str(override_dir),
+            "weight_file": manual_override.strip(),
+            "ready": True,
+            "missing": "",
+        }]
 
-    model_dir = normalize_model_path(model_path_input)
-    st.caption(f"Resolved model directory: `{model_dir}`")
+    model_dirs = [Path(row["model_dir"]) for row in selected_models]
+    st.caption(f"Selected model count: **{len(model_dirs)}**")
 
     device_label = st.radio("Device", ["CPU", "CUDA 0"], horizontal=True)
     device = 0 if device_label == "CUDA 0" else -1
@@ -316,7 +344,10 @@ if dedupe:
 filtered = filtered.head(int(max_rows)).reset_index(drop=True)
 worker_df = shard_dataframe(filtered, int(worker_count), int(worker_index))
 output_dir = Path(output_dir_input).expanduser()
-worker_output_path = make_output_path(output_dir, model_dir, int(worker_count), int(worker_index))
+preview_output_paths = [
+    make_output_path(output_dir, model_dir, int(worker_count), int(worker_index))
+    for model_dir in model_dirs
+]
 
 metric_cols = st.columns(5)
 metric_cols[0].metric("Filtered rows", f"{len(filtered):,}")
@@ -327,9 +358,13 @@ metric_cols[4].metric("Batch size", int(batch_size))
 
 st.info(
     f"This window is worker **{int(worker_index)} of {int(worker_count)}**. "
-    f"It will process every {int(worker_count)}th row from the filtered dataset and save to "
-    f"`{worker_output_path}`."
+    f"It will process every {int(worker_count)}th row from the filtered dataset for "
+    f"**{len(model_dirs)}** selected model(s)."
 )
+if preview_output_paths:
+    st.caption("Output files:")
+    for path in preview_output_paths[:10]:
+        st.caption(f"`{path}`")
 
 preview_cols = [
     col for col in [
@@ -342,39 +377,51 @@ st.dataframe(worker_df[preview_cols].head(100), use_container_width=True, height
 run = st.button("Run ClimateBERT on This Worker Shard", type="primary", disabled=worker_df.empty)
 
 if run:
-    if not model_dir.exists():
-        st.error(f"Model directory does not exist: `{model_dir}`")
+    if not model_dirs:
+        st.error("Select at least one model.")
         st.stop()
 
-    required_tokenizer_files = ["config.json", "tokenizer_config.json"]
-    missing = [name for name in required_tokenizer_files if not (model_dir / name).exists()]
-    if missing:
-        st.warning(
-            "This model directory may be incomplete. Missing: "
-            + ", ".join(f"`{name}`" for name in missing)
-        )
-
     try:
-        with st.spinner(f"Loading ClimateBERT from `{model_dir}`..."):
-            classifier = load_local_classifier(str(model_dir), device)
-
         sentences = worker_df["sentence"].astype(str).tolist()
-        with st.spinner("Running ClimateBERT inference..."):
-            prediction_rows = run_batches(classifier, sentences, int(batch_size))
+        all_results = []
+        for model_dir in model_dirs:
+            if not model_dir.exists():
+                st.error(f"Model directory does not exist: `{model_dir}`")
+                continue
 
-        prediction_df = pd.DataFrame(prediction_rows)
-        result = pd.concat([worker_df.reset_index(drop=True), prediction_df], axis=1)
-        result["climatebert_model_dir"] = str(model_dir)
-        result["worker_count"] = int(worker_count)
-        result["worker_index"] = int(worker_index)
-        st.session_state["climatebert_result"] = result
-        st.success(f"Generated ClimateBERT predictions for {len(result):,} sentences")
+            required_tokenizer_files = ["config.json", "tokenizer_config.json"]
+            missing = [name for name in required_tokenizer_files if not (model_dir / name).exists()]
+            if missing:
+                st.warning(
+                    f"`{model_dir}` may be incomplete. Missing: "
+                    + ", ".join(f"`{name}`" for name in missing)
+                )
 
-        if auto_save:
-            output_dir.mkdir(parents=True, exist_ok=True)
-            result.to_csv(worker_output_path, index=False)
+            with st.spinner(f"Loading model from `{model_dir}`..."):
+                classifier = load_local_classifier(str(model_dir), device)
+
+            with st.spinner(f"Running inference with `{model_dir.name}`..."):
+                prediction_rows = run_batches(classifier, sentences, int(batch_size))
+
+            prediction_df = pd.DataFrame(prediction_rows)
+            model_result = pd.concat([worker_df.reset_index(drop=True), prediction_df], axis=1)
+            model_result["climatebert_model_dir"] = str(model_dir)
+            model_result["climatebert_model_name"] = str(model_dir).split("/models/")[-1] if "/models/" in str(model_dir) else model_dir.name
+            model_result["worker_count"] = int(worker_count)
+            model_result["worker_index"] = int(worker_index)
+            all_results.append(model_result)
+
+            if auto_save:
+                worker_output_path = make_output_path(output_dir, model_dir, int(worker_count), int(worker_index))
+                output_dir.mkdir(parents=True, exist_ok=True)
+                model_result.to_csv(worker_output_path, index=False)
+                st.success(f"Saved worker result to `{worker_output_path}`")
+
+        if all_results:
+            result = pd.concat(all_results, ignore_index=True)
+            st.session_state["climatebert_result"] = result
             read_saved_results.clear()
-            st.success(f"Saved worker result to `{worker_output_path}`")
+            st.success(f"Generated ClimateBERT predictions for {len(result):,} model-sentence rows")
     except Exception as exc:
         st.error(f"ClimateBERT inference failed:\n\n{exc}")
 
@@ -409,7 +456,7 @@ if isinstance(result, pd.DataFrame) and not result.empty:
             if scores.empty:
                 st.caption("No numeric confidence scores available.")
             else:
-                st.bar_chart(pd.cut(scores, bins=10).value_counts().sort_index())
+                st.bar_chart(confidence_bins(scores), x="confidence_range", y="count")
 
         score_cols = [col for col in result.columns if col.startswith("score_")]
         if score_cols:
@@ -445,7 +492,12 @@ if isinstance(result, pd.DataFrame) and not result.empty:
             use_container_width=True,
         )
 
-        output_path = st.text_input("Optional server output path", value=str(worker_output_path))
+        default_export_path = (
+            preview_output_paths[0]
+            if preview_output_paths
+            else output_dir / "climatebert_predictions.csv"
+        )
+        output_path = st.text_input("Optional server output path", value=str(default_export_path))
         if st.button("Save CSV on Server", use_container_width=True):
             try:
                 target = Path(output_path).expanduser()
