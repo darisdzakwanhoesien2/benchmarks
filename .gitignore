@@ -4,6 +4,7 @@ new_page/.env
 venv
 .env
 
+esg_dashboard_new-main/dashboard/data/data/climatebert_predictions
 # Python cache and compiled files
 __pycache__/
 *.pyc
