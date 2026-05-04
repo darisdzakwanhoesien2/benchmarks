@@ -13,6 +13,7 @@ This folder explains the active Streamlit pages in `new_page/pages`. Each markdo
 - [`1_5_ESG_Flow_Sankey.md`](./1_5_ESG_Flow_Sankey.md)
 - [`1_6_Ontology_Path_Viewer.md`](./1_6_Ontology_Path_Viewer.md)
 - [`1_7_Research_Questions_Dashboard.md`](./1_7_Research_Questions_Dashboard.md)
+- [`1_8_Ground_Truth_Output_Visualizer.md`](./1_8_Ground_Truth_Output_Visualizer.md)
 
 ## Operational Pipeline Pages
 
@@ -25,4 +26,3 @@ Recommended thesis use:
 - Chapter III: cite the OCR, LLM processing, ground-truth, ClimateBERT batch, ontology, and metrics pages as methodology support.
 - Chapter IV: cite the tone visualization, revision analytics, Sankey, and RQ dashboard pages as implementation/results support.
 - Chapter V: cite the failure-mode, greenwashing, ontology coverage, and agreement outputs as discussion evidence.
-
