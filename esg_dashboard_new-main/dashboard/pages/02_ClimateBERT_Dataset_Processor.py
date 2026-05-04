@@ -186,6 +186,65 @@ def run_batches(classifier, sentences: list[str], batch_size: int) -> list[dict]
     return rows
 
 
+def save_progress_csv(new_rows: pd.DataFrame, target: Path) -> None:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists():
+        try:
+            existing = pd.read_csv(target)
+        except Exception:
+            existing = pd.DataFrame()
+        combined = pd.concat([existing, new_rows], ignore_index=True)
+        if "sentence" in combined.columns:
+            combined = combined.drop_duplicates(subset=["sentence"], keep="last")
+    else:
+        combined = new_rows
+
+    tmp = target.with_suffix(target.suffix + ".tmp")
+    combined.to_csv(tmp, index=False)
+    tmp.replace(target)
+
+
+def run_batches_with_checkpoints(
+    classifier,
+    input_df: pd.DataFrame,
+    batch_size: int,
+    metadata: dict,
+    save_path: Path | None = None,
+) -> pd.DataFrame:
+    rows = []
+    progress = st.progress(0)
+    status = st.empty()
+    total = len(input_df)
+
+    for start in range(0, total, batch_size):
+        batch_df = input_df.iloc[start:start + batch_size].reset_index(drop=True)
+        sentences = batch_df["sentence"].astype(str).tolist()
+        outputs = classifier(sentences, batch_size=batch_size, truncation=True)
+        if isinstance(outputs, dict):
+            outputs = [outputs]
+
+        prediction_df = pd.DataFrame(flatten_prediction(output) for output in outputs)
+        batch_result = pd.concat([batch_df, prediction_df], axis=1)
+        for key, value in metadata.items():
+            batch_result[key] = value
+
+        rows.append(batch_result)
+
+        if save_path is not None:
+            save_progress_csv(batch_result, save_path)
+
+        done = min(start + len(batch_df), total)
+        progress.progress(done / total)
+        saved_note = f" Saved checkpoint to `{save_path}`." if save_path is not None else ""
+        status.caption(f"Processed {done:,} / {total:,} sentences.{saved_note}")
+
+    status.empty()
+    progress.empty()
+    if not rows:
+        return pd.DataFrame()
+    return pd.concat(rows, ignore_index=True)
+
+
 def shard_dataframe(df: pd.DataFrame, worker_count: int, worker_index: int) -> pd.DataFrame:
     worker_index = min(max(worker_index, 1), worker_count)
     sharded = df.iloc[(worker_index - 1)::worker_count].copy()
@@ -364,6 +423,7 @@ with st.sidebar:
     st.header("Output")
     output_dir_input = st.text_input("Output directory", value=str(DEFAULT_OUTPUT_DIR))
     auto_save = st.checkbox("Auto-save this worker CSV after inference", value=True)
+    st.caption("When auto-save is enabled, every completed batch is checkpointed to CSV immediately.")
     continue_leftover_only = st.checkbox(
         "Continue from leftover only",
         value=True,
@@ -494,23 +554,29 @@ if run:
                 st.info(f"`{model_name_from_dir(model_dir)}` has no leftover rows for this worker.")
                 continue
 
-            sentences = model_worker_df["sentence"].astype(str).tolist()
-            with st.spinner(f"Running inference with `{model_dir.name}`..."):
-                prediction_rows = run_batches(classifier, sentences, int(batch_size))
+            worker_output_path = make_output_path(output_dir, model_dir, int(worker_count), int(worker_index))
+            metadata = {
+                "climatebert_model_dir": str(model_dir),
+                "climatebert_model_name": model_name_from_dir(model_dir),
+                "worker_count": int(worker_count),
+                "worker_index": int(worker_index),
+            }
+            if auto_save:
+                output_dir.mkdir(parents=True, exist_ok=True)
 
-            prediction_df = pd.DataFrame(prediction_rows)
-            model_result = pd.concat([model_worker_df.reset_index(drop=True), prediction_df], axis=1)
-            model_result["climatebert_model_dir"] = str(model_dir)
-            model_result["climatebert_model_name"] = model_name_from_dir(model_dir)
-            model_result["worker_count"] = int(worker_count)
-            model_result["worker_index"] = int(worker_index)
+            with st.spinner(f"Running inference with `{model_dir.name}`..."):
+                model_result = run_batches_with_checkpoints(
+                    classifier=classifier,
+                    input_df=model_worker_df,
+                    batch_size=int(batch_size),
+                    metadata=metadata,
+                    save_path=worker_output_path if auto_save else None,
+                )
+
             all_results.append(model_result)
 
             if auto_save:
-                worker_output_path = make_output_path(output_dir, model_dir, int(worker_count), int(worker_index))
-                output_dir.mkdir(parents=True, exist_ok=True)
-                model_result.to_csv(worker_output_path, index=False)
-                st.success(f"Saved worker result to `{worker_output_path}`")
+                st.success(f"Checkpointed latest worker result to `{worker_output_path}`")
 
         if all_results:
             result = pd.concat(all_results, ignore_index=True)
