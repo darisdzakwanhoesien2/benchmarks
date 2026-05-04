@@ -368,6 +368,17 @@ with st.sidebar:
         value=default_model_root(),
         help="The page scans recursively for pytorch_model.bin and model.safetensors.",
     )
+
+    refresh_cols = st.columns(2)
+    with refresh_cols[0]:
+        if st.button("Refresh Models", use_container_width=True):
+            discover_model_dirs.clear()
+            st.rerun()
+    with refresh_cols[1]:
+        if st.button("Clear Loaded", use_container_width=True):
+            load_local_classifier.clear()
+            st.success("Cleared loaded model cache.")
+
     discovered_models = discover_model_dirs(model_root_input)
 
     if discovered_models:
