@@ -197,6 +197,11 @@ def make_output_path(output_dir: Path, model_dir: Path, worker_count: int, worke
     return output_dir / f"climatebert_{model_slug}_workers{worker_count}_worker{worker_index}.csv"
 
 
+def model_name_from_dir(model_dir: Path) -> str:
+    model_dir_str = str(model_dir)
+    return model_dir_str.split("/models/")[-1] if "/models/" in model_dir_str else model_dir.name
+
+
 def confidence_bins(series: pd.Series, bins: int = 10) -> pd.DataFrame:
     scores = pd.to_numeric(series, errors="coerce").dropna()
     if scores.empty:
@@ -225,6 +230,41 @@ def read_saved_results(output_dir: str) -> pd.DataFrame:
     if not frames:
         return pd.DataFrame()
     return pd.concat(frames, ignore_index=True)
+
+
+def processed_sentence_set(saved_df: pd.DataFrame, model_dir: Path) -> set[str]:
+    if saved_df.empty or "sentence" not in saved_df.columns:
+        return set()
+
+    scoped = saved_df
+    model_name = model_name_from_dir(model_dir)
+    if "climatebert_model_dir" in scoped.columns:
+        scoped = scoped[scoped["climatebert_model_dir"].map(format_display_value) == str(model_dir)]
+    elif "climatebert_model_name" in scoped.columns:
+        scoped = scoped[scoped["climatebert_model_name"].map(format_display_value) == model_name]
+    else:
+        model_slug = slugify(model_name)
+        if "result_file" in scoped.columns:
+            scoped = scoped[scoped["result_file"].map(format_display_value).str.contains(model_slug, na=False)]
+
+    return set(scoped["sentence"].map(format_display_value))
+
+
+def coverage_rows(base_df: pd.DataFrame, saved_df: pd.DataFrame, model_dirs: list[Path]) -> pd.DataFrame:
+    rows = []
+    sentences = set(base_df["sentence"].map(format_display_value)) if "sentence" in base_df.columns else set()
+    total = len(sentences)
+    for model_dir in model_dirs:
+        done = processed_sentence_set(saved_df, model_dir)
+        processed = len(sentences & done)
+        rows.append({
+            "model": model_name_from_dir(model_dir),
+            "processed": processed,
+            "leftover": max(total - processed, 0),
+            "total": total,
+            "coverage_pct": round((processed / total) * 100, 2) if total else 0.0,
+        })
+    return pd.DataFrame(rows)
 
 
 try:
@@ -324,6 +364,11 @@ with st.sidebar:
     st.header("Output")
     output_dir_input = st.text_input("Output directory", value=str(DEFAULT_OUTPUT_DIR))
     auto_save = st.checkbox("Auto-save this worker CSV after inference", value=True)
+    continue_leftover_only = st.checkbox(
+        "Continue from leftover only",
+        value=True,
+        help="Skip sentences already found in saved CSV outputs for each selected model.",
+    )
 
     st.header("Filters")
     selected = {}
@@ -344,10 +389,13 @@ if dedupe:
 filtered = filtered.head(int(max_rows)).reset_index(drop=True)
 worker_df = shard_dataframe(filtered, int(worker_count), int(worker_index))
 output_dir = Path(output_dir_input).expanduser()
+saved_before_run = read_saved_results(str(output_dir))
 preview_output_paths = [
     make_output_path(output_dir, model_dir, int(worker_count), int(worker_index))
     for model_dir in model_dirs
 ]
+coverage = coverage_rows(filtered, saved_before_run, model_dirs)
+worker_coverage = coverage_rows(worker_df, saved_before_run, model_dirs)
 
 metric_cols = st.columns(5)
 metric_cols[0].metric("Filtered rows", f"{len(filtered):,}")
@@ -366,13 +414,49 @@ if preview_output_paths:
     for path in preview_output_paths[:10]:
         st.caption(f"`{path}`")
 
+dist_tab, coverage_tab, preview_tab = st.tabs([
+    "Data Distribution",
+    "Processing Coverage",
+    "Worker Preview",
+])
+
+with dist_tab:
+    chart_cols = st.columns(2)
+    for idx, col in enumerate(["aspect_category", "sentiment", "tone", "model"]):
+        if col in filtered.columns:
+            with chart_cols[idx % 2]:
+                st.subheader(col.replace("_", " ").title())
+                st.bar_chart(filtered[col].map(format_display_value).value_counts().head(30))
+
+    if "filename" in filtered.columns:
+        st.subheader("Top Source Files")
+        file_counts = filtered["filename"].map(format_display_value).value_counts().head(30)
+        st.bar_chart(file_counts)
+
+with coverage_tab:
+    left, right = st.columns(2)
+    with left:
+        st.subheader("Filtered Dataset Coverage")
+        st.dataframe(coverage, use_container_width=True)
+    with right:
+        st.subheader("This Worker Coverage")
+        st.dataframe(worker_coverage, use_container_width=True)
+
+    if not coverage.empty:
+        st.subheader("Leftover by Selected Model")
+        st.bar_chart(coverage.set_index("model")[["processed", "leftover"]])
+
+    if continue_leftover_only:
+        st.caption("Runs will skip already processed sentences separately for each selected model.")
+
 preview_cols = [
     col for col in [
         "sentence", "aspect", "aspect_category", "sentiment", "tone", "filename", "model"
     ]
     if col in filtered.columns
 ]
-st.dataframe(worker_df[preview_cols].head(100), use_container_width=True, height=360)
+with preview_tab:
+    st.dataframe(worker_df[preview_cols].head(100), use_container_width=True, height=360)
 
 run = st.button("Run ClimateBERT on This Worker Shard", type="primary", disabled=worker_df.empty)
 
@@ -382,7 +466,6 @@ if run:
         st.stop()
 
     try:
-        sentences = worker_df["sentence"].astype(str).tolist()
         all_results = []
         for model_dir in model_dirs:
             if not model_dir.exists():
@@ -400,13 +483,25 @@ if run:
             with st.spinner(f"Loading model from `{model_dir}`..."):
                 classifier = load_local_classifier(str(model_dir), device)
 
+            model_worker_df = worker_df
+            if continue_leftover_only:
+                done_sentences = processed_sentence_set(saved_before_run, model_dir)
+                model_worker_df = worker_df[
+                    ~worker_df["sentence"].map(format_display_value).isin(done_sentences)
+                ].reset_index(drop=True)
+
+            if model_worker_df.empty:
+                st.info(f"`{model_name_from_dir(model_dir)}` has no leftover rows for this worker.")
+                continue
+
+            sentences = model_worker_df["sentence"].astype(str).tolist()
             with st.spinner(f"Running inference with `{model_dir.name}`..."):
                 prediction_rows = run_batches(classifier, sentences, int(batch_size))
 
             prediction_df = pd.DataFrame(prediction_rows)
-            model_result = pd.concat([worker_df.reset_index(drop=True), prediction_df], axis=1)
+            model_result = pd.concat([model_worker_df.reset_index(drop=True), prediction_df], axis=1)
             model_result["climatebert_model_dir"] = str(model_dir)
-            model_result["climatebert_model_name"] = str(model_dir).split("/models/")[-1] if "/models/" in str(model_dir) else model_dir.name
+            model_result["climatebert_model_name"] = model_name_from_dir(model_dir)
             model_result["worker_count"] = int(worker_count)
             model_result["worker_index"] = int(worker_index)
             all_results.append(model_result)

@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 import pandas as pd
 import streamlit as st
@@ -17,6 +18,12 @@ st.caption("Visualize parsed ESG records together with saved ClimateBERT shard o
 
 
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "data" / "data" / "climatebert_predictions"
+
+
+def slugify(value: str) -> str:
+    value = value.strip().lower()
+    value = re.sub(r"[^a-z0-9]+", "_", value)
+    return value.strip("_") or "model"
 
 
 @st.cache_data(show_spinner=False)
@@ -47,7 +54,15 @@ def load_prediction_files(output_dir: str) -> pd.DataFrame:
 
     if not frames:
         return pd.DataFrame()
-    return pd.concat(frames, ignore_index=True)
+    combined = pd.concat(frames, ignore_index=True)
+    if "climatebert_model_name" not in combined.columns and "result_file" in combined.columns:
+        combined["climatebert_model_name"] = (
+            combined["result_file"]
+            .map(format_display_value)
+            .str.replace(r"^climatebert_", "", regex=True)
+            .str.replace(r"_workers\d+_worker\d+\.csv$", "", regex=True)
+        )
+    return combined
 
 
 def confidence_bins(series: pd.Series, bins: int = 10) -> pd.DataFrame:
@@ -69,6 +84,38 @@ def apply_multiselect_filter(df: pd.DataFrame, col: str, label: str) -> pd.DataF
     if not selected:
         return df
     return df[df[col].map(format_display_value).isin(selected)]
+
+
+def coverage_by_model(base_df: pd.DataFrame, pred_df: pd.DataFrame) -> pd.DataFrame:
+    if "sentence" not in base_df.columns or pred_df.empty or "sentence" not in pred_df.columns:
+        return pd.DataFrame(columns=["model", "processed", "not_processed", "total", "coverage_pct"])
+
+    base_sentences = set(base_df["sentence"].map(format_display_value))
+    total = len(base_sentences)
+    model_col = "climatebert_model_name" if "climatebert_model_name" in pred_df.columns else "result_file"
+
+    rows = []
+    for model, part in pred_df.groupby(model_col):
+        processed_sentences = set(part["sentence"].map(format_display_value))
+        processed = len(base_sentences & processed_sentences)
+        rows.append({
+            "model": format_display_value(model),
+            "processed": processed,
+            "not_processed": max(total - processed, 0),
+            "total": total,
+            "coverage_pct": round((processed / total) * 100, 2) if total else 0.0,
+        })
+    return pd.DataFrame(rows).sort_values(["coverage_pct", "processed"], ascending=False)
+
+
+def not_processed_table(base_df: pd.DataFrame, pred_df: pd.DataFrame, model: str) -> pd.DataFrame:
+    if "sentence" not in base_df.columns or "sentence" not in pred_df.columns:
+        return base_df.head(0)
+    model_col = "climatebert_model_name" if "climatebert_model_name" in pred_df.columns else "result_file"
+    processed = set(
+        pred_df[pred_df[model_col].map(format_display_value) == model]["sentence"].map(format_display_value)
+    )
+    return base_df[~base_df["sentence"].map(format_display_value).isin(processed)].reset_index(drop=True)
 
 
 try:
@@ -139,8 +186,12 @@ else:
     merged = filtered_predictions.copy()
 
 
-tab_summary, tab_models, tab_files, tab_merged, tab_existing = st.tabs([
+coverage = coverage_by_model(filtered_parsed, filtered_predictions)
+
+
+tab_summary, tab_coverage, tab_models, tab_files, tab_merged, tab_existing = st.tabs([
     "Summary",
+    "Coverage",
     "Models",
     "Files & Workers",
     "Merged Table",
@@ -174,6 +225,45 @@ with tab_summary:
     if {"aspect_category", "label"}.issubset(merged.columns):
         st.subheader("Climate Labels by Existing Aspect Category")
         st.dataframe(pd.crosstab(merged["aspect_category"], merged["label"]), use_container_width=True)
+
+    st.subheader("Existing Data Distribution")
+    dist_cols = st.columns(3)
+    for idx, col in enumerate(["aspect_category", "sentiment", "tone"]):
+        if col in filtered_parsed.columns:
+            with dist_cols[idx]:
+                st.bar_chart(filtered_parsed[col].map(format_display_value).value_counts().head(25))
+
+
+with tab_coverage:
+    st.subheader("Processed vs Not Processed")
+    if coverage.empty:
+        st.caption("No coverage can be computed yet.")
+    else:
+        st.dataframe(coverage, use_container_width=True)
+        st.bar_chart(coverage.set_index("model")[["processed", "not_processed"]])
+
+        model_options = coverage["model"].tolist()
+        selected_model = st.selectbox("Show not-processed records for model", model_options)
+        leftover = not_processed_table(filtered_parsed, filtered_predictions, selected_model)
+        cols = st.columns(3)
+        cols[0].metric("Model", selected_model)
+        cols[1].metric("Not processed", f"{len(leftover):,}")
+        cols[2].metric("Processed", f"{int(coverage[coverage['model'] == selected_model]['processed'].iloc[0]):,}")
+
+        display_cols = [
+            col for col in [
+                "sentence", "aspect", "aspect_category", "sentiment", "tone", "filename", "model"
+            ]
+            if col in leftover.columns
+        ]
+        st.dataframe(leftover[display_cols].head(5000), use_container_width=True, height=520)
+        st.download_button(
+            "Download not-processed CSV",
+            data=leftover.to_csv(index=False).encode("utf-8"),
+            file_name=f"not_processed_{slugify(selected_model)}.csv",
+            mime="text/csv",
+            use_container_width=True,
+        )
 
 
 with tab_models:
