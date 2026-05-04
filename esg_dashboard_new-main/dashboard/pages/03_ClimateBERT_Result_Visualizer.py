@@ -6,7 +6,7 @@ import streamlit as st
 
 from utils.data_loader import (
     format_display_value,
-    load_and_parse,
+    parse_esg_json,
     resolve_data_path,
     sorted_unique_values,
 )
@@ -18,6 +18,29 @@ st.caption("Visualize parsed ESG records together with saved ClimateBERT shard o
 
 
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "data" / "data" / "climatebert_predictions"
+PARSED_USECOLS = {
+    "text",
+    "filename",
+    "model",
+    "page_number",
+    "filename_index",
+}
+PREDICTION_BASE_COLUMNS = {
+    "sentence",
+    "label",
+    "score",
+    "aspect",
+    "aspect_category",
+    "sentiment",
+    "tone",
+    "filename",
+    "model",
+    "climatebert_model_name",
+    "climatebert_model_dir",
+    "worker_count",
+    "worker_index",
+    "result_file",
+}
 
 
 def slugify(value: str) -> str:
@@ -26,9 +49,19 @@ def slugify(value: str) -> str:
     return value.strip("_") or "model"
 
 
-@st.cache_data(show_spinner=False)
-def load_parsed_records() -> pd.DataFrame:
-    df = load_and_parse()
+def load_parsed_records(path: str) -> pd.DataFrame:
+    header = pd.read_csv(path, nrows=0)
+    usecols = [col for col in PARSED_USECOLS if col in header.columns]
+    raw_df = pd.read_csv(path, usecols=usecols)
+    if "text" not in raw_df.columns:
+        return pd.DataFrame()
+
+    raw_df["parsed"] = raw_df["text"].apply(parse_esg_json)
+    exploded = raw_df.explode("parsed", ignore_index=True)
+    parsed_df = pd.json_normalize(exploded["parsed"])
+    meta_cols = [col for col in raw_df.columns if col not in {"text", "parsed"}]
+    df = pd.concat([exploded[meta_cols].reset_index(drop=True), parsed_df], axis=1)
+
     for col in df.columns:
         if col in {"filename", "model", "sentence", "aspect", "aspect_category", "sentiment", "tone"}:
             df[col] = df[col].map(format_display_value)
@@ -37,8 +70,7 @@ def load_parsed_records() -> pd.DataFrame:
     return df
 
 
-@st.cache_data(show_spinner=False)
-def load_prediction_files(output_dir: str) -> pd.DataFrame:
+def load_prediction_files(output_dir: str, include_class_scores: bool) -> pd.DataFrame:
     root = Path(output_dir).expanduser()
     if not root.exists():
         return pd.DataFrame()
@@ -46,7 +78,12 @@ def load_prediction_files(output_dir: str) -> pd.DataFrame:
     frames = []
     for path in sorted(root.glob("*.csv")):
         try:
-            df = pd.read_csv(path)
+            header = pd.read_csv(path, nrows=0)
+            allowed = set(PREDICTION_BASE_COLUMNS)
+            if include_class_scores:
+                allowed.update(col for col in header.columns if col.startswith("score_"))
+            usecols = [col for col in header.columns if col in allowed]
+            df = pd.read_csv(path, usecols=usecols)
         except Exception:
             continue
         df["result_file"] = path.name
@@ -120,21 +157,31 @@ def not_processed_table(base_df: pd.DataFrame, pred_df: pd.DataFrame, model: str
 
 try:
     data_path = resolve_data_path("data_output")
-    parsed = load_parsed_records()
 except Exception as exc:
-    st.error(f"Could not load parsed `data_output` records.\n\n{exc}")
+    st.error(f"Could not resolve `data_output` records.\n\n{exc}")
     st.stop()
 
 
 with st.sidebar:
     st.header("Data")
     output_dir_input = st.text_input("Prediction output directory", value=str(DEFAULT_OUTPUT_DIR))
+    include_class_scores = st.checkbox(
+        "Load per-class score columns",
+        value=False,
+        help="Turn this off to reduce RAM. Overall label and confidence charts still work.",
+    )
+    table_limit = st.number_input("Table preview row limit", min_value=100, value=3000, step=500)
+    build_merged_table = st.checkbox(
+        "Build merged prediction + source table",
+        value=False,
+        help="This can use much more RAM. Enable only when you need the merged table/download.",
+    )
     if st.button("Refresh saved outputs", use_container_width=True):
-        load_prediction_files.clear()
         st.rerun()
 
 
-predictions = load_prediction_files(output_dir_input)
+parsed = load_parsed_records(str(data_path))
+predictions = load_prediction_files(output_dir_input, include_class_scores)
 
 st.caption(f"Existing data: `{data_path}`")
 st.caption(f"Prediction outputs: `{output_dir_input}`")
@@ -148,7 +195,7 @@ overview_cols[3].metric("Prediction files", f"{predictions['result_file'].nuniqu
 
 if predictions.empty:
     st.warning("No saved ClimateBERT prediction CSV files found yet.")
-    st.dataframe(parsed.head(5000), use_container_width=True, height=520)
+    st.dataframe(parsed.head(int(table_limit)), use_container_width=True, height=520)
     st.stop()
 
 
@@ -175,15 +222,17 @@ with st.sidebar:
         filtered_parsed = apply_multiselect_filter(filtered_parsed, col, label)
 
 
-if "sentence" in filtered_predictions.columns and "sentence" in filtered_parsed.columns:
-    merged = filtered_predictions.merge(
-        filtered_parsed.drop_duplicates(subset=["sentence"]),
-        on="sentence",
-        how="left",
-        suffixes=("", "_parsed"),
-    )
-else:
-    merged = filtered_predictions.copy()
+merged = pd.DataFrame()
+if build_merged_table:
+    if "sentence" in filtered_predictions.columns and "sentence" in filtered_parsed.columns:
+        merged = filtered_predictions.merge(
+            filtered_parsed.drop_duplicates(subset=["sentence"]),
+            on="sentence",
+            how="left",
+            suffixes=("", "_parsed"),
+        )
+    else:
+        merged = filtered_predictions.copy()
 
 
 coverage = coverage_by_model(filtered_parsed, filtered_predictions)
@@ -222,9 +271,12 @@ with tab_summary:
             else:
                 st.bar_chart(bins, x="confidence_range", y="count")
 
-    if {"aspect_category", "label"}.issubset(merged.columns):
+    if {"aspect_category", "label"}.issubset(filtered_predictions.columns):
         st.subheader("Climate Labels by Existing Aspect Category")
-        st.dataframe(pd.crosstab(merged["aspect_category"], merged["label"]), use_container_width=True)
+        st.dataframe(
+            pd.crosstab(filtered_predictions["aspect_category"], filtered_predictions["label"]),
+            use_container_width=True,
+        )
 
     st.subheader("Existing Data Distribution")
     dist_cols = st.columns(3)
@@ -292,27 +344,32 @@ with tab_files:
         worker_counts = filtered_predictions["worker_index"].value_counts().sort_index()
         st.bar_chart(worker_counts)
 
-    if {"filename", "label"}.issubset(merged.columns):
+    if {"filename", "label"}.issubset(filtered_predictions.columns):
         st.subheader("Top Source Files by Climate Label")
-        file_pivot = pd.crosstab(merged["filename"], merged["label"])
+        file_pivot = pd.crosstab(filtered_predictions["filename"], filtered_predictions["label"])
         file_pivot["total"] = file_pivot.sum(axis=1)
         file_pivot = file_pivot.sort_values("total", ascending=False).drop(columns=["total"]).head(50)
         st.dataframe(file_pivot, use_container_width=True)
 
 
 with tab_merged:
-    st.dataframe(merged.head(10000), use_container_width=True, height=620)
-    st.download_button(
-        "Download filtered merged CSV",
-        data=merged.to_csv(index=False).encode("utf-8"),
-        file_name="climatebert_merged_filtered.csv",
-        mime="text/csv",
-        use_container_width=True,
-    )
+    if not build_merged_table:
+        st.info("Enable `Build merged prediction + source table` in the sidebar to load this RAM-heavy view.")
+    elif merged.empty:
+        st.caption("No merged rows available.")
+    else:
+        st.dataframe(merged.head(int(table_limit)), use_container_width=True, height=620)
+        st.download_button(
+            "Download filtered merged CSV",
+            data=merged.to_csv(index=False).encode("utf-8"),
+            file_name="climatebert_merged_filtered.csv",
+            mime="text/csv",
+            use_container_width=True,
+        )
 
 
 with tab_existing:
     st.subheader("Parsed data_output.txt Records")
     if "aspect_category" in filtered_parsed.columns:
         st.bar_chart(filtered_parsed["aspect_category"].value_counts())
-    st.dataframe(filtered_parsed.head(10000), use_container_width=True, height=620)
+    st.dataframe(filtered_parsed.head(int(table_limit)), use_container_width=True, height=620)
