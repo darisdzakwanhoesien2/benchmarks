@@ -14,6 +14,7 @@ This folder explains the active Streamlit pages in `new_page/pages`. Each markdo
 - [`1_6_Ontology_Path_Viewer.md`](./1_6_Ontology_Path_Viewer.md)
 - [`1_7_Research_Questions_Dashboard.md`](./1_7_Research_Questions_Dashboard.md)
 - [`1_8_Ground_Truth_Output_Visualizer.md`](./1_8_Ground_Truth_Output_Visualizer.md)
+- [`1_9_Ground_Truth_Pipeline_Output_Visualizer.md`](./1_9_Ground_Truth_Pipeline_Output_Visualizer.md)
 
 ## Operational Pipeline Pages
 
