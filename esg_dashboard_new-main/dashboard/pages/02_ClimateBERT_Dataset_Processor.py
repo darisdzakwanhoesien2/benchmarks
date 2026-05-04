@@ -1,4 +1,5 @@
 import json
+import gc
 import re
 from pathlib import Path
 
@@ -23,6 +24,24 @@ VPS_MODEL_BIN = VPS_MODEL_ROOT / "distilroberta-base-climate-detector" / "pytorc
 LOCAL_MODEL_DIR = Path(__file__).resolve().parents[3] / "model_download" / "models"
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "data" / "data" / "climatebert_predictions"
 MODEL_WEIGHT_NAMES = {"pytorch_model.bin", "model.safetensors"}
+HEAVY_SOURCE_COLUMNS = {
+    "text",
+    "markdown_full",
+    "cleaned_markdown",
+    "original",
+    "pa",
+}
+SAVED_RESULT_COLUMNS = [
+    "sentence",
+    "label",
+    "score",
+    "aspect_category",
+    "filename",
+    "climatebert_model_dir",
+    "climatebert_model_name",
+    "worker_count",
+    "worker_index",
+]
 
 
 def get_query_int(name: str, default: int) -> int:
@@ -114,6 +133,7 @@ def default_model_selection(models: list[dict]) -> str:
 @st.cache_data(show_spinner=False)
 def load_parsed_dataset() -> pd.DataFrame:
     df = load_and_parse()
+    df = df.drop(columns=[col for col in HEAVY_SOURCE_COLUMNS if col in df.columns])
     for col in ["filename", "model", "aspect", "aspect_category", "sentiment", "tone"]:
         if col in df.columns:
             df[col] = df[col].map(format_display_value)
@@ -188,20 +208,8 @@ def run_batches(classifier, sentences: list[str], batch_size: int) -> list[dict]
 
 def save_progress_csv(new_rows: pd.DataFrame, target: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
-    if target.exists():
-        try:
-            existing = pd.read_csv(target)
-        except Exception:
-            existing = pd.DataFrame()
-        combined = pd.concat([existing, new_rows], ignore_index=True)
-        if "sentence" in combined.columns:
-            combined = combined.drop_duplicates(subset=["sentence"], keep="last")
-    else:
-        combined = new_rows
-
-    tmp = target.with_suffix(target.suffix + ".tmp")
-    combined.to_csv(tmp, index=False)
-    tmp.replace(target)
+    write_header = not target.exists() or target.stat().st_size == 0
+    new_rows.to_csv(target, mode="a", header=write_header, index=False)
 
 
 def run_batches_with_checkpoints(
@@ -281,7 +289,9 @@ def read_saved_results(output_dir: str) -> pd.DataFrame:
     frames = []
     for path in sorted(root.glob("*.csv")):
         try:
-            part = pd.read_csv(path)
+            header = pd.read_csv(path, nrows=0)
+            usecols = [col for col in SAVED_RESULT_COLUMNS if col in header.columns]
+            part = pd.read_csv(path, usecols=usecols) if usecols else pd.DataFrame()
             part["result_file"] = path.name
             frames.append(part)
         except Exception:
@@ -324,6 +334,17 @@ def coverage_rows(base_df: pd.DataFrame, saved_df: pd.DataFrame, model_dirs: lis
             "coverage_pct": round((processed / total) * 100, 2) if total else 0.0,
         })
     return pd.DataFrame(rows)
+
+
+def unload_model_from_memory(model_dir: Path, device: int) -> None:
+    load_local_classifier.clear(str(model_dir), device)
+    gc.collect()
+    try:
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    except Exception:
+        pass
 
 
 try:
@@ -401,6 +422,11 @@ with st.sidebar:
 
     device_label = st.radio("Device", ["CPU", "CUDA 0"], horizontal=True)
     device = 0 if device_label == "CUDA 0" else -1
+    unload_after_model = st.checkbox(
+        "Unload model after each run",
+        value=False,
+        help="Use this when RAM is tight. It frees memory after each selected model, but reruns must reload the model.",
+    )
 
     st.header("Dataset")
     dedupe = st.checkbox("Deduplicate repeated sentences", value=True)
@@ -577,6 +603,10 @@ if run:
 
             if auto_save:
                 st.success(f"Checkpointed latest worker result to `{worker_output_path}`")
+
+            if unload_after_model:
+                del classifier
+                unload_model_from_memory(model_dir, device)
 
         if all_results:
             result = pd.concat(all_results, ignore_index=True)
