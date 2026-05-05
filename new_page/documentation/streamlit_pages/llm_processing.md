@@ -125,6 +125,43 @@ ssh -N -R 11434:127.0.0.1:11434 ubuntu@YOUR_VPS_IP
 
 DeepSeek R1 models may produce reasoning text before the final JSON. The parser now strips `<think>...</think>` blocks before trying to parse JSON, which improves compatibility with reasoning-style Ollama models.
 
+### Ollama HTTP 500 Troubleshooting
+
+If a run fails with a message such as:
+
+```text
+Ollama failed after 3 attempts at http://127.0.0.1:11434/api/chat
+```
+
+the URL is usually correct, but the Ollama server rejected or crashed during generation. Common causes are:
+
+- `num_predict` is too high for the VPS memory/model size;
+- the prompt is too large for the model context window;
+- the selected model is unloaded, corrupted, or out of memory;
+- Ollama is restarting while the request is running.
+
+The page now has an **Ollama num_predict** control and caps Ollama output length separately from the global `Max tokens` setting. Start with:
+
+```text
+Ollama num_predict = 1024 or 2048
+Context length = 3000 to 6000 characters
+Batch size = 1 page
+```
+
+On the VPS, verify the model directly:
+
+```bash
+curl http://127.0.0.1:11434/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"model":"gemma4:e2b","stream":false,"messages":[{"role":"user","content":"Return only JSON: [{\"ok\": true}]"}],"options":{"num_predict":256}}'
+```
+
+If that command fails, check the Ollama service logs:
+
+```bash
+journalctl -u ollama -n 100 --no-pager
+```
+
 ## Important Output Fields
 
 Each ESG record may contain:

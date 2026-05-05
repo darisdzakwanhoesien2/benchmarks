@@ -52,6 +52,8 @@ OPENROUTER_API_URL    = os.getenv("OPENROUTER_API_URL",    "https://openrouter.a
 OPENROUTER_MODELS_URL = os.getenv("OPENROUTER_MODELS_URL", "https://openrouter.ai/api/v1/models")
 LMSTUDIO_DEFAULT_URL  = "http://127.0.0.1:1234/v1"
 OLLAMA_DEFAULT_URL    = "http://127.0.0.1:11434"
+OLLAMA_NUM_PREDICT_DEFAULT = int(os.getenv("OLLAMA_NUM_PREDICT_DEFAULT", "2048"))
+OLLAMA_NUM_PREDICT_MAX = int(os.getenv("OLLAMA_NUM_PREDICT_MAX", "4096"))
 DEFAULT_MODEL         = "meta-llama/llama-3.1-8b-instruct:free"
 API_KEY_ENV           = "OPENROUTER_API_KEY"
 BACKEND_OPENROUTER    = "OpenRouter"
@@ -77,6 +79,7 @@ _DEFAULTS = {
     "lmstudio_manual_model_id": "",
     "ollama_model_id": "",
     "ollama_manual_model_id": "",
+    "ollama_num_predict": OLLAMA_NUM_PREDICT_DEFAULT,
 }
 for _k, _v in _DEFAULTS.items():
     if _k not in st.session_state:
@@ -549,6 +552,7 @@ def _call_ollama(prompt: str, model: str, base_url: str, api_key: str = "",
     url = f"{base_url}/api/chat"
     if not model:
         raise RuntimeError("No Ollama model selected. Pull/load a model in Ollama or type a manual model id.")
+    num_predict = max(64, min(int(max_tokens), OLLAMA_NUM_PREDICT_MAX))
 
     payload = {
         "model": model,
@@ -567,20 +571,24 @@ def _call_ollama(prompt: str, model: str, base_url: str, api_key: str = "",
         "stream": False,
         "options": {
             "temperature": temperature,
-            "num_predict": max_tokens,
+            "num_predict": num_predict,
         },
     }
 
-    s = _requests_session(retries=retries)
     last_exc = None
     for attempt in range(1, retries + 1):
         try:
-            resp = s.post(
+            resp = requests.post(
                 url,
                 headers=optional_bearer_headers(api_key),
                 json=payload,
                 timeout=240,
             )
+            if resp.status_code >= 500:
+                raise RuntimeError(
+                    f"Ollama returned HTTP {resp.status_code} for model `{model}` "
+                    f"with num_predict={num_predict}. Body: {resp.text[:1200]}"
+                )
             if 400 <= resp.status_code < 500:
                 raise RuntimeError(f"Ollama returned HTTP {resp.status_code}: {resp.text[:1200]}")
             resp.raise_for_status()
@@ -884,6 +892,23 @@ with st.sidebar:
     st.subheader("⚙️ Generation (T3)")
     temperature_input = st.slider("Temperature", 0.0, 1.0, 0.0, 0.01)
     max_tokens_input  = st.number_input("Max tokens", value=100000, min_value=64, step=100)
+    if backend == BACKEND_OLLAMA:
+        ollama_num_predict_input = st.number_input(
+            "Ollama num_predict",
+            value=int(st.session_state.ollama_num_predict),
+            min_value=64,
+            max_value=OLLAMA_NUM_PREDICT_MAX,
+            step=64,
+            help=(
+                "Ollama is much more likely to return HTTP 500 if this is too high. "
+                f"The app caps it at {OLLAMA_NUM_PREDICT_MAX} even if global Max tokens is larger."
+            ),
+        )
+        st.session_state.ollama_num_predict = int(ollama_num_predict_input)
+        st.caption(
+            f"Ollama will use `num_predict={st.session_state.ollama_num_predict}`. "
+            "Reduce this if the VPS model still returns HTTP 500."
+        )
     retries_input     = st.number_input("Retries", value=3, min_value=0, step=1)
 
     st.divider()
@@ -1505,7 +1530,11 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
                                     ollama_url=st.session_state.ollama_url,
                                     ollama_api_key=st.session_state.ollama_api_key,
                                     temperature=float(temperature_input),
-                                    max_tokens=int(max_tokens_input),
+                                    max_tokens=int(
+                                        st.session_state.ollama_num_predict
+                                        if backend == BACKEND_OLLAMA
+                                        else max_tokens_input
+                                    ),
                                     retries=int(retries_input),
                                 )
 
