@@ -54,6 +54,8 @@ LMSTUDIO_DEFAULT_URL  = "http://127.0.0.1:1234/v1"
 OLLAMA_DEFAULT_URL    = "http://127.0.0.1:11434"
 OLLAMA_NUM_PREDICT_DEFAULT = int(os.getenv("OLLAMA_NUM_PREDICT_DEFAULT", "2048"))
 OLLAMA_NUM_PREDICT_MAX = int(os.getenv("OLLAMA_NUM_PREDICT_MAX", "4096"))
+OLLAMA_NUM_CTX_DEFAULT = int(os.getenv("OLLAMA_NUM_CTX_DEFAULT", "2048"))
+OLLAMA_NUM_CTX_MAX = int(os.getenv("OLLAMA_NUM_CTX_MAX", "8192"))
 DEFAULT_MODEL         = "meta-llama/llama-3.1-8b-instruct:free"
 API_KEY_ENV           = "OPENROUTER_API_KEY"
 BACKEND_OPENROUTER    = "OpenRouter"
@@ -80,6 +82,7 @@ _DEFAULTS = {
     "ollama_model_id": "",
     "ollama_manual_model_id": "",
     "ollama_num_predict": OLLAMA_NUM_PREDICT_DEFAULT,
+    "ollama_num_ctx": OLLAMA_NUM_CTX_DEFAULT,
 }
 for _k, _v in _DEFAULTS.items():
     if _k not in st.session_state:
@@ -547,12 +550,14 @@ def _call_lmstudio(prompt: str, model: str, base_url: str, api_key: str = "",
 
 
 def _call_ollama(prompt: str, model: str, base_url: str, api_key: str = "",
-                 temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
+                 temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3,
+                 num_ctx: int = OLLAMA_NUM_CTX_DEFAULT) -> str:
     base_url = normalize_ollama_base_url(base_url)
     url = f"{base_url}/api/chat"
     if not model:
         raise RuntimeError("No Ollama model selected. Pull/load a model in Ollama or type a manual model id.")
     num_predict = max(64, min(int(max_tokens), OLLAMA_NUM_PREDICT_MAX))
+    num_ctx = max(512, min(int(num_ctx), OLLAMA_NUM_CTX_MAX))
 
     payload = {
         "model": model,
@@ -572,7 +577,9 @@ def _call_ollama(prompt: str, model: str, base_url: str, api_key: str = "",
         "options": {
             "temperature": temperature,
             "num_predict": num_predict,
+            "num_ctx": num_ctx,
         },
+        "keep_alive": "0s",
     }
 
     last_exc = None
@@ -587,7 +594,7 @@ def _call_ollama(prompt: str, model: str, base_url: str, api_key: str = "",
             if resp.status_code >= 500:
                 raise RuntimeError(
                     f"Ollama returned HTTP {resp.status_code} for model `{model}` "
-                    f"with num_predict={num_predict}. Body: {resp.text[:1200]}"
+                    f"with num_predict={num_predict}, num_ctx={num_ctx}. Body: {resp.text[:1200]}"
                 )
             if 400 <= resp.status_code < 500:
                 raise RuntimeError(f"Ollama returned HTTP {resp.status_code}: {resp.text[:1200]}")
@@ -611,11 +618,12 @@ def call_llm(prompt: str, model: str, backend: str, api_key: str = "",
              lmstudio_api_key: str = "",
              ollama_url: str = OLLAMA_DEFAULT_URL,
              ollama_api_key: str = "",
+             ollama_num_ctx: int = OLLAMA_NUM_CTX_DEFAULT,
              temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
     if backend == BACKEND_LMSTUDIO:
         return _call_lmstudio(prompt, model, lmstudio_url, lmstudio_api_key, temperature, max_tokens, retries)
     if backend == BACKEND_OLLAMA:
-        return _call_ollama(prompt, model, ollama_url, ollama_api_key, temperature, max_tokens, retries)
+        return _call_ollama(prompt, model, ollama_url, ollama_api_key, temperature, max_tokens, retries, ollama_num_ctx)
     return _call_openrouter(prompt, model, api_key, temperature, max_tokens, retries)
 
 
@@ -905,9 +913,22 @@ with st.sidebar:
             ),
         )
         st.session_state.ollama_num_predict = int(ollama_num_predict_input)
+        ollama_num_ctx_input = st.number_input(
+            "Ollama num_ctx",
+            value=int(st.session_state.ollama_num_ctx),
+            min_value=512,
+            max_value=OLLAMA_NUM_CTX_MAX,
+            step=512,
+            help=(
+                "Lower context uses less RAM. If Ollama says the model requires more system memory, "
+                "try 1024 or 2048."
+            ),
+        )
+        st.session_state.ollama_num_ctx = int(ollama_num_ctx_input)
         st.caption(
-            f"Ollama will use `num_predict={st.session_state.ollama_num_predict}`. "
-            "Reduce this if the VPS model still returns HTTP 500."
+            f"Ollama will use `num_predict={st.session_state.ollama_num_predict}` "
+            f"and `num_ctx={st.session_state.ollama_num_ctx}`. "
+            "Reduce `num_ctx` first if Ollama says the model needs more memory."
         )
     retries_input     = st.number_input("Retries", value=3, min_value=0, step=1)
 
@@ -1529,6 +1550,7 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
                                     lmstudio_api_key=st.session_state.lmstudio_api_key,
                                     ollama_url=st.session_state.ollama_url,
                                     ollama_api_key=st.session_state.ollama_api_key,
+                                    ollama_num_ctx=st.session_state.ollama_num_ctx,
                                     temperature=float(temperature_input),
                                     max_tokens=int(
                                         st.session_state.ollama_num_predict

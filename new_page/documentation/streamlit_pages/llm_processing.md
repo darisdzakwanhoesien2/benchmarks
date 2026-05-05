@@ -144,16 +144,25 @@ The page now has an **Ollama num_predict** control and caps Ollama output length
 
 ```text
 Ollama num_predict = 1024 or 2048
+Ollama num_ctx = 1024 or 2048
 Context length = 3000 to 6000 characters
 Batch size = 1 page
 ```
+
+If Ollama reports:
+
+```text
+model requires more system memory (7.2 GiB) than is available (5.5 GiB)
+```
+
+that is RAM availability, not disk space. `df -h` only shows disk. `htop` can show total memory, but Ollama needs enough available RAM to load model weights plus context/KV cache. A VPS with 7.45 GiB total RAM can still have only about 5.5 GiB available after the OS, Streamlit, Python, Ollama, and other services are running. Reducing `num_ctx` lowers the KV-cache memory, but if the model weights alone are too large, use a smaller/quantized model or a larger VPS.
 
 On the VPS, verify the model directly:
 
 ```bash
 curl http://127.0.0.1:11434/api/chat \
   -H "Content-Type: application/json" \
-  -d '{"model":"gemma4:e2b","stream":false,"messages":[{"role":"user","content":"Return only JSON: [{\"ok\": true}]"}],"options":{"num_predict":256}}'
+  -d '{"model":"gemma4:e2b","stream":false,"messages":[{"role":"user","content":"Return only JSON: [{\"ok\": true}]"}],"options":{"num_predict":256,"num_ctx":1024},"keep_alive":"0s"}'
 ```
 
 If that command fails, check the Ollama service logs:
