@@ -50,11 +50,13 @@ except Exception as _e:
 # ══════════════════════════════════════════════════════════════════════════════
 OPENROUTER_API_URL    = os.getenv("OPENROUTER_API_URL",    "https://openrouter.ai/api/v1/chat/completions")
 OPENROUTER_MODELS_URL = os.getenv("OPENROUTER_MODELS_URL", "https://openrouter.ai/api/v1/models")
-LMSTUDIO_DEFAULT_URL  = "http://localhost:1234/v1"
+LMSTUDIO_DEFAULT_URL  = "http://127.0.0.1:1234/v1"
+OLLAMA_DEFAULT_URL    = "http://127.0.0.1:11434"
 DEFAULT_MODEL         = "meta-llama/llama-3.1-8b-instruct:free"
 API_KEY_ENV           = "OPENROUTER_API_KEY"
 BACKEND_OPENROUTER    = "OpenRouter"
 BACKEND_LMSTUDIO      = "LM Studio / OpenAI-compatible"
+BACKEND_OLLAMA        = "Ollama"
 
 PROMPT_DIR     = Path(__file__).resolve().parents[1] / "prompt"
 OCR_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "data" / "thesis_dataset"
@@ -68,9 +70,13 @@ _DEFAULTS = {
     "backend":           BACKEND_OPENROUTER,
     "lmstudio_url":      os.getenv("LMSTUDIO_BASE_URL", LMSTUDIO_DEFAULT_URL),
     "lmstudio_api_key":  os.getenv("LMSTUDIO_API_KEY", ""),
+    "ollama_url":        os.getenv("OLLAMA_BASE_URL", OLLAMA_DEFAULT_URL),
+    "ollama_api_key":    os.getenv("OLLAMA_API_KEY", ""),
     "active_model_id":   DEFAULT_MODEL,
     "lmstudio_model_id": "",
     "lmstudio_manual_model_id": "",
+    "ollama_model_id": "",
+    "ollama_manual_model_id": "",
 }
 for _k, _v in _DEFAULTS.items():
     if _k not in st.session_state:
@@ -217,7 +223,46 @@ def normalize_openai_base_url(url: str) -> str:
     return url.rstrip("/")
 
 
+def is_loopback_url(url: str) -> bool:
+    parsed = urlparse(normalize_openai_base_url(url))
+    host = (parsed.hostname or "").lower()
+    return host in {"localhost", "127.0.0.1", "::1", "0.0.0.0"}
+
+
+def normalize_ollama_base_url(url: str) -> str:
+    """Accept an Ollama base URL or a native Ollama endpoint URL."""
+    url = (url or "").strip()
+    if not url:
+        return OLLAMA_DEFAULT_URL
+    url = url.rstrip("/")
+    endpoint_suffixes = (
+        "/api/tags",
+        "/api/chat",
+        "/api/generate",
+        "/api/show",
+        "/api/ps",
+    )
+    for suffix in endpoint_suffixes:
+        if url.endswith(suffix):
+            url = url[: -len(suffix)]
+            break
+    return url.rstrip("/")
+
+
+def is_loopback_host(url: str) -> bool:
+    parsed = urlparse(url)
+    host = (parsed.hostname or "").lower()
+    return host in {"localhost", "127.0.0.1", "::1", "0.0.0.0"}
+
+
 def openai_compatible_headers(api_key: str = "") -> dict[str, str]:
+    headers = {"Content-Type": "application/json"}
+    if api_key.strip():
+        headers["Authorization"] = f"Bearer {api_key.strip()}"
+    return headers
+
+
+def optional_bearer_headers(api_key: str = "") -> dict[str, str]:
     headers = {"Content-Type": "application/json"}
     if api_key.strip():
         headers["Authorization"] = f"Bearer {api_key.strip()}"
@@ -312,6 +357,49 @@ def check_lmstudio_server(base_url: str, api_key: str = "") -> tuple[bool, str]:
         return False, f"Could not reach `{base_url}/models`: {exc}"
 
 
+def fetch_ollama_models(base_url: str, api_key: str = "") -> list[dict]:
+    try:
+        base_url = normalize_ollama_base_url(base_url)
+        resp = requests.get(
+            f"{base_url}/api/tags",
+            headers=optional_bearer_headers(api_key),
+            timeout=8,
+        )
+        resp.raise_for_status()
+        raw = resp.json().get("models", [])
+        models = []
+        for m in raw:
+            mid = m.get("name") or m.get("model") or ""
+            if not mid:
+                continue
+            details = m.get("details") if isinstance(m.get("details"), dict) else {}
+            family = details.get("family", "")
+            size = m.get("size", 0)
+            size_gb = f"{size / 1_000_000_000:.1f} GB" if isinstance(size, (int, float)) and size else ""
+            notes = " · ".join(v for v in ["Ollama", family, size_gb] if v)
+            models.append({"id": mid, "label": mid, "free": True, "notes": notes, "ctx": 0})
+        return sorted(models, key=lambda x: x["label"].lower())
+    except Exception:
+        return []
+
+
+def check_ollama_server(base_url: str, api_key: str = "") -> tuple[bool, str]:
+    base_url = normalize_ollama_base_url(base_url)
+    try:
+        resp = requests.get(
+            f"{base_url}/api/tags",
+            headers=optional_bearer_headers(api_key),
+            timeout=8,
+        )
+        body = resp.text[:800]
+        if resp.ok:
+            models = resp.json().get("models", [])
+            return True, f"Connected to `{base_url}`. Ollama models reported: {len(models)}."
+        return False, f"`GET {base_url}/api/tags` returned HTTP {resp.status_code}: {body}"
+    except Exception as exc:
+        return False, f"Could not reach `{base_url}/api/tags`: {exc}"
+
+
 
 def parse_json_from_model(text: str) -> Any:
     import json, re, ast
@@ -320,6 +408,7 @@ def parse_json_from_model(text: str) -> Any:
         raise ValueError("Empty response from model.")
 
     text = text.strip()
+    text = re.sub(r"<think>[\s\S]*?</think>", "", text, flags=re.IGNORECASE).strip()
 
     # 🔹 Remove markdown code blocks
     text = re.sub(r"```(?:json)?", "", text, flags=re.IGNORECASE).strip("` \n")
@@ -454,12 +543,71 @@ def _call_lmstudio(prompt: str, model: str, base_url: str, api_key: str = "",
     raise RuntimeError(f"LM Studio failed after {retries} attempts at `{url}`: {last_exc}")
 
 
+def _call_ollama(prompt: str, model: str, base_url: str, api_key: str = "",
+                 temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
+    base_url = normalize_ollama_base_url(base_url)
+    url = f"{base_url}/api/chat"
+    if not model:
+        raise RuntimeError("No Ollama model selected. Pull/load a model in Ollama or type a manual model id.")
+
+    payload = {
+        "model": model,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "You are a strict JSON generator. "
+                    "Return ONLY valid JSON. "
+                    "Do NOT include markdown, explanations, comments, or text outside JSON. "
+                    "If unsure, return an empty JSON list []."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        "stream": False,
+        "options": {
+            "temperature": temperature,
+            "num_predict": max_tokens,
+        },
+    }
+
+    s = _requests_session(retries=retries)
+    last_exc = None
+    for attempt in range(1, retries + 1):
+        try:
+            resp = s.post(
+                url,
+                headers=optional_bearer_headers(api_key),
+                json=payload,
+                timeout=240,
+            )
+            if 400 <= resp.status_code < 500:
+                raise RuntimeError(f"Ollama returned HTTP {resp.status_code}: {resp.text[:1200]}")
+            resp.raise_for_status()
+            data = resp.json()
+            if isinstance(data.get("message"), dict):
+                return data["message"].get("content", "")
+            if data.get("response"):
+                return data.get("response", "")
+            return resp.text
+        except RuntimeError:
+            raise
+        except Exception as e:
+            last_exc = e
+            time.sleep(min(10, 2 ** attempt))
+    raise RuntimeError(f"Ollama failed after {retries} attempts at `{url}`: {last_exc}")
+
+
 def call_llm(prompt: str, model: str, backend: str, api_key: str = "",
              lmstudio_url: str = LMSTUDIO_DEFAULT_URL,
              lmstudio_api_key: str = "",
+             ollama_url: str = OLLAMA_DEFAULT_URL,
+             ollama_api_key: str = "",
              temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
     if backend == BACKEND_LMSTUDIO:
         return _call_lmstudio(prompt, model, lmstudio_url, lmstudio_api_key, temperature, max_tokens, retries)
+    if backend == BACKEND_OLLAMA:
+        return _call_ollama(prompt, model, ollama_url, ollama_api_key, temperature, max_tokens, retries)
     return _call_openrouter(prompt, model, api_key, temperature, max_tokens, retries)
 
 
@@ -493,10 +641,12 @@ with st.sidebar:
     st.divider()
 
     st.subheader("🖥️ LLM Backend (T3)")
+    backend_options = [BACKEND_OPENROUTER, BACKEND_LMSTUDIO, BACKEND_OLLAMA]
+    backend_index = backend_options.index(st.session_state.backend) if st.session_state.backend in backend_options else 0
     backend = st.radio(
         "Backend",
-        [BACKEND_OPENROUTER, BACKEND_LMSTUDIO],
-        index=0 if st.session_state.backend == BACKEND_OPENROUTER else 1,
+        backend_options,
+        index=backend_index,
         horizontal=True,
         key="backend_radio",
     )
@@ -524,7 +674,7 @@ with st.sidebar:
                 st.success(f"DNS OK: {', '.join({ai[4][0] for ai in addr})}")
             except Exception as e:
                 st.error(f"DNS issue: {e}")
-    else:
+    elif backend == BACKEND_LMSTUDIO:
         lmstudio_url_input = st.text_input(
             "LM Studio / OpenAI-compatible URL",
             value=st.session_state.lmstudio_url,
@@ -535,6 +685,11 @@ with st.sidebar:
         )
         st.session_state.lmstudio_url = normalize_openai_base_url(lmstudio_url_input)
         st.caption(f"Effective base URL: `{st.session_state.lmstudio_url}`")
+        if is_loopback_url(st.session_state.lmstudio_url):
+            st.warning(
+                "`127.0.0.1` / `localhost` is resolved by the Streamlit Python server, not by your browser. "
+                "If this app is running at `esg-thesis.darisdzakwanhoesien.site`, the app will look for LM Studio on that server/VPS."
+            )
 
         lmstudio_key_input = st.text_input(
             "Optional API key / bearer token",
@@ -561,12 +716,17 @@ with st.sidebar:
 
         with st.expander("VPS / SSH tunnel examples", expanded=False):
             st.markdown(
-                "Use `http://127.0.0.1:1234/v1` when Streamlit and LM Studio run on the same machine. "
-                "If LM Studio is on your VPS and Streamlit is local, create a tunnel and keep the URL as localhost:"
+                "Use `http://127.0.0.1:1234/v1` only when Streamlit and LM Studio run on the same machine. "
+                "Your browser can reach local LM Studio, but Streamlit calls LM Studio from Python on the server."
             )
+            st.markdown("If LM Studio runs on your Mac and Streamlit runs on the VPS, create a reverse tunnel from your Mac:")
+            st.code("ssh -N -R 1234:127.0.0.1:1234 ubuntu@YOUR_VPS_IP", language="bash")
+            st.markdown("Then keep the app URL as:")
+            st.code("http://127.0.0.1:1234/v1", language="text")
+            st.markdown("If LM Studio runs on the VPS and Streamlit runs locally, create a local forward tunnel:")
             st.code("ssh -N -L 1234:127.0.0.1:1234 ubuntu@YOUR_VPS_IP", language="bash")
             st.markdown(
-                "If Streamlit runs on the VPS too, then `127.0.0.1` refers to the VPS itself. "
+                "If both Streamlit and LM Studio run on the VPS, no tunnel is needed. "
                 "If you expose LM Studio publicly, use a firewall or reverse proxy with authentication."
             )
 
@@ -576,6 +736,64 @@ with st.sidebar:
             id_to_model.update({m["id"]: m for m in lms_models})
         else:
             st.warning("No models returned yet. Load a model in LM Studio, or type a manual model id below.")
+
+    elif backend == BACKEND_OLLAMA:
+        ollama_url_input = st.text_input(
+            "Ollama URL",
+            value=st.session_state.ollama_url,
+            help=(
+                "Accepts either the base URL (`http://127.0.0.1:11434`) "
+                "or the tags endpoint (`http://127.0.0.1:11434/api/tags`)."
+            ),
+        )
+        st.session_state.ollama_url = normalize_ollama_base_url(ollama_url_input)
+        st.caption(f"Effective Ollama base URL: `{st.session_state.ollama_url}`")
+        if is_loopback_host(st.session_state.ollama_url):
+            st.warning(
+                "`127.0.0.1` / `localhost` is resolved by the Streamlit Python server. "
+                "Use this when Ollama runs on the same VPS/server as the Streamlit app."
+            )
+
+        ollama_key_input = st.text_input(
+            "Optional API key / bearer token",
+            value=st.session_state.ollama_api_key,
+            type="password",
+            help="Ollama usually does not require this. Use it only if your reverse proxy requires a bearer token.",
+        )
+        st.session_state.ollama_api_key = ollama_key_input.strip()
+
+        c_ollama_1, c_ollama_2 = st.columns(2)
+        with c_ollama_1:
+            if st.button("Test /api/tags", use_container_width=True):
+                ok, message = check_ollama_server(
+                    st.session_state.ollama_url,
+                    st.session_state.ollama_api_key,
+                )
+                if ok:
+                    st.success(message)
+                else:
+                    st.error(message)
+        with c_ollama_2:
+            if st.button("Refresh Ollama", use_container_width=True):
+                st.rerun()
+
+        with st.expander("Ollama VPS notes", expanded=False):
+            st.markdown(
+                "If Ollama and Streamlit both run on the VPS, keep the URL as `http://127.0.0.1:11434`. "
+                "The model list is loaded from `/api/tags`, and T3 extraction uses `/api/chat`."
+            )
+            st.code("curl http://127.0.0.1:11434/api/tags", language="bash")
+            st.markdown("If Streamlit is local and Ollama is on the VPS, forward the port:")
+            st.code("ssh -N -L 11434:127.0.0.1:11434 ubuntu@YOUR_VPS_IP", language="bash")
+            st.markdown("If Streamlit is on the VPS and Ollama is on your Mac, reverse-forward the port:")
+            st.code("ssh -N -R 11434:127.0.0.1:11434 ubuntu@YOUR_VPS_IP", language="bash")
+
+        ollama_models = fetch_ollama_models(st.session_state.ollama_url, st.session_state.ollama_api_key)
+        if ollama_models:
+            st.success(f"Connected: {len(ollama_models)} Ollama model(s) reported")
+            id_to_model.update({m["id"]: m for m in ollama_models})
+        else:
+            st.warning("No Ollama models returned yet. Pull a model or type a manual model id below.")
 
     st.divider()
 
@@ -605,6 +823,31 @@ with st.sidebar:
             selected_llm_models = [manual_lms_model] if manual_lms_model else []
         if selected_llm_models:
             st.caption(f"Selected LM Studio model id: `{selected_llm_models[0]}`")
+    elif backend == BACKEND_OLLAMA:
+        manual_ollama_model = st.text_input(
+            "Manual Ollama model id (optional)",
+            value=st.session_state.ollama_manual_model_id,
+            placeholder="Example: deepseek-r1:1.5b",
+            help="Use this when `/api/tags` is hidden by a proxy or you already know the model name.",
+        ).strip()
+        st.session_state.ollama_manual_model_id = manual_ollama_model
+
+        ollama_models = fetch_ollama_models(st.session_state.ollama_url, st.session_state.ollama_api_key)
+        if ollama_models:
+            ollama_labels = [m["label"] for m in ollama_models]
+            curr_ollama = st.session_state.ollama_model_id
+            def_idx = ollama_labels.index(curr_ollama) if curr_ollama in ollama_labels else 0
+            sel_ollama_lbl = st.selectbox(f"Ollama model ({len(ollama_models)} available)", ollama_labels, index=def_idx)
+            sel_ollama = next((m for m in ollama_models if m["label"] == sel_ollama_lbl), None)
+            if sel_ollama:
+                st.session_state.ollama_model_id = sel_ollama["id"]
+            selected_model_id = manual_ollama_model or st.session_state.ollama_model_id
+            selected_llm_models = [selected_model_id] if selected_model_id else []
+        else:
+            st.warning("No models reported by `/api/tags`.")
+            selected_llm_models = [manual_ollama_model] if manual_ollama_model else []
+        if selected_llm_models:
+            st.caption(f"Selected Ollama model id: `{selected_llm_models[0]}`")
     else:
         tier = st.radio(
             "Filter:", ["🆓 Free Only", "💳 Paid Only", "🔀 All"],
@@ -1259,6 +1502,8 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
                                     api_key=st.session_state.openrouter_key,
                                     lmstudio_url=st.session_state.lmstudio_url,
                                     lmstudio_api_key=st.session_state.lmstudio_api_key,
+                                    ollama_url=st.session_state.ollama_url,
+                                    ollama_api_key=st.session_state.ollama_api_key,
                                     temperature=float(temperature_input),
                                     max_tokens=int(max_tokens_input),
                                     retries=int(retries_input),

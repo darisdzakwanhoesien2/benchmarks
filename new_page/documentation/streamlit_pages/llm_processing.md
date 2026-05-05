@@ -23,7 +23,7 @@ Outputs:
 1. Select input mode.
 2. Choose source document or manual input.
 3. Select page ranges or page batches.
-4. Choose model backend: OpenRouter or LM Studio/OpenAI-compatible.
+4. Choose model backend: OpenRouter, LM Studio/OpenAI-compatible, or Ollama.
 5. Choose one or more prompt templates.
 6. Run extraction.
 7. Parse JSON output.
@@ -36,6 +36,7 @@ The page supports LM Studio through its OpenAI-compatible API. In the sidebar, s
 Accepted URL formats:
 
 - `http://127.0.0.1:1234/v1`
+- `http://localhost:1234/v1`
 - `http://127.0.0.1:1234/v1/models`
 - `http://YOUR_VPS_IP:1234/v1`
 - a reverse-proxy URL that ends in `/v1`
@@ -48,7 +49,19 @@ The page normalizes endpoint URLs automatically. For example, if you paste `http
 Important deployment note:
 
 - If Streamlit and LM Studio run on the same VPS, `127.0.0.1` refers to the VPS.
-- If Streamlit runs on your local machine and LM Studio runs on the VPS, use an SSH tunnel such as:
+- If Streamlit runs in the hosted app or VPS and LM Studio runs on your Mac, the browser may reach `127.0.0.1:1234`, but the Streamlit server cannot. In that case, create a reverse tunnel from your Mac to the VPS:
+
+```bash
+ssh -N -R 1234:127.0.0.1:1234 ubuntu@YOUR_VPS_IP
+```
+
+Then keep the Streamlit URL as:
+
+```text
+http://127.0.0.1:1234/v1
+```
+
+- If Streamlit runs on your local machine and LM Studio runs on the VPS, use a local forward tunnel:
 
 ```bash
 ssh -N -L 1234:127.0.0.1:1234 ubuntu@YOUR_VPS_IP
@@ -63,6 +76,54 @@ http://127.0.0.1:1234/v1
 If `/v1/models` is empty, load a model in LM Studio first. The page also provides a **Manual model id** field for cases where the model endpoint is hidden by a proxy or you already know the exact model id.
 
 If your VPS reverse proxy requires authentication, fill the optional API key field. LM Studio itself usually does not need an API key.
+
+## Ollama / VPS Usage
+
+The page also supports Ollama through its native API. In the sidebar, select **Ollama** as the T3 backend.
+
+Accepted URL formats:
+
+- `http://127.0.0.1:11434`
+- `http://localhost:11434`
+- `http://127.0.0.1:11434/api/tags`
+- `http://YOUR_VPS_IP:11434`
+
+The page normalizes endpoint URLs automatically. For example, if you paste `http://127.0.0.1:11434/api/tags`, the app uses `http://127.0.0.1:11434` as the base URL and calls:
+
+- `GET /api/tags` to list models;
+- `POST /api/chat` to run T3 extraction.
+
+To verify Ollama on the VPS:
+
+```bash
+curl http://127.0.0.1:11434/api/tags
+```
+
+Example model returned by Ollama:
+
+```text
+deepseek-r1:1.5b
+```
+
+If Streamlit and Ollama both run on the VPS, keep the app URL as:
+
+```text
+http://127.0.0.1:11434
+```
+
+If Streamlit runs locally and Ollama runs on the VPS, forward the port:
+
+```bash
+ssh -N -L 11434:127.0.0.1:11434 ubuntu@YOUR_VPS_IP
+```
+
+If Streamlit runs on the VPS and Ollama runs on your Mac, reverse-forward the port:
+
+```bash
+ssh -N -R 11434:127.0.0.1:11434 ubuntu@YOUR_VPS_IP
+```
+
+DeepSeek R1 models may produce reasoning text before the final JSON. The parser now strips `<think>...</think>` blocks before trying to parse JSON, which improves compatibility with reasoning-style Ollama models.
 
 ## Important Output Fields
 
