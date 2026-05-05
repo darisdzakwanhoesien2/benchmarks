@@ -1,0 +1,7 @@
+[server]
+# Allow large ESG/sustainability report PDFs to be uploaded through Streamlit.
+# This limit is in MB. Reverse proxies such as Nginx must allow at least the
+# same request size via `client_max_body_size`.
+maxUploadSize = 1024
+maxMessageSize = 1024
+

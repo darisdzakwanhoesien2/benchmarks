@@ -9,6 +9,7 @@ import base64
 import time
 import json
 import re
+from typing import BinaryIO
 
 # =====================================================
 # PATH & ENV
@@ -28,6 +29,8 @@ HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 TMP_DIR = BASE_DIR / "data" / "thesis_pdf" # / "tmp_upload"
 OUT_DIR = BASE_DIR / "data" / "thesis_dataset" # / "outputs"
 LOG_DIR = BASE_DIR / "logs"
+SUPPORTED_EXTS = {".pdf", ".png", ".jpg", ".jpeg"}
+STREAMLIT_UPLOAD_LIMIT_MB = 1024
 
 TMP_DIR.mkdir(exist_ok=True)
 OUT_DIR.mkdir(exist_ok=True)
@@ -85,22 +88,88 @@ def load_log():
 def save_log(log):
     LOG_FILE.write_text(json.dumps(log, indent=2))
 
+def list_server_files() -> list[Path]:
+    return sorted(
+        p for p in TMP_DIR.iterdir()
+        if p.is_file() and p.suffix.lower() in SUPPORTED_EXTS
+    )
+
+def file_size_mb(path: Path) -> float:
+    try:
+        return path.stat().st_size / (1024 * 1024)
+    except OSError:
+        return 0.0
+
+def upload_size_mb(uploaded) -> float:
+    try:
+        return uploaded.size / (1024 * 1024)
+    except Exception:
+        return 0.0
+
+def open_source_file(item: dict) -> BinaryIO:
+    if item["kind"] == "server":
+        return open(item["path"], "rb")
+    return item["uploaded"]
+
 # =====================================================
 # FILE UPLOAD
 # =====================================================
 
-uploaded_files = st.file_uploader(
-    "📤 Upload multiple thesis PDFs or scanned images",
-    type=["pdf", "png", "jpg", "jpeg"],
-    accept_multiple_files=True,
+st.info(
+    "If browser upload shows HTTP 413, the request was rejected before OCR starts. "
+    "Use the server-side option below after copying PDFs into `data/thesis_pdf`, "
+    "or raise the reverse-proxy `client_max_body_size` on the VPS."
 )
+
+source_mode = st.radio(
+    "Input mode",
+    ["Upload through browser", "Use existing files on server"],
+    horizontal=True,
+)
+
+files_to_process: list[dict] = []
+
+if source_mode == "Upload through browser":
+    uploaded_files = st.file_uploader(
+        "📤 Upload multiple thesis PDFs or scanned images",
+        type=["pdf", "png", "jpg", "jpeg"],
+        accept_multiple_files=True,
+        help=f"Streamlit is configured for up to {STREAMLIT_UPLOAD_LIMIT_MB} MB. If Nginx/proxy is lower, use server-side files.",
+    )
+    if uploaded_files:
+        total_upload_mb = sum(upload_size_mb(f) for f in uploaded_files)
+        st.success(f"Uploaded {len(uploaded_files)} file(s), total ~{total_upload_mb:.1f} MB")
+        if total_upload_mb > STREAMLIT_UPLOAD_LIMIT_MB:
+            st.warning(
+                f"Selected files total ~{total_upload_mb:.1f} MB, above the Streamlit limit of "
+                f"{STREAMLIT_UPLOAD_LIMIT_MB} MB."
+            )
+        files_to_process = [
+            {"kind": "upload", "name": uploaded.name, "uploaded": uploaded}
+            for uploaded in uploaded_files
+        ]
+else:
+    server_files = list_server_files()
+    if not server_files:
+        st.warning(f"No PDF/image files found in `{TMP_DIR}`.")
+        st.code(f"scp *.pdf ubuntu@YOUR_VPS_IP:{TMP_DIR}/", language="bash")
+    else:
+        selected_server_files = st.multiselect(
+            "Select files already available on the server",
+            server_files,
+            default=server_files,
+            format_func=lambda p: f"{p.name} ({file_size_mb(p):.1f} MB)",
+        )
+        st.success(f"Selected {len(selected_server_files)} server file(s)")
+        files_to_process = [
+            {"kind": "server", "name": path.name, "path": path}
+            for path in selected_server_files
+        ]
 
 if "ocr_done" not in st.session_state:
     st.session_state["ocr_done"] = False
 
-if uploaded_files:
-
-    st.success(f"Uploaded {len(uploaded_files)} file(s)")
+if files_to_process:
 
     if st.button("🚀 Run BULK OCR Pipeline"):
 
@@ -114,24 +183,25 @@ if uploaded_files:
         progress = st.progress(0)
         status = st.empty()
 
-        total = len(uploaded_files)
+        total = len(files_to_process)
 
-        for i, uploaded in enumerate(uploaded_files, start=1):
+        for i, source in enumerate(files_to_process, start=1):
 
-            doc_key = safe_name(uploaded.name)
+            doc_key = safe_name(source["name"])
 
-            status.info(f"Processing {i}/{total}: {uploaded.name}")
+            status.info(f"Processing {i}/{total}: {source['name']}")
 
             if doc_key in log and log[doc_key]["status"] == "done":
-                status.warning(f"⏭ Skipped (already processed): {uploaded.name}")
+                status.warning(f"⏭ Skipped (already processed): {source['name']}")
                 progress.progress(i / total)
                 continue
 
             # ---------------- Save temp file ----------------
-            tmp_path = TMP_DIR / uploaded.name
-            tmp_path.write_bytes(uploaded.getbuffer())
+            tmp_path = TMP_DIR / safe_name(source["name"])
+            if source["kind"] == "upload":
+                tmp_path.write_bytes(source["uploaded"].getbuffer())
 
-            doc_name = safe_name(uploaded.name.replace(".", "_"))
+            doc_name = safe_name(source["name"].replace(".", "_"))
             out_root = OUT_DIR / doc_name
             pages_dir = out_root / "pages"
             images_dir = out_root / "images"
@@ -140,7 +210,7 @@ if uploaded_files:
 
             try:
                 # ---------------- Upload ----------------
-                with open(tmp_path, "rb") as f:
+                with open_source_file({"kind": "server", "path": tmp_path} if source["kind"] == "upload" else source) as f:
                     r = requests.post(
                         f"{BASE}/files",
                         headers=HEADERS,
@@ -234,7 +304,7 @@ if uploaded_files:
             except Exception as e:
                 log[doc_key] = {"status": "failed", "error": str(e)}
                 save_log(log)
-                st.error(f"❌ Failed: {uploaded.name}")
+                st.error(f"❌ Failed: {source['name']}")
                 st.exception(e)
 
             progress.progress(i / total)
