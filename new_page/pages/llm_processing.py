@@ -54,7 +54,7 @@ LMSTUDIO_DEFAULT_URL  = "http://localhost:1234/v1"
 DEFAULT_MODEL         = "meta-llama/llama-3.1-8b-instruct:free"
 API_KEY_ENV           = "OPENROUTER_API_KEY"
 BACKEND_OPENROUTER    = "OpenRouter"
-BACKEND_LMSTUDIO      = "LM Studio (Local)"
+BACKEND_LMSTUDIO      = "LM Studio / OpenAI-compatible"
 
 PROMPT_DIR     = Path(__file__).resolve().parents[1] / "prompt"
 OCR_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "data" / "thesis_dataset"
@@ -66,13 +66,17 @@ RESULTS_DIR    = Path(__file__).resolve().parents[1] / "results"
 _DEFAULTS = {
     "openrouter_key":    os.getenv(API_KEY_ENV, ""),
     "backend":           BACKEND_OPENROUTER,
-    "lmstudio_url":      LMSTUDIO_DEFAULT_URL,
+    "lmstudio_url":      os.getenv("LMSTUDIO_BASE_URL", LMSTUDIO_DEFAULT_URL),
+    "lmstudio_api_key":  os.getenv("LMSTUDIO_API_KEY", ""),
     "active_model_id":   DEFAULT_MODEL,
     "lmstudio_model_id": "",
+    "lmstudio_manual_model_id": "",
 }
 for _k, _v in _DEFAULTS.items():
     if _k not in st.session_state:
         st.session_state[_k] = _v
+if st.session_state.get("backend") == "LM Studio (Local)":
+    st.session_state.backend = BACKEND_LMSTUDIO
 
 # ══════════════════════════════════════════════════════════════════════════════
 # PAGE CONFIG
@@ -189,6 +193,37 @@ def _requests_session(retries: int = 3, backoff: float = 0.6) -> requests.Sessio
     return s
 
 
+def normalize_openai_base_url(url: str) -> str:
+    """Accept either an OpenAI-compatible base URL or a specific endpoint URL."""
+    url = (url or "").strip()
+    if not url:
+        return LMSTUDIO_DEFAULT_URL
+    url = url.rstrip("/")
+    endpoint_suffixes = (
+        "/models",
+        "/chat/completions",
+        "/completions",
+        "/responses",
+        "/embeddings",
+    )
+    for suffix in endpoint_suffixes:
+        if url.endswith(suffix):
+            url = url[: -len(suffix)]
+            break
+    if not url.endswith("/v1"):
+        parsed = urlparse(url)
+        if parsed.scheme and parsed.netloc and not parsed.path:
+            url = f"{url}/v1"
+    return url.rstrip("/")
+
+
+def openai_compatible_headers(api_key: str = "") -> dict[str, str]:
+    headers = {"Content-Type": "application/json"}
+    if api_key.strip():
+        headers["Authorization"] = f"Bearer {api_key.strip()}"
+    return headers
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # HELPERS — MODEL FETCHERS
 # ══════════════════════════════════════════════════════════════════════════════
@@ -241,18 +276,40 @@ def fetch_openrouter_models(api_key: Optional[str] = None) -> list[dict]:
         return _fallback_openrouter_models()
 
 
-def fetch_lmstudio_models(base_url: str) -> list[dict]:
+def fetch_lmstudio_models(base_url: str, api_key: str = "") -> list[dict]:
     try:
-        resp = requests.get(f"{base_url.rstrip('/')}/models", timeout=5)
+        base_url = normalize_openai_base_url(base_url)
+        resp = requests.get(
+            f"{base_url}/models",
+            headers=openai_compatible_headers(api_key),
+            timeout=8,
+        )
         resp.raise_for_status()
         raw = resp.json().get("data", [])
         return [
             {"id": m.get("id", ""), "label": m.get("id", ""), "free": True,
-             "notes": "local · LM Studio", "ctx": m.get("context_length", 4096)}
+             "notes": "OpenAI-compatible · LM Studio", "ctx": m.get("context_length", 4096)}
             for m in raw if m.get("id")
         ]
     except Exception:
         return []
+
+
+def check_lmstudio_server(base_url: str, api_key: str = "") -> tuple[bool, str]:
+    base_url = normalize_openai_base_url(base_url)
+    try:
+        resp = requests.get(
+            f"{base_url}/models",
+            headers=openai_compatible_headers(api_key),
+            timeout=8,
+        )
+        body = resp.text[:800]
+        if resp.ok:
+            models = resp.json().get("data", [])
+            return True, f"Connected to `{base_url}`. Models reported: {len(models)}."
+        return False, f"`GET {base_url}/models` returned HTTP {resp.status_code}: {body}"
+    except Exception as exc:
+        return False, f"Could not reach `{base_url}/models`: {exc}"
 
 
 
@@ -346,30 +403,63 @@ def _call_openrouter(prompt: str, model: str, api_key: str,
 
     raise RuntimeError(f"OpenRouter failed after {retries} attempts: {last_exc}")
 
-def _call_lmstudio(prompt: str, model: str, base_url: str,
-                   temperature: float = 0.0, max_tokens: int = 1500) -> str:
-    url     = f"{base_url.rstrip('/')}/chat/completions"
+def _call_lmstudio(prompt: str, model: str, base_url: str, api_key: str = "",
+                   temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
+    base_url = normalize_openai_base_url(base_url)
+    url = f"{base_url}/chat/completions"
     payload = {
+        "model": model,
         "messages": [
-            {"role": "system", "content": "You are a helpful assistant that outputs strict JSON."},
+            {
+                "role": "system",
+                "content": (
+                    "You are a strict JSON generator. "
+                    "Return ONLY valid JSON. "
+                    "Do NOT include markdown, explanations, comments, or text outside JSON. "
+                    "If unsure, return an empty JSON list []."
+                ),
+            },
             {"role": "user",   "content": prompt},
         ],
         "temperature": temperature,
         "max_tokens":  max_tokens,
         "stream":      False,
     }
-    if model:
-        payload["model"] = model
-    resp = requests.post(url, json=payload, timeout=120)
-    resp.raise_for_status()
-    return resp.json()["choices"][0]["message"]["content"]
+    if not model:
+        raise RuntimeError("No LM Studio model selected. Load a model in LM Studio or type a manual model id.")
+
+    s = _requests_session(retries=retries)
+    last_exc = None
+    for attempt in range(1, retries + 1):
+        try:
+            resp = s.post(
+                url,
+                headers=openai_compatible_headers(api_key),
+                json=payload,
+                timeout=180,
+            )
+            if 400 <= resp.status_code < 500:
+                raise RuntimeError(f"LM Studio returned HTTP {resp.status_code}: {resp.text[:1200]}")
+            resp.raise_for_status()
+            data = resp.json()
+            choices = data.get("choices", [])
+            if choices:
+                return choices[0].get("message", {}).get("content", "")
+            return resp.text
+        except RuntimeError:
+            raise
+        except Exception as e:
+            last_exc = e
+            time.sleep(min(10, 2 ** attempt))
+    raise RuntimeError(f"LM Studio failed after {retries} attempts at `{url}`: {last_exc}")
 
 
 def call_llm(prompt: str, model: str, backend: str, api_key: str = "",
              lmstudio_url: str = LMSTUDIO_DEFAULT_URL,
+             lmstudio_api_key: str = "",
              temperature: float = 0.0, max_tokens: int = 1500, retries: int = 3) -> str:
     if backend == BACKEND_LMSTUDIO:
-        return _call_lmstudio(prompt, model, lmstudio_url, temperature, max_tokens)
+        return _call_lmstudio(prompt, model, lmstudio_url, lmstudio_api_key, temperature, max_tokens, retries)
     return _call_openrouter(prompt, model, api_key, temperature, max_tokens, retries)
 
 
@@ -436,22 +526,70 @@ with st.sidebar:
                 st.error(f"DNS issue: {e}")
     else:
         lmstudio_url_input = st.text_input(
-            "LM Studio URL", value=st.session_state.lmstudio_url,
-            help="Default: http://localhost:1234/v1",
+            "LM Studio / OpenAI-compatible URL",
+            value=st.session_state.lmstudio_url,
+            help=(
+                "Accepts either the base URL (`http://127.0.0.1:1234/v1`) "
+                "or a specific endpoint (`http://127.0.0.1:1234/v1/models`)."
+            ),
         )
-        st.session_state.lmstudio_url = lmstudio_url_input
-        lms_models = fetch_lmstudio_models(lmstudio_url_input)
+        st.session_state.lmstudio_url = normalize_openai_base_url(lmstudio_url_input)
+        st.caption(f"Effective base URL: `{st.session_state.lmstudio_url}`")
+
+        lmstudio_key_input = st.text_input(
+            "Optional API key / bearer token",
+            value=st.session_state.lmstudio_api_key,
+            type="password",
+            help="LM Studio usually does not require this. Use it only if your VPS proxy or gateway requires a bearer token.",
+        )
+        st.session_state.lmstudio_api_key = lmstudio_key_input.strip()
+
+        c_lms_1, c_lms_2 = st.columns(2)
+        with c_lms_1:
+            if st.button("Test /models", use_container_width=True):
+                ok, message = check_lmstudio_server(
+                    st.session_state.lmstudio_url,
+                    st.session_state.lmstudio_api_key,
+                )
+                if ok:
+                    st.success(message)
+                else:
+                    st.error(message)
+        with c_lms_2:
+            if st.button("Refresh LM Studio", use_container_width=True):
+                st.rerun()
+
+        with st.expander("VPS / SSH tunnel examples", expanded=False):
+            st.markdown(
+                "Use `http://127.0.0.1:1234/v1` when Streamlit and LM Studio run on the same machine. "
+                "If LM Studio is on your VPS and Streamlit is local, create a tunnel and keep the URL as localhost:"
+            )
+            st.code("ssh -N -L 1234:127.0.0.1:1234 ubuntu@YOUR_VPS_IP", language="bash")
+            st.markdown(
+                "If Streamlit runs on the VPS too, then `127.0.0.1` refers to the VPS itself. "
+                "If you expose LM Studio publicly, use a firewall or reverse proxy with authentication."
+            )
+
+        lms_models = fetch_lmstudio_models(st.session_state.lmstudio_url, st.session_state.lmstudio_api_key)
         if lms_models:
-            st.success(f"✅ {len(lms_models)} model(s) loaded")
+            st.success(f"Connected: {len(lms_models)} model(s) reported")
             id_to_model.update({m["id"]: m for m in lms_models})
         else:
-            st.error("❌ Cannot reach LM Studio")
+            st.warning("No models returned yet. Load a model in LM Studio, or type a manual model id below.")
 
     st.divider()
 
     st.subheader("🤖 LLM Model (T3)")
     if backend == BACKEND_LMSTUDIO:
-        lms_models = fetch_lmstudio_models(st.session_state.lmstudio_url)
+        manual_lms_model = st.text_input(
+            "Manual model id (optional)",
+            value=st.session_state.lmstudio_manual_model_id,
+            placeholder="Example: qwen2.5-14b-instruct or the exact id from /v1/models",
+            help="Use this when `/v1/models` is empty, hidden by a proxy, or you already know the loaded model id.",
+        ).strip()
+        st.session_state.lmstudio_manual_model_id = manual_lms_model
+
+        lms_models = fetch_lmstudio_models(st.session_state.lmstudio_url, st.session_state.lmstudio_api_key)
         if lms_models:
             lms_labels  = [m["label"] for m in lms_models]
             curr_lms    = st.session_state.lmstudio_model_id
@@ -460,10 +598,13 @@ with st.sidebar:
             sel_lms     = next((m for m in lms_models if m["label"] == sel_lms_lbl), None)
             if sel_lms:
                 st.session_state.lmstudio_model_id = sel_lms["id"]
-            selected_llm_models = [st.session_state.lmstudio_model_id] if st.session_state.lmstudio_model_id else []
+            selected_model_id = manual_lms_model or st.session_state.lmstudio_model_id
+            selected_llm_models = [selected_model_id] if selected_model_id else []
         else:
-            st.warning("No local models — load one in LM Studio first.")
-            selected_llm_models = []
+            st.warning("No models reported by `/v1/models`.")
+            selected_llm_models = [manual_lms_model] if manual_lms_model else []
+        if selected_llm_models:
+            st.caption(f"Selected LM Studio model id: `{selected_llm_models[0]}`")
     else:
         tier = st.radio(
             "Filter:", ["🆓 Free Only", "💳 Paid Only", "🔀 All"],
@@ -1117,6 +1258,7 @@ if st.button("🚀 Run Selected Pipelines", type="primary", use_container_width=
                                     backend=backend,
                                     api_key=st.session_state.openrouter_key,
                                     lmstudio_url=st.session_state.lmstudio_url,
+                                    lmstudio_api_key=st.session_state.lmstudio_api_key,
                                     temperature=float(temperature_input),
                                     max_tokens=int(max_tokens_input),
                                     retries=int(retries_input),
