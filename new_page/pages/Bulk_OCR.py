@@ -88,9 +88,11 @@ def load_log():
 def save_log(log):
     LOG_FILE.write_text(json.dumps(log, indent=2))
 
-def list_server_files() -> list[Path]:
+def list_server_files(root: Path = TMP_DIR) -> list[Path]:
+    if not root.exists():
+        return []
     return sorted(
-        p for p in TMP_DIR.iterdir()
+        p for p in root.iterdir()
         if p.is_file() and p.suffix.lower() in SUPPORTED_EXTS
     )
 
@@ -116,20 +118,24 @@ def open_source_file(item: dict) -> BinaryIO:
 # =====================================================
 
 st.info(
-    "If browser upload shows HTTP 413, the request was rejected before OCR starts. "
-    "Use the server-side option below after copying PDFs into `data/thesis_pdf`, "
-    "or raise the reverse-proxy `client_max_body_size` on the VPS."
+    "For VPS deployment, the recommended path is **Use existing files on server**. "
+    "Browser upload can still fail with HTTP 413 if Nginx or another proxy has a smaller body-size limit."
 )
 
 source_mode = st.radio(
     "Input mode",
-    ["Upload through browser", "Use existing files on server"],
+    ["Use existing files on server", "Upload through browser"],
     horizontal=True,
+    help="Server-side files avoid browser/proxy upload limits and are best for large report PDFs.",
 )
 
 files_to_process: list[dict] = []
 
 if source_mode == "Upload through browser":
+    st.warning(
+        "Browser upload is only reliable after the VPS proxy allows large request bodies. "
+        "If this shows HTTP 413, copy files into the server folder and switch back to server-side mode."
+    )
     uploaded_files = st.file_uploader(
         "📤 Upload multiple thesis PDFs or scanned images",
         type=["pdf", "png", "jpg", "jpeg"],
@@ -149,10 +155,17 @@ if source_mode == "Upload through browser":
             for uploaded in uploaded_files
         ]
 else:
-    server_files = list_server_files()
+    server_dir_input = st.text_input(
+        "Server folder containing PDFs/images",
+        value=str(TMP_DIR),
+        help="Copy PDFs/images into this folder on the VPS, then select them here.",
+    )
+    server_dir = Path(server_dir_input).expanduser()
+    server_files = list_server_files(server_dir)
     if not server_files:
-        st.warning(f"No PDF/image files found in `{TMP_DIR}`.")
-        st.code(f"scp *.pdf ubuntu@YOUR_VPS_IP:{TMP_DIR}/", language="bash")
+        st.warning(f"No PDF/image files found in `{server_dir}`.")
+        st.markdown("Copy files to the VPS folder, then refresh this page:")
+        st.code(f"scp *.pdf ubuntu@YOUR_VPS_IP:{server_dir}/", language="bash")
     else:
         selected_server_files = st.multiselect(
             "Select files already available on the server",

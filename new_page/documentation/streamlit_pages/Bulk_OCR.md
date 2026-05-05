@@ -31,8 +31,8 @@ Outputs:
 
 The page supports two input modes:
 
-- **Upload through browser**: use Streamlit's file uploader.
-- **Use existing files on server**: process PDFs/images already stored in `data/thesis_pdf/`.
+- **Use existing files on server**: process PDFs/images already stored in `data/thesis_pdf/`. This is the recommended VPS workflow.
+- **Upload through browser**: use Streamlit's file uploader. This requires both Streamlit and the reverse proxy to allow large uploads.
 
 If browser upload shows HTTP 413, the request was rejected before the OCR page could process the file. The repository sets Streamlit's upload limit in `.streamlit/config.toml`, but the VPS reverse proxy must also allow large uploads. For Nginx, set:
 
@@ -46,7 +46,7 @@ For large report batches, the most reliable workflow is to copy files directly t
 scp *.pdf ubuntu@YOUR_VPS_IP:/path/to/new_page/data/thesis_pdf/
 ```
 
-Then select **Use existing files on server** in the Bulk OCR page.
+Then select **Use existing files on server** in the Bulk OCR page. The page now opens this mode by default because it avoids browser/proxy body-size limits.
 
 ## Interpretation
 
