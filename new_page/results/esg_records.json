@@ -5227,5 +5227,1400 @@
       }
     ],
     "raw_output": "[\n    {\n        \"text\": \"With the Renewable Energy Certificate obtained by its subsidiary from PLN, the Company is able to realize its commitment to support the sustainability goals of its customers through the use of sustainable energy.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\", \"climate-specificity\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-05-05T07:34:40.789550Z",
+    "model": "mistralai/ministral-3-3b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "Komoditas batu bara di Indonesia menghadapi berbagai tantangan di sepanjang tahun 2024, mulai dari koreksi harga hingga kebijakan di negara-negara maju yang berkaitan dengan isu lingkungan dan transisi energi dari penggunaan energi berbasis fosil ke energi terbarukan.",
+        "labels": [
+          "climate-detection",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "PT Bukit Asam Tbk menjawab berbagai tantangan tersebut dengan melakukan berbagai inovasi dan adaptasi sebagai opsi terbaik untuk tetap relevan dalam lanskap energi yang berubah, sembari mengurangi dampak terhadap lingkungan dari operasional bisnis.",
+        "labels": [
+          "climate-commitment",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Inovasi dan adaptasi yang dilakukan Bukit Asam antara lain mengukuhkan hilirisasi batu bara untuk meningkatkan nilai tambah, termasuk memulai pilot project konversi batu bara menjadi Artificial Graphite dan Anode Sheet untuk bahan baku baterai Lithium-ion (Li-ion),",
+        "labels": [
+          "climate-d-s",
+          "netzero-reduction"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "mengoptimalkan teknologi ramah lingkungan untuk PLTU, mengembangkan energi baru terbarukan, serta memperkuat penerapan good mining practice.",
+        "labels": [
+          "climate-d-s",
+          "netzero-reduction"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Melalui berbagai inovasi dan adaptasi tersebut, Bukit Asam berharap dapat berkontribusi dalam memperkuat dukungan terhadap keberlanjutan ketahanan energi nasional, sekaligus mengukuhkan komitmen untuk menghadirkan energi tanpa henti untuk negeri.",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "PTBA berkomitmen mendukung target Pemerintah mencapai nol emisi. PTBA juga berkomitmen untuk menjalankan bisnis berkelanjutan dengan menerapkan keselarasan antara aspek Environmental, Social, and Governance (ESG).",
+        "labels": [
+          "climate-commitment",
+          "netzero-reduction"
+        ],
+        "esg": "E/S/G",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "PTBA menerapkan eco-mechanized mining yaitu mengganti peralatan pertambangan yang menggunakan bahan bakar fosil menjadi elektrik, e-mining reporting system yaitu system pelaporan produksi secara real-time dan daring.",
+        "labels": [
+          "climate-d-s",
+          "environmental-claims"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Perseroan juga menciptakan sinergi dan kerja sama dengan berbagai mitra strategis dalam mewujudkan energi bersih seperti pengembangan PLTS, PLTB, tanaman Kaliandra untuk mengurangi emisi karbon dan menjadi simpanan biomassa.",
+        "labels": [
+          "climate-d-s",
+          "netzero-reduction"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "PTBA berkomitmen mendukung target Pemerintah mencapai Emisi Nol Bersih atau Net Zero Emission pada 2060. Dengan visi menjadi perusahaan energi kelas dunia, PTBA telah memiliki roadmap manajemen karbon hingga 2050.",
+        "labels": [
+          "netzero-reduction",
+          "climate-tcfd"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Berdasarkan manajemen karbon hingga 2050, terdapat 3 (tiga) pendekatan yang dilakukan PTBA: dekarbonisasi operasi, reklamasi, dan studi CCU (carbon capture, utilization).",
+        "labels": [
+          "netzero-reduction",
+          "climate-tcfd"
+        ],
+        "esg": "E",
+        "sentiment": "commitment"
+      },
+      {
+        "text": "Prolonged COVID-19 pandemic is a momentum for PTBA to rearrange all of its business processes so the impacts of the pandemic can be minimized. Pendapatan dan laba bersih mengalami peningkatan dibandingkan tahun sebelumnya.",
+        "labels": [
+          "opportunity",
+          "metrics"
+        ],
+        "esg": "S/E",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Pencapaian itu seiring dengan pemulihan ekonomi global dan nasional yang mendorong permintaan batu bara, yang diikuti dengan membaiknya harga komoditas ini di pasar global.",
+        "labels": [
+          "opportunity",
+          "metrics"
+        ],
+        "esg": "E",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Keberhasilan yang ditorehkan di masa sulit merupakan modal penting untuk penguatan rantai nilai keberlanjutan di masa mendatang, pada saat situasi kembali normal.",
+        "labels": [
+          "commitment",
+          "strategy"
+        ],
+        "esg": "E/S/G",
+        "sentiment": "commitment"
+      }
+    ],
+    "raw_output": "[\n    {\n        \"text\": \"Komoditas batu bara di Indonesia menghadapi berbagai tantangan di sepanjang tahun 2024, mulai dari koreksi harga hingga kebijakan di negara-negara maju yang berkaitan dengan isu lingkungan dan transisi energi dari penggunaan energi berbasis fosil ke energi terbarukan.\",\n        \"labels\": [\"climate-detection\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"PT Bukit Asam Tbk menjawab berbagai tantangan tersebut dengan melakukan berbagai inovasi dan adaptasi sebagai opsi terbaik untuk tetap relevan dalam lanskap energi yang berubah, sembari mengurangi dampak terhadap lingkungan dari operasional bisnis.\",\n        \"labels\": [\"climate-commitment\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"Inovasi dan adaptasi yang dilakukan Bukit Asam antara lain mengukuhkan hilirisasi batu bara untuk meningkatkan nilai tambah, termasuk memulai pilot project konversi batu bara menjadi Artificial Graphite dan Anode Sheet untuk bahan baku baterai Lithium-ion (Li-ion),\",\n        \"labels\": [\"climate-d-s\", \"netzero-reduction\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"mengoptimalkan teknologi ramah lingkungan untuk PLTU, mengembangkan energi baru terbarukan, serta memperkuat penerapan good mining practice.\",\n        \"labels\": [\"climate-d-s\", \"netzero-reduction\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"Melalui berbagai inovasi dan adaptasi tersebut, Bukit Asam berharap dapat berkontribusi dalam memperkuat dukungan terhadap keberlanjutan ketahanan energi nasional, sekaligus mengukuhkan komitmen untuk menghadirkan energi tanpa henti untuk negeri.\",\n        \"labels\": [\"climate-commitment\", \"netzero-reduction\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"PTBA berkomitmen mendukung target Pemerintah mencapai nol emisi. PTBA juga berkomitmen untuk menjalankan bisnis berkelanjutan dengan menerapkan keselarasan antara aspek Environmental, Social, and Governance (ESG).\",\n        \"labels\": [\"climate-commitment\", \"netzero-reduction\"],\n        \"esg\": \"E/S/G\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"PTBA menerapkan eco-mechanized mining yaitu mengganti peralatan pertambangan yang menggunakan bahan bakar fosil menjadi elektrik, e-mining reporting system yaitu system pelaporan produksi secara real-time dan daring.\",\n        \"labels\": [\"climate-d-s\", \"environmental-claims\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"Perseroan juga menciptakan sinergi dan kerja sama dengan berbagai mitra strategis dalam mewujudkan energi bersih seperti pengembangan PLTS, PLTB, tanaman Kaliandra untuk mengurangi emisi karbon dan menjadi simpanan biomassa.\",\n        \"labels\": [\"climate-d-s\", \"netzero-reduction\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"PTBA berkomitmen mendukung target Pemerintah mencapai Emisi Nol Bersih atau Net Zero Emission pada 2060. Dengan visi menjadi perusahaan energi kelas dunia, PTBA telah memiliki roadmap manajemen karbon hingga 2050.\",\n        \"labels\": [\"netzero-reduction\", \"climate-tcfd\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"Berdasarkan manajemen karbon hingga 2050, terdapat 3 (tiga) pendekatan yang dilakukan PTBA: dekarbonisasi operasi, reklamasi, dan studi CCU (carbon capture, utilization).\",\n        \"labels\": [\"netzero-reduction\", \"climate-tcfd\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"commitment\"\n    },\n    {\n        \"text\": \"Prolonged COVID-19 pandemic is a momentum for PTBA to rearrange all of its business processes so the impacts of the pandemic can be minimized. Pendapatan dan laba bersih mengalami peningkatan dibandingkan tahun sebelumnya.\",\n        \"labels\": [\"opportunity\", \"metrics\"],\n        \"esg\": \"S/E\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"Pencapaian itu seiring dengan pemulihan ekonomi global dan nasional yang mendorong permintaan batu bara, yang diikuti dengan membaiknya harga komoditas ini di pasar global.\",\n        \"labels\": [\"opportunity\", \"metrics\"],\n        \"esg\": \"E\",\n        \"sentiment\": \"neutral\"\n    },\n    {\n        \"text\": \"Keberhasilan yang ditorehkan di masa sulit merupakan modal penting untuk penguatan rantai nilai keberlanjutan di masa mendatang, pada saat situasi kembali normal.\",\n        \"labels\": [\"commitment\", \"strategy\"],\n        \"esg\": \"E/S/G\",\n        \"sentiment\": \"commitment\"\n    }\n]"
+  },
+  {
+    "timestamp": "2026-05-05T10:47:19.283698Z",
+    "model": "deepseek-r1:1.5b",
+    "target": "BEST-SR_2024_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "ESG Standard": "2-1",
+        "Keterbukaan Disclosure": "2-2",
+        "Kebijakan Policy": "2-3"
+      },
+      {
+        "ESG Standard": "2-4",
+        "Keterbukaan Disclosure": "2-5",
+        "Proses untuk menentukan remunerasi": "2-6",
+        "Rasio kompensasi total tahunan Annual total compensation ratio": "2-7"
+      },
+      {
+        "ESG Standard": "2-8",
+        "Kebijakan membership associations": "31"
+      }
+    ],
+    "raw_output": "```json\n[\n  {\n    \"ESG Standard\": \"2-1\",\n    \"Keterbukaan Disclosure\": \"2-2\",\n    \"Kebijakan Policy\": \"2-3\"\n  },\n  {\n    \"ESG Standard\": \"2-4\",\n    \"Keterbukaan Disclosure\": \"2-5\",\n    \"Proses untuk menentukan remunerasi\": \"2-6\",\n    \"Rasio kompensasi total tahunan Annual total compensation ratio\": \"2-7\"\n  },\n  {\n    \"ESG Standard\": \"2-8\",\n    \"Kebijakan membership associations\": \"31\"\n  }\n]\n```"
+  },
+  {
+    "timestamp": "2026-05-05T10:52:38.590918Z",
+    "model": "deepseek-r1:1.5b",
+    "target": "BEST-SR_2024_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Parse error: Empty response from model.",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T10:58:10.567984Z",
+    "model": "deepseek-r1:1.5b",
+    "target": "BEST-SR_2024_pdf/batch_3",
+    "prompt": "data.md",
+    "ok": true,
+    "records": [
+      {
+        "text": "PT Bekasi Fajar Industrial Estate Tbk.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "none"
+      },
+      {
+        "text": "Laporan Keberlanjutan PT Bekasi Fajar Industrial Estate Tbk. (2024).",
+        "labels": [
+          "G/S04",
+          "G/S05",
+          "G/S06"
+        ],
+        "esg": "G/S04/2024",
+        "sentiment": "positive"
+      },
+      {
+        "text": "Sumbang Perusahaan PT Bekasi Fajar Industrial Estate Tbk.",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Laporan Keberlanjutan PT Bekasi Fajar Industrial Estate Tbk. (2024).",
+        "labels": [
+          "G/S05",
+          "G/S06"
+        ],
+        "esg": "G/S05/2024",
+        "sentiment": "neutral"
+      },
+      {
+        "text": "Laporan Keberlanjutan PT Bekasi Fajar Industrial Estate Tbk. (2024).",
+        "labels": [
+          "none"
+        ],
+        "esg": "none",
+        "sentiment": "neutral"
+      }
+    ],
+    "raw_output": "```json\n[\n  {\n    \"text\": \"PT Bekasi Fajar Industrial Estate Tbk.\",\n    \"labels\": [\"none\"],\n    \"esg\": \"none\",\n    \"sentiment\": \"none\"\n  },\n  {\n    \"text\": \"Laporan Keberlanjutan PT Bekasi Fajar Industrial Estate Tbk. (2024).\",\n    \"labels\": [\"G/S04\", \"G/S05\", \"G/S06\"],\n    \"esg\": \"G/S04/2024\",\n    \"sentiment\": \"positive\"\n  },\n  {\n    \"text\": \"Sumbang Perusahaan PT Bekasi Fajar Industrial Estate Tbk.\",\n    \"labels\": [\"none\"],\n    \"esg\": \"none\",\n    \"sentiment\": \"neutral\"\n  },\n  {\n    \"text\": \"Laporan Keberlanjutan PT Bekasi Fajar Industrial Estate Tbk. (2024).\",\n    \"labels\": [\"G/S05\", \"G/S06\"],\n    \"esg\": \"G/S05/2024\",\n    \"sentiment\": \"neutral\"\n  },\n  {\n    \"text\": \"Laporan Keberlanjutan PT Bekasi Fajar Industrial Estate Tbk. (2024).\",\n    \"labels\": [\"none\"],\n    \"esg\": \"none\",\n    \"sentiment\": \"neutral\"\n  }\n]\n```"
+  },
+  {
+    "timestamp": "2026-05-05T11:45:11.119128Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:45:46.280974Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:46:21.474387Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:46:56.576774Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:47:31.901393Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:48:06.691332Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:48:41.798367Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:49:17.426281Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:49:52.820256Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:50:27.835364Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:51:03.285459Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:51:39.821129Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:52:15.705701Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:52:51.590978Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:53:28.039446Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:54:03.305660Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:54:38.874580Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:55:13.905896Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:55:48.815248Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:56:24.245059Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:57:00.242598Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:57:35.692327Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:58:10.967561Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:58:47.035349Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:59:22.309328Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T11:59:57.843345Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:00:35.844131Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:01:13.585688Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:01:48.916036Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:02:24.217166Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:16:27.939810Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:17:04.691264Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:17:39.706353Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:18:15.241752Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:18:50.167392Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:19:26.393745Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_1",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:20:01.397615Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:20:39.448833Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:21:16.203083Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:21:52.094900Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:22:28.875683Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:23:03.966529Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_2",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:23:39.503418Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:24:14.292125Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:24:49.285339Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:25:24.987974Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:25:59.999519Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:26:36.069312Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_3",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:27:10.974267Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:27:46.063137Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:28:21.338226Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:28:56.214068Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:29:31.423190Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:30:06.925994Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_4",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:30:42.268381Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:31:18.692042Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:31:54.156243Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:32:29.455484Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:33:04.923587Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_zero_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T12:33:40.871124Z",
+    "model": "gemma4:e2b",
+    "target": "SR_BMHS_Final_2021_Lowres_pdf/batch_5",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T15:02:18.524166Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:31:04.584043Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:31:39.256616Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:32:13.907412Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:32:48.552772Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:33:23.114246Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:33:57.754722Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:34:32.496730Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:35:07.177576Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:35:41.900547Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:36:16.606996Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:36:51.272836Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:37:26.012225Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Max retries exceeded with url: /api/chat (Caused by ResponseError('too many 500 error responses'))",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:18.756037Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:19.613513Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:20.467443Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:21.321909Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.5 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:22.418833Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.5 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:23.491384Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:24.383299Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:25.205218Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:26.039468Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:26.864702Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:27.721098Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:46:28.545923Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048. Body: {\"error\":\"model requires more system memory (7.2 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:07.245042Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:08.090465Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:08.911540Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:09.723185Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:10.562462Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:11.376796Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:12.197144Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:13.007673Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:13.832794Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_3",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:14.712684Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:15.550928Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_chain_of_thought_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.6 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:53:16.367934Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_4",
+    "prompt": "tone_few_shot_english.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=2048. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (5.5 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:56:20.804412Z",
+    "model": "baidu/qianfan-ocr-fast:free",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 401 Client Error: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-05T23:56:20.858033Z",
+    "model": "baidu/qianfan-ocr-fast:free",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "OpenRouter returned 401 Client Error: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:02:38.833191Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=1536. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.2 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:02:39.736395Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=1536. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.3 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:10:52.765413Z",
+    "model": "deepseek-r1:1.5b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Read timed out. (read timeout=240)",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:13:54.603750Z",
+    "model": "deepseek-r1:1.5b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Parse error: Could not parse JSON. Raw output:\n[\n  {\n    \"E SG Record 2024\":\n      {\n        \"Environmental Performance\": \"PT Bukit Asam Tbk has implemented effective eco-friendly initiatives, including reducing its carbon footprint by X% through sustainable practices. The company actively manages its environmental impact and minimizes waste in its operations.\",\n        \"Social Performance\": \"The organization is committed to diversity, inclusion, and labor practices, with a significant portion of employees being from underrepresented groups.",
+    "raw_output": "```json\n[\n  {\n    \"E SG Record 2024\":\n      {\n        \"Environmental Performance\": \"PT Bukit Asam Tbk has implemented effective eco-friendly initiatives, including reducing its carbon footprint by X% through sustainable practices. The company actively manages its environmental impact and minimizes waste in its operations.\",\n        \"Social Performance\": \"The organization is committed to diversity, inclusion, and labor practices, with a significant portion of employees being from underrepresented groups. Community engagement efforts have led to positive social change initiatives.\",\n        \"Governance Performance\": \"Internal controls are robust, with regular audits conducted by independent third-party auditors. The board of directors meets in an open, transparent manner, ensuring accountability and fairness.\",\n        \"Innovation & Technology\": \"PT Bukit Asam Tbk leverages cutting-edge technology to enhance efficiency and sustainability. Their use of renewable energy sources contributes to a greener future.\"\n      }\n    }\n  }\n]\n```"
+  },
+  {
+    "timestamp": "2026-05-06T00:26:24.051510Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=1024. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.4 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:26:24.912315Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=1024. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.3 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:26:36.947356Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.3 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:26:37.774441Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=2048, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.3 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:26:54.563503Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=512, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.4 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:26:55.391852Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=512, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.3 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:27:06.335567Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=512, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.4 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:27:07.186407Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=512, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.3 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:27:52.493600Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=512, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.4 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:27:53.321307Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=512, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.3 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:30:08.876800Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=512, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.4 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T00:30:09.736290Z",
+    "model": "gemma4:e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama returned HTTP 500 for model `gemma4:e2b` with num_predict=512, num_ctx=512. Body: {\"error\":\"model requires more system memory (7.1 GiB) than is available (6.3 GiB)\"}",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T14:32:02.278327Z",
+    "model": "qwen3.5:0.8b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Read timed out. (read timeout=240)",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T14:42:15.665533Z",
+    "model": "qwen3.5:0.8b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "data.md",
+    "ok": false,
+    "records": [],
+    "error": "Parse error: Empty response from model.",
+    "raw_output": ""
+  },
+  {
+    "timestamp": "2026-05-06T14:54:49.687572Z",
+    "model": "qwen3.5:0.8b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Parse error: Empty response from model.",
+    "raw_output": ""
   }
 ]

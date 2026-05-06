@@ -136,5 +136,23 @@
     "pages": 73,
     "json_output": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/data/thesis_dataset/SR HOKI 2021_V5_opt_pdf/ocr_result.json",
     "time": "2026-04-04 15:01:15"
+  },
+  "amman_2022 Sustainability Report.pdf": {
+    "status": "done",
+    "pages": 158,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/amman_2022 Sustainability Report_pdf/ocr_result.json",
+    "time": "2026-05-05 20:13:04"
+  },
+  "amman_2023 Sustainability Report.pdf": {
+    "status": "done",
+    "pages": 216,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/amman_2023 Sustainability Report_pdf/ocr_result.json",
+    "time": "2026-05-05 20:13:22"
+  },
+  "amman_2024 Sustainability Report.pdf": {
+    "status": "done",
+    "pages": 170,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/amman_2024 Sustainability Report_pdf/ocr_result.json",
+    "time": "2026-05-05 20:13:38"
   }
 }
