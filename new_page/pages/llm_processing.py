@@ -582,6 +582,7 @@ def _call_ollama(prompt: str, model: str, base_url: str, api_key: str = "",
         "keep_alive": "0s",
     }
 
+    low_memory_retry_used = False
     last_exc = None
     for attempt in range(1, retries + 1):
         try:
@@ -592,9 +593,22 @@ def _call_ollama(prompt: str, model: str, base_url: str, api_key: str = "",
                 timeout=240,
             )
             if resp.status_code >= 500:
+                body = resp.text[:1200]
+                if (
+                    "requires more system memory" in body.lower()
+                    and not low_memory_retry_used
+                    and (payload["options"]["num_ctx"] > 512 or payload["options"]["num_predict"] > 512)
+                ):
+                    low_memory_retry_used = True
+                    payload["options"]["num_ctx"] = 512
+                    payload["options"]["num_predict"] = min(payload["options"]["num_predict"], 512)
+                    num_ctx = payload["options"]["num_ctx"]
+                    num_predict = payload["options"]["num_predict"]
+                    time.sleep(1)
+                    continue
                 raise RuntimeError(
                     f"Ollama returned HTTP {resp.status_code} for model `{model}` "
-                    f"with num_predict={num_predict}, num_ctx={num_ctx}. Body: {resp.text[:1200]}"
+                    f"with num_predict={num_predict}, num_ctx={num_ctx}. Body: {body}"
                 )
             if 400 <= resp.status_code < 500:
                 raise RuntimeError(f"Ollama returned HTTP {resp.status_code}: {resp.text[:1200]}")
@@ -909,6 +923,7 @@ with st.sidebar:
             step=64,
             help=(
                 "Ollama is much more likely to return HTTP 500 if this is too high. "
+                "Use 512 on low-memory VPS instances. "
                 f"The app caps it at {OLLAMA_NUM_PREDICT_MAX} even if global Max tokens is larger."
             ),
         )
@@ -921,14 +936,14 @@ with st.sidebar:
             step=512,
             help=(
                 "Lower context uses less RAM. If Ollama says the model requires more system memory, "
-                "try 1024 or 2048."
+                "try 512 first, then 1024."
             ),
         )
         st.session_state.ollama_num_ctx = int(ollama_num_ctx_input)
         st.caption(
             f"Ollama will use `num_predict={st.session_state.ollama_num_predict}` "
             f"and `num_ctx={st.session_state.ollama_num_ctx}`. "
-            "Reduce `num_ctx` first if Ollama says the model needs more memory."
+            "If Ollama still needs more memory, the app retries once at `num_predict=512`, `num_ctx=512`."
         )
     retries_input     = st.number_input("Retries", value=3, min_value=0, step=1)
 
