@@ -32,6 +32,7 @@ ABSA_METRICS_PATH = next(
     (path for path in ABSA_METRICS_CANDIDATES if path.exists()),
     ABSA_METRICS_CANDIDATES[0],
 )
+LOCAL_ABSA_METRICS_PATH = PAGE_DIR.parent / "absa_metrics_results_local_climate_controversy.json"
 
 
 LADDER = pd.DataFrame([
@@ -273,27 +274,33 @@ def mermaid_label(value: str, max_len: int = 70) -> str:
     return clean.replace('"', "'")
 
 
-def load_absa_metrics(path: Path) -> pd.DataFrame:
-    if not path.exists():
+def load_absa_metrics(path: Path, extra_path: Path | None = None) -> pd.DataFrame:
+    paths = [path]
+    if extra_path is not None and extra_path.exists() and extra_path != path:
+        paths.append(extra_path)
+    if not any(candidate.exists() for candidate in paths):
         return pd.DataFrame(columns=["model", "accuracy", "precision", "recall", "f1", "is_nonzero"])
 
-    with path.open("r") as f:
-        results = json.load(f)
-
     rows = []
-    for model, metrics in results.items():
-        accuracy = float(metrics.get("accuracy", 0) or 0)
-        precision = float(metrics.get("precision", 0) or 0)
-        recall = float(metrics.get("recall", 0) or 0)
-        f1 = float(metrics.get("f1", 0) or 0)
-        rows.append({
-            "model": model,
-            "accuracy": accuracy,
-            "precision": precision,
-            "recall": recall,
-            "f1": f1,
-            "is_nonzero": any(value > 0 for value in [accuracy, precision, recall, f1]),
-        })
+    for metrics_path in paths:
+        if not metrics_path.exists():
+            continue
+        with metrics_path.open("r") as f:
+            results = json.load(f)
+        for model, metrics in results.items():
+            accuracy = float(metrics.get("accuracy", 0) or 0)
+            precision = float(metrics.get("precision", 0) or 0)
+            recall = float(metrics.get("recall", 0) or 0)
+            f1 = float(metrics.get("f1", 0) or 0)
+            rows.append({
+                "model": model,
+                "metric_source": metrics_path.name,
+                "accuracy": accuracy,
+                "precision": precision,
+                "recall": recall,
+                "f1": f1,
+                "is_nonzero": any(value > 0 for value in [accuracy, precision, recall, f1]),
+            })
     return pd.DataFrame(rows).sort_values(["f1", "accuracy"], ascending=False)
 
 
@@ -469,7 +476,7 @@ with st.sidebar:
 remaining = max(target_n - current_n, 0)
 current_claim = claim_level_for_n(current_n)
 target_claim = claim_level_for_n(target_n)
-absa_metrics_df = load_absa_metrics(ABSA_METRICS_PATH)
+absa_metrics_df = load_absa_metrics(ABSA_METRICS_PATH, LOCAL_ABSA_METRICS_PATH)
 nonzero_absa_metrics = absa_metrics_df[absa_metrics_df["is_nonzero"]] if not absa_metrics_df.empty else absa_metrics_df
 
 cols = st.columns(4)
@@ -480,6 +487,8 @@ cols[3].metric("Worst-case MoE now", f"+/-{worst_case_moe(current_n):.1f}pp")
 
 st.caption(f"Source: `{SOURCE_HTML}`")
 st.caption(f"ABSA metrics: `{ABSA_METRICS_PATH}`")
+if LOCAL_ABSA_METRICS_PATH.exists():
+    st.caption(f"Local rerun metrics: `{LOCAL_ABSA_METRICS_PATH}`")
 
 tab_overview, tab_ladder, tab_moe, tab_power, tab_subgroups, tab_literature, tab_page_inventory, tab_absa_metrics, tab_mermaid, tab_guide, tab_verdict = st.tabs([
     "Overview",
