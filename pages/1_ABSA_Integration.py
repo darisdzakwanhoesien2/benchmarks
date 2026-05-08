@@ -10,12 +10,43 @@ import json
 st.title("ABSA Mapping with ClimateBERT Results")
 add_page_explanation(__file__)
 
+PAGE_DIR = Path(__file__).resolve().parent
+BENCHMARK_ROOT = PAGE_DIR.parent
+ABSA_MAPPING_CANDIDATES = [
+    Path("/home/ubuntu/apps/benchmarks/data/ground_truth/absa_mapping.csv"),
+    BENCHMARK_ROOT / "data" / "ground_truth" / "absa_mapping.csv",
+]
+CLIMATEBERT_PARSED_CANDIDATES = [
+    Path("/home/ubuntu/apps/benchmarks/data/ground_truth/climatebert_parsed.json"),
+    BENCHMARK_ROOT / "data" / "ground_truth" / "climatebert_parsed.json",
+]
+ABSA_MAPPING_PATH = next(
+    (path for path in ABSA_MAPPING_CANDIDATES if path.exists()),
+    ABSA_MAPPING_CANDIDATES[0],
+)
+CLIMATEBERT_PARSED_PATH = next(
+    (path for path in CLIMATEBERT_PARSED_CANDIDATES if path.exists()),
+    CLIMATEBERT_PARSED_CANDIDATES[0],
+)
+
 # Load ABSA mapping
-absa_df = pd.read_csv('/workspaces/benchmarks/data/ground_truth/absa_mapping.csv')
+if not ABSA_MAPPING_PATH.exists():
+    st.error(f"ABSA mapping CSV not found at `{ABSA_MAPPING_PATH}`.")
+    st.stop()
+absa_df = pd.read_csv(ABSA_MAPPING_PATH)
+st.caption(f"ABSA mapping: `{ABSA_MAPPING_PATH}`")
 
 # Load ClimateBERT parsed results
-with open('/workspaces/benchmarks/data/ground_truth/climatebert_parsed.json', 'r') as f:
-    climatebert_results = json.load(f)
+if CLIMATEBERT_PARSED_PATH.exists():
+    with open(CLIMATEBERT_PARSED_PATH, 'r') as f:
+        climatebert_results = json.load(f)
+    st.caption(f"ClimateBERT parsed results: `{CLIMATEBERT_PARSED_PATH}`")
+else:
+    climatebert_results = []
+    st.warning(
+        f"ClimateBERT parsed JSON not found at `{CLIMATEBERT_PARSED_PATH}`. "
+        "Showing ABSA mapping without ClimateBERT joined columns."
+    )
 
 # Integrate the data
 integrated_data = []
@@ -77,5 +108,8 @@ with col3:
 with col4:
     st.subheader("Climate Commitment Label Distribution")
     add_section_explanation("Climate Commitment Label Distribution")
-    commitment_counts = filtered_df['climate-commitment_label'].value_counts()
-    st.bar_chart(commitment_counts)
+    if 'climate-commitment_label' in filtered_df.columns:
+        commitment_counts = filtered_df['climate-commitment_label'].value_counts()
+        st.bar_chart(commitment_counts)
+    else:
+        st.info("No `climate-commitment_label` column is available yet.")

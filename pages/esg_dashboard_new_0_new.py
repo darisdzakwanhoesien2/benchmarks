@@ -19,9 +19,14 @@ add_page_explanation(__file__)
 # -------------------------------------------------------
 # Load CSV
 # -------------------------------------------------------
-DATA_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "data", "data_output.csv")
-)
+PAGE_DIR = Path(__file__).resolve().parent
+BENCHMARK_ROOT = PAGE_DIR.parent
+DATA_CANDIDATES = [
+    Path("/home/ubuntu/apps/benchmarks/data/data_output.csv"),
+    BENCHMARK_ROOT / "data" / "data_output.csv",
+    PAGE_DIR / "data_output.csv",
+]
+DATA_PATH = next((path for path in DATA_CANDIDATES if path.exists()), DATA_CANDIDATES[0])
 
 st.caption(f"Using data: `{DATA_PATH}`")
 
