@@ -1,7 +1,9 @@
 from pathlib import Path
+from html import escape
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 st.set_page_config(page_title="Research Questions Visualizer", layout="wide")
@@ -10,6 +12,8 @@ st.caption("Interactive view of thesis RQs, available evidence, analysis gaps, a
 
 
 SOURCE_HTML = Path(__file__).resolve().parent / "thesis_data_analysis_benchmarks.html"
+EXISTING_DATA_PATH = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/data_output.txt"
+PREDICTION_OUTPUT_DIR = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/climatebert_predictions"
 
 
 RQ_DATA = [
@@ -179,6 +183,161 @@ ANALYSIS_PLAN = pd.DataFrame([
     ["P7", "OCR quality measurement", "1-2 days", "RQ1", "Important"],
 ], columns=["priority_id", "task", "effort", "answers", "urgency"])
 
+MISSING_WORK = pd.DataFrame([
+    [
+        "RQ1",
+        "OCR and segmentation quality",
+        "Sample pages from data_output provenance, manually transcribe reference text, compute CER/WER and sentence-boundary precision.",
+        EXISTING_DATA_PATH,
+        "CER, WER, sentence precision/recall, table extraction accuracy",
+    ],
+    [
+        "RQ2",
+        "Gold taxonomy validation",
+        "Draw 30-50 stratified records from parsed ESG sentences, have two annotators label aspect/pillar/tone/sentiment, compute agreement and F1.",
+        EXISTING_DATA_PATH,
+        "Cohen kappa, precision, recall, F1, ontology mapping coverage",
+    ],
+    [
+        "RQ3",
+        "Actual ClimateBERT comparison",
+        "Run local ClimateBERT/ESGBERT models on every parsed sentence, then compare predicted labels with LLM tone/aspect fields.",
+        PREDICTION_OUTPUT_DIR,
+        "Tone x ClimateBERT crosstab, agreement rate, Cohen kappa",
+    ],
+    [
+        "RQ4",
+        "Diagnostics and error taxonomy",
+        "Use parsed output plus manual spot checks to label schema drift, missing tone, wrong aspect, wrong pillar, and OCR-noise errors.",
+        EXISTING_DATA_PATH,
+        "Error rate by model, prompt, document, language, and pillar",
+    ],
+    [
+        "RQ5",
+        "Reproducibility evidence",
+        "Connect saved artifacts, exact prompts, model versions, Streamlit pages, and regenerated outputs into an audit trail.",
+        f"{EXISTING_DATA_PATH} + {PREDICTION_OUTPUT_DIR}",
+        "Artifact inventory, rerun checklist, dashboard traceability",
+    ],
+    [
+        "RQ6",
+        "Stability and ensemble analysis",
+        "Balance model x prompt x document coverage, then compare prompt variance and majority-vote/ensemble stability.",
+        EXISTING_DATA_PATH,
+        "Coefficient of variation, cross-model kappa, ensemble stability gain",
+    ],
+], columns=["rq", "missing_piece", "process", "primary_source", "output_metric"])
+
+
+def render_mermaid(code: str, height: int = 520) -> None:
+    html = f"""
+    <div id="mermaid-wrapper">
+      <pre class="mermaid">{escape(code)}</pre>
+    </div>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({{
+        startOnLoad: true,
+        securityLevel: 'loose',
+        theme: 'base',
+        flowchart: {{ curve: 'basis', htmlLabels: true }},
+        themeVariables: {{
+          primaryColor: '#f8fafc',
+          primaryTextColor: '#111827',
+          primaryBorderColor: '#64748b',
+          lineColor: '#475569',
+          clusterBkg: '#eef6f4',
+          clusterBorder: '#0f766e',
+          edgeLabelBackground: '#ffffff'
+        }}
+      }});
+    </script>
+    <style>
+      #mermaid-wrapper {{
+        background: #ffffff;
+        border: 1px solid #d4dbe5;
+        border-radius: 8px;
+        min-height: {height}px;
+        overflow: auto;
+        padding: 18px;
+      }}
+      .mermaid {{
+        display: flex;
+        justify-content: center;
+        min-width: 980px;
+      }}
+      svg {{
+        max-width: none !important;
+        height: auto;
+      }}
+    </style>
+    """
+    components.html(html, height=height + 70, scrolling=True)
+
+
+PIPELINE_MERMAID = f"""
+flowchart LR
+  PDFs["Sustainability reports<br/>PDF source pages"]
+  OCR["OCR / markdown extraction"]
+  LLM["LLM ESG JSON extraction"]
+  DataOutput["data_output.txt<br/>sentence-level ESG records"]
+  Parsed["Parsed ESG table<br/>sentence, aspect, tone, sentiment"]
+  CBRun["Local ClimateBERT processor<br/>page 02"]
+  CBOut["climatebert_predictions<br/>saved shard CSVs"]
+  Viz["Result visualizer<br/>page 03"]
+  RQ["Research question evidence<br/>page 04"]
+
+  PDFs --> OCR --> LLM --> DataOutput --> Parsed
+  Parsed --> CBRun --> CBOut --> Viz
+  Parsed --> RQ
+  CBOut --> RQ
+""".strip()
+
+RQ_MERMAID = """
+flowchart TB
+  RQ1["RQ1 Pipeline quality<br/>needs CER / WER / segmentation"]
+  RQ2["RQ2 Categorization<br/>needs expert labels + taxonomy"]
+  RQ3["RQ3 ClimateBERT comparison<br/>needs full local CB outputs"]
+  RQ4["RQ4 Diagnostics<br/>needs manual error taxonomy"]
+  RQ5["RQ5 Reproducibility<br/>needs audit checklist + rerun log"]
+  RQ6["RQ6 Stability<br/>needs balanced model x prompt matrix"]
+
+  Data["data_output.txt"]
+  Pred["climatebert_predictions"]
+  Gold["Expert annotation sample"]
+  Audit["Artifact registry / dashboard"]
+
+  Data --> RQ1
+  Data --> RQ2
+  Data --> RQ4
+  Data --> RQ6
+  Pred --> RQ3
+  Pred --> RQ5
+  Gold --> RQ2
+  Gold --> RQ4
+  Audit --> RQ5
+  RQ3 --> RQ6
+""".strip()
+
+MISSING_PROCESS_MERMAID = """
+flowchart LR
+  Gap["Missing RQ evidence"]
+  Identify["Identify missing metric<br/>from RQ matrix"]
+  Source["Select source<br/>data_output or predictions"]
+  Sample["Create targeted sample<br/>by RQ weakness"]
+  Run["Run analysis / annotation"]
+  Metric["Compute metric"]
+  Update["Update dashboard evidence"]
+
+  Gap --> Identify --> Source --> Sample --> Run --> Metric --> Update
+
+  Source --> A["data_output.txt<br/>parsed LLM ESG records"]
+  Source --> B["climatebert_predictions<br/>local model outputs"]
+  Run --> C["manual annotation<br/>for RQ2/RQ4"]
+  Run --> D["ClimateBERT comparison<br/>for RQ3"]
+  Run --> E["prompt/model stability<br/>for RQ6"]
+""".strip()
+
 
 def status_counts(rows):
     return pd.DataFrame([
@@ -216,10 +375,14 @@ cols[0].metric("Research questions", len(filtered))
 cols[1].metric("Available evidence items", int(summary["available"].sum()) if not summary.empty else 0)
 cols[2].metric("Partial evidence items", int(summary["partial"].sum()) if not summary.empty else 0)
 cols[3].metric("Open needs", int(summary["needed"].sum()) if not summary.empty else 0)
+st.caption(f"Existing data: `{EXISTING_DATA_PATH}`")
+st.caption(f"Prediction outputs: `{PREDICTION_OUTPUT_DIR}`")
 
-tab_overview, tab_details, tab_plan, tab_source = st.tabs([
+tab_overview, tab_details, tab_missing, tab_mermaid, tab_plan, tab_source = st.tabs([
     "Overview",
     "RQ Details",
+    "Missing Work Process",
+    "Mermaid Preview",
     "Analysis Plan",
     "Source HTML",
 ])
@@ -279,6 +442,34 @@ with tab_details:
                     "context": context,
                 })
         st.dataframe(pd.DataFrame(metric_rows), use_container_width=True, height=620)
+
+with tab_missing:
+    st.subheader("How to Process the Missing Research-Question Evidence")
+    st.write(
+        "The page treats the existing parsed dataset as the main source of LLM ESG evidence, "
+        "and the ClimateBERT prediction folder as the source of local-model comparison evidence."
+    )
+    st.dataframe(MISSING_WORK, use_container_width=True, height=420)
+
+    selected_missing_rq = st.selectbox("Explain one RQ gap", MISSING_WORK["rq"].tolist())
+    row = MISSING_WORK[MISSING_WORK["rq"] == selected_missing_rq].iloc[0]
+    st.markdown(f"**Missing piece:** {row['missing_piece']}")
+    st.markdown(f"**Process:** {row['process']}")
+    st.markdown(f"**Primary source:** `{row['primary_source']}`")
+    st.markdown(f"**Output metric:** {row['output_metric']}")
+
+with tab_mermaid:
+    st.subheader("Workflow Diagram")
+    render_mermaid(PIPELINE_MERMAID, height=430)
+    st.code(PIPELINE_MERMAID, language="mermaid")
+
+    st.subheader("Research Question Evidence Map")
+    render_mermaid(RQ_MERMAID, height=520)
+    st.code(RQ_MERMAID, language="mermaid")
+
+    st.subheader("Missing Evidence Process")
+    render_mermaid(MISSING_PROCESS_MERMAID, height=430)
+    st.code(MISSING_PROCESS_MERMAID, language="mermaid")
 
 with tab_plan:
     st.subheader("Prioritized Next Analyses")
