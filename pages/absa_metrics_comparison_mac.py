@@ -12,21 +12,34 @@ import json
 st.title("ABSA Mapping Metrics Comparison")
 add_page_explanation(__file__)
 
+PAGE_DIR = Path(__file__).resolve().parent
+BENCHMARK_ROOT = PAGE_DIR.parent
+
 # File paths
-gt_path = "data/ground_truth/absa_mapping.csv"
-baseline_path = "data/ground_truth/absa_mapping_baseline.csv"
+gt_path = BENCHMARK_ROOT / "data" / "ground_truth" / "absa_mapping.csv"
+baseline_path = BENCHMARK_ROOT / "data" / "ground_truth" / "absa_mapping_baseline.csv"
 
 # Load data
 gt = pd.read_csv(gt_path)
 baseline = pd.read_csv(baseline_path)
 
 # Load mapping for category clustering
-with open("data/mapping_category.json", "r") as f:
+with open(BENCHMARK_ROOT / "data" / "mapping_category.json", "r") as f:
     category_mapping = json.load(f)
+
+def normalize_labels(series: pd.Series) -> pd.Series:
+    return (
+        series.fillna("none")
+        .astype(str)
+        .str.strip()
+        .replace({"": "none", "nan": "none", "NaN": "none", "None": "none"})
+    )
 
 # Helper: Compute metrics and show results
 def compute_metrics(y_true, y_pred, label):
     st.subheader(f"{label} Metrics")
+    y_true = normalize_labels(pd.Series(y_true)).reset_index(drop=True)
+    y_pred = normalize_labels(pd.Series(y_pred)).reset_index(drop=True)
     report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
     # Calculate and display F1, Precision, Recall (weighted)
     f1 = report['weighted avg']['f1-score']
@@ -53,7 +66,7 @@ def compute_metrics(y_true, y_pred, label):
 
 # Helper: Map categories to clusters for any mapping
 def map_to_cluster(series, mapping):
-    return series.apply(lambda x: mapping.get(str(x), "none"))
+    return normalize_labels(series).apply(lambda x: mapping.get(str(x), "none"))
 
 # Improved: Robust merge, error handling, flexible metrics, and clearer output
 def safe_merge(gt, baseline, keys):
@@ -71,8 +84,8 @@ if merged is None:
 
 # Compare majority_category
 if "majority_category_gt" in merged.columns and "majority_category_baseline" in merged.columns:
-    cat_gt = merged["majority_category_gt"].astype(str)
-    cat_baseline = merged["majority_category_baseline"].astype(str)
+    cat_gt = normalize_labels(merged["majority_category_gt"])
+    cat_baseline = normalize_labels(merged["majority_category_baseline"])
     cat_gt_cluster = map_to_cluster(cat_gt, category_mapping)
     cat_baseline_cluster = map_to_cluster(cat_baseline, category_mapping)
     compute_metrics(cat_gt, cat_baseline, "Majority Category (Original)")
@@ -80,19 +93,19 @@ if "majority_category_gt" in merged.columns and "majority_category_baseline" in 
 
 # Compare majority_sentiment
 if "majority_sentiment_gt" in merged.columns and "majority_sentiment_baseline" in merged.columns:
-    with open("data/sentiment_category.json", "r") as f:
+    with open(BENCHMARK_ROOT / "data" / "sentiment_category.json", "r") as f:
         sentiment_mapping = json.load(f)
-    sent_gt = merged["majority_sentiment_gt"].astype(str)
-    sent_baseline = merged["majority_sentiment_baseline"].astype(str)
+    sent_gt = normalize_labels(merged["majority_sentiment_gt"])
+    sent_baseline = normalize_labels(merged["majority_sentiment_baseline"])
     compute_metrics(sent_gt, sent_baseline, "Majority Sentiment (Original)")
     compute_metrics(map_to_cluster(sent_gt, sentiment_mapping), map_to_cluster(sent_baseline, sentiment_mapping), "Majority Sentiment (Clustered)")
 
 # Compare majority_tone
 if "majority_tone_gt" in merged.columns and "majority_tone_baseline" in merged.columns:
-    with open("data/tone_category.json", "r") as f:
+    with open(BENCHMARK_ROOT / "data" / "tone_category.json", "r") as f:
         tone_mapping = json.load(f)
-    tone_gt = merged["majority_tone_gt"].astype(str)
-    tone_baseline = merged["majority_tone_baseline"].astype(str)
+    tone_gt = normalize_labels(merged["majority_tone_gt"])
+    tone_baseline = normalize_labels(merged["majority_tone_baseline"])
     compute_metrics(tone_gt, tone_baseline, "Majority Tone (Original)")
     compute_metrics(map_to_cluster(tone_gt, tone_mapping), map_to_cluster(tone_baseline, tone_mapping), "Majority Tone (Clustered)")
 

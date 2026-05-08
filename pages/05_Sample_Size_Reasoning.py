@@ -23,6 +23,15 @@ SOURCE_HTML = next(
     (path for path in SOURCE_HTML_CANDIDATES if path.exists()),
     SOURCE_HTML_CANDIDATES[0],
 )
+ABSA_METRICS_CANDIDATES = [
+    PAGE_DIR / "absa_metrics_results.json",
+    PAGE_DIR.parent / "absa_metrics_results.json",
+    BENCHMARKS_DIR / "absa_metrics_results.json",
+]
+ABSA_METRICS_PATH = next(
+    (path for path in ABSA_METRICS_CANDIDATES if path.exists()),
+    ABSA_METRICS_CANDIDATES[0],
+)
 
 
 LADDER = pd.DataFrame([
@@ -120,6 +129,64 @@ TABLE_GUIDE = pd.DataFrame([
     "if_underperforming",
 ])
 
+PAGE_ANALYSIS_INVENTORY = pd.DataFrame([
+    [
+        "Parsed ESG sentence dashboards",
+        "esg_dashboard_new_0_new.py; esg_dashboard_new_8_new.py",
+        "Parsed JSON inspection, grounded markdown review, model comparison, and model coverage by PDF/page.",
+        "RQ1, RQ2, RQ4, RQ5, RQ6",
+        "Direct thesis evidence",
+        "Defines the actual extracted-record population; use it to decide whether n is records, sentences, documents, runs, or model/prompt cells.",
+    ],
+    [
+        "Aspect and ontology distribution dashboards",
+        "esg_dashboard_new_Data Distribution.py; esg_dashboard_new_Data_New_Distribution.py; esg_dashboard_new_01_Aspects_Raw.py; esg_dashboard_new_02_Aspects_Clustered.py; esg_dashboard_new_03_Aspect_Comparison.py; zz_aspect_clusters.py",
+        "Aspect distributions, raw-to-cluster mappings, ontology coverage, waterfall filtering, and unclustered aspect review.",
+        "RQ2, RQ4, RQ5",
+        "Direct thesis evidence",
+        "Adds taxonomy cells to the sample-size problem: enough rows are needed per canonical aspect/pillar, not just in total.",
+    ],
+    [
+        "Tone, sentiment, Sankey, and document distribution dashboards",
+        "esg_dashboard_new_Tone_Distribution.py; esg_dashboard_new_Sankey.py; esg_dashboard_new_Distribution Document.py",
+        "Tone balancing, sentiment/tone per document, Sankey flows, heatmaps, and document-level summaries.",
+        "RQ2, RQ4, RQ6",
+        "Direct thesis evidence",
+        "Turns sample size into subgroup coverage: tone x language x pillar x document/prompt cells need enough observations.",
+    ],
+    [
+        "ABSA metrics and ground-truth comparison",
+        "absa_metrics_comparison.py; absa_metrics_comparison_mac.py; absa_metrics_comparison copy.py; absa_metrics_visualization.py; esg_dashboard_new_0_Metric_Analysis.py; test_models.py",
+        "Ground truth vs prediction metrics, confusion matrices, TP/FP/FN, confidence/error views, and saved metrics JSON.",
+        "RQ2, RQ3, RQ4, RQ6",
+        "Direct thesis evidence",
+        "F1/precision/recall require expert labels and aligned label spaces; low current scores argue for annotation expansion before strong evaluation claims.",
+    ],
+    [
+        "ClimateBERT processing and result exploration",
+        "0_0_ClimateBERT_12_ClimateBERT_Batch_GroundTruth.py; 0_0_ClimateBERT_12_ClimateBERT_Batch_GroundTruth_Windows.py; 0_0_ClimateBERT_4_Model_Analysis.py; 0_0_ClimateBERT_5_Model_Deep_Explorer.py; 0_0_ClimateBERT_6_Model_Overview_All.py; 0_0_ClimateBERT_7_Full_Model_Visualization.py; 0_ClimateBERT_Commitment_Distribution.py; 1_ABSA_Integration.py",
+        "Batch inference, coverage, confidence, label distributions, leaderboards, and ABSA-to-ClimateBERT integration.",
+        "RQ3, RQ5, RQ6",
+        "Direct thesis evidence",
+        "Requires coverage across all valid sentences and matched comparison cells before agreement or kappa can be interpreted.",
+    ],
+    [
+        "Interactive demos, prototypes, utilities, and scaffolding",
+        "0_0_1_Single_Prediction.py; 0_0_1_multiple_Prediction.py; 0_0_2_Batch_Prediction.py; 0_0_3_Model_Explorer.py; esg_dashboard_new_Benchmark_Model.py; ABSA_Model_Comparison.py; 1_Analyze.py; 2_ABSA_Rule_Based.py; 3_ABSA_Classical.py; 5_ABSA_Deep_Learning.py; absa_ontology_3_deep_model.py; absa_ontology_all.py; absa_ontology_all_new_notes.py; scrambled_absa_mapping_baseline.py; scrambled_absa_mapping_baseline_mac.py; parse_documentation_json.py; _page_explanations.py; _shared/page_explanations.py; _shared/__init__.py; 0_0_0_1.py; 0_0_0_code.py",
+        "Manual prediction demos, model prototypes, baselines, documentation helpers, and placeholder/support files.",
+        "RQ5, RQ6 where outputs are saved; otherwise not directly RQ-bound",
+        "Other / utility",
+        "Do not count these as empirical sample-size evidence unless they produce saved records, predictions, or metrics tied to the thesis dataset.",
+    ],
+], columns=[
+    "analysis_group",
+    "pages",
+    "what_the_existing_pages_do",
+    "research_question_links",
+    "evidence_role",
+    "sample_size_implication",
+])
+
 
 def render_mermaid(code: str, height: int = 520) -> None:
     container_id = "mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
@@ -204,6 +271,30 @@ def mermaid_label(value: str, max_len: int = 70) -> str:
     if len(clean) > max_len:
         clean = clean[: max_len - 3].rstrip() + "..."
     return clean.replace('"', "'")
+
+
+def load_absa_metrics(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame(columns=["model", "accuracy", "precision", "recall", "f1", "is_nonzero"])
+
+    with path.open("r") as f:
+        results = json.load(f)
+
+    rows = []
+    for model, metrics in results.items():
+        accuracy = float(metrics.get("accuracy", 0) or 0)
+        precision = float(metrics.get("precision", 0) or 0)
+        recall = float(metrics.get("recall", 0) or 0)
+        f1 = float(metrics.get("f1", 0) or 0)
+        rows.append({
+            "model": model,
+            "accuracy": accuracy,
+            "precision": precision,
+            "recall": recall,
+            "f1": f1,
+            "is_nonzero": any(value > 0 for value in [accuracy, precision, recall, f1]),
+        })
+    return pd.DataFrame(rows).sort_values(["f1", "accuracy"], ascending=False)
 
 
 def worst_case_moe(n: int) -> float:
@@ -378,6 +469,8 @@ with st.sidebar:
 remaining = max(target_n - current_n, 0)
 current_claim = claim_level_for_n(current_n)
 target_claim = claim_level_for_n(target_n)
+absa_metrics_df = load_absa_metrics(ABSA_METRICS_PATH)
+nonzero_absa_metrics = absa_metrics_df[absa_metrics_df["is_nonzero"]] if not absa_metrics_df.empty else absa_metrics_df
 
 cols = st.columns(4)
 cols[0].metric("Current n", f"{current_n:,}", current_claim["status"])
@@ -386,14 +479,17 @@ cols[2].metric("Records to add", f"{remaining:,}")
 cols[3].metric("Worst-case MoE now", f"+/-{worst_case_moe(current_n):.1f}pp")
 
 st.caption(f"Source: `{SOURCE_HTML}`")
+st.caption(f"ABSA metrics: `{ABSA_METRICS_PATH}`")
 
-tab_overview, tab_ladder, tab_moe, tab_power, tab_subgroups, tab_literature, tab_mermaid, tab_guide, tab_verdict = st.tabs([
+tab_overview, tab_ladder, tab_moe, tab_power, tab_subgroups, tab_literature, tab_page_inventory, tab_absa_metrics, tab_mermaid, tab_guide, tab_verdict = st.tabs([
     "Overview",
     "Claim Ladder",
     "Margin of Error",
     "Power",
     "Subgroups",
     "Literature",
+    "Existing Page Analyses",
+    "ABSA Metrics",
     "Mermaid Preview",
     "Table Guide",
     "Verdict",
@@ -501,6 +597,56 @@ with tab_literature:
     literature = LITERATURE.sort_values("scale", ascending=False)
     st.dataframe(literature, use_container_width=True)
     st.bar_chart(literature.set_index("study")["scale"])
+
+with tab_page_inventory:
+    st.subheader("Existing Page Analyses and Sample-Size Implications")
+    st.write(
+        "This section summarizes the existing code in `pages/` and separates pages that create "
+        "thesis evidence from demos, prototypes, helper pages, and baselines. Only pages that "
+        "produce saved records, predictions, or metrics should be counted as empirical sample-size evidence."
+    )
+    page_inventory = PAGE_ANALYSIS_INVENTORY.copy()
+    role_filter = st.multiselect(
+        "Evidence role",
+        page_inventory["evidence_role"].drop_duplicates().tolist(),
+        default=page_inventory["evidence_role"].drop_duplicates().tolist(),
+    )
+    if role_filter:
+        page_inventory = page_inventory[page_inventory["evidence_role"].isin(role_filter)]
+    st.dataframe(page_inventory, use_container_width=True, height=440)
+
+    if not page_inventory.empty:
+        role_counts = page_inventory["evidence_role"].value_counts()
+        st.bar_chart(role_counts)
+        selected_group = st.selectbox("Explain analysis group", page_inventory["analysis_group"].tolist())
+        selected = page_inventory[page_inventory["analysis_group"] == selected_group].iloc[0]
+        st.markdown(f"**Pages:** {selected['pages']}")
+        st.markdown(f"**RQ links:** {selected['research_question_links']}")
+        st.markdown(f"**Sample-size implication:** {selected['sample_size_implication']}")
+
+with tab_absa_metrics:
+    st.subheader("Evaluation Metrics and Sample-Size Implications")
+    if absa_metrics_df.empty:
+        st.warning(f"No ABSA metrics JSON found at `{ABSA_METRICS_PATH}`.")
+    else:
+        best = absa_metrics_df.iloc[0]
+        a1, a2, a3, a4 = st.columns(4)
+        a1.metric("Evaluated outputs", len(absa_metrics_df))
+        a2.metric("Non-zero outputs", len(nonzero_absa_metrics))
+        a3.metric("Best F1", f"{best['f1']:.4f}", best["model"])
+        a4.metric("Zero-output models", len(absa_metrics_df) - len(nonzero_absa_metrics))
+
+        st.write(
+            "These metrics come from `absa_metrics_visualization.py`. They show that the current "
+            "ABSA/ClimateBERT label comparison is mostly a label-alignment and evaluation-design issue. "
+            "That strengthens the recommendation to add expert annotations before reporting F1 as a thesis result."
+        )
+        st.dataframe(absa_metrics_df, use_container_width=True, height=420)
+        st.bar_chart(absa_metrics_df.set_index("model")[["accuracy", "precision", "recall", "f1"]])
+
+        if not nonzero_absa_metrics.empty:
+            st.subheader("Non-zero Results")
+            st.dataframe(nonzero_absa_metrics, use_container_width=True)
 
 with tab_mermaid:
     st.subheader("Claim Ladder Diagram")

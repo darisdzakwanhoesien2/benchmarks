@@ -24,6 +24,15 @@ SOURCE_HTML = next(
     (path for path in SOURCE_HTML_CANDIDATES if path.exists()),
     SOURCE_HTML_CANDIDATES[0],
 )
+ABSA_METRICS_CANDIDATES = [
+    PAGE_DIR / "absa_metrics_results.json",
+    PAGE_DIR.parent / "absa_metrics_results.json",
+    BENCHMARKS_DIR / "absa_metrics_results.json",
+]
+ABSA_METRICS_PATH = next(
+    (path for path in ABSA_METRICS_CANDIDATES if path.exists()),
+    ABSA_METRICS_CANDIDATES[0],
+)
 EXISTING_DATA_PATH = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/data_output.txt"
 PREDICTION_OUTPUT_DIR = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/climatebert_predictions"
 
@@ -347,6 +356,136 @@ TABLE_EXPLANATIONS = pd.DataFrame([
     "how_to_read_it",
     "if_yes_or_good",
     "if_underperforming_or_missing",
+])
+
+PAGE_ANALYSIS_INVENTORY = pd.DataFrame([
+    [
+        "Parsed ESG sentence dashboards",
+        "esg_dashboard_new_0_new.py; esg_dashboard_new_8_new.py",
+        "Parsed JSON inspection, filters, model comparison, grounded markdown review, model coverage by PDF/page.",
+        "RQ1, RQ2, RQ4, RQ5, RQ6",
+        "Direct thesis evidence",
+        "Use these as the main source for parseability, provenance, field coverage, tone/aspect distributions, model/prompt coverage, and auditability.",
+    ],
+    [
+        "Aspect and ontology distribution dashboards",
+        "esg_dashboard_new_Data Distribution.py; esg_dashboard_new_Data_New_Distribution.py; esg_dashboard_new_01_Aspects_Raw.py; esg_dashboard_new_02_Aspects_Clustered.py; esg_dashboard_new_03_Aspect_Comparison.py; zz_aspect_clusters.py",
+        "Aspect category distributions, raw-to-cluster mappings, ontology URI distributions, waterfall filtering, multi-rule filtering, and unclustered aspect review.",
+        "RQ2, RQ4, RQ5",
+        "Direct thesis evidence",
+        "Use these to support taxonomy normalization, ontology coverage, non-standard aspect detection, and bilingual comparability claims.",
+    ],
+    [
+        "Tone, sentiment, Sankey, and document distribution dashboards",
+        "esg_dashboard_new_Tone_Distribution.py; esg_dashboard_new_Sankey.py; esg_dashboard_new_Distribution Document.py",
+        "Tone distribution, tone balancing, sentiment/tone per document, aspect x sentiment/tone heatmaps, Sankey flows, and correlation summaries.",
+        "RQ2, RQ4, RQ6",
+        "Direct thesis evidence",
+        "Use these for tone imbalance, subgroup coverage, document-level variation, and prompt/model stability framing.",
+    ],
+    [
+        "ABSA metrics and ground-truth comparison",
+        "absa_metrics_comparison.py; absa_metrics_comparison_mac.py; absa_metrics_comparison copy.py; absa_metrics_visualization.py; esg_dashboard_new_0_Metric_Analysis.py; test_models.py",
+        "Ground truth vs prediction metrics, confusion matrices, TP/FP/FN tables, saved metrics JSON, confidence/error views, and rule/classical/deep/hybrid metric summaries.",
+        "RQ2, RQ3, RQ4, RQ6",
+        "Direct thesis evidence",
+        "Use these only when label spaces and sample alignment are explicit; current low ClimateBERT-style scores are stronger evidence of mapping/evaluation mismatch than final model quality.",
+    ],
+    [
+        "ClimateBERT processing and result exploration",
+        "0_0_ClimateBERT_12_ClimateBERT_Batch_GroundTruth.py; 0_0_ClimateBERT_12_ClimateBERT_Batch_GroundTruth_Windows.py; 0_0_ClimateBERT_4_Model_Analysis.py; 0_0_ClimateBERT_5_Model_Deep_Explorer.py; 0_0_ClimateBERT_6_Model_Overview_All.py; 0_0_ClimateBERT_7_Full_Model_Visualization.py; 0_ClimateBERT_Commitment_Distribution.py; 1_ABSA_Integration.py",
+        "Batch inference, per-model accuracy/coverage/confidence, leaderboards, confusion matrices, prediction explorers, and ABSA-to-ClimateBERT integration.",
+        "RQ3, RQ5, RQ6",
+        "Direct thesis evidence",
+        "Use these to close the actual ClimateBERT comparison gap: prediction coverage, confidence distribution, label agreement, and cross-model stability.",
+    ],
+    [
+        "Interactive model demos and benchmark testers",
+        "0_0_1_Single_Prediction.py; 0_0_1_multiple_Prediction.py; 0_0_2_Batch_Prediction.py; 0_0_3_Model_Explorer.py; esg_dashboard_new_Benchmark_Model.py; ABSA_Model_Comparison.py; 1_Analyze.py",
+        "Manual text input, multi-model prediction, batch prediction, model metadata exploration, and interactive comparison across ABSA modules.",
+        "RQ5, RQ6",
+        "Supporting evidence",
+        "Useful for reproducibility demonstrations and qualitative sanity checks; not enough by itself for thesis claims without saved datasets and metrics.",
+    ],
+    [
+        "ABSA ontology/model prototype pages",
+        "2_ABSA_Rule_Based.py; 3_ABSA_Classical.py; 5_ABSA_Deep_Learning.py; absa_ontology_3_deep_model.py; absa_ontology_all.py; absa_ontology_all_new_notes.py",
+        "Rule-based, classical ML, deep/mBERT, hybrid, and explainability prototypes for ABSA modeling.",
+        "RQ2, RQ4, RQ6",
+        "Supporting evidence",
+        "Use these as methodological prototypes and error-analysis tools, not as production results unless their training/evaluation data are documented.",
+    ],
+    [
+        "Baselines, documentation, and scaffolding",
+        "scrambled_absa_mapping_baseline.py; scrambled_absa_mapping_baseline_mac.py; parse_documentation_json.py; _page_explanations.py; _shared/page_explanations.py; _shared/__init__.py; 0_0_0_1.py; 0_0_0_code.py",
+        "Scrambled baselines, documentation parsing, page explanations, shared helper scaffolding, and empty placeholder pages.",
+        "RQ5",
+        "Other / utility",
+        "These support dashboard documentation and baseline generation. Empty placeholders and helper modules should be documented as non-analytic utilities.",
+    ],
+], columns=[
+    "analysis_group",
+    "pages",
+    "what_the_existing_pages_do",
+    "research_question_links",
+    "evidence_role",
+    "how_to_use_in_thesis",
+])
+
+PAGE_FILE_INVENTORY = pd.DataFrame([
+    ["04_Research_Questions_Visualizer.py", "RQ synthesis and evidence-gap dashboard", "Related", "RQ1-RQ6", "Meta synthesis", "This page organizes thesis evidence, missing work, RQ links, diagrams, and page inventory."],
+    ["05_Sample_Size_Reasoning.py", "Sample-size, subgroup, power, and evaluation-readiness reasoning", "Related", "RQ2, RQ3, RQ6", "Direct thesis evidence", "Supports defensible claim levels, subgroup coverage, power, and why expert annotation is needed."],
+    ["esg_dashboard_new_0_new.py", "Parsed ESG JSON dashboard with filters, grounded model comparison, coverage, and sentence table", "Related", "RQ1, RQ2, RQ4, RQ5, RQ6", "Direct thesis evidence", "Core evidence for parseability, provenance, field distributions, model/prompt behavior, and auditability."],
+    ["esg_dashboard_new_8_new.py", "Alternative parsed ESG JSON dashboard over dataset.json", "Related", "RQ1, RQ2, RQ4, RQ5, RQ6", "Direct thesis evidence", "Same analytical role as the parsed JSON dashboard, using a different dataset artifact."],
+    ["esg_dashboard_new_Data Distribution.py", "Aspect, ontology, sentiment, tone, feature, and heatmap distributions", "Related", "RQ2, RQ4, RQ5", "Direct thesis evidence", "Supports taxonomy coverage, aspect imbalance, sentiment/tone distribution, and ontology diagnostics."],
+    ["esg_dashboard_new_Data_New_Distribution.py", "ESG Sankey, waterfall filtering, and multi-rule explorer", "Related", "RQ2, RQ4, RQ6", "Direct thesis evidence", "Supports subgroup filtering, distribution pathways, and rule-based analysis of ESG labels."],
+    ["esg_dashboard_new_Distribution Document.py", "Document-level sentiment and tone analysis", "Related", "RQ2, RQ4, RQ6", "Direct thesis evidence", "Supports document-level variation, sentiment/tone composition, and correlation analysis."],
+    ["esg_dashboard_new_Tone_Distribution.py", "Tone distribution explorer and tone balancing workflow", "Related", "RQ2, RQ6", "Direct thesis evidence", "Supports tone imbalance, subgroup coverage, and balancing requirements."],
+    ["esg_dashboard_new_Sankey.py", "Upload-based tone distribution, balancing, and Sankey flow", "Related", "RQ2, RQ6", "Direct thesis evidence", "Supports aspect-sentiment-tone flow interpretation and balanced sampling design."],
+    ["esg_dashboard_new_01_Aspects_Raw.py", "Raw aspect view before manual annotation", "Related", "RQ2, RQ4", "Direct thesis evidence", "Shows uncontrolled aspect vocabulary before taxonomy cleanup."],
+    ["esg_dashboard_new_02_Aspects_Clustered.py", "Clustered aspect view and unclustered aspect review", "Related", "RQ2, RQ4", "Direct thesis evidence", "Supports ontology normalization and review of unmapped aspect labels."],
+    ["esg_dashboard_new_03_Aspect_Comparison.py", "Before-vs-after aspect mapping comparison", "Related", "RQ2, RQ4", "Direct thesis evidence", "Shows impact of manual clustering on aspect distributions."],
+    ["zz_aspect_clusters.py", "Aspect cluster explorer", "Related", "RQ2, RQ4", "Direct thesis evidence", "Supports inspection of aspect clusters, top members, and taxonomy coverage."],
+    ["absa_metrics_comparison.py", "Ground truth vs baseline ABSA metric comparison for Windows paths", "Related", "RQ2, RQ3, RQ4, RQ6", "Direct thesis evidence", "Computes precision, recall, F1, confusion matrix, and TP/FP/FN for category, sentiment, and tone."],
+    ["absa_metrics_comparison_mac.py", "Ground truth vs baseline ABSA metric comparison for benchmark-root paths", "Related", "RQ2, RQ3, RQ4, RQ6", "Direct thesis evidence", "Same metrics role as the Windows version, with robust path and label normalization."],
+    ["absa_metrics_comparison copy.py", "Older or duplicate ABSA metric comparison page", "Partly related", "RQ2, RQ4", "Supporting evidence", "Potentially useful but should not be cited separately unless it differs from the main metric pages."],
+    ["absa_metrics_visualization.py", "Saved ABSA metrics JSON visualization", "Related", "RQ2, RQ3, RQ4, RQ6", "Direct thesis evidence", "Displays non-zero and zero model results from absa_metrics_results.json."],
+    ["esg_dashboard_new_0_Metric_Analysis.py", "Upload-based metric analysis with sentence alignment, errors, and confidence", "Related", "RQ2, RQ4, RQ6", "Direct thesis evidence", "Supports evaluation workflow and error analysis when inputs are aligned."],
+    ["test_models.py", "ESG ABSA model tester with metrics and interpretability", "Partly related", "RQ2, RQ4, RQ6", "Supporting evidence", "Useful for comparing rule/classical/deep/hybrid prototypes, but needs saved evaluation artifacts for thesis claims."],
+    ["0_0_ClimateBERT_12_ClimateBERT_Batch_GroundTruth.py", "ClimateBERT batch processor for Linux ground-truth data", "Related", "RQ3, RQ5", "Direct thesis evidence", "Produces ClimateBERT predictions needed for dataset-wide comparison."],
+    ["0_0_ClimateBERT_12_ClimateBERT_Batch_GroundTruth_Windows.py", "ClimateBERT batch processor for Windows ground-truth data", "Related", "RQ3, RQ5", "Direct thesis evidence", "Alternative path version for producing ClimateBERT predictions."],
+    ["0_0_ClimateBERT_4_Model_Analysis.py", "ClimateBERT model analysis with accuracy, coverage, confidence, errors, and export", "Related", "RQ3, RQ4, RQ6", "Direct thesis evidence", "Supports model performance, coverage, and error diagnostics."],
+    ["0_0_ClimateBERT_5_Model_Deep_Explorer.py", "Per-model ClimateBERT deep explorer", "Related", "RQ3, RQ4", "Direct thesis evidence", "Supports label distribution, confidence, confusion matrix, prediction explorer, and advanced metrics."],
+    ["0_0_ClimateBERT_6_Model_Overview_All.py", "All-model ClimateBERT visualization and leaderboard", "Related", "RQ3, RQ6", "Direct thesis evidence", "Supports cross-model comparison and stability analysis."],
+    ["0_0_ClimateBERT_7_Full_Model_Visualization.py", "Full ClimateBERT visualization with dataset info, leaderboard, confusion matrix, and exports", "Related", "RQ3, RQ5, RQ6", "Direct thesis evidence", "Supports model comparison, reproducible exports, and coverage diagnostics."],
+    ["0_ClimateBERT_Commitment_Distribution.py", "Climate commitment model analysis", "Related", "RQ3, RQ6", "Direct thesis evidence", "Supports climate-commitment label distributions, confidence, true-vs-predicted comparison, and global model distributions."],
+    ["1_ABSA_Integration.py", "ABSA mapping integrated with ClimateBERT parsed results", "Related", "RQ2, RQ3", "Direct thesis evidence", "Connects ABSA majority category/sentiment/tone fields with climate commitment outputs."],
+    ["ABSA_Model_Comparison.py", "Interactive comparison across rule-based, classical, deep, and hybrid ABSA modules", "Partly related", "RQ2, RQ6", "Supporting evidence", "Useful for qualitative model behavior comparison; not enough for quantitative thesis evidence by itself."],
+    ["2_ABSA_Rule_Based.py", "Rule-based ontology ABSA demo", "Partly related", "RQ2, RQ4", "Supporting evidence", "Prototype for explainable taxonomy logic and rule diagnostics."],
+    ["3_ABSA_Classical.py", "Classical ML ABSA demo", "Partly related", "RQ2, RQ6", "Supporting evidence", "Prototype with predictions, coefficients, and visualization; cite only if evaluated on thesis data."],
+    ["5_ABSA_Deep_Learning.py", "Deep learning ABSA demo", "Partly related", "RQ2, RQ6", "Supporting evidence", "Prototype for token interpretability; needs formal evaluation before thesis claims."],
+    ["absa_ontology_3_deep_model.py", "Deep model mBERT demo", "Partly related", "RQ2, RQ6", "Supporting evidence", "Small demo page for deep ABSA modeling."],
+    ["absa_ontology_all.py", "ABSA ontology module demos", "Partly related", "RQ2, RQ4, RQ6", "Supporting evidence", "Shows rule, classical, deep, hybrid, and explainability modules as methodology prototypes."],
+    ["absa_ontology_all_new_notes.py", "ABSA ontology module demos with saved explanation notes", "Partly related", "RQ2, RQ4, RQ5, RQ6", "Supporting evidence", "Adds note persistence and explainability outputs; relevant for documentation if outputs are saved."],
+    ["0_0_1_Single_Prediction.py", "Single text prediction demo", "Partly related", "RQ5, RQ6", "Supporting evidence", "Manual sanity-check interface; not empirical evidence unless predictions are saved and evaluated."],
+    ["0_0_1_multiple_Prediction.py", "Multi-model prediction demo", "Partly related", "RQ5, RQ6", "Supporting evidence", "Can support reproducibility and qualitative model comparison if saved predictions are retained."],
+    ["0_0_2_Batch_Prediction.py", "Batch prediction upload page", "Partly related", "RQ5, RQ6", "Supporting evidence", "Can produce batch result artifacts, but thesis relevance depends on dataset alignment."],
+    ["0_0_3_Model_Explorer.py", "Model metadata explorer", "Unrelated / utility", "None directly", "Utility", "Helps inspect available models but does not analyze thesis data."],
+    ["esg_dashboard_new_Benchmark_Model.py", "ESG and climate NLP model tester", "Partly related", "RQ3, RQ6", "Supporting evidence", "Interactive benchmark tester; thesis relevance depends on saved outputs and aligned evaluation."],
+    ["1_Analyze.py", "Interactive ESG text analyzer", "Unrelated / utility", "None directly", "Demo / utility", "Manual analysis page, not tied to thesis dataset or RQ evidence unless outputs are saved."],
+    ["scrambled_absa_mapping_baseline.py", "Scrambled baseline generator/viewer for Windows ground truth", "Partly related", "RQ4, RQ6", "Supporting evidence", "Useful as a negative-control baseline, not a substantive ESG result."],
+    ["scrambled_absa_mapping_baseline_mac.py", "Scrambled baseline generator/viewer for Mac/benchmark ground truth", "Partly related", "RQ4, RQ6", "Supporting evidence", "Useful as a negative-control baseline, not a substantive ESG result."],
+    ["parse_documentation_json.py", "Documentation JSON table viewer", "Unrelated / utility", "RQ5 only if used for docs", "Utility", "Documentation parsing helper; not empirical ESG evidence."],
+    ["_page_explanations.py", "Shared page explanation metadata/helper", "Unrelated / utility", "RQ5 only as documentation support", "Utility", "Supports page documentation but is not an analysis page."],
+    ["0_0_0_1.py", "Empty placeholder", "Unrelated / utility", "None", "Empty placeholder", "No analysis code exists in this file."],
+    ["0_0_0_code.py", "Empty placeholder", "Unrelated / utility", "None", "Empty placeholder", "No analysis code exists in this file."],
+], columns=[
+    "file",
+    "analysis",
+    "relation_to_research_questions",
+    "rq_links",
+    "evidence_role",
+    "why_it_matters_or_not",
 ])
 
 
@@ -728,6 +867,30 @@ def status_counts(rows):
         }
         for item in rows
     ])
+
+
+def load_absa_metrics(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame(columns=["model", "accuracy", "precision", "recall", "f1", "is_nonzero"])
+
+    with path.open("r") as f:
+        results = json.load(f)
+
+    rows = []
+    for model, metrics in results.items():
+        accuracy = float(metrics.get("accuracy", 0) or 0)
+        precision = float(metrics.get("precision", 0) or 0)
+        recall = float(metrics.get("recall", 0) or 0)
+        f1 = float(metrics.get("f1", 0) or 0)
+        rows.append({
+            "model": model,
+            "accuracy": accuracy,
+            "precision": precision,
+            "recall": recall,
+            "f1": f1,
+            "is_nonzero": any(value > 0 for value in [accuracy, precision, recall, f1]),
+        })
+    return pd.DataFrame(rows).sort_values(["f1", "accuracy"], ascending=False)
 
 
 def status_interpretation(status: str) -> str:
@@ -1227,6 +1390,8 @@ filtered = [
 summary = status_counts(filtered)
 detail_df = build_rq_detail_rows(filtered)
 detail_df = detail_df[detail_df["status"].isin(selected_evidence_statuses)].reset_index(drop=True)
+absa_metrics_df = load_absa_metrics(ABSA_METRICS_PATH)
+nonzero_absa_metrics = absa_metrics_df[absa_metrics_df["is_nonzero"]] if not absa_metrics_df.empty else absa_metrics_df
 
 cols = st.columns(5)
 cols[0].metric("Research questions", len(filtered))
@@ -1236,12 +1401,15 @@ cols[3].metric("Open needs", int(summary["needed"].sum()) if not summary.empty e
 cols[4].metric("Visible evidence rows", len(detail_df))
 st.caption(f"Existing data: `{EXISTING_DATA_PATH}`")
 st.caption(f"Prediction outputs: `{PREDICTION_OUTPUT_DIR}`")
+st.caption(f"ABSA metrics: `{ABSA_METRICS_PATH}`")
 
-tab_overview, tab_details, tab_guide, tab_missing, tab_mermaid, tab_plan, tab_source = st.tabs([
+tab_overview, tab_details, tab_guide, tab_missing, tab_existing_pages, tab_absa_metrics, tab_mermaid, tab_plan, tab_source = st.tabs([
     "Overview",
     "RQ Details",
     "Table Guide",
     "Missing Work Process",
+    "Existing Page Analyses",
+    "ABSA Metrics",
     "Mermaid Preview",
     "Analysis Plan",
     "Source HTML",
@@ -1391,6 +1559,123 @@ with tab_missing:
     st.markdown(f"**Process:** {row['process']}")
     st.markdown(f"**Primary source:** `{row['primary_source']}`")
     st.markdown(f"**Output metric:** {row['output_metric']}")
+
+with tab_existing_pages:
+    st.subheader("What the Existing Pages Already Analyze")
+    st.write(
+        "This section maps the existing Streamlit pages into thesis evidence. Pages that do not "
+        "directly answer RQ1-RQ6 are kept as supporting or utility analyses instead of being forced "
+        "into a research-question claim."
+    )
+    inventory_view = st.radio(
+        "Inventory view",
+        ["Grouped analyses", "All individual page files"],
+        horizontal=True,
+    )
+    page_inventory = PAGE_ANALYSIS_INVENTORY.copy()
+    file_inventory = PAGE_FILE_INVENTORY.copy()
+
+    if inventory_view == "Grouped analyses":
+        role_filter = st.multiselect(
+            "Evidence role",
+            page_inventory["evidence_role"].drop_duplicates().tolist(),
+            default=page_inventory["evidence_role"].drop_duplicates().tolist(),
+        )
+        rq_page_filter = st.multiselect(
+            "RQ link in existing pages",
+            ["RQ1", "RQ2", "RQ3", "RQ4", "RQ5", "RQ6"],
+            default=[],
+        )
+        if role_filter:
+            page_inventory = page_inventory[page_inventory["evidence_role"].isin(role_filter)]
+        if rq_page_filter:
+            page_inventory = page_inventory[
+                page_inventory["research_question_links"].apply(
+                    lambda value: any(rq in str(value) for rq in rq_page_filter)
+                )
+            ]
+
+        st.dataframe(page_inventory, use_container_width=True, height=460)
+        if not page_inventory.empty:
+            role_counts = page_inventory["evidence_role"].value_counts()
+            st.bar_chart(role_counts)
+
+            selected_group = st.selectbox("Explain analysis group", page_inventory["analysis_group"].tolist())
+            selected = page_inventory[page_inventory["analysis_group"] == selected_group].iloc[0]
+            st.markdown(f"**Pages:** {selected['pages']}")
+            st.markdown(f"**What these pages do:** {selected['what_the_existing_pages_do']}")
+            st.markdown(f"**RQ links:** {selected['research_question_links']}")
+            st.markdown(f"**How to use in thesis:** {selected['how_to_use_in_thesis']}")
+    else:
+        relation_filter = st.multiselect(
+            "Relation to RQs",
+            file_inventory["relation_to_research_questions"].drop_duplicates().tolist(),
+            default=file_inventory["relation_to_research_questions"].drop_duplicates().tolist(),
+        )
+        role_filter = st.multiselect(
+            "Evidence role",
+            file_inventory["evidence_role"].drop_duplicates().tolist(),
+            default=file_inventory["evidence_role"].drop_duplicates().tolist(),
+        )
+        rq_page_filter = st.multiselect(
+            "RQ link",
+            ["RQ1", "RQ2", "RQ3", "RQ4", "RQ5", "RQ6"],
+            default=[],
+        )
+        if relation_filter:
+            file_inventory = file_inventory[
+                file_inventory["relation_to_research_questions"].isin(relation_filter)
+            ]
+        if role_filter:
+            file_inventory = file_inventory[file_inventory["evidence_role"].isin(role_filter)]
+        if rq_page_filter:
+            file_inventory = file_inventory[
+                file_inventory["rq_links"].apply(
+                    lambda value: any(rq in str(value) for rq in rq_page_filter)
+                )
+            ]
+
+        st.dataframe(file_inventory, use_container_width=True, height=560)
+        if not file_inventory.empty:
+            c1, c2 = st.columns(2)
+            c1.bar_chart(file_inventory["relation_to_research_questions"].value_counts())
+            c2.bar_chart(file_inventory["evidence_role"].value_counts())
+
+            selected_file = st.selectbox("Explain page file", file_inventory["file"].tolist())
+            selected = file_inventory[file_inventory["file"] == selected_file].iloc[0]
+            st.markdown(f"**Analysis:** {selected['analysis']}")
+            st.markdown(f"**Relation:** {selected['relation_to_research_questions']}")
+            st.markdown(f"**RQ links:** {selected['rq_links']}")
+            st.markdown(f"**Evidence role:** {selected['evidence_role']}")
+            st.markdown(f"**Why it matters or not:** {selected['why_it_matters_or_not']}")
+
+with tab_absa_metrics:
+    st.subheader("ABSA Metrics Results from the Metrics Visualizer")
+    if absa_metrics_df.empty:
+        st.warning(f"No ABSA metrics JSON found at `{ABSA_METRICS_PATH}`.")
+    else:
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Model outputs", len(absa_metrics_df))
+        m2.metric("Non-zero outputs", len(nonzero_absa_metrics))
+        best = absa_metrics_df.iloc[0]
+        m3.metric("Best F1", f"{best['f1']:.4f}", best["model"])
+        m4.metric("Best accuracy", f"{absa_metrics_df['accuracy'].max():.4f}")
+
+        st.write(
+            "These are the saved ABSA/ClimateBERT-style alignment metrics used by "
+            "`absa_metrics_visualization.py`. Low or zero scores should be interpreted as "
+            "label-space mismatch evidence for RQ3, not as a final ABSA model-quality claim."
+        )
+        st.dataframe(absa_metrics_df, use_container_width=True, height=420)
+        st.bar_chart(absa_metrics_df.set_index("model")[["accuracy", "precision", "recall", "f1"]])
+
+        if not nonzero_absa_metrics.empty:
+            st.subheader("Non-zero Results")
+            st.dataframe(nonzero_absa_metrics, use_container_width=True)
+        zero_models = absa_metrics_df.loc[~absa_metrics_df["is_nonzero"], "model"].tolist()
+        if zero_models:
+            st.subheader("Zero Results")
+            st.write(", ".join(zero_models))
 
 with tab_mermaid:
     st.subheader("Linked RQ Evidence Diagram")
