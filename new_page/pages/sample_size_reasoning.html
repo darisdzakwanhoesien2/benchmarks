@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample Size Reasoning — ESG ABSA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap');
+:root{--bg:#0d0d10;--s1:#141418;--s2:#1b1b20;--s3:#222228;--bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);--text:#e2e0db;--muted:#7a7875;--dim:#4a4845;--red:#f87171;--amber:#fbbf24;--green:#4ade80;--blue:#60a5fa;--violet:#a78bfa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;}
+.topbar{background:var(--s1);border-bottom:1px solid var(--bd);padding:18px 36px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;}
+.title{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;letter-spacing:-.02em;}
+.sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;}
+.tabs{display:flex;gap:3px;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:3px;}
+.tab{font-family:'Syne',sans-serif;font-size:11px;font-weight:500;padding:6px 13px;border-radius:7px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.tab:hover{color:var(--text);}
+.tab.active{background:var(--s3);color:var(--text);border:1px solid var(--bd2);}
+.page{max-width:1200px;margin:0 auto;padding:32px 36px 72px;}
+.ph{margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--bd);}
+.ph h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:600;letter-spacing:-.03em;margin-bottom:6px;}
+.ph p{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.panel{display:none;}.panel.active{display:block;}
+/* LADDER */
+.ladder{display:flex;flex-direction:column;gap:3px;}
+.rung{display:grid;grid-template-columns:90px 200px 1fr 130px;border:1px solid var(--bd);border-radius:10px;overflow:hidden;}
+.rung.cur{border-color:rgba(96,165,250,.35);background:rgba(96,165,250,.03);}
+.rung-n{padding:14px 12px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;border-right:1px solid var(--bd);}
+.rung-lbl{padding:14px 14px;display:flex;align-items:center;font-size:12px;font-weight:500;line-height:1.4;border-right:1px solid var(--bd);}
+.rung-why{padding:14px 14px;font-size:12px;color:var(--muted);line-height:1.6;display:flex;align-items:center;}
+.rung-badge{padding:14px 12px;display:flex;align-items:center;justify-content:center;border-left:1px solid var(--bd);}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 9px;border-radius:10px;text-align:center;line-height:1.3;}
+.b-cur{background:rgba(96,165,250,.15);color:var(--blue);border:1px solid rgba(96,165,250,.3);}
+.b-min{background:rgba(251,191,36,.12);color:var(--amber);border:1px solid rgba(251,191,36,.25);}
+.b-tgt{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.25);}
+.b-str{background:rgba(167,139,250,.12);color:var(--violet);border:1px solid rgba(167,139,250,.25);}
+.b-oos{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.25);}
+.conn{text-align:center;font-size:18px;color:var(--dim);padding:1px 0;}
+.verdict{font-size:13px;background:var(--s2);border:1px solid var(--bd2);border-radius:10px;padding:16px;margin-top:16px;line-height:1.7;}
+/* MOE */
+.stitle{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;margin:20px 0 8px;}
+.sdesc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.moe-row{display:flex;align-items:center;gap:10px;margin-bottom:5px;}
+.moe-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);width:80px;text-align:right;}
+.moe-track{flex:1;height:22px;background:var(--s2);border-radius:4px;overflow:hidden;position:relative;}
+.moe-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;}
+.moe-val{font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:500;color:#fff;}
+.moe-divider{position:absolute;top:0;bottom:0;width:2px;background:rgba(248,113,113,.7);}
+/* POWER */
+.pow-tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.pow-tbl th{text-align:left;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);border-bottom:1px solid var(--bd);}
+.pow-tbl td{padding:8px 10px;border-bottom:1px solid var(--bd);}
+.pw-bar-wrap{width:90px;height:8px;background:var(--s2);border-radius:4px;display:inline-block;overflow:hidden;vertical-align:middle;}
+.pw-bar{height:100%;border-radius:4px;}
+/* SUBGROUP */
+.sg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.sg-card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:14px;}
+.sg-title{font-size:12px;font-weight:500;margin-bottom:4px;}
+.sg-formula{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:8px;}
+.sg-n{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;margin-bottom:3px;}
+.sg-status{font-size:11px;}
+.ok{color:var(--green);}.no{color:var(--red);}
+/* VERDICT */
+.iss-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.iss-card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:16px;}
+.iss-title{font-size:12px;font-weight:500;margin-bottom:6px;}
+.iss-n{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;margin-bottom:8px;}
+.iss-body{font-size:12px;color:var(--muted);line-height:1.6;}
+.iss-fix{margin-top:10px;font-size:11px;padding:6px 10px;background:var(--s2);border-radius:6px;color:var(--green);}
+/* LITERATURE */
+.lit-row{display:grid;grid-template-columns:1fr 1fr 120px 120px;gap:0;border-bottom:1px solid var(--bd);}
+.lit-row:first-child{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);background:var(--s1);}
+.lit-cell{padding:10px 12px;font-size:12px;display:flex;align-items:center;}
+.lit-bar-wrap{width:80px;height:8px;background:var(--s2);border-radius:4px;overflow:hidden;margin-right:8px;}
+.lit-bar{height:100%;border-radius:4px;}
+@media(max-width:800px){.rung{grid-template-columns:60px 1fr;}.rung-lbl,.rung-badge{display:none;}.sg-grid,.iss-grid{grid-template-columns:1fr;}.lit-row{grid-template-columns:1fr 1fr;}.topbar{flex-direction:column;gap:12px;}.tabs{flex-wrap:wrap;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div><div class="title">Sample Size Reasoning — ESG ABSA Thesis</div><div class="sub">Why 272 is insufficient · what the right number is · and why</div></div>
+  <div class="tabs">
+    <button class="tab active" onclick="show('ladder')">Size ladder</button>
+    <button class="tab" onclick="show('moe')">Margin of error</button>
+    <button class="tab" onclick="show('power')">Statistical power</button>
+    <button class="tab" onclick="show('subgroup')">Subgroup needs</button>
+    <button class="tab" onclick="show('literature')">Literature scale</button>
+    <button class="tab" onclick="show('verdict')">Real problems & fixes</button>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ═══ LADDER ═══ -->
+<div class="panel active" id="p-ladder">
+  <div class="ph"><h2>The sample size ladder</h2><p>Each threshold unlocks a specific type of claim. The question is not "is 272 wrong?" — it is "what does 272 support?"</p></div>
+  <div class="ladder">
+    <div class="rung cur">
+      <div class="rung-n" style="color:var(--blue)">272</div>
+      <div class="rung-lbl">Pipeline feasibility prototype</div>
+      <div class="rung-why">Demonstrates the extraction pipeline works. Supports descriptive tone distributions with ±5.9pp margin of error. The bilingual asymmetry finding (ID 7.9% vs EN 21.8%) is already powered at 89.7%. Cannot support F1 claims, cross-tab subgroups, or generalizable greenwashing conclusions.</div>
+      <div class="rung-badge"><span class="badge b-cur">← you are here</span></div>
+    </div>
+    <div class="conn">↓</div>
+    <div class="rung">
+      <div class="rung-n" style="color:var(--amber)">384</div>
+      <div class="rung-lbl">Standard academic MoE threshold</div>
+      <div class="rung-why">Achieves ±5.0pp worst-case margin of error — the conventional minimum for reportable proportions in computer/social science. Ensures every tone category has ≥30 records for basic descriptive claims. Adding 112 records closes the MoE gap.</div>
+      <div class="rung-badge"><span class="badge b-min">minimum</span></div>
+    </div>
+    <div class="conn">↓</div>
+    <div class="rung">
+      <div class="rung-n" style="color:var(--amber)">500</div>
+      <div class="rung-lbl">Balanced prompt comparison (RQ6)</div>
+      <div class="rung-why">Approximately 100 per prompt template × 5 templates. Allows statistically fair between-template comparison with ≥80% power on a medium effect. Directly fixes the few-shot template problem (currently n=14, power=43%). Also reduces MoE to ±4.4pp.</div>
+      <div class="rung-badge"><span class="badge b-min">minimum for RQ6</span></div>
+    </div>
+    <div class="conn">↓</div>
+    <div class="rung">
+      <div class="rung-n" style="color:var(--green)">720</div>
+      <div class="rung-lbl">Full bilingual subgroup analysis</div>
+      <div class="rung-why">Covers the full pillar × language × tone matrix (3×2×4=24 cells, 30 each). Every cross-tab comparison becomes defensible. Also reduces MoE to ±3.6pp. This is the minimum for a publishable descriptive bilingual ESG ABSA study. Requires approximately 9 additional document batches.</div>
+      <div class="rung-badge"><span class="badge b-tgt">recommended target</span></div>
+    </div>
+    <div class="conn">↓</div>
+    <div class="rung">
+      <div class="rung-n" style="color:var(--green)">1,000</div>
+      <div class="rung-lbl">Literature-comparable extraction study</div>
+      <div class="rung-why">Matches Gorovaia & Makrominas 2024 (~1,200 reports) and Moreno & Caminero 2020 (~800). Achieves ±3.1pp MoE. The greenwashing index becomes a credible distributional metric rather than a 5-document case illustration. Requires ≥15 source documents.</div>
+      <div class="rung-badge"><span class="badge b-tgt">strong target</span></div>
+    </div>
+    <div class="conn">↓</div>
+    <div class="rung">
+      <div class="rung-n" style="color:var(--violet)">1,500</div>
+      <div class="rung-lbl">Expert annotation enables F1 reporting</div>
+      <div class="rung-why">1,000 LLM-extracted records plus 500 expert-annotated (train/test split). Unlocks precision, recall, and F1 per tone class — the standard evaluation for any ABSA system. Directly comparable to ClimateBERT-NetZero (3,000) and ESG-BERT (2,400). Requires 2–3 weeks of human annotation effort.</div>
+      <div class="rung-badge"><span class="badge b-str">enables F1 claims</span></div>
+    </div>
+    <div class="conn">↓</div>
+    <div class="rung">
+      <div class="rung-n" style="color:var(--red)">2,000+</div>
+      <div class="rung-lbl">Fine-tuning a bilingual ABSA model</div>
+      <div class="rung-why">Required for supervised fine-tuning of mBERT or XLM-RoBERTa on Indonesian/English ESG text. Needs 500+ per language per class. Matches ESG-BERT scale. Enables direct F1 comparison against published baselines. Out of scope for a master's thesis prototype — this is PhD or industry research territory.</div>
+      <div class="rung-badge"><span class="badge b-oos">out of scope</span></div>
+    </div>
+  </div>
+  <div class="verdict"><strong>Bottom line:</strong> n=272 is not wrong for what you currently claim — pipeline feasibility. The realistic master's thesis target is <strong>n=720–1,000 records from ≥15 documents</strong>. This is achievable by adding ~450–730 records through your existing pipeline in 3–5 days of compute. The number alone is not the answer — what matters is 30+ per subgroup cell, 40+ per prompt template, 30+ S-pillar records, and 15+ documents for GW index reliability.</div>
+</div>
+
+<!-- ═══ MOE ═══ -->
+<div class="panel" id="p-moe">
+  <div class="ph"><h2>Margin of error at each sample size</h2><p>MoE = ±z × √(p(1−p)/n) · z=1.96 for 95% CI · red line = ±5.0pp academic standard</p></div>
+  <div class="stitle">Worst-case MoE (p=0.5, maximum variance)</div>
+  <div class="sdesc">This is the conservative bound — how precise are your proportion estimates if the true rate is 50%?</div>
+  <div class="moe-row"><div class="moe-n">n=272 ◄</div><div class="moe-track"><div class="moe-fill" style="width:59%;background:rgba(248,113,113,.45)"><div class="moe-val">±5.9pp — above threshold</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=384</div><div class="moe-track"><div class="moe-fill" style="width:50%;background:rgba(251,191,36,.4)"><div class="moe-val">±5.0pp — at threshold</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=500</div><div class="moe-track"><div class="moe-fill" style="width:44%;background:rgba(251,191,36,.35)"><div class="moe-val">±4.4pp</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=600</div><div class="moe-track"><div class="moe-fill" style="width:40%;background:rgba(74,222,128,.35)"><div class="moe-val">±4.0pp</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=720</div><div class="moe-track"><div class="moe-fill" style="width:37%;background:rgba(74,222,128,.4)"><div class="moe-val">±3.6pp</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=1,000</div><div class="moe-track"><div class="moe-fill" style="width:31%;background:rgba(74,222,128,.5)"><div class="moe-val">±3.1pp</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=1,500</div><div class="moe-track"><div class="moe-fill" style="width:25%;background:rgba(74,222,128,.6)"><div class="moe-val">±2.5pp</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+
+  <div class="stitle" style="margin-top:20px">Outcome class only (p=18.5%) — your rarest meaningful category</div>
+  <div class="sdesc">Smaller p means smaller variance — n=272 is already within threshold for this specific class.</div>
+  <div class="moe-row"><div class="moe-n">n=272 ◄</div><div class="moe-track"><div class="moe-fill" style="width:46%;background:rgba(96,165,250,.4)"><div class="moe-val">±4.6pp — within ±5pp ✓</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=400</div><div class="moe-track"><div class="moe-fill" style="width:38%;background:rgba(96,165,250,.45)"><div class="moe-val">±3.8pp</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=600</div><div class="moe-track"><div class="moe-fill" style="width:31%;background:rgba(74,222,128,.45)"><div class="moe-val">±3.1pp</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+  <div class="moe-row"><div class="moe-n">n=1,000</div><div class="moe-track"><div class="moe-fill" style="width:24%;background:rgba(74,222,128,.55)"><div class="moe-val">±2.4pp</div></div><div class="moe-divider" style="left:50%"></div></div></div>
+
+  <div class="verdict"><strong>Key insight:</strong> n=272 is marginally over the ±5pp worst-case threshold (±5.9pp), but already within it for your rarest class (outcome, ±4.6pp). The MoE problem at n=272 is real but modest — adding only 112 records (n=384) crosses the academic standard. The bigger statistical problems are power and subgroup sparsity, not MoE.</div>
+</div>
+
+<!-- ═══ POWER ═══ -->
+<div class="panel" id="p-power">
+  <div class="ph"><h2>Statistical power analysis</h2><p>Power = probability of detecting a true effect when it exists. Standard threshold = 80%. Below this, you risk false negatives.</p></div>
+
+  <div class="stitle">Test 1: Indonesian (7.9%) vs English (21.8%) outcome rate</div>
+  <div class="sdesc">Cohen's h = 0.402 (medium effect). This is your key bilingual finding from RQ2.</div>
+  <table class="pow-tbl">
+    <thead><tr><th>n total</th><th>n per language</th><th>Power</th><th>Bar</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td style="font-family:'JetBrains Mono',monospace">200</td><td style="font-family:'JetBrains Mono',monospace">100</td><td style="font-family:'JetBrains Mono',monospace">0.789</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:78.9%;background:rgba(248,113,113,.6)"></div></div></td><td style="font-size:11px;color:var(--red)">✗ below 80%</td></tr>
+      <tr style="background:rgba(96,165,250,.04)"><td style="font-family:'JetBrains Mono',monospace"><strong>272 ◄</strong></td><td style="font-family:'JetBrains Mono',monospace">136</td><td style="font-family:'JetBrains Mono',monospace">0.897</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:89.7%;background:rgba(74,222,128,.65)"></div></div></td><td style="font-size:11px;color:var(--green)">✓ sufficient</td></tr>
+      <tr><td style="font-family:'JetBrains Mono',monospace">400</td><td style="font-family:'JetBrains Mono',monospace">200</td><td style="font-family:'JetBrains Mono',monospace">0.974</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:97.4%;background:rgba(74,222,128,.7)"></div></div></td><td style="font-size:11px;color:var(--green)">✓ strong</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;color:var(--muted);margin:6px 0 18px;font-family:'JetBrains Mono',monospace">→ For the bilingual asymmetry finding, n=272 is ALREADY sufficient (89.7% power). No additional records needed for this specific comparison.</p>
+
+  <div class="stitle">Test 2: CoT (55%) vs Zero-shot (22%) commitment rate</div>
+  <div class="sdesc">Cohen's h = 0.695 (large effect). This is your key prompt stability finding from RQ6. The issue is n per template, not n total.</div>
+  <table class="pow-tbl">
+    <thead><tr><th>n per template</th><th>Power</th><th>Bar</th><th>Verdict</th><th>Current template</th></tr></thead>
+    <tbody>
+      <tr style="background:rgba(248,113,113,.05)"><td style="font-family:'JetBrains Mono',monospace"><strong>14 — few-shot ◄</strong></td><td style="font-family:'JetBrains Mono',monospace">0.434</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:43.4%;background:rgba(248,113,113,.6)"></div></div></td><td style="font-size:11px;color:var(--red)">✗ 43% — far too low</td><td style="font-size:11px;color:var(--red)">← this is your crisis</td></tr>
+      <tr><td style="font-family:'JetBrains Mono',monospace">30</td><td style="font-family:'JetBrains Mono',monospace">0.747</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:74.7%;background:rgba(251,191,36,.5)"></div></div></td><td style="font-size:11px;color:var(--amber)">⚡ marginal</td><td></td></tr>
+      <tr><td style="font-family:'JetBrains Mono',monospace">40</td><td style="font-family:'JetBrains Mono',monospace">0.858</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:85.8%;background:rgba(74,222,128,.5)"></div></div></td><td style="font-size:11px;color:var(--green)">✓ minimum acceptable</td><td></td></tr>
+      <tr><td style="font-family:'JetBrains Mono',monospace">42 — ZS-Indonesian ◄</td><td style="font-family:'JetBrains Mono',monospace">0.872</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:87.2%;background:rgba(74,222,128,.55)"></div></div></td><td style="font-size:11px;color:var(--green)">✓ acceptable</td><td style="font-size:11px;color:var(--green)">← current ZS-ID</td></tr>
+      <tr><td style="font-family:'JetBrains Mono',monospace">55 — ZS-English ◄</td><td style="font-family:'JetBrains Mono',monospace">0.945</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:94.5%;background:rgba(74,222,128,.6)"></div></div></td><td style="font-size:11px;color:var(--green)">✓ good</td><td style="font-size:11px;color:var(--green)">← current ZS-EN</td></tr>
+      <tr><td style="font-family:'JetBrains Mono',monospace">100 — CoT-English ◄</td><td style="font-family:'JetBrains Mono',monospace">0.998</td><td><div class="pw-bar-wrap"><div class="pw-bar" style="width:99.8%;background:rgba(74,222,128,.65)"></div></div></td><td style="font-size:11px;color:var(--green)">✓ excellent</td><td style="font-size:11px;color:var(--green)">← current CoT-EN</td></tr>
+    </tbody>
+  </table>
+  <div class="verdict"><strong>Critical insight:</strong> The few-shot template at n=14 has only 43% power — well below the 80% standard. You cannot make any statistical claim about few-shot vs other templates. <strong>The fix is NOT collecting 728 more records uniformly — it is adding just 26–40 few-shot records specifically.</strong> That takes 2–3 extraction runs and 2 hours. Targeted expansion by template, not uniform scaling, is the efficient strategy.</div>
+</div>
+
+<!-- ═══ SUBGROUP ═══ -->
+<div class="panel" id="p-subgroup">
+  <div class="ph"><h2>Subgroup analysis requirements</h2><p>To make a comparison claim for any subgroup, that subgroup needs ≥30 observations. Below 30, confidence intervals are too wide. Below 10, results are anecdotal.</p></div>
+  <div class="sg-grid">
+    <div class="sg-card" style="border-top:2px solid var(--green)">
+      <div class="sg-title">Tone categories only</div>
+      <div class="sg-formula">5 tones × 30 min = 150</div>
+      <div class="sg-n" style="color:var(--green)">n ≥ 150</div>
+      <div class="sg-status ok">✓ met at n=272</div>
+    </div>
+    <div class="sg-card" style="border-top:2px solid var(--green)">
+      <div class="sg-title">Language × tone</div>
+      <div class="sg-formula">2 lang × 4 tones × 30 = 240</div>
+      <div class="sg-n" style="color:var(--green)">n ≥ 240</div>
+      <div class="sg-status ok">✓ met at n=272</div>
+    </div>
+    <div class="sg-card" style="border-top:2px solid var(--green)">
+      <div class="sg-title">Document × tone (relaxed, 10/cell)</div>
+      <div class="sg-formula">6 docs × 4 tones × 10 = 240</div>
+      <div class="sg-n" style="color:var(--green)">n ≥ 240</div>
+      <div class="sg-status ok">✓ met at n=272</div>
+    </div>
+    <div class="sg-card" style="border-top:2px solid var(--red)">
+      <div class="sg-title">ESG pillar × tone</div>
+      <div class="sg-formula">3 pillars × 4 tones × 30 = 360</div>
+      <div class="sg-n" style="color:var(--red)">n ≥ 360</div>
+      <div class="sg-status no">✗ need 88 more records</div>
+    </div>
+    <div class="sg-card" style="border-top:2px solid var(--red)">
+      <div class="sg-title">Prompt template × tone</div>
+      <div class="sg-formula">5 prompts × 4 tones × 20 = 400</div>
+      <div class="sg-n" style="color:var(--red)">n ≥ 400</div>
+      <div class="sg-status no">✗ need 128 more records</div>
+    </div>
+    <div class="sg-card" style="border-top:2px solid var(--red)">
+      <div class="sg-title">Pillar × language × tone (full matrix)</div>
+      <div class="sg-formula">3 × 2 × 4 × 30 = 720</div>
+      <div class="sg-n" style="color:var(--red)">n ≥ 720</div>
+      <div class="sg-status no">✗ need 448 more (most important)</div>
+    </div>
+  </div>
+  <div class="verdict" style="margin-top:16px"><strong>The S-pillar issue is independent of total n.</strong> With only 4 S-pillar records out of 272 total, no subgroup analysis is possible for Social regardless of how many records you add — unless you specifically select social-topic pages. Adding 500 more Environmental records does not help the S-pillar problem at all. Targeted page selection by pillar topic is the only fix.</div>
+</div>
+
+<!-- ═══ LITERATURE ═══ -->
+<div class="panel" id="p-literature">
+  <div class="ph"><h2>How your scale compares to published ESG NLP studies</h2><p>Context: what n looks like across the literature you cite</p></div>
+  <div style="border:1px solid var(--bd);border-radius:10px;overflow:hidden;">
+    <div class="lit-row" style="background:var(--s1);">
+      <div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);">Study</div>
+      <div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);">Task</div>
+      <div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);">Scale</div>
+      <div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);">Relative size</div>
+    </div>
+    <div class="lit-row"><div class="lit-cell"><strong>FinBERT</strong> (Huang 2023)</div><div class="lit-cell" style="color:var(--muted);font-size:12px;">Financial sentiment</div><div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:11px;">10,000+ sentences</div><div class="lit-cell"><div class="lit-bar-wrap"><div class="lit-bar" style="width:100%;background:rgba(74,222,128,.6)"></div></div></div></div>
+    <div class="lit-row"><div class="lit-cell"><strong>ESG-BERT</strong> (Mukherjee 2022)</div><div class="lit-cell" style="color:var(--muted);font-size:12px;">ESG category (10-class)</div><div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:11px;">~2,400 sentences</div><div class="lit-cell"><div class="lit-bar-wrap"><div class="lit-bar" style="width:24%;background:rgba(74,222,128,.55)"></div></div></div></div>
+    <div class="lit-row"><div class="lit-cell"><strong>ClimateBERT-NetZero</strong> (Schimanski 2023)</div><div class="lit-cell" style="color:var(--muted);font-size:12px;">Net-zero target detection</div><div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:11px;">~3,000 sentences</div><div class="lit-cell"><div class="lit-bar-wrap"><div class="lit-bar" style="width:30%;background:rgba(74,222,128,.55)"></div></div></div></div>
+    <div class="lit-row"><div class="lit-cell"><strong>Gorovaia & Makrominas</strong> (2024)</div><div class="lit-cell" style="color:var(--muted);font-size:12px;">Greenwashing detection in CSR</div><div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:11px;">~1,200 reports</div><div class="lit-cell"><div class="lit-bar-wrap"><div class="lit-bar" style="width:12%;background:rgba(251,191,36,.55)"></div></div></div></div>
+    <div class="lit-row"><div class="lit-cell"><strong>Moreno & Caminero</strong> (2020)</div><div class="lit-cell" style="color:var(--muted);font-size:12px;">Climate text mining (ESG)</div><div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:11px;">~800 reports</div><div class="lit-cell"><div class="lit-bar-wrap"><div class="lit-bar" style="width:8%;background:rgba(251,191,36,.5)"></div></div></div></div>
+    <div class="lit-row"><div class="lit-cell"><strong>Garrido-Merchan</strong> (2023)</div><div class="lit-cell" style="color:var(--muted);font-size:12px;">ClimateBERT for disclosure risk</div><div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:11px;">~500 disclosures</div><div class="lit-cell"><div class="lit-bar-wrap"><div class="lit-bar" style="width:5%;background:rgba(251,191,36,.45)"></div></div></div></div>
+    <div class="lit-row" style="background:rgba(96,165,250,.04)"><div class="lit-cell"><strong>YOUR CURRENT STUDY ◄</strong></div><div class="lit-cell" style="color:var(--muted);font-size:12px;">ESG ABSA bilingual (extraction)</div><div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blue)">272 records</div><div class="lit-cell"><div class="lit-bar-wrap"><div class="lit-bar" style="width:2.7%;background:rgba(96,165,250,.6)"></div></div></div></div>
+    <div class="lit-row"><div class="lit-cell"><strong>YOUR TARGET ◄</strong></div><div class="lit-cell" style="color:var(--muted);font-size:12px;">ESG ABSA bilingual (evaluation)</div><div class="lit-cell" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green)">1,000–1,500</div><div class="lit-cell"><div class="lit-bar-wrap"><div class="lit-bar" style="width:10%;background:rgba(74,222,128,.5)"></div></div></div></div>
+  </div>
+  <div class="verdict" style="margin-top:16px">At 272 records, your study is roughly <strong>4.4× smaller than the smallest directly comparable published study</strong> (Garrido-Merchan 2023 at ~500). This is not disqualifying for a prototype — but it means every quantitative claim must be prefaced with "in a feasibility study of 272 records" rather than stated as a general finding. Reaching n=1,000 across ≥15 documents would place you within the scale of Moreno & Caminero 2020, which is an accepted reference point for this type of exploratory ESG NLP work.</div>
+</div>
+
+<!-- ═══ VERDICT ═══ -->
+<div class="panel" id="p-verdict">
+  <div class="ph"><h2>The real problems — it is not just total n</h2><p>n=272 is the symptom. These four structural issues are the actual diagnosis, and each has a different fix.</p></div>
+  <div class="iss-grid">
+    <div class="iss-card" style="border-top:2px solid var(--red)">
+      <div class="iss-title">Problem 1 — Few-shot template is severely underpowered</div>
+      <div class="iss-n" style="color:var(--red)">n=14 · power=43%</div>
+      <div class="iss-body">The few-shot Indonesian template produced only 14 records across a single document. Power for detecting the CoT vs zero-shot difference is 43% — meaning there is a 57% chance you would miss a real effect even if it exists. No comparative claim is valid for this template.<br><br>The few-shot result (balanced commitment=35.7% and outcome=35.7%) is actually the most interesting finding — but it is statistically invisible at n=14.</div>
+      <div class="iss-fix">→ Fix: Run 2–3 more few-shot batches on different documents. Adds ~25–40 records. Takes 2 hours. Brings power to 86–95%.</div>
+    </div>
+    <div class="iss-card" style="border-top:2px solid var(--red)">
+      <div class="iss-title">Problem 2 — Only 6 documents for greenwashing index</div>
+      <div class="iss-n" style="color:var(--red)">6 docs · 1 failed</div>
+      <div class="iss-body">The greenwashing index computed across 5 working documents is a case study comparison, not a validated metric. You cannot determine whether the domestic/international GW difference (+0.500 gap) is a general pattern or document-specific variation without ≥15–20 documents. Any reader will note this immediately.<br><br>This is the most important limitation for the thesis's central contribution.</div>
+      <div class="iss-fix">→ Fix: Add 9–14 more Indonesian sustainability reports from IDX. Each adds ~8–12 records per run. Total effort: 2–3 days compute.</div>
+    </div>
+    <div class="iss-card" style="border-top:2px solid var(--red)">
+      <div class="iss-title">Problem 3 — S-pillar has only 4 records</div>
+      <div class="iss-n" style="color:var(--red)">n=4 · zero value</div>
+      <div class="iss-body">Social pillar at 1.2% of records means zero analytical power. This is page-selection bias: your extraction batches focused on environmental and governance report sections. The overall n=272 is completely irrelevant to this problem — the subgroup n is what matters.<br><br>Any ESG ABSA study that cannot discuss the Social pillar is fundamentally incomplete.</div>
+      <div class="iss-fix">→ Fix: Select social-topic page batches from PTBA (has CSR sections) and VKTR (community pages). Re-run with Arcee + CoT-English. Takes 1 day, adds ~30–40 S-pillar records.</div>
+    </div>
+    <div class="iss-card" style="border-top:2px solid var(--amber)">
+      <div class="iss-title">Problem 4 — Cross-model comparison is fully confounded</div>
+      <div class="iss-n" style="color:var(--amber)">0 shared inputs</div>
+      <div class="iss-body">Arcee Trinity and GPT-oss-120b never processed the same document with the same prompt. Arcee ran on all 6 documents with 5 prompts. GPT-oss ran on 1 document with 1 (broken) prompt. There is no valid cross-model comparison possible — it is not an imbalance problem, it is a complete confound.<br><br>This means RQ6's cross-model claim cannot be answered with current data at all.</div>
+      <div class="iss-fix">→ Fix: Re-run GPT-oss on PTBA and ICR using ZS-English and CoT-English prompts. Takes 1–2 days. Produces ~40–60 matched records for Cohen's κ computation.</div>
+    </div>
+  </div>
+
+  <div class="verdict" style="margin-top:16px">
+    <strong>Direct answer to the question "what is the suitable number and why":</strong><br><br>
+    The answer has two parts depending on what you are claiming:<br><br>
+    <strong>For a master's thesis feasibility study (your current frame):</strong> The minimum credible target is <strong>n=720 from ≥12 documents</strong>. This achieves the full pillar×language×tone subgroup matrix (30 per cell), reduces worst-case MoE to ±3.6pp, and gives ≥40 per prompt template. You need approximately 450 more records — about 53 more extraction runs at your current rate, achievable in 3–4 days of compute.<br><br>
+    <strong>For a study making comparative or generalisable claims:</strong> The minimum is <strong>n=1,000 from ≥15 documents</strong>, matching the lower end of comparable published ESG NLP studies (Moreno & Caminero 2020, Garrido-Merchan 2023). This is still well within reach without new data sources — the IDX sustainability disclosure portal has hundreds of publicly available reports.<br><br>
+    <strong>The number you should NOT try to reach:</strong> n=2,000+ for fine-tuning. That requires expert annotation at scale and is PhD-level work. Your thesis does not need it.
+  </div>
+</div>
+
+</div>
+
+<script>
+const order=['ladder','moe','power','subgroup','literature','verdict'];
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('.tab')[order.indexOf(id)].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

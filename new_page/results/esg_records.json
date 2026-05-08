@@ -5385,6 +5385,10 @@
     "model": "deepseek-r1:1.5b",
     "target": "BEST-SR_2024_pdf/batch_2",
     "prompt": "data.md",
+    "timestamp": "2026-05-06T22:44:06.699396Z",
+    "model": "google/gemma-4-e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_few_shot_indonesian.md",
     "ok": false,
     "records": [],
     "error": "Parse error: Empty response from model.",
@@ -6460,6 +6464,22 @@
     "prompt": "data.md",
     "ok": false,
     "records": [],
+    "timestamp": "2026-05-06T22:44:49.735429Z",
+    "model": "google/gemma-4-e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_2",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "Parse error: Could not parse JSON. Raw output:\n[\n{\n\"text\": \"Komoditas batu bara di Indonesia menghadapi berbagai tantangan di sepanjang tahun 2024, mulai dari koreksi harga hingga kebijakan di negara-negara maju yang berkaitan dengan isu lingkungan dan transisi energi dari penggunaan energi berbasis fosil ke energi terbarukan.\",\n\"aspect\": \"risiko iklim\",\n\"labels\": [\"climate-sentiment\", \"risk\"],\n\"esg\": \"E\",\n\"tone\": \"none\",\n\"sentiment\": \"negative\",\n\"sentiment_score\": -1,\n\"reasoning\": \"Menyatakan tantangan dan risiko terkait transisi energi.\"\n}",
+    "raw_output": "[\n{\n\"text\": \"Komoditas batu bara di Indonesia menghadapi berbagai tantangan di sepanjang tahun 2024, mulai dari koreksi harga hingga kebijakan di negara-negara maju yang berkaitan dengan isu lingkungan dan transisi energi dari penggunaan energi berbasis fosil ke energi terbarukan.\",\n\"aspect\": \"risiko iklim\",\n\"labels\": [\"climate-sentiment\", \"risk\"],\n\"esg\": \"E\",\n\"tone\": \"none\",\n\"sentiment\": \"negative\",\n\"sentiment_score\": -1,\n\"reasoning\": \"Menyatakan tantangan dan risiko terkait transisi energi.\"\n},\n{\n\"text\": \"PT Bukit Asam Tbk menjawab berbagai tantangan tersebut dengan melakukan berbagai inovasi dan adaptasi sebagai opsi terbaik untuk tetap relevan dalam lanskap energi yang berubah, sembari mengurangi dampak terhadap lingkungan dari operasional bisnis.\",\n\""
+  },
+  {
+    "timestamp": "2026-05-06T22:55:05.483312Z",
+    "model": "qwen3.5:0.8b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_few_shot_indonesian.md",
+    "ok": false,
+    "records": [],
     "error": "Ollama failed after 3 attempts at `http://127.0.0.1:11434/api/chat`: HTTPConnectionPool(host='127.0.0.1', port=11434): Read timed out. (read timeout=240)",
     "raw_output": ""
   },
@@ -6621,6 +6641,13 @@
     "ok": false,
     "records": [],
     "error": "Parse error: Empty response from model.",
+    "timestamp": "2026-05-07T03:49:02.305651Z",
+    "model": "google/gemma-4-e2b",
+    "target": "20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf/batch_1",
+    "prompt": "tone_zero_shot_indonesian.md",
+    "ok": false,
+    "records": [],
+    "error": "LM Studio returned HTTP 400: {\"error\":\"The number of tokens to keep from the initial prompt is greater than the context length (n_keep: 4774>= n_ctx: 4096). Try to load the model with a larger context length, or provide a shorter input.\"}",
     "raw_output": ""
   }
 ]
