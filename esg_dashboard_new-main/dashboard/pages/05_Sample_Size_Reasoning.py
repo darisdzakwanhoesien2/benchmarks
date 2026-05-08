@@ -1,7 +1,11 @@
 from pathlib import Path
+import hashlib
+import json
+import re
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 st.set_page_config(page_title="Sample Size Reasoning", layout="wide")
@@ -9,7 +13,16 @@ st.title("Sample Size Reasoning")
 st.caption("Interactive thesis sample-size reasoning for ESG ABSA claims.")
 
 
-SOURCE_HTML = Path(__file__).resolve().parent / "sample_size_reasoning.html"
+PAGE_DIR = Path(__file__).resolve().parent
+BENCHMARKS_DIR = Path(__file__).resolve().parents[3]
+SOURCE_HTML_CANDIDATES = [
+    PAGE_DIR / "sample_size_reasoning.html",
+    BENCHMARKS_DIR / "pages" / "sample_size_reasoning.html",
+]
+SOURCE_HTML = next(
+    (path for path in SOURCE_HTML_CANDIDATES if path.exists()),
+    SOURCE_HTML_CANDIDATES[0],
+)
 
 
 LADDER = pd.DataFrame([
@@ -63,61 +76,419 @@ LITERATURE = pd.DataFrame([
     ["Recommended thesis target", "ESG ABSA bilingual evaluation", 1000],
 ], columns=["study", "scope", "scale"])
 
+TABLE_GUIDE = pd.DataFrame([
+    [
+        "Claim Ladder",
+        "Maps record counts to the strongest thesis claim each sample size can support.",
+        "Use this as the framing guardrail: the current n can support feasibility, while higher targets unlock subgroup and benchmark claims.",
+        "A target is defensible when its claim level matches the analyses actually performed.",
+        "If the thesis claim is stronger than the ladder level, the conclusion should be softened or the sample expanded.",
+    ],
+    [
+        "Margin of Error",
+        "Shows worst-case uncertainty for simple proportions using p=0.50.",
+        "It is a descriptive precision check, not a substitute for annotation quality or subgroup balance.",
+        "Lower MoE means aggregate percentages can be described with more confidence.",
+        "A good aggregate MoE can still hide weak subgroup cells.",
+    ],
+    [
+        "Power",
+        "Summarizes whether planned comparisons have enough observations to detect expected effects.",
+        "Read power below 0.80 as underpowered, around 0.80 as acceptable, and above 0.90 as strong.",
+        "The ID vs EN outcome-rate comparison is already plausible at n=272.",
+        "Few-shot and prompt comparisons remain weak until each prompt template has enough rows.",
+    ],
+    [
+        "Subgroups",
+        "Converts matrix claims into required record counts.",
+        "Use this to decide whether the thesis can discuss tone, language, pillar, document, or prompt-level comparisons.",
+        "A subgroup claim is stronger when every important cell has roughly the chosen minimum cell n.",
+        "Tiny or empty cells should be reported as gaps rather than substantive findings.",
+    ],
+    [
+        "Literature",
+        "Places the current and target sample sizes beside related ESG/NLP studies.",
+        "Use this for thesis positioning, not as a strict requirement.",
+        "n=720-1,000 is more credible for exploratory ESG NLP than n=272 alone.",
+        "Large literature scales do not automatically make a study better if labels or provenance are weak.",
+    ],
+], columns=[
+    "table_name",
+    "what_it_does",
+    "how_to_read_it",
+    "if_yes_or_good",
+    "if_underperforming",
+])
+
+
+def render_mermaid(code: str, height: int = 520) -> None:
+    container_id = "mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
+    code_json = json.dumps(code)
+    html = f"""
+    <div id="{container_id}_wrapper">
+      <div id="{container_id}"></div>
+      <pre id="{container_id}_error" style="display:none;"></pre>
+    </div>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({{
+        startOnLoad: false,
+        securityLevel: 'loose',
+        theme: 'base',
+        flowchart: {{ curve: 'basis', htmlLabels: true }},
+        themeVariables: {{
+          primaryColor: '#f8fafc',
+          primaryTextColor: '#111827',
+          primaryBorderColor: '#64748b',
+          lineColor: '#475569',
+          clusterBkg: '#eef6f4',
+          clusterBorder: '#0f766e',
+          edgeLabelBackground: '#ffffff'
+        }}
+      }});
+      const code = {code_json};
+      const target = document.getElementById("{container_id}");
+      const errorTarget = document.getElementById("{container_id}_error");
+      try {{
+        const rendered = await mermaid.render("{container_id}_svg", code);
+        target.innerHTML = rendered.svg;
+        const svg = target.querySelector("svg");
+        if (svg) {{
+          svg.removeAttribute("height");
+          svg.style.width = "100%";
+          svg.style.maxWidth = "100%";
+          svg.style.height = "auto";
+          svg.style.display = "block";
+          svg.style.margin = "0 auto";
+        }}
+        if (rendered.bindFunctions) {{
+          rendered.bindFunctions(target);
+        }}
+      }} catch (err) {{
+        errorTarget.style.display = "block";
+        errorTarget.textContent = "Mermaid render error:\\n" + err.message + "\\n\\n" + code;
+      }}
+    </script>
+    <style>
+      #{container_id}_wrapper {{
+        background: #ffffff;
+        border: 1px solid #d4dbe5;
+        border-radius: 8px;
+        min-height: {height}px;
+        overflow: auto;
+        padding: 18px;
+      }}
+      #{container_id} {{
+        width: 100%;
+      }}
+      #{container_id} svg {{
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+      }}
+      #{container_id}_error {{
+        color: #991b1b;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 6px;
+        padding: 12px;
+        white-space: pre-wrap;
+      }}
+    </style>
+    """
+    components.html(html, height=height + 70, scrolling=True)
+
+
+def mermaid_label(value: str, max_len: int = 70) -> str:
+    clean = re.sub(r"\s+", " ", str(value)).strip()
+    if len(clean) > max_len:
+        clean = clean[: max_len - 3].rstrip() + "..."
+    return clean.replace('"', "'")
+
+
+def worst_case_moe(n: int) -> float:
+    return 1.96 * (0.25 / n) ** 0.5 * 100
+
+
+def claim_level_for_n(n: int) -> pd.Series:
+    eligible = LADDER[LADDER["n"] <= n]
+    if eligible.empty:
+        return LADDER.iloc[0]
+    return eligible.sort_values("n").iloc[-1]
+
+
+def status_for_gap(required_n: int, current_n: int) -> str:
+    if current_n >= required_n:
+        return "Met"
+    gap = required_n - current_n
+    if gap <= max(50, required_n * 0.2):
+        return "Near"
+    return "Open"
+
+
+def build_scenario_table(current_n: int, target_n: int) -> pd.DataFrame:
+    rows = []
+    for n in sorted(set(LADDER["n"].tolist() + [current_n, target_n])):
+        claim = claim_level_for_n(n)
+        rows.append({
+            "n": n,
+            "claim_level": claim["claim_level"],
+            "status": claim["status"],
+            "worst_case_moe_pp": round(worst_case_moe(n), 2),
+            "gap_from_current": n - current_n,
+            "records_to_target": max(target_n - n, 0),
+        })
+    return pd.DataFrame(rows).sort_values("n")
+
+
+def build_subgroup_table(current_n: int, min_cell_n: int) -> pd.DataFrame:
+    dynamic = SUBGROUPS.copy()
+    dynamic["required_n"] = dynamic["required_n"].where(
+        dynamic["subgroup_claim"] != "Pillar x language x tone",
+        3 * 2 * 4 * min_cell_n,
+    )
+    dynamic["records_needed_from_current"] = (dynamic["required_n"] - current_n).clip(lower=0)
+    dynamic["scenario_status"] = dynamic["required_n"].apply(lambda value: status_for_gap(int(value), current_n))
+    return dynamic
+
+
+def explain_ladder_row(row: pd.Series, current_n: int) -> dict[str, str]:
+    n = int(row["n"])
+    gap = n - current_n
+    if gap <= 0:
+        position = "This level is already reached by the current extracted-record count."
+    else:
+        position = f"This level needs {gap:,} additional records from the current scenario."
+
+    return {
+        "position": position,
+        "valid_claim": row["interpretation"],
+        "risk": "Do not use this level to imply gold-label accuracy, F1, or generalizable greenwashing rates unless the supporting annotation and subgroup design are also completed.",
+        "next_action": "Expand records in the weakest design cells first: few-shot prompts, Social-pillar material, and matched prompt/document runs.",
+    }
+
+
+def build_claim_ladder_mermaid(current_n: int, target_n: int) -> str:
+    rows = build_scenario_table(current_n, target_n)
+    lines = [
+        "flowchart LR",
+        f'  Current["Current n={current_n:,}"]',
+        f'  Target["Target n={target_n:,}"]',
+    ]
+    previous = "Current"
+    for _, row in rows.iterrows():
+        if row["n"] in [current_n, target_n]:
+            continue
+        node_id = f'N{int(row["n"])}'
+        label = f'{int(row["n"]):,} - {mermaid_label(row["claim_level"], 42)}'
+        lines.append(f'  {node_id}["{label}"]')
+        lines.append(f"  {previous} --> {node_id}")
+        previous = node_id
+    lines.append(f"  {previous} --> Target")
+    lines.extend([
+        "  classDef current fill:#eef6ff,stroke:#2563eb,color:#111827,stroke-width:2px;",
+        "  classDef target fill:#ecfdf5,stroke:#16a34a,color:#111827,stroke-width:2px;",
+        "  classDef step fill:#f8fafc,stroke:#64748b,color:#111827;",
+        "  class Current current;",
+        "  class Target target;",
+    ])
+    step_nodes = [f'N{int(row["n"])}' for _, row in rows.iterrows() if row["n"] not in [current_n, target_n]]
+    if step_nodes:
+        lines.append(f"  class {','.join(step_nodes)} step;")
+    return "\n".join(lines)
+
+
+def build_sample_design_mermaid(min_cell_n: int) -> str:
+    full_matrix_n = 3 * 2 * 4 * min_cell_n
+    return f"""
+flowchart TB
+  Claim["Full bilingual ESG ABSA subgroup claim"]
+  Pillar["3 ESG pillars"]
+  Language["2 languages"]
+  Tone["4 thesis tone classes"]
+  Cell["minimum cell n={min_cell_n}"]
+  Required["required records={full_matrix_n}"]
+  Thesis["defensible subgroup interpretation"]
+
+  Claim --> Pillar
+  Claim --> Language
+  Claim --> Tone
+  Pillar --> Cell
+  Language --> Cell
+  Tone --> Cell
+  Cell --> Required --> Thesis
+
+  classDef claim fill:#f8fafc,stroke:#334155,color:#111827,stroke-width:2px;
+  classDef design fill:#eef6ff,stroke:#2563eb,color:#111827;
+  classDef target fill:#ecfdf5,stroke:#16a34a,color:#111827;
+  class Claim claim;
+  class Pillar,Language,Tone,Cell design;
+  class Required,Thesis target;
+""".strip()
+
+
+def build_decision_mermaid(current_n: int, target_n: int) -> str:
+    current_claim = mermaid_label(claim_level_for_n(current_n)["claim_level"])
+    target_claim = mermaid_label(claim_level_for_n(target_n)["claim_level"])
+    return f"""
+flowchart LR
+  Current["n={current_n:,}: {current_claim}"]
+  Gap["targeted expansion"]
+  Prompt["balance prompt templates"]
+  Social["add Social-pillar records"]
+  Match["match model x prompt x document cells"]
+  Target["n={target_n:,}: {target_claim}"]
+  Claim["stronger thesis claim"]
+
+  Current --> Gap
+  Gap --> Prompt
+  Gap --> Social
+  Gap --> Match
+  Prompt --> Target
+  Social --> Target
+  Match --> Target
+  Target --> Claim
+
+  classDef current fill:#eef6ff,stroke:#2563eb,color:#111827,stroke-width:2px;
+  classDef action fill:#fffbeb,stroke:#d97706,color:#111827;
+  classDef target fill:#ecfdf5,stroke:#16a34a,color:#111827,stroke-width:2px;
+  class Current current;
+  class Gap,Prompt,Social,Match action;
+  class Target,Claim target;
+""".strip()
+
 
 with st.sidebar:
     st.header("Scenario")
     current_n = st.number_input("Current records", min_value=1, value=272, step=10)
     target_n = st.number_input("Target records", min_value=1, value=720, step=10)
     min_cell_n = st.number_input("Minimum subgroup cell n", min_value=5, value=30, step=5)
+    status_filter = st.multiselect(
+        "Claim status",
+        LADDER["status"].drop_duplicates().tolist(),
+        default=LADDER["status"].drop_duplicates().tolist(),
+    )
+    view_mode = st.radio(
+        "Detail view",
+        ["Table", "Cards", "Detailed Explanation"],
+        horizontal=False,
+    )
 
 
 remaining = max(target_n - current_n, 0)
-cols = st.columns(4)
-cols[0].metric("Current n", f"{current_n:,}")
-cols[1].metric("Target n", f"{target_n:,}")
-cols[2].metric("Records to add", f"{remaining:,}")
-cols[3].metric("Worst-case MoE now", f"{(1.96 * (0.25 / current_n) ** 0.5 * 100):.1f}pp")
+current_claim = claim_level_for_n(current_n)
+target_claim = claim_level_for_n(target_n)
 
-tab_ladder, tab_moe, tab_power, tab_subgroups, tab_literature, tab_verdict = st.tabs([
+cols = st.columns(4)
+cols[0].metric("Current n", f"{current_n:,}", current_claim["status"])
+cols[1].metric("Target n", f"{target_n:,}", target_claim["status"])
+cols[2].metric("Records to add", f"{remaining:,}")
+cols[3].metric("Worst-case MoE now", f"+/-{worst_case_moe(current_n):.1f}pp")
+
+st.caption(f"Source: `{SOURCE_HTML}`")
+
+tab_overview, tab_ladder, tab_moe, tab_power, tab_subgroups, tab_literature, tab_mermaid, tab_guide, tab_verdict = st.tabs([
+    "Overview",
     "Claim Ladder",
     "Margin of Error",
     "Power",
     "Subgroups",
     "Literature",
+    "Mermaid Preview",
+    "Table Guide",
     "Verdict",
 ])
 
+with tab_overview:
+    scenario = build_scenario_table(current_n, target_n)
+    st.subheader("Scenario Readiness")
+    st.dataframe(scenario, use_container_width=True, height=360)
+    st.bar_chart(scenario.set_index("n")[["worst_case_moe_pp"]])
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown(f"**Current defensible framing:** {current_claim['claim_level']}")
+        st.write(current_claim["interpretation"])
+    with c2:
+        st.markdown(f"**Target defensible framing:** {target_claim['claim_level']}")
+        st.write(target_claim["interpretation"])
+
 with tab_ladder:
-    st.subheader("What Each Sample Size Supports")
-    ladder = LADDER.copy()
+    ladder = LADDER[LADDER["status"].isin(status_filter)].copy()
     ladder["records_gap_from_current"] = ladder["n"] - current_n
-    st.dataframe(ladder, use_container_width=True)
-    chart_df = ladder.set_index("claim_level")[["n"]]
-    st.bar_chart(chart_df)
+    ladder["worst_case_moe_pp"] = ladder["n"].apply(lambda n: round(worst_case_moe(int(n)), 2))
+    st.subheader("What Each Sample Size Supports")
+
+    if view_mode == "Table":
+        st.dataframe(ladder, use_container_width=True, height=420)
+    elif view_mode == "Cards":
+        for _, row in ladder.iterrows():
+            st.subheader(f"{int(row['n']):,} records - {row['claim_level']}")
+            c1, c2, c3 = st.columns(3)
+            c1.metric("Status", row["status"])
+            c2.metric("MoE", f"+/-{worst_case_moe(int(row['n'])):.1f}pp")
+            c3.metric("Gap from current", f"{int(row['records_gap_from_current']):,}")
+            st.write(row["interpretation"])
+            st.divider()
+    else:
+        st.dataframe(ladder, use_container_width=True, height=260)
+
+    if not ladder.empty:
+        selected_n = st.selectbox(
+            "Explain sample-size level",
+            ladder["n"].tolist(),
+            format_func=lambda value: f"{int(value):,} - {ladder[ladder['n'] == value].iloc[0]['claim_level']}",
+        )
+        row = ladder[ladder["n"] == selected_n].iloc[0]
+        explanation = explain_ladder_row(row, current_n)
+        e1, e2 = st.columns(2)
+        with e1:
+            st.markdown(f"**Position:** {explanation['position']}")
+            st.markdown(f"**Valid claim:** {explanation['valid_claim']}")
+        with e2:
+            st.markdown(f"**Risk:** {explanation['risk']}")
+            st.markdown(f"**Next action:** {explanation['next_action']}")
 
 with tab_moe:
     st.subheader("Worst-Case Margin of Error")
-    moe = MOE.copy()
-    scenario_moe = 1.96 * (0.25 / current_n) ** 0.5 * 100
-    target_moe = 1.96 * (0.25 / target_n) ** 0.5 * 100
+    scenario_moe = worst_case_moe(current_n)
+    target_moe = worst_case_moe(target_n)
     st.write(f"Current scenario MoE: **+/-{scenario_moe:.2f} percentage points**")
     st.write(f"Target scenario MoE: **+/-{target_moe:.2f} percentage points**")
+
+    moe = MOE.copy()
+    moe = pd.concat([
+        moe,
+        pd.DataFrame([
+            [current_n, round(scenario_moe, 2), "Current scenario"],
+            [target_n, round(target_moe, 2), "Target scenario"],
+        ], columns=moe.columns),
+    ]).drop_duplicates(subset=["n", "status"]).sort_values("n")
     st.line_chart(moe.set_index("n")["worst_case_moe_pp"])
     st.dataframe(moe, use_container_width=True)
 
 with tab_power:
     st.subheader("Statistical Power Reference")
-    st.dataframe(POWER, use_container_width=True)
-    pivot = POWER.pivot(index="sample_condition", columns="test", values="power").fillna(0)
+    test_filter = st.multiselect(
+        "Power tests",
+        POWER["test"].drop_duplicates().tolist(),
+        default=POWER["test"].drop_duplicates().tolist(),
+    )
+    power = POWER[POWER["test"].isin(test_filter)]
+    st.dataframe(power, use_container_width=True)
+    pivot = power.pivot(index="sample_condition", columns="test", values="power").fillna(0)
     st.bar_chart(pivot)
+
+    st.info(
+        "Interpretation: the bilingual outcome-rate comparison is already reasonably powered at n=272, "
+        "but prompt comparison needs at least about 40 records per template to become acceptable."
+    )
 
 with tab_subgroups:
     st.subheader("Subgroup Requirements")
-    dynamic = SUBGROUPS.copy()
-    dynamic["met_by_current"] = dynamic["required_n"] <= current_n
-    dynamic["records_needed_from_current"] = (dynamic["required_n"] - current_n).clip(lower=0)
+    dynamic = build_subgroup_table(current_n, min_cell_n)
     st.dataframe(dynamic, use_container_width=True)
-    st.bar_chart(dynamic.set_index("subgroup_claim")[["required_n"]])
+    st.bar_chart(dynamic.set_index("subgroup_claim")[["required_n", "records_needed_from_current"]])
 
     full_matrix_n = 3 * 2 * 4 * min_cell_n
     st.info(
@@ -130,6 +501,32 @@ with tab_literature:
     literature = LITERATURE.sort_values("scale", ascending=False)
     st.dataframe(literature, use_container_width=True)
     st.bar_chart(literature.set_index("study")["scale"])
+
+with tab_mermaid:
+    st.subheader("Claim Ladder Diagram")
+    ladder_code = build_claim_ladder_mermaid(current_n, target_n)
+    render_mermaid(ladder_code, height=430)
+    st.code(ladder_code, language="mermaid")
+
+    st.subheader("Subgroup Design Diagram")
+    design_code = build_sample_design_mermaid(min_cell_n)
+    render_mermaid(design_code, height=430)
+    st.code(design_code, language="mermaid")
+
+    st.subheader("Targeted Expansion Decision Flow")
+    decision_code = build_decision_mermaid(current_n, target_n)
+    render_mermaid(decision_code, height=430)
+    st.code(decision_code, language="mermaid")
+
+with tab_guide:
+    st.subheader("How to Interpret the Tables")
+    st.dataframe(TABLE_GUIDE, use_container_width=True, height=360)
+    selected_table = st.selectbox("Detailed guide", TABLE_GUIDE["table_name"].tolist())
+    guide_row = TABLE_GUIDE[TABLE_GUIDE["table_name"] == selected_table].iloc[0]
+    st.markdown(f"**What it does:** {guide_row['what_it_does']}")
+    st.markdown(f"**How to read it:** {guide_row['how_to_read_it']}")
+    st.markdown(f"**If yes / good:** {guide_row['if_yes_or_good']}")
+    st.markdown(f"**If underperforming:** {guide_row['if_underperforming']}")
 
 with tab_verdict:
     st.subheader("Thesis Interpretation")
@@ -146,4 +543,3 @@ with tab_verdict:
         "The most efficient fix is targeted expansion: add records where the design is weakest, "
         "especially few-shot prompts, S-pillar material, and documents needed for greenwashing-index reliability."
     )
-    st.caption(f"Source: `{SOURCE_HTML}`")

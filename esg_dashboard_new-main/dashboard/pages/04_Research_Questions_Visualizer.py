@@ -14,7 +14,16 @@ st.title("Research Questions Visualizer")
 st.caption("Interactive view of thesis RQs, available evidence, analysis gaps, and next steps.")
 
 
-SOURCE_HTML = Path(__file__).resolve().parent / "thesis_data_analysis_benchmarks.html"
+PAGE_DIR = Path(__file__).resolve().parent
+BENCHMARKS_DIR = Path(__file__).resolve().parents[3]
+SOURCE_HTML_CANDIDATES = [
+    PAGE_DIR / "thesis_data_analysis_benchmarks.html",
+    BENCHMARKS_DIR / "pages" / "thesis_data_analysis_benchmarks.html",
+]
+SOURCE_HTML = next(
+    (path for path in SOURCE_HTML_CANDIDATES if path.exists()),
+    SOURCE_HTML_CANDIDATES[0],
+)
 EXISTING_DATA_PATH = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/data_output.txt"
 PREDICTION_OUTPUT_DIR = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/climatebert_predictions"
 
@@ -372,6 +381,15 @@ def render_mermaid(code: str, height: int = 520) -> None:
       try {{
         const rendered = await mermaid.render("{container_id}_svg", code);
         target.innerHTML = rendered.svg;
+        const svg = target.querySelector("svg");
+        if (svg) {{
+          svg.removeAttribute("height");
+          svg.style.width = "100%";
+          svg.style.maxWidth = "100%";
+          svg.style.height = "auto";
+          svg.style.display = "block";
+          svg.style.margin = "0 auto";
+        }}
         if (rendered.bindFunctions) {{
           rendered.bindFunctions(target);
         }}
@@ -390,12 +408,11 @@ def render_mermaid(code: str, height: int = 520) -> None:
         padding: 18px;
       }}
       #{container_id} {{
-        display: flex;
-        justify-content: center;
-        min-width: 980px;
+        width: 100%;
       }}
       #{container_id} svg {{
-        max-width: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
         height: auto;
       }}
       #{container_id}_error {{
@@ -499,67 +516,203 @@ flowchart LR
 """.strip()
 
 
-PIPELINE_MERMAID = f"""
-flowchart LR
-  PDFs["Sustainability reports - PDF source pages"]
-  OCR["OCR and markdown extraction"]
-  LLM["LLM ESG JSON extraction"]
-  DataOutput["data_output.txt - sentence ESG records"]
-  Parsed["Parsed ESG table - sentence aspect tone sentiment"]
-  CBRun["Local ClimateBERT processor - page 02"]
-  CBOut["climatebert_predictions - saved shard CSVs"]
-  Viz["Result visualizer - page 03"]
-  RQ["Research question evidence - page 04"]
+def build_full_rq_map_mermaid(detail_df: pd.DataFrame) -> str:
+    rows = detail_df.groupby(["rq", "theme", "status"]).size().reset_index(name="count")
+    lines = [
+        "flowchart TB",
+        '  DataOutput["data_output.txt"]',
+        '  Predictions["climatebert_predictions"]',
+        '  Gold["expert annotation"]',
+        '  Audit["artifact registry"]',
+    ]
 
-  PDFs --> OCR --> LLM --> DataOutput --> Parsed
-  Parsed --> CBRun --> CBOut --> Viz
-  Parsed --> RQ
-  CBOut --> RQ
+    for rq in sorted(detail_df["rq"].unique()):
+        theme = detail_df[detail_df["rq"] == rq]["theme"].iloc[0]
+        lines.append(f'  {rq}["{rq} - {mermaid_label(theme)}"]')
+
+    lines.extend([
+        "  DataOutput --> RQ1",
+        "  DataOutput --> RQ2",
+        "  Predictions --> RQ3",
+        "  DataOutput --> RQ4",
+        "  Audit --> RQ5",
+        "  DataOutput --> RQ6",
+        "  Gold --> RQ2",
+        "  Gold --> RQ4",
+        "  Predictions --> RQ5",
+        "  RQ3 --> RQ6",
+    ])
+
+    for _, row in rows.iterrows():
+        node_id = f'{row["rq"]}_{row["status"]}'
+        label = f'{row["status"]}: {row["count"]}'
+        lines.append(f'  {node_id}["{label}"]')
+        lines.append(f'  {row["rq"]} --> {node_id}')
+
+    lines.extend([
+        "  classDef source fill:#eef6ff,stroke:#2563eb,color:#111827;",
+        "  classDef rq fill:#f8fafc,stroke:#334155,color:#111827,stroke-width:2px;",
+        "  classDef available fill:#ecfdf5,stroke:#16a34a,color:#111827;",
+        "  classDef partial fill:#fffbeb,stroke:#d97706,color:#111827;",
+        "  classDef needed fill:#fef2f2,stroke:#dc2626,color:#111827;",
+        "  class DataOutput,Predictions,Gold,Audit source;",
+        "  class RQ1,RQ2,RQ3,RQ4,RQ5,RQ6 rq;",
+    ])
+    for status, class_name in [("Available", "available"), ("Partial", "partial"), ("Needed", "needed")]:
+        nodes = [f"{rq}_{status}" for rq in sorted(detail_df["rq"].unique()) if f"{rq}_{status}" in "\n".join(lines)]
+        if nodes:
+            lines.append(f"  class {','.join(nodes)} {class_name};")
+    return "\n".join(lines)
+
+
+def build_workflow_mermaid() -> str:
+    return """
+flowchart LR
+  PDF["PDF reports"]
+  OCR["OCR markdown"]
+  LLM["LLM JSON extraction"]
+  DATA["data_output.txt"]
+  PARSED["parsed ESG records"]
+  CB["ClimateBERT processor"]
+  PRED["prediction CSV shards"]
+  VIZ["result visualizer"]
+  RQ["RQ evidence dashboard"]
+
+  PDF --> OCR
+  OCR --> LLM
+  LLM --> DATA
+  DATA --> PARSED
+  PARSED --> CB
+  CB --> PRED
+  PRED --> VIZ
+  PARSED --> RQ
+  PRED --> RQ
+
+  classDef source fill:#eef6ff,stroke:#2563eb,color:#111827;
+  classDef process fill:#f8fafc,stroke:#334155,color:#111827;
+  classDef output fill:#ecfdf5,stroke:#16a34a,color:#111827;
+  class PDF,DATA,PRED source;
+  class OCR,LLM,CB,VIZ,RQ process;
+  class PARSED output;
+""".strip()
+
+
+def build_missing_process_mermaid() -> str:
+    return """
+flowchart TB
+  GAP["missing RQ evidence"]
+  IDENTIFY["identify metric"]
+  SOURCE["choose source"]
+  SAMPLE["targeted sample"]
+  RUN["run analysis"]
+  METRIC["compute metric"]
+  UPDATE["update RQ table"]
+
+  DATA["data_output.txt"]
+  PRED["climatebert_predictions"]
+  ANN["manual annotation"]
+  COMP["ClimateBERT comparison"]
+  STAB["stability analysis"]
+
+  GAP --> IDENTIFY
+  IDENTIFY --> SOURCE
+  SOURCE --> SAMPLE
+  SAMPLE --> RUN
+  RUN --> METRIC
+  METRIC --> UPDATE
+
+  SOURCE --> DATA
+  SOURCE --> PRED
+  RUN --> ANN
+  RUN --> COMP
+  RUN --> STAB
+
+  classDef source fill:#eef6ff,stroke:#2563eb,color:#111827;
+  classDef process fill:#f8fafc,stroke:#334155,color:#111827;
+  classDef action fill:#fffbeb,stroke:#d97706,color:#111827;
+  class DATA,PRED source;
+  class GAP,IDENTIFY,SOURCE,SAMPLE,RUN,METRIC,UPDATE process;
+  class ANN,COMP,STAB action;
+""".strip()
+
+
+PIPELINE_MERMAID = """
+flowchart LR
+  W_PDF[PDF source reports]
+  W_OCR[OCR and markdown extraction]
+  W_LLM[LLM ESG JSON extraction]
+  W_DATA[data output sentence records]
+  W_PARSED[Parsed ESG table]
+  W_RUN[ClimateBERT processor page 02]
+  W_PRED[ClimateBERT prediction CSVs]
+  W_VIZ[Result visualizer page 03]
+  W_RQ[Research question evidence page 04]
+
+  W_PDF --> W_OCR
+  W_OCR --> W_LLM
+  W_LLM --> W_DATA
+  W_DATA --> W_PARSED
+  W_PARSED --> W_RUN
+  W_RUN --> W_PRED
+  W_PRED --> W_VIZ
+  W_PARSED --> W_RQ
+  W_PRED --> W_RQ
 """.strip()
 
 RQ_MERMAID = """
 flowchart TB
-  RQ1["RQ1 Pipeline quality - needs CER WER segmentation"]
-  RQ2["RQ2 Categorization - needs expert labels and taxonomy"]
-  RQ3["RQ3 ClimateBERT comparison - needs full local outputs"]
-  RQ4["RQ4 Diagnostics - needs manual error taxonomy"]
-  RQ5["RQ5 Reproducibility - needs audit checklist and rerun log"]
-  RQ6["RQ6 Stability - needs balanced model prompt matrix"]
+  E_DATA[data output parsed records]
+  E_PRED[ClimateBERT predictions]
+  E_GOLD[Expert annotation sample]
+  E_AUDIT[Artifact registry and dashboard]
 
-  Data["data_output.txt"]
-  Pred["climatebert_predictions"]
-  Gold["Expert annotation sample"]
-  Audit["Artifact registry / dashboard"]
+  E_RQ1[RQ1 pipeline quality]
+  E_RQ2[RQ2 categorization]
+  E_RQ3[RQ3 ClimateBERT comparison]
+  E_RQ4[RQ4 diagnostics]
+  E_RQ5[RQ5 reproducibility]
+  E_RQ6[RQ6 stability]
 
-  Data --> RQ1
-  Data --> RQ2
-  Data --> RQ4
-  Data --> RQ6
-  Pred --> RQ3
-  Pred --> RQ5
-  Gold --> RQ2
-  Gold --> RQ4
-  Audit --> RQ5
-  RQ3 --> RQ6
+  E_DATA --> E_RQ1
+  E_DATA --> E_RQ2
+  E_DATA --> E_RQ4
+  E_DATA --> E_RQ6
+  E_PRED --> E_RQ3
+  E_PRED --> E_RQ5
+  E_GOLD --> E_RQ2
+  E_GOLD --> E_RQ4
+  E_AUDIT --> E_RQ5
+  E_RQ3 --> E_RQ6
 """.strip()
 
 MISSING_PROCESS_MERMAID = """
 flowchart LR
-  Gap["Missing RQ evidence"]
-  Identify["Identify missing metric from RQ matrix"]
-  Source["Select source - data_output or predictions"]
-  Sample["Create targeted sample by RQ weakness"]
-  Run["Run analysis or annotation"]
-  Metric["Compute metric"]
-  Update["Update dashboard evidence"]
+  M_GAP[Missing RQ evidence]
+  M_IDENTIFY[Identify missing metric]
+  M_SOURCE[Select source data]
+  M_SAMPLE[Create targeted sample]
+  M_RUN[Run analysis or annotation]
+  M_METRIC[Compute metric]
+  M_UPDATE[Update dashboard evidence]
 
-  Gap --> Identify --> Source --> Sample --> Run --> Metric --> Update
+  M_DATA[data output records]
+  M_PRED[ClimateBERT prediction outputs]
+  M_ANNOTATE[Manual annotation for RQ2 and RQ4]
+  M_COMPARE[ClimateBERT comparison for RQ3]
+  M_STABILITY[Prompt model stability for RQ6]
 
-  Source --> A["data_output.txt - parsed LLM ESG records"]
-  Source --> B["climatebert_predictions - local model outputs"]
-  Run --> C["manual annotation for RQ2 and RQ4"]
-  Run --> D["ClimateBERT comparison for RQ3"]
-  Run --> E["prompt model stability for RQ6"]
+  M_GAP --> M_IDENTIFY
+  M_IDENTIFY --> M_SOURCE
+  M_SOURCE --> M_SAMPLE
+  M_SAMPLE --> M_RUN
+  M_RUN --> M_METRIC
+  M_METRIC --> M_UPDATE
+
+  M_SOURCE --> M_DATA
+  M_SOURCE --> M_PRED
+  M_RUN --> M_ANNOTATE
+  M_RUN --> M_COMPARE
+  M_RUN --> M_STABILITY
 """.strip()
 
 
@@ -583,6 +736,152 @@ def status_interpretation(status: str) -> str:
     if status == "Partial":
         return "Evidence exists, but it is incomplete, weakly validated, imbalanced, or only a proxy for the real metric."
     return "Evidence is missing. This row is a work item that must be completed before the RQ can be claimed strongly."
+
+
+def route_for_item(rq: str, item: str) -> tuple[str, str]:
+    lower = item.lower()
+    if "climatebert" in lower or rq == "RQ3":
+        if any(term in lower for term in ["scores", "run", "full local", "prediction"]):
+            return "Run/continue ClimateBERT processing", "/ClimateBERT_Dataset_Processor"
+        return "Open ClimateBERT result visualizer", "/ClimateBERT_Result_Visualizer"
+    if any(term in lower for term in ["parsed", "json", "sentence", "field completion", "provenance", "records"]):
+        return "Inspect parsed ESG JSON records", "/Parsed_ESG_JSON"
+    if any(term in lower for term in ["sample", "n >=", "few-shot", "subgroup", "power"]):
+        return "Open sample size reasoning", "/Sample_Size_Reasoning"
+    if any(term in lower for term in ["tone", "pillar", "sentiment", "aspect", "language", "ontology", "taxonomy"]):
+        return "Inspect parsed ESG distributions", "/Parsed_ESG_JSON"
+    if any(term in lower for term in ["artifact", "dashboard", "replication", "prompt"]):
+        return "Open dashboard landing page", "/"
+    return "Open parsed ESG records", "/Parsed_ESG_JSON"
+
+
+def available_result_for_item(rq: str, item: str) -> dict[str, str]:
+    lower = item.lower()
+    result = {
+        "result": "Evidence exists for this row, but the result should be interpreted together with its denominator, source, and remaining validation gaps.",
+        "interpretation": "This can support a descriptive claim, not necessarily a fully validated performance claim.",
+        "visualization": "Use the RQ detail table, related dashboard page, and source records to inspect the evidence.",
+    }
+
+    if "pdf sustainability reports" in lower:
+        result.update({
+            "result": "6 sustainability reports are available: BEST, VKTR, GTRA, PTBA, ICR, and Indonet.",
+            "interpretation": "This supports a pipeline feasibility claim across multiple reports. It is still small for broad generalization.",
+            "visualization": "Treat this as the document coverage base. The key chart is document count and record count by filename.",
+        })
+    elif "markdown page outputs" in lower:
+        result.update({
+            "result": "OCR/markdown page outputs exist and provide traceability from extracted records back to source pages.",
+            "interpretation": "This supports auditability: a reader can inspect where a sentence came from.",
+            "visualization": "Use filename/page counts and source-page references in parsed outputs.",
+        })
+    elif "records-per-run" in lower:
+        result.update({
+            "result": "Current throughput evidence: mean 8.5 records/run overall and 14.3 records/run for Arcee.",
+            "interpretation": "The extraction pipeline is productive enough to scale, but throughput differences may also show model/prompt bias.",
+            "visualization": "Plot records per model, prompt, document, and run.",
+        })
+    elif "field completion" in lower:
+        result.update({
+            "result": "Core fields are complete for aspect/ESG/tone; sentiment_score is available for about 81.3%.",
+            "interpretation": "The schema is mostly stable for core ABSA analysis, but score-based analysis has missingness.",
+            "visualization": "Use a field-completion bar chart and missingness table.",
+        })
+    elif "tone x esg pillar" in lower or "tone × esg pillar" in lower:
+        result.update({
+            "result": "Current crosstab shows E commitment=91, G commitment=24, and S commitment=0.",
+            "interpretation": "Environmental/Governance tone analysis is possible descriptively; Social is underrepresented and should not be generalized.",
+            "visualization": "Use pillar x tone crosstab and stacked bar chart.",
+        })
+    elif "bilingual tone asymmetry" in lower:
+        result.update({
+            "result": "Observed outcome tone differs by language: Indonesian 7.9% vs English 21.8%.",
+            "interpretation": "This is a promising bilingual asymmetry finding. It should be checked for document/prompt confounding.",
+            "visualization": "Use language x tone bar chart and a two-proportion comparison.",
+        })
+    elif "sentiment score distribution" in lower:
+        result.update({
+            "result": "Outcome sentiment mean is around 0.60, while commitment mean is around 0.03.",
+            "interpretation": "Sentiment appears to separate outcome-style evidence from commitment-style language, but calibration needs validation.",
+            "visualization": "Use box/violin/histogram by tone and compare means.",
+        })
+    elif "llm-assigned climatebert" in lower:
+        result.update({
+            "result": "16 ClimateBERT-style label families are embedded in the LLM extraction JSON.",
+            "interpretation": "This is useful as a proxy, but not a substitute for actual local ClimateBERT inference.",
+            "visualization": "Use label-family counts and label x tone crosstabs.",
+        })
+    elif "co-occurrence" in lower:
+        result.update({
+            "result": "Commitment + climate-commitment co-occurrence appears 91 times.",
+            "interpretation": "This suggests overlap between rhetorical commitment tone and climate-commitment labeling.",
+            "visualization": "Use tone x climate-label crosstab.",
+        })
+    elif "complete extraction log" in lower:
+        result.update({
+            "result": "Run-level metadata exists for model, prompt, target, tone, sentiment, and label fields.",
+            "interpretation": "This enables diagnostics by model and prompt rather than only aggregate output review.",
+            "visualization": "Use error/missingness rates by model, prompt, and document.",
+        })
+    elif "schema drift" in lower:
+        result.update({
+            "result": "Known schema drift appears in 18 records, concentrated in data.md + GPT-oss-120b.",
+            "interpretation": "The issue is likely configuration-specific, not a universal pipeline failure.",
+            "visualization": "Use schema-drift rate by model x prompt.",
+        })
+    elif "missing tone" in lower:
+        result.update({
+            "result": "Missing tone appears in 61 records overall, but only 1/272 for Arcee-only valid records.",
+            "interpretation": "Tone missingness is strongly model/prompt dependent.",
+            "visualization": "Use missing-tone rate by model, prompt, document, language, and pillar.",
+        })
+    elif "root cause" in lower:
+        result.update({
+            "result": "Failures can be grouped by model x prompt; GPT-oss + data.md is a known high-failure configuration.",
+            "interpretation": "The diagnostic framework can identify bad configurations rather than treating all extraction failures equally.",
+            "visualization": "Use grouped failure-rate heatmaps.",
+        })
+    elif "json extraction artifacts" in lower or "static visualization" in lower or "streamlit dashboard" in lower or "artifact inventory" in lower:
+        result.update({
+            "result": "Core artifacts exist: JSON records, CSV/PNG outputs, and Streamlit pages.",
+            "interpretation": "This supports reproducibility, but a formal replication checklist is still needed.",
+            "visualization": "Use artifact inventory table and source-to-output lineage diagram.",
+        })
+    elif "prompt family effect" in lower:
+        result.update({
+            "result": "Prompt family effect is visible: CoT about 55% commitment, zero-shot about 21-24%, few-shot about 36%.",
+            "interpretation": "Prompt choice materially affects ABSA tone outputs.",
+            "visualization": "Use commitment rate by prompt family.",
+        })
+    elif "coefficient of variation" in lower:
+        result.update({
+            "result": "Prompt-level coefficient of variation is about 38.2%.",
+            "interpretation": "This indicates high prompt instability and motivates ensemble/verification strategies.",
+            "visualization": "Use CV table and per-prompt tone distribution bars.",
+        })
+    elif "language x prompt" in lower:
+        result.update({
+            "result": "CoT appears similar across English/Indonesian, while zero-shot English is higher than zero-shot Indonesian.",
+            "interpretation": "There may be a language x prompt interaction, but it needs balanced matched data.",
+            "visualization": "Use language x prompt x tone interaction chart.",
+        })
+    return result
+
+
+def completion_plan_for_row(row: pd.Series) -> dict[str, str]:
+    label, route = route_for_item(str(row["rq"]), str(row["item"]))
+    if row["status"] == "Partial":
+        framing = "Upgrade this partial evidence into defensible evidence."
+    else:
+        framing = "Complete this missing evidence item before making a strong claim."
+    return {
+        "framing": framing,
+        "target_label": label,
+        "target_route": route,
+        "step_1": "Open the linked dashboard/data page and filter to the relevant RQ, document, model, prompt, or label family.",
+        "step_2": f"Compute or collect the expected metric: {row['expected_metric']}",
+        "step_3": "Add the computed metric and interpretation back into the RQ evidence table or thesis results section.",
+    }
 
 
 def detail_for_item(rq: str, theme: str, status: str, item: str) -> dict[str, str]:
@@ -864,6 +1163,20 @@ def detail_for_item(rq: str, theme: str, status: str, item: str) -> dict[str, st
 
 
 def build_rq_detail_rows(items: list[dict]) -> pd.DataFrame:
+    columns = [
+        "rq",
+        "theme",
+        "status",
+        "status_meaning",
+        "item",
+        "what_it_does",
+        "expected_metric",
+        "if_yes_or_good",
+        "if_underperforming",
+        "likely_reason_if_weak",
+        "next_action",
+        "priority",
+    ]
     rows = []
     for item in items:
         for status, key in [("Available", "have"), ("Partial", "partial"), ("Needed", "need")]:
@@ -883,7 +1196,7 @@ def build_rq_detail_rows(items: list[dict]) -> pd.DataFrame:
                     "next_action": detail["next_action"],
                     "priority": item["priority"],
                 })
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=columns)
 
 
 with st.sidebar:
@@ -894,6 +1207,11 @@ with st.sidebar:
         default=["Critical", "High", "Medium", "Important"],
     )
     rq_filter = st.multiselect("Research Questions", [item["rq"] for item in RQ_DATA])
+    evidence_status_filter = st.multiselect(
+        "Evidence status",
+        ["Available", "Partial", "Needed"],
+        default=["Available", "Partial", "Needed"],
+    )
     view_mode = st.radio(
         "Detail view",
         ["Matrix", "Question Cards", "Metrics", "Detailed Explanation"],
@@ -901,18 +1219,21 @@ with st.sidebar:
     )
 
 
+selected_evidence_statuses = evidence_status_filter or ["Available", "Partial", "Needed"]
 filtered = [
     item for item in RQ_DATA
     if item["priority"] in priority_filter and (not rq_filter or item["rq"] in rq_filter)
 ]
 summary = status_counts(filtered)
 detail_df = build_rq_detail_rows(filtered)
+detail_df = detail_df[detail_df["status"].isin(selected_evidence_statuses)].reset_index(drop=True)
 
-cols = st.columns(4)
+cols = st.columns(5)
 cols[0].metric("Research questions", len(filtered))
 cols[1].metric("Available evidence items", int(summary["available"].sum()) if not summary.empty else 0)
 cols[2].metric("Partial evidence items", int(summary["partial"].sum()) if not summary.empty else 0)
 cols[3].metric("Open needs", int(summary["needed"].sum()) if not summary.empty else 0)
+cols[4].metric("Visible evidence rows", len(detail_df))
 st.caption(f"Existing data: `{EXISTING_DATA_PATH}`")
 st.caption(f"Prediction outputs: `{PREDICTION_OUTPUT_DIR}`")
 
@@ -934,6 +1255,15 @@ with tab_overview:
         st.subheader("Evidence Readiness by RQ")
         st.bar_chart(chart_df)
         st.dataframe(summary, use_container_width=True)
+        if not detail_df.empty:
+            visible_chart = (
+                detail_df.groupby(["rq", "status"])
+                .size()
+                .unstack(fill_value=0)
+                .reindex(columns=selected_evidence_statuses, fill_value=0)
+            )
+            st.subheader("Visible Evidence Rows by RQ")
+            st.bar_chart(visible_chart)
 
 with tab_details:
     if view_mode == "Matrix":
@@ -964,6 +1294,27 @@ with tab_details:
                 st.markdown(f"**If underperforming:** {row['if_underperforming']}")
                 st.markdown(f"**Likely reason if weak:** {row['likely_reason_if_weak']}")
                 st.markdown(f"**Next action:** {row['next_action']}")
+
+            if row["status"] == "Available":
+                st.subheader("Available Result Interpretation")
+                result_info = available_result_for_item(row["rq"], row["item"])
+                r1, r2, r3 = st.columns(3)
+                r1.metric("Status", "Available")
+                r2.metric("RQ", row["rq"])
+                r3.metric("Priority", row["priority"])
+                st.markdown(f"**Current result:** {result_info['result']}")
+                st.markdown(f"**Interpretation:** {result_info['interpretation']}")
+                st.markdown(f"**How to visualize it:** {result_info['visualization']}")
+                target_label, target_route = route_for_item(row["rq"], row["item"])
+                st.link_button(target_label, target_route, use_container_width=True)
+            else:
+                st.subheader("Completion Redirect")
+                plan = completion_plan_for_row(row)
+                st.warning(plan["framing"])
+                st.markdown(f"**Step 1:** {plan['step_1']}")
+                st.markdown(f"**Step 2:** {plan['step_2']}")
+                st.markdown(f"**Step 3:** {plan['step_3']}")
+                st.link_button(plan["target_label"], plan["target_route"], use_container_width=True)
 
             st.subheader("Linked Row Diagram")
             linked_row_code = build_row_detail_mermaid(row)
@@ -1056,16 +1407,19 @@ with tab_mermaid:
     st.code(linked_code, language="mermaid")
 
     st.subheader("Full Research Question Evidence Map")
-    render_mermaid(RQ_MERMAID, height=520)
-    st.code(RQ_MERMAID, language="mermaid")
+    full_map_code = build_full_rq_map_mermaid(detail_df)
+    render_mermaid(full_map_code, height=520)
+    st.code(full_map_code, language="mermaid")
 
     st.subheader("Workflow Diagram")
-    render_mermaid(PIPELINE_MERMAID, height=430)
-    st.code(PIPELINE_MERMAID, language="mermaid")
+    workflow_code = build_workflow_mermaid()
+    render_mermaid(workflow_code, height=430)
+    st.code(workflow_code, language="mermaid")
 
     st.subheader("Missing Evidence Process")
-    render_mermaid(MISSING_PROCESS_MERMAID, height=430)
-    st.code(MISSING_PROCESS_MERMAID, language="mermaid")
+    missing_process_code = build_missing_process_mermaid()
+    render_mermaid(missing_process_code, height=430)
+    st.code(missing_process_code, language="mermaid")
 
 with tab_plan:
     st.subheader("Prioritized Next Analyses")

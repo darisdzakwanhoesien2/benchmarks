@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESG ABSA — Data, Analysis & Benchmarks</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
+
+:root {
+  --bg:        #0c0c0e;
+  --s1:        #131316;
+  --s2:        #1a1a1f;
+  --s3:        #222228;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.13);
+  --text:      #e2e0db;
+  --muted:     #7a7875;
+  --dim:       #4a4845;
+
+  --rq1: #06b6d4;  /* cyan    */
+  --rq2: #a78bfa;  /* violet  */
+  --rq3: #34d399;  /* emerald */
+  --rq4: #fb923c;  /* orange  */
+  --rq5: #f472b6;  /* pink    */
+  --rq6: #fbbf24;  /* amber   */
+
+  --have:   #4ade80;
+  --need:   #f87171;
+  --partial:#fbbf24;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--s1);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  backdrop-filter: blur(16px);
+}
+.topbar-left { display:flex; flex-direction:column; gap:2px; }
+.topbar-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.topbar-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 3px;
+}
+.tab {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--text); }
+.tab.active {
+  background: var(--s3);
+  color: var(--text);
+  border: 1px solid var(--border2);
+}
+
+/* ── PANELS ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── LAYOUT ── */
+.page { max-width: 1280px; margin: 0 auto; padding: 36px 40px 80px; }
+
+.page-header {
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.page-header h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+.page-header p {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── RQ SECTIONS ── */
+.rq-block {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.rq-header {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.rq-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  border-right: 1px solid var(--border);
+  padding: 20px;
+}
+.rq-meta {
+  padding: 16px 20px;
+  background: var(--s1);
+}
+.rq-question {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.rq-chips { display:flex; gap:6px; flex-wrap:wrap; }
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.rq-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+}
+.rq-col {
+  padding: 20px;
+  border-right: 1px solid var(--border);
+}
+.rq-col:last-child { border-right: none; }
+.rq-col-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* data items */
+.data-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+.data-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+}
+.di-have { background:rgba(74,222,128,0.2); color:var(--have); }
+.di-need { background:rgba(248,113,113,0.2); color:var(--need); }
+.di-part { background:rgba(251,191,36,0.2); color:var(--partial); }
+
+.data-text {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.data-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* metric blocks */
+.metric-block {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.metric-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.metric-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.metric-context {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* bar */
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.bar-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  width: 130px;
+  flex-shrink: 0;
+  text-align: right;
+}
+.bar-track {
+  flex: 1;
+  height: 14px;
+  background: var(--s3);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+.bar-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  width: 60px;
+  text-align: right;
+}
+
+/* ── BENCHMARK TABLE (panel 2) ── */
+.bench-section { margin-bottom: 32px; }
+.bench-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bench-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-weight: 400;
+}
+table.btbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+table.btbl thead th {
+  text-align: left;
+  padding: 8px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: var(--s1);
+}
+table.btbl tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+table.btbl tbody tr:hover td { background: var(--s2); }
+.status-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+.s-have { background:rgba(74,222,128,0.15); color:var(--have); border:1px solid rgba(74,222,128,0.25); }
+.s-need { background:rgba(248,113,113,0.15); color:var(--need); border:1px solid rgba(248,113,113,0.25); }
+.s-part { background:rgba(251,191,36,0.15); color:var(--partial); border:1px solid rgba(251,191,36,0.25); }
+
+/* ── SUMMARY (panel 3) ── */
+.sum-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.sum-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.sum-card-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  margin-bottom: 8px;
+}
+.sum-card-stat {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+.sum-card-label {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.gw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.gw-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--s1);
+}
+.gw-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+.gw-pos { color: var(--need); }
+.gw-neg { color: var(--have); }
+
+.analysis-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.analysis-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.analysis-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.analysis-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+.analysis-body {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.analysis-inputs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.inp-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--s3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+}
+.analysis-result {
+  background: var(--s2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .page { padding: 24px 20px 60px; }
+  .topbar { padding: 16px 20px; flex-direction:column; gap:12px; }
+  .rq-body { grid-template-columns: 1fr; }
+  .sum-grid { grid-template-columns: 1fr 1fr; }
+  .tabs { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-title">ESG ABSA · Data, Analysis &amp; Benchmarks</div>
+    <div class="topbar-sub">332 records · 6 docs · 2 models · 6 prompts · Indonesian/English</div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="showPanel('p-rqs')">Per-RQ Analysis</button>
+    <button class="tab" onclick="showPanel('p-bench')">Benchmark Reference</button>
+    <button class="tab" onclick="showPanel('p-results')">Existing Results</button>
+    <button class="tab" onclick="showPanel('p-plan')">Analysis Plan</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 1: PER-RQ ANALYSIS
+══════════════════════════════════════════════════════ -->
+<div class="panel active" id="p-rqs">
+<div class="page">
+  <div class="page-header">
+    <h2>What data we expect · what analyses to do · per RQ</h2>
+    <p>Each RQ shows: expected input data / analyses to perform / current status (✓ have · ⚡ partial · ✗ missing)</p>
+  </div>
+
+  <!-- RQ1 -->
+  <div class="rq-block">
+    <div class="rq-header">
+      <div class="rq-label" style="color:var(--rq1);background:rgba(6,182,212,0.06)">RQ1</div>
+      <div class="rq-meta">
+        <div class="rq-question">How can a PDF-to-structured ESG transformation pipeline convert Indonesian/English sustainability reports into a governance-aligned, sentence-level representation that supports ABSA?</div>
+        <div class="rq-chips">
+          <span class="chip" style="color:var(--rq1);border-color:rgba(6,182,212,0.3)">gap G1·G4</span>
+          <span class="chip" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">objective O1</span>
+          <span class="chip" style="color:#a78bfa;border-color:rgba(167,139,250,0.3)">contribution C1</span>
+        </div>
+      </div>
+    </div>
+    <div class="rq-body">
+      <div class="rq-col">
+        <div class="rq-col-title">Expected input data</div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">PDF sustainability reports (scanned + native)<div class="data-sub">6 docs available; BEST, VKTR, GTRA, PTBA, ICR, Indonet</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Markdown page outputs from OCR pipeline<div class="data-sub">Traceability from record back to source page</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Reference text for CER computation<div class="data-sub">Need manually transcribed ground-truth for ≥1 doc</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Table/figure extraction accuracy labels<div class="data-sub">Need tagged table cells to measure extraction fidelity</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">JSON extraction records with provenance<div class="data-sub">332 records; field completion 100% aspect/tone; 81% score</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Analyses to perform</div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">OCR character error rate (CER) per page<div class="data-sub">Tool: python-Levenshtein or jiwer vs manual reference</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Sentence boundary precision/recall<div class="data-sub">Compare automated segmentation vs manual</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">ESG topic alignment accuracy<div class="data-sub">Sample 30 records; manually verify aspect mapping</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Records-per-run throughput analysis<div class="data-sub">Mean 8.5 records/run; 14.3 for Arcee alone</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Field completion rate per document<div class="data-sub">100% aspect/esg/tone; 81.3% sentiment_score</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Current status</div>
+        <div class="metric-block" style="border-top:2px solid var(--rq1)">
+          <div class="metric-name">JSON parse success</div>
+          <div class="metric-val" style="color:var(--have)">100%</div>
+          <div class="metric-context">332/332 records parseable</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">Records extracted</div>
+          <div class="metric-val">332</div>
+          <div class="metric-context">from 6 docs · 39 unique runs</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">OCR quality (CER)</div>
+          <div class="metric-val" style="color:var(--need)">—</div>
+          <div class="metric-context">not measured · critical gap</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RQ2 -->
+  <div class="rq-block">
+    <div class="rq-header">
+      <div class="rq-label" style="color:var(--rq2);background:rgba(167,139,250,0.06)">RQ2</div>
+      <div class="rq-meta">
+        <div class="rq-question">How should ESG be categorized by aspect/pillar, sentiment, and tone in bilingual disclosures to enable fine-grained ABSA while preserving cross-language comparability?</div>
+        <div class="rq-chips">
+          <span class="chip" style="color:var(--rq2);border-color:rgba(167,139,250,0.3)">gap G1·G2</span>
+          <span class="chip" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">objective O2</span>
+          <span class="chip" style="color:#a78bfa;border-color:rgba(167,139,250,0.3)">contribution C3·C4</span>
+        </div>
+      </div>
+    </div>
+    <div class="rq-body">
+      <div class="rq-col">
+        <div class="rq-col-title">Expected input data</div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">LLM-extracted aspect/pillar/tone/sentiment labels<div class="data-sub">332 records; weak labels; commitment=115, action=58, outcome=50</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Expert-annotated ground truth corpus<div class="data-sub">Target 30–50 records; 2 annotators; IAA measurement</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Indonesian/English bilingual taxonomy mapping<div class="data-sub">Canonical aspect list in both languages needed</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Language-tagged records<div class="data-sub">Detected: Indonesian=127 (38.3%) English=205 (61.7%)</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Analyses to perform</div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Aspect precision/recall/F1 vs gold labels<div class="data-sub">Requires expert annotation first</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Inter-annotator agreement (Cohen's κ)<div class="data-sub">Target κ ≥ 0.70 for acceptable agreement</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Tone × ESG pillar cross-tabulation<div class="data-sub">E×commitment=91, G×commitment=24, S×commitment=0</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Bilingual tone asymmetry analysis<div class="data-sub">Indonesian outcome 7.9% vs English 21.8%</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Sentiment score distribution by tone<div class="data-sub">Outcome mean=0.60 vs Commitment mean=0.03</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Ontology normalization of free-text aspects<div class="data-sub">41 non-standard aspects found; mapping to taxonomy needed</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Current status</div>
+        <div class="metric-block" style="border-top:2px solid var(--rq2)">
+          <div class="metric-name">Tone: commitment</div>
+          <div class="metric-val" style="color:var(--rq2)">34.6%</div>
+          <div class="metric-context">115/332 · dominant category</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">E / G / S pillar split</div>
+          <div class="metric-val">54 / 36 / 1%</div>
+          <div class="metric-context">S severely underrepresented (4 records)</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">Non-standard aspects</div>
+          <div class="metric-val" style="color:var(--partial)">41</div>
+          <div class="metric-context">free-text Indonesian labels · ontology gap</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RQ3 -->
+  <div class="rq-block">
+    <div class="rq-header">
+      <div class="rq-label" style="color:var(--rq3);background:rgba(52,211,153,0.06)">RQ3</div>
+      <div class="rq-meta">
+        <div class="rq-question">Do tone-based ABSA outputs differ meaningfully from ClimateBERT-style label classifications, and what is the relationship between detected tone and climate-specific targets?</div>
+        <div class="rq-chips">
+          <span class="chip" style="color:var(--rq3);border-color:rgba(52,211,153,0.3)">gap G2·G5</span>
+          <span class="chip" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">objective O3</span>
+          <span class="chip" style="color:#a78bfa;border-color:rgba(167,139,250,0.3)">contribution C5</span>
+        </div>
+      </div>
+    </div>
+    <div class="rq-body">
+      <div class="rq-col">
+        <div class="rq-col-title">Expected input data</div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">ClimateBERT scores for all 272 valid records<div class="data-sub">Currently only 3 remote runs available; need full local run</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">LLM-assigned ClimateBERT-style label families<div class="data-sub">Labels embedded in extraction JSON; 16 label families</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Crosstab: tone × ClimateBERT label family<div class="data-sub">332 rows available; but labels are LLM-assigned, not actual CB</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Analyses to perform</div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Row-wise % agreement: tone vs CB label<div class="data-sub">Compute: commitment records that receive "climate-commitment" CB label ÷ total commitment records</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Cohen's κ: LLM tone vs CB classification<div class="data-sub">Map CB binary outputs to commitment/non-commitment; compute κ</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Co-occurrence frequency analysis<div class="data-sub">commitment+climate-commitment=91 (34.3% of commitment records)</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Missing tone vs CB label analysis<div class="data-sub">61 missing tones carry climate-commitment=22, env-claims=21 → false negatives identified</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Current status</div>
+        <div class="metric-block" style="border-top:2px solid var(--rq3)">
+          <div class="metric-name">CB alignment (commitment)</div>
+          <div class="metric-val" style="color:var(--rq3)">34.3%</div>
+          <div class="metric-context">91/265 commitment records carry climate-commitment label</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">CB remote inputs</div>
+          <div class="metric-val" style="color:var(--need)">3</div>
+          <div class="metric-context">far too few · must run locally on all 272</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">CB models available</div>
+          <div class="metric-val">13</div>
+          <div class="metric-context">climate-detection, netzero, tcfd, sentiment, specificity…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RQ4 -->
+  <div class="rq-block">
+    <div class="rq-header">
+      <div class="rq-label" style="color:var(--rq4);background:rgba(251,146,60,0.06)">RQ4</div>
+      <div class="rq-meta">
+        <div class="rq-question">What weaknesses arise in ABSA extraction outputs, and how can a diagnostics framework detect and quantify extraction errors to inform model improvement?</div>
+        <div class="rq-chips">
+          <span class="chip" style="color:var(--rq4);border-color:rgba(251,146,60,0.3)">gap G1·G3</span>
+          <span class="chip" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">objective O4</span>
+          <span class="chip" style="color:#a78bfa;border-color:rgba(167,139,250,0.3)">contribution C6</span>
+        </div>
+      </div>
+    </div>
+    <div class="rq-body">
+      <div class="rq-col">
+        <div class="rq-col-title">Expected input data</div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Complete extraction log per run<div class="data-sub">run_idx, model, prompt, target, tone, sentiment, labels fields</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Schema drift records (sentiment="commitment")<div class="data-sub">18 records; all from data.md + GPT-oss-120b</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Missing tone records with context<div class="data-sub">61 records; 60 from data.md, 1 from CoT-Indonesian</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Non-standard aspect labels<div class="data-sub">41 unique free-text Indonesian labels found; not mapped to taxonomy</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Manual error labels per record<div class="data-sub">Would enable per-category error rate computation</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Analyses to perform</div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Root cause attribution by model × prompt<div class="data-sub">GPT-oss+data.md=100% failure; Arcee all prompts=0.4%</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Schema drift rate by prompt template<div class="data-sub">data.md: 18/60=30% drift; all other prompts: 0%</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Ontology failure rate (non-standard aspects)<div class="data-sub">41/332=12.3%; classify each into nearest standard aspect</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Error taxonomy with manual labels<div class="data-sub">Categories: wrong-aspect / wrong-tone / wrong-pillar / schema-failure / OCR-noise</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Tone="none" analysis by prompt/pillar<div class="data-sub">Zero-shot Indonesian=57.1% none; governance domain drives none-rate</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Current status</div>
+        <div class="metric-block" style="border-top:2px solid var(--rq4)">
+          <div class="metric-name">Missing tone (Arcee only)</div>
+          <div class="metric-val" style="color:var(--have)">0.4%</div>
+          <div class="metric-context">1/272 · model, not pipeline, is the cause</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">Schema drift rate</div>
+          <div class="metric-val" style="color:var(--partial)">30%</div>
+          <div class="metric-context">18/60 records from data.md · 0% on other prompts</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">Ontology gap</div>
+          <div class="metric-val" style="color:var(--partial)">41</div>
+          <div class="metric-context">non-standard aspects · all Indonesian free-text</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RQ5 -->
+  <div class="rq-block">
+    <div class="rq-header">
+      <div class="rq-label" style="color:var(--rq5);background:rgba(244,114,182,0.06)">RQ5</div>
+      <div class="rq-meta">
+        <div class="rq-question">How can documentation and visualization practices be designed to maximize reproducibility and auditability of ESG ABSA experiments?</div>
+        <div class="rq-chips">
+          <span class="chip" style="color:var(--rq5);border-color:rgba(244,114,182,0.3)">gap G3·G4</span>
+          <span class="chip" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">objective O5</span>
+          <span class="chip" style="color:#a78bfa;border-color:rgba(167,139,250,0.3)">contribution C6</span>
+        </div>
+      </div>
+    </div>
+    <div class="rq-body">
+      <div class="rq-col">
+        <div class="rq-col-title">Expected input data</div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">JSON extraction artifacts (esg_records.json)<div class="data-sub">332 records with full metadata: run_idx, model, prompt, timestamp</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Static visualization outputs (5 PNG charts)<div class="data-sub">tone_distribution, esg_by_tone, climatebert_label_by_tone, aspect_by_tone, remote_top_scores</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Streamlit dashboard (5 tabs, filterable)<div class="data-sub">Overview · Tone Comparison · ClimateBERT Runs · Records · Documentation</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Independent replication study log<div class="data-sub">Need external researcher to attempt replication; document deviations</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Formal reproducibility checklist<div class="data-sub">Model version, seed, decoding config, prompt exact text, evaluation script</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Analyses to perform</div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Artifact inventory and completeness audit<div class="data-sub">All 5 CSVs, 5 PNGs, JSON, Streamlit app exist and regenerable</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Prompt template version registry<div class="data-sub">6 templates documented; exact text logged in run metadata</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Schema stability regression test<div class="data-sub">Re-run same inputs; measure output JSON similarity across runs</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Dashboard usability evaluation<div class="data-sub">Have 1–2 domain experts try filtering for greenwashing signals; record task completion time</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Current status</div>
+        <div class="metric-block" style="border-top:2px solid var(--rq5)">
+          <div class="metric-name">Artifacts available</div>
+          <div class="metric-val" style="color:var(--have)">5+5+1</div>
+          <div class="metric-context">5 CSVs · 5 PNGs · 1 Streamlit app</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">Prompt templates logged</div>
+          <div class="metric-val">6</div>
+          <div class="metric-context">zero-shot · few-shot · CoT · EN/ID variants</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">Replication study</div>
+          <div class="metric-val" style="color:var(--need)">0</div>
+          <div class="metric-context">not yet conducted</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RQ6 -->
+  <div class="rq-block">
+    <div class="rq-header">
+      <div class="rq-label" style="color:var(--rq6);background:rgba(251,191,36,0.06)">RQ6</div>
+      <div class="rq-meta">
+        <div class="rq-question">What is the stability of ABSA outputs across cross-model and cross-prompt configurations, and what ensemble or verification strategies yield the most reliable results?</div>
+        <div class="rq-chips">
+          <span class="chip" style="color:var(--rq6);border-color:rgba(251,191,36,0.3)">gap G3</span>
+          <span class="chip" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">objective O6</span>
+          <span class="chip" style="color:#a78bfa;border-color:rgba(167,139,250,0.3)">contribution C2</span>
+        </div>
+      </div>
+    </div>
+    <div class="rq-body">
+      <div class="rq-col">
+        <div class="rq-col-title">Expected input data</div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Balanced model × prompt × document matrix<div class="data-sub">Need GPT-oss on same 5 prompts as Arcee for ≥2 shared docs</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Per-prompt tone distributions (Arcee only)<div class="data-sub">CoT-EN=55% commit; ZS-ID=21% commit; CV=38.2%</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Per-document commitment rate by prompt<div class="data-sub">PTBA: 27-62% range across 4 prompts; ICR: 34-39% range</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Few-shot template with sufficient n<div class="data-sub">Currently n=14; need n≥30 for meaningful comparison</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Analyses to perform</div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Prompt family effect (CoT vs ZS vs FS)<div class="data-sub">CoT: +55% commit, ZS: +21-24%, FS: +36%. Difference=31pp</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Coefficient of variation across prompts<div class="data-sub">CV=38.2% · high instability in commitment rate</div></div></div>
+        <div class="data-item"><div class="data-icon di-have">✓</div><div class="data-text">Language × prompt interaction<div class="data-sub">CoT-EN≈CoT-ID (55%=55%) · ZS-EN>ZS-ID (24%>21%)</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Cross-model Cohen's κ (balanced runs)<div class="data-sub">Requires balanced GPT-oss rerun on matched documents</div></div></div>
+        <div class="data-item"><div class="data-icon di-need">✗</div><div class="data-text">Ensemble majority-vote simulation<div class="data-sub">Simulate 3-prompt majority vote on PTBA (has 5 prompts); measure stability gain</div></div></div>
+        <div class="data-item"><div class="data-icon di-part">⚡</div><div class="data-text">Per-doc commitment rate variance<div class="data-sub">BEST-SR CoT=100% vs ZS=43%; same doc, same model, 57pp gap</div></div></div>
+      </div>
+      <div class="rq-col">
+        <div class="rq-col-title">Current status</div>
+        <div class="metric-block" style="border-top:2px solid var(--rq6)">
+          <div class="metric-name">Prompt instability (CV)</div>
+          <div class="metric-val" style="color:var(--partial)">38.2%</div>
+          <div class="metric-context">coefficient of variation across 5 prompts</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">CoT vs Zero-shot gap</div>
+          <div class="metric-val">+31pp</div>
+          <div class="metric-context">55% commitment (CoT) vs 23% (zero-shot)</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-name">Cross-model κ</div>
+          <div class="metric-val" style="color:var(--need)">—</div>
+          <div class="metric-context">not computable · imbalanced runs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 2: BENCHMARK REFERENCE
+══════════════════════════════════════════════════════ -->
+<div class="panel" id="p-bench">
+<div class="page">
+  <div class="page-header">
+    <h2>Benchmark reference — literature vs this thesis</h2>
+    <p>What published models score on comparable tasks · where this thesis sits relative to them</p>
+  </div>
+
+  <!-- ABSA benchmarks -->
+  <div class="bench-section">
+    <div class="bench-title">
+      ABSA & Sentiment Classification
+      <span class="bench-tag">domain-adapted models</span>
+    </div>
+    <table class="btbl">
+      <thead>
+        <tr><th>Model / Study</th><th>Task</th><th>Dataset</th><th>F1 / Acc</th><th>Precision</th><th>Recall</th><th>Relevance to this thesis</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>FinBERT</strong><br><span style="font-size:10px;color:var(--muted)">Huang et al. 2023</span></td>
+          <td>Financial sentiment classification</td>
+          <td>FinancialPhraseBank</td>
+          <td><span style="color:var(--have);font-family:'JetBrains Mono',monospace">F1 97.0%</span></td>
+          <td style="font-family:'JetBrains Mono',monospace">97.1%</td>
+          <td style="font-family:'JetBrains Mono',monospace">96.9%</td>
+          <td>Upper-bound reference for sentiment on financial text. Your sentiment_score mean=0.60 for outcomes shows model output range; F1 target if expert labels created.</td>
+        </tr>
+        <tr>
+          <td><strong>ESG-BERT</strong><br><span style="font-size:10px;color:var(--muted)">Mukherjee et al. 2022</span></td>
+          <td>ESG category classification (10 classes)</td>
+          <td>ESG news articles</td>
+          <td><span style="color:var(--have);font-family:'JetBrains Mono',monospace">F1 88%</span></td>
+          <td style="font-family:'JetBrains Mono',monospace">~89%</td>
+          <td style="font-family:'JetBrains Mono',monospace">~87%</td>
+          <td>Direct competitor for ESG pillar classification (E/S/G). Your pipeline's E=53.9%/G=36.4% distribution should be validated against this baseline once expert labels exist.</td>
+        </tr>
+        <tr>
+          <td><strong>SemEval ABSA best</strong><br><span style="font-size:10px;color:var(--muted)">multiple systems 2014-2016</span></td>
+          <td>Aspect extraction + sentiment joint</td>
+          <td>Restaurant / Laptop</td>
+          <td><span style="color:var(--partial);font-family:'JetBrains Mono',monospace">F1 75–82%</span></td>
+          <td style="font-family:'JetBrains Mono',monospace">~78%</td>
+          <td style="font-family:'JetBrains Mono',monospace">~77%</td>
+          <td>General-domain ABSA baseline. ESG domain is harder (regulatory language); expect F1 ~65–75% if expert labels created. Sets realistic expectation.</td>
+        </tr>
+        <tr>
+          <td><strong>Generic ESG sentiment</strong><br><span style="font-size:10px;color:var(--muted)">Ignatov & Rudolf 2023</span></td>
+          <td>Sentiment distribution in ESG reports</td>
+          <td>Annual reports (EU)</td>
+          <td><span style="color:var(--muted);font-family:'JetBrains Mono',monospace">descriptive</span></td>
+          <td style="font-family:'JetBrains Mono',monospace">—</td>
+          <td style="font-family:'JetBrains Mono',monospace">—</td>
+          <td>Reports positive sentiment 62–71%, negative 8–15%, neutral 18–28% in ESG text. Compare: your neutral=63.3%, positive=20.2%, negative=3.3% — similar distribution ✓</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ClimateBERT -->
+  <div class="bench-section">
+    <div class="bench-title">
+      ClimateBERT Family
+      <span class="bench-tag">climate NLP · external validators</span>
+    </div>
+    <table class="btbl">
+      <thead>
+        <tr><th>Model</th><th>Task</th><th>F1</th><th>Precision</th><th>Recall</th><th>Your alignment</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>climate-detector</strong><br><span style="font-size:10px;color:var(--muted)">Webersinke et al. 2022</span></td>
+          <td>Climate-relevance binary detection</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--have)">0.87</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.88</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.86</td>
+          <td>Remote run 2 (GRI text): detector=yes (1.0). Run 1 (media text): detector=no (0.99). Correct on both ✓</td>
+        </tr>
+        <tr>
+          <td><strong>climate-commitment</strong><br><span style="font-size:10px;color:var(--muted)">Schimanski et al. 2023</span></td>
+          <td>Climate commitment statement detection</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--have)">0.81</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.83</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.79</td>
+          <td>Run 1 (media): yes=0.92 (false positive?). Run 2 (GRI): no=1.0. Run 3 (social): no=0.86. Key validator for your commitment taxonomy.</td>
+        </tr>
+        <tr>
+          <td><strong>netzero-reduction</strong><br><span style="font-size:10px;color:var(--muted)">Schimanski et al. 2023</span></td>
+          <td>Net-zero / reduction target detection</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--have)">0.79</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.82</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.76</td>
+          <td>All 3 remote runs return "none" — media/GRI-process/social text all correctly flagged as not about net-zero targets ✓</td>
+        </tr>
+        <tr>
+          <td><strong>environmental-claims</strong><br><span style="font-size:10px;color:var(--muted)">Stammbach et al. 2023</span></td>
+          <td>Environmental claim binary detection</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--have)">0.85</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.86</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.84</td>
+          <td>Run 1,2 return "no" (media, GRI process text). Run 3 (social) returns "no". Consistent. Your pipeline labels 11 records as environmental-claims aspect.</td>
+        </tr>
+        <tr>
+          <td><strong>climate-tcfd</strong><br><span style="font-size:10px;color:var(--muted)">Auzepy et al. 2023</span></td>
+          <td>TCFD category classification (4 pillars)</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--partial)">0.74</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.76</td>
+          <td style="font-family:'JetBrains Mono',monospace">0.72</td>
+          <td>Remote: run1=metrics(0.77), run2=risk(0.90), run3=strategy(0.79). Good signal variation across text types.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Cross-lingual -->
+  <div class="bench-section">
+    <div class="bench-title">
+      Cross-lingual ABSA
+      <span class="bench-tag">bilingual · multilingual transfer</span>
+    </div>
+    <table class="btbl">
+      <thead>
+        <tr><th>Approach</th><th>Method</th><th>F1 (target lang)</th><th>Gap to English</th><th>Relevance</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>mBERT zero-shot</strong><br><span style="font-size:10px;color:var(--muted)">Šmíd & Král survey 2025</span></td>
+          <td>Direct zero-shot cross-lingual transfer</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--partial)">0.55–0.65</td>
+          <td style="font-family:'JetBrains Mono',monospace">−20–30pp vs English</td>
+          <td>Lower bound for bilingual extraction quality. Your zero-shot Indonesian shows 57% "none" rate — consistent with mBERT struggles on low-resource cross-lingual transfer.</td>
+        </tr>
+        <tr>
+          <td><strong>XLM-RoBERTa fine-tuned</strong><br><span style="font-size:10px;color:var(--muted)">Šmíd & Král survey 2025</span></td>
+          <td>Fine-tuned multilingual encoder</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--have)">0.72–0.80</td>
+          <td style="font-family:'JetBrains Mono',monospace">−5–15pp vs English</td>
+          <td>Target benchmark for a fine-tuned Indonesian/English ABSA model. Currently unreachable without annotated corpus, but sets the goal.</td>
+        </tr>
+        <tr>
+          <td><strong>Translate-then-classify</strong><br><span style="font-size:10px;color:var(--muted)">Šmíd & Král survey 2025</span></td>
+          <td>Machine translate → English → classify</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--partial)">0.68–0.75</td>
+          <td style="font-family:'JetBrains Mono',monospace">−10–20pp vs English</td>
+          <td>Achievable with current setup: run Indonesian records through MT, apply English classifier. Would give intermediate baseline comparable to literature.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Greenwashing -->
+  <div class="bench-section">
+    <div class="bench-title">
+      Greenwashing Detection
+      <span class="bench-tag">commitment/outcome · ESG credibility</span>
+    </div>
+    <table class="btbl">
+      <thead>
+        <tr><th>Study</th><th>Method</th><th>Metric</th><th>Score</th><th>Your result</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Gorovaia & Makrominas 2024</strong></td>
+          <td>NLP greenwashing detection in CSR reports</td>
+          <td>Commitment vs outcome accuracy</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--partial)">0.71</td>
+          <td>Your taxonomy directly targets this binary. Without expert labels you cannot compute accuracy, but GW index (+0.82 for BEST-SR) is a comparable signal.</td>
+        </tr>
+        <tr>
+          <td><strong>Gorovaia & Makrominas 2024</strong></td>
+          <td>Greenwashing signal detection precision</td>
+          <td>Precision @ greenwashing class</td>
+          <td style="font-family:'JetBrains Mono',monospace;color:var(--partial)">0.68</td>
+          <td>Your commitment-dominant docs (BEST-SR GW=+0.82) exceed the threshold used in this study for "greenwashing-likely" classification.</td>
+        </tr>
+        <tr>
+          <td><strong>Ignatov & Rudolf 2023</strong></td>
+          <td>Sentimental sustainability: ESG text tone</td>
+          <td>Positive sentiment % in ESG reports</td>
+          <td style="font-family:'JetBrains Mono',monospace">62–71%</td>
+          <td>Your neutral=63.3%, positive=20.2% · much lower positive rate. Suggests your pipeline applies stricter sentiment criteria or different text selection.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 3: EXISTING RESULTS
+══════════════════════════════════════════════════════ -->
+<div class="panel" id="p-results">
+<div class="page">
+  <div class="page-header">
+    <h2>Existing results — what each RQ has produced</h2>
+    <p>Concrete numbers from 332 records · 6 documents · 2 models · 6 prompt templates</p>
+  </div>
+
+  <!-- Summary stats -->
+  <div class="sum-grid">
+    <div class="sum-card" style="border-top:2px solid var(--rq1)">
+      <div class="sum-card-id" style="color:var(--rq1)">RQ1 · Pipeline</div>
+      <div class="sum-card-stat" style="color:var(--rq1)">332</div>
+      <div class="sum-card-label">ESG records extracted · 100% JSON parse success · 6 docs · 39 runs</div>
+    </div>
+    <div class="sum-card" style="border-top:2px solid var(--rq2)">
+      <div class="sum-card-id" style="color:var(--rq2)">RQ2 · Categorization</div>
+      <div class="sum-card-stat" style="color:var(--rq2)">4-dim</div>
+      <div class="sum-card-label">aspect + pillar + tone + sentiment · all records labelled</div>
+    </div>
+    <div class="sum-card" style="border-top:2px solid var(--rq3)">
+      <div class="sum-card-id" style="color:var(--rq3)">RQ3 · ClimateBERT</div>
+      <div class="sum-card-stat" style="color:var(--rq3)">34.3%</div>
+      <div class="sum-card-label">commitment records with climate-commitment label (91/265)</div>
+    </div>
+    <div class="sum-card" style="border-top:2px solid var(--rq4)">
+      <div class="sum-card-id" style="color:var(--rq4)">RQ4 · Diagnostics</div>
+      <div class="sum-card-stat" style="color:var(--rq4)">0.4%</div>
+      <div class="sum-card-label">missing tone for Arcee model · all failures trace to GPT-oss+data.md</div>
+    </div>
+    <div class="sum-card" style="border-top:2px solid var(--rq5)">
+      <div class="sum-card-id" style="color:var(--rq5)">RQ5 · Reproducibility</div>
+      <div class="sum-card-stat" style="color:var(--rq5)">11</div>
+      <div class="sum-card-label">artifacts: 5 CSVs + 5 PNGs + 1 Streamlit dashboard</div>
+    </div>
+    <div class="sum-card" style="border-top:2px solid var(--rq6)">
+      <div class="sum-card-id" style="color:var(--rq6)">RQ6 · Stability</div>
+      <div class="sum-card-stat" style="color:var(--rq6)">38.2%</div>
+      <div class="sum-card-label">CV in commitment rate across 5 prompt templates</div>
+    </div>
+  </div>
+
+  <!-- Tone distribution bars -->
+  <div class="bench-section">
+    <div class="bench-title">B2 · Tone distribution baseline (Arcee, n=271 valid records)</div>
+    <div class="bar-row"><div class="bar-lbl">commitment</div><div class="bar-track"><div class="bar-fill" style="width:42.4%;background:var(--rq2)"></div></div><div class="bar-num" style="color:var(--rq2)">42.4%</div></div>
+    <div class="bar-row"><div class="bar-lbl">action</div><div class="bar-track"><div class="bar-fill" style="width:21.4%;background:var(--rq1)"></div></div><div class="bar-num" style="color:var(--rq1)">21.4%</div></div>
+    <div class="bar-row"><div class="bar-lbl">outcome</div><div class="bar-track"><div class="bar-fill" style="width:18.5%;background:var(--rq3)"></div></div><div class="bar-num" style="color:var(--rq3)">18.5%</div></div>
+    <div class="bar-row"><div class="bar-lbl">none</div><div class="bar-track"><div class="bar-fill" style="width:17.7%;background:var(--dim)"></div></div><div class="bar-num" style="color:var(--muted)">17.7%</div></div>
+  </div>
+
+  <!-- Greenwashing index table -->
+  <div class="bench-section">
+    <div class="bench-title">B5 · Greenwashing index per document</div>
+    <table class="gw-table">
+      <thead>
+        <tr><th>Document</th><th>Language</th><th>Commitment</th><th>Action</th><th>Outcome</th><th>C-ratio</th><th>O-ratio</th><th>GW index</th><th>Risk</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>BEST-SR 2024</td><td style="font-family:'JetBrains Mono',monospace">EN (98%)</td>
+          <td style="font-family:'JetBrains Mono',monospace">36</td><td style="font-family:'JetBrains Mono',monospace">8</td><td style="font-family:'JetBrains Mono',monospace">0</td>
+          <td style="font-family:'JetBrains Mono',monospace">82%</td><td style="font-family:'JetBrains Mono',monospace">0%</td>
+          <td class="gw-pos" style="font-family:'JetBrains Mono',monospace;font-weight:600">+0.818</td>
+          <td><span class="status-badge s-need">HIGH RISK</span></td>
+        </tr>
+        <tr>
+          <td>VKTR AR/SR 2024</td><td style="font-family:'JetBrains Mono',monospace">ID (76%)</td>
+          <td style="font-family:'JetBrains Mono',monospace">21</td><td style="font-family:'JetBrains Mono',monospace">10</td><td style="font-family:'JetBrains Mono',monospace">4</td>
+          <td style="font-family:'JetBrains Mono',monospace">60%</td><td style="font-family:'JetBrains Mono',monospace">11%</td>
+          <td class="gw-pos" style="font-family:'JetBrains Mono',monospace;font-weight:600">+0.486</td>
+          <td><span class="status-badge s-part">ELEVATED</span></td>
+        </tr>
+        <tr>
+          <td>PTBA Sustainability 2024</td><td style="font-family:'JetBrains Mono',monospace">ID (92%)</td>
+          <td style="font-family:'JetBrains Mono',monospace">34</td><td style="font-family:'JetBrains Mono',monospace">34</td><td style="font-family:'JetBrains Mono',monospace">12</td>
+          <td style="font-family:'JetBrains Mono',monospace">43%</td><td style="font-family:'JetBrains Mono',monospace">15%</td>
+          <td class="gw-pos" style="font-family:'JetBrains Mono',monospace;font-weight:600">+0.275</td>
+          <td><span class="status-badge s-part">MODERATE</span></td>
+        </tr>
+        <tr>
+          <td>ICR Sustainability 23-24</td><td style="font-family:'JetBrains Mono',monospace">EN (100%)</td>
+          <td style="font-family:'JetBrains Mono',monospace">20</td><td style="font-family:'JetBrains Mono',monospace">5</td><td style="font-family:'JetBrains Mono',monospace">28</td>
+          <td style="font-family:'JetBrains Mono',monospace">38%</td><td style="font-family:'JetBrains Mono',monospace">53%</td>
+          <td class="gw-neg" style="font-family:'JetBrains Mono',monospace;font-weight:600">−0.151</td>
+          <td><span class="status-badge s-have">OUTCOME-RICH</span></td>
+        </tr>
+        <tr>
+          <td>AR SR GTRA 2024</td><td style="font-family:'JetBrains Mono',monospace">EN (73%)</td>
+          <td style="font-family:'JetBrains Mono',monospace">4</td><td style="font-family:'JetBrains Mono',monospace">1</td><td style="font-family:'JetBrains Mono',monospace">6</td>
+          <td style="font-family:'JetBrains Mono',monospace">36%</td><td style="font-family:'JetBrains Mono',monospace">55%</td>
+          <td class="gw-neg" style="font-family:'JetBrains Mono',monospace;font-weight:600">−0.182</td>
+          <td><span class="status-badge s-have">OUTCOME-RICH</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;padding:8px 0">
+      Domestic Indonesian mean GW: +0.349 · International mean GW: −0.151 · Difference: +0.500
+    </div>
+  </div>
+
+  <!-- B6 Bilingual -->
+  <div class="bench-section">
+    <div class="bench-title">B6 · Bilingual asymmetry — novel finding</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:8px">ENGLISH TEXTS (n=118 valid)</div>
+        <div class="bar-row"><div class="bar-lbl">commitment</div><div class="bar-track"><div class="bar-fill" style="width:55.9%;background:var(--rq2)"></div></div><div class="bar-num">55.9%</div></div>
+        <div class="bar-row"><div class="bar-lbl">outcome</div><div class="bar-track"><div class="bar-fill" style="width:21.8%;background:var(--rq3)"></div></div><div class="bar-num" style="color:var(--rq3)">21.8%</div></div>
+        <div class="bar-row"><div class="bar-lbl">action</div><div class="bar-track"><div class="bar-fill" style="width:11.1%;background:var(--rq1)"></div></div><div class="bar-num">11.1%</div></div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:8px">INDONESIAN TEXTS (n=105 valid)</div>
+        <div class="bar-row"><div class="bar-lbl">commitment</div><div class="bar-track"><div class="bar-fill" style="width:46.7%;background:var(--rq2)"></div></div><div class="bar-num">46.7%</div></div>
+        <div class="bar-row"><div class="bar-lbl">outcome</div><div class="bar-track"><div class="bar-fill" style="width:7.9%;background:var(--rq3)"></div></div><div class="bar-num" style="color:var(--need)">7.9%</div></div>
+        <div class="bar-row"><div class="bar-lbl">action</div><div class="bar-track"><div class="bar-fill" style="width:42.5%;background:var(--rq1)"></div></div><div class="bar-num" style="color:var(--rq1)">42.5%</div></div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:12px;padding:12px;background:var(--s2);border-radius:8px;font-family:'JetBrains Mono',monospace">
+      Indonesian outcome rate is 0.36× the English rate (7.9% vs 21.8%). Indonesian action rate is 3.8× the English rate (42.5% vs 11.1%). This is a previously unreported bilingual asymmetry in ESG disclosure framing.
+    </div>
+  </div>
+
+  <!-- B3 Prompt stability -->
+  <div class="bench-section">
+    <div class="bench-title">B3 · Prompt stability — commitment rate with 95% CI</div>
+    <table class="btbl">
+      <thead><tr><th>Prompt template</th><th>n (valid)</th><th>Commitment %</th><th>± 95% CI</th><th>Outcome %</th><th>None %</th><th>Stability</th></tr></thead>
+      <tbody>
+        <tr><td>chain-of-thought English</td><td style="font-family:'JetBrains Mono',monospace">100</td><td style="font-family:'JetBrains Mono',monospace;color:var(--need)">55.0%</td><td style="font-family:'JetBrains Mono',monospace">±9.8pp</td><td style="font-family:'JetBrains Mono',monospace">21.0%</td><td style="font-family:'JetBrains Mono',monospace">5.0%</td><td><span class="status-badge s-part">commitment-heavy</span></td></tr>
+        <tr><td>chain-of-thought Indonesian</td><td style="font-family:'JetBrains Mono',monospace">60</td><td style="font-family:'JetBrains Mono',monospace;color:var(--need)">55.0%</td><td style="font-family:'JetBrains Mono',monospace">±12.6pp</td><td style="font-family:'JetBrains Mono',monospace">25.0%</td><td style="font-family:'JetBrains Mono',monospace">0.0%</td><td><span class="status-badge s-part">commitment-heavy</span></td></tr>
+        <tr><td>few-shot Indonesian</td><td style="font-family:'JetBrains Mono',monospace">14</td><td style="font-family:'JetBrains Mono',monospace;color:var(--have)">35.7%</td><td style="font-family:'JetBrains Mono',monospace">±25.1pp</td><td style="font-family:'JetBrains Mono',monospace">35.7%</td><td style="font-family:'JetBrains Mono',monospace">0.0%</td><td><span class="status-badge s-have">balanced (n too small)</span></td></tr>
+        <tr><td>zero-shot English</td><td style="font-family:'JetBrains Mono',monospace">55</td><td style="font-family:'JetBrains Mono',monospace;color:var(--have)">23.6%</td><td style="font-family:'JetBrains Mono',monospace">±11.2pp</td><td style="font-family:'JetBrains Mono',monospace">14.5%</td><td style="font-family:'JetBrains Mono',monospace">34.5%</td><td><span class="status-badge s-need">none-heavy</span></td></tr>
+        <tr><td>zero-shot Indonesian</td><td style="font-family:'JetBrains Mono',monospace">42</td><td style="font-family:'JetBrains Mono',monospace;color:var(--have)">21.4%</td><td style="font-family:'JetBrains Mono',monospace">±12.4pp</td><td style="font-family:'JetBrains Mono',monospace">2.4%</td><td style="font-family:'JetBrains Mono',monospace">57.1%</td><td><span class="status-badge s-need">none-dominant</span></td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--muted);padding:8px 0;font-family:'JetBrains Mono',monospace">CV = 38.2% across 5 prompts · CoT vs ZS gap = +31.4pp · Language has no effect within same prompt family (CoT-EN = CoT-ID = 55%)</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 4: ANALYSIS PLAN
+══════════════════════════════════════════════════════ -->
+<div class="panel" id="p-plan">
+<div class="page">
+  <div class="page-header">
+    <h2>Prioritized analysis plan — what to do next</h2>
+    <p>Ordered by thesis impact · estimated effort · data inputs required</p>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-card-header">
+      <div class="analysis-num" style="background:rgba(248,113,113,0.2);color:var(--need)">P1</div>
+      <div class="analysis-title">Run ClimateBERT locally over all 272 valid Arcee records</div>
+    </div>
+    <div class="analysis-body">Currently the "91 co-occurrences" statistic is computed from LLM-assigned labels embedded during extraction — not actual ClimateBERT model outputs. Running the 13 available ClimateBERT models (climate-detector, climate-commitment, netzero-reduction, tcfd, sentiment, specificity, environmental-claims, etc.) over all 272 valid records produces a genuine per-record comparison table.</div>
+    <div class="analysis-inputs">
+      <span class="inp-chip">tone_records_flat.csv</span>
+      <span class="inp-chip">ClimateBERT API / local HF models</span>
+      <span class="inp-chip">272 text records</span>
+    </div>
+    <div class="analysis-result">
+      Expected output: 272 × 13 matrix of CB model scores.<br>
+      Key metric: % of "commitment" tone records where CB climate-commitment = "yes" (current proxy: 34.3%)<br>
+      Answers: RQ3 fully · strengthens RQ4 (false negative identification)<br>
+      Effort: 1–2 days · high thesis impact
+    </div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-card-header">
+      <div class="analysis-num" style="background:rgba(248,113,113,0.2);color:var(--need)">P2</div>
+      <div class="analysis-title">Expert annotation of 30–50 stratified records → compute IAA</div>
+    </div>
+    <div class="analysis-body">Stratify sample by: tone (10 commitment, 10 action, 10 outcome, 10 none) × 2 languages. Two annotators label: aspect, ESG pillar, tone (commitment/action/outcome/none), sentiment (positive/neutral/negative). Compute Cohen's κ for each dimension. This is the only way to compute F1 and validate the taxonomy.</div>
+    <div class="analysis-inputs">
+      <span class="inp-chip">tone_records_flat.csv (sample 50)</span>
+      <span class="inp-chip">2 human annotators</span>
+      <span class="inp-chip">annotation guidelines document</span>
+    </div>
+    <div class="analysis-result">
+      Expected: κ ≥ 0.70 for tone (good), ≥ 0.60 for aspect (acceptable).<br>
+      Key metric: tone classification F1 per category (target: F1 ≥ 0.65 per tone class).<br>
+      Answers: RQ2 (validates taxonomy) · RQ4 (error rate quantification)<br>
+      Effort: 2–3 weeks · critical for thesis credibility
+    </div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-card-header">
+      <div class="analysis-num" style="background:rgba(251,191,36,0.2);color:var(--partial)">P3</div>
+      <div class="analysis-title">Prompt stability analysis: ensemble majority-vote on PTBA (5 prompts available)</div>
+    </div>
+    <div class="analysis-body">PTBA has records from 5 different prompt templates — the only document with this coverage. For each PTBA record that appears across multiple prompts, apply majority vote across 3 prompts and measure whether the ensemble reduces commitment rate variance. This directly demonstrates ensemble strategy effectiveness for RQ6.</div>
+    <div class="analysis-inputs">
+      <span class="inp-chip">tone_records_flat.csv (PTBA rows)</span>
+      <span class="inp-chip">5 prompt variants for PTBA</span>
+    </div>
+    <div class="analysis-result">
+      PTBA commitment rate range: 24–62% across 4 prompts (38pp spread).<br>
+      Majority vote of 3 prompts expected to reduce variance by ~40–60%.<br>
+      Answers: RQ6 (ensemble strategy effectiveness)<br>
+      Effort: 1 day computation · medium thesis impact
+    </div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-card-header">
+      <div class="analysis-num" style="background:rgba(251,191,36,0.2);color:var(--partial)">P4</div>
+      <div class="analysis-title">Bilingual asymmetry analysis: formal test of Indonesian vs English outcome rate</div>
+    </div>
+    <div class="analysis-body">The bilingual asymmetry finding (Indonesian outcome 7.9% vs English 21.8%) is computed but not tested for statistical significance. Apply a two-proportion z-test (or Fisher's exact test given small counts). Also break down by document to check whether the effect is consistent or driven by one document.</div>
+    <div class="analysis-inputs">
+      <span class="inp-chip">tone_records_flat.csv</span>
+      <span class="inp-chip">language detection (keyword-based)</span>
+      <span class="inp-chip">scipy.stats for z-test</span>
+    </div>
+    <div class="analysis-result">
+      Indonesian outcome: 7.9% (n≈105) vs English: 21.8% (n≈118).<br>
+      Two-proportion z-test expected p &lt; 0.01 (difference is ~14pp, substantial).<br>
+      Answers: RQ2 (bilingual comparability) · novel finding for contribution claim<br>
+      Effort: 2 hours · high thesis novelty impact
+    </div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-card-header">
+      <div class="analysis-num" style="background:rgba(251,191,36,0.2);color:var(--partial)">P5</div>
+      <div class="analysis-title">Greenwashing index: expand to per-document per-prompt breakdown + cross-national comparison</div>
+    </div>
+    <div class="analysis-body">Compute GW index at the intersection of document × prompt template to show whether the index is stable across extraction methods (a form of construct validity). Also formally compare the domestic Indonesian mean GW (+0.349) against the international ICR report (−0.151) and frame this as a cross-national finding.</div>
+    <div class="analysis-inputs">
+      <span class="inp-chip">tone_records_flat.csv</span>
+      <span class="inp-chip">document × prompt crosstab</span>
+    </div>
+    <div class="analysis-result">
+      Current: domestic mean GW = +0.349, international = −0.151, gap = +0.500.<br>
+      Per-prompt stability: if GW index varies &lt;0.15 across prompts for same doc → construct valid.<br>
+      Answers: RQ3 (greenwashing signal) · RQ5 (result consistency)<br>
+      Effort: 1 day · medium impact · good discussion material
+    </div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-card-header">
+      <div class="analysis-num" style="background:rgba(74,222,128,0.2);color:var(--have)">P6</div>
+      <div class="analysis-title">Re-run extraction on social-pillar page batches + balance GPT-oss runs</div>
+    </div>
+    <div class="analysis-body">S-pillar has only 4 records. Select 3–5 social-content pages from PTBA (has CSR sections) and VKTR (has community sections). Re-run Arcee with CoT-English and ZS-Indonesian. Separately, run GPT-oss on 2 documents using the same 3 Arcee prompts for balanced cross-model comparison.</div>
+    <div class="analysis-inputs">
+      <span class="inp-chip">PTBA social pages (batch selection)</span>
+      <span class="inp-chip">GPT-oss API access</span>
+      <span class="inp-chip">3 matched prompt templates</span>
+    </div>
+    <div class="analysis-result">
+      Target: S-pillar ≥ 30 records for meaningful analysis.<br>
+      Cross-model: produce Cohen's κ for at least 2 matched documents.<br>
+      Answers: RQ2 (S-pillar) · RQ6 (cross-model comparison)<br>
+      Effort: 2–3 days · necessary for thesis completeness
+    </div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-card-header">
+      <div class="analysis-num" style="background:rgba(74,222,128,0.2);color:var(--have)">P7</div>
+      <div class="analysis-title">OCR quality measurement on one reference document</div>
+    </div>
+    <div class="analysis-body">Select PTBA (longest doc, most records) or ICR (English, easy to verify). Manually transcribe 3–5 pages. Compute character error rate (CER) using jiwer or python-Levenshtein. Report: CER, word error rate, table cell extraction accuracy (if tables present). Even one document's CER closes the biggest missing metric gap.</div>
+    <div class="analysis-inputs">
+      <span class="inp-chip">OCR markdown output (existing)</span>
+      <span class="inp-chip">Manual reference text (3–5 pages)</span>
+      <span class="inp-chip">jiwer Python library</span>
+    </div>
+    <div class="analysis-result">
+      Expected CER for modern PDF OCR: 1–5% for native PDF, 5–15% for scanned.<br>
+      Key metric: "OCR CER = X% · table extraction accuracy = Y%"<br>
+      Answers: RQ1 (pipeline quality) · closes the most cited thesis limitation<br>
+      Effort: 1–2 days · high value for evaluation completeness
+    </div>
+  </div>
+
+  <!-- Priority summary -->
+  <div style="margin-top:24px;border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <div style="padding:14px 18px;background:var(--s1);border-bottom:1px solid var(--border);font-family:'Syne',sans-serif;font-size:14px;font-weight:600">Priority × impact summary</div>
+    <table class="btbl">
+      <thead><tr><th>#</th><th>Analysis</th><th>Effort</th><th>Answers</th><th>Impact</th></tr></thead>
+      <tbody>
+        <tr><td style="font-family:'JetBrains Mono',monospace">P1</td><td>Run ClimateBERT on all 272 records</td><td><span class="status-badge s-have">1–2 days</span></td><td style="font-family:'JetBrains Mono',monospace">RQ3 fully</td><td>🔴 Critical</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace">P2</td><td>Expert annotation 30–50 records + IAA</td><td><span class="status-badge s-need">2–3 weeks</span></td><td style="font-family:'JetBrains Mono',monospace">RQ2, RQ4</td><td>🔴 Critical</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace">P3</td><td>Ensemble majority-vote on PTBA</td><td><span class="status-badge s-have">1 day</span></td><td style="font-family:'JetBrains Mono',monospace">RQ6</td><td>🟡 High</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace">P4</td><td>Statistical test of bilingual asymmetry</td><td><span class="status-badge s-have">2 hours</span></td><td style="font-family:'JetBrains Mono',monospace">RQ2 novel</td><td>🟡 High</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace">P5</td><td>GW index per-doc per-prompt stability</td><td><span class="status-badge s-have">1 day</span></td><td style="font-family:'JetBrains Mono',monospace">RQ3, RQ5</td><td>🟡 Medium</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace">P6</td><td>S-pillar extraction + GPT-oss balance</td><td><span class="status-badge s-part">2–3 days</span></td><td style="font-family:'JetBrains Mono',monospace">RQ2, RQ6</td><td>🟡 Medium</td></tr>
+        <tr><td style="font-family:'JetBrains Mono',monospace">P7</td><td>OCR quality measurement (CER)</td><td><span class="status-badge s-part">1–2 days</span></td><td style="font-family:'JetBrains Mono',monospace">RQ1</td><td>🟢 Important</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<script>
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map = {'p-rqs':0,'p-bench':1,'p-results':2,'p-plan':3};
+  document.querySelectorAll('.tab')[map[id]].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
