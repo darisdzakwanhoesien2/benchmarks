@@ -228,6 +228,115 @@ MISSING_WORK = pd.DataFrame([
     ],
 ], columns=["rq", "missing_piece", "process", "primary_source", "output_metric"])
 
+RQ_TABLE_GUIDE = pd.DataFrame([
+    [
+        "RQ1",
+        "Pipeline",
+        "Shows whether the PDF-to-Markdown-to-JSON pipeline is technically reliable enough to be used as the foundation for ABSA.",
+        "JSON parse success, records per run, field completion, OCR CER/WER, sentence-boundary precision/recall, table extraction accuracy.",
+        "JSON parse success near 100%; required fields complete; CER low enough that sentence meaning is preserved; segmentation errors rare; records trace back to page/source.",
+        "If CER/WER is high, source text may be noisy and all downstream ESG labels become less trustworthy. If segmentation is poor, ABSA may classify fragments or merged sentences. If provenance is missing, auditability fails.",
+        "Use data_output.txt for parsed records and provenance. Add manual OCR references for a small page sample to compute CER/WER.",
+    ],
+    [
+        "RQ2",
+        "Categorization",
+        "Checks whether aspect, pillar, sentiment, and tone labels are valid and comparable across Indonesian and English disclosures.",
+        "Expert-label agreement, Cohen kappa, precision/recall/F1 per tone/aspect/pillar, ontology coverage, bilingual label consistency.",
+        "Kappa >= 0.70 for acceptable annotation agreement; F1 high enough per category, ideally >= 0.65 for each tone; non-standard aspect labels mapped into a stable taxonomy.",
+        "Underperformance means the LLM labels are weak descriptive labels rather than validated ABSA labels. S-pillar underrepresentation means Social conclusions are not defensible yet.",
+        "Draw a stratified sample from data_output.txt by tone, language, and pillar. Two annotators label the same records, then compare model labels with gold labels.",
+    ],
+    [
+        "RQ3",
+        "ClimateBERT",
+        "Compares thesis tone-based ABSA against local ClimateBERT or ESGBERT model classifications.",
+        "Coverage of ClimateBERT predictions, tone x ClimateBERT crosstab, agreement rate, Cohen kappa, model confidence distribution.",
+        "Every valid sentence has predictions for selected models; agreement patterns are explainable; ClimateBERT adds a distinct climate-specific signal beyond LLM tone.",
+        "If only a few rows have predictions, RQ3 remains incomplete. If agreement is very low, either mappings are wrong, ClimateBERT label space is incompatible, or LLM tone is measuring a different construct.",
+        "Use climatebert_predictions as the primary source. Join predictions back to data_output.txt by sentence and compare labels to tone/aspect.",
+    ],
+    [
+        "RQ4",
+        "Diagnostics",
+        "Quantifies where extraction fails and whether failures are caused by prompt design, model choice, OCR noise, schema drift, or ontology mismatch.",
+        "Missing-tone rate, schema-drift rate, wrong-aspect rate, wrong-pillar rate, ontology failure rate, error rate by model/prompt/document/language.",
+        "Low schema drift outside known bad prompts; missing tone near zero for stable models; error categories explainable and reducible through prompt/schema fixes.",
+        "If drift clusters around one prompt/model, that prompt/model is unsafe. If errors are spread evenly, the taxonomy or source data may be underspecified.",
+        "Use data_output.txt plus manual spot checks. Add an error_type column for sampled records and summarize by model/prompt/document.",
+    ],
+    [
+        "RQ5",
+        "Reproducibility",
+        "Shows whether another person can trace, rerun, audit, and verify the ESG ABSA pipeline and its outputs.",
+        "Artifact inventory, exact prompt registry, model version list, rerun checklist, saved outputs, dashboard traceability, replication log.",
+        "Every chart/table links back to a dataset, prompt, model, and code path; outputs are reproducible or deviations are documented.",
+        "If prompts, model versions, or output files are missing, the result may be visually persuasive but not auditable. This weakens thesis credibility even if metrics look good.",
+        "Use both data_output.txt and climatebert_predictions, plus Streamlit pages and prompt files, to build an artifact checklist.",
+    ],
+    [
+        "RQ6",
+        "Stability",
+        "Measures whether ABSA outputs are stable across model and prompt choices, and whether ensemble strategies improve reliability.",
+        "Coefficient of variation across prompts, cross-model Cohen kappa, prompt-family effect size, majority-vote agreement, per-document variance.",
+        "Balanced model x prompt x document coverage; lower variance after ensemble/majority voting; prompt differences are quantified rather than anecdotal.",
+        "If one prompt has too few records or one model covers different documents, comparisons are confounded. High CV means results depend strongly on prompt design.",
+        "Use data_output.txt to create a balanced comparison matrix. Target few-shot n >= 30 and matched documents across models/prompts.",
+    ],
+], columns=[
+    "rq",
+    "table_area",
+    "what_this_table_does",
+    "expected_metrics",
+    "if_performing_well",
+    "if_underperforming",
+    "how_to_process",
+])
+
+TABLE_EXPLANATIONS = pd.DataFrame([
+    [
+        "Overview readiness chart",
+        "Counts the number of available, partial, and needed evidence items for each RQ.",
+        "It is not a statistical result. It is a project-management/readiness view.",
+        "High available count and low needed count means an RQ is close to being defensible.",
+        "High needed count means the RQ still needs data collection, annotation, or model runs before it can be claimed strongly.",
+    ],
+    [
+        "RQ Details - Matrix",
+        "Expands every RQ into individual evidence rows with status: Available, Partial, or Needed.",
+        "Use it as the checklist of what evidence you already have and what is missing.",
+        "Available rows can be cited as current evidence if the source is traceable.",
+        "Needed rows are thesis risks; partial rows should be upgraded before strong claims.",
+    ],
+    [
+        "RQ Details - Metrics",
+        "Shows the headline metrics currently attached to each RQ.",
+        "These are the thesis-facing indicators that should appear in results/discussion.",
+        "A metric with a concrete value and clear denominator is stronger than a vague qualitative statement.",
+        "A missing metric means the RQ is currently argued conceptually rather than empirically.",
+    ],
+    [
+        "Missing Work Process",
+        "Turns each missing RQ requirement into an action: source, process, and expected output metric.",
+        "This table tells you exactly what to run or annotate next.",
+        "A row is complete when the output metric can be computed and added back to the RQ metric table.",
+        "If the source is unavailable or the metric cannot be computed, the RQ scope must be narrowed.",
+    ],
+    [
+        "Analysis Plan",
+        "Prioritizes the remaining analyses by urgency, effort, and which RQs they answer.",
+        "It is the execution roadmap for closing thesis evidence gaps.",
+        "Critical/High items should be handled before lower-priority documentation polish.",
+        "If critical items remain undone, the thesis should avoid strong claims for those RQs.",
+    ],
+], columns=[
+    "table_name",
+    "what_it_does",
+    "how_to_read_it",
+    "if_yes_or_good",
+    "if_underperforming_or_missing",
+])
+
 
 def render_mermaid(code: str, height: int = 520) -> None:
     html = f"""
@@ -277,15 +386,15 @@ def render_mermaid(code: str, height: int = 520) -> None:
 
 PIPELINE_MERMAID = f"""
 flowchart LR
-  PDFs["Sustainability reports<br/>PDF source pages"]
-  OCR["OCR / markdown extraction"]
+  PDFs["Sustainability reports - PDF source pages"]
+  OCR["OCR and markdown extraction"]
   LLM["LLM ESG JSON extraction"]
-  DataOutput["data_output.txt<br/>sentence-level ESG records"]
-  Parsed["Parsed ESG table<br/>sentence, aspect, tone, sentiment"]
-  CBRun["Local ClimateBERT processor<br/>page 02"]
-  CBOut["climatebert_predictions<br/>saved shard CSVs"]
-  Viz["Result visualizer<br/>page 03"]
-  RQ["Research question evidence<br/>page 04"]
+  DataOutput["data_output.txt - sentence ESG records"]
+  Parsed["Parsed ESG table - sentence aspect tone sentiment"]
+  CBRun["Local ClimateBERT processor - page 02"]
+  CBOut["climatebert_predictions - saved shard CSVs"]
+  Viz["Result visualizer - page 03"]
+  RQ["Research question evidence - page 04"]
 
   PDFs --> OCR --> LLM --> DataOutput --> Parsed
   Parsed --> CBRun --> CBOut --> Viz
@@ -295,12 +404,12 @@ flowchart LR
 
 RQ_MERMAID = """
 flowchart TB
-  RQ1["RQ1 Pipeline quality<br/>needs CER / WER / segmentation"]
-  RQ2["RQ2 Categorization<br/>needs expert labels + taxonomy"]
-  RQ3["RQ3 ClimateBERT comparison<br/>needs full local CB outputs"]
-  RQ4["RQ4 Diagnostics<br/>needs manual error taxonomy"]
-  RQ5["RQ5 Reproducibility<br/>needs audit checklist + rerun log"]
-  RQ6["RQ6 Stability<br/>needs balanced model x prompt matrix"]
+  RQ1["RQ1 Pipeline quality - needs CER WER segmentation"]
+  RQ2["RQ2 Categorization - needs expert labels and taxonomy"]
+  RQ3["RQ3 ClimateBERT comparison - needs full local outputs"]
+  RQ4["RQ4 Diagnostics - needs manual error taxonomy"]
+  RQ5["RQ5 Reproducibility - needs audit checklist and rerun log"]
+  RQ6["RQ6 Stability - needs balanced model prompt matrix"]
 
   Data["data_output.txt"]
   Pred["climatebert_predictions"]
@@ -322,20 +431,20 @@ flowchart TB
 MISSING_PROCESS_MERMAID = """
 flowchart LR
   Gap["Missing RQ evidence"]
-  Identify["Identify missing metric<br/>from RQ matrix"]
-  Source["Select source<br/>data_output or predictions"]
-  Sample["Create targeted sample<br/>by RQ weakness"]
-  Run["Run analysis / annotation"]
+  Identify["Identify missing metric from RQ matrix"]
+  Source["Select source - data_output or predictions"]
+  Sample["Create targeted sample by RQ weakness"]
+  Run["Run analysis or annotation"]
   Metric["Compute metric"]
   Update["Update dashboard evidence"]
 
   Gap --> Identify --> Source --> Sample --> Run --> Metric --> Update
 
-  Source --> A["data_output.txt<br/>parsed LLM ESG records"]
-  Source --> B["climatebert_predictions<br/>local model outputs"]
-  Run --> C["manual annotation<br/>for RQ2/RQ4"]
-  Run --> D["ClimateBERT comparison<br/>for RQ3"]
-  Run --> E["prompt/model stability<br/>for RQ6"]
+  Source --> A["data_output.txt - parsed LLM ESG records"]
+  Source --> B["climatebert_predictions - local model outputs"]
+  Run --> C["manual annotation for RQ2 and RQ4"]
+  Run --> D["ClimateBERT comparison for RQ3"]
+  Run --> E["prompt model stability for RQ6"]
 """.strip()
 
 
@@ -361,7 +470,11 @@ with st.sidebar:
         default=["Critical", "High", "Medium", "Important"],
     )
     rq_filter = st.multiselect("Research Questions", [item["rq"] for item in RQ_DATA])
-    view_mode = st.radio("Detail view", ["Matrix", "Question Cards", "Metrics"], horizontal=False)
+    view_mode = st.radio(
+        "Detail view",
+        ["Matrix", "Question Cards", "Metrics", "Detailed Explanation"],
+        horizontal=False,
+    )
 
 
 filtered = [
@@ -378,9 +491,10 @@ cols[3].metric("Open needs", int(summary["needed"].sum()) if not summary.empty e
 st.caption(f"Existing data: `{EXISTING_DATA_PATH}`")
 st.caption(f"Prediction outputs: `{PREDICTION_OUTPUT_DIR}`")
 
-tab_overview, tab_details, tab_missing, tab_mermaid, tab_plan, tab_source = st.tabs([
+tab_overview, tab_details, tab_guide, tab_missing, tab_mermaid, tab_plan, tab_source = st.tabs([
     "Overview",
     "RQ Details",
+    "Table Guide",
     "Missing Work Process",
     "Mermaid Preview",
     "Analysis Plan",
@@ -430,7 +544,7 @@ with tab_details:
                     st.write(f"- {entry}")
             st.divider()
 
-    else:
+    elif view_mode == "Metrics":
         metric_rows = []
         for item in filtered:
             for name, value, context in item["metrics"]:
@@ -442,6 +556,30 @@ with tab_details:
                     "context": context,
                 })
         st.dataframe(pd.DataFrame(metric_rows), use_container_width=True, height=620)
+
+    else:
+        guide = RQ_TABLE_GUIDE
+        if rq_filter:
+            guide = guide[guide["rq"].isin(rq_filter)]
+        st.dataframe(guide, use_container_width=True, height=620)
+
+with tab_guide:
+    st.subheader("How to Interpret the Tables")
+    st.dataframe(TABLE_EXPLANATIONS, use_container_width=True, height=300)
+
+    st.subheader("Expected Metrics and Interpretation by RQ")
+    guide = RQ_TABLE_GUIDE.copy()
+    if rq_filter:
+        guide = guide[guide["rq"].isin(rq_filter)]
+    st.dataframe(guide, use_container_width=True, height=620)
+
+    selected_guide_rq = st.selectbox("Detailed explanation for RQ", guide["rq"].tolist())
+    guide_row = guide[guide["rq"] == selected_guide_rq].iloc[0]
+    st.markdown(f"**What it does:** {guide_row['what_this_table_does']}")
+    st.markdown(f"**Expected metrics:** {guide_row['expected_metrics']}")
+    st.markdown(f"**If performing well:** {guide_row['if_performing_well']}")
+    st.markdown(f"**If underperforming:** {guide_row['if_underperforming']}")
+    st.markdown(f"**How to process:** {guide_row['how_to_process']}")
 
 with tab_missing:
     st.subheader("How to Process the Missing Research-Question Evidence")
