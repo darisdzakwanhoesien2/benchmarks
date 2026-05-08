@@ -1,5 +1,8 @@
 from pathlib import Path
 from html import escape
+import hashlib
+import json
+import re
 
 import pandas as pd
 import streamlit as st
@@ -339,14 +342,17 @@ TABLE_EXPLANATIONS = pd.DataFrame([
 
 
 def render_mermaid(code: str, height: int = 520) -> None:
+    container_id = "mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
+    code_json = json.dumps(code)
     html = f"""
-    <div id="mermaid-wrapper">
-      <pre class="mermaid">{escape(code)}</pre>
+    <div id="{container_id}_wrapper">
+      <div id="{container_id}"></div>
+      <pre id="{container_id}_error" style="display:none;"></pre>
     </div>
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
       mermaid.initialize({{
-        startOnLoad: true,
+        startOnLoad: false,
         securityLevel: 'loose',
         theme: 'base',
         flowchart: {{ curve: 'basis', htmlLabels: true }},
@@ -360,9 +366,22 @@ def render_mermaid(code: str, height: int = 520) -> None:
           edgeLabelBackground: '#ffffff'
         }}
       }});
+      const code = {code_json};
+      const target = document.getElementById("{container_id}");
+      const errorTarget = document.getElementById("{container_id}_error");
+      try {{
+        const rendered = await mermaid.render("{container_id}_svg", code);
+        target.innerHTML = rendered.svg;
+        if (rendered.bindFunctions) {{
+          rendered.bindFunctions(target);
+        }}
+      }} catch (err) {{
+        errorTarget.style.display = "block";
+        errorTarget.textContent = "Mermaid render error:\\n" + err.message + "\\n\\n" + code;
+      }}
     </script>
     <style>
-      #mermaid-wrapper {{
+      #{container_id}_wrapper {{
         background: #ffffff;
         border: 1px solid #d4dbe5;
         border-radius: 8px;
@@ -370,18 +389,114 @@ def render_mermaid(code: str, height: int = 520) -> None:
         overflow: auto;
         padding: 18px;
       }}
-      .mermaid {{
+      #{container_id} {{
         display: flex;
         justify-content: center;
         min-width: 980px;
       }}
-      svg {{
+      #{container_id} svg {{
         max-width: none !important;
         height: auto;
+      }}
+      #{container_id}_error {{
+        color: #991b1b;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 6px;
+        padding: 12px;
+        white-space: pre-wrap;
       }}
     </style>
     """
     components.html(html, height=height + 70, scrolling=True)
+
+
+def mermaid_label(value: str, max_len: int = 70) -> str:
+    clean = re.sub(r"\s+", " ", str(value)).strip()
+    if len(clean) > max_len:
+        clean = clean[: max_len - 3].rstrip() + "..."
+    return clean.replace('"', "'")
+
+
+def mermaid_id(value: str) -> str:
+    clean = re.sub(r"[^A-Za-z0-9_]+", "_", str(value)).strip("_")
+    if not clean:
+        clean = "node"
+    if clean[0].isdigit():
+        clean = "n_" + clean
+    return clean
+
+
+def build_rq_evidence_mermaid(rq: str, detail_df: pd.DataFrame) -> str:
+    rq_rows = detail_df[detail_df["rq"] == rq].reset_index(drop=True)
+    if rq_rows.empty:
+        return 'flowchart TB\n  Empty["No RQ detail rows selected"]'
+
+    theme = rq_rows["theme"].iloc[0]
+    source_node = "Predictions" if rq == "RQ3" else "DataOutput"
+    lines = [
+        "flowchart TB",
+        '  DataOutput["data_output.txt - parsed ESG records"]',
+        '  Predictions["climatebert_predictions - local model outputs"]',
+        f'  RQNode["{rq} - {mermaid_label(theme)}"]',
+        '  Available["Available evidence"]',
+        '  Partial["Partial evidence"]',
+        '  Needed["Needed evidence"]',
+        f"  {source_node} --> RQNode",
+        "  RQNode --> Available",
+        "  RQNode --> Partial",
+        "  RQNode --> Needed",
+    ]
+
+    for idx, row in rq_rows.iterrows():
+        node_id = f"{row['status']}_{idx}"
+        label = mermaid_label(row["item"], max_len=82)
+        lines.append(f'  {node_id}["{label}"]')
+        lines.append(f"  {row['status']} --> {node_id}")
+
+    lines.extend([
+        "  classDef source fill:#eef6ff,stroke:#2563eb,color:#111827;",
+        "  classDef rq fill:#f8fafc,stroke:#334155,color:#111827,stroke-width:2px;",
+        "  classDef available fill:#ecfdf5,stroke:#16a34a,color:#111827;",
+        "  classDef partial fill:#fffbeb,stroke:#d97706,color:#111827;",
+        "  classDef needed fill:#fef2f2,stroke:#dc2626,color:#111827;",
+        "  class DataOutput,Predictions source;",
+        "  class RQNode rq;",
+        "  class Available available;",
+        "  class Partial partial;",
+        "  class Needed needed;",
+    ])
+    return "\n".join(lines)
+
+
+def build_row_detail_mermaid(row: pd.Series) -> str:
+    source = "Predictions" if row["rq"] == "RQ3" else "DataOutput"
+    status_class = str(row["status"]).lower()
+    return f"""
+flowchart LR
+  DataOutput["data_output.txt"]
+  Predictions["climatebert_predictions"]
+  RQ["{row['rq']} - {mermaid_label(row['theme'])}"]
+  Item["{mermaid_label(row['item'], max_len=90)}"]
+  Metric["Expected metric: {mermaid_label(row['expected_metric'], max_len=80)}"]
+  Good["If good: {mermaid_label(row['if_yes_or_good'], max_len=80)}"]
+  Weak["If weak: {mermaid_label(row['if_underperforming'], max_len=80)}"]
+  Action["Next action: {mermaid_label(row['next_action'], max_len=80)}"]
+
+  {source} --> RQ --> Item --> Metric
+  Metric --> Good
+  Metric --> Weak
+  Weak --> Action
+
+  classDef source fill:#eef6ff,stroke:#2563eb,color:#111827;
+  classDef rq fill:#f8fafc,stroke:#334155,color:#111827,stroke-width:2px;
+  classDef available fill:#ecfdf5,stroke:#16a34a,color:#111827;
+  classDef partial fill:#fffbeb,stroke:#d97706,color:#111827;
+  classDef needed fill:#fef2f2,stroke:#dc2626,color:#111827;
+  class DataOutput,Predictions source;
+  class RQ rq;
+  class Item {status_class};
+""".strip()
 
 
 PIPELINE_MERMAID = f"""
@@ -791,6 +906,7 @@ filtered = [
     if item["priority"] in priority_filter and (not rq_filter or item["rq"] in rq_filter)
 ]
 summary = status_counts(filtered)
+detail_df = build_rq_detail_rows(filtered)
 
 cols = st.columns(4)
 cols[0].metric("Research questions", len(filtered))
@@ -821,7 +937,6 @@ with tab_overview:
 
 with tab_details:
     if view_mode == "Matrix":
-        detail_df = build_rq_detail_rows(filtered)
         st.write(
             "This table is the operational RQ evidence checklist. Each row is one evidence item. "
             "`Available` means usable evidence exists, `Partial` means the evidence is promising but not fully defensible, "
@@ -836,6 +951,8 @@ with tab_details:
                 format_func=lambda idx: f"{detail_df.loc[idx, 'rq']} · {detail_df.loc[idx, 'status']} · {detail_df.loc[idx, 'item'][:90]}",
             )
             row = detail_df.loc[selected_row]
+            st.session_state["linked_rq"] = row["rq"]
+            st.session_state["linked_detail_row"] = int(selected_row)
             c1, c2 = st.columns(2)
             with c1:
                 st.markdown(f"**Item:** {row['item']}")
@@ -847,6 +964,11 @@ with tab_details:
                 st.markdown(f"**If underperforming:** {row['if_underperforming']}")
                 st.markdown(f"**Likely reason if weak:** {row['likely_reason_if_weak']}")
                 st.markdown(f"**Next action:** {row['next_action']}")
+
+            st.subheader("Linked Row Diagram")
+            linked_row_code = build_row_detail_mermaid(row)
+            render_mermaid(linked_row_code, height=360)
+            st.code(linked_row_code, language="mermaid")
 
     elif view_mode == "Question Cards":
         for item in filtered:
@@ -920,13 +1042,26 @@ with tab_missing:
     st.markdown(f"**Output metric:** {row['output_metric']}")
 
 with tab_mermaid:
+    st.subheader("Linked RQ Evidence Diagram")
+    rq_options = detail_df["rq"].drop_duplicates().tolist() if not detail_df.empty else [item["rq"] for item in RQ_DATA]
+    default_linked_rq = st.session_state.get("linked_rq", rq_options[0] if rq_options else "RQ1")
+    default_index = rq_options.index(default_linked_rq) if default_linked_rq in rq_options else 0
+    linked_rq = st.selectbox(
+        "Choose RQ to diagram from the RQ Details table",
+        rq_options,
+        index=default_index,
+    )
+    linked_code = build_rq_evidence_mermaid(linked_rq, detail_df)
+    render_mermaid(linked_code, height=520)
+    st.code(linked_code, language="mermaid")
+
+    st.subheader("Full Research Question Evidence Map")
+    render_mermaid(RQ_MERMAID, height=520)
+    st.code(RQ_MERMAID, language="mermaid")
+
     st.subheader("Workflow Diagram")
     render_mermaid(PIPELINE_MERMAID, height=430)
     st.code(PIPELINE_MERMAID, language="mermaid")
-
-    st.subheader("Research Question Evidence Map")
-    render_mermaid(RQ_MERMAID, height=520)
-    st.code(RQ_MERMAID, language="mermaid")
 
     st.subheader("Missing Evidence Process")
     render_mermaid(MISSING_PROCESS_MERMAID, height=430)
