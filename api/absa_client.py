@@ -27,7 +27,7 @@ def run_classical(text: str, space_url: str | None = None):
     if not text or not text.strip():
         raise ValueError("Text cannot be empty")
 
-    return _get_client(space_url)lient(space_url).predict(
+    return _get_client(space_url).predict(
         text=text,
         api_name="/_run_classical"
     )
@@ -40,14 +40,14 @@ def run_classical(text: str, space_url: str | None = None):
 
 
 def run_classical_alt(text: str, space_url: str | None = None):
-    return _get_client(space_url)lient(space_url).predict(
+    return _get_client(space_url).predict(
         text=text,
         api_name="/_run_classical_1"
     )
 
 
 def run_deep(text: str, epochs=1, space_url: str | None = None):
-    return _get_client(space_url)lient(space_url).predict(
+    return _get_client(space_url).predict(
         text=text,
         epochs=epochs,
         api_name="/_run_deep"
@@ -55,7 +55,7 @@ def run_deep(text: str, epochs=1, space_url: str | None = None):
 
 
 def run_deep_alt(text: str, epochs=1, space_url: str | None = None):
-    return _get_client(space_url)lient(space_url).predict(
+    return _get_client(space_url).predict(
         text=text,
         epochs=epochs,
         api_name="/_run_deep_1"
@@ -63,7 +63,7 @@ def run_deep_alt(text: str, epochs=1, space_url: str | None = None):
 
 
 def run_hybrid(text: str, space_url: str | None = None):
-    return _get_client(space_url)lient(space_url).predict(
+    return _get_client(space_url).predict(
         text=text,
         api_name="/_run_hybrid"
     )

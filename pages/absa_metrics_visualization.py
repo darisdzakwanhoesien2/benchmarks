@@ -17,6 +17,33 @@ ABSA_INTEGRATION_PATH = BENCHMARK_ROOT / "data" / "absa_integration.csv"
 LOCAL_ZERO_MODEL_DIR = Path("/home/ubuntu/apps/benchmarks/model_download/models/ClimateControversyBert")
 LOCAL_ZERO_OUTPUT_PATH = BENCHMARK_ROOT / "data" / "absa_integration_local_climate_controversy.csv"
 LOCAL_ZERO_METRICS_PATH = BENCHMARK_ROOT / "absa_metrics_results_local_climate_controversy.json"
+MODEL_WEIGHT_NAMES = {"pytorch_model.bin", "model.safetensors"}
+
+
+def config_has_model_type(model_dir: Path) -> bool:
+    config_path = model_dir / "config.json"
+    if not config_path.exists():
+        return False
+    try:
+        with config_path.open("r") as f:
+            config = json.load(f)
+        return bool(config.get("model_type"))
+    except Exception:
+        return False
+
+
+def has_model_weight(model_dir: Path) -> bool:
+    return any((model_dir / name).exists() for name in MODEL_WEIGHT_NAMES)
+
+
+def resolve_local_model_dir(root: Path) -> Path | None:
+    if config_has_model_type(root) and has_model_weight(root):
+        return root
+    for config_path in sorted(root.rglob("config.json")) if root.exists() else []:
+        candidate = config_path.parent
+        if config_has_model_type(candidate) and has_model_weight(candidate):
+            return candidate
+    return None
 
 
 def normalize_label(value) -> str:
@@ -62,10 +89,18 @@ def flatten_prediction(prediction):
 def load_local_classifier(model_dir: str, device: int):
     from transformers import pipeline
 
+    resolved = resolve_local_model_dir(Path(model_dir))
+    if resolved is None:
+        raise ValueError(
+            "No loadable Hugging Face text-classification model was found under "
+            f"`{model_dir}`. The selected directory or one of its subdirectories must "
+            "contain a config.json with a `model_type` key plus pytorch_model.bin or model.safetensors."
+        )
+
     return pipeline(
         task="text-classification",
-        model=model_dir,
-        tokenizer=model_dir,
+        model=str(resolved),
+        tokenizer=str(resolved),
         top_k=None,
         device=device,
         truncation=True,
@@ -184,6 +219,16 @@ if zero:
     elif not ABSA_INTEGRATION_PATH.exists():
         st.warning("`data/absa_integration.csv` was not found, so there is no dataset to rerun.")
     else:
+        resolved_model_dir = resolve_local_model_dir(LOCAL_ZERO_MODEL_DIR)
+        if resolved_model_dir is None:
+            st.error(
+                "The ClimateControversyBert folder exists, but no loadable Hugging Face model "
+                "was found under it. Check that a subdirectory contains `config.json` with "
+                "`model_type` plus `pytorch_model.bin` or `model.safetensors`."
+            )
+            st.stop()
+        st.caption(f"Resolved loadable model directory: `{resolved_model_dir}`")
+
         integration_df = pd.read_csv(ABSA_INTEGRATION_PATH)
         default_text_col = "sentence_norm" if "sentence_norm" in integration_df.columns else integration_df.columns[0]
         default_gt_col = "majority_sentiment" if "majority_sentiment" in integration_df.columns else integration_df.columns[0]
@@ -200,8 +245,8 @@ if zero:
         if st.button("Run local ClimateControversyBert for zero-results", type="primary"):
             rerun_df = integration_df.dropna(subset=[text_col]).head(int(max_rows)).reset_index(drop=True)
             texts = rerun_df[text_col].map(normalize_label).tolist()
-            with st.spinner(f"Loading local model from `{LOCAL_ZERO_MODEL_DIR}`..."):
-                classifier = load_local_classifier(str(LOCAL_ZERO_MODEL_DIR), device)
+            with st.spinner(f"Loading local model from `{resolved_model_dir}`..."):
+                classifier = load_local_classifier(str(resolved_model_dir), device)
             with st.spinner("Running local inference..."):
                 predictions = run_local_batches(classifier, texts, int(batch_size))
 

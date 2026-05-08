@@ -19,6 +19,7 @@ add_page_explanation(__file__)
 # -------------------------------------------------------
 # Load CSV
 # -------------------------------------------------------
+DATA_PATH = "dataset config selection or uploaded CSV"
 st.caption(f"Using data: `{DATA_PATH}`")
 
 # --- Dataset selection from config/dataset.json ---
