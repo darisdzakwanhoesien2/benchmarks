@@ -462,6 +462,315 @@ def status_counts(rows):
     ])
 
 
+def status_interpretation(status: str) -> str:
+    if status == "Available":
+        return "Evidence already exists and can support the RQ, provided the source is traceable and the denominator is clear."
+    if status == "Partial":
+        return "Evidence exists, but it is incomplete, weakly validated, imbalanced, or only a proxy for the real metric."
+    return "Evidence is missing. This row is a work item that must be completed before the RQ can be claimed strongly."
+
+
+def detail_for_item(rq: str, theme: str, status: str, item: str) -> dict[str, str]:
+    guide = RQ_TABLE_GUIDE[RQ_TABLE_GUIDE["rq"] == rq].iloc[0]
+    lower = item.lower()
+
+    detail = {
+        "what_it_does": guide["what_this_table_does"],
+        "expected_metric": guide["expected_metrics"],
+        "if_yes_or_good": guide["if_performing_well"],
+        "if_underperforming": guide["if_underperforming"],
+        "likely_reason_if_weak": "The evidence is not yet measured with a direct metric, has insufficient coverage, or lacks validation against an independent reference.",
+        "next_action": guide["how_to_process"],
+    }
+
+    if "pdf sustainability reports" in lower:
+        detail.update({
+            "what_it_does": "Defines the document base of the thesis pipeline. It shows which source reports the ESG extraction is built from.",
+            "expected_metric": "Number of source documents, number of pages, language mix, source-page coverage, and document diversity.",
+            "if_yes_or_good": "The document set covers multiple companies, both languages, and enough pages to support report-level and sentence-level analysis.",
+            "if_underperforming": "If only a few reports or one sector dominate, the thesis becomes a case study rather than a broadly descriptive ESG analysis.",
+            "likely_reason_if_weak": "Document collection may be too narrow, too environmentally focused, or missing social/governance-heavy reports.",
+            "next_action": "Add documents strategically, especially reports/pages rich in Social and Governance disclosures.",
+        })
+    elif "markdown page outputs" in lower:
+        detail.update({
+            "what_it_does": "Shows that the PDF/OCR stage produced intermediate text that can be traced back to report pages.",
+            "expected_metric": "Page-to-record provenance coverage, OCR completion rate, and traceability from sentence back to page.",
+            "if_yes_or_good": "Every extracted sentence can be linked back to a source page and inspected manually.",
+            "if_underperforming": "If provenance is missing, later ESG labels cannot be audited or corrected confidently.",
+            "likely_reason_if_weak": "The OCR/export pipeline may not preserve page metadata or markdown file references consistently.",
+            "next_action": "Ensure each parsed record stores filename, page number, and/or markdown source identifier.",
+        })
+    elif "records-per-run" in lower or "throughput" in lower:
+        detail.update({
+            "what_it_does": "Measures extraction efficiency: how many usable ESG sentence records each model/prompt run produces.",
+            "expected_metric": "Mean, median, and range of records per run by model, prompt, document, and language.",
+            "if_yes_or_good": "Throughput is stable enough that additional sample expansion is predictable.",
+            "if_underperforming": "Low or unstable throughput means scaling the dataset will take longer and may bias toward prompts/models that over-extract.",
+            "likely_reason_if_weak": "Prompt design, document structure, model behavior, or OCR quality may be causing inconsistent extraction counts.",
+            "next_action": "Compare throughput by model and prompt; keep high-quality prompts, not merely high-volume prompts.",
+        })
+    elif "field completion" in lower:
+        detail.update({
+            "what_it_does": "Checks schema completeness: whether required ABSA fields are populated after JSON parsing.",
+            "expected_metric": "Completion percentage for sentence, aspect, ESG pillar/category, tone, sentiment, and confidence/score fields.",
+            "if_yes_or_good": "Required fields are near 100% complete and optional score fields are mostly populated.",
+            "if_underperforming": "Missing fields weaken downstream charts, crosstabs, and metric computation.",
+            "likely_reason_if_weak": "Prompt schema may be ambiguous, model may drift from JSON instructions, or some source sentences may not contain enough signal.",
+            "next_action": "Tighten JSON schema instructions and add validation/repair for missing fields.",
+        })
+    elif "json extraction records" in lower:
+        detail.update({
+            "what_it_does": "Shows that structured sentence-level records exist, but the evidence is still only partially validated.",
+            "expected_metric": "Record count, parse success rate, valid sentence count, duplicate rate, and provenance completeness.",
+            "if_yes_or_good": "Records are parseable, deduplicated, traceable, and balanced enough for the intended RQs.",
+            "if_underperforming": "A raw record count alone can mislead if duplicates, bad parsing, or imbalanced document coverage are present.",
+            "likely_reason_if_weak": "Records may come disproportionately from one model/prompt/document or may include duplicated sentences.",
+            "next_action": "Run deduplication, provenance checks, and balance diagnostics before using counts as thesis evidence.",
+        })
+    elif "reference text" in lower or "cer" in lower:
+        detail.update({
+            "what_it_does": "Creates a ground-truth reference to measure OCR quality.",
+            "expected_metric": "Character error rate, word error rate, and qualitative examples of OCR mistakes.",
+            "if_yes_or_good": "CER/WER is low enough that ESG meaning is preserved; extraction errors are unlikely to be OCR-driven.",
+            "if_underperforming": "High OCR error means downstream ABSA labels may classify corrupted text rather than original disclosure meaning.",
+            "likely_reason_if_weak": "Scanned PDFs, tables, bilingual formatting, or report layout complexity can degrade OCR.",
+            "next_action": "Manually transcribe 3-5 representative pages and compute CER/WER against OCR output.",
+        })
+    elif "table/figure" in lower:
+        detail.update({
+            "what_it_does": "Tests whether non-prose ESG evidence from tables and figures is captured accurately.",
+            "expected_metric": "Table-cell extraction accuracy, figure-caption extraction coverage, and missed-table count.",
+            "if_yes_or_good": "Important ESG metrics in tables remain available for downstream interpretation.",
+            "if_underperforming": "The pipeline may miss quantitative ESG claims, making the dataset biased toward narrative prose.",
+            "likely_reason_if_weak": "Tables often break OCR/markdown structure and may require separate table extraction logic.",
+            "next_action": "Select table-heavy pages, label key cells manually, and compare extracted markdown/table outputs.",
+        })
+    elif "sentence boundary" in lower:
+        detail.update({
+            "what_it_does": "Checks whether the unit of ABSA analysis, the sentence, is correctly segmented.",
+            "expected_metric": "Sentence boundary precision, recall, split error rate, and merge error rate.",
+            "if_yes_or_good": "Each ABSA row corresponds to one coherent disclosure sentence.",
+            "if_underperforming": "Merged sentences can contain multiple aspects; split fragments can lose context. Both reduce label validity.",
+            "likely_reason_if_weak": "Bullet lists, abbreviations, Indonesian punctuation patterns, or OCR line breaks can confuse segmentation.",
+            "next_action": "Manually label sentence boundaries for a small page sample and compare to automated segmentation.",
+        })
+    elif "topic alignment" in lower:
+        detail.update({
+            "what_it_does": "Validates whether extracted topics/aspects actually match ESG content in the source sentence.",
+            "expected_metric": "Manual aspect-alignment accuracy and examples of wrong or overly broad aspect labels.",
+            "if_yes_or_good": "Most aspect labels are semantically aligned with the sentence and ESG pillar.",
+            "if_underperforming": "Aspect labels become noisy and distribution charts can overstate themes that are not actually present.",
+            "likely_reason_if_weak": "Free-text aspect generation may be too unconstrained or the taxonomy may not cover Indonesian expressions.",
+            "next_action": "Sample 30-50 records and manually verify aspect-to-sentence alignment.",
+        })
+    elif "tone x esg pillar" in lower or "tone × esg pillar" in lower:
+        detail.update({
+            "what_it_does": "Shows how ESG tone categories distribute across Environmental, Social, and Governance pillars.",
+            "expected_metric": "Crosstab counts and percentages for pillar by tone, with enough records per cell.",
+            "if_yes_or_good": "Each major pillar has enough records to support tone comparisons, ideally at least 30 per important subgroup.",
+            "if_underperforming": "A zero or tiny cell means the thesis cannot compare that subgroup reliably.",
+            "likely_reason_if_weak": "The dataset may over-sample environmental pages and under-sample social/governance content.",
+            "next_action": "Target Social and Governance pages for additional extraction, not just more records in general.",
+        })
+    elif "bilingual tone asymmetry" in lower:
+        detail.update({
+            "what_it_does": "Tests whether Indonesian and English disclosures show different tone patterns.",
+            "expected_metric": "Tone proportions by language, difference in proportions, confidence interval, and significance test.",
+            "if_yes_or_good": "The language difference is large enough and powered enough to be reported as a thesis finding.",
+            "if_underperforming": "The observed difference may be sampling noise or caused by different documents rather than language.",
+            "likely_reason_if_weak": "Language may be confounded with company, report section, or prompt template.",
+            "next_action": "Run a two-proportion test and control/check document and prompt composition.",
+        })
+    elif "sentiment score distribution" in lower:
+        detail.update({
+            "what_it_does": "Checks whether sentiment scores behave consistently with tone categories.",
+            "expected_metric": "Mean, median, spread, and distribution of sentiment_score by tone.",
+            "if_yes_or_good": "Outcome/action/commitment tones show interpretable sentiment differences.",
+            "if_underperforming": "Sentiment may not be calibrated, or tone and sentiment may be measuring different constructs.",
+            "likely_reason_if_weak": "LLM-generated sentiment scores may not be anchored to a stable rubric.",
+            "next_action": "Plot distributions and compare against expert sentiment labels for a small sample.",
+        })
+    elif "llm labels" in lower:
+        detail.update({
+            "what_it_does": "Provides weak-label counts from the LLM extraction stage.",
+            "expected_metric": "Counts and percentages for tone, aspect, pillar, sentiment, and confidence fields.",
+            "if_yes_or_good": "Counts are balanced enough and validated enough to support descriptive ABSA claims.",
+            "if_underperforming": "Weak labels may reflect prompt/model bias more than true disclosure patterns.",
+            "likely_reason_if_weak": "No expert gold labels yet; distribution may be shaped by prompt wording.",
+            "next_action": "Validate a stratified sample against expert labels before reporting strong accuracy claims.",
+        })
+    elif "language-tagged" in lower:
+        detail.update({
+            "what_it_does": "Separates records by Indonesian/English language for bilingual comparison.",
+            "expected_metric": "Language counts, language proportions, and language x tone/aspect crosstabs.",
+            "if_yes_or_good": "Both languages have enough records for comparison and are not fully confounded with one document.",
+            "if_underperforming": "Language effects may actually be document, company, or section effects.",
+            "likely_reason_if_weak": "Reports may not be evenly bilingual, or one language may dominate specific companies/pages.",
+            "next_action": "Check language distribution by filename/document and rebalance if necessary.",
+        })
+    elif "expert-annotated" in lower or "gold" in lower:
+        detail.update({
+            "what_it_does": "Creates the independent reference labels needed to evaluate LLM/ABSA quality.",
+            "expected_metric": "Cohen kappa between annotators, precision, recall, and F1 against gold labels.",
+            "if_yes_or_good": "Annotators agree and model labels reach acceptable F1, making taxonomy claims credible.",
+            "if_underperforming": "Low agreement means the taxonomy is unclear; low F1 means the LLM labels are not reliable enough for strong claims.",
+            "likely_reason_if_weak": "Tone/aspect definitions may be ambiguous, or annotators may lack a precise codebook.",
+            "next_action": "Build a codebook, label 30-50 records with two annotators, adjudicate disagreements, then compute metrics.",
+        })
+    elif "taxonomy" in lower or "ontology" in lower or "non-standard" in lower:
+        detail.update({
+            "what_it_does": "Normalizes free-text aspect labels into a stable taxonomy.",
+            "expected_metric": "Ontology coverage, number of unmapped labels, mapping accuracy, and before/after aspect counts.",
+            "if_yes_or_good": "Most aspect labels map cleanly to canonical ESG categories in both languages.",
+            "if_underperforming": "Charts fragment across many near-duplicate labels and bilingual comparison becomes unstable.",
+            "likely_reason_if_weak": "The LLM may generate many natural-language aspect variants instead of choosing from a controlled list.",
+            "next_action": "Create a canonical aspect dictionary and map free-text aspects to it.",
+        })
+    elif "precision/recall/f1" in lower:
+        detail.update({
+            "what_it_does": "Measures how accurately model-generated labels match expert labels.",
+            "expected_metric": "Precision, recall, and F1 by class, plus macro-F1 for overall performance.",
+            "if_yes_or_good": "Per-class F1 is acceptable and no major category collapses.",
+            "if_underperforming": "The model may over-predict common classes, miss rare classes, or confuse similar tones/aspects.",
+            "likely_reason_if_weak": "Class imbalance, weak prompt definitions, or ambiguous ESG language can lower F1.",
+            "next_action": "Compute F1 after expert annotation; inspect confusion matrix for systematic errors.",
+        })
+    elif "inter-annotator" in lower or "kappa" in lower:
+        detail.update({
+            "what_it_does": "Measures whether humans agree on the taxonomy before judging model performance.",
+            "expected_metric": "Cohen kappa by aspect, pillar, tone, and sentiment.",
+            "if_yes_or_good": "Kappa at or above about 0.70 means the labeling scheme is reasonably reliable.",
+            "if_underperforming": "If humans cannot agree, model errors may reflect an unclear taxonomy rather than bad model behavior.",
+            "likely_reason_if_weak": "Definitions may overlap, examples may be missing, or labels may be too granular.",
+            "next_action": "Revise the annotation codebook and run a second calibration round.",
+        })
+    elif "climatebert scores" in lower or "full local" in lower:
+        detail.update({
+            "what_it_does": "Completes the actual local ClimateBERT/ESGBERT comparison instead of relying on a few remote examples.",
+            "expected_metric": "Prediction coverage by model, label distribution, confidence distribution, and processed/not-processed counts.",
+            "if_yes_or_good": "All valid sentences have saved predictions for selected models in climatebert_predictions.",
+            "if_underperforming": "RQ3 remains incomplete because model comparison is not yet dataset-wide.",
+            "likely_reason_if_weak": "Runs may be interrupted, model loading may fail, or worker shards may not cover all rows.",
+            "next_action": "Use page 02 with auto-save and continue-leftover mode; verify coverage in page 03.",
+        })
+    elif "row-wise" in lower or "agreement" in lower:
+        detail.update({
+            "what_it_does": "Tests whether LLM tone labels and ClimateBERT labels agree at the sentence level.",
+            "expected_metric": "Agreement percentage, mapped-label crosstab, and Cohen kappa.",
+            "if_yes_or_good": "Agreement is interpretable and supports a relationship between ABSA tone and climate classification.",
+            "if_underperforming": "The two systems may be measuring different constructs or the mapping may be too crude.",
+            "likely_reason_if_weak": "ClimateBERT labels are task-specific while ABSA tone is rhetorical/semantic.",
+            "next_action": "Define a transparent mapping from ClimateBERT outputs to tone-relevant categories and compute agreement.",
+        })
+    elif "cohen" in lower:
+        detail.update({
+            "what_it_does": "Quantifies agreement beyond chance.",
+            "expected_metric": "Cohen kappa, with interpretation bands and confidence intervals if possible.",
+            "if_yes_or_good": "Kappa is positive and substantively meaningful, supporting stable agreement.",
+            "if_underperforming": "Low kappa means agreement is weak after accounting for base-rate effects.",
+            "likely_reason_if_weak": "Class imbalance, incompatible label spaces, or noisy labels can depress kappa.",
+            "next_action": "Inspect the confusion matrix and class distribution before interpreting kappa.",
+        })
+    elif "schema drift" in lower:
+        detail.update({
+            "what_it_does": "Detects cases where the model outputs values in the wrong field or breaks the expected schema.",
+            "expected_metric": "Schema drift count and rate by model, prompt, and document.",
+            "if_yes_or_good": "Drift is rare and isolated to known bad configurations.",
+            "if_underperforming": "High drift means downstream metrics may be corrupted by invalid fields.",
+            "likely_reason_if_weak": "Prompt schema may be underspecified or the model may ignore formatting constraints.",
+            "next_action": "Add schema validation and revise prompts that produce drift.",
+        })
+    elif "missing tone" in lower:
+        detail.update({
+            "what_it_does": "Finds records where the model failed to assign the key ABSA tone field.",
+            "expected_metric": "Missing-tone count/rate by model, prompt, document, language, and pillar.",
+            "if_yes_or_good": "Missing tone is near zero for stable configurations.",
+            "if_underperforming": "Tone distributions become biased because some sentences disappear from tone analysis.",
+            "likely_reason_if_weak": "Prompt ambiguity, governance-heavy text, or model/schema failure may cause missing tone.",
+            "next_action": "Trace missing-tone rows to prompt/model combinations and fix the extraction schema.",
+        })
+    elif "root cause" in lower:
+        detail.update({
+            "what_it_does": "Attributes failures to specific model, prompt, document, or language conditions.",
+            "expected_metric": "Error rate grouped by model x prompt and document x language.",
+            "if_yes_or_good": "Failure clusters are identifiable and fixable.",
+            "if_underperforming": "If failures are diffuse, the whole pipeline or taxonomy may need redesign.",
+            "likely_reason_if_weak": "Multiple failure modes may overlap: OCR noise, prompt design, model limitations, and taxonomy ambiguity.",
+            "next_action": "Create grouped error tables and inspect top failing combinations first.",
+        })
+    elif "artifact" in lower or "streamlit" in lower or "prompt template" in lower or "replication" in lower or "reproducibility" in lower:
+        detail.update({
+            "what_it_does": "Supports auditability: whether another person can trace and reproduce the thesis outputs.",
+            "expected_metric": "Artifact count, prompt version coverage, model version coverage, rerun success, and replication notes.",
+            "if_yes_or_good": "Every result links to code, input data, prompt, model, and saved output.",
+            "if_underperforming": "The thesis may be hard to verify even if the analysis is technically correct.",
+            "likely_reason_if_weak": "Outputs may be scattered, prompt versions undocumented, or model paths not recorded.",
+            "next_action": "Create a reproducibility checklist and artifact registry that points to each source file and dashboard page.",
+        })
+    elif "balanced model" in lower:
+        detail.update({
+            "what_it_does": "Ensures model/prompt comparisons are fair rather than confounded by different documents or sample sizes.",
+            "expected_metric": "Balanced counts by model, prompt, document, language, and tone.",
+            "if_yes_or_good": "Each compared model/prompt has matched records from the same documents or comparable strata.",
+            "if_underperforming": "Observed differences may reflect sample composition rather than model/prompt behavior.",
+            "likely_reason_if_weak": "Some prompts/models may have been run on different documents or with unequal row counts.",
+            "next_action": "Build a matched comparison matrix and rerun missing cells.",
+        })
+    elif "few-shot" in lower:
+        detail.update({
+            "what_it_does": "Checks whether the few-shot prompt has enough observations for comparison.",
+            "expected_metric": "Few-shot row count and power for prompt comparison.",
+            "if_yes_or_good": "Few-shot n reaches at least 30, preferably 40+, so comparisons are not severely underpowered.",
+            "if_underperforming": "Few-shot performance claims are not statistically defensible.",
+            "likely_reason_if_weak": "Few-shot runs may have been limited or produced fewer usable records.",
+            "next_action": "Run additional few-shot extractions on matched documents.",
+        })
+    elif "coefficient of variation" in lower or "prompt family" in lower or "per-document" in lower:
+        detail.update({
+            "what_it_does": "Measures output stability across prompt families or documents.",
+            "expected_metric": "Coefficient of variation, range, standard deviation, and per-document prompt gaps.",
+            "if_yes_or_good": "Variation is quantified and either low enough to trust or reducible through ensemble methods.",
+            "if_underperforming": "High variation means results depend strongly on prompt choice.",
+            "likely_reason_if_weak": "Prompts may emphasize different evidence types or induce different tone interpretations.",
+            "next_action": "Compare matched documents across prompts and test majority-vote stabilization.",
+        })
+    elif "ensemble" in lower or "majority" in lower:
+        detail.update({
+            "what_it_does": "Tests whether combining prompts/models improves stability.",
+            "expected_metric": "Majority-vote agreement, variance reduction, and changed-label rate.",
+            "if_yes_or_good": "Ensemble output reduces prompt variance without hiding systematic errors.",
+            "if_underperforming": "Ensemble may simply average incompatible outputs and reduce interpretability.",
+            "likely_reason_if_weak": "Base models/prompts may disagree for principled reasons, not random noise.",
+            "next_action": "Run ensemble simulation on matched PTBA or other multi-prompt documents.",
+        })
+
+    return detail
+
+
+def build_rq_detail_rows(items: list[dict]) -> pd.DataFrame:
+    rows = []
+    for item in items:
+        for status, key in [("Available", "have"), ("Partial", "partial"), ("Needed", "need")]:
+            for entry in item[key]:
+                detail = detail_for_item(item["rq"], item["theme"], status, entry)
+                rows.append({
+                    "rq": item["rq"],
+                    "theme": item["theme"],
+                    "status": status,
+                    "status_meaning": status_interpretation(status),
+                    "item": entry,
+                    "what_it_does": detail["what_it_does"],
+                    "expected_metric": detail["expected_metric"],
+                    "if_yes_or_good": detail["if_yes_or_good"],
+                    "if_underperforming": detail["if_underperforming"],
+                    "likely_reason_if_weak": detail["likely_reason_if_weak"],
+                    "next_action": detail["next_action"],
+                    "priority": item["priority"],
+                })
+    return pd.DataFrame(rows)
+
+
 with st.sidebar:
     st.header("Filters")
     priority_filter = st.multiselect(
@@ -512,18 +821,32 @@ with tab_overview:
 
 with tab_details:
     if view_mode == "Matrix":
-        rows = []
-        for item in filtered:
-            for status, key in [("Available", "have"), ("Partial", "partial"), ("Needed", "need")]:
-                for entry in item[key]:
-                    rows.append({
-                        "rq": item["rq"],
-                        "theme": item["theme"],
-                        "status": status,
-                        "item": entry,
-                        "priority": item["priority"],
-                    })
-        st.dataframe(pd.DataFrame(rows), use_container_width=True, height=620)
+        detail_df = build_rq_detail_rows(filtered)
+        st.write(
+            "This table is the operational RQ evidence checklist. Each row is one evidence item. "
+            "`Available` means usable evidence exists, `Partial` means the evidence is promising but not fully defensible, "
+            "and `Needed` means a missing metric or validation step must be completed."
+        )
+        st.dataframe(detail_df, use_container_width=True, height=620)
+
+        if not detail_df.empty:
+            selected_row = st.selectbox(
+                "Explain row",
+                detail_df.index,
+                format_func=lambda idx: f"{detail_df.loc[idx, 'rq']} · {detail_df.loc[idx, 'status']} · {detail_df.loc[idx, 'item'][:90]}",
+            )
+            row = detail_df.loc[selected_row]
+            c1, c2 = st.columns(2)
+            with c1:
+                st.markdown(f"**Item:** {row['item']}")
+                st.markdown(f"**Status meaning:** {row['status_meaning']}")
+                st.markdown(f"**What it does:** {row['what_it_does']}")
+                st.markdown(f"**Expected metric:** {row['expected_metric']}")
+            with c2:
+                st.markdown(f"**If yes / good:** {row['if_yes_or_good']}")
+                st.markdown(f"**If underperforming:** {row['if_underperforming']}")
+                st.markdown(f"**Likely reason if weak:** {row['likely_reason_if_weak']}")
+                st.markdown(f"**Next action:** {row['next_action']}")
 
     elif view_mode == "Question Cards":
         for item in filtered:
