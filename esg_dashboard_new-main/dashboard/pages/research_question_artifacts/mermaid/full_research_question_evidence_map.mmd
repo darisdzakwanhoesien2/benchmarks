@@ -1,0 +1,20 @@
+flowchart TB
+  DATA["data_output.txt"]
+  PRED["climatebert_predictions"]
+  GOLD["expert annotation"]
+  AUDIT["artifact registry"]
+  RQ1["RQ1 Pipeline: A4 P1 N4"]
+  RQ2["RQ2 Categorization: A3 P2 N5"]
+  RQ3["RQ3 ClimateBERT: A2 P2 N3"]
+  RQ4["RQ4 Diagnostics: A5 P3 N2"]
+  RQ5["RQ5 Reproducibility: A4 P1 N4"]
+  RQ6["RQ6 Stability: A3 P3 N4"]
+  DATA --> RQ1
+  DATA --> RQ2
+  PRED --> RQ3
+  DATA --> RQ4
+  AUDIT --> RQ5
+  DATA --> RQ6
+  GOLD --> RQ2
+  GOLD --> RQ4
+  RQ3 --> RQ6

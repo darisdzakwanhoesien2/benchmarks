@@ -34,6 +34,7 @@ ABSA_METRICS_PATH = next(
     ABSA_METRICS_CANDIDATES[0],
 )
 LOCAL_ABSA_METRICS_PATH = PAGE_DIR.parent / "absa_metrics_results_local_climate_controversy.json"
+IMAGE_EXPLANATIONS_PATH = PAGE_DIR.parent / "results" / "image_outputs_archive" / "image_outputs_explanations.json"
 EXISTING_DATA_PATH = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/data_output.txt"
 PREDICTION_OUTPUT_DIR = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/climatebert_predictions"
 
@@ -489,6 +490,76 @@ PAGE_FILE_INVENTORY = pd.DataFrame([
     "why_it_matters_or_not",
 ])
 
+RQ_DISCUSSIONS = pd.DataFrame([
+    [
+        "RQ1",
+        "Pipeline",
+        "The current evidence supports a working feasibility pipeline: source reports are available, extracted JSON records are parseable, and dashboard pages can trace records back into source-oriented views.",
+        "The strongest contribution is auditability and structured transformation from report text into sentence-level ESG records.",
+        "OCR character/word error rate, sentence-boundary accuracy, and table/figure extraction quality are still missing, so RQ1 should be framed as pipeline feasibility rather than fully validated extraction accuracy.",
+        "Add a small manual OCR reference set and record-level provenance audit before claiming production-grade extraction reliability.",
+    ],
+    [
+        "RQ2",
+        "Categorization",
+        "The visual outputs show meaningful tone, aspect, pillar, and sentiment structure. Tone distribution, ESG-by-tone, and aspect-by-tone images make category imbalance visible.",
+        "The findings are useful for descriptive ABSA: commitment language is prominent, Environmental and Governance evidence are more visible than Social evidence, and aspect/tone cells reveal where the taxonomy is sparse.",
+        "Because expert labels and inter-annotator agreement are not complete, the current categories are best treated as LLM-assisted weak labels rather than validated gold ABSA labels.",
+        "Create a 30-50 row expert-labeled stratified sample and normalize non-standard aspects into a controlled bilingual ontology.",
+    ],
+    [
+        "RQ3",
+        "ClimateBERT",
+        "The ClimateBERT label-by-tone and remote-score outputs are useful exploratory evidence, but current metrics show that label-space alignment remains fragile.",
+        "The analysis suggests ClimateBERT can add a climate-specific layer beyond tone, especially when compared through crosstabs and confidence distributions.",
+        "Zero or near-zero metrics should not be interpreted as model failure alone; they may indicate incompatible label spaces, incomplete local inference, or mapping problems.",
+        "Run local ClimateBERT models over every valid sentence, then define explicit mapping rules before computing agreement and Cohen kappa.",
+    ],
+    [
+        "RQ4",
+        "Diagnostics",
+        "The confusion-matrix images and missing-work tables show that the dashboard can identify where label decisions fail, where classes are confused, and where extraction evidence is incomplete.",
+        "The current diagnostic contribution is practical: it separates schema drift, missing labels, taxonomy gaps, class imbalance, and evaluation mismatch rather than treating errors as one generic failure.",
+        "Formal manual error labels are still missing, so the diagnostics framework is stronger as an audit design than as a quantified error taxonomy.",
+        "Add an `error_type` column for sampled records and summarize errors by model, prompt, document, language, pillar, and page.",
+    ],
+    [
+        "RQ5",
+        "Reproducibility",
+        "The image archive, JSON manifest, Markdown explanation file, page inventory, and Streamlit pages provide a reproducible audit trail for visual and tabular outputs.",
+        "The strongest contribution is traceability: visual outputs now have archived paths, checksums, dimensions, explanations, and thesis-use notes.",
+        "The dashboard still needs a final rerun checklist and environment/version capture before claiming independent reproducibility.",
+        "Keep the generated image manifest under version control and add a short replication protocol for regenerating data, metrics, and visualizations.",
+    ],
+    [
+        "RQ6",
+        "Stability",
+        "Tone distribution, ESG-by-tone, aspect-by-tone, ClimateBERT label-by-tone, and ensemble confusion matrices support the stability question by exposing variation across labels, models, and aggregation choices.",
+        "The current evidence suggests prompt/model choices and ensemble choices can materially change output distributions and errors.",
+        "The model x prompt x document matrix is still imbalanced, so stability claims should remain cautious until matched runs exist.",
+        "Build a balanced comparison matrix and run majority-vote or ensemble simulations on matched document/prompt/model cells.",
+    ],
+], columns=[
+    "rq",
+    "theme",
+    "discussion",
+    "results_interpretation",
+    "limitation",
+    "next_step",
+])
+
+GENERAL_DISCUSSION = [
+    "Across the dashboard, the strongest current result is not a single model score. It is the construction of an auditable ESG ABSA workflow that turns raw sustainability-report text into inspectable sentence-level evidence, visual distributions, metrics, and documented artifacts.",
+    "The visual outputs show useful descriptive patterns: tone classes are imbalanced, ESG pillars are unevenly represented, aspect-tone cells reveal taxonomy sparsity, and ClimateBERT comparison needs careful label mapping.",
+    "The main methodological risk is over-claiming. Current labels and metrics are valuable for feasibility, diagnostics, and thesis direction, but expert annotation, OCR quality measurement, and balanced model/prompt coverage are still needed before reporting strong accuracy or generalizable greenwashing claims.",
+]
+
+CONCLUSION_TEXT = [
+    "The current system is defensible as a research-grade feasibility and diagnostics dashboard for ESG ABSA. It demonstrates that bilingual sustainability reports can be transformed into structured, auditable sentence-level records and connected to visual and metric-based analysis.",
+    "The strongest thesis claim should emphasize pipeline feasibility, evidence traceability, taxonomy diagnostics, and sample-size reasoning. Stronger claims about classification accuracy, ClimateBERT agreement, and greenwashing generalization require the next validation layer: expert labels, full local model coverage, and balanced subgroup sampling.",
+    "The archived image outputs and their JSON/Markdown explanations improve reproducibility because every major visual artifact now has a stable file path, source path, interpretation, RQ linkage, and thesis-use note.",
+]
+
 
 def render_mermaid(code: str, height: int = 520) -> None:
     container_id = "mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
@@ -898,6 +969,29 @@ def load_absa_metrics(path: Path, extra_path: Path | None = None) -> pd.DataFram
                 "is_nonzero": any(value > 0 for value in [accuracy, precision, recall, f1]),
             })
     return pd.DataFrame(rows).sort_values(["f1", "accuracy"], ascending=False)
+
+
+def load_image_explanations(path: Path) -> tuple[dict, pd.DataFrame]:
+    if not path.exists():
+        columns = [
+            "id",
+            "title",
+            "category",
+            "research_question_links",
+            "source_path",
+            "archived_path",
+            "width",
+            "height",
+            "explanation",
+            "thesis_use",
+        ]
+        return {}, pd.DataFrame(columns=columns)
+
+    with path.open("r", encoding="utf-8") as f:
+        manifest = json.load(f)
+    rows = manifest.get("images", [])
+    df = pd.DataFrame(rows)
+    return manifest, df
 
 
 def status_interpretation(status: str) -> str:
@@ -1399,6 +1493,7 @@ detail_df = build_rq_detail_rows(filtered)
 detail_df = detail_df[detail_df["status"].isin(selected_evidence_statuses)].reset_index(drop=True)
 absa_metrics_df = load_absa_metrics(ABSA_METRICS_PATH, LOCAL_ABSA_METRICS_PATH)
 nonzero_absa_metrics = absa_metrics_df[absa_metrics_df["is_nonzero"]] if not absa_metrics_df.empty else absa_metrics_df
+image_manifest, image_explanations_df = load_image_explanations(IMAGE_EXPLANATIONS_PATH)
 
 cols = st.columns(5)
 cols[0].metric("Research questions", len(filtered))
@@ -1411,13 +1506,16 @@ st.caption(f"Prediction outputs: `{PREDICTION_OUTPUT_DIR}`")
 st.caption(f"ABSA metrics: `{ABSA_METRICS_PATH}`")
 if LOCAL_ABSA_METRICS_PATH.exists():
     st.caption(f"Local rerun metrics: `{LOCAL_ABSA_METRICS_PATH}`")
+st.caption(f"Image output explanations: `{IMAGE_EXPLANATIONS_PATH}`")
 
-tab_overview, tab_details, tab_guide, tab_missing, tab_existing_pages, tab_absa_metrics, tab_mermaid, tab_plan, tab_source = st.tabs([
+tab_overview, tab_details, tab_guide, tab_missing, tab_existing_pages, tab_image_results, tab_discussion, tab_absa_metrics, tab_mermaid, tab_plan, tab_source = st.tabs([
     "Overview",
     "RQ Details",
     "Table Guide",
     "Missing Work Process",
     "Existing Page Analyses",
+    "Image Results",
+    "Discussion",
     "ABSA Metrics",
     "Mermaid Preview",
     "Analysis Plan",
@@ -1657,6 +1755,135 @@ with tab_existing_pages:
             st.markdown(f"**RQ links:** {selected['rq_links']}")
             st.markdown(f"**Evidence role:** {selected['evidence_role']}")
             st.markdown(f"**Why it matters or not:** {selected['why_it_matters_or_not']}")
+
+with tab_image_results:
+    st.subheader("Implemented Image Results and Explanations")
+    if image_explanations_df.empty:
+        st.warning(f"No image explanation manifest found at `{IMAGE_EXPLANATIONS_PATH}`.")
+    else:
+        st.write(
+            "These images were archived from generated dashboard/result outputs and documented "
+            "in JSON and Markdown. Each image has an implementation result, RQ linkage, source path, "
+            "archive path, and thesis-use explanation."
+        )
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Archived images", int(image_manifest.get("image_count", len(image_explanations_df))))
+        c2.metric("Categories", image_explanations_df["category"].nunique())
+        linked_count = image_explanations_df["research_question_links"].apply(lambda value: bool(value)).sum()
+        c3.metric("RQ-linked images", int(linked_count))
+
+        category_filter = st.multiselect(
+            "Image category",
+            sorted(image_explanations_df["category"].dropna().unique()),
+            default=sorted(image_explanations_df["category"].dropna().unique()),
+        )
+        rq_image_filter = st.multiselect(
+            "RQ link",
+            ["RQ1", "RQ2", "RQ3", "RQ4", "RQ5", "RQ6"],
+            default=[],
+        )
+        display_images = image_explanations_df.copy()
+        if category_filter:
+            display_images = display_images[display_images["category"].isin(category_filter)]
+        if rq_image_filter:
+            display_images = display_images[
+                display_images["research_question_links"].apply(
+                    lambda links: any(rq in list(links or []) for rq in rq_image_filter)
+                )
+            ]
+
+        table_cols = [
+            "id", "title", "category", "research_question_links", "source_path",
+            "archived_path", "width", "height", "explanation", "thesis_use",
+        ]
+        st.dataframe(display_images[table_cols], use_container_width=True, height=360)
+
+        if not display_images.empty:
+            selected_image_id = st.selectbox(
+                "Open image explanation",
+                display_images["id"].tolist(),
+                format_func=lambda image_id: f"{image_id} - {display_images[display_images['id'] == image_id].iloc[0]['title']}",
+            )
+            image_row = display_images[display_images["id"] == selected_image_id].iloc[0]
+            archived_abs_path = PAGE_DIR.parent / image_row["archived_path"]
+            left, right = st.columns([1, 1])
+            with left:
+                if archived_abs_path.exists():
+                    st.image(str(archived_abs_path), caption=image_row["title"], use_container_width=True)
+                else:
+                    st.warning(f"Archived image not found: `{archived_abs_path}`")
+            with right:
+                rq_links = ", ".join(image_row["research_question_links"]) or "Not directly linked"
+                st.markdown(f"**Category:** {image_row['category']}")
+                st.markdown(f"**RQ links:** {rq_links}")
+                st.markdown(f"**Source path:** `{image_row['source_path']}`")
+                st.markdown(f"**Archived path:** `{image_row['archived_path']}`")
+                st.markdown(f"**Implementation result:** {image_row['explanation']}")
+                st.markdown(f"**Thesis discussion use:** {image_row['thesis_use']}")
+
+        st.subheader("Image Evidence by Research Question")
+        rq_rows = []
+        for _, row in image_explanations_df.iterrows():
+            for rq in row["research_question_links"] or []:
+                rq_rows.append({
+                    "rq": rq,
+                    "image": row["title"],
+                    "category": row["category"],
+                    "implementation_result": row["explanation"],
+                    "discussion_use": row["thesis_use"],
+                })
+        if rq_rows:
+            rq_image_df = pd.DataFrame(rq_rows)
+            st.dataframe(rq_image_df, use_container_width=True, height=300)
+            st.bar_chart(rq_image_df["rq"].value_counts().sort_index())
+        else:
+            st.info("No RQ-linked image evidence found.")
+
+with tab_discussion:
+    st.subheader("Research Question Discussion")
+    st.write(
+        "This discussion synthesizes the current tables, metrics, image outputs, and remaining gaps. "
+        "It is written as thesis interpretation rather than page-operation documentation."
+    )
+    discussion_df = RQ_DISCUSSIONS.copy()
+    if rq_filter:
+        discussion_df = discussion_df[discussion_df["rq"].isin(rq_filter)]
+    st.dataframe(discussion_df, use_container_width=True, height=360)
+
+    if not discussion_df.empty:
+        selected_discussion_rq = st.selectbox(
+            "Detailed RQ discussion",
+            discussion_df["rq"].tolist(),
+            format_func=lambda rq: f"{rq} - {discussion_df[discussion_df['rq'] == rq].iloc[0]['theme']}",
+        )
+        row = discussion_df[discussion_df["rq"] == selected_discussion_rq].iloc[0]
+        st.markdown(f"**Discussion:** {row['discussion']}")
+        st.markdown(f"**Results interpretation:** {row['results_interpretation']}")
+        st.markdown(f"**Limitation:** {row['limitation']}")
+        st.markdown(f"**Next step:** {row['next_step']}")
+
+        linked_images = image_explanations_df[
+            image_explanations_df["research_question_links"].apply(
+                lambda links: selected_discussion_rq in list(links or [])
+            )
+        ] if not image_explanations_df.empty else pd.DataFrame()
+        if not linked_images.empty:
+            st.subheader(f"Images Supporting {selected_discussion_rq}")
+            for _, image_row in linked_images.iterrows():
+                with st.expander(f"{image_row['id']} - {image_row['title']}"):
+                    archived_abs_path = PAGE_DIR.parent / image_row["archived_path"]
+                    if archived_abs_path.exists():
+                        st.image(str(archived_abs_path), caption=image_row["title"], use_container_width=True)
+                    st.markdown(f"**Implementation result:** {image_row['explanation']}")
+                    st.markdown(f"**Discussion use:** {image_row['thesis_use']}")
+
+    st.subheader("General Discussion")
+    for paragraph in GENERAL_DISCUSSION:
+        st.write(paragraph)
+
+    st.subheader("Conclusion")
+    for paragraph in CONCLUSION_TEXT:
+        st.write(paragraph)
 
 with tab_absa_metrics:
     st.subheader("ABSA Metrics Results from the Metrics Visualizer")

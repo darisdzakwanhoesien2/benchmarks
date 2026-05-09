@@ -102,6 +102,12 @@ st.success(f"Parsed **{len(df)}** ESG sentence records")
 # -------------------------------------------------------
 # 🔁 GLOBAL SAFE SORTING HELPER (FIX)
 # -------------------------------------------------------
+def safe_str(value):
+    if pd.isna(value):
+        return ""
+    return str(value).strip()
+
+
 def sorted_unique_str(series):
     return sorted(
         series
@@ -124,7 +130,8 @@ df["provider"] = df["model"].apply(parse_provider)
 # Helper: Ensure pivot contains ALL models
 # -------------------------------------------------------
 def ensure_all_models(reference_df, pivot):
-    all_models = sorted(reference_df["model"].dropna().unique())
+    all_models = sorted_unique_str(reference_df["model"]) if "model" in reference_df.columns else []
+    pivot.columns = [safe_str(col) for col in pivot.columns]
     for m in all_models:
         if m not in pivot.columns:
             pivot[m] = None
@@ -134,8 +141,8 @@ def ensure_all_models(reference_df, pivot):
 # Helper: completeness scoring
 # -------------------------------------------------------
 def model_completeness(df_pdf, df_page):
-    expected = sorted(df_pdf["model"].dropna().unique())
-    present = sorted(df_page["model"].dropna().unique())
+    expected = sorted_unique_str(df_pdf["model"]) if "model" in df_pdf.columns else []
+    present = sorted_unique_str(df_page["model"]) if "model" in df_page.columns else []
     missing = set(expected) - set(present)
 
     score = len(present) / len(expected) if expected else 1.0
@@ -174,7 +181,7 @@ filtered = df.copy()
 def apply_filter(col, values):
     global filtered
     if values and col in filtered.columns:
-        filtered = filtered[filtered[col].isin(values)]
+        filtered = filtered[filtered[col].map(safe_str).isin(values)]
 
 apply_filter("aspect_category", aspect_cats)
 apply_filter("sentiment", sentiments)
@@ -185,6 +192,9 @@ apply_filter("value_chain_stage", value_chain_stage)
 apply_filter("time_horizon", time_horizon)
 
 st.caption(f"Showing **{len(filtered)}** sentences after filtering.")
+if filtered.empty:
+    st.warning("No rows match the selected filters. Clear one or more sidebar filters to continue.")
+    st.stop()
 
 # -------------------------------------------------------
 # Tabs
@@ -294,17 +304,23 @@ with tab4:
     # ---------------------------------------------------
     # File & Page Selection
     # ---------------------------------------------------
-    filenames = sorted(filtered["filename"].unique())
+    filenames = sorted_unique_str(filtered["filename"]) if "filename" in filtered.columns else []
+    if not filenames:
+        st.warning("No filenames are available after filtering.")
+        st.stop()
     selected_file = st.selectbox("Filename", filenames, key="mc_file")
 
-    pages = sorted(
-        filtered[filtered["filename"] == selected_file]["page_number"].unique()
+    pages = sorted_unique_str(
+        filtered[filtered["filename"].map(safe_str) == selected_file]["page_number"]
     )
+    if not pages:
+        st.warning("No pages are available for the selected file.")
+        st.stop()
     selected_page = st.selectbox("Page Number", pages, key="mc_page")
 
     subset = filtered[
-        (filtered["filename"] == selected_file) &
-        (filtered["page_number"] == selected_page)
+        (filtered["filename"].map(safe_str) == selected_file) &
+        (filtered["page_number"].map(safe_str) == selected_page)
     ]
 
     if subset.empty:
@@ -314,7 +330,7 @@ with tab4:
     # ---------------------------------------------------
     # Model Completeness
     # ---------------------------------------------------
-    df_pdf = filtered[filtered["filename"] == selected_file]
+    df_pdf = filtered[filtered["filename"].map(safe_str) == selected_file]
     comp = model_completeness(df_pdf, subset)
 
     st.metric(
@@ -520,27 +536,36 @@ with tab5:
     st.subheader("LLM Breakdown by Provider")
     add_section_explanation("LLM Breakdown by Provider")
 
-    filenames = sorted(filtered["filename"].unique())
+    filenames = sorted_unique_str(filtered["filename"]) if "filename" in filtered.columns else []
+    if not filenames:
+        st.warning("No filenames are available after filtering.")
+        st.stop()
     selected_file = st.selectbox("Select Report Filename", filenames, key="file_tab5")
 
-    pages = sorted(filtered[filtered["filename"] == selected_file]["page_number"].unique())
+    pages = sorted_unique_str(filtered[filtered["filename"].map(safe_str) == selected_file]["page_number"])
+    if not pages:
+        st.warning("No pages are available for the selected file.")
+        st.stop()
     selected_page = st.selectbox("Select Page Number", pages, key="page_tab5")
 
     subset = filtered[
-        (filtered["filename"] == selected_file) &
-        (filtered["page_number"] == selected_page)
+        (filtered["filename"].map(safe_str) == selected_file) &
+        (filtered["page_number"].map(safe_str) == selected_page)
     ].copy()
 
-    providers = sorted(subset["provider"].unique())
+    providers = sorted_unique_str(subset["provider"]) if "provider" in subset.columns else []
+    if not providers:
+        st.warning("No providers are available for the selected file/page.")
+        st.stop()
     selected_provider = st.selectbox("Select Provider", providers, key="provider_tab5")
 
-    provider_subset = subset[subset["provider"] == selected_provider]
+    provider_subset = subset[subset["provider"].map(safe_str) == selected_provider]
 
-    st.write("Models under provider:", sorted(provider_subset["model"].unique()))
+    st.write("Models under provider:", sorted_unique_str(provider_subset["model"]))
 
     # --- COMPLETENESS FOR PROVIDER ---
-    df_pdf = filtered[filtered["filename"] == selected_file]
-    comp = model_completeness(df_pdf[df_pdf["provider"] == selected_provider], provider_subset)
+    df_pdf = filtered[filtered["filename"].map(safe_str) == selected_file]
+    comp = model_completeness(df_pdf[df_pdf["provider"].map(safe_str) == selected_provider], provider_subset)
 
     st.metric("Provider Completeness", f"{comp['score']*100:.1f}%")
     if comp["missing_count"] > 0:
@@ -552,7 +577,11 @@ with tab5:
     st.subheader("📖 Cleaned Markdown")
     add_section_explanation("📖 Cleaned Markdown")
     if "cleaned_markdown" in subset.columns:
-        st.markdown(subset["cleaned_markdown"].dropna().iloc[0])
+        cleaned_values = subset["cleaned_markdown"].dropna()
+        if not cleaned_values.empty:
+            st.markdown(str(cleaned_values.iloc[0]))
+        else:
+            st.caption("No cleaned markdown available.")
 
     # Sentence comparison
     pivot_sent = provider_subset.pivot_table(
@@ -561,7 +590,7 @@ with tab5:
         values="sentiment",
         aggfunc=lambda x: x.iloc[0] if len(x) else None
     )
-    pivot_sent = ensure_all_models(df_pdf[df_pdf["provider"] == selected_provider], pivot_sent)
+    pivot_sent = ensure_all_models(df_pdf[df_pdf["provider"].map(safe_str) == selected_provider], pivot_sent)
     st.dataframe(pivot_sent, use_container_width=True)
 
 # -------------------------------------------------------
@@ -588,33 +617,35 @@ with tab6:
 
     selected_file_cov = st.selectbox(
         "Select Report Filename",
-        sorted(df["filename"].unique()),
+        sorted_unique_str(df["filename"]),
         key="cov_file"
     )
 
     st.subheader("📄 Pages for this File")
     add_section_explanation("📄 Pages for this File")
     subset = models_per_page[
-        models_per_page["filename"] == selected_file_cov
+        models_per_page["filename"].map(safe_str) == selected_file_cov
     ].sort_values("page_number")
     st.dataframe(subset)
 
     st.subheader("🧠 Models Used on Each Page")
     add_section_explanation("🧠 Models Used on Each Page")
     model_page_map = (
-        df[df["filename"] == selected_file_cov]
+        df[df["filename"].map(safe_str) == selected_file_cov]
         .groupby("page_number")["model"]
         .unique()
         .reset_index()
     )
-    model_page_map["models"] = model_page_map["model"].apply(lambda x: ", ".join(sorted(x)))
+    model_page_map["models"] = model_page_map["model"].apply(
+        lambda x: ", ".join(sorted(safe_str(item) for item in x if safe_str(item)))
+    )
     model_page_map = model_page_map.drop(columns=["model"])
     st.dataframe(model_page_map)
 
     st.subheader("🔥 Model–Page Heatmap")
     add_section_explanation("🔥 Model–Page Heatmap")
     pivot = (
-        df[df["filename"] == selected_file_cov]
+        df[df["filename"].map(safe_str) == selected_file_cov]
         .pivot_table(
             index="page_number",
             columns="model",
@@ -623,7 +654,7 @@ with tab6:
             fill_value=0
         )
     )
-    pivot = ensure_all_models(df[df["filename"] == selected_file_cov], pivot)
+    pivot = ensure_all_models(df[df["filename"].map(safe_str) == selected_file_cov], pivot)
     st.dataframe(pivot.style.background_gradient(cmap="Blues"), use_container_width=True)
 
 # -------------------------------------------------------
@@ -637,13 +668,16 @@ with tab7:
     selected_file = st.selectbox("Filename", filenames)
 
     pages = sorted_unique_str(
-        raw_df[raw_df["filename"] == selected_file]["page_number"]
+        raw_df[raw_df["filename"].map(safe_str) == selected_file]["page_number"]
     )
+    if not pages:
+        st.warning("No pages are available for the selected file.")
+        st.stop()
     selected_page = st.selectbox("Page", pages)
 
     subset = raw_df[
-        (raw_df["filename"] == selected_file) &
-        (raw_df["page_number"] == selected_page)
+        (raw_df["filename"].map(safe_str) == selected_file) &
+        (raw_df["page_number"].map(safe_str) == selected_page)
     ]
 
     for _, row in subset.iterrows():
@@ -673,13 +707,16 @@ with tab8:
     sel_file = st.selectbox("Select Filename", filenames)
 
     pages = sorted_unique_str(
-        filtered[filtered["filename"] == sel_file]["page_number"]
+        filtered[filtered["filename"].map(safe_str) == sel_file]["page_number"]
     )
+    if not pages:
+        st.warning("No pages are available for the selected file.")
+        st.stop()
     sel_page = st.selectbox("Select Page", pages)
 
     page_subset = filtered[
-        (filtered["filename"] == sel_file) &
-        (filtered["page_number"] == sel_page)
+        (filtered["filename"].map(safe_str) == sel_file) &
+        (filtered["page_number"].map(safe_str) == sel_page)
     ]
 
     if page_subset.empty:

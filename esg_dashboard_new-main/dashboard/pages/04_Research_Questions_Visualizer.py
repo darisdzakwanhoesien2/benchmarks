@@ -26,6 +26,8 @@ SOURCE_HTML = next(
 )
 EXISTING_DATA_PATH = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/data_output.txt"
 PREDICTION_OUTPUT_DIR = "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/climatebert_predictions"
+ARTIFACT_DIR = PAGE_DIR / "research_question_artifacts"
+ARTIFACT_JSON = ARTIFACT_DIR / "research_question_artifacts.json"
 
 
 RQ_DATA = [
@@ -348,6 +350,173 @@ TABLE_EXPLANATIONS = pd.DataFrame([
     "if_yes_or_good",
     "if_underperforming_or_missing",
 ])
+
+
+RQ_DISCUSSION = {
+    "RQ1": {
+        "result_implementation": (
+            "The implemented dashboard treats RQ1 as a pipeline-readiness question. The current visual evidence "
+            "shows that PDF reports can be converted into parsed sentence records, with source traceability and "
+            "structured JSON fields available for downstream ABSA review."
+        ),
+        "discussion": (
+            "RQ1 is currently strongest as an engineering and data-preparation result. The parsed dataset gives a "
+            "workable sentence-level representation, and the dashboard can inspect record counts, fields, and source "
+            "coverage. The remaining weakness is that OCR quality and sentence-boundary accuracy are not yet measured "
+            "against reference text. That means the pipeline can be described as functional and auditable, but not yet "
+            "fully validated as text-accurate."
+        ),
+        "claim_strength": "Moderate to strong for feasibility; partial for formal extraction accuracy.",
+        "next_implementation": (
+            "Add reference text for selected pages, compute CER/WER, and add sentence-boundary precision/recall. "
+            "Once those metrics exist, RQ1 can move from pipeline feasibility to validated extraction quality."
+        ),
+    },
+    "RQ2": {
+        "result_implementation": (
+            "The dashboard implements RQ2 through tone, pillar, language, sentiment, and aspect distributions. "
+            "It makes bilingual and ESG-category asymmetries visible and links those findings to expected validation metrics."
+        ),
+        "discussion": (
+            "RQ2 has useful descriptive findings, especially tone x pillar and bilingual tone differences. However, those "
+            "findings are currently weak-label results because the labels come from LLM extraction rather than expert "
+            "annotation. The strongest current use is exploratory ABSA pattern discovery. The thesis can discuss observed "
+            "patterns, but should avoid claiming classification accuracy until a gold-label sample, inter-annotator agreement, "
+            "and per-class precision/recall/F1 are added."
+        ),
+        "claim_strength": "Strong for descriptive exploration; weak to moderate for validated categorization.",
+        "next_implementation": (
+            "Create a 30-50 record stratified annotation sample, have two annotators label aspect/pillar/tone, compute "
+            "Cohen kappa and F1, then update the RQ details table with validated performance metrics."
+        ),
+    },
+    "RQ3": {
+        "result_implementation": (
+            "RQ3 is implemented around local ClimateBERT/ESGBERT predictions and the saved prediction CSV shards. "
+            "The page links ABSA tone evidence to ClimateBERT processing and visualization outputs."
+        ),
+        "discussion": (
+            "RQ3 is the key bridge between the LLM-derived ABSA labels and domain-specific climate classifiers. "
+            "The dashboard design is ready for this comparison, but the research claim depends on coverage: predictions "
+            "must be generated for all valid rows and joined back to the parsed ESG sentences. Once coverage is complete, "
+            "the important interpretation is not just whether the labels match, but whether ClimateBERT adds a distinct "
+            "climate-specific signal that complements tone-based ABSA."
+        ),
+        "claim_strength": "Partial until local predictions cover the dataset; strong once coverage and agreement metrics are complete.",
+        "next_implementation": (
+            "Run page 02 in continue-leftover mode, verify processed/not-processed counts in page 03, then compute "
+            "tone x ClimateBERT crosstabs, agreement rate, confidence distribution, and Cohen kappa."
+        ),
+    },
+    "RQ4": {
+        "result_implementation": (
+            "The dashboard implements RQ4 as a diagnostics layer: schema drift, missing tone, ontology gaps, and "
+            "model/prompt failure patterns are surfaced as evidence items and completion tasks."
+        ),
+        "discussion": (
+            "RQ4 is already valuable because it turns extraction problems into measurable failure categories. The current "
+            "evidence indicates that errors are not random: some are concentrated in specific model/prompt conditions, "
+            "while other weaknesses relate to ontology normalization and missing manual error labels. The diagnostic logic "
+            "can support practical model-improvement discussion, but a formal error taxonomy needs manual spot-check labels."
+        ),
+        "claim_strength": "Strong for diagnostic framework design; partial for quantified error taxonomy.",
+        "next_implementation": (
+            "Add an error_type column for a sampled set of records, classify wrong-aspect, wrong-tone, wrong-pillar, "
+            "schema-failure, and OCR-noise errors, then summarize error rates by model, prompt, document, language, and pillar."
+        ),
+    },
+    "RQ5": {
+        "result_implementation": (
+            "RQ5 is implemented through exported artifacts, dashboard pages, saved diagrams, JSON explanations, Markdown "
+            "reports, and source-path annotations that connect visual outputs back to input data."
+        ),
+        "discussion": (
+            "RQ5 has a strong implementation foundation because the dashboard no longer only displays results; it also "
+            "stores the interpretation layer as reusable JSON and Markdown. This improves auditability because a reader "
+            "can inspect the image, the explanation, and the source path together. The remaining work is replication: "
+            "another run should be documented to prove that the artifacts can be regenerated consistently."
+        ),
+        "claim_strength": "Strong for artifact traceability; partial for independent reproducibility.",
+        "next_implementation": (
+            "Create a formal reproducibility checklist with exact commands, model paths, prompt versions, generated files, "
+            "and a rerun log comparing regenerated outputs to the current artifact bundle."
+        ),
+    },
+    "RQ6": {
+        "result_implementation": (
+            "RQ6 is implemented as a stability and prompt-sensitivity question. The page collects prompt-family effects, "
+            "coefficient of variation, and missing balanced-comparison tasks."
+        ),
+        "discussion": (
+            "RQ6 is important because ABSA outputs are not only model-dependent but prompt-dependent. The current evidence "
+            "shows meaningful variation across prompt families, so a single prompt result should not be treated as the whole "
+            "truth. The dashboard correctly frames this as a stability problem. Stronger claims require a balanced matrix "
+            "where the same documents are processed by comparable model/prompt configurations."
+        ),
+        "claim_strength": "Strong for showing prompt sensitivity; partial for ensemble reliability claims.",
+        "next_implementation": (
+            "Build a balanced model x prompt x document matrix, run majority-vote simulation, calculate cross-model kappa, "
+            "and report whether ensemble outputs reduce variance without hiding systematic disagreement."
+        ),
+    },
+}
+
+
+GENERAL_DISCUSSION = [
+    (
+        "The overall implementation separates three layers that should not be mixed: source extraction quality, "
+        "semantic label quality, and research interpretation. The images and RQ tables make this separation explicit. "
+        "A chart can be visually complete while still being methodologically partial if the underlying metric has not "
+        "been validated."
+    ),
+    (
+        "The strongest current contribution is the traceable dashboard workflow: parsed ESG records feed into "
+        "ClimateBERT processing, saved prediction shards can survive interrupted runs, and the RQ page turns outputs "
+        "into evidence status. This makes the project operationally reproducible and easier to audit."
+    ),
+    (
+        "The main research risk is validation. RQ2, RQ3, RQ4, and RQ6 all need either expert labels, full prediction "
+        "coverage, or balanced comparison matrices before the thesis can make strong performance or comparison claims. "
+        "The dashboard now makes those gaps visible instead of hiding them inside the narrative."
+    ),
+    (
+        "For thesis writing, Available rows should be used as current descriptive findings, Partial rows should be "
+        "written as promising but limited evidence, and Needed rows should become the next work plan. This creates a "
+        "defensible distinction between implemented results and future validation."
+    ),
+]
+
+
+CONCLUSION_POINTS = [
+    (
+        "The implemented Streamlit workflow successfully converts the ESG project from scattered outputs into a "
+        "research-evidence dashboard. It can show what has been processed, what has been predicted, what can already "
+        "be interpreted, and what still needs validation."
+    ),
+    (
+        "The image outputs provide thesis-facing summaries: evidence readiness, priority risks, sample-size reasoning, "
+        "workflow lineage, missing-evidence process, and full RQ evidence mapping. The JSON and Markdown exports preserve "
+        "the interpretation so results can be reviewed outside Streamlit."
+    ),
+    (
+        "The current conclusion should be careful: the system is strong as a reproducible ESG ABSA pipeline and evidence "
+        "management tool, but model-performance claims require additional expert annotation, complete ClimateBERT coverage, "
+        "and balanced stability analysis."
+    ),
+    (
+        "Once those remaining metrics are completed, the same dashboard structure can support stronger thesis claims about "
+        "bilingual ESG categorization, ClimateBERT agreement, diagnostic error patterns, reproducibility, and prompt/model stability."
+    ),
+]
+
+
+def load_artifact_report() -> dict:
+    if not ARTIFACT_JSON.exists():
+        return {}
+    try:
+        return json.loads(ARTIFACT_JSON.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
 
 
 def render_mermaid(code: str, height: int = 520) -> None:
@@ -1237,11 +1406,14 @@ cols[4].metric("Visible evidence rows", len(detail_df))
 st.caption(f"Existing data: `{EXISTING_DATA_PATH}`")
 st.caption(f"Prediction outputs: `{PREDICTION_OUTPUT_DIR}`")
 
-tab_overview, tab_details, tab_guide, tab_missing, tab_mermaid, tab_plan, tab_source = st.tabs([
+tab_overview, tab_details, tab_guide, tab_missing, tab_images, tab_discussion, tab_conclusion, tab_mermaid, tab_plan, tab_source = st.tabs([
     "Overview",
     "RQ Details",
     "Table Guide",
     "Missing Work Process",
+    "Image Results",
+    "RQ Discussion",
+    "Conclusion",
     "Mermaid Preview",
     "Analysis Plan",
     "Source HTML",
@@ -1391,6 +1563,152 @@ with tab_missing:
     st.markdown(f"**Process:** {row['process']}")
     st.markdown(f"**Primary source:** `{row['primary_source']}`")
     st.markdown(f"**Output metric:** {row['output_metric']}")
+
+with tab_images:
+    st.subheader("Saved Image Outputs as Result Implementations")
+    artifact_report = load_artifact_report()
+    image_entries = artifact_report.get("images", [])
+    if not image_entries:
+        st.warning(
+            "No generated image artifact report was found yet. Run "
+            "`python3 generate_research_question_artifacts.py` from the dashboard/pages folder, then refresh this page."
+        )
+    else:
+        st.caption(f"Artifact report: `{ARTIFACT_JSON}`")
+        st.caption(f"Generated: {artifact_report.get('generated_at', 'unknown')}")
+        image_options = [entry["title"] for entry in image_entries]
+        selected_image_title = st.selectbox("Choose image output", image_options)
+        selected_image = next(entry for entry in image_entries if entry["title"] == selected_image_title)
+        image_path = ARTIFACT_DIR / selected_image["path"]
+
+        if image_path.exists():
+            st.image(str(image_path), caption=selected_image["title"], use_container_width=True)
+        else:
+            st.error(f"Image file is missing: `{image_path}`")
+
+        st.markdown("### Result Implementation Explanation")
+        st.markdown(f"**What was implemented:** {selected_image['what_it_shows']}")
+        st.markdown(f"**Expected metric or evidence standard:** {selected_image['expected_metrics']}")
+        st.markdown(f"**Result interpretation:** {selected_image['interpretation']}")
+        st.markdown(f"**If the result underperforms:** {selected_image['if_underperforming']}")
+
+        st.markdown("### How This Supports the Research Questions")
+        if selected_image["id"] in {
+            "evidence_readiness_by_rq",
+            "overall_evidence_status_totals",
+            "rq_priority_gap_matrix",
+            "full_research_question_evidence_map",
+        }:
+            st.write(
+                "This image supports the RQ evidence-management layer. It does not prove model accuracy by itself; "
+                "it shows whether each RQ has enough traceable evidence to justify a claim. Use it in the thesis to "
+                "separate completed evidence from partial and missing validation work."
+            )
+        elif selected_image["id"] in {
+            "sample_size_reasoning_ladder",
+            "margin_of_error_by_sample_size",
+            "subgroup_coverage_requirement_check",
+        }:
+            st.write(
+                "This image supports the methodological justification layer. It explains why total row count is not "
+                "enough: validation and subgroup analysis require enough rows inside each relevant slice, such as "
+                "language, pillar, prompt, model, or tone."
+            )
+        else:
+            st.write(
+                "This image supports the implementation workflow layer. It shows how the dashboard connects parsed "
+                "records, ClimateBERT outputs, result visualization, and RQ interpretation so interrupted processing "
+                "and later audit are easier to manage."
+            )
+
+        with st.expander("Show all generated image metadata"):
+            st.dataframe(pd.DataFrame(image_entries), use_container_width=True, height=420)
+
+with tab_discussion:
+    st.subheader("Research Question Discussion")
+    artifact_report = load_artifact_report()
+    rq_explanations = {
+        row["rq"]: row for row in artifact_report.get("research_question_explanations", [])
+    }
+    discussion_rqs = [item["rq"] for item in filtered] or list(RQ_DISCUSSION.keys())
+    selected_discussion_rq = st.selectbox("Choose research question", discussion_rqs)
+    discussion = RQ_DISCUSSION[selected_discussion_rq]
+    source_rq = next(item for item in RQ_DATA if item["rq"] == selected_discussion_rq)
+    exported = rq_explanations.get(selected_discussion_rq, {})
+
+    st.markdown(f"### {selected_discussion_rq} · {source_rq['theme']}")
+    st.write(source_rq["question"])
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Priority", source_rq["priority"])
+    c2.metric("Available", len(source_rq["have"]))
+    c3.metric("Partial", len(source_rq["partial"]))
+    c4.metric("Needed", len(source_rq["need"]))
+
+    st.markdown("#### Result Implementation")
+    st.write(discussion["result_implementation"])
+
+    st.markdown("#### Discussion")
+    st.write(discussion["discussion"])
+
+    st.markdown("#### Claim Strength")
+    st.info(discussion["claim_strength"])
+
+    st.markdown("#### Next Implementation Step")
+    st.write(discussion["next_implementation"])
+
+    if exported:
+        st.markdown("#### Exported Metrics")
+        metric_df = pd.DataFrame(exported.get("metrics", []))
+        if not metric_df.empty:
+            st.dataframe(metric_df, use_container_width=True, hide_index=True)
+        st.markdown("#### Evidence Items")
+        e1, e2, e3 = st.columns(3)
+        with e1:
+            st.markdown("**Available**")
+            for entry in exported.get("available_evidence", []):
+                st.write(f"- {entry}")
+        with e2:
+            st.markdown("**Partial**")
+            for entry in exported.get("partial_evidence", []):
+                st.write(f"- {entry}")
+        with e3:
+            st.markdown("**Needed**")
+            for entry in exported.get("needed_evidence", []):
+                st.write(f"- {entry}")
+
+    st.divider()
+    st.subheader("General Discussion")
+    for paragraph in GENERAL_DISCUSSION:
+        st.write(paragraph)
+
+with tab_conclusion:
+    st.subheader("General Conclusion")
+    for idx, point in enumerate(CONCLUSION_POINTS, start=1):
+        st.markdown(f"**Conclusion {idx}.** {point}")
+
+    st.subheader("Thesis-Ready Final Position")
+    st.success(
+        "The dashboard can support thesis results now as an implementation and evidence-management system. "
+        "It should present current distributions and workflow artifacts as descriptive findings, while clearly marking "
+        "annotation, ClimateBERT coverage, and stability metrics as the remaining work required for stronger performance claims."
+    )
+
+    st.subheader("Recommended Wording for the Thesis")
+    st.write(
+        "This study implemented a reproducible ESG ABSA dashboard that transforms parsed sustainability-report records "
+        "into traceable research-question evidence. The system visualizes evidence readiness, model-output workflows, "
+        "sample-size constraints, and missing validation tasks. Current outputs support descriptive analysis of ESG tone, "
+        "pillar distribution, diagnostics, and reproducibility. However, formal claims about classification quality and "
+        "cross-model stability require additional expert annotation, complete local ClimateBERT prediction coverage, and "
+        "balanced prompt/model comparison."
+    )
+
+    st.subheader("What To Complete Before Final Submission")
+    st.write("- Run/verify ClimateBERT predictions for all valid sentence rows and summarize coverage in page 03.")
+    st.write("- Create a 30-50 record expert annotation sample and compute Cohen kappa plus precision/recall/F1.")
+    st.write("- Add OCR CER/WER and sentence-boundary metrics for RQ1.")
+    st.write("- Add manual error taxonomy labels for RQ4 diagnostics.")
+    st.write("- Build a balanced model x prompt x document matrix for RQ6 stability and ensemble analysis.")
 
 with tab_mermaid:
     st.subheader("Linked RQ Evidence Diagram")

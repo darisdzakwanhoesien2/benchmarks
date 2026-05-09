@@ -1,0 +1,222 @@
+{
+  "generated_at": "2026-05-09T00:06:21.474625+00:00",
+  "benchmark_root": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks",
+  "scope_note": "Archived generated image outputs from results/, new_page/results/, new_page/pages/, and new_page/error/. Raw extracted PDF page images under new_page/data/thesis_dataset are intentionally excluded.",
+  "image_count": 11,
+  "category_counts": {
+    "Interface evidence": 4,
+    "ESG ABSA distribution": 3,
+    "ClimateBERT alignment": 1,
+    "ClimateBERT scoring": 1,
+    "Evaluation metric": 2
+  },
+  "images": [
+    {
+      "id": "img_001",
+      "title": "Dashboard Screenshot",
+      "category": "Interface evidence",
+      "research_question_links": [
+        "RQ5"
+      ],
+      "source_path": "new_page/error/Screenshot 2026-03-24 at 07.47.28.png",
+      "archived_path": "results/image_outputs_archive/images/001_screenshot_2026_03_24_at_07_47_28.png",
+      "file_name": "Screenshot 2026-03-24 at 07.47.28.png",
+      "extension": ".png",
+      "size_bytes": 1104400,
+      "width": 3074,
+      "height": 1688,
+      "sha256": "320b6d9eddf0e6f1c837ed6e367d81848f08959da04b197efbc290052a0eb36b",
+      "explanation": "Screenshot captured from dashboard or error-review work. Use it as interface or debugging evidence, not as a quantitative analysis result.",
+      "thesis_use": "Supports reproducibility, dashboard documentation, and audit-trail notes."
+    },
+    {
+      "id": "img_002",
+      "title": "Dashboard Screenshot",
+      "category": "Interface evidence",
+      "research_question_links": [
+        "RQ5"
+      ],
+      "source_path": "new_page/pages/Screenshot 2026-03-27 at 16.03.58.png",
+      "archived_path": "results/image_outputs_archive/images/002_screenshot_2026_03_27_at_16_03_58.png",
+      "file_name": "Screenshot 2026-03-27 at 16.03.58.png",
+      "extension": ".png",
+      "size_bytes": 97821,
+      "width": 1060,
+      "height": 778,
+      "sha256": "04a90ad4fc75ec29a051192661b966d67791f1c137d1f06d494d4dbd7073a363",
+      "explanation": "Screenshot captured from dashboard or error-review work. Use it as interface or debugging evidence, not as a quantitative analysis result.",
+      "thesis_use": "Supports reproducibility, dashboard documentation, and audit-trail notes."
+    },
+    {
+      "id": "img_003",
+      "title": "Dashboard Screenshot",
+      "category": "Interface evidence",
+      "research_question_links": [
+        "RQ5"
+      ],
+      "source_path": "new_page/pages/Screenshot 2026-03-30 at 16.37.27.png",
+      "archived_path": "results/image_outputs_archive/images/003_screenshot_2026_03_30_at_16_37_27.png",
+      "file_name": "Screenshot 2026-03-30 at 16.37.27.png",
+      "extension": ".png",
+      "size_bytes": 747918,
+      "width": 2542,
+      "height": 1712,
+      "sha256": "e2d195706b26a79f14d01596c6a466f8aa9badee8263c70adf1952f9df9dbe2e",
+      "explanation": "Screenshot captured from dashboard or error-review work. Use it as interface or debugging evidence, not as a quantitative analysis result.",
+      "thesis_use": "Supports reproducibility, dashboard documentation, and audit-trail notes."
+    },
+    {
+      "id": "img_004",
+      "title": "Dashboard Screenshot",
+      "category": "Interface evidence",
+      "research_question_links": [
+        "RQ5"
+      ],
+      "source_path": "new_page/pages/Screenshot 2026-03-30 at 16.37.29.png",
+      "archived_path": "results/image_outputs_archive/images/004_screenshot_2026_03_30_at_16_37_29.png",
+      "file_name": "Screenshot 2026-03-30 at 16.37.29.png",
+      "extension": ".png",
+      "size_bytes": 732911,
+      "width": 2542,
+      "height": 1712,
+      "sha256": "ecc5e61fea5d2324c804d43bddd462669d95d7659b4cc02a11b91087b23f57e3",
+      "explanation": "Screenshot captured from dashboard or error-review work. Use it as interface or debugging evidence, not as a quantitative analysis result.",
+      "thesis_use": "Supports reproducibility, dashboard documentation, and audit-trail notes."
+    },
+    {
+      "id": "img_005",
+      "title": "Aspect by Tone Heatmap",
+      "category": "ESG ABSA distribution",
+      "research_question_links": [
+        "RQ2",
+        "RQ4",
+        "RQ6"
+      ],
+      "source_path": "new_page/results/visualizations/aspect_by_tone_heatmap.png",
+      "archived_path": "results/image_outputs_archive/images/005_aspect_by_tone_heatmap.png",
+      "file_name": "aspect_by_tone_heatmap.png",
+      "extension": ".png",
+      "size_bytes": 119703,
+      "width": 1710,
+      "height": 1260,
+      "sha256": "35c34fb264c4ccde7470323741bbdb2d9d68a0377d6c0d51fc188b6828adce23",
+      "explanation": "Shows how extracted ESG aspects are distributed across tone categories. Use it to detect which aspects are dominated by commitment, action, outcome, or other tone classes, and to identify sparse aspect-tone cells.",
+      "thesis_use": "Supports categorization validity, diagnostics for imbalance, and stability discussion across aspect/tone subgroups."
+    },
+    {
+      "id": "img_006",
+      "title": "ClimateBERT Label by Tone",
+      "category": "ClimateBERT alignment",
+      "research_question_links": [
+        "RQ3",
+        "RQ6"
+      ],
+      "source_path": "new_page/results/visualizations/climatebert_label_by_tone.png",
+      "archived_path": "results/image_outputs_archive/images/006_climatebert_label_by_tone.png",
+      "file_name": "climatebert_label_by_tone.png",
+      "extension": ".png",
+      "size_bytes": 136768,
+      "width": 2160,
+      "height": 1044,
+      "sha256": "37c5f1a044a2878aa9ed7bd6896de13a2e0d977723279c0fa0531a5d1c6b37f5",
+      "explanation": "Compares ClimateBERT-style labels against the thesis tone categories. Use it to inspect whether climate labels concentrate in specific tone classes.",
+      "thesis_use": "Supports the ClimateBERT-versus-tone comparison and highlights where label spaces may align or diverge."
+    },
+    {
+      "id": "img_007",
+      "title": "ClimateBERT Remote Top Scores",
+      "category": "ClimateBERT scoring",
+      "research_question_links": [
+        "RQ3",
+        "RQ5"
+      ],
+      "source_path": "new_page/results/visualizations/climatebert_remote_top_scores.png",
+      "archived_path": "results/image_outputs_archive/images/007_climatebert_remote_top_scores.png",
+      "file_name": "climatebert_remote_top_scores.png",
+      "extension": ".png",
+      "size_bytes": 154575,
+      "width": 2160,
+      "height": 1260,
+      "sha256": "a12e484ee6efe933943c53b9b955296f87c2e7e833ceee5d7fcb4fbbdc0f97cc",
+      "explanation": "Summarizes top remote ClimateBERT scores. It is useful as a sanity check, but should be treated as limited evidence unless the scored rows cover the full dataset.",
+      "thesis_use": "Supports preliminary model-output inspection and reproducibility documentation, not final model comparison by itself."
+    },
+    {
+      "id": "img_008",
+      "title": "ESG Pillar by Tone",
+      "category": "ESG ABSA distribution",
+      "research_question_links": [
+        "RQ2",
+        "RQ4",
+        "RQ6"
+      ],
+      "source_path": "new_page/results/visualizations/esg_by_tone.png",
+      "archived_path": "results/image_outputs_archive/images/008_esg_by_tone.png",
+      "file_name": "esg_by_tone.png",
+      "extension": ".png",
+      "size_bytes": 59057,
+      "width": 1710,
+      "height": 990,
+      "sha256": "8778a38fe1da67de889de82a1b81f4476e023feb142948793f0dbee02e971796",
+      "explanation": "Shows how Environmental, Social, and Governance categories distribute across tone classes. This helps reveal pillar imbalance and tone asymmetry.",
+      "thesis_use": "Supports claims about ESG pillar coverage and warns where Social or other cells are too sparse for strong conclusions."
+    },
+    {
+      "id": "img_009",
+      "title": "Tone Distribution",
+      "category": "ESG ABSA distribution",
+      "research_question_links": [
+        "RQ2",
+        "RQ6"
+      ],
+      "source_path": "new_page/results/visualizations/tone_distribution.png",
+      "archived_path": "results/image_outputs_archive/images/009_tone_distribution.png",
+      "file_name": "tone_distribution.png",
+      "extension": ".png",
+      "size_bytes": 40939,
+      "width": 1710,
+      "height": 756,
+      "sha256": "453e626a5ed9fee0c6a444cb0fdf7a5d4263957e49b2f57f93036ecbe9393ecc",
+      "explanation": "Displays the overall distribution of extracted tone labels. Use it as a baseline view of class balance before subgroup or model comparisons.",
+      "thesis_use": "Supports tone-category framing and sample-size reasoning for class balance."
+    },
+    {
+      "id": "img_010",
+      "title": "ABSA Sentiment Confusion Matrix",
+      "category": "Evaluation metric",
+      "research_question_links": [
+        "RQ2",
+        "RQ4"
+      ],
+      "source_path": "results/confusion_matrices/cm_sentiment_absa.png",
+      "archived_path": "results/image_outputs_archive/images/010_cm_sentiment_absa.png",
+      "file_name": "cm_sentiment_absa.png",
+      "extension": ".png",
+      "size_bytes": 54852,
+      "width": 1200,
+      "height": 1000,
+      "sha256": "f4bfc466aa55b3f68e20b46335ff08fbdb43ba63d9e511661dc58a8b768caf61",
+      "explanation": "Confusion matrix for ABSA sentiment predictions. It shows which sentiment classes are correctly predicted and which are confused.",
+      "thesis_use": "Supports model evaluation, error analysis, and diagnostics for sentiment labels."
+    },
+    {
+      "id": "img_011",
+      "title": "Ensemble Sentiment Confusion Matrix",
+      "category": "Evaluation metric",
+      "research_question_links": [
+        "RQ4",
+        "RQ6"
+      ],
+      "source_path": "results/confusion_matrices/cm_sentiment_ensemble.png",
+      "archived_path": "results/image_outputs_archive/images/011_cm_sentiment_ensemble.png",
+      "file_name": "cm_sentiment_ensemble.png",
+      "extension": ".png",
+      "size_bytes": 53801,
+      "width": 1200,
+      "height": 1000,
+      "sha256": "3643d6973443fff77c830194ef145575fdeeeaca9fe90d245be4eb4480fca428",
+      "explanation": "Confusion matrix for an ensemble sentiment output. Compare it with the ABSA matrix to see whether ensembling changes errors or improves stability.",
+      "thesis_use": "Supports ensemble/stability discussion and error comparison across strategies."
+    }
+  ]
+}

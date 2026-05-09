@@ -1,0 +1,7 @@
+flowchart LR
+  GAP["Missing or partial evidence"] --> IDENTIFY["Identify metric"]
+  IDENTIFY --> SOURCE["Choose source"]
+  SOURCE --> SAMPLE["Create targeted sample"]
+  SAMPLE --> RUN["Run analysis or annotation"]
+  RUN --> METRIC["Compute metric"]
+  METRIC --> UPDATE["Update RQ table"]

@@ -1,0 +1,413 @@
+{
+  "generated_at": "2026-05-09T07:09:07",
+  "source_files": {
+    "research_questions_page": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/esg_dashboard_new-main/dashboard/pages/04_Research_Questions_Visualizer.py",
+    "existing_data": "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/data_output.txt",
+    "prediction_outputs": "/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/climatebert_predictions"
+  },
+  "images": [
+    {
+      "id": "evidence_readiness_by_rq",
+      "path": "images/evidence_readiness_by_rq.png",
+      "title": "Evidence Readiness by Research Question",
+      "what_it_shows": "A stacked count of available, partial, and needed evidence for each research question.",
+      "expected_metrics": "Each RQ should move toward more Available items and fewer Needed/Partial items before the thesis makes strong claims.",
+      "interpretation": "RQ2 and RQ3 are critical because their missing validation and ClimateBERT comparison work directly determine whether the ABSA results are defensible.",
+      "if_underperforming": "If a row remains dominated by Needed or Partial evidence, the RQ should be presented as preliminary or narrowed until the missing metric is computed."
+    },
+    {
+      "id": "overall_evidence_status_totals",
+      "path": "images/overall_evidence_status_totals.png",
+      "title": "Overall Evidence Status Totals",
+      "what_it_shows": "The total count of evidence rows by status across the whole RQ evidence matrix.",
+      "expected_metrics": "A mature thesis evidence set should have most rows Available, with only low-priority items remaining Partial or Needed.",
+      "interpretation": "This chart is a readiness check, not a statistical test. It tells you how much of the evidence pipeline has been completed.",
+      "if_underperforming": "Large Partial/Needed counts mean the dashboard should redirect users to processing, annotation, or validation workflows."
+    },
+    {
+      "id": "rq_priority_gap_matrix",
+      "path": "images/rq_priority_gap_matrix.png",
+      "title": "RQ Priority and Evidence Gap Matrix",
+      "what_it_shows": "A compact table image linking RQ priority to the amount of available, partial, and needed evidence.",
+      "expected_metrics": "Critical and High RQs should have direct metrics, traceable sources, and low unclosed Needed counts.",
+      "interpretation": "The most important risk is not simply the number of gaps; it is whether a gap belongs to a Critical RQ.",
+      "if_underperforming": "If a Critical RQ has Needed rows, the page should route the user to the processor, result visualizer, annotation plan, or parsed-data page."
+    },
+    {
+      "id": "sample_size_reasoning_ladder",
+      "path": "images/sample_size_reasoning_ladder.png",
+      "title": "Sample Size Reasoning Ladder",
+      "what_it_shows": "A practical ladder of sample sizes and what each size can support in the thesis.",
+      "expected_metrics": "Manual validation usually needs at least 30-50 records; subgroup comparisons need substantially more balanced rows.",
+      "interpretation": "Current row counts can support descriptive analysis, but smaller slices by language, pillar, prompt, or model may still be fragile.",
+      "if_underperforming": "If a subgroup has too few rows, report it as exploratory and avoid strong comparative claims."
+    },
+    {
+      "id": "margin_of_error_by_sample_size",
+      "path": "images/margin_of_error_by_sample_size.png",
+      "title": "Approximate Margin of Error by Sample Size",
+      "what_it_shows": "How uncertainty shrinks as the number of validated rows grows.",
+      "expected_metrics": "For proportion estimates such as tone rate, more rows reduce uncertainty; n=272 gives roughly +/-5.9 percentage points in the worst case.",
+      "interpretation": "The thesis can report descriptive proportions, but subgroup results need enough rows per subgroup, not just a large total row count.",
+      "if_underperforming": "If a subgroup is below n=30-50, use it for qualitative diagnostics rather than quantitative claims."
+    },
+    {
+      "id": "subgroup_coverage_requirement_check",
+      "path": "images/subgroup_coverage_requirement_check.png",
+      "title": "Subgroup Coverage Requirement Check",
+      "what_it_shows": "The row counts needed when validation is split by language, pillar, model, or prompt.",
+      "expected_metrics": "A useful target is 30-50 validated rows per important subgroup.",
+      "interpretation": "This chart explains why some RQ evidence remains Partial even when the dataset already has many rows.",
+      "if_underperforming": "If important cells are sparse, add data or collapse categories before claiming subgroup differences."
+    },
+    {
+      "id": "workflow_diagram",
+      "path": "images/workflow_diagram.png",
+      "title": "Workflow Diagram",
+      "what_it_shows": "The operational pipeline connecting source reports, parsed records, ClimateBERT processing, prediction outputs, and the RQ evidence page.",
+      "expected_metrics": "Every output should be traceable back to data_output.txt or climatebert_predictions, with page-level or row-level provenance where possible.",
+      "interpretation": "The dashboard should treat page 02 as the production step, page 03 as the prediction review step, and page 04 as the thesis-evidence interpretation layer.",
+      "if_underperforming": "If any handoff is missing, the downstream chart may still render but it will be hard to audit or continue after interruption."
+    },
+    {
+      "id": "missing_evidence_process",
+      "path": "images/missing_evidence_process.png",
+      "title": "Missing Evidence Process",
+      "what_it_shows": "The completion workflow for rows marked Needed or Partial in the RQ details table.",
+      "expected_metrics": "Each missing item should name a source, a process, and a metric that can be computed and added back to the evidence table.",
+      "interpretation": "Needed rows are not errors. They are explicit thesis work items with a destination page and completion metric.",
+      "if_underperforming": "If a Needed row has no route or metric, it should be rewritten until the next action is executable."
+    },
+    {
+      "id": "full_research_question_evidence_map",
+      "path": "images/full_research_question_evidence_map.png",
+      "title": "Full Research Question Evidence Map",
+      "what_it_shows": "A high-level lineage map from source artifacts to the six research questions.",
+      "expected_metrics": "Each RQ should be linked to the data source that supports it and the status counts that indicate readiness.",
+      "interpretation": "RQ3 depends most directly on prediction outputs, while RQ2 and RQ4 also need expert annotation to become fully defensible.",
+      "if_underperforming": "If a source-to-RQ link is weak or missing, the RQ should not be presented as fully supported yet."
+    }
+  ],
+  "mermaid_sources": [
+    {
+      "id": "workflow_diagram",
+      "path": "mermaid/workflow_diagram.mmd",
+      "title": "Workflow Diagram",
+      "description": "Mermaid source for the corresponding dashboard diagram."
+    },
+    {
+      "id": "missing_evidence_process",
+      "path": "mermaid/missing_evidence_process.mmd",
+      "title": "Missing Evidence Process",
+      "description": "Mermaid source for the corresponding dashboard diagram."
+    },
+    {
+      "id": "full_research_question_evidence_map",
+      "path": "mermaid/full_research_question_evidence_map.mmd",
+      "title": "Full Research Question Evidence Map",
+      "description": "Mermaid source for the corresponding dashboard diagram."
+    }
+  ],
+  "research_question_explanations": [
+    {
+      "rq": "RQ1",
+      "theme": "Pipeline",
+      "question": "How can a PDF-to-structured ESG transformation pipeline convert Indonesian/English sustainability reports into a governance-aligned, sentence-level representation that supports ABSA?",
+      "priority": "Important",
+      "status_counts": {
+        "available": 4,
+        "partial": 1,
+        "needed": 4
+      },
+      "available_evidence": [
+        "PDF sustainability reports: 6 docs available; BEST, VKTR, GTRA, PTBA, ICR, Indonet",
+        "Markdown page outputs from OCR pipeline with source-page traceability",
+        "Records-per-run throughput: mean 8.5 records/run; Arcee 14.3 records/run",
+        "Field completion: 100% aspect/ESG/tone; 81.3% sentiment_score"
+      ],
+      "partial_evidence": [
+        "JSON extraction records with provenance: 332 records"
+      ],
+      "needed_evidence": [
+        "Reference text for CER computation",
+        "Table/figure extraction accuracy labels",
+        "Sentence boundary precision/recall",
+        "ESG topic alignment accuracy from manual verification"
+      ],
+      "metrics": [
+        {
+          "metric": "JSON parse success",
+          "value": "100%",
+          "note": "332/332 records parseable"
+        },
+        {
+          "metric": "Records extracted",
+          "value": "332",
+          "note": "from 6 docs and 39 unique runs"
+        },
+        {
+          "metric": "OCR quality CER",
+          "value": "missing",
+          "note": "critical gap"
+        }
+      ],
+      "interpretation": "Pipeline evidence is strong for parsing and traceability, but OCR and sentence-boundary quality still need direct measurement.",
+      "redirect_guidance": {
+        "available": "Visualize and cite with source traceability.",
+        "partial": "Open the linked page, compute the missing validation/coverage metric, then upgrade the row.",
+        "needed": "Treat as an executable task and route to processing, annotation, parsed data, or sample-size reasoning."
+      }
+    },
+    {
+      "rq": "RQ2",
+      "theme": "Categorization",
+      "question": "How should ESG be categorized by aspect/pillar, sentiment, and tone in bilingual disclosures to enable fine-grained ABSA while preserving cross-language comparability?",
+      "priority": "Critical",
+      "status_counts": {
+        "available": 3,
+        "partial": 2,
+        "needed": 5
+      },
+      "available_evidence": [
+        "Tone x ESG pillar cross-tabulation: E commitment=91, G commitment=24, S commitment=0",
+        "Bilingual tone asymmetry: Indonesian outcome 7.9% vs English 21.8%",
+        "Sentiment score distribution by tone: outcome mean=0.60 vs commitment mean=0.03"
+      ],
+      "partial_evidence": [
+        "LLM labels: 332 records; commitment=115, action=58, outcome=50",
+        "Language-tagged records: Indonesian=127, English=205"
+      ],
+      "needed_evidence": [
+        "Expert-annotated ground truth corpus: 30-50 records, 2 annotators",
+        "Bilingual taxonomy mapping",
+        "Aspect precision/recall/F1 vs gold labels",
+        "Inter-annotator agreement, target Cohen kappa >= 0.70",
+        "Ontology normalization for 41 non-standard aspects"
+      ],
+      "metrics": [
+        {
+          "metric": "Tone: commitment",
+          "value": "34.6%",
+          "note": "115/332, dominant category"
+        },
+        {
+          "metric": "E/G/S split",
+          "value": "54/36/1%",
+          "note": "S severely underrepresented"
+        },
+        {
+          "metric": "Non-standard aspects",
+          "value": "41",
+          "note": "ontology gap"
+        }
+      ],
+      "interpretation": "Categorization has useful descriptive distributions, but gold labels and inter-annotator agreement are required before treating labels as validated ABSA.",
+      "redirect_guidance": {
+        "available": "Visualize and cite with source traceability.",
+        "partial": "Open the linked page, compute the missing validation/coverage metric, then upgrade the row.",
+        "needed": "Treat as an executable task and route to processing, annotation, parsed data, or sample-size reasoning."
+      }
+    },
+    {
+      "rq": "RQ3",
+      "theme": "ClimateBERT",
+      "question": "Do tone-based ABSA outputs differ meaningfully from ClimateBERT-style label classifications, and what is the relationship between detected tone and climate-specific targets?",
+      "priority": "Critical",
+      "status_counts": {
+        "available": 2,
+        "partial": 2,
+        "needed": 3
+      },
+      "available_evidence": [
+        "LLM-assigned ClimateBERT-style label families: 16 label families",
+        "Co-occurrence frequency: commitment + climate-commitment = 91"
+      ],
+      "partial_evidence": [
+        "Tone x ClimateBERT label crosstab exists, but labels are LLM-assigned",
+        "Missing tone vs CB label analysis identifies possible false negatives"
+      ],
+      "needed_evidence": [
+        "ClimateBERT scores for all valid records from local runs",
+        "Row-wise agreement between tone and ClimateBERT labels",
+        "Cohen kappa between LLM tone and ClimateBERT classification"
+      ],
+      "metrics": [
+        {
+          "metric": "CB alignment commitment",
+          "value": "34.3%",
+          "note": "91/265 commitment records carry climate-commitment"
+        },
+        {
+          "metric": "CB remote inputs",
+          "value": "3",
+          "note": "far too few; must run locally"
+        },
+        {
+          "metric": "CB models available",
+          "value": "13",
+          "note": "detection, netzero, TCFD, sentiment, specificity"
+        }
+      ],
+      "interpretation": "ClimateBERT comparison becomes defensible only when local model prediction CSVs cover all valid records and can be joined back to the parsed dataset.",
+      "redirect_guidance": {
+        "available": "Visualize and cite with source traceability.",
+        "partial": "Open the linked page, compute the missing validation/coverage metric, then upgrade the row.",
+        "needed": "Treat as an executable task and route to processing, annotation, parsed data, or sample-size reasoning."
+      }
+    },
+    {
+      "rq": "RQ4",
+      "theme": "Diagnostics",
+      "question": "What weaknesses arise in ABSA extraction outputs, and how can a diagnostics framework detect and quantify extraction errors to inform model improvement?",
+      "priority": "Critical",
+      "status_counts": {
+        "available": 5,
+        "partial": 3,
+        "needed": 2
+      },
+      "available_evidence": [
+        "Complete extraction log per run",
+        "Schema drift records: 18 records from data.md + GPT-oss-120b",
+        "Missing tone records with context: 61 records",
+        "Root cause attribution by model x prompt",
+        "Schema drift rate by prompt template"
+      ],
+      "partial_evidence": [
+        "Non-standard aspect labels: 41 unique free-text Indonesian labels",
+        "Ontology failure rate: 41/332 = 12.3%",
+        "Tone none analysis by prompt/pillar"
+      ],
+      "needed_evidence": [
+        "Manual error labels per record",
+        "Formal error taxonomy: wrong-aspect, wrong-tone, wrong-pillar, schema-failure, OCR-noise"
+      ],
+      "metrics": [
+        {
+          "metric": "Missing tone, Arcee only",
+          "value": "0.4%",
+          "note": "1/272"
+        },
+        {
+          "metric": "Schema drift rate",
+          "value": "30%",
+          "note": "18/60 records from data.md"
+        },
+        {
+          "metric": "Ontology gap",
+          "value": "41",
+          "note": "all Indonesian free-text"
+        }
+      ],
+      "interpretation": "Diagnostics are already useful for identifying schema drift and missing tone, but manual error labels are needed for a formal error taxonomy.",
+      "redirect_guidance": {
+        "available": "Visualize and cite with source traceability.",
+        "partial": "Open the linked page, compute the missing validation/coverage metric, then upgrade the row.",
+        "needed": "Treat as an executable task and route to processing, annotation, parsed data, or sample-size reasoning."
+      }
+    },
+    {
+      "rq": "RQ5",
+      "theme": "Reproducibility",
+      "question": "How can documentation and visualization practices be designed to maximize reproducibility and auditability of ESG ABSA experiments?",
+      "priority": "Medium",
+      "status_counts": {
+        "available": 4,
+        "partial": 1,
+        "needed": 4
+      },
+      "available_evidence": [
+        "JSON extraction artifacts with full metadata",
+        "Static visualization outputs: 5 PNG charts",
+        "Streamlit dashboard with filterable tabs",
+        "Artifact inventory and completeness audit"
+      ],
+      "partial_evidence": [
+        "Prompt template version registry: 6 templates documented"
+      ],
+      "needed_evidence": [
+        "Independent replication study log",
+        "Formal reproducibility checklist",
+        "Schema stability regression test",
+        "Dashboard usability evaluation"
+      ],
+      "metrics": [
+        {
+          "metric": "Artifacts available",
+          "value": "5+5+1",
+          "note": "5 CSVs, 5 PNGs, 1 Streamlit app"
+        },
+        {
+          "metric": "Prompt templates logged",
+          "value": "6",
+          "note": "zero-shot, few-shot, CoT, EN/ID variants"
+        },
+        {
+          "metric": "Replication study",
+          "value": "0",
+          "note": "not yet conducted"
+        }
+      ],
+      "interpretation": "Reproducibility has several artifacts in place; the remaining work is a formal rerun checklist and independent replication log.",
+      "redirect_guidance": {
+        "available": "Visualize and cite with source traceability.",
+        "partial": "Open the linked page, compute the missing validation/coverage metric, then upgrade the row.",
+        "needed": "Treat as an executable task and route to processing, annotation, parsed data, or sample-size reasoning."
+      }
+    },
+    {
+      "rq": "RQ6",
+      "theme": "Stability",
+      "question": "What is the stability of ABSA outputs across cross-model and cross-prompt configurations, and what ensemble or verification strategies yield the most reliable results?",
+      "priority": "High",
+      "status_counts": {
+        "available": 3,
+        "partial": 3,
+        "needed": 4
+      },
+      "available_evidence": [
+        "Prompt family effect: CoT +55% commitment, zero-shot +21-24%, few-shot +36%",
+        "Coefficient of variation across prompts: 38.2%",
+        "Language x prompt interaction"
+      ],
+      "partial_evidence": [
+        "Per-prompt tone distributions, Arcee only",
+        "Per-document commitment rate by prompt",
+        "Per-document commitment variance: BEST-SR CoT=100% vs ZS=43%"
+      ],
+      "needed_evidence": [
+        "Balanced model x prompt x document matrix",
+        "Few-shot template with n >= 30",
+        "Cross-model Cohen kappa",
+        "Ensemble majority-vote simulation"
+      ],
+      "metrics": [
+        {
+          "metric": "Prompt instability CV",
+          "value": "38.2%",
+          "note": "high variation across 5 prompts"
+        },
+        {
+          "metric": "CoT vs zero-shot gap",
+          "value": "+31pp",
+          "note": "55% vs 23% commitment"
+        },
+        {
+          "metric": "Cross-model kappa",
+          "value": "missing",
+          "note": "imbalanced runs"
+        }
+      ],
+      "interpretation": "Stability analysis shows prompt sensitivity; balanced model x prompt x document coverage is needed before ensemble claims are strong.",
+      "redirect_guidance": {
+        "available": "Visualize and cite with source traceability.",
+        "partial": "Open the linked page, compute the missing validation/coverage metric, then upgrade the row.",
+        "needed": "Treat as an executable task and route to processing, annotation, parsed data, or sample-size reasoning."
+      }
+    }
+  ],
+  "usage_notes": [
+    "Use Available rows as current evidence only when the source path and denominator are clear.",
+    "Use Partial rows as promising but not fully defensible evidence.",
+    "Use Needed rows as direct completion tasks routed back into the dashboard workflow."
+  ]
+}

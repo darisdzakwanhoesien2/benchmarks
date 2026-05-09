@@ -1,0 +1,10 @@
+flowchart LR
+  PDF["PDF reports"] --> OCR["OCR markdown"]
+  OCR --> LLM["LLM JSON extraction"]
+  LLM --> DATA["data_output.txt"]
+  DATA --> PARSED["Parsed ESG records"]
+  PARSED --> RUN["ClimateBERT processor page 02"]
+  RUN --> PRED["Prediction CSV shards"]
+  PRED --> VIZ["Result visualizer page 03"]
+  PARSED --> RQ["RQ evidence page 04"]
+  PRED --> RQ
