@@ -1,0 +1,140 @@
+{
+  "generated_at": "2026-05-09T00:52:22.903Z",
+  "root": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page",
+  "purpose": "Catalog of saved image outputs and thesis explanations for the ESG ABSA dashboard and visualization artifacts.",
+  "image_count": 12,
+  "images": [
+    {
+      "id": "rq_dashboard_overview",
+      "title": "Research Questions Dashboard - Overview",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/streamlit_outputs/01_overview.png",
+      "source": "1_7_Research_Questions_Dashboard.py",
+      "type": "streamlit_screenshot",
+      "explanation": "Summarizes the current thesis evidence base: 332 structured records, 271 valid Arcee records, 6 document/company sources, and 6 prompt templates. The view frames n=272 as a feasibility-level dataset and names the main limitations before stronger claims are made.",
+      "thesis_use": "Use as the opening visual for Chapter IV or defense slides to orient readers before per-RQ evidence.",
+      "relative_path": "results/visualizations/streamlit_outputs/01_overview.png",
+      "file_size_bytes": 111837
+    },
+    {
+      "id": "rq_dashboard_per_rq_evidence",
+      "title": "Research Questions Dashboard - Per-RQ Evidence",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/streamlit_outputs/02_per_rq_evidence.png",
+      "source": "1_7_Research_Questions_Dashboard.py",
+      "type": "streamlit_screenshot",
+      "explanation": "Shows how each research question maps to available evidence, missing validation, and current metrics. It makes clear which claims are implemented, partly validated, or still dependent on expert annotation, OCR references, or matched reruns.",
+      "thesis_use": "Use as a bridge between methodology and results, especially when explaining RQ coverage.",
+      "relative_path": "results/visualizations/streamlit_outputs/02_per_rq_evidence.png",
+      "file_size_bytes": 63445
+    },
+    {
+      "id": "rq_dashboard_sample_size",
+      "title": "Research Questions Dashboard - Sample Size",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/streamlit_outputs/03_sample_size.png",
+      "source": "1_7_Research_Questions_Dashboard.py",
+      "type": "streamlit_screenshot",
+      "explanation": "Captures the sample-size ladder, margin-of-error curve, power table, and subgroup requirements. It explains why n=272 is adequate for feasibility, why n=384 fixes the worst-case MoE threshold, and why n=720-1,000 is the stronger thesis target.",
+      "thesis_use": "Use in limitations, defense Q&A, and any section justifying target sample size.",
+      "relative_path": "results/visualizations/streamlit_outputs/03_sample_size.png",
+      "file_size_bytes": 116724
+    },
+    {
+      "id": "rq_dashboard_benchmarks",
+      "title": "Research Questions Dashboard - Benchmarks",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/streamlit_outputs/04_benchmarks.png",
+      "source": "1_7_Research_Questions_Dashboard.py",
+      "type": "streamlit_screenshot",
+      "explanation": "Places the thesis beside FinBERT, ESG-BERT, ClimateBERT, cross-lingual ABSA, and greenwashing-detection references. The visual makes the boundary explicit: current outputs support descriptive/prototype claims, while F1, precision, and recall need expert-labeled ground truth.",
+      "thesis_use": "Use in related work positioning and evaluation limitations.",
+      "relative_path": "results/visualizations/streamlit_outputs/04_benchmarks.png",
+      "file_size_bytes": 132691
+    },
+    {
+      "id": "rq_dashboard_existing_results",
+      "title": "Research Questions Dashboard - Existing Results",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/streamlit_outputs/05_existing_results.png",
+      "source": "1_7_Research_Questions_Dashboard.py",
+      "type": "streamlit_screenshot",
+      "explanation": "Collects existing results such as pipeline output size, ClimateBERT proxy agreement, missing-tone diagnostics, artifact count, prompt coefficient of variation, greenwashing index, and language-by-tone distributions.",
+      "thesis_use": "Use as a compact results overview for Chapter IV.",
+      "relative_path": "results/visualizations/streamlit_outputs/05_existing_results.png",
+      "file_size_bytes": 93400
+    },
+    {
+      "id": "rq_dashboard_analysis_plan",
+      "title": "Research Questions Dashboard - Analysis Plan",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/streamlit_outputs/06_analysis_plan.png",
+      "source": "1_7_Research_Questions_Dashboard.py",
+      "type": "streamlit_screenshot",
+      "explanation": "Lists the prioritized next analyses: full ClimateBERT batch scoring, expert annotation, prompt ensemble testing, bilingual significance testing, greenwashing stability, S-pillar extraction, and OCR quality measurement. It also maps each action to thesis impact and effort.",
+      "thesis_use": "Use as the roadmap for remaining validation work or future work.",
+      "relative_path": "results/visualizations/streamlit_outputs/06_analysis_plan.png",
+      "file_size_bytes": 128097
+    },
+    {
+      "id": "rq_dashboard_evidence_matrix",
+      "title": "Research Questions Dashboard - Evidence Matrix",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/streamlit_outputs/07_evidence_matrix.png",
+      "source": "1_7_Research_Questions_Dashboard.py",
+      "type": "streamlit_screenshot",
+      "explanation": "Shows a concise matrix linking each RQ and contribution to evidence status and the next evidence required. It turns the implementation artifacts into a thesis audit map.",
+      "thesis_use": "Use in contribution summary and defense appendix.",
+      "relative_path": "results/visualizations/streamlit_outputs/07_evidence_matrix.png",
+      "file_size_bytes": 113255
+    },
+    {
+      "id": "tone_distribution",
+      "title": "Tone Distribution",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/tone_distribution.png",
+      "source": "0_9_Tone_ClimateBERT_Visualization.py / results/visualizations",
+      "type": "static_visualization",
+      "explanation": "Displays the overall distribution of extracted tones. This is the baseline descriptive result for the ABSA layer and shows whether the corpus is dominated by commitments, actions, outcomes, none, or missing labels.",
+      "thesis_use": "Use for RQ2 results and as context for greenwashing-index interpretation.",
+      "relative_path": "results/visualizations/tone_distribution.png",
+      "file_size_bytes": 40939
+    },
+    {
+      "id": "esg_by_tone",
+      "title": "ESG Pillar by Tone",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/esg_by_tone.png",
+      "source": "0_9_Tone_ClimateBERT_Visualization.py / results/visualizations",
+      "type": "static_visualization",
+      "explanation": "Shows how tone categories distribute across Environmental, Social, and Governance pillars. The key interpretation is subgroup coverage: Environmental and Governance dominate, while Social remains too sparse for strong pillar-level claims.",
+      "thesis_use": "Use for RQ2, subgroup limitation discussion, and targeted data-collection justification.",
+      "relative_path": "results/visualizations/esg_by_tone.png",
+      "file_size_bytes": 59057
+    },
+    {
+      "id": "climatebert_label_by_tone",
+      "title": "ClimateBERT-Style Label by Tone",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/climatebert_label_by_tone.png",
+      "source": "0_9_Tone_ClimateBERT_Visualization.py / results/visualizations",
+      "type": "static_visualization",
+      "explanation": "Compares LLM-assigned tone labels against ClimateBERT-style label families already present in the extraction records. This is a proxy alignment view, not a substitute for running real ClimateBERT over every record.",
+      "thesis_use": "Use for RQ3 as preliminary evidence, with a caveat that actual ClimateBERT batch output is still needed.",
+      "relative_path": "results/visualizations/climatebert_label_by_tone.png",
+      "file_size_bytes": 136768
+    },
+    {
+      "id": "aspect_by_tone_heatmap",
+      "title": "Aspect by Tone Heatmap",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/aspect_by_tone_heatmap.png",
+      "source": "0_9_Tone_ClimateBERT_Visualization.py / results/visualizations",
+      "type": "static_visualization",
+      "explanation": "Shows which ESG aspects most frequently appear under each tone. It helps identify whether commitments, actions, and outcomes cluster around environmental claims, governance practices, or other recurring themes.",
+      "thesis_use": "Use for RQ2 taxonomy interpretation and ontology-normalization discussion.",
+      "relative_path": "results/visualizations/aspect_by_tone_heatmap.png",
+      "file_size_bytes": 119703
+    },
+    {
+      "id": "climatebert_remote_top_scores",
+      "title": "ClimateBERT Remote Top Scores",
+      "path": "/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/visualizations/climatebert_remote_top_scores.png",
+      "source": "0_9_Tone_ClimateBERT_Visualization.py / results/visualizations",
+      "type": "static_visualization",
+      "explanation": "Summarizes the top remote ClimateBERT scores available from the limited remote runs. Because the remote sample is very small, it should be treated as a sanity check rather than final validation.",
+      "thesis_use": "Use only as preliminary RQ3 validation context, not as final model-performance evidence.",
+      "relative_path": "results/visualizations/climatebert_remote_top_scores.png",
+      "file_size_bytes": 154575
+    }
+  ]
+}

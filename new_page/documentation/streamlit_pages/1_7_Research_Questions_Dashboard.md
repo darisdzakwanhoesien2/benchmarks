@@ -89,3 +89,31 @@ This page should be used as a final thesis evidence map. It shows which research
 - Chapter VI: contribution summary.
 - Defense presentation: one-page map from RQs to evidence.
 
+## RQ Page Map
+
+The dashboard now includes an `RQ Page Map` tab that tells which Streamlit pages should be used to fulfill each research question:
+
+- RQ1: OCR, LLM processing, and pipeline-output pages.
+- RQ2: tone/ClimateBERT visualization, ontology path viewer, and ground-truth output pages.
+- RQ3: ClimateBERT batch and tone/ClimateBERT comparison pages.
+- RQ4: revision analytics, error parse audit, and ground-truth review pages.
+- RQ5: dashboard, generated image catalog, documentation index, and artifact folders.
+- RQ6: revision analytics, LLM result visualizer, error audit, and ClimateBERT batch page.
+
+Use this tab as the working checklist when writing the thesis so each RQ points to concrete page evidence rather than a generic statement.
+
+## Chapter 4-6 Writing Pages
+
+The dashboard also includes chapter-planning tabs:
+
+- `Chapter 4 Results`: sections, figures, and page sources for reporting empirical results.
+- `Chapter 5 Discussion`: interpretation, claim strength, limitations, and validity cautions.
+- `Chapter 6 Conclusion`: RQ answer template, contributions, and future-work framing.
+- `Ch4-6 Mermaid`: a Mermaid flowchart linking Chapter 4 evidence to Chapter 5 interpretation and Chapter 6 conclusions.
+
+The Mermaid flow is intended as a writing map: Chapter 4 should provide the evidence, Chapter 5 should explain meaning and limitations, and Chapter 6 should answer the RQs and state the contribution.
+
+
+## Saved Image Outputs
+
+Saved dashboard screenshots and existing visualization outputs are documented in [1_7_Research_Questions_Dashboard_outputs.md](./1_7_Research_Questions_Dashboard_outputs.md). The machine-readable catalog is stored at `results/visualizations/streamlit_outputs/dashboard_image_catalog.json`.
