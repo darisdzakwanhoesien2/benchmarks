@@ -414,6 +414,24 @@ PAGE_REGISTRY = [
         "outputs": "Run summaries, record tables, prediction/ABSA/ESG output views.",
     },
     {
+        "page": "2_2_LLM_Statement_Page_Verifier.py",
+        "label": "LLM Statement Page Verifier",
+        "stage": "Source verification",
+        "primary RQs": "RQ1, RQ4, RQ5, RQ6",
+        "purpose": "Map extracted LLM ESG statements back to OCR markdown pages and verify whether the statement appears in the source report pages.",
+        "use when": "You need page-level provenance, hallucination checks, or evidence that an extracted statement is grounded in the OCR source.",
+        "outputs": "Exact/likely/possible/not-found page matches, evidence snippets, and downloadable verification CSVs.",
+    },
+    {
+        "page": "2_3_LLM_Background_Run_Monitor.py",
+        "label": "LLM Background Run Monitor",
+        "stage": "Extraction runner",
+        "primary RQs": "RQ1, RQ4, RQ5, RQ6",
+        "purpose": "Launch T3-style LLM extraction as a background job and visualize live progress.",
+        "use when": "You want long LLM runs to continue behind the scenes while monitoring status, current sample, completed counts, failures, and logs.",
+        "outputs": "background_llm_jobs/* status/events/logs plus appended T3-style records in results/esg_records.json.",
+    },
+    {
         "page": "2_1_LLM_Error_Parse_Audit.py",
         "label": "LLM Error Parse Audit",
         "stage": "Failure audit",
@@ -431,7 +449,9 @@ RQ_WORKFLOWS = {
         "steps": [
             ("Collect and OCR reports", "Bulk_OCR.py", "Upload/select PDFs, run OCR, save markdown, images, and OCR JSON."),
             ("Run extraction", "llm_processing.py", "Use OCR text batches and run ESG ABSA prompts/models."),
+            ("Run long extraction in background", "2_3_LLM_Background_Run_Monitor.py", "Launch selected document/page/model/prompt batches and monitor progress."),
             ("Inspect LLM outputs", "2_0_LLM_Processing_Result_Visualizer.py", "Check parsed records, prompts, model names, source targets, and run success."),
+            ("Verify statement grounding", "2_2_LLM_Statement_Page_Verifier.py", "Confirm extracted statements can be found in the OCR markdown pages."),
             ("Inspect pipeline outputs", "1_9_Ground_Truth_Pipeline_Output_Visualizer.py", "Show record-level traceability and structured fields."),
             ("Measure OCR quality", "1_2_OCR_Quality_Workbench.py", "Add manual reference snippets and compute CER/WER."),
             ("Synthesize evidence", "1_7_Research_Questions_Dashboard.py", "Use RQ1 and Chapter 4 tabs to write the results."),
@@ -468,6 +488,8 @@ RQ_WORKFLOWS = {
         "goal": "Turn errors, missing labels, schema drift, and ontology gaps into a diagnostics framework.",
         "steps": [
             ("Audit parse failures", "2_1_LLM_Error_Parse_Audit.py", "Review failed runs, raw outputs, and JSON parse signals."),
+            ("Monitor failed background items", "2_3_LLM_Background_Run_Monitor.py", "Use failed counts, logs, and events to locate unstable model/prompt runs."),
+            ("Check source grounding", "2_2_LLM_Statement_Page_Verifier.py", "Find extracted statements that are not exact or likely matches in the OCR pages."),
             ("Review revision diagnostics", "1_0_Revision_Analytics.py", "Use failure-mode counts, missing-tone counts, and schema drift."),
             ("Inspect human-review queue", "1_8_Ground_Truth_Output_Visualizer.py", "Identify records needing annotation or correction."),
             ("Compute validation metrics", "1_3_Ground_Truth_Metrics.py", "Quantify disagreements once labels exist."),
@@ -483,6 +505,8 @@ RQ_WORKFLOWS = {
             ("Start from the workflow hub", "0_0_Streamlit_Page_Workflow.py", "Use this page as the navigation and audit map."),
             ("Use the RQ dashboard", "1_7_Research_Questions_Dashboard.py", "Show evidence matrix, chapter map, and Mermaid flow."),
             ("Use saved image outputs", "1_7_Research_Questions_Dashboard_outputs.md", "Cite saved screenshots and image explanations."),
+            ("Show page-level provenance", "2_2_LLM_Statement_Page_Verifier.py", "Use source page matches and evidence snippets to demonstrate auditability."),
+            ("Show live run provenance", "2_3_LLM_Background_Run_Monitor.py", "Use job status, events, and logs to document how long extraction runs were produced."),
             ("Open specific evidence pages", "0_9_Tone_ClimateBERT_Visualization.py", "Show concrete figures backing each RQ."),
             ("Inspect generated artifacts", "results/visualizations", "Use PNG/CSV/JSON outputs for reproducibility evidence."),
             ("Maintain docs index", "README.md", "Keep page documentation synchronized with active Streamlit pages."),
@@ -494,7 +518,9 @@ RQ_WORKFLOWS = {
         "goal": "Measure prompt/model instability and decide what reruns or ensemble checks are required.",
         "steps": [
             ("Inspect prompt stability", "1_0_Revision_Analytics.py", "Use missing-tone rate, schema drift, and field-completion summary."),
+            ("Run matched reruns in background", "2_3_LLM_Background_Run_Monitor.py", "Queue comparable model/prompt jobs and watch progress until complete."),
             ("Inspect raw LLM runs", "2_0_LLM_Processing_Result_Visualizer.py", "Compare model, prompt, target, and record counts."),
+            ("Verify extracted statements", "2_2_LLM_Statement_Page_Verifier.py", "Compare grounding quality across model/prompt outputs."),
             ("Audit errors", "2_1_LLM_Error_Parse_Audit.py", "Explain broken prompts and raw-output failures."),
             ("Plan matched reruns", "llm_processing.py", "Run GPT-oss and Arcee on the same documents/prompts."),
             ("Validate with external labels", "1_4_ClimateBERT_Record_Batch.py", "Use real ClimateBERT output for verification if available."),
@@ -509,6 +535,7 @@ flowchart TD
   subgraph node_I["Input and Extraction"]
     node_I_A_1["Bulk_OCR.py\\nPDFs -> OCR markdown/images"]
     node_I_A_2["llm_processing.py\\nLLM ESG ABSA extraction"]
+    node_I_A_5["2_3_LLM_Background_Run_Monitor.py\\nBackground extraction runner"]
     node_I_A_3["2_0_LLM_Processing_Result_Visualizer.py\\nInspect parsed outputs"]
     node_I_A_4["2_1_LLM_Error_Parse_Audit.py\\nAudit failures"]
   end
@@ -524,6 +551,7 @@ flowchart TD
     node_II_B_8["1_2_OCR_Quality_Workbench.py\\nCER/WER"]
     node_II_B_9["1_5_ESG_Flow_Sankey.py\\nFlow visualization"]
     node_II_B_10["1_8_Ground_Truth_Output_Visualizer.py\\nReview coverage"]
+    node_II_B_11["2_2_LLM_Statement_Page_Verifier.py\\nStatement-to-page grounding"]
   end
 
   subgraph node_V["Synthesis and Thesis Writing"]
@@ -533,11 +561,14 @@ flowchart TD
   end
 
   node_I_A_1 -- "RQ1, RQ5" --> node_I_A_2
+  node_I_A_2 -- "RQ1, RQ4, RQ5, RQ6" --> node_I_A_5
+  node_I_A_5 -- "RQ1, RQ2, RQ6" --> node_I_A_3
   node_I_A_2 -- "RQ1, RQ2, RQ6" --> node_I_A_3
   node_I_A_2 -- "RQ4, RQ6" --> node_I_A_4
   node_I_A_3 -- "RQ2, RQ3, RQ5" --> node_II_B_1
   node_I_A_3 -- "RQ2, RQ3, RQ4, RQ6" --> node_II_B_2
   node_I_A_3 -- "RQ1, RQ2, RQ4" --> node_II_B_3
+  node_I_A_3 -- "RQ1, RQ4, RQ5, RQ6" --> node_II_B_11
   node_II_B_1 -- "RQ2, RQ4, RQ5" --> node_II_B_4
   node_II_B_3 -- "RQ2, RQ4" --> node_II_B_5
   node_II_B_5 -- "RQ2, RQ4" --> node_II_B_6
@@ -551,6 +582,7 @@ flowchart TD
   node_II_B_6 -- "RQ2, RQ4" --> node_V_C_1
   node_II_B_7 -- "RQ3, RQ4" --> node_V_C_1
   node_II_B_8 -- "RQ1, RQ4" --> node_V_C_1
+  node_II_B_11 -- "RQ1, RQ4, RQ5, RQ6" --> node_V_C_1
   node_V_C_1 -- "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6" --> node_V_C_2
   node_V_C_1 -- "RQ5" --> node_V_C_3
 """
