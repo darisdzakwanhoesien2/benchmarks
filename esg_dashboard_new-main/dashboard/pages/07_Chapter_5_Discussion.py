@@ -12,6 +12,7 @@ from _rq_thesis_content import (
     CHAPTER_5_SECTIONS,
     RQ_PAGE_MAP,
     RQ_TO_CHAPTER_MERMAID,
+    mermaid_download_section,
     page_link_grid,
     render_mermaid,
 )
@@ -30,6 +31,7 @@ st.write(
 
 st.subheader("RQ to Discussion Flow")
 render_mermaid(RQ_TO_CHAPTER_MERMAID, height=680)
+mermaid_download_section(RQ_TO_CHAPTER_MERMAID, "rq_to_discussion_flow")
 
 tab_sections, tab_rq, tab_claims = st.tabs(["Discussion Sections", "RQ Discussion Map", "Claim Strength"])
 

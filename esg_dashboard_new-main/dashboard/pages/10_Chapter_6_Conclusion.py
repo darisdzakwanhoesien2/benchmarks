@@ -12,6 +12,7 @@ from _rq_thesis_content import (
     CHAPTER_6_SECTIONS,
     CHAPTER_FLOW_MERMAID,
     RQ_PAGE_MAP,
+    mermaid_download_section,
     page_link_grid,
     render_mermaid,
 )
@@ -29,6 +30,7 @@ st.write(
 
 st.subheader("Chapter 4 to 6 Closing Flow")
 render_mermaid(CHAPTER_FLOW_MERMAID, height=420)
+mermaid_download_section(CHAPTER_FLOW_MERMAID, "chapter_6_closing_flow")
 
 tab_sections, tab_rq, tab_final = st.tabs(["Conclusion Sections", "RQ Answer Summary", "Final Statement"])
 

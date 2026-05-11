@@ -19,6 +19,7 @@ from _rq_thesis_content import (
     RQ_PAGE_MAP,
     RQ_TO_CHAPTER_MERMAID,
     load_artifact_report,
+    mermaid_download_section,
     page_link_grid,
     render_mermaid,
 )
@@ -68,6 +69,7 @@ with tab_map:
 
     st.subheader("Chapter Flow")
     render_mermaid(CHAPTER_FLOW_MERMAID, height=420)
+    mermaid_download_section(CHAPTER_FLOW_MERMAID, "chapter_flow")
     st.code(CHAPTER_FLOW_MERMAID, language="mermaid")
 
 with tab_rq:
@@ -98,6 +100,7 @@ with tab_rq:
 with tab_chapters:
     st.subheader("Research Questions Linked to Chapter 4, Chapter 5, and Chapter 6")
     render_mermaid(RQ_TO_CHAPTER_MERMAID, height=680)
+    mermaid_download_section(RQ_TO_CHAPTER_MERMAID, "rq_to_chapter_flow")
     st.code(RQ_TO_CHAPTER_MERMAID, language="mermaid")
 
     st.subheader("Open Chapter Pages")

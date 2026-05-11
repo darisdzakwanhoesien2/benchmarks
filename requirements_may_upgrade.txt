@@ -1,0 +1,15 @@
+# Optional upgrade set for the Streamlit thesis dashboard.
+# Use this only when the deployed environment can safely upgrade packages.
+# Mermaid rendering is loaded from the CDN in the app, so no Python Mermaid
+# package is required. The Streamlit upgrade is useful for stable st.page_link,
+# st.link_button, and current download-button behavior.
+
+streamlit>=1.37
+pandas>=2.2
+plotly>=5.22
+altair>=5.3
+scikit-learn>=1.4
+numpy>=1.26
+transformers>=4.41
+torch>=2.2
+Pillow>=10.3

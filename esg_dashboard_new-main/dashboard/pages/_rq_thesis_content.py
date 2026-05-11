@@ -210,9 +210,9 @@ CHAPTER_6_SECTIONS = [
 CHAPTER_FLOW_MERMAID = """
 flowchart LR
   RQ["Research Questions"]
-  C4["Chapter 4: Results"]
-  C5["Chapter 5: Discussion"]
-  C6["Chapter 6: Conclusion"]
+  C4["Chapter 4 Results"]
+  C5["Chapter 5 Discussion"]
+  C6["Chapter 6 Conclusion"]
 
   DATA["data_output.txt"]
   PRED["climatebert_predictions"]
@@ -779,6 +779,33 @@ def render_mermaid(code: str, height: int = 520) -> None:
     </style>
     """
     components.html(html, height=height + 80, scrolling=True)
+
+
+def mermaid_download_section(code: str, name: str = "mermaid_diagram") -> None:
+    safe_name = "".join(ch if ch.isalnum() or ch in {"-", "_"} else "_" for ch in name).strip("_") or "mermaid_diagram"
+    cols = st.columns(3)
+    with cols[0]:
+        st.download_button(
+            "Download Mermaid source",
+            data=code,
+            file_name=f"{safe_name}.mmd",
+            mime="text/plain",
+            use_container_width=True,
+        )
+    with cols[1]:
+        st.download_button(
+            "Download Markdown block",
+            data=f"```mermaid\n{code}\n```\n",
+            file_name=f"{safe_name}.md",
+            mime="text/markdown",
+            use_container_width=True,
+        )
+    with cols[2]:
+        st.link_button(
+            "Open Mermaid Live Editor",
+            "https://mermaid.ai/live/edit",
+            use_container_width=True,
+        )
 
 
 def page_link_grid(page_pairs: list[tuple[str, str]], columns: int = 3) -> None:

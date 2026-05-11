@@ -13,6 +13,7 @@ from _rq_thesis_content import (
     FINAL_CONCLUSION,
     LIMITATIONS,
     markdown_conclusion_export,
+    mermaid_download_section,
     render_mermaid,
     research_questions_df,
 )
@@ -80,3 +81,4 @@ with tab_export:
 with tab_flow:
     st.subheader("Conclusion Position in Thesis Flow")
     render_mermaid(CHAPTER_FLOW_MERMAID, height=460)
+    mermaid_download_section(CHAPTER_FLOW_MERMAID, "chapter_6_conclusion_flow")

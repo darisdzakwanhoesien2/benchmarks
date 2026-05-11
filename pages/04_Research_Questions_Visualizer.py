@@ -639,6 +639,33 @@ def render_mermaid(code: str, height: int = 520) -> None:
     components.html(html, height=height + 70, scrolling=True)
 
 
+def mermaid_download_section(code: str, name: str = "mermaid_diagram") -> None:
+    safe_name = re.sub(r"[^A-Za-z0-9_-]+", "_", name).strip("_") or "mermaid_diagram"
+    cols = st.columns(3)
+    with cols[0]:
+        st.download_button(
+            "Download Mermaid source",
+            data=code,
+            file_name=f"{safe_name}.mmd",
+            mime="text/plain",
+            use_container_width=True,
+        )
+    with cols[1]:
+        st.download_button(
+            "Download Markdown block",
+            data=f"```mermaid\n{code}\n```\n",
+            file_name=f"{safe_name}.md",
+            mime="text/markdown",
+            use_container_width=True,
+        )
+    with cols[2]:
+        st.link_button(
+            "Open Mermaid Live Editor",
+            "https://mermaid.ai/live/edit",
+            use_container_width=True,
+        )
+
+
 def mermaid_label(value: str, max_len: int = 70) -> str:
     clean = re.sub(r"\s+", " ", str(value)).strip()
     if len(clean) > max_len:
@@ -1925,21 +1952,25 @@ with tab_mermaid:
     )
     linked_code = build_rq_evidence_mermaid(linked_rq, detail_df)
     render_mermaid(linked_code, height=520)
+    mermaid_download_section(linked_code, f"{linked_rq}_evidence_map")
     st.code(linked_code, language="mermaid")
 
     st.subheader("Full Research Question Evidence Map")
     full_map_code = build_full_rq_map_mermaid(detail_df)
     render_mermaid(full_map_code, height=520)
+    mermaid_download_section(full_map_code, "full_rq_evidence_map")
     st.code(full_map_code, language="mermaid")
 
     st.subheader("Workflow Diagram")
     workflow_code = build_workflow_mermaid()
     render_mermaid(workflow_code, height=430)
+    mermaid_download_section(workflow_code, "research_workflow")
     st.code(workflow_code, language="mermaid")
 
     st.subheader("Missing Evidence Process")
     missing_process_code = build_missing_process_mermaid()
     render_mermaid(missing_process_code, height=430)
+    mermaid_download_section(missing_process_code, "missing_work_process")
     st.code(missing_process_code, language="mermaid")
 
 with tab_plan:

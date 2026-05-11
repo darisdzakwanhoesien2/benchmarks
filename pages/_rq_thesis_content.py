@@ -5,6 +5,7 @@ import hashlib
 import json
 
 import pandas as pd
+import streamlit as st
 import streamlit.components.v1 as components
 
 
@@ -297,9 +298,9 @@ FINAL_CONCLUSION = (
 
 CHAPTER_FLOW_MERMAID = """
 flowchart LR
-  RQ["Research Questions<br/>RQ1-RQ6"] --> C4["Chapter 4<br/>Results"]
-  C4 --> C5["Chapter 5<br/>Discussion"]
-  C5 --> C6["Chapter 6<br/>Conclusion"]
+  RQ["Research Questions RQ1-RQ6"] --> C4["Chapter 4 Results"]
+  C4 --> C5["Chapter 5 Discussion"]
+  C5 --> C6["Chapter 6 Conclusion"]
 
   RQ1["RQ1 Pipeline"] --> C4
   RQ2["RQ2 Categorization"] --> C4
@@ -308,9 +309,9 @@ flowchart LR
   RQ5["RQ5 Reproducibility"] --> C4
   RQ6["RQ6 Stability"] --> C4
 
-  C4 --> EVID["Pages, metrics,<br/>images, tables"]
+  C4 --> EVID["Pages, metrics, images, tables"]
   EVID --> C5
-  C5 --> CLAIMS["Claim strength:<br/>Available / Partial / Needed"]
+  C5 --> CLAIMS["Claim strength: Available / Partial / Needed"]
   CLAIMS --> C6
 """
 
@@ -446,6 +447,33 @@ def render_mermaid(code: str, height: int = 520) -> None:
     </style>
     """
     components.html(html, height=height + 90, scrolling=True)
+
+
+def mermaid_download_section(code: str, name: str = "mermaid_diagram") -> None:
+    safe_name = "".join(ch if ch.isalnum() or ch in {"-", "_"} else "_" for ch in name).strip("_") or "mermaid_diagram"
+    st_cols = st.columns(3)
+    with st_cols[0]:
+        st.download_button(
+            "Download Mermaid source",
+            data=code,
+            file_name=f"{safe_name}.mmd",
+            mime="text/plain",
+            use_container_width=True,
+        )
+    with st_cols[1]:
+        st.download_button(
+            "Download Markdown block",
+            data=f"```mermaid\n{code}\n```\n",
+            file_name=f"{safe_name}.md",
+            mime="text/markdown",
+            use_container_width=True,
+        )
+    with st_cols[2]:
+        st.link_button(
+            "Open Mermaid Live Editor",
+            "https://mermaid.ai/live/edit",
+            use_container_width=True,
+        )
 
 
 def markdown_conclusion_export() -> str:

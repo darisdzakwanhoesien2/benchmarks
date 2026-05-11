@@ -14,6 +14,7 @@ from _rq_thesis_content import (
     image_evidence_by_rq,
     images_for_rq,
     load_image_manifest,
+    mermaid_download_section,
     page_mapping_df,
     render_mermaid,
     research_questions_df,
@@ -141,3 +142,4 @@ with tab_images:
 with tab_flow:
     st.subheader("Research Questions to Thesis Chapters")
     render_mermaid(CHAPTER_FLOW_MERMAID, height=460)
+    mermaid_download_section(CHAPTER_FLOW_MERMAID, "research_questions_to_thesis_chapters")

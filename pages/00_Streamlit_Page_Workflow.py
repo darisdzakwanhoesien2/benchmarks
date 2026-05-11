@@ -25,6 +25,7 @@ flowchart LR
 """.strip(),
     )
     render_mermaid = getattr(rq_content, "render_mermaid")
+    mermaid_download_section = getattr(rq_content, "mermaid_download_section", None)
 
     def research_questions_df() -> pd.DataFrame:
         if hasattr(rq_content, "research_questions_df"):
@@ -54,6 +55,8 @@ flowchart LR
 
     def render_mermaid(code: str, height: int = 520) -> None:
         st.code(code, language="mermaid")
+
+    mermaid_download_section = None
 
     def research_questions_df() -> pd.DataFrame:
         return pd.DataFrame()
@@ -342,3 +345,16 @@ with tab_types:
 with tab_diagram:
     st.subheader("Thesis Workflow Diagram")
     render_mermaid(CHAPTER_FLOW_MERMAID, height=460)
+    st.subheader("Download and Edit Mermaid")
+    if mermaid_download_section:
+        mermaid_download_section(CHAPTER_FLOW_MERMAID, "thesis_workflow")
+    else:
+        st.download_button(
+            "Download Mermaid source",
+            data=CHAPTER_FLOW_MERMAID,
+            file_name="thesis_workflow.mmd",
+            mime="text/plain",
+            use_container_width=True,
+        )
+        st.link_button("Open Mermaid Live Editor", "https://mermaid.ai/live/edit", use_container_width=True)
+    st.caption("Open the live editor, then paste the downloaded Mermaid source if the editor does not prefill automatically.")

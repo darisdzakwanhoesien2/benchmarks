@@ -199,6 +199,33 @@ def render_mermaid(code: str, height: int = 520) -> None:
     components.html(html, height=height + 70, scrolling=True)
 
 
+def mermaid_download_section(code: str, name: str = "mermaid_diagram") -> None:
+    safe_name = re.sub(r"[^A-Za-z0-9_-]+", "_", name).strip("_") or "mermaid_diagram"
+    cols = st.columns(3)
+    with cols[0]:
+        st.download_button(
+            "Download Mermaid source",
+            data=code,
+            file_name=f"{safe_name}.mmd",
+            mime="text/plain",
+            use_container_width=True,
+        )
+    with cols[1]:
+        st.download_button(
+            "Download Markdown block",
+            data=f"```mermaid\n{code}\n```\n",
+            file_name=f"{safe_name}.md",
+            mime="text/markdown",
+            use_container_width=True,
+        )
+    with cols[2]:
+        st.link_button(
+            "Open Mermaid Live Editor",
+            "https://mermaid.ai/live/edit",
+            use_container_width=True,
+        )
+
+
 def mermaid_label(value: str, max_len: int = 70) -> str:
     clean = re.sub(r"\s+", " ", str(value)).strip()
     if len(clean) > max_len:
@@ -506,16 +533,19 @@ with tab_mermaid:
     st.subheader("Claim Ladder Diagram")
     ladder_code = build_claim_ladder_mermaid(current_n, target_n)
     render_mermaid(ladder_code, height=430)
+    mermaid_download_section(ladder_code, "sample_size_claim_ladder")
     st.code(ladder_code, language="mermaid")
 
     st.subheader("Subgroup Design Diagram")
     design_code = build_sample_design_mermaid(min_cell_n)
     render_mermaid(design_code, height=430)
+    mermaid_download_section(design_code, "sample_design_matrix")
     st.code(design_code, language="mermaid")
 
     st.subheader("Targeted Expansion Decision Flow")
     decision_code = build_decision_mermaid(current_n, target_n)
     render_mermaid(decision_code, height=430)
+    mermaid_download_section(decision_code, "sample_size_decision_tree")
     st.code(decision_code, language="mermaid")
 
 with tab_guide:

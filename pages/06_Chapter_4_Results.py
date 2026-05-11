@@ -13,6 +13,7 @@ from _rq_thesis_content import (
     image_evidence_by_rq,
     images_for_rq,
     load_image_manifest,
+    mermaid_download_section,
     render_mermaid,
     research_questions_df,
 )
@@ -92,3 +93,4 @@ with tab_images:
 with tab_diagram:
     st.subheader("Chapter 4 Position in Thesis Flow")
     render_mermaid(CHAPTER_FLOW_MERMAID, height=460)
+    mermaid_download_section(CHAPTER_FLOW_MERMAID, "chapter_4_results_flow")

@@ -14,6 +14,7 @@ from _rq_thesis_content import (
     evidence_rows_df,
     images_for_rq,
     load_image_manifest,
+    mermaid_download_section,
     render_mermaid,
     research_questions_df,
 )
@@ -103,3 +104,4 @@ with tab_general:
 with tab_flow:
     st.subheader("Discussion Position in Thesis Flow")
     render_mermaid(CHAPTER_FLOW_MERMAID, height=460)
+    mermaid_download_section(CHAPTER_FLOW_MERMAID, "chapter_5_discussion_flow")

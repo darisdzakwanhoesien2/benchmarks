@@ -15,6 +15,7 @@ from _rq_thesis_content import (
     PREDICTION_OUTPUT_DIR,
     RQ_PAGE_MAP,
     load_artifact_report,
+    mermaid_download_section,
     page_link_grid,
     render_mermaid,
 )
@@ -35,6 +36,7 @@ st.write(
 
 st.subheader("Chapter 4 to 6 Flow")
 render_mermaid(CHAPTER_FLOW_MERMAID, height=420)
+mermaid_download_section(CHAPTER_FLOW_MERMAID, "chapter_4_to_6_flow")
 
 tab_sections, tab_rq, tab_images = st.tabs(["Result Sections", "RQ Result Mapping", "Saved Images"])
 
