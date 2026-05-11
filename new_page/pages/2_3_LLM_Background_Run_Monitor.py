@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import signal
 from typing import Any
 import uuid
 
@@ -24,6 +25,11 @@ PROMPT_DIR = ROOT / "prompt"
 RESULTS_DIR = ROOT / "results"
 JOBS_DIR = RESULTS_DIR / "background_llm_jobs"
 WORKER_PATH = ROOT / "code" / "llm_background_worker.py"
+LLM_PROCESS_DIR = RESULTS_DIR / "llm_processing_process"
+LLM_PROCESS_STATE = LLM_PROCESS_DIR / "state.json"
+LLM_PROCESS_LOG = LLM_PROCESS_DIR / "llm_processing.log"
+LLM_PROCESS_ERR = LLM_PROCESS_DIR / "llm_processing.err.log"
+LLM_PROCESS_PORT_DEFAULT = 8521
 
 
 def utc_now_id() -> str:
@@ -85,6 +91,58 @@ def list_jobs() -> list[str]:
 def is_process_alive(pid: int | None) -> bool:
     if not pid:
         return False
+
+
+def launch_llm_processing_process(port: int) -> dict[str, Any]:
+    LLM_PROCESS_DIR.mkdir(parents=True, exist_ok=True)
+    with LLM_PROCESS_LOG.open("ab") as stdout, LLM_PROCESS_ERR.open("ab") as stderr:
+        process = subprocess.Popen(
+            [
+                sys.executable,
+                "-m",
+                "streamlit",
+                "run",
+                str(Path(__file__).resolve().parent / "llm_processing.py"),
+                "--server.headless",
+                "true",
+                "--server.port",
+                str(port),
+            ],
+            cwd=str(Path(__file__).resolve().parent),
+            stdout=stdout,
+            stderr=stderr,
+            start_new_session=True,
+        )
+    state = {
+        "pid": process.pid,
+        "port": port,
+        "status": "running",
+        "url": f"http://localhost:{port}",
+        "started_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        "updated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+    }
+    write_json(LLM_PROCESS_STATE, state)
+    return state
+
+
+def stop_llm_processing_process(pid: int | None) -> dict[str, Any]:
+    state = read_json(LLM_PROCESS_STATE, {})
+    if pid and is_process_alive(pid):
+        try:
+            os.killpg(os.getpgid(int(pid)), signal.SIGTERM)
+        except Exception:
+            try:
+                os.kill(int(pid), signal.SIGTERM)
+            except Exception:
+                pass
+    state.update(
+        {
+            "status": "stopped",
+            "updated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        }
+    )
+    write_json(LLM_PROCESS_STATE, state)
+    return state
     try:
         os.kill(int(pid), 0)
         return True
@@ -184,8 +242,62 @@ st.title("LLM Background Run Monitor")
 st.caption("Run T3-style LLM ESG extraction behind the scenes and visualize progress without keeping the main `llm_processing.py` page busy.")
 
 JOBS_DIR.mkdir(parents=True, exist_ok=True)
+LLM_PROCESS_DIR.mkdir(parents=True, exist_ok=True)
+
+llm_process_state = read_json(LLM_PROCESS_STATE, {})
+llm_process_pid = llm_process_state.get("pid")
+llm_process_alive = is_process_alive(llm_process_pid)
+if llm_process_state and llm_process_state.get("status") == "running" and not llm_process_alive:
+    llm_process_state["status"] = "exited"
+    llm_process_state["updated_at"] = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    write_json(LLM_PROCESS_STATE, llm_process_state)
+
+with st.expander("Continuous llm_processing.py process", expanded=True):
+    st.markdown(
+        """
+        This section runs the actual `llm_processing.py` Streamlit page as a separate long-lived process.
+        Use it when you want the original extraction page to stay alive continuously, then open its URL
+        and operate the normal `llm_processing.py` controls there.
+        """
+    )
+    proc_cols = st.columns(4)
+    proc_cols[0].metric("Process status", "running" if llm_process_alive else llm_process_state.get("status", "not started"))
+    proc_cols[1].metric("PID", str(llm_process_pid or "None"))
+    proc_cols[2].metric("Port", str(llm_process_state.get("port") or LLM_PROCESS_PORT_DEFAULT))
+    proc_cols[3].metric("Updated", str(llm_process_state.get("updated_at", ""))[-9:] or "None")
+    if llm_process_state.get("url"):
+        st.markdown(f"[Open running llm_processing.py]({llm_process_state['url']})")
+    st.caption(
+        "Important: this keeps the original page/server running. It does not auto-click its Run button. "
+        "The background job controls below are for queue-style automatic runs."
+    )
 
 with st.sidebar:
+    st.header("Continuous llm_processing.py")
+    process_port = st.number_input(
+        "Process port",
+        min_value=8501,
+        max_value=8999,
+        value=int(llm_process_state.get("port") or LLM_PROCESS_PORT_DEFAULT),
+    )
+    if st.button(
+        "Run llm_processing.py continuously",
+        disabled=llm_process_alive,
+        use_container_width=True,
+    ):
+        launch_llm_processing_process(int(process_port))
+        st.rerun()
+    if st.button(
+        "Stop llm_processing.py process",
+        disabled=not llm_process_alive,
+        use_container_width=True,
+    ):
+        stop_llm_processing_process(llm_process_pid)
+        st.rerun()
+    if llm_process_state:
+        st.caption(f"Status: `{llm_process_state.get('status', 'unknown')}`")
+        st.caption(f"URL: `{llm_process_state.get('url', '')}`")
+
     st.header("Monitor")
     jobs = list_jobs()
     selected_job = st.selectbox("Existing jobs", jobs, index=0 if jobs else None, placeholder="No jobs yet")
