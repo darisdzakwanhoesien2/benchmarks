@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 import pandas as pd
 import streamlit as st
@@ -44,6 +45,119 @@ def page_link(page_file: str, label: str | None = None):
         except Exception:
             continue
     st.code(page_file, language=None)
+
+
+def clean_text(value: str) -> str:
+    return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
+def mermaid_label(value: str) -> str:
+    return str(value or "").replace('"', '\\"')
+
+
+def parse_edge_rqs(label: str) -> list[str]:
+    return sorted(set(re.findall(r"RQ[1-6]", label or "")))
+
+
+def parse_workflow_mermaid(mermaid_text: str) -> tuple[dict[str, str], list[dict[str, object]]]:
+    nodes: dict[str, str] = {}
+    edges: list[dict[str, object]] = []
+    node_pattern = re.compile(r'^(?P<node_id>\S+)\s*\["(?P<label>.*)"\]\s*$')
+    labeled_edge_pattern = re.compile(
+        r'^(?P<source>\S+)\s*--\s*"(?P<label>.*?)"\s*-->\s*(?P<target>\S+)\s*$'
+    )
+    plain_edge_pattern = re.compile(r"^(?P<source>\S+)\s*-->\s*(?P<target>\S+)\s*$")
+
+    for raw_line in (mermaid_text or "").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("flowchart") or line.startswith("subgraph ") or line == "end":
+            continue
+
+        node_match = node_pattern.match(line)
+        if node_match:
+            nodes[node_match.group("node_id")] = clean_text(node_match.group("label")).replace("\\n", " | ")
+            continue
+
+        labeled_edge_match = labeled_edge_pattern.match(line)
+        if labeled_edge_match:
+            label = clean_text(labeled_edge_match.group("label"))
+            edges.append(
+                {
+                    "source_id": labeled_edge_match.group("source"),
+                    "target_id": labeled_edge_match.group("target"),
+                    "label": label,
+                    "rqs": parse_edge_rqs(label),
+                }
+            )
+            continue
+
+        plain_edge_match = plain_edge_pattern.match(line)
+        if plain_edge_match:
+            edges.append(
+                {
+                    "source_id": plain_edge_match.group("source"),
+                    "target_id": plain_edge_match.group("target"),
+                    "label": "",
+                    "rqs": [],
+                }
+            )
+
+    return nodes, edges
+
+
+def filter_workflow_graph(
+    nodes: dict[str, str],
+    edges: list[dict[str, object]],
+    selected_rqs: list[str],
+    match_mode: str,
+    include_unlabeled_edges: bool,
+) -> tuple[dict[str, str], list[dict[str, object]]]:
+    selected_set = set(selected_rqs)
+    filtered_edges: list[dict[str, object]] = []
+
+    for edge in edges:
+        edge_rqs = set(edge.get("rqs", []))
+        if not selected_set:
+            keep = True
+        elif match_mode == "Match all selected RQs":
+            keep = selected_set.issubset(edge_rqs)
+        else:
+            keep = bool(selected_set & edge_rqs)
+
+        if not edge_rqs and include_unlabeled_edges:
+            keep = True
+
+        if keep:
+            filtered_edges.append(edge)
+
+    visible_node_ids: list[str] = []
+    for edge in filtered_edges:
+        for key in ("source_id", "target_id"):
+            node_id = str(edge[key])
+            if node_id not in visible_node_ids:
+                visible_node_ids.append(node_id)
+
+    return {node_id: nodes[node_id] for node_id in visible_node_ids if node_id in nodes}, filtered_edges
+
+
+def build_filtered_workflow_mermaid(nodes: dict[str, str], edges: list[dict[str, object]]) -> str:
+    if not nodes or not edges:
+        return ""
+
+    lines = ["flowchart TD"]
+    for node_id, label in nodes.items():
+        lines.append(f'  {node_id}["{mermaid_label(label)}"]')
+
+    for edge in edges:
+        label = str(edge.get("label", ""))
+        if label:
+            lines.append(
+                f'  {edge["source_id"]} -- "{mermaid_label(label)}" --> {edge["target_id"]}'
+            )
+        else:
+            lines.append(f'  {edge["source_id"]} --> {edge["target_id"]}')
+
+    return "\n".join(lines)
 
 
 PAGE_REGISTRY = [
@@ -275,26 +389,53 @@ RQ_WORKFLOWS = {
 
 WORKFLOW_MERMAID = """
 flowchart TD
-  A["Bulk_OCR.py\\nPDFs -> OCR markdown/images"] --> B["llm_processing.py\\nLLM ESG ABSA extraction"]
-  B --> C["2_0_LLM_Processing_Result_Visualizer.py\\nInspect parsed outputs"]
-  B --> D["2_1_LLM_Error_Parse_Audit.py\\nAudit failures"]
-  C --> E["0_9_Tone_ClimateBERT_Visualization.py\\nTone, ESG, aspect, ClimateBERT proxy"]
-  C --> F["1_0_Revision_Analytics.py\\nRevision metrics and stability"]
-  C --> G["1_9_Ground_Truth_Pipeline_Output_Visualizer.py\\nTraceability"]
-  E --> H["1_6_Ontology_Path_Viewer.py\\nTaxonomy coverage"]
-  G --> I["1_1_Ground_Truth_Workbench.py\\nHuman annotation"]
-  I --> J["1_3_Ground_Truth_Metrics.py\\nKappa/F1/disagreement"]
-  C --> K["1_4_ClimateBERT_Record_Batch.py\\nReal ClimateBERT validation"]
-  A --> L["1_2_OCR_Quality_Workbench.py\\nCER/WER"]
-  E --> M["1_5_ESG_Flow_Sankey.py\\nFlow visualization"]
-  D --> N["1_8_Ground_Truth_Output_Visualizer.py\\nReview coverage"]
-  E --> O["1_7_Research_Questions_Dashboard.py\\nRQ + Chapter 4-6 synthesis"]
-  F --> O
-  H --> O
-  J --> O
-  K --> O
-  L --> O
-  O --> P["0_0_Streamlit_Page_Workflow.py\\nNavigation and complete workflow"]
+  subgraph node_I["Input and Extraction"]
+    node_I_A_1["Bulk_OCR.py\\nPDFs -> OCR markdown/images"]
+    node_I_A_2["llm_processing.py\\nLLM ESG ABSA extraction"]
+    node_I_A_3["2_0_LLM_Processing_Result_Visualizer.py\\nInspect parsed outputs"]
+    node_I_A_4["2_1_LLM_Error_Parse_Audit.py\\nAudit failures"]
+  end
+
+  subgraph node_II["Analysis and Validation"]
+    node_II_B_1["0_9_Tone_ClimateBERT_Visualization.py\\nTone, ESG, aspect, ClimateBERT proxy"]
+    node_II_B_2["1_0_Revision_Analytics.py\\nRevision metrics and stability"]
+    node_II_B_3["1_9_Ground_Truth_Pipeline_Output_Visualizer.py\\nTraceability"]
+    node_II_B_4["1_6_Ontology_Path_Viewer.py\\nTaxonomy coverage"]
+    node_II_B_5["1_1_Ground_Truth_Workbench.py\\nHuman annotation"]
+    node_II_B_6["1_3_Ground_Truth_Metrics.py\\nKappa/F1/disagreement"]
+    node_II_B_7["1_4_ClimateBERT_Record_Batch.py\\nReal ClimateBERT validation"]
+    node_II_B_8["1_2_OCR_Quality_Workbench.py\\nCER/WER"]
+    node_II_B_9["1_5_ESG_Flow_Sankey.py\\nFlow visualization"]
+    node_II_B_10["1_8_Ground_Truth_Output_Visualizer.py\\nReview coverage"]
+  end
+
+  subgraph node_V["Synthesis and Thesis Writing"]
+    node_V_C_1["1_7_Research_Questions_Dashboard.py\\nRQ + Chapter 4-6 synthesis"]
+    node_V_C_2["0_0_Streamlit_Page_Workflow.py\\nNavigation and complete workflow"]
+    node_V_C_3["Documentation + saved image catalog\\nMarkdown, PNG, JSON evidence"]
+  end
+
+  node_I_A_1 -- "RQ1, RQ5" --> node_I_A_2
+  node_I_A_2 -- "RQ1, RQ2, RQ6" --> node_I_A_3
+  node_I_A_2 -- "RQ4, RQ6" --> node_I_A_4
+  node_I_A_3 -- "RQ2, RQ3, RQ5" --> node_II_B_1
+  node_I_A_3 -- "RQ2, RQ3, RQ4, RQ6" --> node_II_B_2
+  node_I_A_3 -- "RQ1, RQ2, RQ4" --> node_II_B_3
+  node_II_B_1 -- "RQ2, RQ4, RQ5" --> node_II_B_4
+  node_II_B_3 -- "RQ2, RQ4" --> node_II_B_5
+  node_II_B_5 -- "RQ2, RQ4" --> node_II_B_6
+  node_I_A_3 -- "RQ3, RQ4" --> node_II_B_7
+  node_I_A_1 -- "RQ1, RQ4" --> node_II_B_8
+  node_II_B_1 -- "RQ2, RQ5" --> node_II_B_9
+  node_I_A_4 -- "RQ4, RQ6" --> node_II_B_10
+  node_II_B_1 -- "RQ2, RQ3, RQ5" --> node_V_C_1
+  node_II_B_2 -- "RQ2, RQ3, RQ4, RQ6" --> node_V_C_1
+  node_II_B_4 -- "RQ2, RQ4, RQ5" --> node_V_C_1
+  node_II_B_6 -- "RQ2, RQ4" --> node_V_C_1
+  node_II_B_7 -- "RQ3, RQ4" --> node_V_C_1
+  node_II_B_8 -- "RQ1, RQ4" --> node_V_C_1
+  node_V_C_1 -- "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6" --> node_V_C_2
+  node_V_C_1 -- "RQ5" --> node_V_C_3
 """
 
 
@@ -386,9 +527,71 @@ with rq_tab:
 
 with pipeline_tab:
     st.subheader("Complete workflow from source PDF to thesis conclusion")
-    render_mermaid(WORKFLOW_MERMAID)
-    st.subheader("Mermaid source")
-    st.code(WORKFLOW_MERMAID, language="mermaid")
+    st.markdown(
+        """
+        Each Mermaid edge is labeled with the RQ(s) it supports. You can filter by a single RQ, such as
+        `RQ1`, or by multiple RQs, such as `RQ1, RQ5`. Multi-RQ edge labels are treated as belonging to
+        every RQ in the label.
+        """
+    )
+
+    workflow_nodes, workflow_edges = parse_workflow_mermaid(WORKFLOW_MERMAID)
+    rq_options = [f"RQ{i}" for i in range(1, 7)]
+    filter_col1, filter_col2, filter_col3 = st.columns([2, 1.4, 1.1])
+    with filter_col1:
+        selected_rqs = st.multiselect(
+            "Filter workflow by RQ",
+            rq_options,
+            default=[],
+            help="Leave empty to show the full workflow.",
+        )
+    with filter_col2:
+        match_mode = st.radio(
+            "Filter mode",
+            ["Match any selected RQ", "Match all selected RQs"],
+            horizontal=False,
+        )
+    with filter_col3:
+        include_unlabeled = st.checkbox("Include unlabeled edges", value=False)
+
+    filtered_nodes, filtered_edges = filter_workflow_graph(
+        workflow_nodes,
+        workflow_edges,
+        selected_rqs,
+        match_mode,
+        include_unlabeled,
+    )
+    filtered_mermaid = build_filtered_workflow_mermaid(filtered_nodes, filtered_edges)
+
+    metric_col1, metric_col2, metric_col3 = st.columns(3)
+    metric_col1.metric("Visible nodes", len(filtered_nodes))
+    metric_col2.metric("Visible edges", len(filtered_edges))
+    metric_col3.metric("Selected RQs", ", ".join(selected_rqs) if selected_rqs else "All")
+
+    if filtered_mermaid:
+        render_mermaid(filtered_mermaid)
+    else:
+        st.info("No workflow edges match the current RQ filter.")
+
+    st.subheader("Visible workflow edges")
+    edge_table = pd.DataFrame(
+        [
+            {
+                "source": workflow_nodes.get(str(edge["source_id"]), str(edge["source_id"])),
+                "edge label": edge.get("label", ""),
+                "RQs": ", ".join(edge.get("rqs", [])),
+                "target": workflow_nodes.get(str(edge["target_id"]), str(edge["target_id"])),
+            }
+            for edge in filtered_edges
+        ]
+    )
+    st.dataframe(edge_table, use_container_width=True, hide_index=True)
+
+    st.subheader("Filtered Mermaid source")
+    st.code(filtered_mermaid or "", language="mermaid")
+
+    with st.expander("Full unfiltered Mermaid source"):
+        st.code(WORKFLOW_MERMAID, language="mermaid")
 
 with chapters_tab:
     st.subheader("Which pages to use by thesis chapter")
