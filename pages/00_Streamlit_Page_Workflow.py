@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from html import escape
 from pathlib import Path
 import sys
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 PAGE_DIR = Path(__file__).resolve().parent
@@ -65,6 +67,162 @@ flowchart LR
 st.set_page_config(page_title="Streamlit Page Workflow", layout="wide")
 st.title("Streamlit Page Workflow")
 st.caption("A navigation map for every Streamlit page, with RQ-specific workflows and direct page redirects.")
+
+
+WORKFLOW_DIAGRAM_MERMAID = """
+flowchart TD
+  RQ["Research Questions RQ1 to RQ6"]
+  NAV["Streamlit Page Workflow"]
+  PAGES["Streamlit Pages and Dashboards"]
+  C4["Chapter 4 Results"]
+  C5["Chapter 5 Discussion"]
+  C6["Chapter 6 Conclusion"]
+  ART["Saved Images JSON and Markdown"]
+  VALID["Validation Gaps and Next Actions"]
+
+  RQ --> NAV
+  NAV --> PAGES
+  PAGES --> C4
+  ART --> C4
+  C4 --> C5
+  C5 --> C6
+  VALID --> C5
+  VALID --> C6
+""".strip()
+
+
+def render_desktop_safe_mermaid(code: str, height: int = 560) -> None:
+    escaped_code = escape(code)
+    html = f"""
+    <div class="diagram-shell">
+      <pre class="mermaid">{escaped_code}</pre>
+      <div id="mermaid-error" class="diagram-error"></div>
+    </div>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.5/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({{
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "base",
+        flowchart: {{
+          htmlLabels: false,
+          curve: "basis",
+          padding: 18,
+          useMaxWidth: true
+        }},
+        themeVariables: {{
+          background: "#ffffff",
+          mainBkg: "#f8fafc",
+          primaryColor: "#f8fafc",
+          primaryTextColor: "#111827",
+          primaryBorderColor: "#64748b",
+          lineColor: "#475569",
+          textColor: "#111827",
+          fontFamily: "Inter, Arial, sans-serif"
+        }}
+      }});
+      try {{
+        await mermaid.run({{ querySelector: ".mermaid" }});
+        document.querySelectorAll(".diagram-shell svg").forEach((svg) => {{
+          svg.style.width = "100%";
+          svg.style.maxWidth = "100%";
+          svg.style.height = "auto";
+          svg.style.display = "block";
+          svg.style.margin = "0 auto";
+          svg.querySelectorAll("text").forEach((node) => {{
+            node.style.fill = "#111827";
+            node.style.fontWeight = "600";
+          }});
+        }});
+      }} catch (err) {{
+        const target = document.getElementById("mermaid-error");
+        target.style.display = "block";
+        target.textContent = "Mermaid render error: " + err.message;
+      }}
+    </script>
+    <style>
+      .diagram-shell {{
+        background: #ffffff;
+        border: 1px solid #d4dbe5;
+        border-radius: 8px;
+        min-height: {height}px;
+        overflow: auto;
+        padding: 18px;
+      }}
+      .diagram-shell .mermaid {{
+        background: #ffffff;
+        color: #111827;
+        display: block;
+        margin: 0;
+        text-align: center;
+      }}
+      .diagram-shell svg {{
+        background: #ffffff !important;
+      }}
+      .diagram-error {{
+        color: #991b1b;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 6px;
+        display: none;
+        margin-top: 12px;
+        padding: 12px;
+        white-space: pre-wrap;
+      }}
+    </style>
+    """
+    components.html(html, height=height + 80, scrolling=True)
+
+
+def render_workflow_cards() -> None:
+    st.markdown(
+        """
+        <style>
+          .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            align-items: stretch;
+            margin: 8px 0 22px;
+          }
+          .workflow-card {
+            border: 1px solid #d4dbe5;
+            border-radius: 8px;
+            padding: 16px;
+            background: #ffffff;
+            min-height: 128px;
+          }
+          .workflow-card strong {
+            color: #111827;
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+          }
+          .workflow-card span {
+            color: #4b5563;
+            font-size: 0.92rem;
+            line-height: 1.35;
+          }
+          .workflow-arrow {
+            color: #64748b;
+            font-size: 1.5rem;
+            margin-top: 8px;
+          }
+          @media (max-width: 900px) {
+            .workflow-grid {
+              grid-template-columns: 1fr;
+            }
+          }
+        </style>
+        <div class="workflow-grid">
+          <div class="workflow-card"><strong>1. Research Questions</strong><span>Start from RQ1-RQ6 and choose the exact evidence needed.</span><div class="workflow-arrow">↓</div></div>
+          <div class="workflow-card"><strong>2. Streamlit Pages</strong><span>Open the mapped dashboards for extraction, categorization, metrics, and model comparison.</span><div class="workflow-arrow">↓</div></div>
+          <div class="workflow-card"><strong>3. Chapter 4 Results</strong><span>Convert dashboard tables, charts, images, and JSON outputs into results.</span><div class="workflow-arrow">↓</div></div>
+          <div class="workflow-card"><strong>4. Chapter 5 and 6</strong><span>Discuss claim strength, limitations, contributions, future work, and final RQ answers.</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 PAGE_DESCRIPTIONS = {
@@ -344,17 +502,21 @@ with tab_types:
 
 with tab_diagram:
     st.subheader("Thesis Workflow Diagram")
-    render_mermaid(CHAPTER_FLOW_MERMAID, height=460)
+    render_workflow_cards()
+    st.caption("The card diagram above is the reliable browser fallback. The Mermaid version below is downloadable and editable.")
+    render_desktop_safe_mermaid(WORKFLOW_DIAGRAM_MERMAID, height=560)
     st.subheader("Download and Edit Mermaid")
     if mermaid_download_section:
-        mermaid_download_section(CHAPTER_FLOW_MERMAID, "thesis_workflow")
+        mermaid_download_section(WORKFLOW_DIAGRAM_MERMAID, "thesis_workflow")
     else:
         st.download_button(
             "Download Mermaid source",
-            data=CHAPTER_FLOW_MERMAID,
+            data=WORKFLOW_DIAGRAM_MERMAID,
             file_name="thesis_workflow.mmd",
             mime="text/plain",
             use_container_width=True,
         )
         st.link_button("Open Mermaid Live Editor", "https://mermaid.ai/live/edit", use_container_width=True)
     st.caption("Open the live editor, then paste the downloaded Mermaid source if the editor does not prefill automatically.")
+    with st.expander("Show Mermaid source"):
+        st.code(WORKFLOW_DIAGRAM_MERMAID, language="mermaid")
