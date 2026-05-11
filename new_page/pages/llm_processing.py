@@ -6,6 +6,8 @@ import json
 import socket
 import tempfile
 import matplotlib
+import subprocess
+import uuid
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from pathlib import Path
@@ -13,7 +15,9 @@ from urllib.parse import urlparse
 
 import requests
 from requests.adapters import HTTPAdapter, Retry
+import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 # ── Fix temp directory BEFORE any gradio import ───────────────────────────────
 _LOCAL_TMP = Path(__file__).resolve().parents[2] / ".tmp"
@@ -65,6 +69,8 @@ BACKEND_OLLAMA        = "Ollama"
 PROMPT_DIR     = Path(__file__).resolve().parents[1] / "prompt"
 OCR_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "data" / "thesis_dataset"
 RESULTS_DIR    = Path(__file__).resolve().parents[1] / "results"
+BACKGROUND_JOBS_DIR = RESULTS_DIR / "background_llm_jobs"
+BACKGROUND_WORKER_PATH = Path(__file__).resolve().parents[1] / "code" / "llm_background_worker.py"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SESSION STATE DEFAULTS
@@ -166,6 +172,98 @@ def append_record(record: dict, fname: Path) -> None:
     tmp = fname.with_suffix(".tmp")
     tmp.write_text(json.dumps(existing, ensure_ascii=False, indent=2), encoding="utf-8")
     tmp.replace(fname)
+
+
+def read_json_file(path: Path, default: Any) -> Any:
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text(encoding="utf-8", errors="ignore"))
+    except Exception:
+        return default
+
+
+def write_json_file(path: Path, data: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(path)
+
+
+def read_background_events(path: Path) -> pd.DataFrame:
+    rows = []
+    if path.exists():
+        for line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
+            try:
+                rows.append(json.loads(line))
+            except Exception:
+                continue
+    return pd.DataFrame(rows)
+
+
+def list_background_jobs() -> list[str]:
+    if not BACKGROUND_JOBS_DIR.exists():
+        return []
+    return sorted([p.name for p in BACKGROUND_JOBS_DIR.iterdir() if p.is_dir()], reverse=True)
+
+
+def is_pid_alive(pid: int | None) -> bool:
+    if not pid:
+        return False
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except OSError:
+        return False
+
+
+def launch_background_llm_job(job_id: str) -> None:
+    job_dir = BACKGROUND_JOBS_DIR / job_id
+    job_dir.mkdir(parents=True, exist_ok=True)
+    log_path = job_dir / "worker.log"
+    err_path = job_dir / "worker.err.log"
+    with log_path.open("ab") as stdout, err_path.open("ab") as stderr:
+        process = subprocess.Popen(
+            [sys.executable, str(BACKGROUND_WORKER_PATH), job_id],
+            cwd=str(Path(__file__).resolve().parents[1]),
+            stdout=stdout,
+            stderr=stderr,
+            start_new_session=True,
+        )
+    status = read_json_file(job_dir / "status.json", {})
+    status.update(
+        {
+            "job_id": job_id,
+            "pid": process.pid,
+            "status": "running",
+            "started_at": status.get("started_at") or datetime.utcnow().isoformat(timespec="seconds") + "Z",
+            "updated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        }
+    )
+    write_json_file(job_dir / "status.json", status)
+
+
+def request_background_control(job_id: str, **updates: Any) -> None:
+    control_path = BACKGROUND_JOBS_DIR / job_id / "control.json"
+    control = read_json_file(control_path, {})
+    control.update(updates)
+    control["updated_at"] = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    write_json_file(control_path, control)
+
+
+def background_progress_df(status: dict[str, Any]) -> pd.DataFrame:
+    total = int(status.get("total") or 0)
+    completed = int(status.get("completed") or 0)
+    failed = int(status.get("failed") or 0)
+    skipped = int(status.get("skipped") or 0)
+    return pd.DataFrame(
+        [
+            {"state": "completed", "samples": max(completed - failed - skipped, 0)},
+            {"state": "failed", "samples": failed},
+            {"state": "skipped", "samples": skipped},
+            {"state": "remaining", "samples": max(total - completed, 0)},
+        ]
+    )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1064,6 +1162,8 @@ texts_to_process:    list[dict] = []
 doc_full_text:       str        = ""
 selected_page_texts: list[dict] = []
 all_page_files:      list       = []
+selected_doc:        str        = ""
+background_page_names: list[str] = []
 
 if input_mode == "Manual text":
     manual_text = st.text_area("Enter text to analyze", height=200, key="manual_text_area")
@@ -1120,6 +1220,7 @@ else:
 
             if selection_mode == "All pages":
                 chosen_pages = all_page_files
+                background_page_names = [p.name for p in chosen_pages]
                 st.info(f"Selected: All {len(chosen_pages)} pages")
             else:
                 # choose how to pick specific pages
@@ -1162,6 +1263,7 @@ else:
 
                 # Add batch size selector (applies to chosen_pages)
                 if chosen_pages:
+                    background_page_names = [p.name for p in chosen_pages]
                     batch_size = st.number_input(
                         "Batch size (pages per group)",
                         min_value=1,
@@ -1220,6 +1322,183 @@ if texts_to_process:
             for m in selected_llm_models:
                 m_info = id_to_model.get(m, {})
                 st.markdown(f"- **{m_info.get('label', m)}** · `{m}`")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# BACKGROUND RUNNER
+# ══════════════════════════════════════════════════════════════════════════════
+with st.expander("🕒 Background run on this page", expanded=False):
+    st.markdown(
+        """
+        Start the same T3-style extraction in the background using the current document, page, backend,
+        model, prompt, and generation settings. You can leave this page, refresh it, or keep monitoring
+        progress here while the worker writes status/events/logs to `results/background_llm_jobs`.
+        """
+    )
+
+    jobs = list_background_jobs()
+    selected_bg_job = st.selectbox(
+        "Run",
+        jobs,
+        index=0 if jobs else None,
+        placeholder="No background runs yet",
+        key="llm_processing_bg_job_select",
+    )
+
+    bg_col_a, bg_col_b, bg_col_c = st.columns([1, 1, 1])
+    with bg_col_a:
+        bg_batch_size = st.number_input(
+            "Background batch size",
+            min_value=1,
+            max_value=max(1, len(background_page_names)),
+            value=min(2, max(1, len(background_page_names))),
+            step=1,
+            help="Used only by the background worker. The foreground run keeps its normal batch selection.",
+        )
+    with bg_col_b:
+        bg_mock_mode = st.checkbox("Mock background run", value=use_mock_t3)
+    with bg_col_c:
+        bg_auto_refresh = st.checkbox("Auto-refresh progress", value=False)
+
+    bg_can_start = bool(
+        selected_doc
+        and background_page_names
+        and selected_llm_models
+        and (selected_prompt_paths or prompt_override.strip())
+        and BACKGROUND_WORKER_PATH.exists()
+    )
+    if not BACKGROUND_WORKER_PATH.exists():
+        st.error(f"Background worker is missing: `{BACKGROUND_WORKER_PATH}`")
+    if input_mode == "Manual text":
+        st.info("Background mode currently uses OCR documents/pages. Use foreground mode for manual text.")
+
+    if st.button(
+        "Start background run",
+        type="primary",
+        disabled=not bg_can_start,
+        use_container_width=False,
+    ):
+        job_id = f"llm_processing_bg_{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}_{uuid.uuid4().hex[:6]}"
+        job_dir = BACKGROUND_JOBS_DIR / job_id
+        prompt_names_for_job = [p.name for p in selected_prompt_paths]
+        total_batches = (len(background_page_names) + int(bg_batch_size) - 1) // int(bg_batch_size)
+        total_prompts = 1 if prompt_override.strip() else max(1, len(prompt_names_for_job))
+        total = len(selected_llm_models) * total_batches * total_prompts
+        config = {
+            "job_id": job_id,
+            "document": selected_doc,
+            "page_names": background_page_names,
+            "batch_size": int(bg_batch_size),
+            "prompt_names": prompt_names_for_job,
+            "prompt_override": prompt_override,
+            "backend": backend,
+            "mock_mode": bool(bg_mock_mode),
+            "models": selected_llm_models,
+            "openrouter_api_key": st.session_state.openrouter_key,
+            "lmstudio_url": st.session_state.lmstudio_url,
+            "lmstudio_api_key": st.session_state.lmstudio_api_key,
+            "ollama_url": st.session_state.ollama_url,
+            "ollama_api_key": st.session_state.ollama_api_key,
+            "ollama_num_ctx": int(st.session_state.ollama_num_ctx),
+            "context_length": int(context_length),
+            "max_tokens": int(st.session_state.ollama_num_predict if backend == BACKEND_OLLAMA else max_tokens_input),
+            "temperature": float(temperature_input),
+            "retries": int(retries_input),
+            "skip_existing": True,
+            "save_results": bool(save_t3),
+            "created_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        }
+        write_json_file(job_dir / "config.json", config)
+        write_json_file(job_dir / "control.json", {"pause_requested": False, "stop_requested": False})
+        write_json_file(
+            job_dir / "status.json",
+            {
+                "job_id": job_id,
+                "status": "queued",
+                "document": selected_doc,
+                "total": total,
+                "completed": 0,
+                "failed": 0,
+                "skipped": 0,
+                "current": "Queued",
+                "created_at": config["created_at"],
+                "updated_at": config["created_at"],
+            },
+        )
+        launch_background_llm_job(job_id)
+        st.success(f"Started background run `{job_id}`")
+        st.rerun()
+
+    if selected_bg_job:
+        bg_job_dir = BACKGROUND_JOBS_DIR / selected_bg_job
+        bg_status = read_json_file(bg_job_dir / "status.json", {})
+        bg_pid = bg_status.get("pid")
+        if bg_status.get("status") == "running" and not is_pid_alive(bg_pid):
+            bg_status["status"] = "exited"
+            bg_status["current"] = "Worker process is no longer alive. Check logs."
+            bg_status["updated_at"] = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+            write_json_file(bg_job_dir / "status.json", bg_status)
+
+        bg_total = int(bg_status.get("total") or 0)
+        bg_completed = int(bg_status.get("completed") or 0)
+        bg_failed = int(bg_status.get("failed") or 0)
+        bg_progress = bg_completed / bg_total if bg_total else 0
+
+        st.markdown(f"**{selected_bg_job}**")
+        st.progress(bg_progress, text=f"{bg_completed}/{bg_total} samples complete")
+        metric_cols = st.columns(4)
+        metric_cols[0].metric("Status", str(bg_status.get("status", "unknown")))
+        metric_cols[1].metric("Completed", f"{bg_completed:,}")
+        metric_cols[2].metric("Failed", f"{bg_failed:,}")
+        metric_cols[3].metric("Updated", str(bg_status.get("updated_at", ""))[-9:] or "None")
+        st.caption(f"Current: {bg_status.get('current', 'None')}")
+        if bg_status.get("error"):
+            st.error(bg_status["error"])
+
+        ctrl_cols = st.columns(4)
+        with ctrl_cols[0]:
+            if st.button("Refresh progress", key="bg_refresh_progress"):
+                st.rerun()
+        with ctrl_cols[1]:
+            if st.button("Pause after current sample", disabled=bg_status.get("status") != "running", key="bg_pause_current"):
+                request_background_control(selected_bg_job, pause_requested=True)
+                st.rerun()
+        with ctrl_cols[2]:
+            if st.button("Resume / keep running", disabled=bg_status.get("status") not in {"paused", "exited", "failed", "stopped"}, key="bg_resume"):
+                request_background_control(selected_bg_job, pause_requested=False, stop_requested=False)
+                launch_background_llm_job(selected_bg_job)
+                st.rerun()
+        with ctrl_cols[3]:
+            if st.button("Stop after current sample", disabled=bg_status.get("status") not in {"running", "paused"}, key="bg_stop_current"):
+                request_background_control(selected_bg_job, stop_requested=True)
+                st.rerun()
+
+        if st.button("Visualize progress", key="bg_visualize_progress"):
+            st.session_state["show_llm_processing_bg_visuals"] = True
+
+        if st.session_state.get("show_llm_processing_bg_visuals", True):
+            chart_cols = st.columns([1, 1])
+            with chart_cols[0]:
+                st.bar_chart(background_progress_df(bg_status).set_index("state"))
+            with chart_cols[1]:
+                events_df = read_background_events(bg_job_dir / "events.jsonl")
+                if events_df.empty or "event" not in events_df.columns:
+                    st.info("No events yet.")
+                else:
+                    st.bar_chart(events_df["event"].value_counts().rename_axis("event").reset_index(name="count").set_index("event"))
+            with st.expander("Background run files and logs", expanded=False):
+                st.code(str(bg_job_dir), language=None)
+                st.markdown("**Recent events**")
+                events_df = read_background_events(bg_job_dir / "events.jsonl")
+                if events_df.empty:
+                    st.info("No events yet.")
+                else:
+                    st.dataframe(events_df.tail(100).iloc[::-1], use_container_width=True, hide_index=True)
+                st.markdown("**Worker stderr**")
+                err_path = bg_job_dir / "worker.err.log"
+                st.code(err_path.read_text(encoding="utf-8", errors="ignore")[-5000:] if err_path.exists() else "")
+
+        if bg_auto_refresh and bg_status.get("status") == "running":
+            components.html("<script>setTimeout(() => window.parent.location.reload(), 5000);</script>", height=0)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # EXECUTE BUTTON
