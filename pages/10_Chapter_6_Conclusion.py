@@ -1,4 +1,11 @@
+from pathlib import Path
+import sys
+
 import streamlit as st
+
+PAGE_DIR = Path(__file__).resolve().parent
+if str(PAGE_DIR) not in sys.path:
+    sys.path.insert(0, str(PAGE_DIR))
 
 from _rq_thesis_content import (
     CHAPTER_FLOW_MERMAID,

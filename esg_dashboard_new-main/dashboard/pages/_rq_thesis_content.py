@@ -256,6 +256,447 @@ flowchart TB
 """.strip()
 
 
+STREAMLIT_PAGE_CATALOG = [
+    {
+        "page": "Metric Analysis",
+        "route": "/Metric_Analysis",
+        "file": "0_Metric_Analysis.py",
+        "purpose": "Compare ground truth and prediction-style metrics when evaluation labels are available.",
+        "use_when": "Use for RQ4 and RQ6 when you need performance, agreement, drift, or stability summaries.",
+        "outputs": "Metric tables, comparison summaries, and evaluation diagnostics.",
+        "supports": "RQ4, RQ6",
+    },
+    {
+        "page": "Parsed ESG JSON",
+        "route": "/Parsed_ESG_JSON",
+        "file": "00_Parsed_ESG_JSON.py",
+        "purpose": "Load and inspect the existing parsed ESG sentence dataset from data_output.txt.",
+        "use_when": "Use first for RQ1, RQ2, RQ4, and RQ6 to inspect the source dataset, filters, records, and distributions.",
+        "outputs": "Parsed sentence table, raw aspect/tone/pillar distributions, source-data checks.",
+        "supports": "RQ1, RQ2, RQ4, RQ6",
+    },
+    {
+        "page": "Aspect",
+        "route": "/Aspect",
+        "file": "01_Aspect.py",
+        "purpose": "Explore ESG aspect labels and taxonomy behavior.",
+        "use_when": "Use for RQ2 when checking aspect diversity, ontology normalization needs, and non-standard labels.",
+        "outputs": "Aspect tables, aspect distribution views, taxonomy clues.",
+        "supports": "RQ2",
+    },
+    {
+        "page": "ClimateBERT Dataset Processor",
+        "route": "/ClimateBERT_Dataset_Processor",
+        "file": "02_ClimateBERT_Dataset_Processor.py",
+        "purpose": "Run local ClimateBERT/ESGBERT models on parsed sentence shards and save prediction CSVs incrementally.",
+        "use_when": "Use for RQ3 whenever predictions are missing, incomplete, or need to continue from leftover rows.",
+        "outputs": "Saved prediction CSV shards under climatebert_predictions.",
+        "supports": "RQ3, RQ5",
+    },
+    {
+        "page": "ClimateBERT Result Visualizer",
+        "route": "/ClimateBERT_Result_Visualizer",
+        "file": "03_ClimateBERT_Result_Visualizer.py",
+        "purpose": "Review all saved ClimateBERT prediction outputs with low-RAM summaries.",
+        "use_when": "Use after page 02 to verify coverage, label distributions, confidence scores, and unprocessed rows.",
+        "outputs": "Prediction coverage, model-label distribution, processed/not-processed status, confidence summaries.",
+        "supports": "RQ3, RQ5",
+    },
+    {
+        "page": "Research Questions Visualizer",
+        "route": "/Research_Questions_Visualizer",
+        "file": "04_Research_Questions_Visualizer.py",
+        "purpose": "Map RQ evidence into Available, Partial, and Needed rows with explanations and diagrams.",
+        "use_when": "Use when turning dashboard outputs into thesis evidence and deciding what is still missing.",
+        "outputs": "RQ evidence matrix, Mermaid diagrams, image-result explanations, RQ discussion, conclusion notes.",
+        "supports": "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6",
+    },
+    {
+        "page": "Sample Size Reasoning",
+        "route": "/Sample_Size_Reasoning",
+        "file": "05_Sample_Size_Reasoning.py",
+        "purpose": "Explain sample-size choices, validation sample needs, and subgroup coverage limits.",
+        "use_when": "Use for RQ2 and RQ6 when defending annotation size, subgroup comparison, and margin-of-error logic.",
+        "outputs": "Sample-size rationale, margin-of-error explanation, subgroup coverage reasoning.",
+        "supports": "RQ2, RQ6",
+    },
+    {
+        "page": "Chapter 4 Results",
+        "route": "/Chapter_4_Results",
+        "file": "06_Chapter_4_Results.py",
+        "purpose": "Translate dashboard outputs into Chapter 4 result sections.",
+        "use_when": "Use when writing or checking the Results chapter.",
+        "outputs": "Chapter 4 section plan, RQ result mapping, image artifact references.",
+        "supports": "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6",
+    },
+    {
+        "page": "Chapter 5 Discussion",
+        "route": "/Chapter_5_Discussion",
+        "file": "07_Chapter_5_Discussion.py",
+        "purpose": "Translate results into interpretation, limitations, and claim-strength language.",
+        "use_when": "Use when writing the Discussion chapter or deciding how cautious each claim should be.",
+        "outputs": "Discussion sections, RQ interpretation map, claim wording guide.",
+        "supports": "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6",
+    },
+    {
+        "page": "Parsed ESG Review",
+        "route": "/Parsed_ESG_Review",
+        "file": "08_Parsed_ESG_Review.py",
+        "purpose": "Review parsed sentence-level ESG records in a more dashboard-like analysis workspace.",
+        "use_when": "Use for RQ1 and RQ4 when checking data quality, record-level issues, and diagnostics.",
+        "outputs": "Record review tables, filterable evidence checks, quality review workspace.",
+        "supports": "RQ1, RQ4",
+    },
+    {
+        "page": "Data File Visualizer",
+        "route": "/Data_File_Visualizer",
+        "file": "09_Data_File_Visualizer.py",
+        "purpose": "Inspect source data files and output files without jumping into model-specific views.",
+        "use_when": "Use for RQ1 and RQ5 to verify files, paths, schemas, and artifacts.",
+        "outputs": "File previews, schema checks, artifact/source inspection.",
+        "supports": "RQ1, RQ5",
+    },
+    {
+        "page": "Chapter 6 Conclusion",
+        "route": "/Chapter_6_Conclusion",
+        "file": "10_Chapter_6_Conclusion.py",
+        "purpose": "Summarize final RQ answers, contributions, limitations, and future work.",
+        "use_when": "Use when drafting final conclusion language.",
+        "outputs": "Concise RQ answers, contribution summary, limitations, final thesis statement.",
+        "supports": "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6",
+    },
+    {
+        "page": "Research Questions Dashboard",
+        "route": "/Research_Questions_Dashboard",
+        "file": "Research_Questions_Dashboard.py",
+        "purpose": "Central navigation map from RQs to pages and Chapters 4-6.",
+        "use_when": "Use as the main thesis control panel before writing or completing missing RQ work.",
+        "outputs": "RQ page map, chapter flow diagrams, artifact previews.",
+        "supports": "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6",
+    },
+    {
+        "page": "Benchmark Model",
+        "route": "/Benchmark_Model",
+        "file": "Benchmark_Model.py",
+        "purpose": "Test ESG and climate NLP models on selected text or benchmark examples.",
+        "use_when": "Use for RQ3 and RQ6 when comparing model behavior before or alongside full dataset processing.",
+        "outputs": "Model test outputs and benchmark predictions.",
+        "supports": "RQ3, RQ6",
+    },
+    {
+        "page": "Data Distribution",
+        "route": "/Data_Distribution",
+        "file": "Data Distribution.py",
+        "purpose": "Visualize aspect and ontology distributions in the parsed ESG data.",
+        "use_when": "Use for RQ2 when explaining category imbalance and ontology coverage.",
+        "outputs": "Aspect and ontology distribution charts.",
+        "supports": "RQ2",
+    },
+    {
+        "page": "Data New Distribution",
+        "route": "/Data_New_Distribution",
+        "file": "Data_New_Distribution.py",
+        "purpose": "Explore updated ESG distribution and Sankey-style filtering views.",
+        "use_when": "Use for RQ2 when comparing newer distribution logic or filtered category flows.",
+        "outputs": "Filtered distribution and flow visualizations.",
+        "supports": "RQ2",
+    },
+    {
+        "page": "Distribution Document",
+        "route": "/Distribution_Document",
+        "file": "Distribution Document.py",
+        "purpose": "Analyze sentiment and tone at document level.",
+        "use_when": "Use for RQ2 and RQ6 when comparing documents instead of individual sentences.",
+        "outputs": "Document-level tone and sentiment summaries.",
+        "supports": "RQ2, RQ6",
+    },
+    {
+        "page": "Sankey",
+        "route": "/Sankey",
+        "file": "Sankey.py",
+        "purpose": "Visualize flows between tone, pillar, aspect, language, or other ESG categories.",
+        "use_when": "Use for RQ2 when explaining how ESG categories connect.",
+        "outputs": "Sankey flow charts and category balance views.",
+        "supports": "RQ2",
+    },
+    {
+        "page": "Tone Distribution",
+        "route": "/Tone_Distribution",
+        "file": "Tone_Distribution.py",
+        "purpose": "Explore tone distribution across the parsed ESG dataset.",
+        "use_when": "Use for RQ2 and RQ6 when explaining commitment/action/outcome/other tone patterns.",
+        "outputs": "Tone count charts, tone filters, and distribution summaries.",
+        "supports": "RQ2, RQ6",
+    },
+]
+
+
+RQ_WORKFLOWS = {
+    "RQ1": [
+        {
+            "step": "Inspect parsed dataset and record provenance",
+            "page": "Parsed ESG JSON",
+            "route": "/Parsed_ESG_JSON",
+            "why": "Confirm that data_output.txt loads, records are parseable, and sentence rows have useful fields.",
+            "expected_output": "Parsed row count, sentence table, field completion, source/path visibility.",
+        },
+        {
+            "step": "Review sentence-level quality and traceability",
+            "page": "Parsed ESG Review",
+            "route": "/Parsed_ESG_Review",
+            "why": "Check whether extracted rows look coherent enough for ABSA.",
+            "expected_output": "Quality review notes and examples of good/bad parsed records.",
+        },
+        {
+            "step": "Inspect source/output files",
+            "page": "Data File Visualizer",
+            "route": "/Data_File_Visualizer",
+            "why": "Verify file paths, data shape, and artifact availability.",
+            "expected_output": "Source file preview, schema check, artifact inventory.",
+        },
+        {
+            "step": "Record RQ1 evidence status",
+            "page": "Research Questions Visualizer",
+            "route": "/Research_Questions_Visualizer",
+            "why": "Mark what is Available, Partial, and Needed for the pipeline RQ.",
+            "expected_output": "RQ1 evidence explanation and remaining OCR/sentence-boundary tasks.",
+        },
+        {
+            "step": "Write Chapter 4-6 RQ1 narrative",
+            "page": "Chapter 4 Results",
+            "route": "/Chapter_4_Results",
+            "why": "Move the pipeline results into thesis chapter language.",
+            "expected_output": "Chapter 4 result statement; Chapter 5/6 pages provide discussion and conclusion wording.",
+        },
+    ],
+    "RQ2": [
+        {
+            "step": "Start from parsed ESG records",
+            "page": "Parsed ESG JSON",
+            "route": "/Parsed_ESG_JSON",
+            "why": "Filter sentence records by language, pillar, tone, sentiment, and aspect.",
+            "expected_output": "Base crosstabs and filtered sentence examples.",
+        },
+        {
+            "step": "Analyze aspects and ontology coverage",
+            "page": "Aspect",
+            "route": "/Aspect",
+            "why": "Find non-standard labels and taxonomy fragmentation.",
+            "expected_output": "Aspect distribution and ontology cleanup targets.",
+        },
+        {
+            "step": "Analyze tone distribution",
+            "page": "Tone Distribution",
+            "route": "/Tone_Distribution",
+            "why": "Explain commitment/action/outcome patterns and tone imbalance.",
+            "expected_output": "Tone count and proportion charts.",
+        },
+        {
+            "step": "Analyze category flows",
+            "page": "Sankey",
+            "route": "/Sankey",
+            "why": "Show how tone, pillar, language, and aspect categories connect.",
+            "expected_output": "Flow visualization for Chapter 4 categorization results.",
+        },
+        {
+            "step": "Check sample-size defensibility",
+            "page": "Sample Size Reasoning",
+            "route": "/Sample_Size_Reasoning",
+            "why": "Defend why some subgroup claims are exploratory and why expert labels need enough rows.",
+            "expected_output": "Validation sample-size rationale and subgroup limitation language.",
+        },
+        {
+            "step": "Write categorization result and discussion",
+            "page": "Chapter 5 Discussion",
+            "route": "/Chapter_5_Discussion",
+            "why": "Separate descriptive weak-label findings from validated classification claims.",
+            "expected_output": "Chapter 5 RQ2 discussion and claim-strength wording.",
+        },
+    ],
+    "RQ3": [
+        {
+            "step": "Run or continue local model predictions",
+            "page": "ClimateBERT Dataset Processor",
+            "route": "/ClimateBERT_Dataset_Processor",
+            "why": "Generate saved predictions for selected local ClimateBERT/ESGBERT models.",
+            "expected_output": "Prediction CSV shards saved incrementally in climatebert_predictions.",
+        },
+        {
+            "step": "Verify prediction coverage and results",
+            "page": "ClimateBERT Result Visualizer",
+            "route": "/ClimateBERT_Result_Visualizer",
+            "why": "Check processed rows, leftover rows, model labels, and confidence distributions.",
+            "expected_output": "Coverage table, label distribution, confidence chart, missing rows.",
+        },
+        {
+            "step": "Test model behavior manually if needed",
+            "page": "Benchmark Model",
+            "route": "/Benchmark_Model",
+            "why": "Probe model behavior on example ESG sentences.",
+            "expected_output": "Example predictions that help interpret the full-dataset results.",
+        },
+        {
+            "step": "Link ClimateBERT results to RQ evidence",
+            "page": "Research Questions Visualizer",
+            "route": "/Research_Questions_Visualizer",
+            "why": "Mark whether ClimateBERT comparison evidence is Available, Partial, or Needed.",
+            "expected_output": "RQ3 evidence status, interpretation, and remaining agreement/kappa tasks.",
+        },
+        {
+            "step": "Write Chapter 4 result and Chapter 5 interpretation",
+            "page": "Chapter 4 Results",
+            "route": "/Chapter_4_Results",
+            "why": "Present prediction coverage and model output distributions before discussing meaning.",
+            "expected_output": "ClimateBERT result section ready for thesis drafting.",
+        },
+    ],
+    "RQ4": [
+        {
+            "step": "Review extraction quality issues",
+            "page": "Parsed ESG Review",
+            "route": "/Parsed_ESG_Review",
+            "why": "Inspect missing tone, schema drift, suspicious records, and source examples.",
+            "expected_output": "Record-level diagnostic examples.",
+        },
+        {
+            "step": "Quantify diagnostic patterns",
+            "page": "Metric Analysis",
+            "route": "/Metric_Analysis",
+            "why": "Summarize errors by model, prompt, document, language, or pillar when labels/fields are available.",
+            "expected_output": "Diagnostic metric tables and failure-rate summaries.",
+        },
+        {
+            "step": "Check parsed records behind failures",
+            "page": "Parsed ESG JSON",
+            "route": "/Parsed_ESG_JSON",
+            "why": "Trace failures back to original rows and filters.",
+            "expected_output": "Filtered evidence rows for schema drift, missing tone, and ontology issues.",
+        },
+        {
+            "step": "Update RQ4 evidence",
+            "page": "Research Questions Visualizer",
+            "route": "/Research_Questions_Visualizer",
+            "why": "Connect diagnostic results to the RQ4 evidence checklist.",
+            "expected_output": "RQ4 Available/Partial/Needed status and formal error-taxonomy task.",
+        },
+    ],
+    "RQ5": [
+        {
+            "step": "Open central thesis dashboard",
+            "page": "Research Questions Dashboard",
+            "route": "/Research_Questions_Dashboard",
+            "why": "Use the RQ-to-page map and Chapter 4-6 links as the audit trail.",
+            "expected_output": "Navigation map showing where every RQ is fulfilled.",
+        },
+        {
+            "step": "Inspect generated artifact explanations",
+            "page": "Research Questions Visualizer",
+            "route": "/Research_Questions_Visualizer",
+            "why": "Review image outputs, JSON/Markdown explanations, and Mermaid diagrams.",
+            "expected_output": "Traceable interpretation layer for saved outputs.",
+        },
+        {
+            "step": "Verify files and source paths",
+            "page": "Data File Visualizer",
+            "route": "/Data_File_Visualizer",
+            "why": "Confirm source files, prediction folders, and generated artifacts exist.",
+            "expected_output": "Artifact inventory and path checks.",
+        },
+        {
+            "step": "Write reproducibility narrative",
+            "page": "Chapter 5 Discussion",
+            "route": "/Chapter_5_Discussion",
+            "why": "Explain auditability, rerun capability, and remaining replication limitations.",
+            "expected_output": "Chapter 5 reproducibility discussion.",
+        },
+    ],
+    "RQ6": [
+        {
+            "step": "Inspect parsed data by model/prompt/document",
+            "page": "Parsed ESG JSON",
+            "route": "/Parsed_ESG_JSON",
+            "why": "Build the base comparison view before measuring stability.",
+            "expected_output": "Matched or unmatched record counts by model, prompt, document, tone, and language.",
+        },
+        {
+            "step": "Run metric comparison",
+            "page": "Metric Analysis",
+            "route": "/Metric_Analysis",
+            "why": "Compute variation, agreement, or performance metrics where possible.",
+            "expected_output": "Coefficient of variation, agreement summaries, stability tables.",
+        },
+        {
+            "step": "Check sample-size and subgroup limits",
+            "page": "Sample Size Reasoning",
+            "route": "/Sample_Size_Reasoning",
+            "why": "Avoid overclaiming when model/prompt slices are small or unbalanced.",
+            "expected_output": "Sample-size limitation and balanced-comparison requirements.",
+        },
+        {
+            "step": "Compare models manually or with examples",
+            "page": "Benchmark Model",
+            "route": "/Benchmark_Model",
+            "why": "Understand why models/prompts may disagree before writing interpretation.",
+            "expected_output": "Model behavior examples.",
+        },
+        {
+            "step": "Write stability discussion and conclusion",
+            "page": "Chapter 5 Discussion",
+            "route": "/Chapter_5_Discussion",
+            "why": "Frame stability as a limitation and future ensemble direction unless the balanced matrix is complete.",
+            "expected_output": "RQ6 discussion and Chapter 6 conclusion qualification.",
+        },
+    ],
+}
+
+
+COMPLETE_WORKFLOW_MERMAID = """
+flowchart TB
+  Start["Start: choose research question"]
+  RQ1["RQ1 Pipeline"]
+  RQ2["RQ2 Categorization"]
+  RQ3["RQ3 ClimateBERT"]
+  RQ4["RQ4 Diagnostics"]
+  RQ5["RQ5 Reproducibility"]
+  RQ6["RQ6 Stability"]
+
+  Parsed["Parsed ESG JSON"]
+  Review["Parsed ESG Review"]
+  Files["Data File Visualizer"]
+  Aspect["Aspect"]
+  Tone["Tone Distribution"]
+  SankeyPage["Sankey"]
+  Sample["Sample Size Reasoning"]
+  Processor["ClimateBERT Dataset Processor"]
+  Results["ClimateBERT Result Visualizer"]
+  Metric["Metric Analysis"]
+  Benchmark["Benchmark Model"]
+  RQViz["Research Questions Visualizer"]
+  RQDash["Research Questions Dashboard"]
+  C4["Chapter 4 Results"]
+  C5["Chapter 5 Discussion"]
+  C6["Chapter 6 Conclusion"]
+
+  Start --> RQ1
+  Start --> RQ2
+  Start --> RQ3
+  Start --> RQ4
+  Start --> RQ5
+  Start --> RQ6
+
+  RQ1 --> Parsed --> Review --> Files --> RQViz
+  RQ2 --> Parsed --> Aspect --> Tone --> SankeyPage --> Sample --> RQViz
+  RQ3 --> Processor --> Results --> Benchmark --> RQViz
+  RQ4 --> Review --> Metric --> Parsed --> RQViz
+  RQ5 --> RQDash --> RQViz --> Files
+  RQ6 --> Parsed --> Metric --> Sample --> Benchmark --> RQViz
+
+  RQViz --> C4
+  C4 --> C5
+  C5 --> C6
+""".strip()
+
+
 def load_artifact_report() -> dict:
     if not ARTIFACT_JSON.exists():
         return {}
