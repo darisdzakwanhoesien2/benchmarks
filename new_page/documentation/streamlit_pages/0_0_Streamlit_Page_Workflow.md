@@ -11,6 +11,7 @@ This page is the navigation and workflow hub for the ESG ABSA Streamlit app. It 
 - RQ-by-RQ workflow steps for RQ1 through RQ6.
 - A complete Mermaid workflow from PDF ingestion to thesis synthesis.
 - RQ-filtered Mermaid edges using labels such as `RQ1` or `RQ1, RQ5`.
+- An RQ-filtered funnel view that summarizes the same visible workflow by stage.
 - Chapter-level guidance for Chapter 3, Chapter 4, Chapter 5, and Chapter 6.
 - Documentation index preview for the relevant Markdown files.
 
@@ -35,6 +36,10 @@ node_I_A_4 -- "RQ1, RQ5" --> node_V_C_1
 The filter treats `RQ1, RQ5` as a multi-RQ path. Selecting `RQ1` shows the edge, selecting `RQ5` also shows the edge, and selecting both can be filtered with either "match any" or "match all" behavior.
 
 This makes the diagram useful as a thesis evidence router: choose an RQ and the visible graph narrows to only the pages and artifacts needed to answer that RQ.
+
+The default view selects all six RQs so the complete workflow is visible first. The page also includes compact/detailed node label controls, top-down/left-right direction controls, and an optional visible-edge table.
+
+The same filtered graph is also rendered as a three-stage funnel: Input and Extraction, Analysis and Validation, and Synthesis and Thesis Writing. This gives a quick answer to "which part of the thesis workflow is active for this RQ selection?" before inspecting the detailed Mermaid graph.
 
 ## Thesis Use
 

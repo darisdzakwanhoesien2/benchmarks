@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import re
 
 from utils.aspect_clustering import cluster_aspect
 from utils.data_loader import load_and_parse, sorted_unique_values
@@ -38,6 +39,57 @@ df = df.copy()
 df["aspect"] = df["aspect"].astype(str).str.strip()
 df["aspect_cluster"] = df["aspect"].apply(cluster_aspect)
 
+
+def normalize_aspect_level(value, level):
+    text = str(value or "").strip()
+    if level == "Raw label":
+        return text
+
+    normalized = re.sub(r"\s+", " ", text).strip()
+    if level == "Level 1: case-insensitive":
+        return normalized.lower()
+
+    normalized = normalized.lower()
+    normalized = re.sub(r"[_\-\/]+", " ", normalized)
+    normalized = re.sub(r"[^\w\s]", "", normalized)
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+    if level == "Level 2: case + punctuation + spacing":
+        return normalized
+
+    words = []
+    for word in normalized.split():
+        if len(word) > 4 and word.endswith("ies"):
+            word = word[:-3] + "y"
+        elif len(word) > 3 and word.endswith("s") and not word.endswith("ss"):
+            word = word[:-1]
+        words.append(word)
+    return " ".join(words)
+
+
+def make_normalized_aspect_summary(source_df, level):
+    working = source_df.copy()
+    working["aspect_normalized"] = working["aspect"].apply(lambda value: normalize_aspect_level(value, level))
+    working = working[working["aspect_normalized"].ne("")]
+
+    summary = (
+        working.groupby("aspect_normalized")
+        .agg(
+            count=("aspect", "size"),
+            unique_raw_labels=("aspect", "nunique"),
+            raw_label_examples=(
+                "aspect",
+                lambda values: ", ".join(sorted(set(values.astype(str)))[:12]),
+            ),
+            aspect_cluster=(
+                "aspect_cluster",
+                lambda values: ", ".join(sorted(set(values.astype(str)))[:8]),
+            ),
+        )
+        .reset_index()
+        .sort_values(["count", "aspect_normalized"], ascending=[False, True])
+    )
+    return summary
+
 non_empty_df = df[df["aspect"].ne("")]
 
 summary_col1, summary_col2, summary_col3 = st.columns(3)
@@ -61,17 +113,27 @@ This is the best place to spot duplicate phrasing, noisy labels, and ontology ga
 """
     )
 
-    raw_n = st.slider("Show Top N Raw Aspects", 3, 50, 15, key="aspect_raw_n")
-
-    top_raw = (
-        non_empty_df["aspect"]
-        .value_counts()
-        .sort_values(ascending=False)
-        .head(raw_n)
+    normalize_level = st.selectbox(
+        "Aspect grouping / similarity level",
+        [
+            "Raw label",
+            "Level 1: case-insensitive",
+            "Level 2: case + punctuation + spacing",
+            "Level 3: simple singular/plural cleanup",
+        ],
+        index=1,
+        help=(
+            "Level 1 merges labels that differ only by capitalization, such as "
+            "`Governance` and `governance`. Higher levels also normalize punctuation, spacing, and simple plurals."
+        ),
     )
 
-    raw_df = top_raw.reset_index()
-    raw_df.columns = ["aspect", "count"]
+    raw_n = st.slider("Show Top N Raw/Normalized Aspects", 3, 50, 15, key="aspect_raw_n")
+
+    normalized_summary = make_normalized_aspect_summary(non_empty_df, normalize_level)
+    top_raw = normalized_summary.head(raw_n)
+
+    raw_df = top_raw.rename(columns={"aspect_normalized": "aspect"})
     raw_df["aspect"] = pd.Categorical(
         raw_df["aspect"],
         categories=raw_df["aspect"].tolist(),
@@ -80,6 +142,18 @@ This is the best place to spot duplicate phrasing, noisy labels, and ontology ga
 
     st.bar_chart(raw_df.set_index("aspect")["count"])
     st.dataframe(raw_df, use_container_width=True)
+
+    if normalize_level != "Raw label":
+        st.subheader("Merged Label Details")
+        merged = normalized_summary[normalized_summary["unique_raw_labels"] > 1]
+        if merged.empty:
+            st.info("No duplicate labels were merged at this normalization level.")
+        else:
+            st.write(
+                "These rows show aspect labels that are treated as the same keyword group under the selected level. "
+                "For example, level 1 merges capitalization-only variants."
+            )
+            st.dataframe(merged, use_container_width=True)
 
 with cluster_tab:
     st.markdown(
@@ -148,7 +222,7 @@ Use it to audit mapping coverage and verify that high-frequency labels land in t
 
     mapping_scope = st.radio(
         "Mapping scope",
-        ["All data", "Top raw aspects table"],
+        ["All data", "Top raw aspects table", "Normalized keyword groups"],
         horizontal=True,
         help="Use all parsed aspect rows, or limit the mapping review to the same high-frequency labels shown in the raw aspect table.",
     )
@@ -168,6 +242,20 @@ Use it to audit mapping coverage and verify that high-frequency labels land in t
             .index
         )
         mapping_source = non_empty_df[non_empty_df["aspect"].isin(top_aspect_labels)]
+    elif mapping_scope == "Normalized keyword groups":
+        review_level = st.selectbox(
+            "Normalization level for mapping review",
+            [
+                "Level 1: case-insensitive",
+                "Level 2: case + punctuation + spacing",
+                "Level 3: simple singular/plural cleanup",
+            ],
+            key="aspect_mapping_normalize_level",
+        )
+        mapping_source = non_empty_df.copy()
+        mapping_source["aspect"] = mapping_source["aspect"].apply(
+            lambda value: normalize_aspect_level(value, review_level)
+        )
     else:
         mapping_source = non_empty_df
 

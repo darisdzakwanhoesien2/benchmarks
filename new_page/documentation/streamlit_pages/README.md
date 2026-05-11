@@ -5,6 +5,7 @@ This folder explains the active Streamlit pages in `new_page/pages`. Each markdo
 ## Core Research Pages
 
 - [`0_0_Streamlit_Page_Workflow.md`](./0_0_Streamlit_Page_Workflow.md)
+- [`0_2_JSON_Ontology_Usage_Map.md`](./0_2_JSON_Ontology_Usage_Map.md)
 - [`0_9_Tone_ClimateBERT_Visualization.md`](./0_9_Tone_ClimateBERT_Visualization.md)
 - [`1_0_Revision_Analytics.md`](./1_0_Revision_Analytics.md)
 - [`1_1_Ground_Truth_Workbench.md`](./1_1_Ground_Truth_Workbench.md)

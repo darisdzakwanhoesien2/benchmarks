@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 import re
 
+import altair as alt
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
@@ -140,13 +141,28 @@ def filter_workflow_graph(
     return {node_id: nodes[node_id] for node_id in visible_node_ids if node_id in nodes}, filtered_edges
 
 
-def build_filtered_workflow_mermaid(nodes: dict[str, str], edges: list[dict[str, object]]) -> str:
+def compact_node_label(label: str) -> str:
+    parts = [part.strip() for part in str(label or "").split("|")]
+    if not parts:
+        return ""
+    if len(parts) == 1:
+        return parts[0]
+    return f"{parts[0]}\\n{parts[1]}"
+
+
+def build_filtered_workflow_mermaid(
+    nodes: dict[str, str],
+    edges: list[dict[str, object]],
+    direction: str = "TD",
+    compact_labels: bool = True,
+) -> str:
     if not nodes or not edges:
         return ""
 
-    lines = ["flowchart TD"]
+    lines = [f"flowchart {direction}"]
     for node_id, label in nodes.items():
-        lines.append(f'  {node_id}["{mermaid_label(label)}"]')
+        display_label = compact_node_label(label) if compact_labels else label
+        lines.append(f'  {node_id}["{mermaid_label(display_label)}"]')
 
     for edge in edges:
         label = str(edge.get("label", ""))
@@ -158,6 +174,107 @@ def build_filtered_workflow_mermaid(nodes: dict[str, str], edges: list[dict[str,
             lines.append(f'  {edge["source_id"]} --> {edge["target_id"]}')
 
     return "\n".join(lines)
+
+
+WORKFLOW_STAGE_ORDER = [
+    "Input and Extraction",
+    "Analysis and Validation",
+    "Synthesis and Thesis Writing",
+]
+
+
+def workflow_stage_for_node(node_id: str) -> str:
+    if node_id.startswith("node_I_"):
+        return "Input and Extraction"
+    if node_id.startswith("node_II_"):
+        return "Analysis and Validation"
+    if node_id.startswith("node_V_"):
+        return "Synthesis and Thesis Writing"
+    return "Other"
+
+
+def build_workflow_funnel_df(
+    nodes: dict[str, str],
+    edges: list[dict[str, object]],
+) -> pd.DataFrame:
+    rows: list[dict[str, object]] = []
+    for step, stage in enumerate(WORKFLOW_STAGE_ORDER, start=1):
+        stage_node_ids = [
+            node_id for node_id in nodes if workflow_stage_for_node(node_id) == stage
+        ]
+        stage_edges = [
+            edge
+            for edge in edges
+            if workflow_stage_for_node(str(edge["source_id"])) == stage
+            or workflow_stage_for_node(str(edge["target_id"])) == stage
+        ]
+        page_labels = [
+            compact_node_label(nodes[node_id]).replace("\\n", " | ")
+            for node_id in stage_node_ids
+        ]
+        rows.append(
+            {
+                "step": step,
+                "stage": stage,
+                "visible pages": len(stage_node_ids),
+                "visible edges touching stage": len(stage_edges),
+                "pages": ", ".join(page_labels),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def render_workflow_funnel(funnel_df: pd.DataFrame):
+    if funnel_df.empty or int(funnel_df["visible pages"].sum()) == 0:
+        st.info("No funnel stages are visible for the current RQ filter.")
+        return
+
+    chart_df = funnel_df.copy()
+    max_visible = max(int(chart_df["visible pages"].max()), 1)
+    chart_df["bar_start"] = (max_visible - chart_df["visible pages"]) / 2
+    chart_df["bar_end"] = chart_df["bar_start"] + chart_df["visible pages"]
+    chart_df["bar_mid"] = chart_df["bar_start"] + (chart_df["visible pages"] / 2)
+    chart_df["stage label"] = chart_df.apply(
+        lambda row: f"{row['step']}. {row['stage']} ({row['visible pages']} pages)",
+        axis=1,
+    )
+
+    base = alt.Chart(chart_df).encode(
+        y=alt.Y(
+            "stage:N",
+            sort=WORKFLOW_STAGE_ORDER,
+            title=None,
+            axis=alt.Axis(labelFontSize=13, labelLimit=260),
+        )
+    )
+    bars = base.mark_bar(height=46, cornerRadius=7).encode(
+        x=alt.X("bar_start:Q", axis=None, title=None),
+        x2=alt.X2("bar_end:Q"),
+        color=alt.Color(
+            "stage:N",
+            legend=None,
+            scale=alt.Scale(range=["#2563eb", "#0f766e", "#b45309"]),
+        ),
+        tooltip=[
+            alt.Tooltip("stage:N", title="Stage"),
+            alt.Tooltip("visible pages:Q", title="Visible pages"),
+            alt.Tooltip(
+                "visible edges touching stage:Q",
+                title="Visible edges touching stage",
+            ),
+            alt.Tooltip("pages:N", title="Pages"),
+        ],
+    )
+    labels = base.mark_text(
+        color="white",
+        fontWeight="bold",
+        fontSize=13,
+        limit=520,
+    ).encode(
+        x=alt.X("bar_mid:Q", axis=None, title=None),
+        text=alt.Text("stage label:N"),
+    )
+    st.altair_chart((bars + labels).properties(height=230), use_container_width=True)
 
 
 PAGE_REGISTRY = [
@@ -542,8 +659,8 @@ with pipeline_tab:
         selected_rqs = st.multiselect(
             "Filter workflow by RQ",
             rq_options,
-            default=[],
-            help="Leave empty to show the full workflow.",
+            default=rq_options,
+            help="Select one RQ for a focused graph, or multiple RQs for shared paths.",
         )
     with filter_col2:
         match_mode = st.radio(
@@ -554,6 +671,16 @@ with pipeline_tab:
     with filter_col3:
         include_unlabeled = st.checkbox("Include unlabeled edges", value=False)
 
+    display_col1, display_col2, display_col3 = st.columns([1.2, 1.1, 1.3])
+    with display_col1:
+        compact_labels = st.toggle("Compact node labels", value=True)
+    with display_col2:
+        direction_label = st.radio("Direction", ["Top-down", "Left-right"], horizontal=False)
+        diagram_direction = "TD" if direction_label == "Top-down" else "LR"
+    with display_col3:
+        show_funnel = st.toggle("Show funnel view", value=True)
+        show_edge_table = st.toggle("Show visible edge table", value=True)
+
     filtered_nodes, filtered_edges = filter_workflow_graph(
         workflow_nodes,
         workflow_edges,
@@ -561,31 +688,63 @@ with pipeline_tab:
         match_mode,
         include_unlabeled,
     )
-    filtered_mermaid = build_filtered_workflow_mermaid(filtered_nodes, filtered_edges)
+    filtered_mermaid = build_filtered_workflow_mermaid(
+        filtered_nodes,
+        filtered_edges,
+        direction=diagram_direction,
+        compact_labels=compact_labels,
+    )
 
     metric_col1, metric_col2, metric_col3 = st.columns(3)
     metric_col1.metric("Visible nodes", len(filtered_nodes))
     metric_col2.metric("Visible edges", len(filtered_edges))
-    metric_col3.metric("Selected RQs", ", ".join(selected_rqs) if selected_rqs else "All")
+    metric_col3.metric("Selected RQs", ", ".join(selected_rqs) if selected_rqs else "None")
+    st.caption(
+        "Tip: keep all RQs selected for the complete map, or choose one RQ to reveal only that research path. "
+        "Edges labeled `RQ1, RQ5` appear when either RQ is selected in match-any mode."
+    )
+
+    if show_funnel:
+        st.subheader("RQ-filtered workflow funnel")
+        st.caption(
+            "The funnel summarizes the same filtered Mermaid graph by thesis workflow stage, so selecting "
+            "RQ1, RQ5, or any multi-RQ path changes both the diagram and the funnel together."
+        )
+        funnel_df = build_workflow_funnel_df(filtered_nodes, filtered_edges)
+        render_workflow_funnel(funnel_df)
+        st.dataframe(
+            funnel_df[
+                [
+                    "step",
+                    "stage",
+                    "visible pages",
+                    "visible edges touching stage",
+                    "pages",
+                ]
+            ],
+            use_container_width=True,
+            hide_index=True,
+        )
 
     if filtered_mermaid:
         render_mermaid(filtered_mermaid)
     else:
         st.info("No workflow edges match the current RQ filter.")
 
-    st.subheader("Visible workflow edges")
-    edge_table = pd.DataFrame(
-        [
-            {
-                "source": workflow_nodes.get(str(edge["source_id"]), str(edge["source_id"])),
-                "edge label": edge.get("label", ""),
-                "RQs": ", ".join(edge.get("rqs", [])),
-                "target": workflow_nodes.get(str(edge["target_id"]), str(edge["target_id"])),
-            }
-            for edge in filtered_edges
-        ]
-    )
-    st.dataframe(edge_table, use_container_width=True, hide_index=True)
+    if show_edge_table:
+        st.subheader("Visible workflow edges")
+        edge_table = pd.DataFrame(
+            [
+                {
+                    "source": workflow_nodes.get(str(edge["source_id"]), str(edge["source_id"])),
+                    "edge label": edge.get("label", ""),
+                    "RQs": ", ".join(edge.get("rqs", [])),
+                    "target": workflow_nodes.get(str(edge["target_id"]), str(edge["target_id"])),
+                }
+                for edge in filtered_edges
+            ]
+        )
+        st.dataframe(edge_table, use_container_width=True, hide_index=True)
 
     st.subheader("Filtered Mermaid source")
     st.code(filtered_mermaid or "", language="mermaid")

@@ -217,7 +217,7 @@ def parse_json_rows(df):
         return pd.DataFrame()
 
     rows = []
-    meta_cols = [col for col in ["filename", "page_number", "model"] if col in df.columns]
+    meta_cols = [col for col in ["source_row_id", "filename", "page_number", "model"] if col in df.columns]
     for _, source_row in df.iterrows():
         parsed_rows = normalize_json(extract_json_block(source_row.get("text")))
         for parsed in parsed_rows:
@@ -227,6 +227,76 @@ def parse_json_rows(df):
                 rows.append(row)
 
     return pd.DataFrame(rows)
+
+
+def count_parsed_json_objects(text):
+    return len(normalize_json(extract_json_block(text)))
+
+
+def build_source_parse_audit(df):
+    audited = df.copy()
+    if "source_row_id" not in audited.columns:
+        audited["source_row_id"] = audited.index
+    if "text" in audited.columns:
+        audited["parsed_object_count"] = audited["text"].apply(count_parsed_json_objects)
+    else:
+        audited["parsed_object_count"] = 0
+    audited["source_row_parsed"] = audited["parsed_object_count"] > 0
+    audited["parse_status"] = audited["source_row_parsed"].map({True: "parsed", False: "not parsed"})
+    return audited
+
+
+def section_note(title, rqs, usage):
+    st.info(f"**{title}** · Supports **{rqs}**. {usage}")
+
+
+def build_page_coverage(audit_df):
+    if not {"filename", "page_number"}.issubset(audit_df.columns):
+        return pd.DataFrame(), pd.DataFrame()
+
+    working = audit_df.copy()
+    working["filename_label"] = working["filename"].map(format_display_value)
+    working["page_label"] = working["page_number"].map(format_display_value)
+    working["page_numeric"] = pd.to_numeric(working["page_number"], errors="coerce")
+
+    agg_spec = {
+        "source_rows": ("source_row_id", "size"),
+        "parsed_source_rows": ("source_row_parsed", "sum"),
+        "parsed_objects": ("parsed_object_count", "sum"),
+    }
+    if "model" in working.columns:
+        agg_spec["models"] = (
+            "model",
+            lambda values: ", ".join(sorted(set(filter(None, values.map(format_display_value))))[:10]),
+        )
+
+    coverage = (
+        working.groupby(["filename_label", "page_label"], dropna=False)
+        .agg(**agg_spec)
+        .reset_index()
+    )
+    coverage["not_parsed_source_rows"] = coverage["source_rows"] - coverage["parsed_source_rows"]
+    coverage["page_status"] = coverage["parsed_objects"].gt(0).map({True: "processed", False: "not parsed"})
+
+    missing_rows = []
+    numeric_pages = working.dropna(subset=["page_numeric"])
+    for filename, group in numeric_pages.groupby("filename_label"):
+        min_page = int(group["page_numeric"].min())
+        max_page = int(group["page_numeric"].max())
+        present_pages = set(group["page_numeric"].astype(int).tolist())
+        processed_pages = set(
+            group[group["source_row_parsed"]]["page_numeric"].dropna().astype(int).tolist()
+        )
+        for page in range(min_page, max_page + 1):
+            if page not in present_pages:
+                status = "missing from source rows"
+            elif page not in processed_pages:
+                status = "source row exists but not parsed"
+            else:
+                continue
+            missing_rows.append({"filename": filename, "page_number": page, "status": status})
+
+    return coverage.sort_values(["filename_label", "page_label"]), pd.DataFrame(missing_rows)
 
 
 def add_aspect_category_group(df, alias_map):
@@ -433,6 +503,8 @@ except Exception as exc:
     st.error(f"Failed to load {data_path}:\n\n{exc}")
     st.stop()
 
+df = df.copy()
+df["source_row_id"] = df.index
 mapping_config, aspect_category_alias_map = load_aspect_category_group_mapping()
 aspect_groupings_config = load_aspect_groupings()
 custom_aspect_groupings_config = load_custom_aspect_groupings()
@@ -451,7 +523,9 @@ taxonomy_rows = (
 )
 df = add_aspect_category_group(df, aspect_category_alias_map)
 df = add_aspect_groups(df, combined_aspect_groupings_config)
+source_audit_df = build_source_parse_audit(df)
 filtered = apply_sidebar_filters(df)
+filtered_source_audit = build_source_parse_audit(filtered)
 parsed_df = add_aspect_category_group(
     parse_json_rows(filtered),
     aspect_category_alias_map,
@@ -466,11 +540,16 @@ metric_cols[1].metric("Columns", f"{len(filtered.columns):,}")
 metric_cols[2].metric("Missing Cells", f"{int(filtered.isna().sum().sum()):,}")
 metric_cols[3].metric("Parsed JSON Rows", f"{len(parsed_df):,}")
 
-overview_tab, distribution_tab, parsed_tab, table_tab = st.tabs(
-    ["Overview", "Distributions", "Parsed JSON", "Table"]
+overview_tab, distribution_tab, parsed_tab, table_tab, coverage_tab = st.tabs(
+    ["Overview", "Distributions", "Parsed JSON", "Table", "Page Coverage & Parse Audit"]
 )
 
 with overview_tab:
+    section_note(
+        "Overview",
+        "RQ1, RQ5",
+        "Use this section to check the source file schema, missing cells, and whether the selected dataset has the columns needed for traceability.",
+    )
     st.subheader("Schema")
     schema = pd.DataFrame(
         {
@@ -497,6 +576,11 @@ with overview_tab:
         st.dataframe(page_counts, use_container_width=True)
 
 with distribution_tab:
+    section_note(
+        "Distributions",
+        "RQ2, RQ4, RQ6",
+        "Use this section to inspect category balance and detect suspicious skews before using distributions in Chapter 4 or stability discussion.",
+    )
     candidate_cols = [
         col
         for col in [
@@ -530,6 +614,11 @@ with distribution_tab:
         st.dataframe(filtered[numeric_cols].describe().T, use_container_width=True)
 
 with parsed_tab:
+    section_note(
+        "Parsed JSON",
+        "RQ1, RQ2, RQ4",
+        "Use this section for actual parsed ESG objects extracted from raw text. If this is empty or much smaller than the raw table, inspect the parse audit tab.",
+    )
     if parsed_df.empty:
         st.info("No JSON-like rows were parsed from the selected data.")
     else:
@@ -738,13 +827,101 @@ with parsed_tab:
             st.dataframe(parsed_df, use_container_width=True)
 
 with table_tab:
+    section_note(
+        "Filtered raw table",
+        "RQ1, RQ4, RQ5",
+        "Use this section to inspect raw source rows after filters. These rows are not necessarily parsed ESG records; use `parse_status` to distinguish parsed and not parsed rows.",
+    )
     st.subheader("Filtered Table")
-    st.dataframe(filtered, use_container_width=True)
+    table_view = filtered_source_audit.copy()
+    parse_status_filter = st.radio(
+        "Parse status",
+        ["all", "parsed", "not parsed"],
+        horizontal=True,
+        key="data_file_parse_status_filter",
+    )
+    if parse_status_filter != "all":
+        table_view = table_view[table_view["parse_status"] == parse_status_filter]
+    priority_cols = [
+        col for col in [
+            "source_row_id",
+            "parse_status",
+            "parsed_object_count",
+            "filename",
+            "page_number",
+            "model",
+            "text",
+        ]
+        if col in table_view.columns
+    ]
+    remaining_cols = [col for col in table_view.columns if col not in priority_cols]
+    st.dataframe(table_view[priority_cols + remaining_cols], use_container_width=True)
 
-    csv = filtered.to_csv(index=False).encode("utf-8")
+    csv = table_view.to_csv(index=False).encode("utf-8")
     st.download_button(
         "Download Filtered CSV",
         csv,
         file_name=f"{base_name}_filtered.csv",
         mime="text/csv",
     )
+
+with coverage_tab:
+    section_note(
+        "Page coverage and parse audit",
+        "RQ1, RQ4, RQ5",
+        "Use this section to see which filename/page combinations were processed, which source rows produced JSON objects, and which pages are missing or unparsed.",
+    )
+    st.subheader("Parse Status Summary")
+    total_source_rows = len(filtered_source_audit)
+    parsed_source_rows = int(filtered_source_audit["source_row_parsed"].sum()) if not filtered_source_audit.empty else 0
+    not_parsed_source_rows = total_source_rows - parsed_source_rows
+    parsed_objects = int(filtered_source_audit["parsed_object_count"].sum()) if not filtered_source_audit.empty else 0
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Filtered source rows", f"{total_source_rows:,}")
+    c2.metric("Parsed source rows", f"{parsed_source_rows:,}")
+    c3.metric("Not parsed source rows", f"{not_parsed_source_rows:,}")
+    c4.metric("Parsed JSON objects", f"{parsed_objects:,}")
+
+    coverage_df, missing_pages_df = build_page_coverage(filtered_source_audit)
+    st.subheader("Pages Processed by Filename")
+    if coverage_df.empty:
+        st.info("Filename/page_number columns are not available for coverage analysis.")
+    else:
+        st.write(
+            "`processed` means at least one source row for that file/page produced JSON objects. "
+            "`not parsed` means the file/page exists in the filtered source data but produced no JSON objects."
+        )
+        st.dataframe(coverage_df, use_container_width=True, height=420)
+        st.bar_chart(coverage_df["page_status"].value_counts())
+
+    st.subheader("Missing or Unprocessed Pages")
+    if missing_pages_df.empty:
+        st.success("No numeric page gaps or unprocessed source pages were detected in the filtered data.")
+    else:
+        st.dataframe(missing_pages_df, use_container_width=True, height=360)
+
+    st.subheader("Rows Parsed or Not Parsed")
+    audit_status = st.radio(
+        "Rows to list",
+        ["not parsed", "parsed", "all"],
+        horizontal=True,
+        key="data_file_audit_status_rows",
+    )
+    audit_view = filtered_source_audit.copy()
+    if audit_status != "all":
+        audit_view = audit_view[audit_view["parse_status"] == audit_status]
+    audit_cols = [
+        col for col in [
+            "source_row_id",
+            "parse_status",
+            "parsed_object_count",
+            "filename",
+            "page_number",
+            "model",
+            "metadata_check",
+            "check",
+            "text",
+        ]
+        if col in audit_view.columns
+    ]
+    st.dataframe(audit_view[audit_cols], use_container_width=True, height=520)

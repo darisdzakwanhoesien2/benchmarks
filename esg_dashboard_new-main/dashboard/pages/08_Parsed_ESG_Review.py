@@ -120,19 +120,43 @@ def parse_esg_json(text):
 @st.cache_data
 def parse_annotations(df):
     df = df.copy()
+    df["source_row_id"] = df.index
     df["parsed"] = df["text"].apply(parse_esg_json)
+    df["parsed_object_count"] = df["parsed"].apply(len)
+    df["source_row_parsed"] = df["parsed_object_count"] > 0
 
-    exploded = df.explode("parsed", ignore_index=True)
+    parsed_sources = df[df["source_row_parsed"]].copy()
+    if parsed_sources.empty:
+        return pd.DataFrame(columns=[c for c in df.columns if c != "parsed"])
+
+    exploded = parsed_sources.explode("parsed", ignore_index=True)
     parsed_df = pd.json_normalize(exploded["parsed"])
 
     meta_cols = [c for c in df.columns if c != "parsed"]
     meta = exploded[meta_cols].reset_index(drop=True)
 
     full = pd.concat([meta, parsed_df], axis=1)
+    full["parsed_record"] = True
     return full
 
 
 df = parse_annotations(raw_df)
+if "confidence" in df.columns:
+    df["confidence_numeric"] = pd.to_numeric(df["confidence"], errors="coerce")
+
+
+@st.cache_data
+def build_source_parse_audit(source_df):
+    audited = source_df.copy()
+    audited["source_row_id"] = audited.index
+    audited["parsed"] = audited["text"].apply(parse_esg_json) if "text" in audited.columns else [[] for _ in range(len(audited))]
+    audited["parsed_object_count"] = audited["parsed"].apply(len)
+    audited["source_row_parsed"] = audited["parsed_object_count"] > 0
+    audited["parse_status"] = audited["source_row_parsed"].map({True: "parsed", False: "not parsed"})
+    return audited.drop(columns=["parsed"])
+
+
+source_audit_df = build_source_parse_audit(raw_df)
 
 st.success(f"Parsed **{len(df)}** ESG sentence records")
 
@@ -145,6 +169,63 @@ def format_filter_value(value):
 
 def sorted_unique_filter_values(series):
     return sorted_unique_values(series)
+
+
+def page_sort_key(value):
+    numeric = pd.to_numeric(pd.Series([value]), errors="coerce").iloc[0]
+    if pd.notna(numeric):
+        return (0, float(numeric))
+    return (1, format_display_value(value))
+
+
+def section_note(title, rqs, usage):
+    st.info(f"**{title}** · Supports **{rqs}**. {usage}")
+
+
+def build_page_coverage(audit_df):
+    required = {"filename", "page_number"}
+    if not required.issubset(audit_df.columns):
+        return pd.DataFrame(), pd.DataFrame()
+
+    working = audit_df.copy()
+    working["filename_label"] = working["filename"].map(format_display_value)
+    working["page_label"] = working["page_number"].map(format_display_value)
+    working["page_numeric"] = pd.to_numeric(working["page_number"], errors="coerce")
+
+    coverage = (
+        working.groupby(["filename_label", "page_label"], dropna=False)
+        .agg(
+            source_rows=("source_row_id", "size"),
+            parsed_source_rows=("source_row_parsed", "sum"),
+            parsed_objects=("parsed_object_count", "sum"),
+            models=("model", lambda values: ", ".join(sorted(set(filter(None, values.map(format_display_value))))[:10]) if "model" in working.columns else ""),
+        )
+        .reset_index()
+    )
+    coverage["not_parsed_source_rows"] = coverage["source_rows"] - coverage["parsed_source_rows"]
+    coverage["page_status"] = coverage["parsed_objects"].gt(0).map({True: "processed", False: "not parsed"})
+
+    missing_rows = []
+    numeric_pages = working.dropna(subset=["page_numeric"])
+    for filename, group in numeric_pages.groupby("filename_label"):
+        if group.empty:
+            continue
+        min_page = int(group["page_numeric"].min())
+        max_page = int(group["page_numeric"].max())
+        present_pages = set(group["page_numeric"].astype(int).tolist())
+        processed_pages = set(
+            group[group["source_row_parsed"]]["page_numeric"].dropna().astype(int).tolist()
+        )
+        for page in range(min_page, max_page + 1):
+            if page not in present_pages:
+                status = "missing from source rows"
+            elif page not in processed_pages:
+                status = "source row exists but not parsed"
+            else:
+                continue
+            missing_rows.append({"filename": filename, "page_number": page, "status": status})
+
+    return coverage.sort_values(["filename_label", "page_label"], key=lambda s: s.map(format_display_value)), pd.DataFrame(missing_rows)
 
 # -------------------------------------------------------
 # Helper: Parse provider
@@ -206,12 +287,24 @@ value_chain_stage = make_multiselect("Value Chain Stage", "value_chain_stage")
 time_horizon = make_multiselect("Time Horizon", "time_horizon")
 
 if "confidence" in df.columns:
-    conf_range = st.sidebar.slider(
-        "Confidence Range",
-        0.0, 1.0,
-        (float(df["confidence"].min()), float(df["confidence"].max())),
-        0.01,
-    )
+    confidence_values = pd.to_numeric(df["confidence"], errors="coerce")
+    confidence_values = confidence_values.dropna()
+    if confidence_values.empty:
+        st.sidebar.caption("Confidence filter unavailable: no numeric confidence values.")
+        conf_range = None
+    else:
+        conf_min = max(0.0, float(confidence_values.min()))
+        conf_max = min(1.0, float(confidence_values.max()))
+        if conf_min == conf_max:
+            st.sidebar.caption(f"Confidence filter fixed at {conf_min:.2f}.")
+            conf_range = (conf_min, conf_max)
+        else:
+            conf_range = st.sidebar.slider(
+                "Confidence Range",
+                0.0, 1.0,
+                (conf_min, conf_max),
+                0.01,
+            )
 else:
     conf_range = None
 
@@ -233,14 +326,17 @@ apply_filter("time_horizon", time_horizon)
 
 if conf_range:
     lo, hi = conf_range
-    filtered = filtered[(filtered["confidence"] >= lo) & (filtered["confidence"] <= hi)]
+    filtered = filtered[
+        (filtered["confidence_numeric"] >= lo)
+        & (filtered["confidence_numeric"] <= hi)
+    ]
 
 st.caption(f"Showing **{len(filtered)}** sentences after filtering.")
 
 # -------------------------------------------------------
 # Tabs
 # -------------------------------------------------------
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "📊 Distributions",
     "📌 Aspects",
     "📄 Sentence Table",
@@ -248,7 +344,8 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "LLM Breakdown",
     "🧮 Model Coverage",
     "📦 Raw JSON View",
-    "📊 Grounding Audit"
+    "📊 Grounding Audit",
+    "🧾 Page Coverage & Parse Audit",
 ])
 
 
@@ -256,6 +353,11 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
 # TAB 1 — Distributions
 # -------------------------------------------------------
 with tab1:
+    section_note(
+        "Distributions",
+        "RQ2, RQ6",
+        "Use this section to understand tone, sentiment, and aspect-category balance before making categorization or stability claims.",
+    )
     st.subheader("Sentiment Distribution")
     st.bar_chart(filtered["sentiment"].value_counts())
 
@@ -266,6 +368,11 @@ with tab1:
 # TAB 2 — Aspects
 # -------------------------------------------------------
 with tab2:
+    section_note(
+        "Aspect review",
+        "RQ2, RQ4",
+        "Use this section to identify dominant aspects and possible ontology drift or over-fragmented free-text labels.",
+    )
     st.subheader("Top Aspects")
     if "aspect" in filtered:
         n = st.slider("Show Top N", 3, 30, 10)
@@ -277,6 +384,11 @@ with tab2:
 # TAB 3 — Sentence Table
 # -------------------------------------------------------
 with tab3:
+    section_note(
+        "Sentence table",
+        "RQ1, RQ2, RQ4",
+        "Use this section to inspect the actual parsed records. Rows here are parsed ESG records; raw rows that failed parsing are listed in the parse audit tab.",
+    )
     st.subheader("Full Sentence Table")
     wanted = [
         "sentence","aspect","aspect_category","sentiment","sentiment_score",
@@ -290,6 +402,11 @@ with tab3:
 # TAB 4 — Model Comparison (ORIGINAL vs HIGHLIGHTED MARKDOWN)
 # -------------------------------------------------------
 with tab4:
+    section_note(
+        "Model comparison",
+        "RQ1, RQ3, RQ4, RQ6",
+        "Use this section to compare model outputs on the same file/page and verify whether extracted ESG sentences are grounded in the source markdown.",
+    )
     st.subheader("🤖 LLM Model Comparison (Grounded & Auditable)")
 
     # ---------------------------------------------------
@@ -461,6 +578,11 @@ with tab4:
 # TAB 5 — Breakdown by Provider
 # -------------------------------------------------------
 with tab5:
+    section_note(
+        "LLM breakdown",
+        "RQ1, RQ4, RQ6",
+        "Use this section to inspect provider/model coverage and identify missing models for a selected file and page.",
+    )
     st.subheader("LLM Breakdown by Provider")
 
     filenames = sorted_unique_values(filtered["filename"])
@@ -514,6 +636,11 @@ with tab5:
 # TAB 6 — Model Coverage
 # -------------------------------------------------------
 with tab6:
+    section_note(
+        "Model coverage",
+        "RQ1, RQ3, RQ6",
+        "Use this section to see which pages were processed by which models and where model/page coverage is incomplete.",
+    )
     st.subheader("📦 Model Coverage Across PDFs and Pages")
 
     models_per_pdf = (
@@ -574,6 +701,11 @@ with tab6:
 # TAB 7 — Raw JSON View (FIXED)
 # -------------------------------------------------------
 with tab7:
+    section_note(
+        "Raw JSON view",
+        "RQ1, RQ4",
+        "Use this section to compare raw LLM output against the parsed JSON objects and diagnose failed parsing.",
+    )
     st.subheader("📦 Raw JSON Data Viewer")
 
     filenames = sorted_unique_values(raw_df["filename"])
@@ -608,6 +740,11 @@ with tab7:
 # TAB 8 — Cross-Document Grounding Audit
 # -------------------------------------------------------
 with tab8:
+    section_note(
+        "Grounding audit",
+        "RQ1, RQ4",
+        "Use this section to test whether parsed ESG sentences actually appear in the source markdown, which helps detect hallucinated or ungrounded outputs.",
+    )
     st.subheader("📊 Cross-Document Grounding Audit")
 
     # ---------------------------------------------------
@@ -761,3 +898,86 @@ with tab8:
             not_grounded_df.drop(columns=["grounded"]),
             use_container_width=True
         )
+
+with tab9:
+    section_note(
+        "Page coverage and parse audit",
+        "RQ1, RQ4, RQ5",
+        "Use this section to answer which file/page rows were parsed, which raw rows failed parsing, and where there may be missing pages or source rows with no parsed ESG objects.",
+    )
+
+    st.subheader("Parse Status Summary")
+    total_source_rows = len(source_audit_df)
+    parsed_source_rows = int(source_audit_df["source_row_parsed"].sum()) if not source_audit_df.empty else 0
+    not_parsed_source_rows = total_source_rows - parsed_source_rows
+    parsed_objects = int(source_audit_df["parsed_object_count"].sum()) if not source_audit_df.empty else 0
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Source rows", f"{total_source_rows:,}")
+    c2.metric("Parsed source rows", f"{parsed_source_rows:,}")
+    c3.metric("Not parsed source rows", f"{not_parsed_source_rows:,}")
+    c4.metric("Parsed ESG objects", f"{parsed_objects:,}")
+
+    st.subheader("Pages Processed by Filename")
+    coverage_df, missing_pages_df = build_page_coverage(source_audit_df)
+    if coverage_df.empty:
+        st.info("Filename/page_number columns are not available for page coverage.")
+    else:
+        st.write(
+            "A page is marked `processed` when at least one source row on that file/page produced parsed ESG objects. "
+            "`not parsed` means the source row exists, but the parser did not extract any valid ESG sentence objects."
+        )
+        st.dataframe(coverage_df, use_container_width=True, height=420)
+
+        status_counts = (
+            coverage_df["page_status"]
+            .value_counts()
+            .rename_axis("page_status")
+            .reset_index(name="pages")
+        )
+        st.bar_chart(status_counts.set_index("page_status")["pages"])
+
+        selected_cov_file = st.selectbox(
+            "Drill into filename",
+            sorted_unique_values(coverage_df["filename_label"]),
+            key="parse_audit_file",
+        )
+        file_coverage = coverage_df[value_matches(coverage_df["filename_label"], selected_cov_file)]
+        st.dataframe(file_coverage, use_container_width=True)
+
+    st.subheader("Missing or Unprocessed Pages")
+    if missing_pages_df.empty:
+        st.success("No numeric page gaps or unparsed source pages were detected in the current source data.")
+    else:
+        st.write(
+            "This table has two meanings: `missing from source rows` means the page number is absent between the minimum "
+            "and maximum observed page for the file; `source row exists but not parsed` means the raw row exists but produced no valid ESG objects."
+        )
+        st.dataframe(missing_pages_df, use_container_width=True, height=360)
+
+    st.subheader("Parsed vs Not Parsed Source Rows")
+    parse_status = st.radio(
+        "Rows to list",
+        ["not parsed", "parsed", "all"],
+        horizontal=True,
+        key="parse_status_rows",
+    )
+    row_view = source_audit_df.copy()
+    if parse_status != "all":
+        row_view = row_view[row_view["parse_status"] == parse_status]
+
+    audit_cols = [
+        col for col in [
+            "source_row_id",
+            "parse_status",
+            "parsed_object_count",
+            "filename",
+            "page_number",
+            "model",
+            "metadata_check",
+            "check",
+            "text",
+        ]
+        if col in row_view.columns
+    ]
+    st.dataframe(row_view[audit_cols], use_container_width=True, height=520)

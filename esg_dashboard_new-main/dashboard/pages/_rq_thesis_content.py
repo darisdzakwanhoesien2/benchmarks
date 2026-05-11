@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import streamlit as st
@@ -695,6 +696,195 @@ flowchart TB
   C4 --> C5
   C5 --> C6
 """.strip()
+
+
+LABELED_COMPLETE_WORKFLOW_MERMAID = """
+flowchart TD
+  subgraph INPUT["Input and parsed ESG data"]
+    Parsed["Parsed ESG JSON\\nInspect data_output.txt"]
+    Review["Parsed ESG Review\\nReview sentence-level quality"]
+    Files["Data File Visualizer\\nInspect source and artifacts"]
+  end
+
+  subgraph CATEGORY["ESG categorization and distribution"]
+    Aspect["Aspect\\nAspect and ontology labels"]
+    Tone["Tone Distribution\\nTone counts and proportions"]
+    DataDist["Data Distribution\\nAspect and ontology charts"]
+    DataNew["Data New Distribution\\nFiltered distribution views"]
+    DocDist["Distribution Document\\nDocument-level tone/sentiment"]
+    SankeyPage["Sankey\\nESG flow visualization"]
+    Sample["Sample Size Reasoning\\nValidation and subgroup logic"]
+  end
+
+  subgraph CLIMATE["ClimateBERT and model validation"]
+    Processor["ClimateBERT Dataset Processor\\nRun local models"]
+    Results["ClimateBERT Result Visualizer\\nReview saved predictions"]
+    Benchmark["Benchmark Model\\nTest model behavior"]
+    Metric["Metric Analysis\\nCompare metrics and stability"]
+  end
+
+  subgraph SYNTHESIS["RQ evidence and thesis writing"]
+    RQDash["Research Questions Dashboard\\nRQ to page map"]
+    RQViz["Research Questions Visualizer\\nEvidence matrix"]
+    Workflow["Streamlit Page Workflow\\nNavigation and complete workflow"]
+    C4["Chapter 4 Results\\nWhat was implemented"]
+    C5["Chapter 5 Discussion\\nWhat the results mean"]
+    C6["Chapter 6 Conclusion\\nFinal answers and limits"]
+    Artifacts["Saved PNG + JSON + Markdown\\nEvidence artifacts"]
+  end
+
+  Parsed -- "RQ1, RQ2, RQ4, RQ6" --> Review
+  Parsed -- "RQ1, RQ5" --> Files
+  Parsed -- "RQ2, RQ6" --> Aspect
+  Aspect -- "RQ2" --> Tone
+  Tone -- "RQ2, RQ6" --> DataDist
+  DataDist -- "RQ2" --> DataNew
+  DataNew -- "RQ2" --> SankeyPage
+  DocDist -- "RQ2, RQ6" --> RQViz
+  SankeyPage -- "RQ2, RQ5" --> RQViz
+  Sample -- "RQ2, RQ6" --> RQViz
+
+  Processor -- "RQ3, RQ5" --> Results
+  Results -- "RQ3" --> Benchmark
+  Results -- "RQ3, RQ5" --> RQViz
+  Metric -- "RQ4, RQ6" --> RQViz
+  Benchmark -- "RQ3, RQ6" --> RQViz
+  Review -- "RQ1, RQ4" --> Metric
+
+  RQDash -- "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6" --> Workflow
+  RQViz -- "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6" --> RQDash
+  RQViz -- "RQ5" --> Artifacts
+  Artifacts -- "RQ5" --> C4
+  RQViz -- "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6" --> C4
+  C4 -- "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6" --> C5
+  C5 -- "RQ1, RQ2, RQ3, RQ4, RQ5, RQ6" --> C6
+""".strip()
+
+
+def clean_text(value: str) -> str:
+    return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
+def mermaid_label(value: str) -> str:
+    return str(value or "").replace('"', '\\"')
+
+
+def parse_edge_rqs(label: str) -> list[str]:
+    return sorted(set(re.findall(r"RQ[1-6]", label or "")))
+
+
+def parse_workflow_mermaid(mermaid_text: str) -> tuple[dict[str, str], list[dict[str, object]]]:
+    nodes: dict[str, str] = {}
+    edges: list[dict[str, object]] = []
+    node_pattern = re.compile(r'^(?P<node_id>\S+)\s*\["(?P<label>.*)"\]\s*$')
+    labeled_edge_pattern = re.compile(
+        r'^(?P<source>\S+)\s*--\s*"(?P<label>.*?)"\s*-->\s*(?P<target>\S+)\s*$'
+    )
+    plain_edge_pattern = re.compile(r"^(?P<source>\S+)\s*-->\s*(?P<target>\S+)\s*$")
+
+    for raw_line in (mermaid_text or "").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("flowchart") or line.startswith("subgraph ") or line == "end":
+            continue
+
+        node_match = node_pattern.match(line)
+        if node_match:
+            nodes[node_match.group("node_id")] = clean_text(node_match.group("label")).replace("\\n", " | ")
+            continue
+
+        labeled_edge_match = labeled_edge_pattern.match(line)
+        if labeled_edge_match:
+            label = clean_text(labeled_edge_match.group("label"))
+            edges.append(
+                {
+                    "source_id": labeled_edge_match.group("source"),
+                    "target_id": labeled_edge_match.group("target"),
+                    "label": label,
+                    "rqs": parse_edge_rqs(label),
+                }
+            )
+            continue
+
+        plain_edge_match = plain_edge_pattern.match(line)
+        if plain_edge_match:
+            edges.append(
+                {
+                    "source_id": plain_edge_match.group("source"),
+                    "target_id": plain_edge_match.group("target"),
+                    "label": "",
+                    "rqs": [],
+                }
+            )
+
+    return nodes, edges
+
+
+def filter_workflow_graph(
+    nodes: dict[str, str],
+    edges: list[dict[str, object]],
+    selected_rqs: list[str],
+    match_mode: str,
+    include_unlabeled_edges: bool,
+) -> tuple[dict[str, str], list[dict[str, object]]]:
+    selected_set = set(selected_rqs)
+    filtered_edges: list[dict[str, object]] = []
+
+    for edge in edges:
+        edge_rqs = set(edge.get("rqs", []))
+        if not selected_set:
+            keep = True
+        elif match_mode == "Match all selected RQs":
+            keep = selected_set.issubset(edge_rqs)
+        else:
+            keep = bool(selected_set & edge_rqs)
+
+        if not edge_rqs and include_unlabeled_edges:
+            keep = True
+
+        if keep:
+            filtered_edges.append(edge)
+
+    visible_node_ids: list[str] = []
+    for edge in filtered_edges:
+        for key in ("source_id", "target_id"):
+            node_id = str(edge[key])
+            if node_id not in visible_node_ids:
+                visible_node_ids.append(node_id)
+
+    return {node_id: nodes[node_id] for node_id in visible_node_ids if node_id in nodes}, filtered_edges
+
+
+def compact_node_label(label: str) -> str:
+    parts = [part.strip() for part in str(label or "").split("|")]
+    if not parts:
+        return ""
+    if len(parts) == 1:
+        return parts[0]
+    return f"{parts[0]}\\n{parts[1]}"
+
+
+def build_filtered_workflow_mermaid(
+    nodes: dict[str, str],
+    edges: list[dict[str, object]],
+    direction: str = "TD",
+    compact_labels: bool = True,
+) -> str:
+    if not nodes or not edges:
+        return ""
+
+    lines = [f"flowchart {direction}"]
+    for node_id, label in nodes.items():
+        display_label = compact_node_label(label) if compact_labels else label
+        lines.append(f'  {node_id}["{mermaid_label(display_label)}"]')
+
+    for edge in edges:
+        label = str(edge.get("label", ""))
+        if label:
+            lines.append(f'  {edge["source_id"]} -- "{mermaid_label(label)}" --> {edge["target_id"]}')
+        else:
+            lines.append(f'  {edge["source_id"]} --> {edge["target_id"]}')
+
+    return "\n".join(lines)
 
 
 def load_artifact_report() -> dict:
