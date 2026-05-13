@@ -4,6 +4,7 @@ from datetime import datetime
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
@@ -91,6 +92,11 @@ def list_jobs() -> list[str]:
 def is_process_alive(pid: int | None) -> bool:
     if not pid:
         return False
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except OSError:
+        return False
 
 
 def launch_llm_processing_process(port: int) -> dict[str, Any]:
@@ -143,11 +149,6 @@ def stop_llm_processing_process(pid: int | None) -> dict[str, Any]:
     )
     write_json(LLM_PROCESS_STATE, state)
     return state
-    try:
-        os.kill(int(pid), 0)
-        return True
-    except OSError:
-        return False
 
 
 def launch_job(job_id: str) -> None:
@@ -236,6 +237,73 @@ def event_chart(events: pd.DataFrame):
         .properties(height=260)
     )
     st.altair_chart(chart, use_container_width=True)
+
+
+def discover_llm_processing_processes() -> pd.DataFrame:
+    rows: list[dict[str, Any]] = []
+    try:
+        result = subprocess.run(
+            ["ps", "-ax", "-o", "pid=", "-o", "command="],
+            text=True,
+            capture_output=True,
+            timeout=5,
+            check=False,
+        )
+    except Exception:
+        return pd.DataFrame(columns=["pid", "kind", "command", "port", "known_state"])
+
+    known_state = read_json(LLM_PROCESS_STATE, {})
+    known_pid = str(known_state.get("pid") or "")
+    for raw_line in result.stdout.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        parts = line.split(maxsplit=1)
+        if len(parts) != 2:
+            continue
+        pid, command = parts
+        if "llm_processing.py" not in command:
+            continue
+        port_match = re.search(r"--server\.port\s+(\d+)", command)
+        rows.append(
+            {
+                "pid": int(pid),
+                "kind": "continuous llm_processing.py",
+                "port": int(port_match.group(1)) if port_match else None,
+                "known_state": "tracked" if pid == known_pid else "discovered",
+                "alive": is_process_alive(int(pid)),
+                "command": command,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def jobs_overview_df() -> pd.DataFrame:
+    rows: list[dict[str, Any]] = []
+    for job_id in list_jobs():
+        job_dir = JOBS_DIR / job_id
+        status = read_json(job_dir / "status.json", {})
+        config = read_json(job_dir / "config.json", {})
+        pid = status.get("pid")
+        total = int(status.get("total") or 0)
+        completed = int(status.get("completed") or 0)
+        rows.append(
+            {
+                "job_id": job_id,
+                "status": status.get("status", "unknown"),
+                "alive": is_process_alive(pid),
+                "pid": pid,
+                "progress_pct": round((completed / total * 100), 1) if total else 0.0,
+                "completed": completed,
+                "total": total,
+                "failed": int(status.get("failed") or 0),
+                "skipped": int(status.get("skipped") or 0),
+                "document": status.get("document") or config.get("document", ""),
+                "current": status.get("current", ""),
+                "updated_at": status.get("updated_at", ""),
+            }
+        )
+    return pd.DataFrame(rows)
 
 
 st.title("LLM Background Run Monitor")
@@ -394,6 +462,101 @@ with st.sidebar:
         launch_job(job_id)
         st.success(f"Started `{job_id}`")
         st.rerun()
+
+st.subheader("All running and known LLM processes")
+process_df = discover_llm_processing_processes()
+jobs_df = jobs_overview_df()
+running_jobs = jobs_df[jobs_df["alive"].eq(True)] if not jobs_df.empty and "alive" in jobs_df else pd.DataFrame()
+running_continuous = process_df[process_df["alive"].eq(True)] if not process_df.empty and "alive" in process_df else pd.DataFrame()
+
+overview_cols = st.columns(5)
+overview_cols[0].metric("Continuous processes", f"{len(process_df):,}")
+overview_cols[1].metric("Running continuous", f"{len(running_continuous):,}")
+overview_cols[2].metric("Background jobs", f"{len(jobs_df):,}")
+overview_cols[3].metric("Running jobs", f"{len(running_jobs):,}")
+overview_cols[4].metric("Failed jobs", f"{int(jobs_df['failed'].sum()):,}" if not jobs_df.empty and "failed" in jobs_df else "0")
+
+overview_tab, process_tab, jobs_tab = st.tabs(["Overview Dashboard", "llm_processing.py Processes", "Background Jobs"])
+
+with overview_tab:
+    left, right = st.columns([1, 1])
+    with left:
+        if jobs_df.empty:
+            st.info("No background jobs have been created yet.")
+        else:
+            status_counts = jobs_df["status"].fillna("unknown").value_counts().rename_axis("status").reset_index(name="count")
+            chart = (
+                alt.Chart(status_counts)
+                .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3)
+                .encode(
+                    x=alt.X("status:N", sort="-y", title=None),
+                    y=alt.Y("count:Q", title="Jobs"),
+                    color=alt.value("#2563eb"),
+                    tooltip=["status", "count"],
+                )
+                .properties(height=260, title="Jobs by status")
+            )
+            st.altair_chart(chart, use_container_width=True)
+    with right:
+        if jobs_df.empty:
+            st.info("No progress data yet.")
+        else:
+            progress_chart_df = jobs_df[["job_id", "progress_pct", "status"]].copy().head(20)
+            chart = (
+                alt.Chart(progress_chart_df)
+                .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3)
+                .encode(
+                    x=alt.X("progress_pct:Q", title="Progress %"),
+                    y=alt.Y("job_id:N", sort="-x", title=None, axis=alt.Axis(labelLimit=220)),
+                    color=alt.Color("status:N", legend=None),
+                    tooltip=["job_id", "status", "progress_pct"],
+                )
+                .properties(height=260, title="Latest job progress")
+            )
+            st.altair_chart(chart, use_container_width=True)
+
+with process_tab:
+    if process_df.empty:
+        st.info("No running `llm_processing.py` Streamlit process was discovered by `ps -ax`.")
+    else:
+        st.dataframe(
+            process_df[["pid", "kind", "alive", "port", "known_state", "command"]],
+            use_container_width=True,
+            hide_index=True,
+        )
+
+with jobs_tab:
+    if jobs_df.empty:
+        st.info("No background jobs found in `results/background_llm_jobs`.")
+    else:
+        status_filter = st.multiselect(
+            "Filter job statuses",
+            sorted(jobs_df["status"].fillna("unknown").unique()),
+            default=[],
+        )
+        visible_jobs = jobs_df
+        if status_filter:
+            visible_jobs = visible_jobs[visible_jobs["status"].isin(status_filter)]
+        st.dataframe(
+            visible_jobs[
+                [
+                    "job_id",
+                    "status",
+                    "alive",
+                    "pid",
+                    "progress_pct",
+                    "completed",
+                    "total",
+                    "failed",
+                    "skipped",
+                    "document",
+                    "current",
+                    "updated_at",
+                ]
+            ],
+            use_container_width=True,
+            hide_index=True,
+        )
 
 if not selected_job:
     st.info("Create a background run from the sidebar to start monitoring progress.")

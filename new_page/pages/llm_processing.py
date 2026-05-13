@@ -266,6 +266,59 @@ def background_progress_df(status: dict[str, Any]) -> pd.DataFrame:
     )
 
 
+def background_output_tables(job_id: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    rows = read_json_file(RESULTS_DIR / "esg_records.json", [])
+    if not isinstance(rows, list):
+        rows = [rows]
+
+    run_rows: list[dict[str, Any]] = []
+    record_rows: list[dict[str, Any]] = []
+    for run_idx, row in enumerate(rows):
+        if not isinstance(row, dict) or row.get("background_job_id") != job_id:
+            continue
+        records = row.get("records") if isinstance(row.get("records"), list) else []
+        run_rows.append(
+            {
+                "run_idx": run_idx,
+                "timestamp": row.get("timestamp", ""),
+                "model": row.get("model", ""),
+                "target": row.get("target", ""),
+                "target_pages": row.get("target_pages", ""),
+                "prompt": row.get("prompt", ""),
+                "ok": bool(row.get("ok")),
+                "n_records": len(records),
+                "error": row.get("error", ""),
+            }
+        )
+        for record_idx, rec in enumerate(records):
+            if not isinstance(rec, dict):
+                continue
+            labels = rec.get("labels", [])
+            labels_text = " | ".join(str(v) for v in labels) if isinstance(labels, list) else str(labels or "")
+            text = str(rec.get("text", "") or "")
+            record_rows.append(
+                {
+                    "run_idx": run_idx,
+                    "record_idx": record_idx,
+                    "timestamp": row.get("timestamp", ""),
+                    "model": row.get("model", ""),
+                    "target": row.get("target", ""),
+                    "target_pages": row.get("target_pages", ""),
+                    "prompt": row.get("prompt", ""),
+                    "text": text,
+                    "text_len_chars": len(text),
+                    "aspect": rec.get("aspect", ""),
+                    "labels": labels_text,
+                    "esg": str(rec.get("esg", "") or "").upper(),
+                    "tone": str(rec.get("tone", "") or "").lower(),
+                    "sentiment": str(rec.get("sentiment", "") or "").lower(),
+                    "sentiment_score": pd.to_numeric(rec.get("sentiment_score"), errors="coerce"),
+                    "reasoning": rec.get("reasoning", ""),
+                }
+            )
+    return pd.DataFrame(run_rows), pd.DataFrame(record_rows)
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # HELPERS — PROMPT
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1476,26 +1529,74 @@ with st.expander("🕒 Background run on this page", expanded=False):
             st.session_state["show_llm_processing_bg_visuals"] = True
 
         if st.session_state.get("show_llm_processing_bg_visuals", True):
-            chart_cols = st.columns([1, 1])
-            with chart_cols[0]:
-                st.bar_chart(background_progress_df(bg_status).set_index("state"))
-            with chart_cols[1]:
-                events_df = read_background_events(bg_job_dir / "events.jsonl")
-                if events_df.empty or "event" not in events_df.columns:
-                    st.info("No events yet.")
+            progress_tab, output_tab, events_tab, logs_tab = st.tabs(
+                ["Progress", "LLM output", "Events", "Files and logs"]
+            )
+            with progress_tab:
+                chart_cols = st.columns([1, 1])
+                with chart_cols[0]:
+                    st.bar_chart(background_progress_df(bg_status).set_index("state"))
+                with chart_cols[1]:
+                    events_df = read_background_events(bg_job_dir / "events.jsonl")
+                    if events_df.empty or "event" not in events_df.columns:
+                        st.info("No events yet.")
+                    else:
+                        st.bar_chart(events_df["event"].value_counts().rename_axis("event").reset_index(name="count").set_index("event"))
+
+            with output_tab:
+                run_outputs, record_outputs = background_output_tables(selected_bg_job)
+                out_cols = st.columns(3)
+                out_cols[0].metric("Saved run outputs", f"{len(run_outputs):,}")
+                out_cols[1].metric("Parsed LLM records", f"{len(record_outputs):,}")
+                out_cols[2].metric("Successful output runs", f"{int(run_outputs['ok'].sum()):,}" if not run_outputs.empty and "ok" in run_outputs else "0")
+
+                if run_outputs.empty:
+                    st.info(
+                        "No saved LLM output for this job yet. If the job is still running, wait for the first sample to finish. "
+                        "Also make sure `Save T3 ESG records` was enabled when the background run started."
+                    )
                 else:
-                    st.bar_chart(events_df["event"].value_counts().rename_axis("event").reset_index(name="count").set_index("event"))
-            with st.expander("Background run files and logs", expanded=False):
-                st.code(str(bg_job_dir), language=None)
-                st.markdown("**Recent events**")
+                    c1, c2, c3 = st.columns(3)
+                    with c1:
+                        if not record_outputs.empty and "esg" in record_outputs:
+                            st.bar_chart(record_outputs["esg"].replace("", "missing").value_counts())
+                    with c2:
+                        if not record_outputs.empty and "tone" in record_outputs:
+                            st.bar_chart(record_outputs["tone"].replace("", "missing").value_counts())
+                    with c3:
+                        if not record_outputs.empty and "sentiment" in record_outputs:
+                            st.bar_chart(record_outputs["sentiment"].replace("", "missing").value_counts())
+
+                    st.markdown("**Parsed records from this background run**")
+                    if record_outputs.empty:
+                        st.info("The job has saved run rows, but no parsed records were returned yet.")
+                    else:
+                        st.dataframe(record_outputs, use_container_width=True, hide_index=True, height=420)
+                        st.download_button(
+                            "Download parsed records CSV",
+                            record_outputs.to_csv(index=False).encode("utf-8"),
+                            file_name=f"{selected_bg_job}_parsed_records.csv",
+                            mime="text/csv",
+                        )
+
+                    st.markdown("**Run-level outputs**")
+                    st.dataframe(run_outputs, use_container_width=True, hide_index=True, height=260)
+
+            with events_tab:
                 events_df = read_background_events(bg_job_dir / "events.jsonl")
                 if events_df.empty:
                     st.info("No events yet.")
                 else:
                     st.dataframe(events_df.tail(100).iloc[::-1], use_container_width=True, hide_index=True)
+
+            with logs_tab:
+                st.code(str(bg_job_dir), language=None)
                 st.markdown("**Worker stderr**")
                 err_path = bg_job_dir / "worker.err.log"
                 st.code(err_path.read_text(encoding="utf-8", errors="ignore")[-5000:] if err_path.exists() else "")
+                st.markdown("**Worker stdout**")
+                out_path = bg_job_dir / "worker.log"
+                st.code(out_path.read_text(encoding="utf-8", errors="ignore")[-5000:] if out_path.exists() else "")
 
         if bg_auto_refresh and bg_status.get("status") == "running":
             components.html("<script>setTimeout(() => window.parent.location.reload(), 5000);</script>", height=0)
