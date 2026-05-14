@@ -53,6 +53,12 @@ def write_json(path: Path, data: Any) -> None:
     tmp.replace(path)
 
 
+def append_jsonl(path: Path, data: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(data, ensure_ascii=False) + "\n")
+
+
 def read_events(path: Path) -> pd.DataFrame:
     rows = []
     if path.exists():
@@ -183,6 +189,74 @@ def request_control(job_id: str, **updates: Any) -> None:
     control.update(updates)
     control["updated_at"] = datetime.utcnow().isoformat(timespec="seconds") + "Z"
     write_json(control_path, control)
+
+
+def is_restartable_status(status: dict[str, Any], alive: bool = False) -> bool:
+    if alive:
+        return False
+    status_name = str(status.get("status", "")).lower()
+    failed_value = status.get("failed") or 0
+    failed = 0 if pd.isna(failed_value) else int(failed_value)
+    return status_name in {"failed", "exited", "error", "stopped"} or failed > 0
+
+
+def restart_job(job_id: str, skip_existing_successes: bool = True) -> bool:
+    job_dir = JOBS_DIR / job_id
+    config_path = job_dir / "config.json"
+    status_path = job_dir / "status.json"
+    control_path = job_dir / "control.json"
+    events_path = job_dir / "events.jsonl"
+    config = read_json(config_path, {})
+    status = read_json(status_path, {})
+    if not config:
+        return False
+    if is_process_alive(status.get("pid")):
+        return False
+
+    now = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    restarts = config.get("restart_history", [])
+    if not isinstance(restarts, list):
+        restarts = []
+    restarts.append(
+        {
+            "time": now,
+            "previous_status": status.get("status", "unknown"),
+            "previous_completed": int(status.get("completed") or 0),
+            "previous_failed": int(status.get("failed") or 0),
+            "previous_skipped": int(status.get("skipped") or 0),
+            "skip_existing_successes": skip_existing_successes,
+        }
+    )
+    config["restart_history"] = restarts
+    config["skip_existing"] = bool(skip_existing_successes)
+    write_json(config_path, config)
+
+    status.update(
+        {
+            "status": "queued",
+            "pid": None,
+            "completed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "current": "Queued for restart",
+            "restarted_at": now,
+            "updated_at": now,
+        }
+    )
+    status.pop("error", None)
+    status.pop("finished_at", None)
+    write_json(status_path, status)
+    write_json(control_path, {"pause_requested": False, "stop_requested": False, "updated_at": now})
+    append_jsonl(
+        events_path,
+        {
+            "time": now,
+            "event": "restart_requested",
+            "skip_existing_successes": skip_existing_successes,
+        },
+    )
+    launch_job(job_id)
+    return True
 
 
 def progress_chart(status: dict[str, Any]):
@@ -557,6 +631,35 @@ with jobs_tab:
             use_container_width=True,
             hide_index=True,
         )
+        restartable_jobs = [
+            row["job_id"]
+            for _, row in visible_jobs.iterrows()
+            if is_restartable_status({"status": row.get("status"), "failed": row.get("failed")}, bool(row.get("alive")))
+        ]
+        st.markdown("**Restart failed/error jobs**")
+        st.caption(
+            "Restartable jobs include hard failures, exited/stopped workers, and completed jobs with failed samples."
+        )
+        restart_targets = st.multiselect(
+            "Jobs to restart",
+            restartable_jobs,
+            default=restartable_jobs[:1],
+            disabled=not restartable_jobs,
+        )
+        bulk_skip_successes = st.checkbox(
+            "Skip already successful samples during bulk restart",
+            value=True,
+            help="Uses records already saved in esg_records.json so restart focuses on failed or missing work.",
+        )
+        if st.button(
+            "Restart selected error jobs",
+            disabled=not restart_targets,
+            type="primary",
+            use_container_width=True,
+        ):
+            restarted = [job_id for job_id in restart_targets if restart_job(job_id, bulk_skip_successes)]
+            st.success(f"Restarted {len(restarted)} job(s).")
+            st.rerun()
 
 if not selected_job:
     st.info("Create a background run from the sidebar to start monitoring progress.")
@@ -588,7 +691,15 @@ card2.metric("Current", str(status.get("current", ""))[:38] or "None")
 card3.metric("Updated", str(status.get("updated_at", ""))[-9:] or "None")
 card4.metric("PID", str(pid or "None"), delta="alive" if alive else "not running")
 
-control_cols = st.columns(5)
+restartable_selected_job = is_restartable_status(status, alive)
+restart_skip_successes = st.checkbox(
+    "On restart, skip already successful model/target/prompt triples",
+    value=True,
+    disabled=not restartable_selected_job,
+    help="Keeps successful rows in esg_records.json and reruns failed or missing items. Turn this off only if you want to rerun everything.",
+)
+
+control_cols = st.columns(6)
 with control_cols[0]:
     if st.button("Refresh", use_container_width=True):
         st.rerun()
@@ -606,6 +717,13 @@ with control_cols[3]:
         request_control(selected_job, stop_requested=True)
         st.rerun()
 with control_cols[4]:
+    if st.button("Restart error run", disabled=not restartable_selected_job, type="primary", use_container_width=True):
+        if restart_job(selected_job, restart_skip_successes):
+            st.success(f"Restarted `{selected_job}`")
+            st.rerun()
+        else:
+            st.error("Could not restart this job. It may still be running or missing config.json.")
+with control_cols[5]:
     st.download_button(
         "Download status",
         json.dumps(status, ensure_ascii=False, indent=2).encode("utf-8"),

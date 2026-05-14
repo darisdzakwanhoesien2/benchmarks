@@ -288,6 +288,15 @@ PAGE_REGISTRY = [
         "outputs": "data/thesis_dataset/*, OCR markdown, OCR JSON, extracted page images.",
     },
     {
+        "page": "0_3_OCR_Company_Metadata_Labeler.py",
+        "label": "OCR Company Metadata Labeler",
+        "stage": "Metadata labeling",
+        "primary RQs": "RQ1, RQ5",
+        "purpose": "Assign company names and sector/subsector/industry/subindustry metadata to OCR document folders.",
+        "use when": "You need document-to-company provenance before extraction, visualization, or company-level analysis.",
+        "outputs": "data/ocr_company_metadata.json.",
+    },
+    {
         "page": "llm_processing.py",
         "label": "LLM Processing",
         "stage": "Extraction",
@@ -534,6 +543,7 @@ WORKFLOW_MERMAID = """
 flowchart TD
   subgraph node_I["Input and Extraction"]
     node_I_A_1["Bulk_OCR.py\\nPDFs -> OCR markdown/images"]
+    node_I_A_6["0_3_OCR_Company_Metadata_Labeler.py\\nCompany + sector metadata"]
     node_I_A_2["llm_processing.py\\nLLM ESG ABSA extraction"]
     node_I_A_5["2_3_LLM_Background_Run_Monitor.py\\nBackground extraction runner"]
     node_I_A_3["2_0_LLM_Processing_Result_Visualizer.py\\nInspect parsed outputs"]
@@ -560,6 +570,8 @@ flowchart TD
     node_V_C_3["Documentation + saved image catalog\\nMarkdown, PNG, JSON evidence"]
   end
 
+  node_I_A_1 -- "RQ1, RQ5" --> node_I_A_6
+  node_I_A_6 -- "RQ1, RQ5" --> node_I_A_2
   node_I_A_1 -- "RQ1, RQ5" --> node_I_A_2
   node_I_A_2 -- "RQ1, RQ4, RQ5, RQ6" --> node_I_A_5
   node_I_A_5 -- "RQ1, RQ2, RQ6" --> node_I_A_3
