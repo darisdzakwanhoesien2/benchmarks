@@ -17,7 +17,6 @@ import requests
 from requests.adapters import HTTPAdapter, Retry
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 
 # ── Fix temp directory BEFORE any gradio import ───────────────────────────────
 _LOCAL_TMP = Path(__file__).resolve().parents[2] / ".tmp"
@@ -1410,7 +1409,11 @@ with st.expander("🕒 Background run on this page", expanded=False):
     with bg_col_b:
         bg_mock_mode = st.checkbox("Mock background run", value=use_mock_t3)
     with bg_col_c:
-        bg_auto_refresh = st.checkbox("Auto-refresh progress", value=False)
+        bg_auto_refresh = st.checkbox(
+            "Auto-refresh progress",
+            value=False,
+            help="Off by default to keep the page from blinking while a background job is running.",
+        )
 
     bg_can_start = bool(
         selected_doc
@@ -1456,6 +1459,10 @@ with st.expander("🕒 Background run on this page", expanded=False):
             "max_tokens": int(st.session_state.ollama_num_predict if backend == BACKEND_OLLAMA else max_tokens_input),
             "temperature": float(temperature_input),
             "retries": int(retries_input),
+            "sample_error_retries": 2,
+            "auto_reduce_context_on_error": True,
+            "context_retry_floor": 1200,
+            "target_retry_floor": 2000,
             "skip_existing": True,
             "save_results": bool(save_t3),
             "created_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
@@ -1599,7 +1606,15 @@ with st.expander("🕒 Background run on this page", expanded=False):
                 st.code(out_path.read_text(encoding="utf-8", errors="ignore")[-5000:] if out_path.exists() else "")
 
         if bg_auto_refresh and bg_status.get("status") == "running":
-            components.html("<script>setTimeout(() => window.parent.location.reload(), 5000);</script>", height=0)
+            now = time.time()
+            last_refresh = st.session_state.get("llm_processing_bg_last_auto_refresh", now)
+            remaining = max(0, int(30 - (now - last_refresh)))
+            st.caption(f"Auto-refresh is on. Next refresh check in about {remaining} seconds.")
+            if now - last_refresh >= 30:
+                st.session_state["llm_processing_bg_last_auto_refresh"] = now
+                st.rerun()
+        else:
+            st.session_state["llm_processing_bg_last_auto_refresh"] = time.time()
 
 # ══════════════════════════════════════════════════════════════════════════════
 # EXECUTE BUTTON

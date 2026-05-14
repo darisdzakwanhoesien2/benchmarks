@@ -136,6 +136,190 @@ def parse_json_from_model(text: str) -> Any:
     raise ValueError(f"Could not parse JSON from model output: {text[:500]}")
 
 
+def classify_error(exc: Exception) -> str:
+    message = str(exc).lower()
+    context_markers = [
+        "context length",
+        "context window",
+        "context size",
+        "context_length_exceeded",
+        "maximum context",
+        "max context",
+        "too many tokens",
+        "token limit",
+        "tokens exceed",
+        "exceeds the context",
+        "prompt is too long",
+        "request too large",
+        "input too large",
+        "num_ctx",
+        "maximum sequence length",
+    ]
+    if any(marker in message for marker in context_markers):
+        return "context_too_large"
+    if isinstance(exc, requests.Timeout) or "timed out" in message or "timeout" in message:
+        return "timeout"
+    if "connection" in message or "connection refused" in message or "remote end closed" in message:
+        return "connection"
+    if "could not parse json" in message or "empty response" in message:
+        return "parse"
+    if "rate limit" in message or "429" in message:
+        return "rate_limit"
+    return "unknown"
+
+
+def context_retry_budgets(config: dict[str, Any], full_doc: str) -> list[int]:
+    initial = int(config.get("context_length", 10000) or len(full_doc))
+    initial = max(0, min(initial, len(full_doc)))
+    floor = int(config.get("context_retry_floor", 1200) or 1200)
+    budgets = [
+        initial,
+        int(initial * 0.75),
+        int(initial * 0.5),
+        int(initial * 0.25),
+        int(initial * 0.1),
+        floor,
+        0,
+    ]
+    cleaned: list[int] = []
+    for budget in budgets:
+        budget = max(0, min(int(budget), len(full_doc)))
+        if budget not in cleaned:
+            cleaned.append(budget)
+    return cleaned
+
+
+def make_context_slice(full_doc: str, budget: int) -> str:
+    if budget <= 0:
+        return ""
+    if len(full_doc) <= budget:
+        return full_doc
+    head = max(0, int(budget * 0.7))
+    tail = max(0, budget - head)
+    if tail <= 0:
+        return full_doc[:budget]
+    return (
+        full_doc[:head]
+        + "\n\n[...document context truncated for retry...]\n\n"
+        + full_doc[-tail:]
+    )
+
+
+def retry_budgets_for_text(text: str, floor: int) -> list[int]:
+    initial = len(text or "")
+    budgets = [
+        initial,
+        int(initial * 0.75),
+        int(initial * 0.5),
+        int(initial * 0.25),
+        int(initial * 0.1),
+        floor,
+    ]
+    cleaned: list[int] = []
+    for budget in budgets:
+        budget = max(0, min(int(budget), initial))
+        if budget not in cleaned:
+            cleaned.append(budget)
+    return cleaned or [0]
+
+
+def make_target_slice(target: dict[str, str], budget: int) -> dict[str, str]:
+    text = target.get("text", "")
+    if budget <= 0 or len(text) <= budget:
+        return target
+    sliced = dict(target)
+    sliced["text"] = text[:budget] + "\n\n[...target page text truncated for retry...]"
+    return sliced
+
+
+def call_llm_with_context_recovery(
+    config: dict[str, Any],
+    full_doc: str,
+    target: dict[str, str],
+    template: str,
+    model: str,
+    events_path: Path,
+) -> tuple[str, Any, dict[str, Any]]:
+    auto_reduce_context = bool(config.get("auto_reduce_context_on_error", True))
+    max_sample_attempts = max(1, int(config.get("sample_error_retries", 2) or 2))
+    budgets = context_retry_budgets(config, full_doc) if auto_reduce_context else [int(config.get("context_length", 10000) or len(full_doc))]
+    target_budgets = retry_budgets_for_text(target.get("text", ""), int(config.get("target_retry_floor", 2000) or 2000))
+    attempts: list[dict[str, Any]] = []
+    last_exc: Exception | None = None
+    retry_after_context_error = False
+
+    for attempt_idx, budget in enumerate(budgets, start=1):
+        prompt_full_doc = make_context_slice(full_doc, budget)
+        target_budget_candidates = target_budgets if budget == 0 and auto_reduce_context else [len(target.get("text", ""))]
+        for target_budget in target_budget_candidates:
+            prompt_target = make_target_slice(target, target_budget)
+            final_prompt = build_context_prompt(prompt_full_doc, prompt_target, template)
+            for sample_attempt in range(1, max_sample_attempts + 1):
+                try:
+                    raw_output = call_llm(config, final_prompt, model)
+                    parsed = parse_json_from_model(raw_output)
+                    if isinstance(parsed, dict):
+                        parsed = [parsed]
+                    elif not isinstance(parsed, list):
+                        parsed = []
+                    meta = {
+                        "attempts": attempts
+                        + [
+                            {
+                                "attempt": attempt_idx,
+                                "sample_attempt": sample_attempt,
+                                "context_chars": len(prompt_full_doc),
+                                "target_chars": len(prompt_target.get("text", "")),
+                                "prompt_chars": len(final_prompt),
+                                "status": "ok",
+                            }
+                        ],
+                        "context_chars": len(prompt_full_doc),
+                        "target_chars": len(prompt_target.get("text", "")),
+                        "prompt_chars": len(final_prompt),
+                        "auto_reduced_context": retry_after_context_error,
+                        "auto_reduced_target": len(prompt_target.get("text", "")) < len(target.get("text", "")),
+                    }
+                    return raw_output, parsed, meta
+                except Exception as exc:
+                    last_exc = exc
+                    error_type = classify_error(exc)
+                    attempt_meta = {
+                        "attempt": attempt_idx,
+                        "sample_attempt": sample_attempt,
+                        "context_chars": len(prompt_full_doc),
+                        "target_chars": len(prompt_target.get("text", "")),
+                        "prompt_chars": len(final_prompt),
+                        "status": "failed",
+                        "error_type": error_type,
+                        "error": str(exc)[:1200],
+                    }
+                    attempts.append(attempt_meta)
+                    append_jsonl(
+                        events_path,
+                        {
+                            "time": utc_now(),
+                            "event": "sample_attempt_failed",
+                            **attempt_meta,
+                        },
+                    )
+                    if error_type == "context_too_large" and auto_reduce_context:
+                        retry_after_context_error = True
+                        break
+                    if error_type not in {"timeout", "connection", "rate_limit"}:
+                        raise
+                    if sample_attempt >= max_sample_attempts:
+                        raise
+                    time.sleep(min(8, sample_attempt * 2))
+
+    if last_exc:
+        raise RuntimeError(
+            f"Failed after {len(attempts)} attempt(s); last error type={classify_error(last_exc)}; "
+            f"last error={last_exc}"
+        )
+    raise RuntimeError("LLM call failed without a captured exception.")
+
+
 def call_openrouter(prompt: str, model: str, api_key: str, temperature: float, max_tokens: int, retries: int) -> str:
     if not api_key:
         raise RuntimeError("OpenRouter API key is required unless mock mode is enabled.")
@@ -409,13 +593,14 @@ def main(job_id: str) -> int:
 
                 started = time.time()
                 try:
-                    final_prompt = build_context_prompt(full_doc, target, template)
-                    raw_output = call_llm(config, final_prompt, model)
-                    parsed = parse_json_from_model(raw_output)
-                    if isinstance(parsed, dict):
-                        parsed = [parsed]
-                    elif not isinstance(parsed, list):
-                        parsed = []
+                    raw_output, parsed, recovery_meta = call_llm_with_context_recovery(
+                        config,
+                        full_doc,
+                        target,
+                        template,
+                        model,
+                        events_path,
+                    )
                     record = {
                         "timestamp": utc_now(),
                         "model": model,
@@ -426,6 +611,7 @@ def main(job_id: str) -> int:
                         "records": parsed,
                         "raw_output": raw_output[:10000],
                         "background_job_id": job_id,
+                        "recovery": recovery_meta,
                     }
                     if config.get("save_results", True):
                         append_record(record)
@@ -440,10 +626,14 @@ def main(job_id: str) -> int:
                             "prompt": prompt_label,
                             "model": model,
                             "records": len(parsed),
+                            "auto_reduced_context": recovery_meta.get("auto_reduced_context", False),
+                            "context_chars": recovery_meta.get("context_chars"),
+                            "prompt_chars": recovery_meta.get("prompt_chars"),
                             "seconds": round(time.time() - started, 2),
                         },
                     )
                 except Exception as exc:
+                    error_type = classify_error(exc)
                     failed += 1
                     completed += 1
                     record = {
@@ -455,6 +645,7 @@ def main(job_id: str) -> int:
                         "ok": False,
                         "records": [],
                         "error": str(exc),
+                        "error_type": error_type,
                         "raw_output": "",
                         "background_job_id": job_id,
                     }
@@ -469,6 +660,7 @@ def main(job_id: str) -> int:
                             "pages": target["pages"],
                             "prompt": prompt_label,
                             "model": model,
+                            "error_type": error_type,
                             "error": str(exc)[:1200],
                             "seconds": round(time.time() - started, 2),
                         },

@@ -15,7 +15,6 @@ import uuid
 import altair as alt
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 
 
 st.set_page_config(page_title="LLM Background Run Monitor", layout="wide")
@@ -443,8 +442,12 @@ with st.sidebar:
     st.header("Monitor")
     jobs = list_jobs()
     selected_job = st.selectbox("Existing jobs", jobs, index=0 if jobs else None, placeholder="No jobs yet")
-    auto_refresh = st.toggle("Auto-refresh while running", value=True)
-    refresh_seconds = st.slider("Refresh seconds", 2, 20, 5)
+    auto_refresh = st.toggle(
+        "Auto-refresh while running",
+        value=False,
+        help="Off by default to prevent full-page blinking while you are reading logs or editing controls.",
+    )
+    refresh_seconds = st.slider("Refresh seconds", 10, 120, 30)
     if st.button("Refresh progress", use_container_width=True):
         st.rerun()
 
@@ -482,6 +485,34 @@ with st.sidebar:
     max_tokens = st.number_input("Max tokens", min_value=64, max_value=8192, value=1500, step=64)
     temperature = st.number_input("Temperature", min_value=0.0, max_value=2.0, value=0.0, step=0.1)
     retries = st.number_input("Retries", min_value=1, max_value=5, value=2)
+    sample_error_retries = st.number_input(
+        "Sample error retries",
+        min_value=1,
+        max_value=5,
+        value=2,
+        help="Outer retry attempts for transient per-sample errors such as timeout, connection, or rate limit.",
+    )
+    auto_reduce_context_on_error = st.checkbox(
+        "Auto-reduce context if token/context error happens",
+        value=True,
+        help="If the backend says the prompt is too large, retry the same sample with progressively shorter document context.",
+    )
+    context_retry_floor = st.number_input(
+        "Minimum retry context chars",
+        min_value=0,
+        max_value=20000,
+        value=1200,
+        step=200,
+        help="Lowest full-document context length used during automatic context reduction. Target page text is still included.",
+    )
+    target_retry_floor = st.number_input(
+        "Minimum retry target chars",
+        min_value=500,
+        max_value=20000,
+        value=2000,
+        step=500,
+        help="If document context is already removed and the request is still too large, trim the target page text down to this size.",
+    )
     ollama_num_ctx = st.number_input("Ollama num_ctx", min_value=512, max_value=32768, value=2048, step=512)
     skip_existing = st.checkbox("Skip already successful model/target/prompt triples", value=True)
     save_results = st.checkbox("Append outputs to esg_records.json", value=True)
@@ -512,6 +543,10 @@ with st.sidebar:
             "max_tokens": int(max_tokens),
             "temperature": float(temperature),
             "retries": int(retries),
+            "sample_error_retries": int(sample_error_retries),
+            "auto_reduce_context_on_error": bool(auto_reduce_context_on_error),
+            "context_retry_floor": int(context_retry_floor),
+            "target_retry_floor": int(target_retry_floor),
             "skip_existing": skip_existing,
             "save_results": save_results,
             "created_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
@@ -765,7 +800,12 @@ with logs_tab:
     st.code((job_dir / "worker.err.log").read_text(encoding="utf-8", errors="ignore")[-8000:] if (job_dir / "worker.err.log").exists() else "")
 
 if auto_refresh and status.get("status") == "running":
-    components.html(
-        f"<script>setTimeout(() => window.parent.location.reload(), {int(refresh_seconds) * 1000});</script>",
-        height=0,
-    )
+    now = time.time()
+    last_refresh = st.session_state.get("llm_monitor_last_auto_refresh", now)
+    remaining = max(0, int(refresh_seconds - (now - last_refresh)))
+    st.caption(f"Auto-refresh is on. Next refresh check in about {remaining} seconds.")
+    if now - last_refresh >= int(refresh_seconds):
+        st.session_state["llm_monitor_last_auto_refresh"] = now
+        st.rerun()
+else:
+    st.session_state["llm_monitor_last_auto_refresh"] = time.time()
