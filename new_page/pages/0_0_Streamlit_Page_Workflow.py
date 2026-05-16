@@ -423,6 +423,15 @@ PAGE_REGISTRY = [
         "outputs": "Run summaries, record tables, prediction/ABSA/ESG output views.",
     },
     {
+        "page": "2_4_PDF_Page_Processing_Audit.py",
+        "label": "PDF Page Processing Audit",
+        "stage": "Extraction audit",
+        "primary RQs": "RQ1, RQ4, RQ5, RQ6",
+        "purpose": "Show each PDF/OCR page, whether it was selected or processed, and the LLM output tied back to that page.",
+        "use when": "You need to prove which pages are complete, missing, failed, queued, or already have parsed LLM records.",
+        "outputs": "Page-level processing status, model/prompt/job provenance, and per-page LLM output tables.",
+    },
+    {
         "page": "2_2_LLM_Statement_Page_Verifier.py",
         "label": "LLM Statement Page Verifier",
         "stage": "Source verification",
@@ -547,6 +556,7 @@ flowchart TD
     node_I_A_2["llm_processing.py\\nLLM ESG ABSA extraction"]
     node_I_A_5["2_3_LLM_Background_Run_Monitor.py\\nBackground extraction runner"]
     node_I_A_3["2_0_LLM_Processing_Result_Visualizer.py\\nInspect parsed outputs"]
+    node_I_A_7["2_4_PDF_Page_Processing_Audit.py\\nPage-level processed/missing audit"]
     node_I_A_4["2_1_LLM_Error_Parse_Audit.py\\nAudit failures"]
   end
 
@@ -575,6 +585,8 @@ flowchart TD
   node_I_A_1 -- "RQ1, RQ5" --> node_I_A_2
   node_I_A_2 -- "RQ1, RQ4, RQ5, RQ6" --> node_I_A_5
   node_I_A_5 -- "RQ1, RQ2, RQ6" --> node_I_A_3
+  node_I_A_5 -- "RQ1, RQ4, RQ5, RQ6" --> node_I_A_7
+  node_I_A_7 -- "RQ1, RQ4, RQ5" --> node_II_B_11
   node_I_A_2 -- "RQ1, RQ2, RQ6" --> node_I_A_3
   node_I_A_2 -- "RQ4, RQ6" --> node_I_A_4
   node_I_A_3 -- "RQ2, RQ3, RQ5" --> node_II_B_1

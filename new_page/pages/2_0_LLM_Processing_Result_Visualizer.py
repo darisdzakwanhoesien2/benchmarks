@@ -290,6 +290,84 @@ def histogram(df: pd.DataFrame, col: str, title: str):
     st.altair_chart(chart, use_container_width=True)
 
 
+def pipeline_waterfall_df(
+    t1_rows: pd.DataFrame,
+    t2_runs_df: pd.DataFrame,
+    t2_preds_df: pd.DataFrame,
+    t3_runs_df: pd.DataFrame,
+    t3_records_df: pd.DataFrame,
+) -> pd.DataFrame:
+    t1_total = len(t1_rows)
+    t1_ok = int((~t1_rows["is_error"]).sum()) if not t1_rows.empty and "is_error" in t1_rows else t1_total
+    t2_total = len(t2_runs_df)
+    t2_predictions = len(t2_preds_df)
+    t3_total = len(t3_runs_df)
+    t3_ok = int(t3_runs_df["ok"].sum()) if not t3_runs_df.empty and "ok" in t3_runs_df else 0
+    t3_records = len(t3_records_df)
+
+    stages = [
+        ("T1 rows", t1_total, "ClimateBERT rows saved"),
+        ("T1 ok", t1_ok, "ClimateBERT rows without stored error"),
+        ("T2 runs", t2_total, "ABSA run rows saved"),
+        ("T2 predictions", t2_predictions, "Flattened ABSA predictions"),
+        ("T3 runs", t3_total, "LLM extraction run rows saved"),
+        ("T3 ok runs", t3_ok, "LLM runs with ok=True"),
+        ("T3 records", t3_records, "Parsed ESG records returned by LLM"),
+    ]
+
+    rows: list[dict[str, Any]] = []
+    previous = 0
+    for idx, (stage, value, description) in enumerate(stages):
+        delta = value - previous if idx else value
+        rows.append(
+            {
+                "order": idx + 1,
+                "stage": stage,
+                "value": value,
+                "previous": previous,
+                "delta": delta,
+                "bar_start": min(previous, value),
+                "bar_end": max(previous, value),
+                "direction": "increase" if delta >= 0 else "decrease",
+                "description": description,
+            }
+        )
+        previous = value
+    return pd.DataFrame(rows)
+
+
+def waterfall_chart(df: pd.DataFrame, title: str) -> None:
+    if df.empty:
+        st.info("No pipeline data available for the waterfall.")
+        return
+    chart = (
+        alt.Chart(df)
+        .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3)
+        .encode(
+            x=alt.X("stage:N", sort=list(df["stage"]), title=None, axis=alt.Axis(labelAngle=-25)),
+            y=alt.Y("bar_start:Q", title="Rows / records"),
+            y2="bar_end:Q",
+            color=alt.Color(
+                "direction:N",
+                scale=alt.Scale(domain=["increase", "decrease"], range=["#2563eb", "#dc2626"]),
+                legend=None,
+            ),
+            tooltip=["stage", "value", "previous", "delta", "description"],
+        )
+        .properties(title=title, height=380)
+    )
+    labels = (
+        alt.Chart(df)
+        .mark_text(dy=-8, color="#111827")
+        .encode(
+            x=alt.X("stage:N", sort=list(df["stage"])),
+            y=alt.Y("bar_end:Q"),
+            text=alt.Text("value:Q", format=","),
+        )
+    )
+    st.altair_chart(chart + labels, use_container_width=True)
+
+
 st.title("LLM Processing Result Visualizer")
 st.caption("Visualize T1 ClimateBERT predictions, T2 ABSA outputs, and T3 LLM ESG extraction records produced by `llm_processing.py`.")
 
@@ -338,7 +416,7 @@ overview[3].metric("T2 runs", f"{len(filtered_t2_runs):,}")
 overview[4].metric("T2 predictions", f"{len(filtered_t2_preds):,}")
 overview[5].metric("T1 rows", f"{len(filtered_t1):,}")
 
-tabs = st.tabs(["Overview", "T3 ESG Records", "T3 Run Quality", "T2 ABSA", "T1 ClimateBERT", "Records & Exports"])
+tabs = st.tabs(["Overview", "Pipeline Waterfall", "T3 ESG Records", "T3 Run Quality", "T2 ABSA", "T1 ClimateBERT", "Records & Exports"])
 
 with tabs[0]:
     c1, c2 = st.columns(2)
@@ -353,6 +431,27 @@ with tabs[0]:
         bar(count_df(filtered_t3_runs, "prompt"), "prompt", title="T3 Runs by Prompt")
 
 with tabs[1]:
+    st.markdown("The waterfall shows how many rows survive or expand across the T1, T2, and T3 pipeline outputs.")
+    wf = pipeline_waterfall_df(filtered_t1, filtered_t2_runs, filtered_t2_preds, filtered_t3_runs, filtered_t3_records)
+    waterfall_chart(wf, "T1 -> T2 -> T3 Output Waterfall")
+    st.dataframe(wf, use_container_width=True, hide_index=True)
+
+    c1, c2 = st.columns(2)
+    with c1:
+        if not filtered_t3_runs.empty:
+            status_df = filtered_t3_runs.assign(status=filtered_t3_runs["ok"].map({True: "ok", False: "failed"}))
+            bar(count_df(status_df, "status"), "status", title="T3 Run Status Contribution")
+    with c2:
+        stage_errors = pd.DataFrame(
+            [
+                {"stage": "T1 errors", "count": int(filtered_t1["is_error"].sum()) if not filtered_t1.empty and "is_error" in filtered_t1 else 0},
+                {"stage": "T2 run errors", "count": int(filtered_t2_runs["hybrid_error"].map(clean).ne("").sum()) if not filtered_t2_runs.empty and "hybrid_error" in filtered_t2_runs else 0},
+                {"stage": "T3 failed runs", "count": int(filtered_t3_runs["ok"].eq(False).sum()) if not filtered_t3_runs.empty and "ok" in filtered_t3_runs else 0},
+            ]
+        )
+        bar(stage_errors, "stage", title="Pipeline Error Counts")
+
+with tabs[2]:
     st.markdown("T3 records are the parsed ESG evidence records extracted by the selected LLM, target batch, and prompt.")
     c1, c2 = st.columns(2)
     with c1:
@@ -361,7 +460,7 @@ with tabs[1]:
         histogram(filtered_t3_records, "sentiment_score", "Sentiment Score Distribution")
     st.dataframe(filtered_t3_records.head(int(table_limit)), use_container_width=True, height=520)
 
-with tabs[2]:
+with tabs[3]:
     st.markdown("Run quality shows whether prompts and models produced parsed records, empty arrays, or errors.")
     if not filtered_t3_runs.empty:
         status_df = filtered_t3_runs.assign(status=filtered_t3_runs["ok"].map({True: "ok", False: "failed"}))
@@ -376,7 +475,7 @@ with tabs[2]:
         st.markdown("**Failed or partial runs**")
         st.dataframe(failed.head(int(table_limit)), use_container_width=True, height=420)
 
-with tabs[3]:
+with tabs[4]:
     st.markdown("T2 records come from the rule-based, classical, and hybrid ABSA layer.")
     if filtered_t2_preds.empty:
         st.info("No flattened T2 hybrid predictions found.")
@@ -396,7 +495,7 @@ with tabs[3]:
         st.markdown("**T2 hybrid predictions**")
         st.dataframe(filtered_t2_preds.head(int(table_limit)), use_container_width=True, height=420)
 
-with tabs[4]:
+with tabs[5]:
     st.markdown("T1 predictions are ClimateBERT/model-level predictions saved by `llm_processing.py`.")
     if filtered_t1.empty:
         st.info("No T1 predictions found.")
@@ -411,7 +510,7 @@ with tabs[4]:
         bar(by_model, "model", color="status", title="T1 Status by Model")
         st.dataframe(filtered_t1.head(int(table_limit)), use_container_width=True, height=420)
 
-with tabs[5]:
+with tabs[6]:
     st.markdown("Download flattened CSVs for analysis, tables, or documentation.")
     c1, c2, c3 = st.columns(3)
     with c1:
