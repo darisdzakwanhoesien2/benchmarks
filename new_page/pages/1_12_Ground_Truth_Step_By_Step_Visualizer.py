@@ -283,6 +283,127 @@ def histogram(df: pd.DataFrame, column: str, title: str) -> None:
     st.altair_chart(chart, use_container_width=True)
 
 
+def build_processing_coverage(text_units: pd.DataFrame, t1_df: pd.DataFrame, t2_raw: list[dict[str, Any]]) -> pd.DataFrame:
+    columns = [
+        "source_index",
+        "label",
+        "source_type",
+        "chars",
+        "t1_attempts",
+        "t1_successes",
+        "t1_failures",
+        "t1_models",
+        "t2_attempts",
+        "t2_successes",
+        "t2_failures",
+        "processing_status",
+        "text",
+    ]
+    if text_units.empty:
+        return pd.DataFrame(columns=columns)
+
+    coverage = text_units.copy()
+    coverage["label"] = coverage["label"].map(clean)
+
+    if not t1_df.empty and "label" in t1_df.columns:
+        t1_status = t1_df.copy()
+        t1_status["label"] = t1_status["label"].map(clean)
+        if "success" not in t1_status.columns:
+            t1_status["success"] = False
+        if "model" not in t1_status.columns:
+            t1_status["model"] = ""
+        t1_summary = (
+            t1_status.groupby("label", dropna=False)
+            .agg(
+                t1_attempts=("label", "size"),
+                t1_successes=("success", lambda values: int(pd.Series(values).fillna(False).astype(bool).sum())),
+                t1_models=("model", lambda values: ", ".join(sorted(set(clean(v) for v in values if clean(v))))),
+            )
+            .reset_index()
+        )
+    else:
+        t1_summary = pd.DataFrame(columns=["label", "t1_attempts", "t1_successes", "t1_models"])
+
+    t2_rows: list[dict[str, Any]] = []
+    for record in t2_raw:
+        if not isinstance(record, dict):
+            continue
+        hybrid = record.get("hybrid") if isinstance(record.get("hybrid"), dict) else {}
+        t2_rows.append(
+            {
+                "label": clean(record.get("label")),
+                "t2_success": not bool(clean(hybrid.get("error"))),
+            }
+        )
+    t2_status = pd.DataFrame(t2_rows)
+    if not t2_status.empty and "label" in t2_status.columns:
+        t2_summary = (
+            t2_status.groupby("label", dropna=False)
+            .agg(
+                t2_attempts=("label", "size"),
+                t2_successes=("t2_success", lambda values: int(pd.Series(values).fillna(False).astype(bool).sum())),
+            )
+            .reset_index()
+        )
+    else:
+        t2_summary = pd.DataFrame(columns=["label", "t2_attempts", "t2_successes"])
+
+    coverage = coverage.merge(t1_summary, on="label", how="left").merge(t2_summary, on="label", how="left")
+    for col in ["t1_attempts", "t1_successes", "t2_attempts", "t2_successes"]:
+        coverage[col] = pd.to_numeric(coverage[col], errors="coerce").fillna(0).astype(int)
+    coverage["t1_failures"] = (coverage["t1_attempts"] - coverage["t1_successes"]).clip(lower=0)
+    coverage["t2_failures"] = (coverage["t2_attempts"] - coverage["t2_successes"]).clip(lower=0)
+    coverage["t1_models"] = coverage["t1_models"].fillna("")
+
+    def status(row: pd.Series) -> str:
+        has_t1 = int(row["t1_attempts"]) > 0
+        has_t2 = int(row["t2_attempts"]) > 0
+        if has_t1 and has_t2:
+            return "processed_t1_t2"
+        if has_t1:
+            return "processed_t1_only"
+        if has_t2:
+            return "processed_t2_only"
+        return "not_processed"
+
+    coverage["processing_status"] = coverage.apply(status, axis=1)
+    return coverage[columns]
+
+
+def build_source_row_coverage(processing_coverage: pd.DataFrame) -> pd.DataFrame:
+    columns = [
+        "source_index",
+        "text_units",
+        "processed_t1_t2",
+        "processed_t1_only",
+        "processed_t2_only",
+        "not_processed",
+        "source_processing_status",
+    ]
+    if processing_coverage.empty:
+        return pd.DataFrame(columns=columns)
+    summary = (
+        processing_coverage.groupby("source_index", dropna=False)["processing_status"]
+        .value_counts()
+        .unstack(fill_value=0)
+        .reset_index()
+    )
+    for col in ["processed_t1_t2", "processed_t1_only", "processed_t2_only", "not_processed"]:
+        if col not in summary.columns:
+            summary[col] = 0
+    summary["text_units"] = summary[["processed_t1_t2", "processed_t1_only", "processed_t2_only", "not_processed"]].sum(axis=1)
+
+    def status(row: pd.Series) -> str:
+        if int(row["not_processed"]) == int(row["text_units"]):
+            return "not_processed"
+        if int(row["processed_t1_t2"]) == int(row["text_units"]):
+            return "processed_t1_t2"
+        return "partially_processed"
+
+    summary["source_processing_status"] = summary.apply(status, axis=1)
+    return summary[columns]
+
+
 st.title("Ground Truth Step-by-Step Visualizer")
 st.caption("Follow the exact files produced by `ground_truth.py`: source ESG records, extracted text units, T1 model classifications, and T2 rule/hybrid outputs.")
 
@@ -303,10 +424,12 @@ t1_raw = load_jsonl(t1_path)
 t1_df = flatten_t1(t1_raw)
 t2_raw = load_jsonl(t2_path)
 t2_df = flatten_t2(t2_raw)
+processing_coverage = build_processing_coverage(text_units, t1_df, t2_raw)
+source_coverage = build_source_row_coverage(processing_coverage)
 
 if search.strip():
     needle = search.strip().lower()
-    for name, df in [("text_units", text_units), ("t1_df", t1_df), ("t2_df", t2_df)]:
+    for name, df in [("text_units", text_units), ("t1_df", t1_df), ("t2_df", t2_df), ("processing_coverage", processing_coverage)]:
         if df.empty:
             continue
         mask = pd.Series(False, index=df.index)
@@ -316,16 +439,34 @@ if search.strip():
             text_units = df[mask]
         elif name == "t1_df":
             t1_df = df[mask]
-        else:
+        elif name == "t2_df":
             t2_df = df[mask]
+        else:
+            processing_coverage = df[mask]
+            source_coverage = build_source_row_coverage(processing_coverage)
 
-metric_cols = st.columns(6)
+with st.sidebar:
+    st.header("Processing Coverage")
+    status_options = [
+        "processed_t1_t2",
+        "processed_t1_only",
+        "processed_t2_only",
+        "not_processed",
+    ]
+    selected_statuses = st.multiselect("Text-unit processing status", status_options, default=[])
+    if selected_statuses and not processing_coverage.empty:
+        processing_coverage = processing_coverage[processing_coverage["processing_status"].isin(selected_statuses)]
+        source_coverage = build_source_row_coverage(processing_coverage)
+
+metric_cols = st.columns(8)
 metric_cols[0].metric("Source rows", f"{len(source_df):,}")
 metric_cols[1].metric("Extracted text units", f"{len(text_units):,}")
 metric_cols[2].metric("T1 raw rows", f"{len(t1_raw):,}")
 metric_cols[3].metric("T1 success", f"{(t1_df['success'].mean() * 100):.1f}%" if not t1_df.empty and "success" in t1_df else "0.0%")
 metric_cols[4].metric("T2 raw rows", f"{len(t2_raw):,}")
 metric_cols[5].metric("T2 visual rows", f"{len(t2_df):,}")
+metric_cols[6].metric("Processed T1+T2", f"{int((processing_coverage['processing_status'] == 'processed_t1_t2').sum()):,}" if not processing_coverage.empty else "0")
+metric_cols[7].metric("Not processed", f"{int((processing_coverage['processing_status'] == 'not_processed').sum()):,}" if not processing_coverage.empty else "0")
 
 st.caption(f"Source: `{source_path}`")
 st.caption(f"T1: `{t1_path}`")
@@ -335,11 +476,12 @@ tabs = st.tabs(
     [
         "1 Source Records",
         "2 Extracted Text Units",
-        "3 T1 Raw Output",
-        "4 T1 Predictions",
-        "5 T2 Raw Output",
-        "6 T2 Hybrid Output",
-        "7 Audit & Exports",
+        "3 Processing Coverage",
+        "4 T1 Raw Output",
+        "5 T1 Predictions",
+        "6 T2 Raw Output",
+        "7 T2 Hybrid Output",
+        "8 Audit & Exports",
     ]
 )
 
@@ -363,13 +505,42 @@ with tabs[1]:
         st.dataframe(text_units.head(int(preview_limit)), use_container_width=True, height=420)
 
 with tabs[2]:
+    st.markdown("This compares every extracted source text unit against the saved T1 and T2 output files. `ground_truth.py` resumes by label, so rows with no matching label are the ones not processed yet.")
+    if processing_coverage.empty:
+        st.warning("No extracted text units are available for processing coverage.")
+    else:
+        c1, c2 = st.columns(2)
+        with c1:
+            bar(count_frame(processing_coverage, "processing_status"), "processing_status", "Text-Unit Processing Status")
+        with c2:
+            bar(count_frame(source_coverage, "source_processing_status"), "source_processing_status", "Source Row Processing Status", color="#2563eb")
+
+        st.subheader("Source row coverage")
+        st.dataframe(source_coverage.head(int(preview_limit)), use_container_width=True, height=300)
+        st.download_button(
+            "Download source row coverage CSV",
+            source_coverage.to_csv(index=False).encode("utf-8"),
+            "ground_truth_source_row_processing_coverage.csv",
+            "text/csv",
+        )
+
+        st.subheader("Text-unit coverage")
+        st.dataframe(processing_coverage.head(int(preview_limit)), use_container_width=True, height=460)
+        st.download_button(
+            "Download text-unit coverage CSV",
+            processing_coverage.to_csv(index=False).encode("utf-8"),
+            "ground_truth_text_unit_processing_coverage.csv",
+            "text/csv",
+        )
+
+with tabs[3]:
     st.markdown("T1 appends one JSONL row per `label x model` classification into `results/t1_results.jsonl`.")
     if not t1_raw:
         st.warning("No T1 raw rows found.")
     else:
         st.json(t1_raw[: min(5, int(preview_limit))], expanded=False)
 
-with tabs[3]:
+with tabs[4]:
     st.markdown("This flattened view makes T1 model status, prediction labels, scores, and errors easier to compare.")
     if t1_df.empty:
         st.warning("No T1 rows found.")
@@ -383,14 +554,14 @@ with tabs[3]:
         histogram(t1_df, "prediction_score", "T1 Score Distribution")
         st.dataframe(t1_df.head(int(preview_limit)), use_container_width=True, height=460)
 
-with tabs[4]:
+with tabs[5]:
     st.markdown("T2 appends one JSONL row per text label into `results/t2_results.jsonl`, including rule-based and hybrid outputs.")
     if not t2_raw:
         st.warning("No T2 raw rows found.")
     else:
         st.json(t2_raw[: min(5, int(preview_limit))], expanded=False)
 
-with tabs[5]:
+with tabs[6]:
     st.markdown("This flattened view expands T2 hybrid sentence predictions, ontology paths, tone scores, and greenwashing metrics.")
     if t2_df.empty:
         st.warning("No T2 rows found.")
@@ -407,7 +578,7 @@ with tabs[5]:
             histogram(t2_df, "greenwashing_index", "Greenwashing Index")
         st.dataframe(t2_df.head(int(preview_limit)), use_container_width=True, height=460)
 
-with tabs[6]:
+with tabs[7]:
     st.markdown("Use this tab to inspect failure rows and export filtered tables for reporting or manual review.")
     t1_failures = t1_df[(~t1_df["success"]) | t1_df["error"].map(clean).ne("")] if not t1_df.empty and "success" in t1_df else pd.DataFrame()
     t2_failures = t2_df[t2_df["hybrid_error"].map(clean).ne("")] if not t2_df.empty and "hybrid_error" in t2_df else pd.DataFrame()
