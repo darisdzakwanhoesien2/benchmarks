@@ -18,6 +18,7 @@ PAGES_DIR = Path(__file__).resolve().parent
 ARTIFACTS = ROOT / "results" / "revision_analysis"
 CLIMATEBERT_JOBS = ROOT / "results" / "climatebert_background_jobs"
 CLIMATEBERT_WORKER = ROOT / "code" / "climatebert_background_worker.py"
+ROOT_MODELS_DIR = ROOT.parent / "model_download" / "models"
 
 SILVER_PATH       = ARTIFACTS / "silver_tone_ground_truth.csv"
 ANNOTATION_PATH   = ARTIFACTS / "pilot_ground_truth_annotations.csv"
@@ -159,6 +160,24 @@ def request_climatebert_stop(job_id):
     control["stop_requested"] = True
     control["updated_at"] = datetime.utcnow().isoformat(timespec="seconds") + "Z"
     write_json(control_path, control)
+
+
+def looks_like_model_dir(p: Path) -> bool:
+    return any((p / fn).exists() for fn in ("config.json", "pytorch_model.bin", "model.safetensors", "tf_model.h5"))
+
+
+def find_all_model_dirs(root: Path):
+    if not root.exists():
+        return []
+    found = set()
+    for f in root.rglob("config.json"):
+        if f.is_file():
+            found.add(f.parent.resolve())
+    for name in ("pytorch_model.bin", "model.safetensors", "tf_model.h5"):
+        for f in root.rglob(name):
+            if f.is_file():
+                found.add(f.parent.resolve())
+    return sorted(path for path in found if looks_like_model_dir(path))
 
 
 def cohen_kappa(a, b):
@@ -356,13 +375,44 @@ if show[1]:
             CLIMATEBERT_JOBS.mkdir(parents=True, exist_ok=True)
             cb_jobs = climatebert_jobs()
             latest_cb_job = cb_jobs[0] if cb_jobs else None
-            bg_cols = st.columns([2, 1, 1, 1])
-            cb_model_id = bg_cols[0].text_input(
-                "ClimateBERT model",
-                value="climatebert/distilroberta-base-climate-commitment",
-                key="cb_bg_model_id",
+            cb_model_backend = st.radio(
+                "ClimateBERT source",
+                ["Local model", "Hugging Face model id"],
+                horizontal=True,
+                key="cb_bg_model_backend",
+                help="Local model discovery follows the same pattern as ground_truth.py.",
             )
-            cb_limit = bg_cols[1].number_input(
+            local_candidates = find_all_model_dirs(ROOT_MODELS_DIR)
+            local_map = {str(path.relative_to(ROOT_MODELS_DIR)): path for path in local_candidates}
+            cb_model_id = "climatebert/distilroberta-base-climate-commitment"
+            cb_local_label = ""
+            cb_local_path = ""
+            if cb_model_backend == "Local model":
+                st.caption(f"Scanning local models at `{ROOT_MODELS_DIR}`")
+                if local_map:
+                    cb_local_label = st.selectbox(
+                        "Local ClimateBERT / text-classification model folder",
+                        sorted(local_map),
+                        index=0,
+                        key="cb_bg_local_model",
+                    )
+                    cb_local_path = str(local_map[cb_local_label])
+                    cb_model_id = cb_local_label
+                else:
+                    st.warning("No local model folders found. Check `model_download/models`.")
+                    with st.expander("Debug local model discovery", expanded=False):
+                        st.write("Exists:", ROOT_MODELS_DIR.exists())
+                        if ROOT_MODELS_DIR.exists():
+                            st.write([str(p.relative_to(ROOT_MODELS_DIR)) for p in ROOT_MODELS_DIR.rglob("*") if p.is_dir()][:50])
+            else:
+                cb_model_id = st.text_input(
+                    "Hugging Face ClimateBERT model id",
+                    value="climatebert/distilroberta-base-climate-commitment",
+                    key="cb_bg_model_id",
+                )
+
+            bg_cols = st.columns([1, 1, 1])
+            cb_limit = bg_cols[0].number_input(
                 "Run rows",
                 min_value=0,
                 max_value=max(1, len(silver)),
@@ -370,15 +420,17 @@ if show[1]:
                 help="0 means all rows. Use a small number to test first.",
                 key="cb_bg_limit",
             )
-            cb_max_chars = bg_cols[2].number_input("Max chars/text", 256, 4000, 1200, 128, key="cb_bg_max_chars")
-            cb_dry_run = bg_cols[3].checkbox("Dry run", value=False, key="cb_bg_dry_run")
+            cb_max_chars = bg_cols[1].number_input("Max chars/text", 256, 4000, 1200, 128, key="cb_bg_max_chars")
+            cb_dry_run = bg_cols[2].checkbox("Dry run", value=False, key="cb_bg_dry_run")
             cb_skip_existing = st.checkbox("Skip record IDs already present in imported ClimateBERT CSV", value=True, key="cb_bg_skip_existing")
             if st.button("Start Step 1 ClimateBERT background run", type="primary", use_container_width=True, key="start_cb_bg"):
                 job_id = f"climatebert_step1_{utc_now_id()}_{uuid.uuid4().hex[:6]}"
                 job_dir = CLIMATEBERT_JOBS / job_id
                 config = {
                     "job_id": job_id,
+                    "model_backend": cb_model_backend,
                     "model_id": cb_model_id,
+                    "local_model_path": cb_local_path,
                     "limit": int(cb_limit),
                     "max_chars": int(cb_max_chars),
                     "skip_existing": bool(cb_skip_existing),

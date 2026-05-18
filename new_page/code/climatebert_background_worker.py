@@ -16,6 +16,7 @@ ARTIFACTS = ROOT / "results" / "revision_analysis"
 JOBS_DIR = ROOT / "results" / "climatebert_background_jobs"
 SILVER_PATH = ARTIFACTS / "silver_tone_ground_truth.csv"
 IMPORTED_PATH = ARTIFACTS / "climatebert_record_batch_import.csv"
+ROOT_MODELS_DIR = ROOT.parent / "model_download" / "models"
 
 
 def utc_now() -> str:
@@ -66,6 +67,16 @@ def load_existing_outputs(path: Path) -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def load_pipeline_safe(task: str, local_path: str):
+    try:
+        from transformers import pipeline
+
+        pipe = pipeline(task, model=local_path, tokenizer=local_path)
+        return pipe, None
+    except Exception as exc:
+        return None, str(exc)
+
+
 def main(job_id: str) -> int:
     job_dir = JOBS_DIR / job_id
     config = read_json(job_dir / "config.json", {})
@@ -82,7 +93,9 @@ def main(job_id: str) -> int:
     if limit > 0:
         silver = silver.head(limit)
 
+    model_backend = str(config.get("model_backend") or "Local model")
     model_id = str(config.get("model_id") or "climatebert/distilroberta-base-climate-commitment")
+    local_model_path = str(config.get("local_model_path") or "")
     text_col = str(config.get("text_col") or "text")
     record_col = str(config.get("record_col") or "record_id")
     max_chars = int(config.get("max_chars") or 1200)
@@ -95,6 +108,7 @@ def main(job_id: str) -> int:
         job_id=job_id,
         pid=os.getpid(),
         status="running",
+        model_backend=model_backend,
         model_id=model_id,
         total=total,
         completed=0,
@@ -103,17 +117,39 @@ def main(job_id: str) -> int:
         current="Loading model" if not dry_run else "Starting dry run",
         started_at=read_json(status_path, {}).get("started_at") or utc_now(),
     )
-    append_jsonl(events_path, {"time": utc_now(), "event": "started", "model_id": model_id, "total": total, "dry_run": dry_run})
+    append_jsonl(
+        events_path,
+        {
+            "time": utc_now(),
+            "event": "started",
+            "model_backend": model_backend,
+            "model_id": model_id,
+            "local_model_path": local_model_path,
+            "total": total,
+            "dry_run": dry_run,
+        },
+    )
 
     classifier = None
     if not dry_run:
-        try:
-            from transformers import pipeline
-        except Exception as exc:
-            update_status(status_path, status="failed", current="transformers import failed", error=str(exc))
-            append_jsonl(events_path, {"time": utc_now(), "event": "failed", "error": str(exc)})
-            return 1
-        classifier = pipeline("text-classification", model=model_id)
+        if model_backend == "Local model":
+            resolved = Path(local_model_path or model_id)
+            if not resolved.is_absolute():
+                resolved = ROOT_MODELS_DIR / resolved
+            classifier, load_error = load_pipeline_safe("text-classification", str(resolved))
+            if load_error:
+                update_status(status_path, status="failed", current="local model load failed", error=load_error)
+                append_jsonl(events_path, {"time": utc_now(), "event": "failed", "error": load_error, "local_model_path": str(resolved)})
+                return 1
+            model_id = str(resolved)
+        else:
+            try:
+                from transformers import pipeline
+            except Exception as exc:
+                update_status(status_path, status="failed", current="transformers import failed", error=str(exc))
+                append_jsonl(events_path, {"time": utc_now(), "event": "failed", "error": str(exc)})
+                return 1
+            classifier = pipeline("text-classification", model=model_id)
 
     existing = load_existing_outputs(IMPORTED_PATH)
     existing_ids = set(existing[record_col].astype(str)) if skip_existing and record_col in existing.columns else set()
@@ -154,6 +190,7 @@ def main(job_id: str) -> int:
             out.update(
                 {
                     "climatebert_model": model_id,
+                    "climatebert_model_backend": model_backend,
                     "climatebert_label": label,
                     "climatebert_score": round(float(score), 6),
                     "climatebert_commitment_pred": is_commitment_label(label),
@@ -171,6 +208,7 @@ def main(job_id: str) -> int:
             out.update(
                 {
                     "climatebert_model": model_id,
+                    "climatebert_model_backend": model_backend,
                     "climatebert_label": "",
                     "climatebert_score": "",
                     "climatebert_commitment_pred": "",
