@@ -112,6 +112,40 @@ def default_shortcut_path(paths: list[str]) -> str:
     return paths[0] if paths else "/api/v1/catalog"
 
 
+def render_get_shortcut_picker(
+    shortcut_rows: list[dict[str, Any]],
+    shortcut_by_label: dict[str, dict[str, Any]],
+    shortcut_label_by_path: dict[str, str],
+    shortcuts: list[str],
+    endpoint_path: str,
+    *,
+    key_prefix: str,
+) -> None:
+    st.subheader("Call GET shortcut endpoint")
+    st.markdown("These options are read from the live OpenAPI schema behind `/docs`, excluding parameterized paths.")
+    if not shortcut_rows:
+        st.warning("No GET shortcut endpoints were discovered from OpenAPI.")
+        return
+
+    quick_labels = list(shortcut_by_label)
+    quick_default_path = endpoint_path if endpoint_path in shortcut_label_by_path else default_shortcut_path(shortcuts)
+    quick_default_label = shortcut_label_by_path.get(quick_default_path, quick_labels[0])
+    quick_label = st.selectbox(
+        "GET endpoint",
+        quick_labels,
+        index=quick_labels.index(quick_default_label) if quick_default_label in quick_labels else 0,
+        key=f"{key_prefix}_quick_shortcut_label",
+    )
+    quick_endpoint = shortcut_by_label[quick_label]
+    q1, q2, q3 = st.columns([2, 2, 1])
+    q1.caption(f"Path: `{quick_endpoint['path']}`")
+    q2.caption(f"Tags: `{quick_endpoint.get('tags', '') or 'none'}`")
+    q3.caption(f"Query: `{quick_endpoint.get('query_parameters', '') or 'none'}`")
+    if st.button("Use selected GET endpoint", use_container_width=True, key=f"{key_prefix}_use_shortcut"):
+        st.session_state["api_reader_pending_shortcut_label"] = quick_label
+        st.rerun()
+
+
 def extract_records(data: Any) -> tuple[pd.DataFrame, str]:
     if not isinstance(data, dict):
         return pd.DataFrame(), "non-object response"
@@ -317,28 +351,14 @@ st.caption(f"Record source: `{record_source}`")
 tabs = st.tabs(["Catalog", "Table", "Record Detail", "Summary", "Raw JSON", "Export"])
 
 with tabs[0]:
-    st.subheader("Call GET shortcut endpoint")
-    st.markdown("These options are read from the live OpenAPI schema behind `/docs`, excluding parameterized paths.")
-    if shortcut_rows:
-        quick_labels = list(shortcut_by_label)
-        quick_default_path = endpoint_path if endpoint_path in shortcut_label_by_path else default_shortcut_path(shortcuts)
-        quick_default_label = shortcut_label_by_path.get(quick_default_path, quick_labels[0])
-        quick_label = st.selectbox(
-            "GET endpoint",
-            quick_labels,
-            index=quick_labels.index(quick_default_label) if quick_default_label in quick_labels else 0,
-            key="api_reader_catalog_quick_shortcut_label",
-        )
-        quick_endpoint = shortcut_by_label[quick_label]
-        q1, q2, q3 = st.columns([2, 2, 1])
-        q1.caption(f"Path: `{quick_endpoint['path']}`")
-        q2.caption(f"Tags: `{quick_endpoint.get('tags', '') or 'none'}`")
-        q3.caption(f"Query: `{quick_endpoint.get('query_parameters', '') or 'none'}`")
-        if st.button("Use selected GET endpoint", use_container_width=True):
-            st.session_state["api_reader_pending_shortcut_label"] = quick_label
-            st.rerun()
-    else:
-        st.warning("No GET shortcut endpoints were discovered from OpenAPI.")
+    render_get_shortcut_picker(
+        shortcut_rows,
+        shortcut_by_label,
+        shortcut_label_by_path,
+        shortcuts,
+        endpoint_path,
+        key_prefix="api_reader_catalog",
+    )
 
     st.subheader("Catalog datasets")
     catalog_df = pd.DataFrame(datasets)
@@ -383,6 +403,15 @@ with tabs[2]:
                 detail_data, detail_meta = request_json(base_url, direct_path, api_key)
                 st.caption(f"Detail URL: `{detail_meta['url']}`")
                 st.json(detail_data, expanded=True)
+
+    render_get_shortcut_picker(
+        shortcut_rows,
+        shortcut_by_label,
+        shortcut_label_by_path,
+        shortcuts,
+        endpoint_path,
+        key_prefix="api_reader_record_detail",
+    )
 
 with tabs[3]:
     if records_df.empty:
