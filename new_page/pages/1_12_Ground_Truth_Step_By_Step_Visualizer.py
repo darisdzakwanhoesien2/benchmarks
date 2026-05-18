@@ -1,9 +1,14 @@
 from __future__ import annotations
 
+from datetime import datetime
 import json
+import os
 import re
 from pathlib import Path
+import subprocess
+import sys
 from typing import Any
+import uuid
 
 import altair as alt
 import pandas as pd
@@ -17,6 +22,9 @@ RESULTS_DIR = ROOT / "results"
 DEFAULT_SOURCE = RESULTS_DIR / "esg_records.json"
 DEFAULT_T1 = RESULTS_DIR / "t1_results.jsonl"
 DEFAULT_T2 = RESULTS_DIR / "t2_results.jsonl"
+GT_JOBS_DIR = RESULTS_DIR / "ground_truth_background_jobs"
+GT_WORKER_PATH = ROOT / "code" / "ground_truth_background_worker.py"
+MODELS_CACHE_PATH = Path(__file__).parent / "models_cache.json"
 
 
 def clean(value: Any) -> str:
@@ -34,6 +42,13 @@ def load_json(path: Path) -> Any:
         return json.loads(path.read_text(encoding="utf-8", errors="ignore"))
     except Exception:
         return []
+
+
+def write_json(path: Path, data: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(path)
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -404,6 +419,101 @@ def build_source_row_coverage(processing_coverage: pd.DataFrame) -> pd.DataFrame
     return summary[columns]
 
 
+def utc_now_id() -> str:
+    return datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+
+
+def is_process_alive(pid: Any) -> bool:
+    if not pid:
+        return False
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except OSError:
+        return False
+
+
+def list_ground_truth_jobs() -> list[str]:
+    if not GT_JOBS_DIR.exists():
+        return []
+    return sorted([path.name for path in GT_JOBS_DIR.iterdir() if path.is_dir()], reverse=True)
+
+
+def ground_truth_jobs_frame() -> pd.DataFrame:
+    rows: list[dict[str, Any]] = []
+    for job_id in list_ground_truth_jobs():
+        job_dir = GT_JOBS_DIR / job_id
+        status = load_json(job_dir / "status.json")
+        config = load_json(job_dir / "config.json")
+        if not isinstance(status, dict):
+            status = {}
+        if not isinstance(config, dict):
+            config = {}
+        total = int(status.get("total") or 0)
+        completed = int(status.get("completed") or 0)
+        rows.append(
+            {
+                "job_id": job_id,
+                "status": clean(status.get("status") or "unknown"),
+                "alive": is_process_alive(status.get("pid")),
+                "pid": status.get("pid"),
+                "progress_pct": round((completed / total * 100), 1) if total else 0.0,
+                "completed": completed,
+                "total": total,
+                "failed": int(status.get("failed") or 0),
+                "skipped": int(status.get("skipped") or 0),
+                "items": len(config.get("items", [])) if isinstance(config.get("items"), list) else 0,
+                "run_t1": bool(config.get("run_t1")),
+                "run_t2": bool(config.get("run_t2")),
+                "current": clean(status.get("current")),
+                "updated_at": clean(status.get("updated_at")),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def chunk_records(records: list[dict[str, Any]], n_chunks: int) -> list[list[dict[str, Any]]]:
+    n_chunks = max(1, min(int(n_chunks), max(1, len(records))))
+    chunks: list[list[dict[str, Any]]] = [[] for _ in range(n_chunks)]
+    for index, record in enumerate(records):
+        chunks[index % n_chunks].append(record)
+    return [chunk for chunk in chunks if chunk]
+
+
+def launch_ground_truth_job(job_id: str) -> None:
+    job_dir = GT_JOBS_DIR / job_id
+    log_path = job_dir / "worker.log"
+    err_path = job_dir / "worker.err.log"
+    job_dir.mkdir(parents=True, exist_ok=True)
+    with log_path.open("ab") as stdout, err_path.open("ab") as stderr:
+        process = subprocess.Popen(
+            [sys.executable, str(GT_WORKER_PATH), job_id],
+            cwd=str(ROOT),
+            stdout=stdout,
+            stderr=stderr,
+            start_new_session=True,
+        )
+    status = load_json(job_dir / "status.json")
+    if not isinstance(status, dict):
+        status = {}
+    status.update(
+        {
+            "job_id": job_id,
+            "pid": process.pid,
+            "status": "running",
+            "updated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        }
+    )
+    write_json(job_dir / "status.json", status)
+
+
+def model_cache_options() -> list[str]:
+    data = load_json(MODELS_CACHE_PATH)
+    if isinstance(data, list):
+        return [clean(item) for item in data if clean(item)]
+    return []
+
+
 st.title("Ground Truth Step-by-Step Visualizer")
 st.caption("Follow the exact files produced by `ground_truth.py`: source ESG records, extracted text units, T1 model classifications, and T2 rule/hybrid outputs.")
 
@@ -425,6 +535,7 @@ t1_df = flatten_t1(t1_raw)
 t2_raw = load_jsonl(t2_path)
 t2_df = flatten_t2(t2_raw)
 processing_coverage = build_processing_coverage(text_units, t1_df, t2_raw)
+all_processing_coverage = processing_coverage.copy()
 source_coverage = build_source_row_coverage(processing_coverage)
 
 if search.strip():
@@ -532,6 +643,124 @@ with tabs[2]:
             "ground_truth_text_unit_processing_coverage.csv",
             "text/csv",
         )
+
+        st.subheader("Background processing for missing rows")
+        st.markdown("Queue unprocessed text units into independent background chunks. The workers write to the same `t1_results.jsonl` and `t2_results.jsonl` files as `ground_truth.py`, so the run can continue even when the browser page is not visible.")
+
+        bg_left, bg_right = st.columns([1, 1])
+        with bg_left:
+            bg_statuses = st.multiselect(
+                "Rows to queue",
+                ["not_processed", "processed_t1_only", "processed_t2_only"],
+                default=["not_processed"],
+                help="Use `not_processed` for new rows. Use the partial statuses to finish only the missing side of an interrupted run.",
+            )
+            run_t2_background = st.checkbox("Run T2 rule/hybrid processing", value=True)
+            run_t1_background = st.checkbox("Run T1 ClimateBERT processing", value=False)
+            n_chunks = st.number_input("Split into N background chunks", min_value=1, max_value=50, value=4, step=1)
+        with bg_right:
+            model_options = model_cache_options()
+            free_models = [model for model in model_options if ":free" in model or "free" in model.lower()]
+            default_models = free_models[:1] or model_options[:1]
+            selected_models = st.multiselect(
+                "T1 ClimateBERT model ids",
+                options=model_options,
+                default=default_models if run_t1_background else [],
+                disabled=not run_t1_background,
+            )
+            extra_models_text = st.text_area(
+                "Additional T1 model ids, one per line",
+                value="",
+                height=90,
+                disabled=not run_t1_background,
+            )
+            include_current_filter = st.checkbox(
+                "Use current search/status filtered table",
+                value=False,
+                help="Off means queue from the full source coverage table. On means queue only rows currently visible after search/status filters.",
+            )
+
+        candidate_source = processing_coverage if include_current_filter else all_processing_coverage
+        if bg_statuses and not candidate_source.empty:
+            bg_candidates = candidate_source[candidate_source["processing_status"].isin(bg_statuses)].copy()
+        else:
+            bg_candidates = pd.DataFrame(columns=candidate_source.columns)
+
+        bg_models = [clean(model) for model in selected_models if clean(model)]
+        bg_models.extend([line.strip() for line in extra_models_text.splitlines() if line.strip()])
+        bg_models = sorted(set(bg_models))
+        bg_total_tasks = (len(bg_candidates) if run_t2_background else 0) + (len(bg_candidates) * len(bg_models) if run_t1_background else 0)
+
+        summary_cols = st.columns(4)
+        summary_cols[0].metric("Candidate text units", f"{len(bg_candidates):,}")
+        summary_cols[1].metric("Chunks to start", f"{min(int(n_chunks), max(1, len(bg_candidates))) if len(bg_candidates) else 0:,}")
+        summary_cols[2].metric("Queued T1 models", f"{len(bg_models):,}" if run_t1_background else "0")
+        summary_cols[3].metric("Total operations", f"{bg_total_tasks:,}")
+
+        can_start_background = (
+            len(bg_candidates) > 0
+            and (run_t1_background or run_t2_background)
+            and (not run_t1_background or bool(bg_models))
+        )
+        if run_t1_background and not bg_models:
+            st.warning("Select or type at least one T1 model id before starting T1 background processing.")
+
+        if st.button("Start background processing chunks", disabled=not can_start_background, use_container_width=True):
+            GT_JOBS_DIR.mkdir(parents=True, exist_ok=True)
+            batch_id = f"gt_bg_{utc_now_id()}_{uuid.uuid4().hex[:6]}"
+            queued_records = bg_candidates[["source_index", "label", "source_type", "chars", "text"]].to_dict("records")
+            chunks = chunk_records(queued_records, int(n_chunks))
+            started_ids: list[str] = []
+            created_at = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+            for part_index, chunk in enumerate(chunks, start=1):
+                job_id = f"{batch_id}_part_{part_index:03d}"
+                job_dir = GT_JOBS_DIR / job_id
+                config = {
+                    "job_id": job_id,
+                    "batch_id": batch_id,
+                    "part": part_index,
+                    "parts": len(chunks),
+                    "items": chunk,
+                    "run_t1": bool(run_t1_background),
+                    "run_t2": bool(run_t2_background),
+                    "t1_backend": "ClimateBERT API",
+                    "models": bg_models,
+                    "created_at": created_at,
+                }
+                total = (len(chunk) * len(bg_models) if run_t1_background else 0) + (len(chunk) if run_t2_background else 0)
+                write_json(job_dir / "config.json", config)
+                write_json(
+                    job_dir / "status.json",
+                    {
+                        "job_id": job_id,
+                        "batch_id": batch_id,
+                        "status": "queued",
+                        "total": total,
+                        "completed": 0,
+                        "failed": 0,
+                        "skipped": 0,
+                        "current": "Queued",
+                        "created_at": created_at,
+                        "updated_at": created_at,
+                    },
+                )
+                launch_ground_truth_job(job_id)
+                started_ids.append(job_id)
+            st.success(f"Started {len(started_ids)} background job(s) for batch `{batch_id}`.")
+            st.rerun()
+
+        jobs_df = ground_truth_jobs_frame()
+        st.subheader("Background job monitor")
+        if jobs_df.empty:
+            st.info("No ground-truth background jobs have been started yet.")
+        else:
+            live_cols = st.columns(5)
+            live_cols[0].metric("Jobs", f"{len(jobs_df):,}")
+            live_cols[1].metric("Running", f"{int(jobs_df['alive'].sum()):,}")
+            live_cols[2].metric("Completed ops", f"{int(jobs_df['completed'].sum()):,}")
+            live_cols[3].metric("Failed ops", f"{int(jobs_df['failed'].sum()):,}")
+            live_cols[4].metric("Skipped ops", f"{int(jobs_df['skipped'].sum()):,}")
+            st.dataframe(jobs_df.head(int(preview_limit)), use_container_width=True, height=360)
 
 with tabs[3]:
     st.markdown("T1 appends one JSONL row per `label x model` classification into `results/t1_results.jsonl`.")
