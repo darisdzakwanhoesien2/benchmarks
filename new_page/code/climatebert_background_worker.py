@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ROOT / "results" / "revision_analysis"
 JOBS_DIR = ROOT / "results" / "climatebert_background_jobs"
 SILVER_PATH = ARTIFACTS / "silver_tone_ground_truth.csv"
+SCRIPT_OUTPUT_PATH = ARTIFACTS / "climatebert_output.csv"
 IMPORTED_PATH = ARTIFACTS / "climatebert_record_batch_import.csv"
 ROOT_MODELS_DIR = ROOT.parent / "model_download" / "models"
 
@@ -154,6 +155,7 @@ def main(job_id: str) -> int:
     existing = load_existing_outputs(IMPORTED_PATH)
     existing_ids = set(existing[record_col].astype(str)) if skip_existing and record_col in existing.columns else set()
     output_rows: list[dict[str, Any]] = existing.to_dict("records") if not existing.empty else []
+    script_rows = load_existing_outputs(SCRIPT_OUTPUT_PATH).to_dict("records")
     completed = 0
     failed = 0
     skipped = 0
@@ -198,6 +200,17 @@ def main(job_id: str) -> int:
                     "climatebert_elapsed_sec": round(time.time() - started, 3),
                 }
             )
+            script_rows.append(
+                {
+                    "record_id": record_id,
+                    "label": label,
+                    "score": round(float(score), 6),
+                    "climate_commitment": is_commitment_label(label),
+                    "climatebert_model": model_id,
+                    "climatebert_model_backend": model_backend,
+                    "climatebert_job_id": job_id,
+                }
+            )
             output_rows.append(out)
             completed += 1
             append_jsonl(events_path, {"time": utc_now(), "event": "record_completed", "record_id": record_id, "label": label})
@@ -219,12 +232,31 @@ def main(job_id: str) -> int:
             output_rows.append(out)
             append_jsonl(events_path, {"time": utc_now(), "event": "record_failed", "record_id": record_id, "error": str(exc)[:1200]})
 
+        pd.DataFrame(script_rows).to_csv(SCRIPT_OUTPUT_PATH, index=False)
         pd.DataFrame(output_rows).to_csv(IMPORTED_PATH, index=False)
-        update_status(status_path, completed=completed, failed=failed, skipped=skipped)
+        update_status(
+            status_path,
+            completed=completed,
+            failed=failed,
+            skipped=skipped,
+            script_output_path=str(SCRIPT_OUTPUT_PATH),
+            imported_output_path=str(IMPORTED_PATH),
+        )
 
+    pd.DataFrame(script_rows).to_csv(SCRIPT_OUTPUT_PATH, index=False)
     pd.DataFrame(output_rows).to_csv(IMPORTED_PATH, index=False)
     final_status = "completed_with_errors" if failed else "completed"
-    update_status(status_path, status=final_status, completed=completed, failed=failed, skipped=skipped, current="Finished", finished_at=utc_now())
+    update_status(
+        status_path,
+        status=final_status,
+        completed=completed,
+        failed=failed,
+        skipped=skipped,
+        current="Finished",
+        finished_at=utc_now(),
+        script_output_path=str(SCRIPT_OUTPUT_PATH),
+        imported_output_path=str(IMPORTED_PATH),
+    )
     append_jsonl(events_path, {"time": utc_now(), "event": final_status, "completed": completed, "failed": failed, "skipped": skipped})
     return 0 if not failed else 1
 

@@ -24,6 +24,7 @@ SILVER_PATH       = ARTIFACTS / "silver_tone_ground_truth.csv"
 ANNOTATION_PATH   = ARTIFACTS / "pilot_ground_truth_annotations.csv"
 SEED_PATH         = ARTIFACTS / "pilot_ground_truth_seed.csv"
 PROXY_PATH        = ARTIFACTS / "climatebert_proxy_agreement_records.csv"
+CLIMATEBERT_OUTPUT_PATH = ARTIFACTS / "climatebert_output.csv"
 IMPORTED_PATH     = ARTIFACTS / "climatebert_record_batch_import.csv"
 ONTOLOGY_PATH     = ARTIFACTS / "ontology_coverage.csv"
 PROMPT_STAB_PATH  = ARTIFACTS / "prompt_stability_summary.csv"
@@ -43,6 +44,20 @@ FAILURE_MODES = [
     "Scanned page / low OCR quality", "Generic boilerplate statement", "Diacritics error",
     "Missing required schema field", "Schema drift", "Empty / truncated text",
     "Multiple aspects merged into one",
+]
+
+CLUSTER_NAMES = [
+    "Community Relations",
+    "Regulatory Compliance",
+    "Supply Chain",
+    "Human Capital",
+    "Energy & Climate",
+    "Waste & Pollution",
+    "Governance & Ethics",
+    "Financial Sustainability",
+    "Digital & Data",
+    "Biodiversity & Land",
+    "Other",
 ]
 
 COL_ALIASES = {
@@ -281,6 +296,54 @@ def nonempty_count(df, col):
     return int(series.astype(str).str.strip().ne("").sum())
 
 
+def missing_annotation_mask(df):
+    if df.empty:
+        return pd.Series(dtype=bool)
+    mask = pd.Series(False, index=df.index)
+    for col in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect"]:
+        if col in df.columns:
+            mask = mask | column_series(df, col).astype(str).str.strip().eq("")
+        else:
+            mask = pd.Series(True, index=df.index)
+    return mask
+
+
+def import_climatebert_output(df_up, label_col):
+    df_up = df_up.copy().fillna("")
+    df_up["climatebert_commitment_pred"] = df_up[label_col].astype(str).str.lower().isin(
+        ["yes", "true", "1", "commitment", "climate-commitment"]
+    )
+    if not silver.empty:
+        keep_cols = ["record_id", "climatebert_commitment_pred", label_col]
+        optional_cols = [c for c in ["score", "climatebert_model", "climatebert_model_backend", "climatebert_job_id"] if c in df_up.columns]
+        merged = silver.merge(df_up[keep_cols + optional_cols], on="record_id", how="left")
+    else:
+        merged = df_up
+    merged.to_csv(IMPORTED_PATH, index=False)
+    return merged
+
+
+def suggest_aspect_cluster(aspect):
+    text = str(aspect or "").lower()
+    rules = [
+        ("Governance & Ethics", ["korupsi", "antikorupsi", "anti korupsi", "etik", "governance", "komisaris", "direksi", "kepatuhan", "compliance", "gratifikasi", "conflict", "konflik kepentingan"]),
+        ("Energy & Climate", ["climate", "karbon", "emisi", "netzero", "net zero", "energi", "energy", "scope", "ghg", "iklim", "renewable"]),
+        ("Waste & Pollution", ["limbah", "waste", "pollution", "polusi", "air limbah", "b3", "sampah", "emission", "water", "air"]),
+        ("Human Capital", ["karyawan", "employee", "pelatihan", "training", "keselamatan", "k3", "human", "tenaga kerja", "labor", "pekerja"]),
+        ("Community Relations", ["masyarakat", "community", "komunitas", "sosial", "csr", "pemberdayaan", "pendidikan", "donasi", "stakeholder"]),
+        ("Supply Chain", ["vendor", "supplier", "rantai pasok", "supply", "procurement", "pemasok"]),
+        ("Financial Sustainability", ["financial", "keuangan", "investasi", "economic", "ekonomi", "profit", "revenue"]),
+        ("Digital & Data", ["digital", "data", "cyber", "teknologi", "technology", "privacy"]),
+        ("Biodiversity & Land", ["biodiversity", "keanekaragaman", "lahan", "land", "hutan", "forest", "habitat"]),
+    ]
+    for cluster, keywords in rules:
+        if any(keyword in text for keyword in keywords):
+            return cluster
+    if text in {"missing", "none", "nan", ""}:
+        return "Other"
+    return "Other"
+
+
 # ── Load data ─────────────────────────────────────────────────────────────────
 silver     = load(SILVER_PATH)
 annot_raw  = load(ANNOTATION_PATH) if ANNOTATION_PATH.exists() else load(SEED_PATH)
@@ -386,8 +449,8 @@ if show[1]:
             st.markdown("#### 1b. Upload real ClimateBERT outputs")
             st.markdown("#### 1b-alt. Run Step 1 in the background")
             st.caption(
-                "This writes directly to `results/revision_analysis/climatebert_record_batch_import.csv`, "
-                "so the output is integrated into the same real ClimateBERT result slot as the uploader below."
+                "This creates `results/revision_analysis/climatebert_output.csv`, the same file shape as the copy-paste script. "
+                "The upload/import section below can then import that background-produced file."
             )
             CLIMATEBERT_JOBS.mkdir(parents=True, exist_ok=True)
             cb_jobs = climatebert_jobs()
@@ -489,6 +552,8 @@ if show[1]:
                 s2.metric("Failed", int(cb_status.get("failed") or 0))
                 s3.metric("Skipped", int(cb_status.get("skipped") or 0))
                 s4.metric("PID", cb_status.get("pid") or "None", delta="alive" if is_alive(cb_status.get("pid")) else "not running")
+                if cb_status.get("script_output_path"):
+                    st.caption(f"Background script-compatible output: `{cb_status.get('script_output_path')}`")
                 if st.button("Stop selected ClimateBERT job after current row", use_container_width=True, key="stop_cb_bg"):
                     request_climatebert_stop(selected_cb_job)
                     st.rerun()
@@ -504,6 +569,27 @@ if show[1]:
                 "Upload the `climatebert_output.csv` produced by the script",
                 type=["csv"], key="cb_upload"
             )
+            if CLIMATEBERT_OUTPUT_PATH.exists():
+                st.info(f"Background output found: `{CLIMATEBERT_OUTPUT_PATH}`")
+                bg_df = pd.read_csv(CLIMATEBERT_OUTPUT_PATH).fillna("")
+                st.dataframe(bg_df.tail(20), use_container_width=True, height=180)
+                st.download_button(
+                    "Download background climatebert_output.csv",
+                    bg_df.to_csv(index=False).encode("utf-8"),
+                    "climatebert_output.csv",
+                    "text/csv",
+                    use_container_width=True,
+                )
+                bg_possible = [c for c in ["climate_commitment", "label", "top_label", "climate_commitment_label"] if c in bg_df.columns]
+                if bg_possible:
+                    bg_lcol = st.selectbox("Background output commitment label column", bg_possible, key="cb_bg_lcol")
+                    if st.button("Import background climatebert_output.csv into real ClimateBERT outputs", type="primary", use_container_width=True):
+                        imported = import_climatebert_output(bg_df, bg_lcol)
+                        st.success(f"Imported {len(imported)} records from background `climatebert_output.csv` → {IMPORTED_PATH.name}")
+                        st.rerun()
+                else:
+                    st.warning("Background `climatebert_output.csv` is missing a commitment label column.")
+
             if uploaded:
                 df_up = pd.read_csv(uploaded).fillna("")
                 if "record_id" not in df_up.columns:
@@ -514,14 +600,7 @@ if show[1]:
                         st.error("No commitment output column found. Need one of: climate_commitment, label, top_label.")
                     else:
                         lcol = st.selectbox("Which column holds the climate-commitment label?", possible, key="cb_lcol")
-                        df_up["climatebert_commitment_pred"] = df_up[lcol].astype(str).str.lower().isin(
-                            ["yes", "true", "1", "commitment", "climate-commitment"]
-                        )
-                        if not silver.empty:
-                            merged = silver.merge(df_up[["record_id", "climatebert_commitment_pred", lcol]], on="record_id", how="left")
-                        else:
-                            merged = df_up
-                        merged.to_csv(IMPORTED_PATH, index=False)
+                        merged = import_climatebert_output(df_up, lcol)
                         st.success(f"Saved {len(merged)} records → {IMPORTED_PATH.name}")
                         imported = merged
 
@@ -647,6 +726,16 @@ if show[2]:
 
             st.markdown("#### Or edit directly in the table")
             if not annot.empty:
+                missing_mask = missing_annotation_mask(annot)
+                editor_view = st.radio(
+                    "Rows to show",
+                    ["Not annotated yet", "All data"],
+                    horizontal=True,
+                    key="annotation_editor_view",
+                    help="Not annotated yet shows rows missing tone, ESG, or aspect ground-truth fields.",
+                )
+                annot_editor_df = annot[missing_mask].copy() if editor_view == "Not annotated yet" else annot.copy()
+                st.caption(f"Showing {len(annot_editor_df):,} of {len(annot):,} rows. Missing/incomplete rows: {int(missing_mask.sum()):,}.")
                 edit_cols = [c for c in ["record_id", "text", "tone_pred", "ground_truth_tone",
                                          "ground_truth_esg", "ground_truth_aspect", "review_status",
                                          "annotator", "review_notes"] if c in annot.columns]
@@ -656,7 +745,7 @@ if show[2]:
                     "review_status":       st.column_config.SelectboxColumn("review_status",       options=STATUS_OPTS),
                     "text":                st.column_config.TextColumn("text", width="large"),
                 }
-                edited = st.data_editor(annot[edit_cols], use_container_width=True, height=380,
+                edited = st.data_editor(annot_editor_df[edit_cols], use_container_width=True, height=380,
                                         column_config=col_cfg,
                                         disabled=["record_id", "text", "tone_pred"], key="annot_editor")
                 if st.button("Save direct edits", key="save_direct"):
@@ -894,25 +983,68 @@ if show[6]:
                 unmapped_mask = ~ontology["mapped_to_ontology"].astype(str).str.lower().isin(["true", "1", "yes"]) if "mapped_to_ontology" in ontology.columns else pd.Series([True] * len(ontology))
                 unmapped = ontology[unmapped_mask].copy()
                 st.markdown(f"#### {len(unmapped)} unmapped aspects — assign clusters")
-                cluster_names = ["Community Relations", "Regulatory Compliance", "Supply Chain",
-                                 "Human Capital", "Energy & Climate", "Waste & Pollution",
-                                 "Governance & Ethics", "Financial Sustainability", "Other"]
                 if not unmapped.empty:
                     display_cols = [c for c in ["aspect", "records", "suggested_path"] if c in unmapped.columns]
-                    edited_clusters = st.data_editor(
-                        unmapped[display_cols].assign(cluster=""),
-                        column_config={
-                            "cluster": st.column_config.SelectboxColumn("cluster", options=[""] + cluster_names, width="medium"),
-                            "aspect": st.column_config.TextColumn("aspect", disabled=True),
-                        },
-                        use_container_width=True, height=360, key="cluster_editor",
+                    review = unmapped[display_cols].copy()
+                    review["suggested_cluster"] = review["aspect"].map(suggest_aspect_cluster)
+                    if not clusters_saved.empty and "aspect" in clusters_saved.columns and "cluster" in clusters_saved.columns:
+                        saved_map = clusters_saved.drop_duplicates("aspect", keep="last").set_index("aspect")["cluster"].to_dict()
+                        review["cluster"] = review["aspect"].map(saved_map).fillna(review["suggested_cluster"])
+                    else:
+                        review["cluster"] = review["suggested_cluster"]
+                    cluster_view = st.radio(
+                        "Rows to show",
+                        ["Needs review", "All unmapped aspects", "Auto-suggested only"],
+                        horizontal=True,
+                        key="cluster_rows_to_show",
                     )
-                    if st.button("Save cluster assignments", type="primary", key="save_clusters"):
+                    if cluster_view == "Needs review":
+                        visible_clusters = review[
+                            review["cluster"].astype(str).str.strip().eq("")
+                            | review["cluster"].eq("Other")
+                            | review["aspect"].astype(str).str.lower().isin(["missing", "none"])
+                        ].copy()
+                    elif cluster_view == "Auto-suggested only":
+                        visible_clusters = review[review["cluster"].eq(review["suggested_cluster"])].copy()
+                    else:
+                        visible_clusters = review.copy()
+                    st.caption(
+                        f"Showing {len(visible_clusters):,} of {len(review):,} unmapped aspects. "
+                        "Use `suggested_cluster` as a starting point, then adjust `cluster` where needed."
+                    )
+                    edited_clusters = st.data_editor(
+                        visible_clusters,
+                        column_config={
+                            "cluster": st.column_config.SelectboxColumn("cluster", options=[""] + CLUSTER_NAMES, width="medium"),
+                            "suggested_cluster": st.column_config.TextColumn("suggested_cluster", disabled=True, width="medium"),
+                            "aspect": st.column_config.TextColumn("aspect", disabled=True, width="large"),
+                            "records": st.column_config.NumberColumn("records", disabled=True, width="small"),
+                            "suggested_path": st.column_config.TextColumn("suggested_path", disabled=True, width="medium"),
+                        },
+                        use_container_width=True,
+                        hide_index=True,
+                        height=430,
+                        key="cluster_editor",
+                    )
+                    csave1, csave2 = st.columns(2)
+                    with csave1:
+                        save_clicked = st.button("Save visible cluster assignments", type="primary", key="save_clusters", use_container_width=True)
+                    with csave2:
+                        auto_save_clicked = st.button("Auto-save suggested clusters for all unmapped", key="auto_save_clusters", use_container_width=True)
+                    if save_clicked:
                         assigned = edited_clusters[edited_clusters["cluster"].astype(str).str.strip().ne("")]
                         existing_c = load(CLUSTER_PATH)
                         combined = pd.concat([existing_c, assigned], ignore_index=True).drop_duplicates(subset=["aspect"], keep="last")
                         combined.to_csv(CLUSTER_PATH, index=False)
                         st.success(f"Saved {len(assigned)} cluster assignments → {CLUSTER_PATH.name}")
+                        st.rerun()
+                    if auto_save_clicked:
+                        assigned = review.copy()
+                        assigned["cluster"] = assigned["suggested_cluster"]
+                        existing_c = load(CLUSTER_PATH)
+                        combined = pd.concat([existing_c, assigned], ignore_index=True).drop_duplicates(subset=["aspect"], keep="last")
+                        combined.to_csv(CLUSTER_PATH, index=False)
+                        st.success(f"Auto-saved {len(assigned)} suggested cluster assignments → {CLUSTER_PATH.name}")
                         st.rerun()
             else:
                 st.info(f"ontology_coverage.csv not found at {ONTOLOGY_PATH}")
@@ -938,6 +1070,15 @@ if show[6]:
                     tooltip=["cluster", "count"],
                 ).properties(height=220)
                 st.altair_chart(bar2, use_container_width=True)
+                top_share = float(cc["count"].max() / cc["count"].sum()) if cc["count"].sum() else 0.0
+                if top_share > 0.65 and len(cc) > 1:
+                    st.warning(
+                        "One cluster dominates the assignments. Review Step 6 with the suggested clusters so the vocabulary extension is more defensible."
+                    )
+                elif len(cc) == 1 and n_clustered > 5:
+                    st.warning(
+                        "All assignments are in one cluster. Use the auto-suggested clusters or split them into 5-8 semantic groups before using this in the thesis."
+                    )
             else:
                 st.info("Cluster assignments will appear here once you save some.")
 
