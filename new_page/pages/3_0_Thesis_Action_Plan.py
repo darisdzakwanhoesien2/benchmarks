@@ -34,6 +34,7 @@ FAILURE_PATH      = ARTIFACTS / "failure_modes.csv"
 FAIL_CNT_PATH     = ARTIFACTS / "failure_mode_counts.csv"
 CLUSTER_PATH      = ARTIFACTS / "aspect_clusters.csv"
 NOTES_PATH        = PAGES_DIR / "notes.md"
+ANNOTATION_TARGET = 250
 
 TONE_OPTS   = ["", "commitment", "action", "outcome", "none", "unknown"]
 ESG_OPTS    = ["", "e", "s", "g", "e-s", "e-g", "s-g", "e-s-g", "none", "unknown"]
@@ -271,6 +272,51 @@ def normalise_annotation_values(df):
     return out
 
 
+def build_annotation_table(silver_df, seed_df, annotation_df):
+    if not silver_df.empty:
+        base = silver_df.copy()
+    elif not seed_df.empty:
+        base = seed_df.copy()
+    else:
+        return pd.DataFrame()
+
+    annotation_cols = [
+        "record_id",
+        "ground_truth_tone",
+        "ground_truth_esg",
+        "ground_truth_aspect",
+        "annotator",
+        "review_notes",
+        "review_status",
+    ]
+    for col in annotation_cols:
+        if col not in base.columns:
+            base[col] = ""
+
+    overlays = []
+    if not seed_df.empty:
+        overlays.append(seed_df)
+    if not annotation_df.empty:
+        overlays.append(annotation_df)
+
+    if overlays and "record_id" in base.columns:
+        base = base.set_index("record_id", drop=False)
+        for overlay in overlays:
+            overlay = normalise_annotation_values(overlay.copy())
+            if "record_id" not in overlay.columns:
+                continue
+            overlay = overlay.set_index("record_id", drop=False)
+            shared = base.index.intersection(overlay.index)
+            for col in annotation_cols:
+                if col in overlay.columns and col in base.columns:
+                    incoming = overlay.loc[shared, col].astype(str).str.strip()
+                    use_mask = incoming.ne("")
+                    base.loc[shared[use_mask], col] = incoming[use_mask]
+        base = base.reset_index(drop=True)
+
+    return normalise_annotation_values(base)
+
+
 def ann_n(df, col):
     if df.empty or col not in df.columns: return 0
     series = df[col]
@@ -344,10 +390,35 @@ def suggest_aspect_cluster(aspect):
     return "Other"
 
 
+def suggest_ontology_path(aspect):
+    cluster = suggest_aspect_cluster(aspect)
+    text = str(aspect or "").strip()
+    if cluster == "Energy & Climate":
+        return f"GRI 305 Emissions / TCFD Climate -> {text}"
+    if cluster == "Waste & Pollution":
+        return f"GRI 306 Waste / GRI 303 Water -> {text}"
+    if cluster == "Human Capital":
+        return f"GRI 401-404 Employment and Training -> {text}"
+    if cluster == "Community Relations":
+        return f"GRI 413 Local Communities -> {text}"
+    if cluster == "Supply Chain":
+        return f"GRI 308/414 Supplier Assessment -> {text}"
+    if cluster == "Governance & Ethics":
+        return f"GRI 205 Anti-corruption / GRI 2 Governance -> {text}"
+    if cluster == "Financial Sustainability":
+        return f"GRI 201 Economic Performance -> {text}"
+    if cluster == "Biodiversity & Land":
+        return f"GRI 304 Biodiversity -> {text}"
+    if cluster == "Digital & Data":
+        return f"Governance / Data and Technology -> {text}"
+    return ""
+
+
 # ── Load data ─────────────────────────────────────────────────────────────────
 silver     = load(SILVER_PATH)
-annot_raw  = load(ANNOTATION_PATH) if ANNOTATION_PATH.exists() else load(SEED_PATH)
-annot      = normalise_annotation_values(annot_raw.copy())
+seed       = load(SEED_PATH)
+annot_file = load(ANNOTATION_PATH)
+annot      = build_annotation_table(silver, seed, annot_file)
 proxy      = load(PROXY_PATH)
 imported   = load(IMPORTED_PATH)
 ontology   = load(ONTOLOGY_PATH)
@@ -391,9 +462,9 @@ st.caption(
 
 for col, (label, val, ok) in zip(st.columns(6), [
     ("ClimateBERT real",  f"{cb_real}/{cb_target_total}",    cb_real >= cb_target_total),
-    ("Tone labels",       f"{tone_done}/150",   tone_done >= 150),
-    ("ESG labels",        f"{esg_done}/150",    esg_done >= 150),
-    ("Aspect labels",     f"{aspect_done}/150", aspect_done >= 150),
+    ("Tone labels",       f"{tone_done}/{ANNOTATION_TARGET}",   tone_done >= ANNOTATION_TARGET),
+    ("ESG labels",        f"{esg_done}/{ANNOTATION_TARGET}",    esg_done >= ANNOTATION_TARGET),
+    ("Aspect labels",     f"{aspect_done}/{ANNOTATION_TARGET}", aspect_done >= ANNOTATION_TARGET),
     ("OCR pages sampled", "0/100",              False),
     ("Models tested",     f"{n_models}/3+",     n_models >= 3),
 ]):
@@ -652,23 +723,23 @@ if show[1]:
 # STEP 2 — Annotation
 # ═════════════════════════════════════════════════════════════════════════════
 if show[2]:
-    all_done = tone_done >= 150 and esg_done >= 150 and aspect_done >= 150
+    all_done = tone_done >= ANNOTATION_TARGET and esg_done >= ANNOTATION_TARGET and aspect_done >= ANNOTATION_TARGET
     badge = "✅" if all_done else ("🟡" if tone_done > 0 else "🔴")
-    with st.expander(f"{badge} Step 2 — Complete pilot annotation to 150 records  ·  ~1 week", expanded=not all_done):
+    with st.expander(f"{badge} Step 2 — Complete pilot annotation to {ANNOTATION_TARGET} records  ·  ~1 week", expanded=not all_done):
 
         left, right = st.columns([3, 2], gap="large")
 
         with left:
             st.markdown("#### What you need to annotate")
             st.info(
-                "For each of the 150 pilot records, fill in **4 fields**:\n\n"
+                f"The editor now starts from the full **{len(annot):,}-row silver dataset**. Complete at least **{ANNOTATION_TARGET} records** by filling in **4 fields**:\n\n"
                 "| Field | Values | What it means |\n"
                 "|---|---|---|\n"
                 "| `ground_truth_tone` | commitment / action / outcome / none / unknown | The disclosure maturity level |\n"
                 "| `ground_truth_esg` | e / s / g / e-s / e-g / s-g / e-s-g / none / unknown | One or more ESG pillars |\n"
                 "| `ground_truth_aspect` | free text | The specific ESG topic (e.g. *carbon emissions*, *water usage*) |\n"
                 "| `review_status` | reviewed / uncertain / discard | Your confidence in this row |\n\n"
-                "**Also needed for κ:** A second annotator labels the same 150 records independently. "
+                f"**Also needed for κ:** A second annotator labels the same {ANNOTATION_TARGET} records independently. "
                 "You then compute Cohen's κ between the two sets."
             )
 
@@ -709,8 +780,7 @@ if show[2]:
                             st.dataframe(df_paste.head(10), use_container_width=True, height=200)
 
                             if st.button("✅ Apply paste → save to annotation file", type="primary", key="apply_paste"):
-                                save_path = ANNOTATION_PATH if ANNOTATION_PATH.exists() else SEED_PATH
-                                base = normalise_annotation_values(pd.read_csv(save_path).fillna("")) if save_path.exists() else annot.copy()
+                                base = annot.copy()
                                 base = base.set_index("record_id")
                                 upd  = df_paste.set_index("record_id")
                                 for col in target_cols:
@@ -764,9 +834,9 @@ if show[2]:
         with right:
             st.markdown("#### Annotation progress")
             for label, done, total in [
-                ("Tone labels (ground_truth_tone)",     tone_done,   150),
-                ("ESG labels (ground_truth_esg)",       esg_done,    150),
-                ("Aspect labels (ground_truth_aspect)", aspect_done, 150),
+                ("Tone labels (ground_truth_tone)",     tone_done,   ANNOTATION_TARGET),
+                ("ESG labels (ground_truth_esg)",       esg_done,    ANNOTATION_TARGET),
+                ("Aspect labels (ground_truth_aspect)", aspect_done, ANNOTATION_TARGET),
             ]:
                 pct = min(done / total, 1.0)
                 st.markdown(f"**{label}** — {done}/{total}")
@@ -980,6 +1050,65 @@ if show[6]:
                 "*Regulatory Compliance*, *Supply Chain*). This becomes a novel contribution in Section 4.4.3."
             )
             if not ontology.empty:
+                st.markdown("#### Map ontology coverage")
+                ontology_review = ontology.copy()
+                if "suggested_path" not in ontology_review.columns:
+                    ontology_review["suggested_path"] = ""
+                if "mapped_to_ontology" not in ontology_review.columns:
+                    ontology_review["mapped_to_ontology"] = False
+                ontology_review["auto_suggested_path"] = ontology_review["aspect"].map(suggest_ontology_path)
+                map_view = st.radio(
+                    "Ontology rows to show",
+                    ["Unmapped only", "All ontology rows"],
+                    horizontal=True,
+                    key="ontology_mapping_view",
+                )
+                mapped_bool = ontology_review["mapped_to_ontology"].astype(str).str.lower().isin(["true", "1", "yes"])
+                ontology_visible = ontology_review[~mapped_bool].copy() if map_view == "Unmapped only" else ontology_review.copy()
+                st.caption(
+                    "Set `mapped_to_ontology` to true and fill `suggested_path`. "
+                    "`auto_suggested_path` is a starting point for GRI/SASB-style mapping."
+                )
+                ontology_edit_cols = [c for c in ["aspect", "records", "mapped_to_ontology", "suggested_path", "auto_suggested_path"] if c in ontology_visible.columns]
+                edited_ontology = st.data_editor(
+                    ontology_visible[ontology_edit_cols],
+                    column_config={
+                        "aspect": st.column_config.TextColumn("aspect", disabled=True, width="large"),
+                        "records": st.column_config.NumberColumn("records", disabled=True, width="small"),
+                        "mapped_to_ontology": st.column_config.CheckboxColumn("mapped_to_ontology"),
+                        "suggested_path": st.column_config.TextColumn("suggested_path", width="large"),
+                        "auto_suggested_path": st.column_config.TextColumn("auto_suggested_path", disabled=True, width="large"),
+                    },
+                    hide_index=True,
+                    use_container_width=True,
+                    height=320,
+                    key="ontology_mapping_editor",
+                )
+                map_cols = st.columns(2)
+                with map_cols[0]:
+                    if st.button("Save ontology mapping edits", type="primary", use_container_width=True, key="save_ontology_mapping"):
+                        base = ontology.copy()
+                        base = base.set_index("aspect", drop=False)
+                        upd = edited_ontology.set_index("aspect", drop=False)
+                        shared = base.index.intersection(upd.index)
+                        for col in ["mapped_to_ontology", "suggested_path"]:
+                            if col in upd.columns:
+                                base.loc[shared, col] = upd.loc[shared, col]
+                        base.reset_index(drop=True).to_csv(ONTOLOGY_PATH, index=False)
+                        st.success(f"Saved ontology mapping edits → {ONTOLOGY_PATH.name}")
+                        st.rerun()
+                with map_cols[1]:
+                    if st.button("Auto-map rows with suggested paths", use_container_width=True, key="auto_map_ontology"):
+                        base = ontology_review.copy()
+                        base["suggested_path"] = base["suggested_path"].astype(str)
+                        empty_path = base["suggested_path"].str.strip().eq("")
+                        base.loc[empty_path, "suggested_path"] = base.loc[empty_path, "auto_suggested_path"]
+                        has_path = base["suggested_path"].astype(str).str.strip().ne("")
+                        base.loc[has_path, "mapped_to_ontology"] = True
+                        base[[c for c in ["aspect", "records", "mapped_to_ontology", "suggested_path"] if c in base.columns]].to_csv(ONTOLOGY_PATH, index=False)
+                        st.success("Auto-mapped rows with suggested ontology paths.")
+                        st.rerun()
+
                 unmapped_mask = ~ontology["mapped_to_ontology"].astype(str).str.lower().isin(["true", "1", "yes"]) if "mapped_to_ontology" in ontology.columns else pd.Series([True] * len(ontology))
                 unmapped = ontology[unmapped_mask].copy()
                 st.markdown(f"#### {len(unmapped)} unmapped aspects — assign clusters")
