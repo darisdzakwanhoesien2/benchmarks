@@ -265,6 +265,22 @@ def ann_n(df, col):
     return int(values.ne("").sum())
 
 
+def column_series(df, col):
+    if df.empty or col not in df.columns:
+        return pd.Series(dtype=str)
+    series = df[col]
+    if isinstance(series, pd.DataFrame):
+        series = series.bfill(axis=1).iloc[:, 0]
+    return series
+
+
+def nonempty_count(df, col):
+    series = column_series(df, col)
+    if series.empty:
+        return 0
+    return int(series.astype(str).str.strip().ne("").sum())
+
+
 # ── Load data ─────────────────────────────────────────────────────────────────
 silver     = load(SILVER_PATH)
 annot_raw  = load(ANNOTATION_PATH) if ANNOTATION_PATH.exists() else load(SEED_PATH)
@@ -281,8 +297,9 @@ fail_cnt    = load(FAIL_CNT_PATH)
 tone_done    = ann_n(annot, "ground_truth_tone")
 esg_done     = ann_n(annot, "ground_truth_esg")
 aspect_done  = ann_n(annot, "ground_truth_aspect")
-cb_real      = len(imported) if not imported.empty else 0
+cb_real      = nonempty_count(imported, "climatebert_commitment_pred") if not imported.empty else 0
 n_models     = len(model_stab) if not model_stab.empty else 0
+cb_target_total = len(silver) if not silver.empty else 332
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -310,7 +327,7 @@ st.caption(
 )
 
 for col, (label, val, ok) in zip(st.columns(6), [
-    ("ClimateBERT real",  f"{cb_real}/332",    cb_real == 332),
+    ("ClimateBERT real",  f"{cb_real}/{cb_target_total}",    cb_real >= cb_target_total),
     ("Tone labels",       f"{tone_done}/150",   tone_done >= 150),
     ("ESG labels",        f"{esg_done}/150",    esg_done >= 150),
     ("Aspect labels",     f"{aspect_done}/150", aspect_done >= 150),
@@ -510,7 +527,22 @@ if show[1]:
 
         with right:
             st.markdown("#### Current status")
-            st.metric("Real ClimateBERT records", f"{cb_real} / 332", delta="✓ Done" if cb_real == 332 else "Not yet")
+            st.metric("Real ClimateBERT records", f"{cb_real} / {cb_target_total}", delta="✓ Done" if cb_real >= cb_target_total else "Not yet")
+            st.progress(
+                min(cb_real / cb_target_total, 1.0) if cb_target_total else 0.0,
+                text=f"Imported ClimateBERT output progress: {cb_real}/{cb_target_total} records",
+            )
+
+            cb_jobs_for_status = climatebert_jobs()
+            if cb_jobs_for_status:
+                latest_status = read_json(CLIMATEBERT_JOBS / cb_jobs_for_status[0] / "status.json", {})
+                latest_total = int(latest_status.get("total") or 0)
+                latest_completed = int(latest_status.get("completed") or 0)
+                st.caption(f"Latest background job: `{cb_jobs_for_status[0]}`")
+                st.progress(
+                    min(latest_completed / latest_total, 1.0) if latest_total else 0.0,
+                    text=f"Latest job progress: {latest_completed}/{latest_total} records · {latest_status.get('status', 'unknown')}",
+                )
 
             if not proxy.empty and "tone_pred" in proxy.columns and "has_climate_commitment" in proxy.columns:
                 st.markdown("**Proxy agreement (already reportable)**")
@@ -525,9 +557,10 @@ if show[1]:
 
             if not imported.empty and "climatebert_commitment_pred" in imported.columns and "tone_pred" in imported.columns:
                 st.markdown("**Real ClimateBERT agreement**")
-                valid = imported[imported["climatebert_commitment_pred"].astype(str).strip().ne("")]
-                truth_r = valid["tone_pred"].astype(str).eq("commitment")
-                pred_r  = valid["climatebert_commitment_pred"].astype(str).str.lower().isin(["true", "1"])
+                cb_pred_series = column_series(imported, "climatebert_commitment_pred").astype(str).str.strip()
+                valid = imported[cb_pred_series.ne("")]
+                truth_r = column_series(valid, "tone_pred").astype(str).eq("commitment")
+                pred_r  = column_series(valid, "climatebert_commitment_pred").astype(str).str.lower().isin(["true", "1", "yes"])
                 agree_r = (truth_r == pred_r).mean()
                 k_r, n_r = cohen_kappa(truth_r.astype(str), pred_r.astype(str))
                 rc1, rc2 = st.columns(2)

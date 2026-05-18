@@ -14,6 +14,7 @@ import uuid
 
 import altair as alt
 import pandas as pd
+import requests
 import streamlit as st
 
 
@@ -30,6 +31,8 @@ LLM_PROCESS_STATE = LLM_PROCESS_DIR / "state.json"
 LLM_PROCESS_LOG = LLM_PROCESS_DIR / "llm_processing.log"
 LLM_PROCESS_ERR = LLM_PROCESS_DIR / "llm_processing.err.log"
 LLM_PROCESS_PORT_DEFAULT = 8521
+OPENROUTER_MODELS_URL = os.getenv("OPENROUTER_MODELS_URL", "https://openrouter.ai/api/v1/models")
+MODELS_CACHE_PATH = Path(__file__).resolve().parent / "models_cache.json"
 
 
 def utc_now_id() -> str:
@@ -86,6 +89,198 @@ def list_prompts() -> list[str]:
     if not PROMPT_DIR.exists():
         return []
     return [path.name for path in sorted(PROMPT_DIR.glob("*.md"))]
+
+
+def fallback_openrouter_models() -> list[dict[str, Any]]:
+    cached = read_json(MODELS_CACHE_PATH, [])
+    if isinstance(cached, list) and cached:
+        return [
+            {
+                "id": str(model_id),
+                "label": str(model_id),
+                "free": ":free" in str(model_id).lower() or "free" in str(model_id).lower(),
+                "notes": "cached OpenRouter model",
+                "ctx": 0,
+            }
+            for model_id in cached
+            if str(model_id).strip()
+        ]
+    return [
+        {"id": "meta-llama/llama-3.1-8b-instruct:free", "label": "Llama 3.1 8B", "free": True, "notes": "free · fallback", "ctx": 131072},
+        {"id": "meta-llama/llama-3.3-70b-instruct:free", "label": "Llama 3.3 70B", "free": True, "notes": "free · fallback", "ctx": 131072},
+        {"id": "mistralai/mistral-7b-instruct:free", "label": "Mistral 7B", "free": True, "notes": "free · fallback", "ctx": 32768},
+        {"id": "openai/gpt-4o-mini", "label": "GPT-4o Mini", "free": False, "notes": "paid · fallback", "ctx": 128000},
+    ]
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def fetch_openrouter_models(api_key: str = "") -> list[dict[str, Any]]:
+    if not api_key.strip():
+        return fallback_openrouter_models()
+    try:
+        response = requests.get(
+            OPENROUTER_MODELS_URL,
+            headers={"Authorization": f"Bearer {api_key.strip()}", "HTTP-Referer": "https://esg-project.app"},
+            timeout=12,
+        )
+        response.raise_for_status()
+        rows = []
+        for model in response.json().get("data", []):
+            model_id = str(model.get("id") or "").strip()
+            if not model_id:
+                continue
+            pricing = model.get("pricing") if isinstance(model.get("pricing"), dict) else {}
+            try:
+                is_free = float(pricing.get("prompt", 1)) == 0.0 and float(pricing.get("completion", 1)) == 0.0
+            except Exception:
+                is_free = ":free" in model_id.lower()
+            ctx = int(model.get("context_length") or 0)
+            notes = "free" if is_free else "paid"
+            if ctx:
+                notes += f" · {ctx:,} ctx"
+            rows.append(
+                {
+                    "id": model_id,
+                    "label": str(model.get("name") or model_id),
+                    "free": is_free,
+                    "notes": notes,
+                    "ctx": ctx,
+                }
+            )
+        return sorted(rows, key=lambda row: (not row["free"], row["label"].lower())) or fallback_openrouter_models()
+    except Exception:
+        return fallback_openrouter_models()
+
+
+@st.cache_data(ttl=120, show_spinner=False)
+def fetch_lmstudio_models(base_url: str, api_key: str = "") -> list[dict[str, Any]]:
+    try:
+        base_url = normalize_openai_base_url(base_url)
+        response = requests.get(f"{base_url}/models", headers=bearer_headers(api_key), timeout=8)
+        response.raise_for_status()
+        return [
+            {
+                "id": str(model.get("id")),
+                "label": str(model.get("id")),
+                "free": True,
+                "notes": "LM Studio/OpenAI-compatible",
+                "ctx": model.get("context_length", 0),
+            }
+            for model in response.json().get("data", [])
+            if model.get("id")
+        ]
+    except Exception:
+        return []
+
+
+@st.cache_data(ttl=120, show_spinner=False)
+def fetch_ollama_models(base_url: str, api_key: str = "") -> list[dict[str, Any]]:
+    try:
+        base_url = normalize_ollama_base_url(base_url)
+        response = requests.get(f"{base_url}/api/tags", headers=bearer_headers(api_key), timeout=8)
+        response.raise_for_status()
+        rows = []
+        for model in response.json().get("models", []):
+            model_id = str(model.get("name") or model.get("model") or "").strip()
+            if not model_id:
+                continue
+            details = model.get("details") if isinstance(model.get("details"), dict) else {}
+            family = details.get("family", "")
+            size = model.get("size", 0)
+            size_gb = f"{size / 1_000_000_000:.1f} GB" if isinstance(size, (int, float)) and size else ""
+            notes = " · ".join(v for v in ["Ollama", family, size_gb] if v)
+            rows.append({"id": model_id, "label": model_id, "free": True, "notes": notes, "ctx": 0})
+        return sorted(rows, key=lambda row: row["label"].lower())
+    except Exception:
+        return []
+
+
+def model_label(row: dict[str, Any]) -> str:
+    tag = "free" if row.get("free") else "paid"
+    notes = str(row.get("notes") or tag)
+    label = str(row.get("label") or row.get("id"))
+    model_id = str(row.get("id") or "")
+    return f"{label} · {notes} · {model_id}"
+
+
+def provider_model_selector(
+    provider: str,
+    *,
+    key_prefix: str,
+    openrouter_api_key: str,
+    lmstudio_url: str,
+    lmstudio_api_key: str,
+    ollama_url: str,
+    ollama_api_key: str,
+    default_models: list[str] | None = None,
+) -> list[str]:
+    default_models = default_models or []
+    if provider == "Mock":
+        return ["mock-model"]
+
+    if provider == "OpenRouter":
+        all_models = fetch_openrouter_models(openrouter_api_key)
+        tier = st.radio(
+            "OpenRouter model filter",
+            ["Free only", "Paid only", "All"],
+            horizontal=True,
+            key=f"{key_prefix}_or_tier",
+        )
+        visible = all_models
+        if tier == "Free only":
+            visible = [row for row in all_models if row.get("free")]
+        elif tier == "Paid only":
+            visible = [row for row in all_models if not row.get("free")]
+        search = st.text_input("Search available model", "", key=f"{key_prefix}_model_search")
+        if search.strip():
+            needle = search.strip().lower()
+            visible = [row for row in visible if needle in str(row.get("label", "")).lower() or needle in str(row.get("id", "")).lower()]
+        by_label = {model_label(row): row for row in visible}
+        default_labels = [label for label, row in by_label.items() if row["id"] in default_models]
+        if not default_labels and by_label:
+            preferred = [label for label, row in by_label.items() if row["id"] == "meta-llama/llama-3.1-8b-instruct:free"]
+            default_labels = preferred or [next(iter(by_label))]
+        labels = st.multiselect(
+            f"Available OpenRouter models ({len(visible)} shown)",
+            list(by_label),
+            default=default_labels[:3],
+            key=f"{key_prefix}_available_models",
+        )
+        manual = st.text_area("Manual model ids, one per line", "", height=70, key=f"{key_prefix}_manual_models")
+        selected = [by_label[label]["id"] for label in labels]
+        selected.extend(line.strip() for line in manual.splitlines() if line.strip())
+        return list(dict.fromkeys(selected))
+
+    if provider == "LM Studio / OpenAI-compatible":
+        models = fetch_lmstudio_models(lmstudio_url, lmstudio_api_key)
+        by_label = {model_label(row): row for row in models}
+        labels = st.multiselect(
+            f"Available LM Studio models ({len(models)} shown)",
+            list(by_label),
+            default=[label for label, row in by_label.items() if row["id"] in default_models][:1],
+            key=f"{key_prefix}_available_models",
+        )
+        manual = st.text_area("Manual LM Studio model ids, one per line", "", height=70, key=f"{key_prefix}_manual_models")
+        selected = [by_label[label]["id"] for label in labels]
+        selected.extend(line.strip() for line in manual.splitlines() if line.strip())
+        if not selected and models:
+            selected = [models[0]["id"]]
+        return list(dict.fromkeys(selected))
+
+    models = fetch_ollama_models(ollama_url, ollama_api_key)
+    by_label = {model_label(row): row for row in models}
+    labels = st.multiselect(
+        f"Available Ollama models ({len(models)} shown)",
+        list(by_label),
+        default=[label for label, row in by_label.items() if row["id"] in default_models][:1],
+        key=f"{key_prefix}_available_models",
+    )
+    manual = st.text_area("Manual Ollama model ids, one per line", "", height=70, key=f"{key_prefix}_manual_models")
+    selected = [by_label[label]["id"] for label in labels]
+    selected.extend(line.strip() for line in manual.splitlines() if line.strip())
+    if not selected and models:
+        selected = [models[0]["id"]]
+    return list(dict.fromkeys(selected))
 
 
 def list_jobs() -> list[str]:
@@ -704,15 +899,24 @@ with st.sidebar:
     selected_prompts = st.multiselect("Prompts", prompts, default=[prompts[0]] if prompts else [])
     prompt_override = st.text_area("Prompt override", height=100, help="Optional. If filled, this overrides selected prompt files.")
 
-    backend = st.selectbox("Backend", ["Mock", "OpenRouter", "LM Studio / OpenAI-compatible", "Ollama"])
-    default_model = "mock-model" if backend == "Mock" else "meta-llama/llama-3.1-8b-instruct:free"
-    models_text = st.text_area("Model ids, one per line", value=default_model, height=80)
-    mock_mode = backend == "Mock"
     openrouter_api_key = st.text_input("OpenRouter API key", value=os.getenv("OPENROUTER_API_KEY", ""), type="password")
     lmstudio_url = st.text_input("LM Studio/OpenAI-compatible URL", value="http://127.0.0.1:1234/v1")
     lmstudio_api_key = st.text_input("LM Studio/OpenAI-compatible API key", value=os.getenv("LMSTUDIO_API_KEY", ""), type="password")
     ollama_url = st.text_input("Ollama URL", value="http://127.0.0.1:11434")
     ollama_api_key = st.text_input("Ollama API key", value=os.getenv("OLLAMA_API_KEY", ""), type="password")
+    backend = st.selectbox("Backend", ["Mock", "OpenRouter", "LM Studio / OpenAI-compatible", "Ollama"])
+    selected_model_ids = provider_model_selector(
+        backend,
+        key_prefix="new_run",
+        openrouter_api_key=openrouter_api_key,
+        lmstudio_url=lmstudio_url,
+        lmstudio_api_key=lmstudio_api_key,
+        ollama_url=ollama_url,
+        ollama_api_key=ollama_api_key,
+        default_models=["mock-model"] if backend == "Mock" else ["meta-llama/llama-3.1-8b-instruct:free"],
+    )
+    st.caption("Selected model ids: " + (", ".join(f"`{model}`" for model in selected_model_ids) if selected_model_ids else "`none`"))
+    mock_mode = backend == "Mock"
 
     context_length = st.number_input("Context length", min_value=500, max_value=100000, value=10000, step=500)
     max_tokens = st.number_input("Max tokens", min_value=64, max_value=8192, value=1500, step=64)
@@ -750,11 +954,11 @@ with st.sidebar:
     skip_existing = st.checkbox("Skip already successful model/target/prompt triples", value=True)
     save_results = st.checkbox("Append outputs to esg_records.json", value=True)
 
-    can_start = bool(selected_doc and selected_pages and (selected_prompts or prompt_override.strip()) and models_text.strip())
+    can_start = bool(selected_doc and selected_pages and (selected_prompts or prompt_override.strip()) and selected_model_ids)
     if st.button("Start background run", disabled=not can_start, use_container_width=True):
         job_id = f"llm_bg_{utc_now_id()}_{uuid.uuid4().hex[:6]}"
         job_dir = JOBS_DIR / job_id
-        models = [line.strip() for line in models_text.splitlines() if line.strip()]
+        models = selected_model_ids
         total = len(models) * ((len(selected_pages) + int(batch_size) - 1) // int(batch_size)) * max(1, len(selected_prompts) if not prompt_override.strip() else 1)
         config = {
             "job_id": job_id,
@@ -1061,18 +1265,20 @@ with events_tab:
 with provider_tab:
     st.subheader("Run this selected job with another provider")
     st.caption("This clones the selected job config, changes backend/model settings, then starts a new background job.")
-    p1, p2 = st.columns([1, 2])
-    with p1:
-        clone_backend = st.selectbox("Provider", ["OpenRouter", "LM Studio / OpenAI-compatible", "Ollama", "Mock"], key="clone_provider")
-        clone_skip_existing = st.checkbox("Skip existing successes", value=True, key="clone_skip_existing")
-    with p2:
-        existing_models = "\n".join(config.get("models", []) if isinstance(config.get("models"), list) else [])
-        clone_models_text = st.text_area(
-            "Model ids for cloned run",
-            value=existing_models or ("llama3.1:8b" if clone_backend == "Ollama" else "local-model"),
-            height=96,
-            key="clone_models",
-        )
+    clone_backend = st.selectbox("Provider", ["OpenRouter", "LM Studio / OpenAI-compatible", "Ollama", "Mock"], key="clone_provider")
+    clone_skip_existing = st.checkbox("Skip existing successes", value=True, key="clone_skip_existing")
+    existing_models = config.get("models", []) if isinstance(config.get("models"), list) else []
+    clone_model_ids = provider_model_selector(
+        clone_backend,
+        key_prefix="clone_run",
+        openrouter_api_key=openrouter_api_key,
+        lmstudio_url=lmstudio_url,
+        lmstudio_api_key=lmstudio_api_key,
+        ollama_url=ollama_url,
+        ollama_api_key=ollama_api_key,
+        default_models=existing_models,
+    )
+    st.caption("Selected cloned-run model ids: " + (", ".join(f"`{model}`" for model in clone_model_ids) if clone_model_ids else "`none`"))
     clone_updates = {
         "openrouter_api_key": openrouter_api_key,
         "lmstudio_url": lmstudio_url,
@@ -1087,9 +1293,8 @@ with provider_tab:
         "sample_error_retries": int(sample_error_retries),
         "auto_reduce_context_on_error": bool(auto_reduce_context_on_error),
     }
-    if st.button("Clone selected job and run with provider", type="primary", use_container_width=True):
-        clone_models = [line.strip() for line in clone_models_text.splitlines() if line.strip()]
-        new_job_id = clone_job_with_provider(selected_job, clone_backend, clone_models, clone_updates)
+    if st.button("Clone selected job and run with provider", type="primary", use_container_width=True, disabled=not clone_model_ids):
+        new_job_id = clone_job_with_provider(selected_job, clone_backend, clone_model_ids, clone_updates)
         if new_job_id:
             st.success(f"Started cloned job `{new_job_id}` from `{selected_job}`")
             st.rerun()
