@@ -1,0 +1,2 @@
+job_id,status,completed,total,failed,skipped,progress_pct,document,updated_at
+llm_bg_smoke_20260511T132812Z_218cf5,completed,1,1,0,0,100.0,20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf,2026-05-11T13:28:14Z

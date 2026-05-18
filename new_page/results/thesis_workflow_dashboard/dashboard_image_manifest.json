@@ -1,0 +1,27 @@
+[
+  {
+    "name": "tone_distribution.png",
+    "source": "results/visualizations/tone_distribution.png",
+    "saved_to": "results/thesis_workflow_dashboard/tone_distribution.png"
+  },
+  {
+    "name": "esg_by_tone.png",
+    "source": "results/visualizations/esg_by_tone.png",
+    "saved_to": "results/thesis_workflow_dashboard/esg_by_tone.png"
+  },
+  {
+    "name": "aspect_by_tone_heatmap.png",
+    "source": "results/visualizations/aspect_by_tone_heatmap.png",
+    "saved_to": "results/thesis_workflow_dashboard/aspect_by_tone_heatmap.png"
+  },
+  {
+    "name": "climatebert_label_by_tone.png",
+    "source": "results/visualizations/climatebert_label_by_tone.png",
+    "saved_to": "results/thesis_workflow_dashboard/climatebert_label_by_tone.png"
+  },
+  {
+    "name": "climatebert_remote_top_scores.png",
+    "source": "results/visualizations/climatebert_remote_top_scores.png",
+    "saved_to": "results/thesis_workflow_dashboard/climatebert_remote_top_scores.png"
+  }
+]

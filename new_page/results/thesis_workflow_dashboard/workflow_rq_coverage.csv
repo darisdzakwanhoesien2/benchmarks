@@ -1,0 +1,7 @@
+rq,stage,implemented_modules,artifact_groups,status
+RQ1,PDF-to-structured ESG,4,5,active
+RQ2,Aspect/pillar/sentiment/tone schema,3,4,active
+RQ3,Tone vs ClimateBERT,3,3,active
+RQ4,Diagnostics,3,4,active
+RQ5,Reproducibility,3,4,active
+RQ6,Stability,3,3,active

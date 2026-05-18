@@ -1,0 +1,8 @@
+prompt,runs,json_parse_success_rate,avg_records,missing_tone_rate,schema_drift_rate,field_completion_rate
+data.md,20,1.0,3.0,1.0,0.425,0.6666666666666666
+tone_chain_of_thought_english.md,16,1.0,6.25,0.0,0.0036764705882352,0.3743872549019608
+tone_chain_of_thought_indonesian.md,15,1.0,4.066666666666666,0.0027777777777777,0.0027777777777777,0.3314814814814815
+tone_few_shot_english.md,15,1.0,0.0,0.0,0.0,0.0
+tone_few_shot_indonesian.md,14,1.0,1.0,0.0,0.0,0.0714285714285714
+tone_zero_shot_english.md,14,1.0,3.928571428571429,0.0,0.0,0.3571428571428571
+tone_zero_shot_indonesian.md,16,1.0,2.625,0.0,0.0,0.125

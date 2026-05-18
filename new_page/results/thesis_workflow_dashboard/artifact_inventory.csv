@@ -1,0 +1,41 @@
+path,group,extension,size_kb,modified
+results/t2_results.jsonl,Core results,jsonl,1646.98,2026-05-05 03:26:19.730898380
+results/revision_analysis/model_stability_summary.csv,Revision analysis,csv,0.23,2026-05-03 04:56:52.023273468
+results/revision_analysis/pilot_ground_truth_seed.csv,Revision analysis,csv,44.59,2026-05-03 04:56:51.975985765
+results/revision_analysis/failure_modes.csv,Revision analysis,csv,20.45,2026-05-03 04:56:52.114738226
+results/revision_analysis/ocr_processing_summary.csv,Revision analysis,csv,1.1,2026-05-03 04:56:52.221202374
+results/revision_analysis/ontology_coverage.csv,Revision analysis,csv,1.93,2026-05-03 04:56:52.220129251
+results/revision_analysis/climatebert_proxy_agreement_records.csv,Revision analysis,csv,128.47,2026-05-03 04:56:52.030633211
+results/revision_analysis/ontology.json,Revision analysis,json,5.42,2026-05-03 04:56:52.219074965
+results/revision_analysis/silver_tone_ground_truth.csv,Revision analysis,csv,213.25,2026-05-03 04:56:51.960557699
+results/revision_analysis/lexical_trigger_counts.csv,Revision analysis,csv,0.69,2026-05-03 04:56:52.125294208
+results/revision_analysis/failure_mode_counts.csv,Revision analysis,csv,0.32,2026-05-03 04:56:52.124498606
+results/revision_analysis/climatebert_proxy_agreement_summary.csv,Revision analysis,csv,0.21,2026-05-03 04:56:52.028148651
+results/revision_analysis/greenwashing_index_by_company.csv,Revision analysis,csv,0.54,2026-05-03 04:56:52.027632952
+results/revision_analysis/lexical_triggers.csv,Revision analysis,csv,134.53,2026-05-03 04:56:52.117334843
+results/revision_analysis/prompt_stability_summary.csv,Revision analysis,csv,0.6,2026-05-03 04:56:52.021204472
+results/revision_analysis/prompt_stability_by_run.csv,Revision analysis,csv,16.63,2026-05-03 04:56:52.013742208
+results/background_llm_jobs/llm_bg_smoke_20260511T132812Z_218cf5/config.json,LLM background jobs,json,0.5,2026-05-11 13:28:12.936942577
+results/background_llm_jobs/llm_bg_smoke_20260511T132812Z_218cf5/events.jsonl,LLM background jobs,jsonl,0.41,2026-05-11 13:28:14.800911903
+results/background_llm_jobs/llm_bg_smoke_20260511T132812Z_218cf5/control.json,LLM background jobs,json,0.06,2026-05-11 13:28:12.937046289
+results/background_llm_jobs/llm_bg_smoke_20260511T132812Z_218cf5/status.json,LLM background jobs,json,0.39,2026-05-11 13:28:14.800767183
+results/visualizations/climatebert_remote_top_scores.png,Visualizations,png,150.95,2026-05-01 21:32:24.494138479
+results/visualizations/climatebert_label_by_tone.png,Visualizations,png,133.56,2026-05-01 21:32:23.593244314
+results/visualizations/climatebert_remote_flat.csv,Visualizations,csv,24.75,2026-05-01 21:32:22.425943136
+results/visualizations/tone_distribution.png,Visualizations,png,39.98,2026-05-01 21:32:22.963422060
+results/visualizations/climatebert_remote_top_labels.csv,Visualizations,csv,19.39,2026-05-01 21:32:24.051173210
+results/visualizations/tone_climatebert_label_crosstab.csv,Visualizations,csv,0.44,2026-05-01 21:32:23.220307589
+results/visualizations/tone_esg_crosstab.csv,Visualizations,csv,0.12,2026-05-01 21:32:23.210242748
+results/visualizations/aspect_tone_crosstab.csv,Visualizations,csv,0.35,2026-05-01 21:32:23.603705883
+results/visualizations/esg_by_tone.png,Visualizations,png,57.67,2026-05-01 21:32:23.209002256
+results/visualizations/tone_records_flat.csv,Visualizations,csv,186.61,2026-05-01 21:32:22.424968004
+results/visualizations/aspect_by_tone_heatmap.png,Visualizations,png,116.9,2026-05-01 21:32:24.041921377
+results/visualizations/streamlit_outputs/02_per_rq_evidence.png,Visualizations,png,61.96,2026-05-09 00:51:35.484922647
+results/visualizations/streamlit_outputs/04_benchmarks.png,Visualizations,png,129.58,2026-05-09 00:51:35.488433599
+results/visualizations/streamlit_outputs/dashboard_image_catalog.json,Visualizations,json,10.31,2026-05-09 00:53:34.248824120
+results/visualizations/streamlit_outputs/01_overview.png,Visualizations,png,109.22,2026-05-09 00:51:35.483998060
+results/visualizations/streamlit_outputs/07_evidence_matrix.png,Visualizations,png,110.6,2026-05-09 00:51:35.498778343
+results/visualizations/streamlit_outputs/05_existing_results.png,Visualizations,png,91.21,2026-05-09 00:51:35.489450932
+results/visualizations/streamlit_outputs/03_sample_size.png,Visualizations,png,113.99,2026-05-09 00:51:35.487305641
+results/visualizations/streamlit_outputs/06_analysis_plan.png,Visualizations,png,125.09,2026-05-09 00:51:35.494941473
+results/data/mapping.json,Core results,json,0.42,2026-04-02 02:15:28.202047348
