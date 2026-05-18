@@ -234,6 +234,9 @@ if "api_reader_shortcut_label" not in st.session_state:
     st.session_state["api_reader_shortcut_label"] = shortcut_label_by_path.get(default_path, default_path)
 if "api_reader_custom_path" not in st.session_state:
     st.session_state["api_reader_custom_path"] = default_shortcut_path(shortcuts)
+if st.session_state.get("api_reader_pending_shortcut_label") in shortcut_by_label:
+    st.session_state["api_reader_mode"] = "Shortcut endpoint"
+    st.session_state["api_reader_shortcut_label"] = st.session_state.pop("api_reader_pending_shortcut_label")
 
 with st.sidebar:
     st.header("Endpoint")
@@ -332,8 +335,7 @@ with tabs[0]:
         q2.caption(f"Tags: `{quick_endpoint.get('tags', '') or 'none'}`")
         q3.caption(f"Query: `{quick_endpoint.get('query_parameters', '') or 'none'}`")
         if st.button("Use selected GET endpoint", use_container_width=True):
-            st.session_state["api_reader_mode"] = "Shortcut endpoint"
-            st.session_state["api_reader_shortcut_label"] = quick_label
+            st.session_state["api_reader_pending_shortcut_label"] = quick_label
             st.rerun()
     else:
         st.warning("No GET shortcut endpoints were discovered from OpenAPI.")
