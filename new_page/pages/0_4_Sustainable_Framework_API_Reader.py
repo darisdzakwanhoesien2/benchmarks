@@ -72,10 +72,10 @@ def catalog_datasets(catalog: Any) -> list[dict[str, Any]]:
     return [item for item in datasets if isinstance(item, dict) and clean(item.get("id"))]
 
 
-def shortcut_paths(openapi: Any) -> list[str]:
+def shortcut_endpoints(openapi: Any) -> list[dict[str, Any]]:
     if not isinstance(openapi, dict) or not isinstance(openapi.get("paths"), dict):
         return []
-    paths = []
+    rows: list[dict[str, Any]] = []
     for path, methods in openapi["paths"].items():
         if not path.startswith("/api/v1/"):
             continue
@@ -83,8 +83,33 @@ def shortcut_paths(openapi: Any) -> list[str]:
             continue
         if path in {"/api/v1/catalog"}:
             continue
-        paths.append(path)
-    return sorted(paths)
+        get_spec = methods.get("get") if isinstance(methods.get("get"), dict) else {}
+        params = [
+            param
+            for param in get_spec.get("parameters", [])
+            if isinstance(param, dict) and param.get("in") == "query"
+        ]
+        rows.append(
+            {
+                "path": path,
+                "summary": clean(get_spec.get("summary")),
+                "tags": ", ".join(clean(tag) for tag in get_spec.get("tags", []) if clean(tag)),
+                "query_parameters": ", ".join(clean(param.get("name")) for param in params if clean(param.get("name"))),
+            }
+        )
+    return sorted(rows, key=lambda row: row["path"])
+
+
+def shortcut_label(row: dict[str, Any]) -> str:
+    summary = clean(row.get("summary")) or row["path"].rsplit("/", 1)[-1].replace("-", " ").title()
+    return f"{summary} - {row['path']}"
+
+
+def default_shortcut_path(paths: list[str]) -> str:
+    for preferred in ["/api/v1/planning", "/api/v1/patent-analysis", "/api/v1/research-groups"]:
+        if preferred in paths:
+            return preferred
+    return paths[0] if paths else "/api/v1/catalog"
 
 
 def extract_records(data: Any) -> tuple[pd.DataFrame, str]:
@@ -197,11 +222,27 @@ except Exception as exc:
 
 datasets = catalog_datasets(catalog)
 dataset_by_id = {item["id"]: item for item in datasets}
-shortcuts = shortcut_paths(openapi)
+shortcut_rows = shortcut_endpoints(openapi)
+shortcuts = [row["path"] for row in shortcut_rows]
+shortcut_by_label = {shortcut_label(row): row for row in shortcut_rows}
+shortcut_label_by_path = {row["path"]: shortcut_label(row) for row in shortcut_rows}
+
+if "api_reader_mode" not in st.session_state:
+    st.session_state["api_reader_mode"] = "Shortcut endpoint"
+if "api_reader_shortcut_label" not in st.session_state:
+    default_path = default_shortcut_path(shortcuts)
+    st.session_state["api_reader_shortcut_label"] = shortcut_label_by_path.get(default_path, default_path)
+if "api_reader_custom_path" not in st.session_state:
+    st.session_state["api_reader_custom_path"] = default_shortcut_path(shortcuts)
 
 with st.sidebar:
     st.header("Endpoint")
-    mode = st.radio("Reader mode", ["Catalog dataset", "Shortcut endpoint", "Custom path"], horizontal=False)
+    mode = st.radio(
+        "Reader mode",
+        ["Catalog dataset", "Shortcut endpoint", "Custom path"],
+        horizontal=False,
+        key="api_reader_mode",
+    )
     params: dict[str, Any] = {}
 
     if mode == "Catalog dataset":
@@ -217,10 +258,22 @@ with st.sidebar:
                 endpoint_path = shortcut_candidate
         st.caption(clean(selected_dataset.get("description")))
     elif mode == "Shortcut endpoint":
-        default_path = "/api/v1/patent-analysis" if "/api/v1/patent-analysis" in shortcuts else (shortcuts[0] if shortcuts else "/api/v1/catalog")
-        endpoint_path = st.selectbox("Shortcut", shortcuts, index=shortcuts.index(default_path) if default_path in shortcuts else 0)
+        shortcut_labels = list(shortcut_by_label)
+        if st.session_state.get("api_reader_shortcut_label") not in shortcut_by_label and shortcut_labels:
+            st.session_state["api_reader_shortcut_label"] = shortcut_labels[0]
+        selected_shortcut_label = st.selectbox(
+            "GET shortcut endpoint from /docs",
+            shortcut_labels,
+            key="api_reader_shortcut_label",
+        )
+        selected_shortcut = shortcut_by_label.get(selected_shortcut_label, {})
+        endpoint_path = clean(selected_shortcut.get("path")) or default_shortcut_path(shortcuts)
+        if clean(selected_shortcut.get("summary")):
+            st.caption(clean(selected_shortcut.get("summary")))
+        if clean(selected_shortcut.get("query_parameters")):
+            st.caption(f"Query parameters: `{clean(selected_shortcut.get('query_parameters'))}`")
     else:
-        endpoint_path = st.text_input("Path", "/api/v1/patent-analysis")
+        endpoint_path = st.text_input("Path", key="api_reader_custom_path")
 
     if endpoint_path.startswith("/api/v1/extra-sources"):
         params["include_content"] = st.checkbox("include_content", value=False)
@@ -261,6 +314,30 @@ st.caption(f"Record source: `{record_source}`")
 tabs = st.tabs(["Catalog", "Table", "Record Detail", "Summary", "Raw JSON", "Export"])
 
 with tabs[0]:
+    st.subheader("Call GET shortcut endpoint")
+    st.markdown("These options are read from the live OpenAPI schema behind `/docs`, excluding parameterized paths.")
+    if shortcut_rows:
+        quick_labels = list(shortcut_by_label)
+        quick_default_path = endpoint_path if endpoint_path in shortcut_label_by_path else default_shortcut_path(shortcuts)
+        quick_default_label = shortcut_label_by_path.get(quick_default_path, quick_labels[0])
+        quick_label = st.selectbox(
+            "GET endpoint",
+            quick_labels,
+            index=quick_labels.index(quick_default_label) if quick_default_label in quick_labels else 0,
+            key="api_reader_catalog_quick_shortcut_label",
+        )
+        quick_endpoint = shortcut_by_label[quick_label]
+        q1, q2, q3 = st.columns([2, 2, 1])
+        q1.caption(f"Path: `{quick_endpoint['path']}`")
+        q2.caption(f"Tags: `{quick_endpoint.get('tags', '') or 'none'}`")
+        q3.caption(f"Query: `{quick_endpoint.get('query_parameters', '') or 'none'}`")
+        if st.button("Use selected GET endpoint", use_container_width=True):
+            st.session_state["api_reader_mode"] = "Shortcut endpoint"
+            st.session_state["api_reader_shortcut_label"] = quick_label
+            st.rerun()
+    else:
+        st.warning("No GET shortcut endpoints were discovered from OpenAPI.")
+
     st.subheader("Catalog datasets")
     catalog_df = pd.DataFrame(datasets)
     if catalog_df.empty:
@@ -268,7 +345,7 @@ with tabs[0]:
     else:
         st.dataframe(catalog_df, use_container_width=True, hide_index=True, height=420)
     st.subheader("GET shortcut endpoints")
-    st.dataframe(pd.DataFrame({"path": shortcuts}), use_container_width=True, hide_index=True, height=260)
+    st.dataframe(pd.DataFrame(shortcut_rows), use_container_width=True, hide_index=True, height=360)
 
 with tabs[1]:
     if records_df.empty:
