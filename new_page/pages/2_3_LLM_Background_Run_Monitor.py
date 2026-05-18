@@ -94,6 +94,21 @@ def list_jobs() -> list[str]:
     return sorted([path.name for path in JOBS_DIR.iterdir() if path.is_dir()], reverse=True)
 
 
+def job_label(job_id: str) -> str:
+    job_dir = JOBS_DIR / job_id
+    status = read_json(job_dir / "status.json", {})
+    config = read_json(job_dir / "config.json", {})
+    backend = config.get("backend", "unknown")
+    doc = status.get("document") or config.get("document", "")
+    state = status.get("status", "unknown")
+    progress = ""
+    total = int(status.get("total") or 0)
+    completed = int(status.get("completed") or 0)
+    if total:
+        progress = f" · {completed}/{total}"
+    return f"{job_id} · {state}{progress} · {backend} · {doc}"
+
+
 def is_process_alive(pid: int | None) -> bool:
     if not pid:
         return False
@@ -256,6 +271,217 @@ def restart_job(job_id: str, skip_existing_successes: bool = True) -> bool:
     )
     launch_job(job_id)
     return True
+
+
+def clone_job_with_provider(job_id: str, backend: str, models: list[str], provider_updates: dict[str, Any]) -> str | None:
+    source_dir = JOBS_DIR / job_id
+    config = read_json(source_dir / "config.json", {})
+    if not config:
+        return None
+    new_job_id = f"llm_bg_{utc_now_id()}_{backend.lower().split()[0].replace('/', '')}_{uuid.uuid4().hex[:6]}"
+    new_dir = JOBS_DIR / new_job_id
+    new_config = dict(config)
+    new_config.update(provider_updates)
+    new_config.update(
+        {
+            "job_id": new_job_id,
+            "backend": backend,
+            "mock_mode": backend == "Mock",
+            "models": models or config.get("models", []),
+            "created_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+            "cloned_from_job_id": job_id,
+        }
+    )
+    pages = new_config.get("page_names") or []
+    prompts = new_config.get("prompt_names") or []
+    batch_size = max(1, int(new_config.get("batch_size") or 1))
+    total = len(new_config.get("models") or []) * ((len(pages) + batch_size - 1) // batch_size) * max(1, len(prompts) if not new_config.get("prompt_override") else 1)
+    write_json(new_dir / "config.json", new_config)
+    write_json(new_dir / "control.json", {"pause_requested": False, "stop_requested": False})
+    write_json(
+        new_dir / "status.json",
+        {
+            "job_id": new_job_id,
+            "status": "queued",
+            "document": new_config.get("document", ""),
+            "total": total,
+            "completed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "current": f"Queued from {job_id}",
+            "created_at": new_config["created_at"],
+            "updated_at": new_config["created_at"],
+        },
+    )
+    launch_job(new_job_id)
+    return new_job_id
+
+
+def collect_provider_test(
+    provider: str,
+    base_url: str,
+    api_key: str,
+    models: list[str],
+    prompt: str,
+    *,
+    steps: int,
+    temperature: float,
+    max_tokens: int,
+    ollama_num_ctx: int,
+) -> dict[str, Any]:
+    started = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    rows: list[dict[str, Any]] = []
+    provider = provider.strip()
+    for model in models[: max(1, steps)]:
+        row: dict[str, Any] = {
+            "time": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+            "provider": provider,
+            "model": model,
+            "status": "unknown",
+            "error_type": "",
+            "error": "",
+            "raw_preview": "",
+        }
+        try:
+            config = {
+                "backend": "Ollama" if provider == "Ollama" else "LM Studio / OpenAI-compatible",
+                "lmstudio_url": base_url,
+                "lmstudio_api_key": api_key,
+                "ollama_url": base_url,
+                "ollama_api_key": api_key,
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                "retries": 1,
+                "ollama_num_ctx": ollama_num_ctx,
+            }
+            raw = call_provider_once(config, prompt, model)
+            row["status"] = "ok"
+            row["raw_preview"] = raw[:1000]
+            try:
+                parse_json_preview(raw)
+                row["json_parse"] = "ok"
+            except Exception as parse_exc:
+                row["json_parse"] = "failed"
+                row["error_type"] = "parse"
+                row["error"] = str(parse_exc)[:1000]
+        except Exception as exc:
+            row["status"] = "failed"
+            row["error_type"] = classify_provider_error(exc)
+            row["error"] = str(exc)[:1200]
+        rows.append(row)
+
+    result = {
+        "started_at": started,
+        "finished_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        "provider": provider,
+        "base_url": base_url,
+        "steps_requested": steps,
+        "rows": rows,
+    }
+    test_dir = RESULTS_DIR / "background_llm_provider_tests"
+    test_dir.mkdir(parents=True, exist_ok=True)
+    path = test_dir / f"{provider.lower().replace(' ', '_')}_{utc_now_id()}_{uuid.uuid4().hex[:6]}.json"
+    write_json(path, result)
+    result["saved_path"] = str(path)
+    return result
+
+
+def classify_provider_error(exc: Exception) -> str:
+    message = str(exc).lower()
+    if "connection" in message or "refused" in message:
+        return "connection"
+    if "model" in message and ("not found" in message or "does not exist" in message):
+        return "model_not_found"
+    if "context" in message or "token" in message or "num_ctx" in message:
+        return "context_or_token"
+    if "json" in message or "parse" in message:
+        return "parse"
+    if "timeout" in message or "timed out" in message:
+        return "timeout"
+    return "unknown"
+
+
+def parse_json_preview(text: str) -> Any:
+    text = re.sub(r"```(?:json)?", "", text or "", flags=re.IGNORECASE).strip("` \n")
+    return json.loads(text)
+
+
+def call_provider_once(config: dict[str, Any], prompt: str, model: str) -> str:
+    payload_prompt = (
+        "Return only valid JSON as an array with one object containing keys "
+        "text, aspect, esg, tone, sentiment, sentiment_score, labels, reasoning.\n\n"
+        f"Input:\n{prompt}"
+    )
+    backend = config["backend"]
+    if backend == "Ollama":
+        base_url = normalize_ollama_base_url(config.get("ollama_url") or "http://127.0.0.1:11434")
+        payload = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": "You are a strict JSON generator. Return ONLY valid JSON."},
+                {"role": "user", "content": payload_prompt},
+            ],
+            "stream": False,
+            "options": {
+                "temperature": float(config.get("temperature", 0.0)),
+                "num_predict": int(config.get("max_tokens", 512)),
+                "num_ctx": int(config.get("ollama_num_ctx", 2048)),
+            },
+        }
+        response = requests.post(f"{base_url}/api/chat", headers=bearer_headers(config.get("ollama_api_key", "")), json=payload, timeout=120)
+        if response.status_code >= 400:
+            raise RuntimeError(f"Ollama HTTP {response.status_code}: {response.text[:1200]}")
+        data = response.json()
+        return data.get("message", {}).get("content", "") if isinstance(data.get("message"), dict) else response.text
+
+    base_url = normalize_openai_base_url(config.get("lmstudio_url") or "http://127.0.0.1:1234/v1")
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": "You are a strict JSON generator. Return ONLY valid JSON."},
+            {"role": "user", "content": payload_prompt},
+        ],
+        "temperature": float(config.get("temperature", 0.0)),
+        "max_tokens": int(config.get("max_tokens", 512)),
+        "stream": False,
+    }
+    response = requests.post(f"{base_url}/chat/completions", headers=bearer_headers(config.get("lmstudio_api_key", "")), json=payload, timeout=120)
+    if response.status_code >= 400:
+        raise RuntimeError(f"LM Studio/OpenAI-compatible HTTP {response.status_code}: {response.text[:1200]}")
+    data = response.json()
+    choices = data.get("choices", [])
+    return choices[0].get("message", {}).get("content", "") if choices else response.text
+
+
+def normalize_openai_base_url(url: str) -> str:
+    url = (url or "").strip().rstrip("/")
+    if not url:
+        return "http://127.0.0.1:1234/v1"
+    for suffix in ("/models", "/chat/completions", "/completions", "/responses", "/embeddings"):
+        if url.endswith(suffix):
+            url = url[: -len(suffix)]
+            break
+    if re.match(r"^https?://[^/]+$", url):
+        url = f"{url}/v1"
+    return url.rstrip("/")
+
+
+def normalize_ollama_base_url(url: str) -> str:
+    url = (url or "").strip().rstrip("/")
+    if not url:
+        return "http://127.0.0.1:11434"
+    for suffix in ("/api/tags", "/api/chat", "/api/generate", "/api/show", "/api/ps"):
+        if url.endswith(suffix):
+            url = url[: -len(suffix)]
+            break
+    return url.rstrip("/")
+
+
+def bearer_headers(api_key: str = "") -> dict[str, str]:
+    headers = {"Content-Type": "application/json"}
+    if api_key.strip():
+        headers["Authorization"] = f"Bearer {api_key.strip()}"
+    return headers
 
 
 def progress_chart(status: dict[str, Any]):
@@ -441,7 +667,14 @@ with st.sidebar:
 
     st.header("Monitor")
     jobs = list_jobs()
-    selected_job = st.selectbox("Existing jobs", jobs, index=0 if jobs else None, placeholder="No jobs yet")
+    selected_job = st.selectbox(
+        "Existing jobs / job_id",
+        jobs,
+        index=0 if jobs else None,
+        placeholder="No jobs yet",
+        format_func=job_label,
+        help="Dropdown shows job_id plus status, progress, backend, and document.",
+    )
     auto_refresh = st.toggle(
         "Auto-refresh while running",
         value=False,
@@ -571,6 +804,45 @@ with st.sidebar:
         launch_job(job_id)
         st.success(f"Started `{job_id}`")
         st.rerun()
+
+    st.divider()
+    st.header("Provider test bench")
+    st.caption("For Ollama and LM Studio, run small JSON-output tests first and save every error for prompt/backend refinement.")
+    test_provider = st.selectbox("Local provider to test", ["Ollama", "LM Studio / OpenAI-compatible"], key="provider_test_provider")
+    test_url_default = "http://127.0.0.1:11434" if test_provider == "Ollama" else "http://127.0.0.1:1234/v1"
+    test_url = st.text_input("Test provider URL", value=test_url_default, key="provider_test_url")
+    test_api_key = st.text_input("Test API key", value="", type="password", key="provider_test_api_key")
+    test_models = st.text_area(
+        "Test model ids, one per line",
+        value="llama3.1:8b" if test_provider == "Ollama" else "local-model",
+        height=76,
+        key="provider_test_models",
+    )
+    test_steps = st.number_input("Test steps/models", min_value=1, max_value=10, value=3, key="provider_test_steps")
+    test_prompt = st.text_area(
+        "Test text",
+        value="The company commits to reduce Scope 1 and Scope 2 emissions by 2030 and reports renewable energy investments.",
+        height=90,
+        key="provider_test_prompt",
+    )
+    if st.button("Run provider tests and save errors", use_container_width=True, key="run_provider_tests"):
+        models = [line.strip() for line in test_models.splitlines() if line.strip()]
+        result = collect_provider_test(
+            "Ollama" if test_provider == "Ollama" else "LM Studio",
+            test_url,
+            test_api_key,
+            models,
+            test_prompt,
+            steps=int(test_steps),
+            temperature=float(temperature),
+            max_tokens=min(int(max_tokens), 1024),
+            ollama_num_ctx=int(ollama_num_ctx),
+        )
+        st.session_state["last_provider_test"] = result
+        st.success(f"Saved provider test report to `{result['saved_path']}`")
+    last_provider_test = st.session_state.get("last_provider_test")
+    if isinstance(last_provider_test, dict) and last_provider_test.get("rows"):
+        st.dataframe(pd.DataFrame(last_provider_test["rows"]), use_container_width=True, hide_index=True)
 
 st.subheader("All running and known LLM processes")
 process_df = discover_llm_processing_processes()
@@ -771,7 +1043,7 @@ st.caption(
     "Pause/stop requests are cooperative: the worker finishes the current sample, then pauses or stops before starting the next model-target-prompt item."
 )
 
-viz_tab, events_tab, config_tab, logs_tab = st.tabs(["Progress Visualization", "Events", "Config", "Logs"])
+viz_tab, events_tab, provider_tab, config_tab, logs_tab = st.tabs(["Progress Visualization", "Events", "Provider / Rerun", "Config", "Logs"])
 
 with viz_tab:
     c1, c2 = st.columns([1.2, 1])
@@ -785,6 +1057,73 @@ with events_tab:
         st.info("No worker events have been written yet.")
     else:
         st.dataframe(events.tail(200).iloc[::-1], use_container_width=True, hide_index=True)
+
+with provider_tab:
+    st.subheader("Run this selected job with another provider")
+    st.caption("This clones the selected job config, changes backend/model settings, then starts a new background job.")
+    p1, p2 = st.columns([1, 2])
+    with p1:
+        clone_backend = st.selectbox("Provider", ["OpenRouter", "LM Studio / OpenAI-compatible", "Ollama", "Mock"], key="clone_provider")
+        clone_skip_existing = st.checkbox("Skip existing successes", value=True, key="clone_skip_existing")
+    with p2:
+        existing_models = "\n".join(config.get("models", []) if isinstance(config.get("models"), list) else [])
+        clone_models_text = st.text_area(
+            "Model ids for cloned run",
+            value=existing_models or ("llama3.1:8b" if clone_backend == "Ollama" else "local-model"),
+            height=96,
+            key="clone_models",
+        )
+    clone_updates = {
+        "openrouter_api_key": openrouter_api_key,
+        "lmstudio_url": lmstudio_url,
+        "lmstudio_api_key": lmstudio_api_key,
+        "ollama_url": ollama_url,
+        "ollama_api_key": ollama_api_key,
+        "ollama_num_ctx": int(ollama_num_ctx),
+        "skip_existing": bool(clone_skip_existing),
+        "temperature": float(temperature),
+        "max_tokens": int(max_tokens),
+        "retries": int(retries),
+        "sample_error_retries": int(sample_error_retries),
+        "auto_reduce_context_on_error": bool(auto_reduce_context_on_error),
+    }
+    if st.button("Clone selected job and run with provider", type="primary", use_container_width=True):
+        clone_models = [line.strip() for line in clone_models_text.splitlines() if line.strip()]
+        new_job_id = clone_job_with_provider(selected_job, clone_backend, clone_models, clone_updates)
+        if new_job_id:
+            st.success(f"Started cloned job `{new_job_id}` from `{selected_job}`")
+            st.rerun()
+        else:
+            st.error("Could not clone selected job; config.json is missing.")
+
+    st.subheader("Collected provider errors")
+    provider_tests_dir = RESULTS_DIR / "background_llm_provider_tests"
+    test_files = sorted(provider_tests_dir.glob("*.json"), reverse=True) if provider_tests_dir.exists() else []
+    if not test_files:
+        st.info("No provider test reports saved yet. Use the sidebar Provider test bench.")
+    else:
+        selected_test_file = st.selectbox(
+            "Saved provider test report",
+            test_files,
+            format_func=lambda p: p.name,
+            key="saved_provider_test_report",
+        )
+        test_report = read_json(selected_test_file, {})
+        rows = test_report.get("rows", []) if isinstance(test_report, dict) else []
+        if rows:
+            test_df = pd.DataFrame(rows)
+            st.dataframe(test_df, use_container_width=True, hide_index=True)
+            if "error_type" in test_df.columns:
+                errors = test_df[test_df["status"].ne("ok") | test_df["json_parse"].eq("failed") if "json_parse" in test_df.columns else test_df["status"].ne("ok")]
+                st.markdown("**Error counts for refinement**")
+                st.dataframe(test_df["error_type"].replace("", "none").value_counts().rename_axis("error_type").reset_index(name="count"), use_container_width=True, hide_index=True)
+        st.download_button(
+            "Download selected provider test JSON",
+            json.dumps(test_report, ensure_ascii=False, indent=2).encode("utf-8"),
+            file_name=selected_test_file.name,
+            mime="application/json",
+            use_container_width=True,
+        )
 
 with config_tab:
     display_config = dict(config)

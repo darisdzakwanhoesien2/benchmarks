@@ -1,5 +1,11 @@
 from io import StringIO
+from datetime import datetime
+import json
+import os
 from pathlib import Path
+import subprocess
+import sys
+import uuid
 
 import altair as alt
 import pandas as pd
@@ -10,6 +16,8 @@ st.set_page_config(page_title="Thesis Action Plan", layout="wide")
 ROOT = Path(__file__).resolve().parents[1]
 PAGES_DIR = Path(__file__).resolve().parent
 ARTIFACTS = ROOT / "results" / "revision_analysis"
+CLIMATEBERT_JOBS = ROOT / "results" / "climatebert_background_jobs"
+CLIMATEBERT_WORKER = ROOT / "code" / "climatebert_background_worker.py"
 
 SILVER_PATH       = ARTIFACTS / "silver_tone_ground_truth.csv"
 ANNOTATION_PATH   = ARTIFACTS / "pilot_ground_truth_annotations.csv"
@@ -26,7 +34,7 @@ CLUSTER_PATH      = ARTIFACTS / "aspect_clusters.csv"
 NOTES_PATH        = PAGES_DIR / "notes.md"
 
 TONE_OPTS   = ["", "commitment", "action", "outcome", "none", "unknown"]
-ESG_OPTS    = ["", "e", "s", "g", "none", "unknown"]
+ESG_OPTS    = ["", "e", "s", "g", "e-s", "e-g", "s-g", "e-s-g", "none", "unknown"]
 STATUS_OPTS = ["needs_review", "reviewed", "uncertain", "discard"]
 
 FAILURE_MODES = [
@@ -79,6 +87,80 @@ def load(p):
     return pd.read_csv(p).fillna("") if p.exists() else pd.DataFrame()
 
 
+def utc_now_id():
+    return datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+
+
+def read_json(path, default):
+    path = Path(path)
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text(encoding="utf-8", errors="ignore"))
+    except Exception:
+        return default
+
+
+def write_json(path, data):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(path)
+
+
+def read_events(path):
+    path = Path(path)
+    rows = []
+    if path.exists():
+        for line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
+            try:
+                rows.append(json.loads(line))
+            except Exception:
+                continue
+    return pd.DataFrame(rows)
+
+
+def climatebert_jobs():
+    if not CLIMATEBERT_JOBS.exists():
+        return []
+    return sorted([p.name for p in CLIMATEBERT_JOBS.iterdir() if p.is_dir()], reverse=True)
+
+
+def is_alive(pid):
+    if not pid:
+        return False
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except OSError:
+        return False
+
+
+def launch_climatebert_job(job_id):
+    job_dir = CLIMATEBERT_JOBS / job_id
+    job_dir.mkdir(parents=True, exist_ok=True)
+    with (job_dir / "worker.log").open("ab") as stdout, (job_dir / "worker.err.log").open("ab") as stderr:
+        proc = subprocess.Popen(
+            [sys.executable, str(CLIMATEBERT_WORKER), job_id],
+            cwd=str(ROOT),
+            stdout=stdout,
+            stderr=stderr,
+            start_new_session=True,
+        )
+    status = read_json(job_dir / "status.json", {})
+    status.update({"job_id": job_id, "pid": proc.pid, "status": "running", "updated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z"})
+    write_json(job_dir / "status.json", status)
+
+
+def request_climatebert_stop(job_id):
+    control_path = CLIMATEBERT_JOBS / job_id / "control.json"
+    control = read_json(control_path, {})
+    control["stop_requested"] = True
+    control["updated_at"] = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    write_json(control_path, control)
+
+
 def cohen_kappa(a, b):
     pairs = [(str(x), str(y)) for x, y in zip(a, b) if str(x).strip() and str(y).strip()]
     if len(pairs) < 2:
@@ -103,21 +185,71 @@ def kappa_label(k):
 
 
 def normalise_cols(df):
-    return df.rename(columns={
+    renamed = df.rename(columns={
         c: COL_ALIASES[c.lower().strip()]
         for c in df.columns if c.lower().strip() in COL_ALIASES
     })
+    if renamed.columns.duplicated().any():
+        merged = pd.DataFrame(index=renamed.index)
+        for col in dict.fromkeys(renamed.columns):
+            same = renamed.loc[:, renamed.columns == col]
+            if same.shape[1] == 1:
+                merged[col] = same.iloc[:, 0]
+            else:
+                merged[col] = same.bfill(axis=1).iloc[:, 0]
+        renamed = merged
+    if "ground_truth_esg" in renamed.columns:
+        renamed["ground_truth_esg"] = renamed["ground_truth_esg"].map(normalise_esg_value)
+    return renamed
+
+
+def normalise_esg_value(value):
+    raw = str(value or "").strip().lower()
+    if not raw or raw in {"nan", "na", "n/a"}:
+        return ""
+    if raw in {"none", "unknown"}:
+        return raw
+    raw = (
+        raw.replace("environmental", "e")
+        .replace("environment", "e")
+        .replace("social", "s")
+        .replace("governance", "g")
+        .replace("&", "-")
+        .replace("/", "-")
+        .replace(",", "-")
+        .replace("+", "-")
+        .replace(" ", "-")
+        .replace("_", "-")
+    )
+    parts = [part for part in raw.split("-") if part in {"e", "s", "g"}]
+    ordered = [pillar for pillar in ["e", "s", "g"] if pillar in parts]
+    return "-".join(ordered) if ordered else raw
+
+
+def normalise_annotation_values(df):
+    if df.empty:
+        return df
+    out = normalise_cols(df.copy())
+    if "ground_truth_tone" in out.columns:
+        out["ground_truth_tone"] = out["ground_truth_tone"].astype(str).str.strip().str.lower()
+    if "review_status" in out.columns:
+        out["review_status"] = out["review_status"].astype(str).str.strip().str.lower()
+    return out
 
 
 def ann_n(df, col):
     if df.empty or col not in df.columns: return 0
-    return int(df[col].astype(str).str.strip().ne("").sum())
+    series = df[col]
+    if isinstance(series, pd.DataFrame):
+        series = series.bfill(axis=1).iloc[:, 0]
+    values = series.astype(str).str.strip()
+    return int(values.ne("").sum())
 
 
 # ── Load data ─────────────────────────────────────────────────────────────────
 silver     = load(SILVER_PATH)
 annot_raw  = load(ANNOTATION_PATH) if ANNOTATION_PATH.exists() else load(SEED_PATH)
-annot      = annot_raw.copy()
+annot      = normalise_annotation_values(annot_raw.copy())
 proxy      = load(PROXY_PATH)
 imported   = load(IMPORTED_PATH)
 ontology   = load(ONTOLOGY_PATH)
@@ -199,8 +331,8 @@ if show[1]:
                 "4. **Upload** that CSV in the import section below — the Agreement panel updates automatically."
             )
 
-            with st.expander("📄 Python script to run ClimateBERT (copy this)", expanded=True):
-                st.code(CLIMATEBERT_SCRIPT, language="python")
+            st.markdown("#### Python script to run ClimateBERT")
+            st.code(CLIMATEBERT_SCRIPT, language="python")
 
             st.markdown("#### 1a. Download batch input")
             if not silver.empty:
@@ -216,6 +348,89 @@ if show[1]:
                 st.warning(f"silver_tone_ground_truth.csv not found at {SILVER_PATH}")
 
             st.markdown("#### 1b. Upload real ClimateBERT outputs")
+            st.markdown("#### 1b-alt. Run Step 1 in the background")
+            st.caption(
+                "This writes directly to `results/revision_analysis/climatebert_record_batch_import.csv`, "
+                "so the output is integrated into the same real ClimateBERT result slot as the uploader below."
+            )
+            CLIMATEBERT_JOBS.mkdir(parents=True, exist_ok=True)
+            cb_jobs = climatebert_jobs()
+            latest_cb_job = cb_jobs[0] if cb_jobs else None
+            bg_cols = st.columns([2, 1, 1, 1])
+            cb_model_id = bg_cols[0].text_input(
+                "ClimateBERT model",
+                value="climatebert/distilroberta-base-climate-commitment",
+                key="cb_bg_model_id",
+            )
+            cb_limit = bg_cols[1].number_input(
+                "Run rows",
+                min_value=0,
+                max_value=max(1, len(silver)),
+                value=0,
+                help="0 means all rows. Use a small number to test first.",
+                key="cb_bg_limit",
+            )
+            cb_max_chars = bg_cols[2].number_input("Max chars/text", 256, 4000, 1200, 128, key="cb_bg_max_chars")
+            cb_dry_run = bg_cols[3].checkbox("Dry run", value=False, key="cb_bg_dry_run")
+            cb_skip_existing = st.checkbox("Skip record IDs already present in imported ClimateBERT CSV", value=True, key="cb_bg_skip_existing")
+            if st.button("Start Step 1 ClimateBERT background run", type="primary", use_container_width=True, key="start_cb_bg"):
+                job_id = f"climatebert_step1_{utc_now_id()}_{uuid.uuid4().hex[:6]}"
+                job_dir = CLIMATEBERT_JOBS / job_id
+                config = {
+                    "job_id": job_id,
+                    "model_id": cb_model_id,
+                    "limit": int(cb_limit),
+                    "max_chars": int(cb_max_chars),
+                    "skip_existing": bool(cb_skip_existing),
+                    "dry_run": bool(cb_dry_run),
+                    "text_col": "text",
+                    "record_col": "record_id",
+                    "created_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                }
+                write_json(job_dir / "config.json", config)
+                write_json(job_dir / "control.json", {"stop_requested": False})
+                write_json(
+                    job_dir / "status.json",
+                    {
+                        "job_id": job_id,
+                        "status": "queued",
+                        "total": int(cb_limit) if int(cb_limit) else len(silver),
+                        "completed": 0,
+                        "failed": 0,
+                        "skipped": 0,
+                        "current": "Queued",
+                        "created_at": config["created_at"],
+                    },
+                )
+                launch_climatebert_job(job_id)
+                st.success(f"Started `{job_id}`")
+                st.rerun()
+
+            cb_jobs = climatebert_jobs()
+            if cb_jobs:
+                selected_cb_job = st.selectbox("ClimateBERT background job", cb_jobs, index=0, key="selected_cb_bg_job")
+                cb_job_dir = CLIMATEBERT_JOBS / selected_cb_job
+                cb_status = read_json(cb_job_dir / "status.json", {})
+                cb_events = read_events(cb_job_dir / "events.jsonl")
+                cb_total = int(cb_status.get("total") or 0)
+                cb_completed = int(cb_status.get("completed") or 0)
+                st.progress((cb_completed / cb_total) if cb_total else 0.0, text=f"{cb_completed}/{cb_total} records complete")
+                s1, s2, s3, s4 = st.columns(4)
+                s1.metric("Status", cb_status.get("status", "unknown"))
+                s2.metric("Failed", int(cb_status.get("failed") or 0))
+                s3.metric("Skipped", int(cb_status.get("skipped") or 0))
+                s4.metric("PID", cb_status.get("pid") or "None", delta="alive" if is_alive(cb_status.get("pid")) else "not running")
+                if st.button("Stop selected ClimateBERT job after current row", use_container_width=True, key="stop_cb_bg"):
+                    request_climatebert_stop(selected_cb_job)
+                    st.rerun()
+                with st.expander("ClimateBERT background events/logs", expanded=False):
+                    if cb_events.empty:
+                        st.info("No events yet.")
+                    else:
+                        st.dataframe(cb_events.tail(100).iloc[::-1], use_container_width=True, hide_index=True)
+                    st.markdown("**stderr**")
+                    st.code((cb_job_dir / "worker.err.log").read_text(encoding="utf-8", errors="ignore")[-5000:] if (cb_job_dir / "worker.err.log").exists() else "")
+
             uploaded = st.file_uploader(
                 "Upload the `climatebert_output.csv` produced by the script",
                 type=["csv"], key="cb_upload"
@@ -286,12 +501,14 @@ if show[2]:
                 "| Field | Values | What it means |\n"
                 "|---|---|---|\n"
                 "| `ground_truth_tone` | commitment / action / outcome / none / unknown | The disclosure maturity level |\n"
-                "| `ground_truth_esg` | e / s / g / none / unknown | The ESG pillar |\n"
+                "| `ground_truth_esg` | e / s / g / e-s / e-g / s-g / e-s-g / none / unknown | One or more ESG pillars |\n"
                 "| `ground_truth_aspect` | free text | The specific ESG topic (e.g. *carbon emissions*, *water usage*) |\n"
                 "| `review_status` | reviewed / uncertain / discard | Your confidence in this row |\n\n"
                 "**Also needed for κ:** A second annotator labels the same 150 records independently. "
                 "You then compute Cohen's κ between the two sets."
             )
+
+            st.caption("Multi-pillar ESG values are accepted. You can paste `e-s`, `e/g`, `E, S`, `environmental-social`, or `e-s-g`; they are normalized to `e-s`, `e-g`, `s-g`, or `e-s-g`.")
 
             st.markdown("#### Bulk paste from Google Sheets")
             st.markdown(
@@ -308,14 +525,14 @@ if show[2]:
             pasted = st.text_area(
                 "Paste here (Ctrl+V from Google Sheets)",
                 height=180,
-                placeholder="record_id\tground_truth_tone\tground_truth_esg\t...\nr000_000\tcommitment\te\t...",
+                placeholder="record_id\tground_truth_tone\tground_truth_esg\t...\nr000_000\tcommitment\te-s\t...",
                 key="paste_area",
             )
 
             if pasted.strip():
                 try:
                     df_paste = pd.read_csv(StringIO(pasted.strip()), sep="\t").fillna("")
-                    df_paste = normalise_cols(df_paste)
+                    df_paste = normalise_annotation_values(df_paste)
                     if "record_id" not in df_paste.columns:
                         st.error("Pasted data must have a `record_id` column (first column) to match records.")
                     else:
@@ -329,12 +546,14 @@ if show[2]:
 
                             if st.button("✅ Apply paste → save to annotation file", type="primary", key="apply_paste"):
                                 save_path = ANNOTATION_PATH if ANNOTATION_PATH.exists() else SEED_PATH
-                                base = pd.read_csv(save_path).fillna("") if save_path.exists() else annot.copy()
+                                base = normalise_annotation_values(pd.read_csv(save_path).fillna("")) if save_path.exists() else annot.copy()
                                 base = base.set_index("record_id")
                                 upd  = df_paste.set_index("record_id")
                                 for col in target_cols:
                                     if col in upd.columns:
                                         base.loc[base.index.isin(upd.index), col] = upd.loc[upd.index.isin(base.index), col]
+                                if "ground_truth_esg" in base.columns:
+                                    base["ground_truth_esg"] = base["ground_truth_esg"].map(normalise_esg_value)
                                 base.reset_index().to_csv(ANNOTATION_PATH, index=False)
                                 st.success(f"Saved {len(df_paste)} updates → {ANNOTATION_PATH.name}")
                                 st.rerun()
@@ -357,11 +576,13 @@ if show[2]:
                                         disabled=["record_id", "text", "tone_pred"], key="annot_editor")
                 if st.button("Save direct edits", key="save_direct"):
                     base = annot.set_index("record_id")
-                    upd  = edited.set_index("record_id")
+                    upd  = normalise_annotation_values(edited).set_index("record_id")
                     for col in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect",
                                 "review_status", "annotator", "review_notes"]:
                         if col in upd.columns:
                             base.loc[upd.index, col] = upd[col]
+                    if "ground_truth_esg" in base.columns:
+                        base["ground_truth_esg"] = base["ground_truth_esg"].map(normalise_esg_value)
                     base.reset_index().to_csv(ANNOTATION_PATH, index=False)
                     st.success(f"Saved → {ANNOTATION_PATH.name}")
                     st.rerun()
@@ -402,6 +623,23 @@ if show[2]:
                 ).properties(height=160)
                 st.altair_chart(chart, use_container_width=True)
 
+            st.markdown("#### Ground-truth ESG combination distribution")
+            if not annot.empty and "ground_truth_esg" in annot.columns:
+                esg_counts = (
+                    annot["ground_truth_esg"]
+                    .map(normalise_esg_value)
+                    .replace("", "missing")
+                    .value_counts()
+                    .reset_index()
+                )
+                esg_counts.columns = ["ground_truth_esg", "count"]
+                esg_chart = alt.Chart(esg_counts).mark_bar(color="#395b91").encode(
+                    x=alt.X("count:Q", title=None),
+                    y=alt.Y("ground_truth_esg:N", sort="-x", title=None),
+                    tooltip=["ground_truth_esg", "count"],
+                ).properties(height=190)
+                st.altair_chart(esg_chart, use_container_width=True)
+
     st.divider()
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -428,7 +666,7 @@ if show[3]:
                 st.info("No OCR processing summary found.")
 
             st.markdown("#### Open OCR Quality Workbench")
-            st.page_link("pages/1_2_OCR_Quality_Workbench.py", label="→ OCR Quality Workbench", icon="🔗")
+            st.markdown("Open `1_2_OCR_Quality_Workbench.py` from the Streamlit sidebar.")
 
         with right:
             st.markdown("#### Progress")
@@ -460,8 +698,7 @@ if show[4]:
                 "3. This gives you mean ± SD parse success per prompt — the core RQ6 stability table.\n\n"
                 "**LLM Background Run Monitor** already tracks job state:\n"
             )
-            st.page_link("pages/2_3_LLM_Background_Run_Monitor.py", label="→ LLM Background Run Monitor", icon="🔗")
-            st.page_link("pages/2_0_LLM_Processing_Result_Visualizer.py", label="→ LLM Processing Result Visualizer", icon="🔗")
+            st.markdown("Open `2_3_LLM_Background_Run_Monitor.py` or `2_0_LLM_Processing_Result_Visualizer.py` from the Streamlit sidebar.")
 
             st.markdown("#### Current models in results")
             if not model_stab.empty:
@@ -594,7 +831,7 @@ if show[6]:
                         st.rerun()
             else:
                 st.info(f"ontology_coverage.csv not found at {ONTOLOGY_PATH}")
-                st.page_link("pages/1_6_Ontology_Path_Viewer.py", label="→ Ontology Path Viewer", icon="🔗")
+                st.markdown("Open `1_6_Ontology_Path_Viewer.py` from the Streamlit sidebar.")
 
         with right:
             st.markdown("#### Ontology coverage")
