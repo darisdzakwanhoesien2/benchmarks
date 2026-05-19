@@ -1,5 +1,6 @@
 from io import StringIO
 from datetime import datetime
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -343,6 +344,206 @@ def load_llm_records():
     return pd.DataFrame(rows)
 
 
+def load_esg_record_runs():
+    data = read_json(ROOT / "results" / "esg_records.json", [])
+    return data if isinstance(data, list) else []
+
+
+def record_value(record, *keys):
+    if not isinstance(record, dict):
+        return ""
+    for key in keys:
+        value = record.get(key)
+        if isinstance(value, list):
+            value = "|".join(str(item) for item in value if str(item).strip())
+        if str(value or "").strip():
+            return value
+    return ""
+
+
+def llm_runs_to_silver_rows():
+    rows = []
+    for run_idx, run in enumerate(load_esg_record_runs()):
+        if not isinstance(run, dict):
+            continue
+        records = run.get("records") if isinstance(run.get("records"), list) else []
+        target = str(run.get("target", "") or "")
+        company = target.split("/", 1)[0].replace("_pdf", "").replace("_PDF", "")
+        for record_idx, record in enumerate(records):
+            if not isinstance(record, dict):
+                continue
+            text = str(record_value(record, "text", "sentence", "statement", "disclosure", "evidence") or "")
+            digest_src = "|".join(
+                [
+                    str(run.get("background_job_id", "")),
+                    str(run.get("model", "")),
+                    target,
+                    str(run.get("prompt", "")),
+                    str(record_idx),
+                    text[:200],
+                ]
+            )
+            record_id = "llm_" + hashlib.sha1(digest_src.encode("utf-8", errors="ignore")).hexdigest()[:12]
+            labels = record_value(record, "labels", "label", "categories")
+            tone = record_value(record, "tone", "tone_pred", "disclosure_tone")
+            esg = normalise_esg_value(record_value(record, "esg", "pillar", "ground_truth_esg"))
+            aspect = record_value(record, "aspect", "topic", "esg_aspect")
+            sentiment = record_value(record, "sentiment", "polarity")
+            score = pd.to_numeric(record_value(record, "sentiment_score", "score", "confidence"), errors="coerce")
+            rows.append(
+                {
+                    "record_id": record_id,
+                    "run_idx": run_idx,
+                    "record_idx": record_idx,
+                    "timestamp": run.get("timestamp", ""),
+                    "model": run.get("model", ""),
+                    "prompt": run.get("prompt", ""),
+                    "target": target,
+                    "company": company,
+                    "ok": bool(run.get("ok")),
+                    "text": text,
+                    "text_len_chars": len(text),
+                    "text_len_words": len(text.split()),
+                    "language": "",
+                    "aspect": aspect,
+                    "esg": esg,
+                    "tone_pred": str(tone).strip().lower(),
+                    "sentiment": sentiment,
+                    "sentiment_score": score,
+                    "labels": labels,
+                    "reasoning": record_value(record, "reasoning", "rationale", "explanation"),
+                    "suggested_tone": str(tone).strip().lower(),
+                    "suggestion_source": "llm_reprocess",
+                    "silver_tone_ground_truth": str(tone).strip().lower(),
+                    "needs_human_review": True,
+                    "schema_drift": False,
+                    "has_climate_commitment": "climate" in str(labels).lower() or "commitment" in str(tone).lower(),
+                    "has_environmental_claims": "environment" in str(labels).lower() or esg == "e",
+                    "has_climate_d": "climate-d" in str(labels).lower(),
+                    "background_job_id": run.get("background_job_id", ""),
+                    "target_pages": run.get("target_pages", ""),
+                }
+            )
+    return pd.DataFrame(rows)
+
+
+def append_new_rows(base_df, new_df):
+    if new_df.empty:
+        return base_df.copy()
+    if base_df.empty:
+        return new_df.copy()
+    out = base_df.copy()
+    for col in new_df.columns:
+        if col not in out.columns:
+            out[col] = ""
+    for col in out.columns:
+        if col not in new_df.columns:
+            new_df[col] = ""
+    if "record_id" in out.columns and "record_id" in new_df.columns:
+        new_df = new_df[~new_df["record_id"].astype(str).isin(out["record_id"].astype(str))]
+    return pd.concat([out, new_df[out.columns]], ignore_index=True)
+
+
+def derive_model_stability_from_llm_runs():
+    rows = []
+    for run in load_esg_record_runs():
+        if not isinstance(run, dict):
+            continue
+        records = run.get("records") if isinstance(run.get("records"), list) else []
+        rows.append(
+            {
+                "model": run.get("model", ""),
+                "ok": bool(run.get("ok")),
+                "records_count": len(records),
+                "missing_tone_count": sum(
+                    1
+                    for record in records
+                    if isinstance(record, dict) and not str(record_value(record, "tone", "tone_pred", "disclosure_tone")).strip()
+                ),
+                "schema_drift": any(
+                    isinstance(record, dict) and not str(record_value(record, "text", "sentence", "statement", "disclosure", "evidence")).strip()
+                    for record in records
+                ),
+            }
+        )
+    df = pd.DataFrame(rows)
+    if df.empty or "model" not in df.columns:
+        return pd.DataFrame()
+    grouped = (
+        df.groupby("model", dropna=False)
+        .agg(
+            runs=("model", "size"),
+            json_parse_success_rate=("ok", "mean"),
+            avg_records=("records_count", "mean"),
+            missing_tone_count=("missing_tone_count", "sum"),
+            record_total=("records_count", "sum"),
+            schema_drift_rate=("schema_drift", "mean"),
+        )
+        .reset_index()
+    )
+    grouped["missing_tone_rate"] = grouped.apply(
+        lambda row: (row["missing_tone_count"] / row["record_total"]) if row["record_total"] else 0,
+        axis=1,
+    )
+    grouped["source"] = "live_reprocess"
+    return grouped[["model", "runs", "json_parse_success_rate", "avg_records", "missing_tone_rate", "schema_drift_rate", "source"]]
+
+
+def combine_model_stability(static_df, live_df):
+    frames = []
+    if not static_df.empty:
+        static = static_df.copy()
+        static["source"] = static.get("source", "revision_analysis")
+        frames.append(static)
+    if not live_df.empty:
+        live = live_df.copy()
+        if not static_df.empty and "source" in static_df.columns and "model" in static_df.columns:
+            migrated_models = set(
+                static_df.loc[
+                    static_df["source"].astype(str).eq("live_reprocess"),
+                    "model",
+                ].astype(str)
+            )
+            if migrated_models and "model" in live.columns:
+                live = live[~live["model"].astype(str).isin(migrated_models)]
+        if not live.empty:
+            frames.append(live)
+    if not frames:
+        return pd.DataFrame()
+    combined = pd.concat(frames, ignore_index=True, sort=False).fillna("")
+    numeric_cols = ["runs", "json_parse_success_rate", "avg_records", "missing_tone_rate", "schema_drift_rate"]
+    for col in numeric_cols:
+        if col in combined.columns:
+            combined[col] = pd.to_numeric(combined[col], errors="coerce")
+    return combined
+
+
+def migrate_live_reprocess_outputs(silver_df, live_silver_df, model_static_df, model_live_df):
+    migrated = {"silver_rows": 0, "model_rows": 0}
+    if not live_silver_df.empty:
+        merged_silver = append_new_rows(silver_df, live_silver_df)
+        SILVER_PATH.parent.mkdir(parents=True, exist_ok=True)
+        merged_silver.to_csv(SILVER_PATH, index=False)
+        migrated["silver_rows"] = len(merged_silver) - len(silver_df)
+
+    if not model_live_df.empty:
+        static = model_static_df.copy()
+        if not static.empty:
+            static["source"] = static.get("source", "revision_analysis")
+            static = static[
+                ~(
+                    static["source"].astype(str).eq("live_reprocess")
+                    & static["model"].astype(str).isin(model_live_df["model"].astype(str))
+                )
+            ]
+        merged_models = pd.concat([static, model_live_df], ignore_index=True, sort=False).fillna("")
+        MODEL_STAB_PATH.parent.mkdir(parents=True, exist_ok=True)
+        merged_models.to_csv(MODEL_STAB_PATH, index=False)
+        migrated["model_rows"] = len(model_live_df)
+
+    return migrated
+
+
 def looks_like_model_dir(p: Path) -> bool:
     return any((p / fn).exists() for fn in ("config.json", "pytorch_model.bin", "model.safetensors", "tf_model.h5"))
 
@@ -580,7 +781,9 @@ def suggest_ontology_path(aspect):
 
 
 # ── Load data ─────────────────────────────────────────────────────────────────
-silver     = load(SILVER_PATH)
+silver_base = load(SILVER_PATH)
+llm_silver  = llm_runs_to_silver_rows()
+silver     = append_new_rows(silver_base, llm_silver)
 seed       = load(SEED_PATH)
 annot_file = load(ANNOTATION_PATH)
 annot      = build_annotation_table(silver, seed, annot_file)
@@ -588,7 +791,9 @@ proxy      = load(PROXY_PATH)
 imported   = load(IMPORTED_PATH)
 ontology   = load(ONTOLOGY_PATH)
 prompt_stab = load(PROMPT_STAB_PATH)
-model_stab  = load(MODEL_STAB_PATH)
+model_stab_static = load(MODEL_STAB_PATH)
+model_stab_live = derive_model_stability_from_llm_runs()
+model_stab  = combine_model_stability(model_stab_static, model_stab_live)
 ocr_df      = load(OCR_PATH)
 fail_df     = load(FAILURE_PATH)
 fail_cnt    = load(FAIL_CNT_PATH)
@@ -597,7 +802,7 @@ tone_done    = ann_n(annot, "ground_truth_tone")
 esg_done     = ann_n(annot, "ground_truth_esg")
 aspect_done  = ann_n(annot, "ground_truth_aspect")
 cb_real      = nonempty_count(imported, "climatebert_commitment_pred") if not imported.empty else 0
-n_models     = len(model_stab) if not model_stab.empty else 0
+n_models     = model_stab["model"].astype(str).nunique() if not model_stab.empty and "model" in model_stab.columns else 0
 cb_target_total = len(silver) if not silver.empty else 332
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
@@ -624,6 +829,43 @@ st.caption(
     "All thesis completion tasks in one place. Toggle steps on/off in the sidebar. "
     "Each step shows live results on the right. Research notes are in the sidebar."
 )
+
+legacy_live_rows = 0
+if not llm_silver.empty and "record_id" in llm_silver.columns:
+    base_ids = set(silver_base["record_id"].astype(str)) if not silver_base.empty and "record_id" in silver_base.columns else set()
+    legacy_live_rows = int((~llm_silver["record_id"].astype(str).isin(base_ids)).sum())
+live_model_rows = len(model_stab_live) if not model_stab_live.empty else 0
+
+with st.expander("Refresh / migrate reprocess outputs", expanded=bool(legacy_live_rows or live_model_rows)):
+    st.caption(
+        "Use this after running `Reprocess existing OCR pages with selected LLM and prompt`, especially for outputs created "
+        "before this page knew how to include live reprocess results in Step 2 and model stability."
+    )
+    r1, r2, r3, r4 = st.columns(4)
+    r1.metric("Live extracted rows", f"{len(llm_silver):,}")
+    r2.metric("Not yet in silver CSV", f"{legacy_live_rows:,}")
+    r3.metric("Live model summaries", f"{live_model_rows:,}")
+    r4.metric("ESG run records", f"{len(load_esg_record_runs()):,}")
+    c1, c2 = st.columns(2)
+    if c1.button("Refresh live reprocess data", use_container_width=True, key="refresh_live_reprocess_data"):
+        st.cache_data.clear()
+        st.rerun()
+    migrate_disabled = not (legacy_live_rows or live_model_rows)
+    if c2.button(
+        "Migrate live outputs into Step 2 + model results",
+        type="primary",
+        use_container_width=True,
+        disabled=migrate_disabled,
+        key="migrate_live_reprocess_outputs",
+    ):
+        migrated = migrate_live_reprocess_outputs(silver_base, llm_silver, model_stab_static, model_stab_live)
+        st.success(
+            f"Migrated {migrated['silver_rows']:,} Step 2 row(s) and "
+            f"{migrated['model_rows']:,} model summary row(s)."
+        )
+        st.rerun()
+    if migrate_disabled:
+        st.info("No unmigrated live reprocess outputs were detected right now.")
 
 for col, (label, val, ok) in zip(st.columns(6), [
     ("ClimateBERT real",  f"{cb_real}/{cb_target_total}",    cb_real >= cb_target_total),
@@ -897,7 +1139,10 @@ if show[2]:
         with left:
             st.markdown("#### What you need to annotate")
             st.info(
-                f"The editor now starts from the full **{len(annot):,}-row silver dataset**. Complete at least **{ANNOTATION_TARGET} records** by filling in **4 fields**:\n\n"
+                f"The editor now starts from the full **{len(annot):,}-row annotation dataset** "
+                f"(**{len(silver_base):,}** original silver rows"
+                f"{f' + **{len(llm_silver):,}** live LLM reprocess rows' if not llm_silver.empty else ''}). "
+                f"Complete at least **{ANNOTATION_TARGET} records** by filling in **4 fields**:\n\n"
                 "| Field | Values | What it means |\n"
                 "|---|---|---|\n"
                 "| `ground_truth_tone` | commitment / action / outcome / none / unknown | The disclosure maturity level |\n"
@@ -909,6 +1154,15 @@ if show[2]:
             )
 
             st.caption("Multi-pillar ESG values are accepted. You can paste `e-s`, `e/g`, `E, S`, `environmental-social`, or `e-s-g`; they are normalized to `e-s`, `e-g`, `s-g`, or `e-s-g`.")
+            if not llm_silver.empty:
+                st.success(
+                    f"Live reprocess output detected: **{len(llm_silver):,}** extracted LLM records are now included below "
+                    "with `record_id` values starting with `llm_`."
+                )
+                if st.button("Persist live LLM rows into silver_tone_ground_truth.csv", key="persist_llm_silver"):
+                    migrated = migrate_live_reprocess_outputs(silver_base, llm_silver, model_stab_static, pd.DataFrame())
+                    st.success(f"Saved {migrated['silver_rows']:,} live row(s) -> {SILVER_PATH.name}")
+                    st.rerun()
 
             st.markdown("#### Bulk paste from Google Sheets")
             st.markdown(
@@ -964,12 +1218,20 @@ if show[2]:
                 missing_mask = missing_annotation_mask(annot)
                 editor_view = st.radio(
                     "Rows to show",
-                    ["Not annotated yet", "All data"],
+                    ["Not annotated yet", "Live LLM reprocess rows", "All data"],
                     horizontal=True,
                     key="annotation_editor_view",
                     help="Not annotated yet shows rows missing tone, ESG, or aspect ground-truth fields.",
                 )
-                annot_editor_df = annot[missing_mask].copy() if editor_view == "Not annotated yet" else annot.copy()
+                if editor_view == "Not annotated yet":
+                    annot_editor_df = annot[missing_mask].copy()
+                elif editor_view == "Live LLM reprocess rows":
+                    if "record_id" in annot.columns:
+                        annot_editor_df = annot[annot["record_id"].astype(str).str.startswith("llm_")].copy()
+                    else:
+                        annot_editor_df = annot.iloc[0:0].copy()
+                else:
+                    annot_editor_df = annot.copy()
                 st.caption(f"Showing {len(annot_editor_df):,} of {len(annot):,} rows. Missing/incomplete rows: {int(missing_mask.sum()):,}.")
                 edit_cols = [c for c in ["record_id", "text", "tone_pred", "ground_truth_tone",
                                          "ground_truth_esg", "ground_truth_aspect", "review_status",
@@ -1254,14 +1516,92 @@ with st.expander("🧪 Reprocess existing OCR pages with selected LLM and prompt
             .agg(samples=("records_count", "size"), extracted_records=("records_count", "sum"))
             .reset_index()
         )
-        chart = alt.Chart(summary).mark_bar().encode(
-            x=alt.X("extracted_records:Q", title="Extracted records"),
-            y=alt.Y("target_doc:N", sort="-x", title=None, axis=alt.Axis(labelLimit=260)),
-            color=alt.Color("prompt:N", title="Prompt"),
-            tooltip=["target_doc", "prompt", "samples", "extracted_records"],
-        ).properties(height=360)
-        st.altair_chart(chart, use_container_width=True)
-        st.dataframe(summary.sort_values("extracted_records", ascending=False), use_container_width=True, hide_index=True, height=260)
+        if summary.empty:
+            st.info("No records match the current PDF/prompt filters.")
+        else:
+            total_records = int(summary["extracted_records"].sum())
+            total_samples = int(summary["samples"].sum())
+            zero_outputs = int(summary["extracted_records"].eq(0).sum())
+            m1, m2, m3, m4 = st.columns(4)
+            m1.metric("PDFs shown", f"{summary['target_doc'].nunique():,}")
+            m2.metric("Prompts shown", f"{summary['prompt'].nunique():,}")
+            m3.metric("Extracted records", f"{total_records:,}")
+            m4.metric("Zero-output PDF/prompt pairs", f"{zero_outputs:,}")
+
+            pdf_totals = (
+                summary.groupby("target_doc", dropna=False)
+                .agg(extracted_records=("extracted_records", "sum"), samples=("samples", "sum"))
+                .reset_index()
+                .sort_values("extracted_records", ascending=False)
+            )
+            prompt_totals = (
+                summary.groupby("prompt", dropna=False)
+                .agg(extracted_records=("extracted_records", "sum"), samples=("samples", "sum"))
+                .reset_index()
+                .sort_values("extracted_records", ascending=False)
+            )
+
+            tab_pdf, tab_prompt, tab_heatmap, tab_table = st.tabs(
+                ["PDF results", "Prompt results", "PDF × prompt heatmap", "Result table"]
+            )
+
+            with tab_pdf:
+                chart = alt.Chart(pdf_totals).mark_bar(color="#3f7c85").encode(
+                    x=alt.X("extracted_records:Q", title="Extracted records"),
+                    y=alt.Y("target_doc:N", sort="-x", title="PDF / processed document", axis=alt.Axis(labelLimit=320)),
+                    tooltip=["target_doc", "samples", "extracted_records"],
+                ).properties(height=min(520, max(240, 42 * len(pdf_totals))))
+                st.altair_chart(chart, use_container_width=True)
+                if len(pdf_totals):
+                    top_pdf = pdf_totals.iloc[0]
+                    st.success(
+                        f"Highest extracted output: **{top_pdf['target_doc']}** "
+                        f"with **{int(top_pdf['extracted_records']):,}** records from **{int(top_pdf['samples']):,}** run/batch samples."
+                    )
+
+            with tab_prompt:
+                prompt_chart = alt.Chart(prompt_totals).mark_bar(color="#6f8f45").encode(
+                    x=alt.X("extracted_records:Q", title="Extracted records"),
+                    y=alt.Y("prompt:N", sort="-x", title="Prompt", axis=alt.Axis(labelLimit=320)),
+                    tooltip=["prompt", "samples", "extracted_records"],
+                ).properties(height=min(420, max(220, 42 * len(prompt_totals))))
+                st.altair_chart(prompt_chart, use_container_width=True)
+
+                stacked = alt.Chart(summary).mark_bar().encode(
+                    x=alt.X("extracted_records:Q", title="Extracted records"),
+                    y=alt.Y("prompt:N", sort="-x", title=None, axis=alt.Axis(labelLimit=320)),
+                    color=alt.Color("target_doc:N", title="PDF"),
+                    tooltip=["target_doc", "prompt", "samples", "extracted_records"],
+                ).properties(height=min(420, max(220, 42 * summary["prompt"].nunique())))
+                st.altair_chart(stacked, use_container_width=True)
+
+            with tab_heatmap:
+                heatmap = alt.Chart(summary).mark_rect().encode(
+                    x=alt.X("prompt:N", title="Prompt", axis=alt.Axis(labelAngle=-35, labelLimit=220)),
+                    y=alt.Y("target_doc:N", title="PDF / processed document", sort="-x", axis=alt.Axis(labelLimit=300)),
+                    color=alt.Color("extracted_records:Q", title="Extracted records", scale=alt.Scale(scheme="tealblues")),
+                    tooltip=["target_doc", "prompt", "samples", "extracted_records"],
+                ).properties(height=min(520, max(260, 34 * summary["target_doc"].nunique())))
+                st.altair_chart(heatmap, use_container_width=True)
+
+            with tab_table:
+                zero_df = summary[summary["extracted_records"].eq(0)].sort_values(["target_doc", "prompt"])
+                if not zero_df.empty:
+                    st.warning(f"{len(zero_df):,} PDF/prompt pair(s) produced zero extracted records.")
+                    st.dataframe(zero_df, use_container_width=True, hide_index=True, height=160)
+                st.dataframe(
+                    summary.sort_values("extracted_records", ascending=False),
+                    use_container_width=True,
+                    hide_index=True,
+                    height=300,
+                )
+                st.download_button(
+                    "Download action result summary CSV",
+                    summary.sort_values("extracted_records", ascending=False).to_csv(index=False).encode("utf-8"),
+                    "action_result_by_pdf_prompt.csv",
+                    "text/csv",
+                    use_container_width=True,
+                )
 
 st.divider()
 
@@ -1269,7 +1609,7 @@ st.divider()
 # STEP 4 — Model stability
 # ═════════════════════════════════════════════════════════════════════════════
 if show[4]:
-    n_m = len(model_stab) if not model_stab.empty else 0
+    n_m = model_stab["model"].astype(str).nunique() if not model_stab.empty and "model" in model_stab.columns else 0
     badge = "✅" if n_m >= 3 else ("🟡" if n_m == 2 else "🔴")
     with st.expander(f"{badge} Step 4 — Add 3rd model + repeated runs at temperature=0  ·  ~3 h", expanded=n_m < 3):
 
@@ -1290,6 +1630,15 @@ if show[4]:
             st.markdown("#### Current models in results")
             if not model_stab.empty:
                 st.dataframe(model_stab, use_container_width=True, height=180)
+                if not model_stab_live.empty:
+                    st.success(
+                        f"Live reprocess model summary detected: **{len(model_stab_live):,}** model row(s) "
+                        "from `results/esg_records.json` are included above."
+                    )
+                    if st.button("Persist live model summary into model_stability_summary.csv", key="persist_live_model_stability"):
+                        migrated = migrate_live_reprocess_outputs(silver_base, pd.DataFrame(), model_stab_static, model_stab_live)
+                        st.success(f"Saved {migrated['model_rows']:,} model summary row(s) -> {MODEL_STAB_PATH.name}")
+                        st.rerun()
             else:
                 st.info("No model stability summary found.")
 
