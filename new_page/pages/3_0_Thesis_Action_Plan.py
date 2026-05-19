@@ -1304,6 +1304,64 @@ if show[4]:
             else:
                 st.info("No prompt stability summary found.")
 
+        st.markdown("#### PDF × prompt processing matrix")
+        prompt_pdf_records = load_llm_records()
+        if prompt_pdf_records.empty or not {"target_doc", "prompt", "records_count"}.issubset(prompt_pdf_records.columns):
+            st.info("No PDF × prompt processing records found yet. Run LLM processing or generate `results/visualizations/tone_records_flat.csv`.")
+        else:
+            matrix_metric = st.radio(
+                "Cell value",
+                ["Extracted records", "Runs / batches", "Successful runs"],
+                horizontal=True,
+                key="prompt_pdf_matrix_metric",
+            )
+            matrix_df = prompt_pdf_records.copy()
+            matrix_df["target_doc"] = matrix_df["target_doc"].astype(str).replace("", "unknown")
+            matrix_df["prompt"] = matrix_df["prompt"].astype(str).replace("", "unknown")
+            matrix_df["ok"] = matrix_df["ok"].fillna(False).astype(bool) if "ok" in matrix_df.columns else True
+
+            if matrix_metric == "Runs / batches":
+                grouped = matrix_df.groupby(["target_doc", "prompt"], dropna=False).size().reset_index(name="value")
+            elif matrix_metric == "Successful runs":
+                grouped = (
+                    matrix_df[matrix_df["ok"]]
+                    .groupby(["target_doc", "prompt"], dropna=False)
+                    .size()
+                    .reset_index(name="value")
+                )
+            else:
+                grouped = (
+                    matrix_df.groupby(["target_doc", "prompt"], dropna=False)["records_count"]
+                    .sum()
+                    .reset_index(name="value")
+                )
+
+            if grouped.empty:
+                st.info("No matching PDF × prompt rows after filtering successful records.")
+            else:
+                pivot = (
+                    grouped.pivot_table(index="target_doc", columns="prompt", values="value", aggfunc="sum", fill_value=0)
+                    .sort_index()
+                    .astype(int)
+                )
+                pivot.insert(0, "total", pivot.sum(axis=1))
+                st.dataframe(pivot, use_container_width=True, height=360)
+                st.download_button(
+                    "Download PDF × prompt matrix CSV",
+                    pivot.reset_index().to_csv(index=False).encode("utf-8"),
+                    "pdf_prompt_processing_matrix.csv",
+                    "text/csv",
+                    use_container_width=True,
+                )
+
+                heatmap = alt.Chart(grouped).mark_rect().encode(
+                    x=alt.X("prompt:N", title="Prompt", axis=alt.Axis(labelAngle=-35, labelLimit=220)),
+                    y=alt.Y("target_doc:N", title="PDF / processed document", sort="-x", axis=alt.Axis(labelLimit=260)),
+                    color=alt.Color("value:Q", title=matrix_metric, scale=alt.Scale(scheme="tealblues")),
+                    tooltip=["target_doc", "prompt", "value"],
+                ).properties(height=min(520, max(260, 24 * grouped["target_doc"].nunique())))
+                st.altair_chart(heatmap, use_container_width=True)
+
     st.divider()
 
 # ═════════════════════════════════════════════════════════════════════════════
