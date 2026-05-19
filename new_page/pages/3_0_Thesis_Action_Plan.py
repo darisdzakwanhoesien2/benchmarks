@@ -6,9 +6,11 @@ from pathlib import Path
 import subprocess
 import sys
 import uuid
+from urllib.parse import urlparse
 
 import altair as alt
 import pandas as pd
+import requests
 import streamlit as st
 
 st.set_page_config(page_title="Thesis Action Plan", layout="wide")
@@ -19,6 +21,11 @@ ARTIFACTS = ROOT / "results" / "revision_analysis"
 CLIMATEBERT_JOBS = ROOT / "results" / "climatebert_background_jobs"
 CLIMATEBERT_WORKER = ROOT / "code" / "climatebert_background_worker.py"
 ROOT_MODELS_DIR = ROOT.parent / "model_download" / "models"
+DATASET_DIR = ROOT / "data" / "thesis_dataset"
+PROMPT_DIR = ROOT / "prompt"
+LLM_JOBS_DIR = ROOT / "results" / "background_llm_jobs"
+LLM_WORKER = ROOT / "code" / "llm_background_worker.py"
+MODELS_CACHE_PATH = PAGES_DIR / "models_cache.json"
 
 SILVER_PATH       = ARTIFACTS / "silver_tone_ground_truth.csv"
 ANNOTATION_PATH   = ARTIFACTS / "pilot_ground_truth_annotations.csv"
@@ -176,6 +183,164 @@ def request_climatebert_stop(job_id):
     control["stop_requested"] = True
     control["updated_at"] = datetime.utcnow().isoformat(timespec="seconds") + "Z"
     write_json(control_path, control)
+
+
+def list_documents():
+    if not DATASET_DIR.exists():
+        return []
+    return sorted(path.name for path in DATASET_DIR.iterdir() if (path / "pages").exists())
+
+
+def list_pages(document):
+    pages_dir = DATASET_DIR / document / "pages"
+    if not pages_dir.exists():
+        return []
+    return [path.name for path in sorted(pages_dir.glob("*.md"))]
+
+
+def list_prompts():
+    if not PROMPT_DIR.exists():
+        return []
+    return [path.name for path in sorted(PROMPT_DIR.glob("*.md"))]
+
+
+def fallback_llm_models():
+    cached = read_json(MODELS_CACHE_PATH, [])
+    if isinstance(cached, list) and cached:
+        return [str(model).strip() for model in cached if str(model).strip()]
+    return [
+        "meta-llama/llama-3.1-8b-instruct:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "mistralai/mistral-7b-instruct:free",
+        "google/gemma-3-27b-it:free",
+        "openai/gpt-4o-mini",
+    ]
+
+
+def normalize_openai_base_url(url):
+    url = (url or "").strip().rstrip("/")
+    if not url:
+        return "http://127.0.0.1:1234/v1"
+    for suffix in ("/models", "/chat/completions", "/completions", "/responses", "/embeddings"):
+        if url.endswith(suffix):
+            url = url[: -len(suffix)]
+            break
+    parsed = urlparse(url)
+    if parsed.scheme and parsed.netloc and not parsed.path:
+        url = f"{url}/v1"
+    return url.rstrip("/")
+
+
+def normalize_ollama_base_url(url):
+    url = (url or "").strip().rstrip("/")
+    if not url:
+        return "http://127.0.0.1:11434"
+    for suffix in ("/api/tags", "/api/chat", "/api/generate", "/api/show", "/api/ps"):
+        if url.endswith(suffix):
+            url = url[: -len(suffix)]
+            break
+    return url.rstrip("/")
+
+
+def bearer_headers(api_key=""):
+    headers = {"Content-Type": "application/json"}
+    if str(api_key).strip():
+        headers["Authorization"] = f"Bearer {str(api_key).strip()}"
+    return headers
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def fetch_lmstudio_models(base_url, api_key=""):
+    try:
+        base = normalize_openai_base_url(base_url)
+        resp = requests.get(f"{base}/models", headers=bearer_headers(api_key), timeout=8)
+        resp.raise_for_status()
+        return [str(row.get("id")) for row in resp.json().get("data", []) if row.get("id")]
+    except Exception:
+        return []
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def fetch_ollama_models(base_url, api_key=""):
+    try:
+        base = normalize_ollama_base_url(base_url)
+        resp = requests.get(f"{base}/api/tags", headers=bearer_headers(api_key), timeout=8)
+        resp.raise_for_status()
+        return sorted(
+            str(row.get("name") or row.get("model"))
+            for row in resp.json().get("models", [])
+            if row.get("name") or row.get("model")
+        )
+    except Exception:
+        return []
+
+
+def selectable_models_for_backend(backend, lmstudio_url="", lmstudio_api_key="", ollama_url="", ollama_api_key=""):
+    if backend == "Mock":
+        return ["mock-model"]
+    if backend == "LM Studio / OpenAI-compatible":
+        return fetch_lmstudio_models(lmstudio_url, lmstudio_api_key)
+    if backend == "Ollama":
+        return fetch_ollama_models(ollama_url, ollama_api_key)
+    return fallback_llm_models()
+
+
+def launch_llm_job(job_id):
+    job_dir = LLM_JOBS_DIR / job_id
+    job_dir.mkdir(parents=True, exist_ok=True)
+    with (job_dir / "worker.log").open("ab") as stdout, (job_dir / "worker.err.log").open("ab") as stderr:
+        proc = subprocess.Popen(
+            [sys.executable, str(LLM_WORKER), job_id],
+            cwd=str(ROOT),
+            stdout=stdout,
+            stderr=stderr,
+            start_new_session=True,
+        )
+    status = read_json(job_dir / "status.json", {})
+    status.update({"job_id": job_id, "pid": proc.pid, "status": "running", "updated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z"})
+    write_json(job_dir / "status.json", status)
+
+
+def llm_jobs():
+    if not LLM_JOBS_DIR.exists():
+        return []
+    return sorted([path.name for path in LLM_JOBS_DIR.iterdir() if path.is_dir()], reverse=True)
+
+
+def load_llm_records():
+    rows = []
+    esg_path = ROOT / "results" / "esg_records.json"
+    if esg_path.exists():
+        data = read_json(esg_path, [])
+        if isinstance(data, list):
+            for row in data:
+                if isinstance(row, dict):
+                    records = row.get("records") if isinstance(row.get("records"), list) else []
+                    rows.append(
+                        {
+                            "target_doc": str(row.get("target", "")).split("/")[0],
+                            "target": row.get("target", ""),
+                            "prompt": row.get("prompt", ""),
+                            "model": row.get("model", ""),
+                            "ok": bool(row.get("ok")),
+                            "records_count": len(records),
+                            "background_job_id": row.get("background_job_id", ""),
+                        }
+                    )
+    flat_path = ROOT / "results" / "visualizations" / "tone_records_flat.csv"
+    if flat_path.exists():
+        try:
+            flat = pd.read_csv(flat_path).fillna("")
+            if not flat.empty:
+                group_cols = [c for c in ["target_doc", "target", "prompt", "model"] if c in flat.columns]
+                if group_cols:
+                    grouped = flat.groupby(group_cols).size().reset_index(name="records_count")
+                    grouped["ok"] = True
+                    grouped["background_job_id"] = "tone_records_flat"
+                    rows.extend(grouped.to_dict("records"))
+        except Exception:
+            pass
+    return pd.DataFrame(rows)
 
 
 def looks_like_model_dir(p: Path) -> bool:
@@ -921,6 +1086,184 @@ if show[3]:
                 st.markdown(f"- {fm}")
 
     st.divider()
+
+# ═════════════════════════════════════════════════════════════════════════════
+# REPROCESS EXISTING OCR PAGES WITH LLM
+# ═════════════════════════════════════════════════════════════════════════════
+with st.expander("🧪 Reprocess existing OCR pages with selected LLM and prompt", expanded=False):
+    st.info(
+        "Use this to rerun existing OCR markdown pages through the background LLM worker. "
+        "Choose a PDF, page subset, prompt, and LLM model; the job writes to `results/background_llm_jobs` "
+        "and appends successful outputs to `results/esg_records.json`."
+    )
+
+    left, right = st.columns([3, 2], gap="large")
+    with left:
+        docs = list_documents()
+        selected_doc = st.selectbox("PDF / OCR document", docs, index=0 if docs else None, key="action_llm_doc")
+        page_names = list_pages(selected_doc) if selected_doc else []
+        page_mode = st.radio("Pages to reprocess", ["First N pages", "Page range", "Specific pages", "All pages"], horizontal=True, key="action_llm_page_mode")
+        if page_mode == "First N pages":
+            page_n = st.number_input("N pages", min_value=1, max_value=max(1, len(page_names)), value=min(5, max(1, len(page_names))), key="action_llm_page_n")
+            selected_pages = page_names[: int(page_n)]
+        elif page_mode == "Page range":
+            max_page = max(1, len(page_names))
+            page_range = st.slider("Page range", 1, max_page, (1, min(5, max_page)), key="action_llm_page_range")
+            selected_pages = page_names[page_range[0] - 1 : page_range[1]]
+        elif page_mode == "All pages":
+            selected_pages = page_names
+        else:
+            selected_pages = st.multiselect("Specific OCR pages", page_names, default=page_names[:3], key="action_llm_specific_pages")
+
+        prompts = list_prompts()
+        selected_prompt = st.selectbox("Prompt", prompts, index=0 if prompts else None, key="action_llm_prompt")
+        backend = st.selectbox("LLM provider", ["Mock", "OpenRouter", "LM Studio / OpenAI-compatible", "Ollama"], key="action_llm_backend")
+        openrouter_api_key = st.text_input(
+            "OpenRouter API key",
+            value=os.getenv("OPENROUTER_API_KEY", ""),
+            type="password",
+            key="action_llm_openrouter_key",
+            help="Used only when the provider is OpenRouter.",
+        )
+        lmstudio_url = st.text_input("LM Studio URL", value="http://127.0.0.1:1234/v1", key="action_llm_lms_url")
+        lmstudio_api_key = st.text_input("LM Studio API key", value=os.getenv("LMSTUDIO_API_KEY", ""), type="password", key="action_llm_lms_key")
+        ollama_url = st.text_input("Ollama URL", value="http://127.0.0.1:11434", key="action_llm_ollama_url")
+        ollama_api_key = st.text_input("Ollama API key", value=os.getenv("OLLAMA_API_KEY", ""), type="password", key="action_llm_ollama_key")
+
+        model_options = selectable_models_for_backend(backend, lmstudio_url, lmstudio_api_key, ollama_url, ollama_api_key)
+        model_search = st.text_input("Search model", "", key="action_llm_model_search")
+        visible_models = [m for m in model_options if model_search.lower() in m.lower()] if model_search.strip() else model_options
+        selected_models = st.multiselect(
+            f"LLM model(s) ({len(visible_models)} available)",
+            visible_models,
+            default=visible_models[:1],
+            key="action_llm_models",
+        )
+        manual_models = st.text_area("Manual model ids, one per line", "", height=70, key="action_llm_manual_models")
+        selected_models = list(dict.fromkeys(selected_models + [line.strip() for line in manual_models.splitlines() if line.strip()]))
+
+        c1, c2, c3 = st.columns(3)
+        batch_size = c1.number_input("Batch size", 1, max(1, len(selected_pages)), 1, key="action_llm_batch_size")
+        context_length = c2.number_input("Context chars", 500, 100000, 10000, 500, key="action_llm_context")
+        max_tokens = c3.number_input("Max tokens", 64, 8192, 1500, 64, key="action_llm_max_tokens")
+        temperature = st.number_input("Temperature", 0.0, 2.0, 0.0, 0.1, key="action_llm_temperature")
+        skip_existing = st.checkbox("Skip already successful model/target/prompt triples", value=False, key="action_llm_skip_existing")
+
+        can_reprocess = bool(selected_doc and selected_pages and selected_prompt and selected_models)
+        if st.button("Start LLM reprocess background job", type="primary", disabled=not can_reprocess, use_container_width=True):
+            job_id = f"llm_bg_action_{utc_now_id()}_{uuid.uuid4().hex[:6]}"
+            job_dir = LLM_JOBS_DIR / job_id
+            total = len(selected_models) * ((len(selected_pages) + int(batch_size) - 1) // int(batch_size))
+            config = {
+                "job_id": job_id,
+                "document": selected_doc,
+                "page_names": selected_pages,
+                "batch_size": int(batch_size),
+                "prompt_names": [selected_prompt],
+                "prompt_override": "",
+                "backend": backend,
+                "mock_mode": backend == "Mock",
+                "models": selected_models,
+                "openrouter_api_key": openrouter_api_key,
+                "lmstudio_url": lmstudio_url,
+                "lmstudio_api_key": lmstudio_api_key,
+                "ollama_url": ollama_url,
+                "ollama_api_key": ollama_api_key,
+                "ollama_num_ctx": 2048,
+                "context_length": int(context_length),
+                "max_tokens": int(max_tokens),
+                "temperature": float(temperature),
+                "retries": 2,
+                "sample_error_retries": 2,
+                "auto_reduce_context_on_error": True,
+                "context_retry_floor": 1200,
+                "target_retry_floor": 2000,
+                "skip_existing": bool(skip_existing),
+                "save_results": True,
+                "created_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+            }
+            write_json(job_dir / "config.json", config)
+            write_json(job_dir / "control.json", {"pause_requested": False, "stop_requested": False})
+            write_json(
+                job_dir / "status.json",
+                {
+                    "job_id": job_id,
+                    "status": "queued",
+                    "document": selected_doc,
+                    "total": total,
+                    "completed": 0,
+                    "failed": 0,
+                    "skipped": 0,
+                    "current": "Queued from Action Plan",
+                    "created_at": config["created_at"],
+                },
+            )
+            launch_llm_job(job_id)
+            st.success(f"Started `{job_id}`")
+            st.rerun()
+
+    with right:
+        st.markdown("#### Latest reprocess jobs")
+        jobs = llm_jobs()
+        if not jobs:
+            st.info("No LLM background jobs found yet.")
+        else:
+            job_rows = []
+            for job_id in jobs[:10]:
+                status = read_json(LLM_JOBS_DIR / job_id / "status.json", {})
+                config = read_json(LLM_JOBS_DIR / job_id / "config.json", {})
+                total = int(status.get("total") or 0)
+                completed = int(status.get("completed") or 0)
+                job_rows.append(
+                    {
+                        "job_id": job_id,
+                        "status": status.get("status", "unknown"),
+                        "progress_pct": round(completed / total * 100, 1) if total else 0,
+                        "completed": completed,
+                        "total": total,
+                        "failed": int(status.get("failed") or 0),
+                        "document": status.get("document") or config.get("document", ""),
+                        "prompt": ", ".join(config.get("prompt_names", [])) if isinstance(config.get("prompt_names"), list) else "",
+                        "models": ", ".join(config.get("models", [])[:2]) if isinstance(config.get("models"), list) else "",
+                    }
+                )
+            jobs_df = pd.DataFrame(job_rows)
+            st.dataframe(jobs_df, use_container_width=True, hide_index=True, height=260)
+            latest = job_rows[0]
+            st.progress(latest["progress_pct"] / 100 if latest["total"] else 0, text=f"Latest job: {latest['completed']}/{latest['total']} · {latest['status']}")
+
+    st.markdown("#### Data visualization by PDF and prompt")
+    llm_records = load_llm_records()
+    if llm_records.empty:
+        st.info("No LLM extraction records found yet. Start a background reprocess job or generate `tone_records_flat.csv`.")
+    else:
+        docs_available = sorted(llm_records["target_doc"].astype(str).replace("", "unknown").unique())
+        prompts_available = sorted(llm_records["prompt"].astype(str).replace("", "unknown").unique())
+        default_viz_docs = [selected_doc] if selected_doc in docs_available else docs_available[:5]
+        default_viz_prompts = [selected_prompt] if selected_prompt in prompts_available else prompts_available[:3]
+        f1, f2 = st.columns(2)
+        selected_docs_viz = f1.multiselect("PDF filter", docs_available, default=default_viz_docs, key="action_viz_docs")
+        selected_prompts_viz = f2.multiselect("Prompt filter", prompts_available, default=default_viz_prompts, key="action_viz_prompts")
+        viz_df = llm_records.copy()
+        if selected_docs_viz:
+            viz_df = viz_df[viz_df["target_doc"].astype(str).isin(selected_docs_viz)]
+        if selected_prompts_viz:
+            viz_df = viz_df[viz_df["prompt"].astype(str).isin(selected_prompts_viz)]
+        summary = (
+            viz_df.groupby(["target_doc", "prompt"], dropna=False)
+            .agg(samples=("records_count", "size"), extracted_records=("records_count", "sum"))
+            .reset_index()
+        )
+        chart = alt.Chart(summary).mark_bar().encode(
+            x=alt.X("extracted_records:Q", title="Extracted records"),
+            y=alt.Y("target_doc:N", sort="-x", title=None, axis=alt.Axis(labelLimit=260)),
+            color=alt.Color("prompt:N", title="Prompt"),
+            tooltip=["target_doc", "prompt", "samples", "extracted_records"],
+        ).properties(height=360)
+        st.altair_chart(chart, use_container_width=True)
+        st.dataframe(summary.sort_values("extracted_records", ascending=False), use_container_width=True, hide_index=True, height=260)
+
+st.divider()
 
 # ═════════════════════════════════════════════════════════════════════════════
 # STEP 4 — Model stability
