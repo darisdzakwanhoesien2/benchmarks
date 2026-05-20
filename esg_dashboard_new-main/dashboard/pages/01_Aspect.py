@@ -78,11 +78,11 @@ def make_normalized_aspect_summary(source_df, level):
             unique_raw_labels=("aspect", "nunique"),
             raw_label_examples=(
                 "aspect",
-                lambda values: ", ".join(sorted(set(values.astype(str)))[:12]),
+                lambda values: ", ".join(sorted(set(values.dropna().astype(str).tolist()))[:12]),
             ),
             aspect_cluster=(
                 "aspect_cluster",
-                lambda values: ", ".join(sorted(set(values.astype(str)))[:8]),
+                lambda values: ", ".join(sorted(set(values.dropna().astype(str).tolist()))[:8]),
             ),
         )
         .reset_index()

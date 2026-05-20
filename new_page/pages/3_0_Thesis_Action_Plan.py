@@ -41,8 +41,9 @@ MODEL_STAB_PATH   = ARTIFACTS / "model_stability_summary.csv"
 OCR_PATH          = ARTIFACTS / "ocr_processing_summary.csv"
 FAILURE_PATH      = ARTIFACTS / "failure_modes.csv"
 FAIL_CNT_PATH     = ARTIFACTS / "failure_mode_counts.csv"
-CLUSTER_PATH      = ARTIFACTS / "aspect_clusters.csv"
-NOTES_PATH        = PAGES_DIR / "notes.md"
+CLUSTER_PATH           = ARTIFACTS / "aspect_clusters.csv"
+PROMPT_BY_RUN_PATH     = ARTIFACTS / "prompt_stability_by_run.csv"
+NOTES_PATH             = PAGES_DIR / "notes.md"
 ANNOTATION_TARGET = 250
 
 TONE_OPTS   = ["", "commitment", "action", "outcome", "none", "unknown"]
@@ -943,6 +944,7 @@ with st.sidebar:
         4: "Step 4 — Model stability",
         5: "Step 5 — Failure mode tagging",
         6: "Step 6 — Aspect clustering",
+        "matrix": "📊 PDF × Prompt matrix",
     }.items()}
     st.divider()
     with st.expander("📋 Research Notes", expanded=False):
@@ -2148,3 +2150,217 @@ if show[6]:
                 st.markdown("#### All aspects overview")
                 st.dataframe(ontology[[c for c in ["aspect", "records", "mapped_to_ontology"] if c in ontology.columns]],
                              use_container_width=True, height=260)
+
+# ═════════════════════════════════════════════════════════════════════════════
+# PDF × PROMPT PROCESSING MATRIX
+# ═════════════════════════════════════════════════════════════════════════════
+if show.get("matrix", True):
+    st.divider()
+
+    METRIC_CONFIG = {
+        "record_count":        ("Records extracted",      "YlGn",    False, "{:.0f}"),
+        "field_completion_rate": ("Field completion rate", "YlGn",    False, "{:.1%}"),
+        "missing_tone_rate":   ("Missing tone rate",       "RdYlGn_r", True,  "{:.1%}"),
+        "schema_drift_rate":   ("Schema drift rate",       "RdYlGn_r", True,  "{:.1%}"),
+    }
+
+    df_run = load(PROMPT_BY_RUN_PATH)
+
+    run_badge = "✅" if not df_run.empty else "🔴"
+    with st.expander(
+        f"{run_badge} PDF × Prompt Processing Matrix — LLM output coverage",
+        expanded=not df_run.empty,
+    ):
+        if df_run.empty:
+            st.warning(
+                f"No data found at `{PROMPT_BY_RUN_PATH.name}`. "
+                "Run the LLM processing pipeline to populate this table."
+            )
+        else:
+            # ── controls ────────────────────────────────────────────────────
+            ctrl_left, ctrl_right = st.columns([2, 2])
+            with ctrl_left:
+                sel_metric = st.selectbox(
+                    "Metric shown in each cell",
+                    list(METRIC_CONFIG.keys()),
+                    format_func=lambda k: METRIC_CONFIG[k][0],
+                    key="ppm_metric",
+                )
+            with ctrl_right:
+                row_col_choice = st.radio(
+                    "Row identifier",
+                    ["company", "target"],
+                    horizontal=True,
+                    key="ppm_row_col",
+                    help="'company' is shorter; 'target' shows the exact batch path.",
+                )
+                row_col = row_col_choice if row_col_choice in df_run.columns else (
+                    "company" if "company" in df_run.columns else "target"
+                )
+
+            metric_label, cmap, lower_is_better, fmt_str = METRIC_CONFIG[sel_metric]
+            is_count = sel_metric == "record_count"
+            is_rate  = sel_metric in ("field_completion_rate", "missing_tone_rate", "schema_drift_rate")
+
+            # ── build pivot ─────────────────────────────────────────────────
+            agg = (
+                df_run.groupby([row_col, "prompt"])[sel_metric]
+                .mean()
+                .reset_index(name=sel_metric)
+            )
+            pivot = (
+                agg.pivot(index=row_col, columns="prompt", values=sel_metric)
+                .fillna(0)
+            )
+            # Shorten prompt names
+            pivot.columns = [
+                str(c).replace(".md", "").replace("tone_", "")
+                for c in pivot.columns
+            ]
+            pivot.columns.name = None
+            pivot.index.name = "PDF / Company"
+
+            if is_count:
+                pivot = pivot.round(0).astype(int)
+                summary_col = "TOTAL"
+                pivot[summary_col] = pivot.sum(axis=1)
+                pivot = pivot.sort_values(summary_col, ascending=False)
+            else:
+                pivot = pivot.round(4)
+                summary_col = "AVG"
+                pivot[summary_col] = pivot.mean(axis=1).round(4)
+                pivot = pivot.sort_values(summary_col, ascending=lower_is_better)
+
+            df_pivot = pivot.reset_index()
+            val_cols = list(df_pivot.columns[1:])          # all except row label
+            prompt_cols = [c for c in val_cols if c != summary_col]
+
+            # ── layout: table left, stats right ─────────────────────────────
+            tbl_col, stat_col = st.columns([3, 1], gap="large")
+
+            with tbl_col:
+                st.markdown(f"**{metric_label}** per PDF × prompt template")
+                try:
+                    fmt_map = {c: fmt_str for c in val_cols}
+                    styled = (
+                        df_pivot.style
+                        .background_gradient(subset=val_cols, cmap=cmap)
+                        .format(fmt_map)
+                        .set_properties(**{"font-size": "12px"})
+                    )
+                    tbl_height = min(max(300, len(df_pivot) * 38 + 60), 700)
+                    st.dataframe(styled, use_container_width=True, hide_index=True, height=tbl_height)
+                except Exception:
+                    st.dataframe(df_pivot.astype(str), use_container_width=True, hide_index=True)
+
+                st.caption(
+                    f"{len(df_pivot)} PDFs/companies  ·  "
+                    f"{len(prompt_cols)} prompt templates  ·  "
+                    f"Metric: **{metric_label}**  ·  "
+                    f"{'Higher = more records' if is_count else ('Higher = better' if not lower_is_better else 'Lower = better')}  ·  "
+                    f"Source: `{PROMPT_BY_RUN_PATH.name}`"
+                )
+                st.download_button(
+                    f"⬇ Download PDF × Prompt {metric_label} CSV",
+                    df_pivot.to_csv(index=False).encode("utf-8"),
+                    f"pdf_prompt_{sel_metric}_matrix.csv",
+                    "text/csv",
+                    use_container_width=True,
+                    key="ppm_download",
+                )
+
+            with stat_col:
+                st.markdown("**Coverage summary**")
+
+                # Overall coverage: how many (PDF, prompt) cells have data
+                total_cells = len(df_pivot) * len(prompt_cols)
+                filled_cells = sum(
+                    (pd.to_numeric(df_pivot[c], errors="coerce").fillna(0) > 0).sum()
+                    for c in prompt_cols
+                )
+                coverage_pct = filled_cells / total_cells if total_cells else 0
+                st.metric("Cells with data", f"{filled_cells} / {total_cells}")
+                st.progress(coverage_pct)
+
+                st.divider()
+
+                # Per-prompt averages
+                st.markdown("**By prompt** (avg across PDFs)")
+                prompt_avgs = []
+                for pc in prompt_cols:
+                    col_vals = pd.to_numeric(df_pivot[pc], errors="coerce").fillna(0)
+                    prompt_avgs.append({
+                        "prompt": pc,
+                        "avg": round(float(col_vals.mean()), 4),
+                        "nonzero": int((col_vals > 0).sum()),
+                    })
+                df_pavg = pd.DataFrame(prompt_avgs).sort_values(
+                    "avg", ascending=lower_is_better
+                )
+                bar_prompt = (
+                    alt.Chart(df_pavg)
+                    .mark_bar()
+                    .encode(
+                        x=alt.X("avg:Q", title=metric_label),
+                        y=alt.Y("prompt:N", sort=None, title=None),
+                        color=alt.Color(
+                            "avg:Q",
+                            scale=alt.Scale(scheme="tealblues"),
+                            legend=None,
+                        ),
+                        tooltip=[
+                            alt.Tooltip("prompt:N"),
+                            alt.Tooltip("avg:Q", format=".3f", title=metric_label),
+                            alt.Tooltip("nonzero:Q", title="PDFs with data"),
+                        ],
+                    )
+                    .properties(height=max(160, len(df_pavg) * 28))
+                )
+                st.altair_chart(bar_prompt, use_container_width=True)
+
+                st.divider()
+                st.markdown("**By PDF** (avg across prompts)")
+                pdf_avgs = df_pivot[[row_col, summary_col]].copy()
+                pdf_avgs[summary_col] = pd.to_numeric(pdf_avgs[summary_col], errors="coerce").fillna(0)
+                bar_pdf = (
+                    alt.Chart(pdf_avgs)
+                    .mark_bar(color="#2f6f73")
+                    .encode(
+                        x=alt.X(f"{summary_col}:Q", title=summary_col),
+                        y=alt.Y(f"{row_col}:N", sort="-x", title=None),
+                        tooltip=[row_col, summary_col],
+                    )
+                    .properties(height=max(160, len(pdf_avgs) * 26))
+                )
+                st.altair_chart(bar_pdf, use_container_width=True)
+
+            # ── raw data drill-down ──────────────────────────────────────────
+            with st.expander("Raw run-level data (prompt_stability_by_run.csv)", expanded=False):
+                filter_cols = [c for c in [row_col, "prompt", "model", "run_idx",
+                                           "record_count", "field_completion_rate",
+                                           "missing_tone_rate", "schema_drift_rate", "ok"]
+                               if c in df_run.columns]
+                company_filter = st.multiselect(
+                    "Filter by PDF/company",
+                    sorted(df_run[row_col].dropna().unique().tolist()),
+                    key="ppm_company_filter",
+                )
+                prompt_filter = st.multiselect(
+                    "Filter by prompt",
+                    sorted(df_run["prompt"].dropna().unique().tolist()) if "prompt" in df_run.columns else [],
+                    key="ppm_prompt_filter",
+                )
+                raw_view = df_run[filter_cols].copy()
+                if company_filter:
+                    raw_view = raw_view[raw_view[row_col].isin(company_filter)]
+                if prompt_filter:
+                    raw_view = raw_view[raw_view["prompt"].isin(prompt_filter)]
+                st.dataframe(raw_view, use_container_width=True, hide_index=True, height=320)
+                st.download_button(
+                    "⬇ Download filtered raw runs CSV",
+                    raw_view.to_csv(index=False).encode("utf-8"),
+                    "pdf_prompt_raw_runs.csv",
+                    "text/csv",
+                    use_container_width=True,
+                    key="ppm_raw_download",
+                )
