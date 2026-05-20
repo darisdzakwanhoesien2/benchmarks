@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+import sys
 from typing import Any
 
 import altair as alt
@@ -13,11 +14,14 @@ import streamlit as st
 st.set_page_config(page_title="Ground Truth Pipeline Output Visualizer", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 RESULTS_DIR = ROOT / "results"
 DEFAULT_T1_JSONL = RESULTS_DIR / "t1_results.jsonl"
 DEFAULT_T1_JSON = RESULTS_DIR / "t1_results.json"
 DEFAULT_T2_JSONL = RESULTS_DIR / "t2_results.jsonl"
 DEFAULT_T2_JSON = RESULTS_DIR / "t2_results.json"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def clean(value: Any) -> str:
@@ -293,7 +297,7 @@ overview[4].metric("T2 hybrid errors", f"{t2_error_count:,}")
 st.caption(f"T1 output: `{t1_path}`")
 st.caption(f"T2 output: `{t2_path}`")
 
-tabs = st.tabs(["T1 Model Results", "T1 Failures", "T2 Hybrid Results", "Ontology & Greenwashing", "Comparisons", "Records & Exports"])
+tabs = st.tabs(["T1 Model Results", "T1 Failures", "T2 Hybrid Results", "Ontology & Greenwashing", "Comparisons", "Records & Exports", "Attachment Cards"])
 
 with tabs[0]:
     st.markdown(
@@ -443,3 +447,11 @@ with tabs[5]:
             "filtered_t2_pipeline_outputs.csv",
             "text/csv",
         )
+
+with tabs[6]:
+    render_attachment_cards(
+        "ground_truth.py Pipeline Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        rq_default="RQ2",
+        figures=["A.17", "A.18", "A.19", "A.20"],
+    )

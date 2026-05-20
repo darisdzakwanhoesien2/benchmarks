@@ -36,6 +36,7 @@ from thesis_chapter_streamlit import (  # noqa: E402
     thesis_spine_mermaid,
     validation_mermaid,
 )
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 st.set_page_config(page_title="Thesis Draft + Chapters Mermaid Integration", layout="wide")
@@ -345,6 +346,32 @@ def integrated_edge_explanation_rows() -> pd.DataFrame:
             }
         )
     return pd.DataFrame(rows)
+
+
+def focused_edge_mermaid(edge_df: pd.DataFrame, selected_edges: list[str]) -> str:
+    selected = edge_df[edge_df["edge"].astype(str).isin(selected_edges)].copy()
+    if selected.empty:
+        return integrated_thesis_mermaid()
+
+    node_labels: dict[str, str] = {}
+    for _, row in selected.iterrows():
+        node_labels[str(row["source node"])] = str(row["source meaning"])
+        node_labels[str(row["target node"])] = str(row["target meaning"])
+
+    lines = [
+        "flowchart LR",
+        '    SELECTED["Selected Mermaid edge focus"]',
+    ]
+    for node_id, label in sorted(node_labels.items()):
+        clean_label = label.replace('"', "'")
+        lines.append(f'    {node_id}["{clean_label}"]')
+    for _, row in selected.iterrows():
+        lines.append(
+            f'    {row["source node"]} -- {row["edge"]} --> {row["target node"]}'
+        )
+    for node_id in sorted(node_labels):
+        lines.append(f"    SELECTED -. includes .-> {node_id}")
+    return "\n".join(lines)
 
 
 @st.cache_data(show_spinner=False)
@@ -772,7 +799,7 @@ source_cols[0].markdown(f"**PDF thesis draft:** `{PDF_PATH}`")
 source_cols[1].markdown(f"**DOCX chapters 4-6:** `{DOCX_PATH}`")
 source_cols[2].markdown(f"**Complete narrative:** `{NARRATIVE_PATH}`")
 
-tab_integrated, tab_map, tab_rq, tab_pipeline, tab_validation, tab_artifacts, tab_outline, tab_evidence = st.tabs(
+tab_integrated, tab_map, tab_rq, tab_pipeline, tab_validation, tab_artifacts, tab_cards, tab_outline, tab_evidence = st.tabs(
     [
         "Integrated Navigator",
         "Thesis Spine",
@@ -780,6 +807,7 @@ tab_integrated, tab_map, tab_rq, tab_pipeline, tab_validation, tab_artifacts, ta
         "Pipeline",
         "Validation",
         "Artifact Lineage",
+        "Attachment Cards",
         "Source Outlines",
         "Evidence Tables",
     ]
@@ -797,6 +825,8 @@ with tab_integrated:
         "The integrated Mermaid canvas is intentionally large: it combines Thesis Spine, RQ Evidence, Pipeline, "
         "Validation, and Artifact Lineage in one graph. Use the diagram toolbar or scroll inside the frame to inspect details."
     )
+
+    edge_df = integrated_edge_explanation_rows()
 
     f1, f2, f3 = st.columns(3)
     chapter_filter = f1.selectbox(
@@ -837,10 +867,22 @@ with tab_integrated:
         ],
     )
 
-    render_mermaid(integrated_thesis_mermaid(), height=1600)
+    edge_options = edge_df["edge"].astype(str).tolist()
+    selected_edges = st.multiselect(
+        "Select specific Mermaid edge labels",
+        edge_options,
+        default=[],
+        placeholder="Choose one or more edges, for example (001), (002), (005)",
+        key="integrated_selected_edges",
+        help="When one or more labels are selected, the diagram and tables below focus on those exact arrows.",
+    )
+    if selected_edges:
+        st.caption(f"Focused view: {len(selected_edges):,} selected connection(s). Clear the selector to return to the full integrated navigator.")
+        render_mermaid(focused_edge_mermaid(edge_df, selected_edges), height=720)
+    else:
+        render_mermaid(integrated_thesis_mermaid(), height=1600)
 
     st.subheader("0. Arrow / Connection Explanations")
-    edge_df = integrated_edge_explanation_rows()
     edge_filter = st.text_input(
         "Search edge explanations",
         value="",
@@ -848,6 +890,8 @@ with tab_integrated:
         key="integrated_edge_explanation_search",
     )
     edge_display = filter_df(edge_df, chapter_filter, rq_filter, layer_filter)
+    if selected_edges:
+        edge_display = edge_display[edge_display["edge"].astype(str).isin(selected_edges)]
     if edge_filter.strip():
         needle = edge_filter.strip()
         edge_display = edge_display[
@@ -894,6 +938,8 @@ with tab_integrated:
         ref_display = filter_df(narrative_refs, chapter_filter, rq_filter, layer_filter)
         if selected_group != "All":
             ref_display = ref_display[ref_display["reference group"].astype(str).eq(selected_group)]
+        if selected_edges:
+            ref_display = ref_display[ref_display["edge"].astype(str).isin(selected_edges)]
         if ref_search.strip():
             needle = ref_search.strip()
             ref_display = ref_display[
@@ -1205,6 +1251,9 @@ with tab_artifacts:
     with c2:
         st.subheader("Citation-Ready Result Claims")
         st.dataframe(citation_table(bundle), use_container_width=True, hide_index=True, height=360)
+
+with tab_cards:
+    render_attachment_cards("Integrated Graph + Table Attachment Cards")
 
 with tab_outline:
     st.header("Source Outlines")

@@ -19,6 +19,7 @@ VIS = ROOT / "results" / "visualizations"
 TOOLS = ROOT / "tools"
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 REV = ROOT / "results" / "revision_analysis"
+WORKFLOW = ROOT / "results" / "thesis_workflow_dashboard"
 
 sys.path.insert(0, str(ROOT / "code"))
 sys.path.insert(0, str(TOOLS))
@@ -196,6 +197,84 @@ def ontology_extension_rows() -> pd.DataFrame:
     return df.sort_values("records", ascending=False).head(20)
 
 
+def ground_truth_scaffold_rows() -> pd.DataFrame:
+    tone = load_csv(VIS / "tone_records_flat.csv")
+    silver = load_csv(REV / "silver_tone_ground_truth.csv")
+    seed = load_csv(REV / "pilot_ground_truth_seed.csv")
+    annotation = load_csv(REV / "pilot_ground_truth_annotations.csv")
+    rows = [
+        {"metric": "tone_records_flat rows", "records": len(tone)},
+        {"metric": "silver_tone_ground_truth rows", "records": len(silver)},
+        {"metric": "pilot seed rows", "records": len(seed)},
+        {"metric": "saved human annotation rows", "records": len(annotation)},
+    ]
+    if not silver.empty:
+        for col in ["tone_pred", "silver_tone_ground_truth", "esg", "aspect"]:
+            if col in silver.columns:
+                rows.append({"metric": f"{col} non-empty", "records": int(silver[col].astype(str).str.strip().ne("").sum())})
+    return pd.DataFrame(rows)
+
+
+def pilot_annotation_completion_rows() -> pd.DataFrame:
+    annotation = load_csv(REV / "pilot_ground_truth_annotations.csv")
+    seed = load_csv(REV / "pilot_ground_truth_seed.csv")
+    df = annotation if not annotation.empty else seed
+    if df.empty:
+        return pd.DataFrame()
+    rows = []
+    for col in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect", "annotator", "review_notes"]:
+        if col in df.columns:
+            done = int(df[col].astype(str).str.strip().ne("").sum())
+            rows.append({"field": col, "completed": done, "missing": len(df) - done, "total": len(df)})
+    if "review_status" in df.columns:
+        for status, count in df["review_status"].astype(str).replace("", "missing").value_counts().items():
+            rows.append({"field": f"review_status: {status}", "completed": int(count), "missing": 0, "total": len(df)})
+    return pd.DataFrame(rows)
+
+
+def ground_truth_tone_comparison_rows() -> pd.DataFrame:
+    annotation = load_csv(REV / "pilot_ground_truth_annotations.csv")
+    seed = load_csv(REV / "pilot_ground_truth_seed.csv")
+    silver = load_csv(REV / "silver_tone_ground_truth.csv")
+    df = annotation if not annotation.empty else seed
+    if df.empty:
+        df = silver
+    if df.empty:
+        return pd.DataFrame()
+    truth_col = "ground_truth_tone" if "ground_truth_tone" in df.columns and df["ground_truth_tone"].astype(str).str.strip().ne("").any() else "silver_tone_ground_truth"
+    pred_col = "tone_pred" if "tone_pred" in df.columns else "tone"
+    if truth_col not in df.columns or pred_col not in df.columns:
+        return pd.DataFrame()
+    out = (
+        df.assign(
+            truth=df[truth_col].astype(str).str.strip().replace("", "missing"),
+            prediction=df[pred_col].astype(str).str.strip().replace("", "missing"),
+        )
+        .groupby(["truth", "prediction"], dropna=False)
+        .size()
+        .reset_index(name="records")
+        .sort_values("records", ascending=False)
+    )
+    out["truth_source"] = truth_col
+    return out
+
+
+def ground_truth_t2_output_rows() -> pd.DataFrame:
+    t2 = load_csv(WORKFLOW / "t2_flat_outputs.csv")
+    if t2.empty:
+        return pd.DataFrame()
+    group_cols = [col for col in ["rule_tone", "tone_pred", "sentiment_pred"] if col in t2.columns]
+    if not group_cols:
+        return t2.head(30)
+    return (
+        t2.assign(records=1)
+        .groupby(group_cols, dropna=False)["records"]
+        .sum()
+        .reset_index()
+        .sort_values("records", ascending=False)
+    )
+
+
 def ensure_extra_graph_attachments() -> None:
     draw_docx_bar_chart(
         GRAPH_DIR / "docx_human_annotation_agreement.png",
@@ -228,6 +307,38 @@ def ensure_extra_graph_attachments() -> None:
         "aspect",
         "records",
         "Top unmapped Indonesian ESG aspects for ontology extension",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_ground_truth_scaffold_coverage.png",
+        "Ground Truth Scaffold Coverage",
+        ground_truth_scaffold_rows(),
+        "metric",
+        "records",
+        "ground_truth.py evidence layer from tone_records_flat into silver and pilot annotation files",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_pilot_annotation_completion.png",
+        "Pilot Annotation Completion",
+        pilot_annotation_completion_rows(),
+        "field",
+        "completed",
+        "Ground-truth fields completed in the pilot annotation table",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_ground_truth_tone_comparison.png",
+        "Ground Truth Tone Comparison",
+        ground_truth_tone_comparison_rows(),
+        "truth",
+        "records",
+        "Human or silver ground-truth tone compared with model tone output",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_ground_truth_t2_outputs.png",
+        "ground_truth.py T2 Tone Outputs",
+        ground_truth_t2_output_rows(),
+        "tone_pred",
+        "records",
+        "Flattened T2 hybrid/rule output from the resumable ground_truth.py pipeline",
     )
 
 
@@ -377,6 +488,42 @@ def graph_manifest() -> pd.DataFrame:
             "source table": "ontology_coverage.csv",
             "source page": "pages/1_6_Ontology_Path_Viewer.py",
         },
+        {
+            "figure": "A.17",
+            "title": "Ground truth scaffold coverage",
+            "path": GRAPH_DIR / "docx_ground_truth_scaffold_coverage.png",
+            "chapter": "Chapter 4",
+            "rq": "RQ2",
+            "source table": "tone_records_flat.csv + silver_tone_ground_truth.csv",
+            "source page": "pages/1_8_Ground_Truth_Output_Visualizer.py",
+        },
+        {
+            "figure": "A.18",
+            "title": "Pilot annotation completion",
+            "path": GRAPH_DIR / "docx_pilot_annotation_completion.png",
+            "chapter": "Chapter 4 / 5",
+            "rq": "RQ2",
+            "source table": "pilot_ground_truth_seed.csv + pilot_ground_truth_annotations.csv",
+            "source page": "pages/1_1_Ground_Truth_Workbench.py",
+        },
+        {
+            "figure": "A.19",
+            "title": "Ground truth tone comparison",
+            "path": GRAPH_DIR / "docx_ground_truth_tone_comparison.png",
+            "chapter": "Chapter 4 / 5",
+            "rq": "RQ2",
+            "source table": "silver_tone_ground_truth.csv + pilot_ground_truth_annotations.csv",
+            "source page": "pages/1_3_Ground_Truth_Metrics.py",
+        },
+        {
+            "figure": "A.20",
+            "title": "ground_truth.py T2 tone outputs",
+            "path": GRAPH_DIR / "docx_ground_truth_t2_outputs.png",
+            "chapter": "Chapter 4",
+            "rq": "RQ2",
+            "source table": "t2_flat_outputs.csv + t2_results.jsonl",
+            "source page": "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py",
+        },
     ]
     df = pd.DataFrame(rows)
     df["exists"] = df["path"].map(lambda p: Path(p).exists())
@@ -431,6 +578,14 @@ def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame])
         return climatebert_baseline_rows()
     if figure == "A.16":
         return ontology_extension_rows()
+    if figure == "A.17":
+        return ground_truth_scaffold_rows()
+    if figure == "A.18":
+        return pilot_annotation_completion_rows()
+    if figure == "A.19":
+        return ground_truth_tone_comparison_rows()
+    if figure == "A.20":
+        return ground_truth_t2_output_rows()
     return pd.DataFrame()
 
 

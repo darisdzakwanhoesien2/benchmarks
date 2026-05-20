@@ -29,6 +29,7 @@ from thesis_chapter_streamlit import (  # noqa: E402
     render_generated_claim_box,
     workflow_coverage_chart,
 )
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 st.set_page_config(page_title="Chapter 4 - Implementation and Results", layout="wide")
@@ -39,8 +40,8 @@ st.title("Chapter 4 - Implementation and Results")
 st.caption("Interactive Streamlit translation of `thesis_chapters_4_5_6.docx`, with live graphs from current result artifacts.")
 metric_row(bundle)
 
-tab_text, tab_live, tab_rq12, tab_rq34, tab_rq56, tab_figures = st.tabs(
-    ["Chapter Text", "Live Action Plan Evidence", "RQ1-RQ2", "RQ3-RQ4", "RQ5-RQ6", "Figure Gallery"]
+tab_text, tab_live, tab_rq12, tab_rq34, tab_rq56, tab_figures, tab_cards = st.tabs(
+    ["Chapter Text", "Live Action Plan Evidence", "RQ1-RQ2", "RQ3-RQ4", "RQ5-RQ6", "Figure Gallery", "Attachment Cards"]
 )
 
 with tab_text:
@@ -134,3 +135,10 @@ with tab_figures:
     for idx, (name, caption) in enumerate(images):
         with cols[idx % 2]:
             image_or_info(VIS / name, caption)
+
+with tab_cards:
+    render_attachment_cards(
+        "Chapter 4 Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        figures=["A.1", "A.2", "A.3", "A.4", "A.7", "A.8", "A.10", "A.14", "A.17", "A.18", "A.19", "A.20"],
+    )

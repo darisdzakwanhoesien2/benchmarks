@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 from typing import Iterable
 
 import altair as alt
@@ -12,6 +13,7 @@ import streamlit as st
 st.set_page_config(page_title="Ground Truth Output Visualizer", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 ARTIFACTS = ROOT / "results" / "revision_analysis"
 ANNOTATION_PATH = ARTIFACTS / "pilot_ground_truth_annotations.csv"
 SEED_PATH = ARTIFACTS / "pilot_ground_truth_seed.csv"
@@ -41,6 +43,8 @@ REQUIRED_COLUMNS = [
     "reasoning",
     "review_notes",
 ]
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def clean_label(value: object) -> str:
@@ -352,6 +356,7 @@ tabs = st.tabs([
     "Review Queue",
     "Records",
     "Raw Outputs",
+    "Attachment Cards",
 ])
 
 with tabs[0]:
@@ -553,3 +558,11 @@ with tabs[5]:
         st.caption(f"`{RAW_ABSA_GROUND_TRUTH_PATH}`")
         st.metric("Rows", f"{len(raw_absa):,}")
         st.dataframe(raw_absa.head(int(table_limit)), use_container_width=True, height=420)
+
+with tabs[6]:
+    render_attachment_cards(
+        "Ground Truth Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        rq_default="RQ2",
+        figures=["A.13", "A.17", "A.18", "A.19", "A.20"],
+    )

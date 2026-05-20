@@ -24,6 +24,7 @@ from thesis_chapter_streamlit import (  # noqa: E402
     render_generated_claim_box,
     workflow_coverage_chart,
 )
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 st.set_page_config(page_title="Chapter 6 - Conclusion", layout="wide")
@@ -34,8 +35,8 @@ st.title("Chapter 6 - Conclusion")
 st.caption("Conclusion chapter translated into an interactive evidence summary with contribution and future-work views.")
 metric_row(bundle)
 
-tab_text, tab_live, tab_contributions, tab_rqs, tab_future = st.tabs(
-    ["Chapter Text", "Live Conclusion Claims", "Contribution Summary", "Research Question Answers", "Future Work"]
+tab_text, tab_live, tab_contributions, tab_rqs, tab_future, tab_cards = st.tabs(
+    ["Chapter Text", "Live Conclusion Claims", "Contribution Summary", "Research Question Answers", "Future Work", "Attachment Cards"]
 )
 
 with tab_text:
@@ -131,3 +132,10 @@ with tab_future:
     st.dataframe(pd.DataFrame(future_rows), use_container_width=True, hide_index=True, height=260)
     model_stability_chart(bundle["model_stability"])
     prompt_stability_chart(bundle["prompt_stability"])
+
+with tab_cards:
+    render_attachment_cards(
+        "Chapter 6 Graph + Table Attachment Cards",
+        chapter_default="Chapter 6",
+        figures=["A.6", "A.7", "A.8", "A.9", "A.10", "A.11", "A.12", "A.13", "A.14", "A.15", "A.16"],
+    )

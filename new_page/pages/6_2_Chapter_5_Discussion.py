@@ -23,6 +23,7 @@ from thesis_chapter_streamlit import (  # noqa: E402
     render_chapter_text,
     render_generated_claim_box,
 )
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 st.set_page_config(page_title="Chapter 5 - Discussion", layout="wide")
@@ -33,8 +34,8 @@ st.title("Chapter 5 - Discussion")
 st.caption("Discussion chapter translated into an interactive page with the supporting result graphs beside the interpretation.")
 metric_row(bundle)
 
-tab_text, tab_live, tab_findings, tab_limitations = st.tabs(
-    ["Chapter Text", "Live Discussion Claims", "Key Findings", "Limitations and Diagnostics"]
+tab_text, tab_live, tab_findings, tab_limitations, tab_cards = st.tabs(
+    ["Chapter Text", "Live Discussion Claims", "Key Findings", "Limitations and Diagnostics", "Attachment Cards"]
 )
 
 with tab_text:
@@ -108,4 +109,11 @@ with tab_limitations:
     st.info(
         "Use this section to connect evidence to the chapter limitations: human-label scale, social-pillar sparsity, "
         "unmeasured OCR quality, prompt sensitivity, ClimateBERT construct mismatch, and ontology coverage gaps."
+    )
+
+with tab_cards:
+    render_attachment_cards(
+        "Chapter 5 Graph + Table Attachment Cards",
+        chapter_default="Chapter 5",
+        figures=["A.4", "A.5", "A.11", "A.12", "A.13", "A.15", "A.16", "A.18", "A.19"],
     )
