@@ -3,6 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 import re
 import sys
+from xml.etree import ElementTree as ET
+from zipfile import ZipFile
 
 import pandas as pd
 import streamlit as st
@@ -10,6 +12,8 @@ import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))
+NARRATIVE_PATH = ROOT / "pages" / "Thesis_Complete_Narrative.docx"
+W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
 from thesis_chapter_streamlit import (  # noqa: E402
     DOCX_PATH,
@@ -275,6 +279,7 @@ def benchmarking_rows(bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
 
 EDGE_RE = re.compile(r"^(\s*)([A-Za-z][A-Za-z0-9_]*)\s+-->\s+([A-Za-z][A-Za-z0-9_]*)(\s*)$")
 NODE_RE = re.compile(r'^\s*([A-Za-z][A-Za-z0-9_]*)\["(.+?)"\]\s*$')
+NARRATIVE_EDGE_GROUP_RE = re.compile(r"\((\d{3}(?:\s*,\s*\d{3})*)\)")
 
 
 def _clean_node_label(label: str) -> str:
@@ -339,6 +344,71 @@ def integrated_edge_explanation_rows() -> pd.DataFrame:
                 "explanation": _edge_explanation(source_label, target_label),
             }
         )
+    return pd.DataFrame(rows)
+
+
+@st.cache_data(show_spinner=False)
+def read_complete_narrative_docx(path_text: str = str(NARRATIVE_PATH)) -> pd.DataFrame:
+    path = Path(path_text)
+    if not path.exists():
+        return pd.DataFrame(
+            [
+                {
+                    "paragraph": 0,
+                    "text": "",
+                    "status": f"Missing narrative document: {path}",
+                }
+            ]
+        )
+    try:
+        with ZipFile(path) as zf:
+            root = ET.fromstring(zf.read("word/document.xml"))
+    except Exception as exc:
+        return pd.DataFrame([{"paragraph": 0, "text": "", "status": f"Could not read DOCX: {exc}"}])
+
+    rows: list[dict[str, object]] = []
+    for idx, para in enumerate(root.findall(f".//{W_NS}p"), start=1):
+        text = "".join(node.text or "" for node in para.findall(f".//{W_NS}t")).strip()
+        if text:
+            rows.append({"paragraph": idx, "text": text, "status": "ok"})
+    return pd.DataFrame(rows)
+
+
+def narrative_reference_rows(edge_df: pd.DataFrame) -> pd.DataFrame:
+    narrative = read_complete_narrative_docx()
+    if narrative.empty or "text" not in narrative.columns:
+        return pd.DataFrame()
+
+    edge_lookup = {
+        str(row["edge"]): row
+        for _, row in edge_df.iterrows()
+        if str(row.get("edge", "")).strip()
+    }
+    rows: list[dict[str, object]] = []
+    for _, paragraph in narrative.iterrows():
+        text = str(paragraph.get("text", ""))
+        for match in NARRATIVE_EDGE_GROUP_RE.finditer(text):
+            group_text = f"({match.group(1)})"
+            numbers = re.findall(r"\d{3}", match.group(1))
+            for position, number in enumerate(numbers, start=1):
+                edge_id = f"({number})"
+                edge = edge_lookup.get(edge_id)
+                paragraph_text = text.replace("\n", " ")
+                rows.append(
+                    {
+                        "paragraph": int(paragraph.get("paragraph", 0)),
+                        "reference group": group_text,
+                        "group size": len(numbers),
+                        "item": position,
+                        "edge": edge_id,
+                        "source node": edge.get("source node", "") if edge is not None else "",
+                        "source meaning": edge.get("source meaning", "") if edge is not None else "",
+                        "target node": edge.get("target node", "") if edge is not None else "",
+                        "target meaning": edge.get("target meaning", "") if edge is not None else "",
+                        "edge explanation": edge.get("explanation", "No matching Integrated Mermaid edge label found.") if edge is not None else "No matching Integrated Mermaid edge label found.",
+                        "paragraph excerpt": paragraph_text[:900],
+                    }
+                )
     return pd.DataFrame(rows)
 
 
@@ -697,9 +767,10 @@ metric_row(bundle)
 
 st.divider()
 
-source_cols = st.columns(2)
+source_cols = st.columns(3)
 source_cols[0].markdown(f"**PDF thesis draft:** `{PDF_PATH}`")
 source_cols[1].markdown(f"**DOCX chapters 4-6:** `{DOCX_PATH}`")
+source_cols[2].markdown(f"**Complete narrative:** `{NARRATIVE_PATH}`")
 
 tab_integrated, tab_map, tab_rq, tab_pipeline, tab_validation, tab_artifacts, tab_outline, tab_evidence = st.tabs(
     [
@@ -792,6 +863,82 @@ with tab_integrated:
         "text/csv",
         use_container_width=True,
     )
+
+    st.subheader("0b. Thesis_Complete_Narrative.docx Edge Reference Parser")
+    st.write(
+        "This parser reads `Thesis_Complete_Narrative.docx`, finds edge citations such as `(080, 081, 082)`, "
+        "splits them into separate references, and joins each reference to the matching Integrated Mermaid edge explanation."
+    )
+    narrative_df = read_complete_narrative_docx()
+    narrative_refs = narrative_reference_rows(edge_df)
+    n_paragraphs = len(narrative_df[narrative_df.get("status", pd.Series(dtype=str)).astype(str).eq("ok")]) if not narrative_df.empty and "status" in narrative_df.columns else 0
+    n_groups = narrative_refs["reference group"].nunique() if not narrative_refs.empty else 0
+    n_edges = narrative_refs["edge"].nunique() if not narrative_refs.empty else 0
+    c_ref1, c_ref2, c_ref3 = st.columns(3)
+    c_ref1.metric("Narrative paragraphs", f"{n_paragraphs:,}")
+    c_ref2.metric("Reference groups", f"{n_groups:,}")
+    c_ref3.metric("Expanded edge refs", f"{len(narrative_refs):,}")
+
+    if narrative_refs.empty:
+        st.info("No `(000)` or `(000, 001, 002)` style edge references were found in the narrative document.")
+    else:
+        group_options = ["All"] + sorted(narrative_refs["reference group"].astype(str).unique().tolist())
+        ref_col1, ref_col2 = st.columns([1, 2])
+        selected_group = ref_col1.selectbox("Reference group", group_options)
+        ref_search = ref_col2.text_input(
+            "Search narrative references",
+            value="",
+            placeholder="Example: (080), RQ5, Chapter 5, ClimateBERT, provenance",
+            key="narrative_reference_search",
+        )
+        ref_display = filter_df(narrative_refs, chapter_filter, rq_filter, layer_filter)
+        if selected_group != "All":
+            ref_display = ref_display[ref_display["reference group"].astype(str).eq(selected_group)]
+        if ref_search.strip():
+            needle = ref_search.strip()
+            ref_display = ref_display[
+                ref_display.astype(str).apply(
+                    lambda col: col.str.contains(needle, case=False, regex=False)
+                ).any(axis=1)
+            ]
+
+        show_cols = [
+            "paragraph",
+            "reference group",
+            "group size",
+            "item",
+            "edge",
+            "source node",
+            "target node",
+            "source meaning",
+            "target meaning",
+            "edge explanation",
+            "paragraph excerpt",
+        ]
+        st.dataframe(ref_display[show_cols], use_container_width=True, hide_index=True, height=520)
+        st.download_button(
+            "Download narrative reference mapping CSV",
+            ref_display.to_csv(index=False).encode("utf-8"),
+            "thesis_complete_narrative_edge_reference_mapping.csv",
+            "text/csv",
+            use_container_width=True,
+        )
+
+        multi_ref = narrative_refs[narrative_refs["group size"].astype(int).gt(1)]
+        if not multi_ref.empty:
+            with st.expander("Example: multi-edge bracket split", expanded=True):
+                example_group = multi_ref["reference group"].astype(str).iloc[0]
+                st.write(
+                    f"`{example_group}` is parsed into "
+                    f"{int(multi_ref[multi_ref['reference group'].astype(str).eq(example_group)]['group size'].iloc[0])} "
+                    "separate edge explanation rows."
+                )
+                st.dataframe(
+                    multi_ref[multi_ref["reference group"].astype(str).eq(example_group)][show_cols],
+                    use_container_width=True,
+                    hide_index=True,
+                    height=220,
+                )
 
     st.subheader("1. Chapter Breakdown and Meaning")
     breakdown = pd.DataFrame(chapter_breakdown_rows())
