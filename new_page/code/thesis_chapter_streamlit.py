@@ -18,6 +18,7 @@ VIS = RESULTS / "visualizations"
 REVISION = RESULTS / "revision_analysis"
 WORKFLOW = RESULTS / "thesis_workflow_dashboard"
 DOCX_PATH = PAGES / "thesis_chapters_4_5_6.docx"
+PDF_PATH = PAGES / "thesis_draft_1.pdf"
 
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
@@ -105,6 +106,238 @@ def chapter_key(number: int) -> str:
 def chapter_blocks(number: int) -> list[dict[str, str]]:
     key = chapter_key(number)
     return read_chapter_docx().get(key, [])
+
+
+def chapter_outline() -> pd.DataFrame:
+    rows: list[dict[str, str]] = []
+    for chapter, blocks in read_chapter_docx().items():
+        rows.append({"source": "DOCX chapters 4-6", "level": "chapter", "heading": chapter})
+        for block in blocks:
+            if block["style"] in {"Heading 2", "Heading 3"}:
+                rows.append(
+                    {
+                        "source": "DOCX chapters 4-6",
+                        "level": block["style"].lower().replace(" ", "_"),
+                        "heading": block["text"],
+                    }
+                )
+    return pd.DataFrame(rows)
+
+
+@st.cache_data(show_spinner=False)
+def read_pdf_text(path_text: str = str(PDF_PATH), max_pages: int | None = None) -> tuple[str, str]:
+    path = Path(path_text)
+    if not path.exists():
+        return "", f"Missing PDF: {path}"
+    try:
+        from pypdf import PdfReader
+    except Exception as exc:
+        return "", f"`pypdf` is not installed in this runtime: {exc}"
+    try:
+        reader = PdfReader(str(path))
+        pages = reader.pages[:max_pages] if max_pages else reader.pages
+        text = "\n".join(page.extract_text() or "" for page in pages)
+        return text, ""
+    except Exception as exc:
+        return "", f"Could not read PDF: {exc}"
+
+
+def pdf_outline(max_lines: int = 140) -> pd.DataFrame:
+    text, error = read_pdf_text()
+    if error or not text:
+        return pd.DataFrame([{"source": "PDF thesis draft", "level": "error", "heading": error or "No text extracted."}])
+    rows: list[dict[str, str]] = []
+    for raw in text.splitlines():
+        line = clean(raw)
+        if not line or len(line) > 180:
+            continue
+        is_heading = (
+            line.startswith(("I.", "II", "III", "IV", "V.", "VI", "CHAPTER"))
+            or any(line.startswith(prefix) for prefix in ["I-", "II-", "III-", "IV-", "V-", "VI-"])
+            or any(token in line.lower() for token in ["research questions", "literature review", "methodology", "implementation and results", "discussion", "conclusion"])
+        )
+        if is_heading:
+            rows.append({"source": "PDF thesis draft", "level": "outline", "heading": line})
+        if len(rows) >= max_lines:
+            break
+    return pd.DataFrame(rows)
+
+
+def mermaid_html(code: str, height: int = 620) -> str:
+    escaped = code.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    return f"""
+    <div class="mermaid">
+    {escaped}
+    </div>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({{
+        startOnLoad: true,
+        securityLevel: 'loose',
+        theme: 'base',
+        themeVariables: {{
+          primaryColor: '#e8f3f1',
+          primaryTextColor: '#1f2937',
+          primaryBorderColor: '#2f6f73',
+          lineColor: '#4b5563',
+          secondaryColor: '#f5f7fa',
+          tertiaryColor: '#fff7ed'
+        }}
+      }});
+    </script>
+    <style>
+      .mermaid {{
+        min-height: {height - 24}px;
+        overflow: auto;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        background: #ffffff;
+      }}
+    </style>
+    """
+
+
+def render_mermaid(code: str, height: int = 620) -> None:
+    import streamlit.components.v1 as components
+
+    components.html(mermaid_html(code, height), height=height, scrolling=True)
+    with st.expander("Mermaid source", expanded=False):
+        st.code(code, language="mermaid")
+
+
+def thesis_spine_mermaid() -> str:
+    return """flowchart TD
+    DRAFT["thesis_draft_1.pdf<br/>Full thesis spine"] --> C1["Chapter I<br/>Problem, motivation, RQs"]
+    DRAFT --> C2["Chapter II<br/>Literature review and gaps"]
+    DRAFT --> C3["Chapter III<br/>Methodology"]
+    DRAFT --> C456["thesis_chapters_4_5_6.docx<br/>Implementation, Discussion, Conclusion"]
+
+    C1 --> RQ["Six Research Questions"]
+    C2 --> GAPS["Gap synthesis<br/>fine-grained ESG ABSA, bilinguality, explainability, reproducibility"]
+    C3 --> METHOD["Pipeline method<br/>OCR -> prompts -> ABSA -> validation -> dashboards"]
+    C456 --> CH4["Chapter IV<br/>Implementation and Results"]
+    C456 --> CH5["Chapter V<br/>Discussion"]
+    C456 --> CH6["Chapter VI<br/>Conclusion"]
+
+    RQ --> CH4
+    GAPS --> CH5
+    METHOD --> CH4
+    CH4 --> CH5
+    CH5 --> CH6
+    CH6 --> CONTRIBUTIONS["Six thesis contributions<br/>pipeline, prompt framework, tone taxonomy, ontology, ClimateBERT comparison, explainability"]
+    """
+
+
+def rq_evidence_mermaid() -> str:
+    return """flowchart LR
+    subgraph DRAFT["PDF Draft Foundation"]
+      I["Chapter I<br/>RQs and objectives"]
+      II["Chapter II<br/>Literature gaps"]
+      III["Chapter III<br/>Methodology design"]
+    end
+
+    subgraph RESULTS["Chapter IV Evidence"]
+      RQ1["RQ1 PDF -> structured ESG<br/>OCR pages, JSON records, provenance"]
+      RQ2["RQ2 ABSA schema<br/>aspect, ESG, sentiment, tone"]
+      RQ3["RQ3 ClimateBERT comparison<br/>agreement, kappa, crosstab"]
+      RQ4["RQ4 Diagnostics<br/>failure modes, schema drift, ontology gaps"]
+      RQ5["RQ5 Reproducibility<br/>artifact inventory, dashboards, logs"]
+      RQ6["RQ6 Stability<br/>model and prompt metrics"]
+    end
+
+    subgraph DISCUSSION["Chapter V Interpretation"]
+      V1["Commitment dominance"]
+      V2["ClimateBERT divergence<br/>construct validity"]
+      V3["Schema drift as diagnostic signal"]
+      V4["Indonesian ESG vocabulary contribution"]
+      V5["Limitations"]
+    end
+
+    subgraph CONCLUSION["Chapter VI Closure"]
+      C1["Contribution summary"]
+      C2["Answers to RQs"]
+      C3["Practical implications"]
+      C4["Future work"]
+    end
+
+    I --> RQ1
+    I --> RQ2
+    I --> RQ3
+    I --> RQ4
+    I --> RQ5
+    I --> RQ6
+    II --> V1
+    II --> V2
+    II --> V3
+    II --> V4
+    III --> RQ1
+    III --> RQ5
+    RQ1 --> C2
+    RQ2 --> V1
+    RQ3 --> V2
+    RQ4 --> V3
+    RQ4 --> V4
+    RQ5 --> C1
+    RQ6 --> V5
+    V1 --> C1
+    V2 --> C2
+    V3 --> C4
+    V4 --> C1
+    V5 --> C4
+    """
+
+
+def pipeline_mermaid() -> str:
+    return """flowchart TD
+    PDFS["Sustainability report PDFs"] --> OCR["Bulk OCR<br/>pages + markdown"]
+    OCR --> PAGES["thesis_dataset/*/pages/page_XXXX.md"]
+    PAGES --> PROMPTS["Seven prompt templates<br/>zero-shot, few-shot, CoT<br/>English + Indonesian"]
+    PROMPTS --> LLM["LLM extraction jobs<br/>OpenRouter / LM Studio / Ollama"]
+    LLM --> JSON["esg_records.json / JSONL runs"]
+    JSON --> FLAT["tone_records_flat.csv<br/>332 evidence records"]
+    FLAT --> ABSA["ABSA dimensions<br/>aspect, ESG, sentiment, tone"]
+    FLAT --> CBERTR["ClimateBERT comparison<br/>proxy + real labels"]
+    FLAT --> ONTO["Ontology mapping<br/>GRI/SASB path + Indonesian-specific aspects"]
+    FLAT --> DIAG["Diagnostics<br/>missing tone, schema drift, failure modes"]
+    ABSA --> CH4["Chapter IV results graphs"]
+    CBERTR --> CH4
+    ONTO --> CH4
+    DIAG --> CH5["Chapter V discussion"]
+    CH4 --> CH6["Chapter VI contributions and future work"]
+    """
+
+
+def validation_mermaid() -> str:
+    return """flowchart TD
+    EXTRACT["LLM extracted records"] --> SILVER["Silver dataset<br/>silver_tone_ground_truth.csv"]
+    SILVER --> HUMAN["Pilot human annotation<br/>tone, ESG, aspect, status"]
+    SILVER --> CLIMATE["ClimateBERT run<br/>resume unprocessed records"]
+    HUMAN --> KAPPA["Agreement metrics<br/>human vs LLM"]
+    CLIMATE --> CKB["ClimateBERT kappa<br/>tone vs climate commitment"]
+    EXTRACT --> STABILITY["Prompt/model stability<br/>parse success, missing tone, schema drift"]
+    EXTRACT --> FAIL["Failure mode audit"]
+    KAPPA --> VALIDITY["Construct validity argument"]
+    CKB --> VALIDITY
+    STABILITY --> RELIABILITY["Reliability and reproducibility"]
+    FAIL --> LIMITS["Limitations and future work"]
+    VALIDITY --> CH5["Chapter V"]
+    RELIABILITY --> CH6["Chapter VI"]
+    LIMITS --> CH6
+    """
+
+
+def artifact_mermaid() -> str:
+    return """flowchart LR
+    DOCX["thesis_chapters_4_5_6.docx"] --> PAGES["Streamlit chapter pages<br/>6_1, 6_2, 6_3"]
+    PDF["thesis_draft_1.pdf"] --> MAP["Integrated thesis map page"]
+    REV["results/revision_analysis/*.csv"] --> PAGES
+    VIS["results/visualizations/*.csv + *.png"] --> PAGES
+    JOBS["background job folders<br/>status.json + events.jsonl"] --> MAP
+    PAGES --> DASH["Interactive evidence dashboard"]
+    MAP --> DASH
+    DASH --> THESIS["Thesis defense narrative<br/>RQs -> evidence -> interpretation -> contributions"]
+    """
 
 
 def render_chapter_text(number: int, *, max_blocks: int | None = None) -> None:
