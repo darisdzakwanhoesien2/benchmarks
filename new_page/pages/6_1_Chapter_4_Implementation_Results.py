@@ -15,14 +15,18 @@ from thesis_chapter_streamlit import (  # noqa: E402
     artifact_chart,
     count_chart,
     data_bundle,
+    generated_chapter4_paragraph,
     heatmap_from_table,
     image_or_info,
     metric_row,
+    model_results_table,
     model_stability_chart,
     ontology_chart,
     pdf_prompt_heatmap,
     prompt_stability_chart,
+    render_citation_panel,
     render_chapter_text,
+    render_generated_claim_box,
     workflow_coverage_chart,
 )
 
@@ -35,12 +39,33 @@ st.title("Chapter 4 - Implementation and Results")
 st.caption("Interactive Streamlit translation of `thesis_chapters_4_5_6.docx`, with live graphs from current result artifacts.")
 metric_row(bundle)
 
-tab_text, tab_rq12, tab_rq34, tab_rq56, tab_figures = st.tabs(
-    ["Chapter Text", "RQ1-RQ2", "RQ3-RQ4", "RQ5-RQ6", "Figure Gallery"]
+tab_text, tab_live, tab_rq12, tab_rq34, tab_rq56, tab_figures = st.tabs(
+    ["Chapter Text", "Live Action Plan Evidence", "RQ1-RQ2", "RQ3-RQ4", "RQ5-RQ6", "Figure Gallery"]
 )
 
 with tab_text:
     render_chapter_text(4)
+
+with tab_live:
+    st.header("Chapter 4 Live Result Narrative")
+    left, right = st.columns([1.15, 1], gap="large")
+    with left:
+        render_generated_claim_box(
+            "chapter4_live_analysis_note",
+            generated_chapter4_paragraph(bundle),
+            "Implementation result paragraph with live citations",
+        )
+        render_citation_panel(bundle)
+    with right:
+        st.markdown("#### Current models in results")
+        models = model_results_table(bundle)
+        if models.empty:
+            st.info("No model-stability rows are available yet.")
+        else:
+            st.dataframe(models, use_container_width=True, hide_index=True, height=260)
+
+        st.markdown("#### PDF x prompt processing matrix")
+        pdf_prompt_heatmap(bundle["tone_records"])
 
 with tab_rq12:
     st.header("RQ1-RQ2: Structured ESG Records and Tone-Aware Schema")

@@ -14,11 +14,14 @@ from thesis_chapter_streamlit import (  # noqa: E402
     agreement_chart,
     artifact_chart,
     data_bundle,
+    generated_chapter6_paragraph,
     metric_row,
     model_stability_chart,
     ontology_chart,
     prompt_stability_chart,
+    render_citation_panel,
     render_chapter_text,
+    render_generated_claim_box,
     workflow_coverage_chart,
 )
 
@@ -31,12 +34,28 @@ st.title("Chapter 6 - Conclusion")
 st.caption("Conclusion chapter translated into an interactive evidence summary with contribution and future-work views.")
 metric_row(bundle)
 
-tab_text, tab_contributions, tab_rqs, tab_future = st.tabs(
-    ["Chapter Text", "Contribution Summary", "Research Question Answers", "Future Work"]
+tab_text, tab_live, tab_contributions, tab_rqs, tab_future = st.tabs(
+    ["Chapter Text", "Live Conclusion Claims", "Contribution Summary", "Research Question Answers", "Future Work"]
 )
 
 with tab_text:
     render_chapter_text(6)
+
+with tab_live:
+    st.header("Chapter 6 Live Conclusion Narrative")
+    left, right = st.columns([1.1, 1], gap="large")
+    with left:
+        render_generated_claim_box(
+            "chapter6_live_analysis_note",
+            generated_chapter6_paragraph(bundle),
+            "Conclusion paragraph with live citations",
+        )
+        render_citation_panel(bundle)
+    with right:
+        st.markdown("#### Reproducibility evidence")
+        artifact_chart(bundle["inventory"])
+        st.markdown("#### Stability evidence")
+        model_stability_chart(bundle["model_stability"])
 
 with tab_contributions:
     st.header("Six Thesis Contributions")

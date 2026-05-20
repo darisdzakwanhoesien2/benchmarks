@@ -13,12 +13,15 @@ from thesis_chapter_streamlit import (  # noqa: E402
     agreement_chart,
     count_chart,
     data_bundle,
+    generated_chapter5_paragraph,
     heatmap_from_table,
     metric_row,
     model_stability_chart,
     ontology_chart,
     prompt_stability_chart,
+    render_citation_panel,
     render_chapter_text,
+    render_generated_claim_box,
 )
 
 
@@ -30,10 +33,28 @@ st.title("Chapter 5 - Discussion")
 st.caption("Discussion chapter translated into an interactive page with the supporting result graphs beside the interpretation.")
 metric_row(bundle)
 
-tab_text, tab_findings, tab_limitations = st.tabs(["Chapter Text", "Key Findings", "Limitations and Diagnostics"])
+tab_text, tab_live, tab_findings, tab_limitations = st.tabs(
+    ["Chapter Text", "Live Discussion Claims", "Key Findings", "Limitations and Diagnostics"]
+)
 
 with tab_text:
     render_chapter_text(5)
+
+with tab_live:
+    st.header("Chapter 5 Live Discussion Narrative")
+    left, right = st.columns([1.1, 1], gap="large")
+    with left:
+        render_generated_claim_box(
+            "chapter5_live_analysis_note",
+            generated_chapter5_paragraph(bundle),
+            "Discussion paragraph with live citations",
+        )
+        render_citation_panel(bundle)
+    with right:
+        st.markdown("#### Agreement evidence")
+        agreement_chart(bundle["agreement"])
+        st.markdown("#### Ontology coverage evidence")
+        ontology_chart(bundle["ontology"])
 
 with tab_findings:
     st.header("Interpretation of Key Findings")

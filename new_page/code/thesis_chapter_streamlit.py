@@ -52,6 +52,39 @@ def load_json(path: Path, default: Any) -> Any:
         return default
 
 
+def numeric_series(df: pd.DataFrame, col: str) -> pd.Series:
+    if df.empty or col not in df.columns:
+        return pd.Series(dtype=float)
+    return pd.to_numeric(df[col], errors="coerce")
+
+
+def fmt_int(value: Any) -> str:
+    try:
+        return f"{int(value):,}"
+    except Exception:
+        return "0"
+
+
+def fmt_rate(value: Any) -> str:
+    try:
+        number = float(value)
+    except Exception:
+        return "n/a"
+    if pd.isna(number):
+        return "n/a"
+    return f"{number:.3f}"
+
+
+def fmt_pct(value: Any) -> str:
+    try:
+        number = float(value)
+    except Exception:
+        return "n/a"
+    if pd.isna(number):
+        return "n/a"
+    return f"{number:.1%}"
+
+
 def style_map(zf: ZipFile) -> dict[str, str]:
     if "word/styles.xml" not in zf.namelist():
         return {}
@@ -401,12 +434,117 @@ def artifact_inventory() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def load_esg_record_runs() -> list[dict[str, Any]]:
+    data = load_json(RESULTS / "esg_records.json", [])
+    return data if isinstance(data, list) else []
+
+
+def record_value(record: dict[str, Any], *keys: str) -> str:
+    if not isinstance(record, dict):
+        return ""
+    for key in keys:
+        value = record.get(key)
+        if isinstance(value, list):
+            value = "|".join(str(item) for item in value if str(item).strip())
+        if str(value or "").strip():
+            return str(value).strip()
+    return ""
+
+
+def derive_live_model_stability() -> pd.DataFrame:
+    rows: list[dict[str, Any]] = []
+    for run in load_esg_record_runs():
+        if not isinstance(run, dict):
+            continue
+        records = run.get("records") if isinstance(run.get("records"), list) else []
+        rows.append(
+            {
+                "model": run.get("model", ""),
+                "ok": bool(run.get("ok")),
+                "records_count": len(records),
+                "missing_tone_count": sum(
+                    1
+                    for record in records
+                    if isinstance(record, dict)
+                    and not record_value(record, "tone", "tone_pred", "disclosure_tone")
+                ),
+                "schema_drift": any(
+                    isinstance(record, dict)
+                    and not record_value(record, "text", "sentence", "statement", "disclosure", "evidence")
+                    for record in records
+                ),
+            }
+        )
+    df = pd.DataFrame(rows)
+    if df.empty or "model" not in df.columns:
+        return pd.DataFrame()
+    grouped = (
+        df.groupby("model", dropna=False)
+        .agg(
+            runs=("model", "size"),
+            json_parse_success_rate=("ok", "mean"),
+            avg_records=("records_count", "mean"),
+            missing_tone_count=("missing_tone_count", "sum"),
+            record_total=("records_count", "sum"),
+            schema_drift_rate=("schema_drift", "mean"),
+        )
+        .reset_index()
+    )
+    grouped["missing_tone_rate"] = grouped.apply(
+        lambda row: (row["missing_tone_count"] / row["record_total"]) if row["record_total"] else 0,
+        axis=1,
+    )
+    grouped["source"] = "results/esg_records.json"
+    return grouped[
+        [
+            "model",
+            "runs",
+            "json_parse_success_rate",
+            "avg_records",
+            "missing_tone_rate",
+            "schema_drift_rate",
+            "source",
+        ]
+    ]
+
+
+def combine_model_stability(static_df: pd.DataFrame, live_df: pd.DataFrame) -> pd.DataFrame:
+    frames: list[pd.DataFrame] = []
+    if not static_df.empty:
+        static = static_df.copy()
+        if "source" not in static.columns:
+            static["source"] = "results/revision_analysis/model_stability_summary.csv"
+        frames.append(static)
+    if not live_df.empty:
+        live = live_df.copy()
+        if not static_df.empty and {"model", "source"}.issubset(static_df.columns):
+            already_migrated = set(
+                static_df.loc[
+                    static_df["source"].astype(str).eq("live_reprocess"),
+                    "model",
+                ].astype(str)
+            )
+            live = live[~live["model"].astype(str).isin(already_migrated)]
+        frames.append(live)
+    if not frames:
+        return pd.DataFrame()
+    combined = pd.concat(frames, ignore_index=True, sort=False).fillna("")
+    for col in ["runs", "json_parse_success_rate", "avg_records", "missing_tone_rate", "schema_drift_rate"]:
+        if col in combined.columns:
+            combined[col] = pd.to_numeric(combined[col], errors="coerce")
+    return combined
+
+
 def data_bundle() -> dict[str, pd.DataFrame]:
+    static_model_stability = load_csv(REVISION / "model_stability_summary.csv")
+    live_model_stability = derive_live_model_stability()
     return {
         "tone_records": load_csv(VIS / "tone_records_flat.csv"),
         "tone_esg": load_csv(VIS / "tone_esg_crosstab.csv"),
         "tone_climatebert": load_csv(VIS / "tone_climatebert_label_crosstab.csv"),
-        "model_stability": load_csv(REVISION / "model_stability_summary.csv"),
+        "model_stability": combine_model_stability(static_model_stability, live_model_stability),
+        "model_stability_static": static_model_stability,
+        "model_stability_live": live_model_stability,
         "prompt_stability": load_csv(REVISION / "prompt_stability_summary.csv"),
         "failure_counts": load_csv(REVISION / "failure_mode_counts.csv"),
         "ontology": load_csv(REVISION / "ontology_coverage.csv"),
@@ -432,6 +570,165 @@ def metric_row(bundle: dict[str, pd.DataFrame]) -> None:
     mapped = int(ontology.get("mapped_to_ontology", pd.Series(dtype=bool)).astype(bool).sum()) if not ontology.empty and "mapped_to_ontology" in ontology.columns else 0
     cols[4].metric("Ontology mapped", f"{mapped}/{len(ontology):,}" if len(ontology) else "n/a")
     cols[5].metric("Artifacts", f"{len(inventory):,}")
+
+
+def evidence_metrics(bundle: dict[str, pd.DataFrame]) -> dict[str, Any]:
+    tone = bundle["tone_records"]
+    ocr = bundle["ocr"]
+    agreement = bundle["agreement"]
+    ontology = bundle["ontology"]
+    inventory = bundle["inventory"]
+    model_stability = bundle["model_stability"]
+    prompt_stability = bundle["prompt_stability"]
+    live_runs = load_esg_record_runs()
+
+    extracted_from_runs = 0
+    ok_runs = 0
+    for run in live_runs:
+        if isinstance(run, dict):
+            ok_runs += int(bool(run.get("ok")))
+            records = run.get("records") if isinstance(run.get("records"), list) else []
+            extracted_from_runs += len(records)
+
+    kappa = numeric_series(agreement, "cohen_kappa")
+    percent_agreement = numeric_series(agreement, "percent_agreement")
+    mapped = int(ontology.get("mapped_to_ontology", pd.Series(dtype=bool)).astype(bool).sum()) if not ontology.empty and "mapped_to_ontology" in ontology.columns else 0
+    pages = numeric_series(ocr, "pages").sum() if not ocr.empty else 0
+
+    return {
+        "tone_records": len(tone),
+        "documents": tone["target_doc"].nunique() if not tone.empty and "target_doc" in tone.columns else len(ocr),
+        "ocr_documents": len(ocr),
+        "ocr_pages": pages,
+        "prompts": tone["prompt"].nunique() if not tone.empty and "prompt" in tone.columns else 0,
+        "models": model_stability["model"].astype(str).nunique() if not model_stability.empty and "model" in model_stability.columns else 0,
+        "live_runs": len(live_runs),
+        "ok_live_runs": ok_runs,
+        "live_extracted_rows": extracted_from_runs,
+        "artifacts": len(inventory),
+        "ontology_mapped": mapped,
+        "ontology_total": len(ontology),
+        "kappa": kappa.iloc[0] if not kappa.empty else float("nan"),
+        "percent_agreement": percent_agreement.iloc[0] if not percent_agreement.empty else float("nan"),
+    }
+
+
+def citation_table(bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    m = evidence_metrics(bundle)
+    return pd.DataFrame(
+        [
+            {
+                "citation_id": "[AP-ESG]",
+                "source": "results/visualizations/tone_records_flat.csv",
+                "claim": f"{fmt_int(m['tone_records'])} structured ESG/tone records across {fmt_int(m['documents'])} documents and {fmt_int(m['prompts'])} prompt templates.",
+            },
+            {
+                "citation_id": "[AP-OCR]",
+                "source": "results/revision_analysis/ocr_processing_summary.csv",
+                "claim": f"{fmt_int(m['ocr_documents'])} OCR documents and {fmt_int(m['ocr_pages'])} OCR pages are represented in the processing summary.",
+            },
+            {
+                "citation_id": "[AP-RUNS]",
+                "source": "results/esg_records.json",
+                "claim": f"{fmt_int(m['live_runs'])} live LLM run objects, {fmt_int(m['ok_live_runs'])} successful runs, and {fmt_int(m['live_extracted_rows'])} extracted records are available from Action Plan reprocessing.",
+            },
+            {
+                "citation_id": "[AP-MODEL]",
+                "source": "results/revision_analysis/model_stability_summary.csv + results/esg_records.json",
+                "claim": f"{fmt_int(m['models'])} model configurations are visible in the combined static/live model-stability table.",
+            },
+            {
+                "citation_id": "[AP-CBERT]",
+                "source": "results/revision_analysis/climatebert_proxy_agreement_summary.csv",
+                "claim": f"Tone-vs-ClimateBERT proxy agreement is {fmt_pct(m['percent_agreement'])}, with Cohen's kappa of {fmt_rate(m['kappa'])}.",
+            },
+            {
+                "citation_id": "[AP-ONTO]",
+                "source": "results/revision_analysis/ontology_coverage.csv",
+                "claim": f"{fmt_int(m['ontology_mapped'])} of {fmt_int(m['ontology_total'])} aspect rows are currently mapped to the ontology.",
+            },
+            {
+                "citation_id": "[AP-ART]",
+                "source": "results/*",
+                "claim": f"{fmt_int(m['artifacts'])} result artifacts are currently discoverable under the results directory.",
+            },
+        ]
+    )
+
+
+def model_results_table(bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    df = bundle["model_stability"]
+    if df.empty:
+        return pd.DataFrame()
+    cols = [
+        col
+        for col in ["model", "runs", "json_parse_success_rate", "avg_records", "missing_tone_rate", "schema_drift_rate", "source"]
+        if col in df.columns
+    ]
+    out = df[cols].copy()
+    if "runs" in out.columns:
+        out = out.sort_values("runs", ascending=False)
+    return out
+
+
+def generated_chapter4_paragraph(bundle: dict[str, pd.DataFrame]) -> str:
+    m = evidence_metrics(bundle)
+    return (
+        "The current implementation evidence shows that the pipeline has transformed "
+        f"{fmt_int(m['ocr_documents'])} OCR documents ({fmt_int(m['ocr_pages'])} OCR pages) into "
+        f"{fmt_int(m['tone_records'])} structured ESG/tone records across {fmt_int(m['documents'])} source documents "
+        f"and {fmt_int(m['prompts'])} prompt templates [AP-OCR; AP-ESG]. "
+        f"The live Action Plan run store contributes {fmt_int(m['live_runs'])} LLM run objects and "
+        f"{fmt_int(m['live_extracted_rows'])} extracted records, while the combined model-stability table contains "
+        f"{fmt_int(m['models'])} model configurations [AP-RUNS; AP-MODEL]. "
+        "These figures support Chapter 4 as an implementation-and-results chapter because each empirical claim can be "
+        "traced back to a concrete artifact rather than a manually rewritten summary."
+    )
+
+
+def generated_chapter5_paragraph(bundle: dict[str, pd.DataFrame]) -> str:
+    m = evidence_metrics(bundle)
+    return (
+        "The discussion should interpret the results as a construct-validity comparison rather than a simple accuracy contest. "
+        f"The current tone-vs-ClimateBERT proxy table reports {fmt_pct(m['percent_agreement'])} agreement and "
+        f"Cohen's kappa of {fmt_rate(m['kappa'])}, which indicates that climate commitment labels and disclosure-tone labels "
+        "overlap but are not identical constructs [AP-CBERT]. "
+        f"Ontology coverage remains partial, with {fmt_int(m['ontology_mapped'])} of {fmt_int(m['ontology_total'])} aspect rows mapped, "
+        "so unmapped Indonesian ESG vocabulary should be discussed as both a limitation and a thesis contribution [AP-ONTO]."
+    )
+
+
+def generated_chapter6_paragraph(bundle: dict[str, pd.DataFrame]) -> str:
+    m = evidence_metrics(bundle)
+    return (
+        "The conclusion can state that the thesis has produced a reproducible empirical workflow, not only a conceptual framework. "
+        f"The current artifact inventory contains {fmt_int(m['artifacts'])} result files, while the Action Plan evidence covers "
+        f"{fmt_int(m['tone_records'])} structured records, {fmt_int(m['models'])} visible model configurations, and "
+        f"{fmt_int(m['prompts'])} prompt templates [AP-ART; AP-ESG; AP-MODEL]. "
+        "The strongest future-work claims should therefore focus on expanding expert-labelled ground truth, improving ontology coverage, "
+        "and broadening repeated-run model/prompt stability tests."
+    )
+
+
+def render_generated_claim_box(key: str, generated: str, title: str = "Generated thesis claim") -> None:
+    st.markdown(f"#### {title}")
+    st.markdown(generated)
+    note = st.text_area(
+        "Your revised interpretation / analysis note",
+        value="",
+        placeholder="Write your updated thesis interpretation here when the result changes. Leave empty to keep the generated claim above.",
+        height=180,
+        key=key,
+    )
+    if note.strip():
+        st.success("Custom analysis note captured in this Streamlit session.")
+        st.markdown("**Current custom note**")
+        st.write(note)
+
+
+def render_citation_panel(bundle: dict[str, pd.DataFrame], *, height: int = 260) -> None:
+    st.markdown("#### Result Citations")
+    st.dataframe(citation_table(bundle), use_container_width=True, hide_index=True, height=height)
 
 
 def hbar(df: pd.DataFrame, y: str, x: str = "count", title: str = "", color: str = "#2f6f73", height: int = 320) -> None:
