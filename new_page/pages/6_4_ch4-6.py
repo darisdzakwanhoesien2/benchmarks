@@ -140,6 +140,73 @@ def draw_docx_bar_chart(path: Path, title: str, rows: pd.DataFrame, label_col: s
     image.save(path)
 
 
+def draw_docx_table_heatmap(path: Path, title: str, df: pd.DataFrame, subtitle: str = "") -> None:
+    """Render a pivot table as a colour-scaled PNG for DOCX embedding."""
+    if df.empty:
+        return
+    row_label_col = df.columns[0]
+    value_cols = [c for c in df.columns if c != row_label_col]
+    if not value_cols:
+        return
+
+    n_rows = min(len(df), 25)
+    n_cols = len(value_cols)
+    ROW_LABEL_W = 340
+    COL_W = max(90, min(160, 1560 // max(n_cols, 1)))
+    ROW_H = 42
+    TITLE_H = 110
+    WIDTH = ROW_LABEL_W + COL_W * n_cols + 50
+    HEIGHT = TITLE_H + ROW_H + n_rows * ROW_H + 50
+
+    image = Image.new("RGB", (WIDTH, HEIGHT), "white")
+    draw = ImageDraw.Draw(image)
+    title_font  = chart_font(38, True)
+    sub_font    = chart_font(22)
+    cell_font   = chart_font(19)
+    header_font = chart_font(19, True)
+
+    draw.rectangle((0, 0, WIDTH, TITLE_H - 12), fill="#eef6f4")
+    draw.text((30, 20), title, fill="#173f42", font=title_font)
+    if subtitle:
+        draw.text((30, TITLE_H - 32), subtitle, fill="#5b6472", font=sub_font)
+
+    num_df = df[value_cols].apply(pd.to_numeric, errors="coerce").fillna(0)
+    max_val = float(max(num_df.values.max(), 1))
+
+    def cell_bg(val: float) -> tuple:
+        if val <= 0:
+            return (238, 238, 238)
+        t = min(val / max_val, 1.0)
+        return (int(225 * (1 - t) + 47 * t), int(240 * (1 - t) + 111 * t), int(235 * (1 - t) + 115 * t))
+
+    def txt_fg(val: float) -> str:
+        return "#ffffff" if val / max_val > 0.62 else "#111827"
+
+    # column header row
+    y_hdr = TITLE_H
+    draw.rectangle((0, y_hdr, WIDTH, y_hdr + ROW_H - 1), fill="#173f42")
+    draw.text((14, y_hdr + 11), str(row_label_col)[:26], fill="white", font=header_font)
+    for i, col in enumerate(value_cols):
+        x = ROW_LABEL_W + i * COL_W
+        draw.text((x + 5, y_hdr + 11), str(col)[:13], fill="white", font=header_font)
+
+    # data rows
+    for r_idx, (_, row) in enumerate(df.head(n_rows).iterrows()):
+        y = y_hdr + (r_idx + 1) * ROW_H
+        draw.rectangle((0, y, WIDTH, y + ROW_H - 1), fill=(248, 252, 251) if r_idx % 2 == 0 else (255, 255, 255))
+        draw.text((14, y + 11), str(row[row_label_col])[:36], fill="#1f2937", font=cell_font)
+        for c_idx, col in enumerate(value_cols):
+            x = ROW_LABEL_W + c_idx * COL_W
+            raw = pd.to_numeric(row[col], errors="coerce")
+            val = float(raw) if pd.notna(raw) else 0.0
+            draw.rectangle((x + 2, y + 2, x + COL_W - 2, y + ROW_H - 3), fill=cell_bg(val))
+            txt = str(int(val)) if val > 0 else "—"
+            draw.text((x + COL_W // 2 - 8, y + 11), txt, fill=txt_fg(val), font=cell_font)
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    image.save(path)
+
+
 def human_annotation_agreement_rows() -> pd.DataFrame:
     seed = load_csv(REV / "pilot_ground_truth_seed.csv")
     silver = load_csv(REV / "silver_tone_ground_truth.csv")
@@ -275,6 +342,29 @@ def ground_truth_t2_output_rows() -> pd.DataFrame:
     )
 
 
+def pdf_prompt_matrix_rows() -> pd.DataFrame:
+    """Pivot table: rows = PDF/company, columns = prompt templates, values = record count."""
+    silver = load_csv(REV / "silver_tone_ground_truth.csv")
+    if silver.empty or "prompt" not in silver.columns:
+        return pd.DataFrame()
+    row_col = "company" if "company" in silver.columns else "target"
+    pivot = (
+        silver.groupby([row_col, "prompt"])
+        .size()
+        .reset_index(name="records")
+        .pivot(index=row_col, columns="prompt", values="records")
+        .fillna(0)
+        .astype(int)
+    )
+    # Shorten prompt column names: strip .md and leading "tone_"
+    pivot.columns = [str(c).replace(".md", "").replace("tone_", "") for c in pivot.columns]
+    pivot.columns.name = None
+    pivot.index.name = "PDF / Company"
+    pivot["TOTAL"] = pivot.sum(axis=1)
+    pivot = pivot.sort_values("TOTAL", ascending=False)
+    return pivot.reset_index()
+
+
 def ensure_extra_graph_attachments() -> None:
     draw_docx_bar_chart(
         GRAPH_DIR / "docx_human_annotation_agreement.png",
@@ -339,6 +429,12 @@ def ensure_extra_graph_attachments() -> None:
         "tone_pred",
         "records",
         "Flattened T2 hybrid/rule output from the resumable ground_truth.py pipeline",
+    )
+    draw_docx_table_heatmap(
+        GRAPH_DIR / "docx_pdf_prompt_matrix.png",
+        "PDF × Prompt Coverage Matrix",
+        pdf_prompt_matrix_rows(),
+        "Records extracted per company × prompt template combination",
     )
 
 
@@ -524,6 +620,15 @@ def graph_manifest() -> pd.DataFrame:
             "source table": "t2_flat_outputs.csv + t2_results.jsonl",
             "source page": "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py",
         },
+        {
+            "figure": "A.21",
+            "title": "PDF × Prompt coverage matrix",
+            "path": GRAPH_DIR / "docx_pdf_prompt_matrix.png",
+            "chapter": "Chapter 4 / 6",
+            "rq": "RQ6",
+            "source table": "silver_tone_ground_truth.csv",
+            "source page": "pages/6_4_ch4-6.py",
+        },
     ]
     df = pd.DataFrame(rows)
     df["exists"] = df["path"].map(lambda p: Path(p).exists())
@@ -586,6 +691,8 @@ def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame])
         return ground_truth_tone_comparison_rows()
     if figure == "A.20":
         return ground_truth_t2_output_rows()
+    if figure == "A.21":
+        return pdf_prompt_matrix_rows()
     return pd.DataFrame()
 
 
@@ -853,7 +960,29 @@ with tab_graphs:
                 if source_df.empty:
                     st.info("No backing table is available for this attachment yet.")
                 else:
-                    st.dataframe(source_df.astype(str), use_container_width=True, hide_index=True, height=360)
+                    if str(row["figure"]) == "A.21" and len(source_df.columns) > 2:
+                        # Pivot table: apply colour gradient on numeric columns
+                        value_cols = list(source_df.columns[1:])
+                        num_df = source_df.copy()
+                        for c in value_cols:
+                            num_df[c] = pd.to_numeric(num_df[c], errors="coerce").fillna(0)
+                        try:
+                            styled = (
+                                num_df.style
+                                .background_gradient(subset=value_cols, cmap="YlGn")
+                                .format({c: "{:.0f}" for c in value_cols})
+                                .set_properties(**{"font-size": "12px"})
+                            )
+                            st.dataframe(styled, use_container_width=True, hide_index=True, height=420)
+                        except Exception:
+                            st.dataframe(source_df.astype(str), use_container_width=True, hide_index=True, height=420)
+                        st.caption(
+                            f"Rows = {len(source_df)} companies/PDFs  ·  "
+                            f"Columns = {len(value_cols) - 1} prompt templates + TOTAL  ·  "
+                            "Cell value = record count"
+                        )
+                    else:
+                        st.dataframe(source_df.astype(str), use_container_width=True, hide_index=True, height=360)
                     st.download_button(
                         f"Download {row['figure']} backing table",
                         source_df.to_csv(index=False).encode("utf-8"),
