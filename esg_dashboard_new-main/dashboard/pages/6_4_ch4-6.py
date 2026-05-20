@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import sys
 from xml.etree import ElementTree as ET
@@ -16,13 +17,21 @@ import streamlit as st
 PAGE_DIR = Path(__file__).resolve().parent
 DASHBOARD_DIR = PAGE_DIR.parent                        # dashboard/
 DATA_DIR = DASHBOARD_DIR / "data" / "data"             # dashboard/data/data/
+ONTOLOGY_DIR = DASHBOARD_DIR / "data"
 PRIMARY_DATASET = "data_output"
 FALLBACK_DATASET = "output_in_csv"
+HEAVY_SOURCE_COLUMNS = {
+    "text",
+    "markdown_full",
+    "cleaned_markdown",
+    "original",
+    "pa",
+}
 
 if str(DASHBOARD_DIR) not in sys.path:
     sys.path.insert(0, str(DASHBOARD_DIR))
 
-from utils.data_loader import load_and_parse, read_dataset, resolve_data_path
+from utils.data_loader import format_display_value, load_and_parse, read_dataset, resolve_data_path
 
 from _rq_thesis_content import (
     CHAPTER_4_SECTIONS,
@@ -52,6 +61,46 @@ def _find_data_file(name: str) -> Path | None:
     return None
 
 
+def _load_ontology(name: str) -> dict[str, Any]:
+    path = ONTOLOGY_DIR / name
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _ontology_alias_map(ontology: dict[str, Any]) -> dict[str, str]:
+    mapping = {}
+    for key, meta in ontology.items():
+        label = meta.get("label", key) if isinstance(meta, dict) else key
+        values = [key, label]
+        if isinstance(meta, dict):
+            values.extend(meta.get("aliases", []))
+        for value in values:
+            if value is not None:
+                mapping[str(value).strip().lower()] = str(label).strip()
+    return mapping
+
+
+TONE_MAP = _ontology_alias_map(_load_ontology("tone_ontology.json"))
+SENTIMENT_MAP = _ontology_alias_map(_load_ontology("sentiment_ontology.json"))
+ASPECT_CATEGORY_MAP = _ontology_alias_map(_load_ontology("aspect_category_ontology.json"))
+
+
+def _normalize_from_map(
+    value: Any,
+    mapping: dict[str, str],
+    fallback: str = "Other / Unclassified",
+    keep_unmapped: bool = False,
+) -> str:
+    text = format_display_value(value)
+    if not text:
+        return fallback
+    return mapping.get(text.lower(), text if keep_unmapped else fallback)
+
+
 # ── page config ───────────────────────────────────────────────────────────────
 
 st.set_page_config(page_title="Ch4-6 Thesis Overview", layout="wide")
@@ -78,19 +127,27 @@ def load_data() -> tuple[pd.DataFrame, str, str]:
         source_label = "output_in_csv fallback"
 
     df.columns = df.columns.str.lower().str.strip()
+    df = df.drop(columns=[col for col in HEAVY_SOURCE_COLUMNS if col in df.columns])
     if {"sentence", "aspect"}.issubset(df.columns):
         df = df[df["sentence"].notna() & df["aspect"].notna()].copy()
+    for col in ["filename", "model", "sentence", "aspect", "aspect_category", "sentiment", "tone"]:
+        if col in df.columns:
+            df[col] = df[col].map(format_display_value)
+    if "sentence" in df.columns:
+        df = df[df["sentence"] != ""].reset_index(drop=True)
     return df, str(path), source_label
 
 
-def _esg_pillar(raw: str) -> str:
-    key = str(raw).strip().lower()[:1]
-    return {"e": "Environmental", "s": "Social", "g": "Governance"}.get(key, "Other")
+def _esg_pillar(raw: Any) -> str:
+    return _normalize_from_map(raw, ASPECT_CATEGORY_MAP)
 
 
-def _sentiment_norm(raw: str) -> str:
-    key = str(raw).strip().lower()
-    return {"positive": "Positive", "neutral": "Neutral", "negative": "Negative"}.get(key, "Other")
+def _sentiment_norm(raw: Any) -> str:
+    return _normalize_from_map(raw, SENTIMENT_MAP)
+
+
+def _tone_norm(raw: Any) -> str:
+    return _normalize_from_map(raw, TONE_MAP)
 
 
 try:
@@ -101,19 +158,27 @@ except Exception as exc:
 
 if not df.empty:
     if "aspect_category" in df.columns:
+        df["aspect_category_raw"] = df["aspect_category"]
+        df["aspect_category"] = df["aspect_category"].apply(lambda value: _normalize_from_map(value, ASPECT_CATEGORY_MAP))
         df["esg_pillar"] = df["aspect_category"].apply(_esg_pillar)
     if "sentiment" in df.columns:
+        df["sentiment_raw"] = df["sentiment"]
         df["sentiment_norm"] = df["sentiment"].apply(_sentiment_norm)
     if "tone" in df.columns:
-        df["tone"] = df["tone"].astype(str).str.strip().replace("", "Other")
+        df["tone_raw"] = df["tone"]
+        df["tone"] = df["tone"].apply(_tone_norm)
     if "aspect" in df.columns:
-        df["aspect"] = df["aspect"].astype(str).str.strip().replace("", "Unknown")
+        df["aspect"] = df["aspect"].map(format_display_value).replace("", "Unknown")
+    if "filename" in df.columns:
+        df["filename"] = df["filename"].map(format_display_value).replace("", "Unknown source")
+    if "model" in df.columns:
+        df["model"] = df["model"].map(format_display_value).replace("", "Unknown model")
 
 if not df.empty:
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Parsed Records", f"{len(df):,}")
     m2.metric("Unique Tones", int(df["tone"].nunique()) if "tone" in df.columns else "n/a")
-    m3.metric("ESG Pillars", int(df["esg_pillar"].nunique()) if "esg_pillar" in df.columns else "n/a")
+    m3.metric("Source Documents", int(df["filename"].nunique()) if "filename" in df.columns else "n/a")
     m4.metric("Unique Aspects", int(df["aspect"].nunique()) if "aspect" in df.columns else "n/a")
 
 st.divider()
@@ -190,7 +255,7 @@ def media_count(path: Path) -> int:
 
 
 # ── graph manifest ────────────────────────────────────────────────────────────
-# Each entry drives one figure card in the Graph Attachments tab.
+# Each entry drives one figure card in the Live Figure Tables tab.
 # "available" = True  → chart is computable from the current parsed local data
 # "available" = False → data not present locally; card shows an info notice
 
@@ -367,7 +432,12 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
     if data.empty:
         return None, pd.DataFrame()
 
+    def has_columns(*cols: str) -> bool:
+        return all(col in data.columns for col in cols)
+
     if fig_id == "A.1":
+        if not has_columns("tone"):
+            return None, pd.DataFrame()
         tbl = data["tone"].value_counts().reset_index()
         tbl.columns = ["tone", "records"]
         fig = px.bar(tbl, x="tone", y="records", color="tone",
@@ -376,6 +446,8 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         return fig, tbl
 
     if fig_id == "A.2":
+        if not has_columns("tone", "aspect_category"):
+            return None, pd.DataFrame()
         tbl = (data.groupby(["tone", "aspect_category"]).size()
                .reset_index(name="records"))
         fig = px.bar(tbl, x="tone", y="records", color="aspect_category",
@@ -386,6 +458,8 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         return fig, pivot.reset_index()
 
     if fig_id == "A.3":
+        if not has_columns("aspect", "tone"):
+            return None, pd.DataFrame()
         top = data["aspect"].value_counts().head(15).index
         sub = data[data["aspect"].isin(top)]
         tbl = sub.groupby(["aspect", "tone"]).size().reset_index(name="records")
@@ -396,6 +470,8 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         return fig, pivot.reset_index()
 
     if fig_id == "A.4":
+        if not has_columns("sentiment_norm"):
+            return None, pd.DataFrame()
         tbl = data["sentiment_norm"].value_counts().reset_index()
         tbl.columns = ["sentiment", "records"]
         fig = px.bar(tbl, x="sentiment", y="records", color="sentiment",
@@ -405,6 +481,8 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         return fig, tbl
 
     if fig_id == "A.5":
+        if not has_columns("esg_pillar"):
+            return None, pd.DataFrame()
         tbl = data["esg_pillar"].value_counts().reset_index()
         tbl.columns = ["esg_pillar", "records"]
         fig = px.pie(tbl, names="esg_pillar", values="records", hole=0.4,
@@ -413,6 +491,8 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         return fig, tbl
 
     if fig_id == "A.6":
+        if not has_columns("filename"):
+            return None, pd.DataFrame()
         tbl = (data.groupby("filename").size().reset_index(name="records")
                .sort_values("records", ascending=False))
         fig = px.bar(tbl, x="records", y="filename", orientation="h",
@@ -424,7 +504,9 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         return fig, tbl
 
     if fig_id == "A.7":
-        valid = data[data["esg_pillar"] != "Other"]
+        if not has_columns("esg_pillar", "tone"):
+            return None, pd.DataFrame()
+        valid = data[data["esg_pillar"] != "Other / Unclassified"]
         tbl = valid.groupby(["esg_pillar", "tone"]).size().reset_index(name="records")
         pivot = tbl.pivot(index="esg_pillar", columns="tone", values="records").fillna(0).astype(int)
         pivot.columns.name = None
@@ -433,6 +515,8 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         return fig, pivot.reset_index()
 
     if fig_id == "A.8":
+        if not has_columns("aspect"):
+            return None, pd.DataFrame()
         tbl = (data[data["aspect"] != "Unknown"]["aspect"]
                .value_counts().head(20).reset_index())
         tbl.columns = ["aspect", "records"]
@@ -456,7 +540,9 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         return fig, tbl
 
     if fig_id == "A.10":
-        valid = data[data["esg_pillar"] != "Other"]
+        if not has_columns("esg_pillar", "aspect", "sentiment_norm"):
+            return None, pd.DataFrame()
+        valid = data[data["esg_pillar"] != "Other / Unclassified"]
         tbl = valid.groupby(["aspect", "sentiment_norm"]).size().reset_index(name="records")
         top = data["aspect"].value_counts().head(12).index
         tbl = tbl[tbl["aspect"].isin(top)]
@@ -503,7 +589,7 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
 # ── tabs ──────────────────────────────────────────────────────────────────────
 
 tab_live, tab_graphs, tab_ch4, tab_ch5, tab_ch6, tab_rq, tab_docx = st.tabs([
-    "Live Charts", "Graph Attachments",
+    "Live Charts", "Live Figure Tables",
     "Chapter 4", "Chapter 5", "Chapter 6",
     "RQ Mapping", "DOCX Structure",
 ])
@@ -520,6 +606,37 @@ with tab_live:
     if df.empty:
         st.warning("Dataset is empty or could not be loaded.")
     else:
+        with st.expander("Data provenance and normalization", expanded=False):
+            provenance_rows = [
+                {"field": "Source dataset", "value": data_path},
+                {"field": "Loader", "value": data_source_label},
+                {"field": "Rows used for charts", "value": f"{len(df):,}"},
+                {
+                    "field": "Source documents",
+                    "value": f"{df['filename'].nunique():,}" if "filename" in df.columns else "n/a",
+                },
+                {
+                    "field": "Source models",
+                    "value": f"{df['model'].nunique():,}" if "model" in df.columns else "n/a",
+                },
+                {
+                    "field": "Normalization",
+                    "value": "Local dashboard ontologies for tone, sentiment, and ESG category",
+                },
+            ]
+            st.dataframe(pd.DataFrame(provenance_rows), use_container_width=True, hide_index=True)
+
+            raw_cols = [col for col in ["tone_raw", "sentiment_raw", "aspect_category_raw"] if col in df.columns]
+            if raw_cols:
+                raw_summary = []
+                for col in raw_cols:
+                    raw_summary.append({
+                        "raw field": col,
+                        "unique raw values": int(df[col].nunique()),
+                        "blank rows": int(df[col].map(format_display_value).eq("").sum()),
+                    })
+                st.dataframe(pd.DataFrame(raw_summary), use_container_width=True, hide_index=True)
+
         c1, c2 = st.columns(2)
         with c1:
             if "tone" in df.columns:
@@ -538,13 +655,13 @@ with tab_live:
 
         if "esg_pillar" in df.columns and "tone" in df.columns:
             st.subheader("Tone × ESG Pillar")
-            valid = df[df["esg_pillar"].ne("Other")]
+            valid = df[df["esg_pillar"].ne("Other / Unclassified")]
             if not valid.empty:
                 heatmap_pivot(valid, "esg_pillar", "tone", "Tone × ESG Pillar Heatmap")
 
         if "esg_pillar" in df.columns and "sentiment_norm" in df.columns:
             st.subheader("Sentiment × ESG Pillar")
-            valid = df[df["esg_pillar"].ne("Other")]
+            valid = df[df["esg_pillar"].ne("Other / Unclassified")]
             if not valid.empty:
                 heatmap_pivot(valid, "esg_pillar", "sentiment_norm", "Sentiment × ESG Pillar Heatmap")
 
@@ -563,10 +680,10 @@ with tab_live:
 # ══════════════════════════════════════════════════════════════════════════════
 
 with tab_graphs:
-    st.header("Graph Attachments")
+    st.header("Live Figure Tables")
     st.caption(
-        f"All figures computed at runtime from `{data_path}` ({len(df):,} parsed ESG records).  "
-        "Figures marked 'not available' require data not present in this dashboard."
+        f"Available figures are computed at runtime from `{data_path}` ({len(df):,} parsed ESG records) "
+        "or the shared RQ chapter metadata. Figures marked 'not available' require local data not present in this dashboard."
     )
 
     manifest_df = pd.DataFrame(GRAPH_MANIFEST)
