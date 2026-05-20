@@ -31,6 +31,10 @@ HEAVY_SOURCE_COLUMNS = {
 if str(DASHBOARD_DIR) not in sys.path:
     sys.path.insert(0, str(DASHBOARD_DIR))
 
+loaded_utils = sys.modules.get("utils")
+if loaded_utils is not None and not hasattr(loaded_utils, "__path__"):
+    del sys.modules["utils"]
+
 from utils.data_loader import format_display_value, load_and_parse, read_dataset, resolve_data_path
 
 from _rq_thesis_content import (
