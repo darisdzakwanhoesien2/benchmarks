@@ -18,6 +18,7 @@ import streamlit as st
 st.set_page_config(page_title="Ground Truth Step-by-Step Visualizer", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 RESULTS_DIR = ROOT / "results"
 DEFAULT_SOURCE = RESULTS_DIR / "esg_records.json"
 DEFAULT_T1 = RESULTS_DIR / "t1_results.jsonl"
@@ -25,6 +26,8 @@ DEFAULT_T2 = RESULTS_DIR / "t2_results.jsonl"
 GT_JOBS_DIR = RESULTS_DIR / "ground_truth_background_jobs"
 GT_WORKER_PATH = ROOT / "code" / "ground_truth_background_worker.py"
 MODELS_CACHE_PATH = Path(__file__).parent / "models_cache.json"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def clean(value: Any) -> str:
@@ -593,6 +596,7 @@ tabs = st.tabs(
         "6 T2 Raw Output",
         "7 T2 Hybrid Output",
         "8 Audit & Exports",
+        "9 Attachment Cards",
     ]
 )
 
@@ -820,3 +824,11 @@ with tabs[7]:
         st.subheader("T2 hybrid errors")
         st.dataframe(t2_failures.head(int(preview_limit)), use_container_width=True, height=360)
         st.download_button("Download T2 flattened CSV", t2_df.to_csv(index=False).encode("utf-8"), "ground_truth_t2_flattened.csv", "text/csv")
+
+with tabs[8]:
+    render_attachment_cards(
+        "Ground Truth Step-by-Step Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        rq_default="RQ2",
+        figures=["A.13", "A.17", "A.18", "A.19", "A.20"],
+    )

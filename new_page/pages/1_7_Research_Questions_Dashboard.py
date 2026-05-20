@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 
 import altair as alt
 import pandas as pd
@@ -9,7 +10,10 @@ import streamlit.components.v1 as components
 st.set_page_config(page_title="Research Questions Dashboard", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 ARTIFACTS = ROOT / "results" / "revision_analysis"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def load(name):
@@ -446,6 +450,7 @@ tabs = st.tabs(
         "Chapter 5 Discussion",
         "Chapter 6 Conclusion",
         "Ch4-6 Mermaid",
+        "Attachment Cards",
     ]
 )
 
@@ -828,3 +833,9 @@ with tabs[11]:
     render_mermaid(chapter_flow, height=760)
     st.subheader("Mermaid source")
     st.code(chapter_flow, language="mermaid")
+
+with tabs[12]:
+    render_attachment_cards(
+        "Research Questions Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+    )

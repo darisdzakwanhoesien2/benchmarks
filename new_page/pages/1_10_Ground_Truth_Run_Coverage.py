@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 from typing import Any
 
 import altair as alt
@@ -12,10 +13,13 @@ import streamlit as st
 st.set_page_config(page_title="Ground Truth Run Coverage", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 RESULTS_DIR = ROOT / "results"
 DEFAULT_SOURCE_PATH = RESULTS_DIR / "esg_records.json"
 DEFAULT_T1_JSONL = RESULTS_DIR / "t1_results.jsonl"
 DEFAULT_T2_JSONL = RESULTS_DIR / "t2_results.jsonl"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def clean(value: Any) -> str:
@@ -312,7 +316,7 @@ st.caption(f"Coverage basis: {source_caption}")
 st.caption(f"T1 output: `{t1_path}`")
 st.caption(f"T2 output: `{t2_path}`")
 
-tabs = st.tabs(["Overview", "T1 Matrix", "T2 Coverage", "Missing Work", "Raw Tables"])
+tabs = st.tabs(["Overview", "T1 Matrix", "T2 Coverage", "Missing Work", "Raw Tables", "Attachment Cards"])
 
 with tabs[0]:
     st.markdown(
@@ -436,3 +440,11 @@ with tabs[4]:
     with c3:
         st.subheader("T2 unique labels")
         st.dataframe(t2_unique.head(int(label_limit)), use_container_width=True, height=500)
+
+with tabs[5]:
+    render_attachment_cards(
+        "Ground Truth Run Coverage Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        rq_default="RQ2",
+        figures=["A.13", "A.17", "A.18", "A.19", "A.20"],
+    )

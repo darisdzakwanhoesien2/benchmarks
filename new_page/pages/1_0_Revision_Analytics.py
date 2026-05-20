@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 
 import altair as alt
 import pandas as pd
@@ -8,7 +9,10 @@ import streamlit as st
 st.set_page_config(page_title="Revision Analytics", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 ARTIFACTS = ROOT / "results" / "revision_analysis"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 @st.cache_data(show_spinner=False)
@@ -137,6 +141,7 @@ tabs = st.tabs(
         "Language Triggers",
         "Ontology and OCR",
         "Artifacts",
+        "Attachment Cards",
     ]
 )
 
@@ -254,4 +259,11 @@ with tabs[7]:
         view.to_csv(index=False).encode("utf-8"),
         file_name="revision_filtered_records.csv",
         mime="text/csv",
+    )
+
+with tabs[8]:
+    render_attachment_cards(
+        "Revision Analytics Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        figures=["A.1", "A.2", "A.3", "A.10", "A.11", "A.12", "A.13", "A.15", "A.16", "A.17", "A.18", "A.19"],
     )

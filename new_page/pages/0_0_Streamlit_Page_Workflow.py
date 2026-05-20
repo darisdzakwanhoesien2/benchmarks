@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+import sys
 
 import altair as alt
 import pandas as pd
@@ -12,8 +13,11 @@ import streamlit.components.v1 as components
 st.set_page_config(page_title="Streamlit Page Workflow", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 PAGES_DIR = ROOT / "pages"
 DOCS_DIR = ROOT / "documentation" / "streamlit_pages"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def render_mermaid(source: str, height: int = 720):
@@ -619,8 +623,8 @@ def page_df() -> pd.DataFrame:
 st.title("Streamlit Page Workflow")
 st.caption("Navigation hub for every Streamlit page, every RQ workflow, and the thesis evidence trail.")
 
-overview, pages_tab, rq_tab, pipeline_tab, chapters_tab, docs_tab = st.tabs(
-    ["Overview", "Every Page", "RQ Workflows", "Complete Workflow", "Chapter Usage", "Documentation"]
+overview, pages_tab, rq_tab, pipeline_tab, chapters_tab, docs_tab, cards_tab = st.tabs(
+    ["Overview", "Every Page", "RQ Workflows", "Complete Workflow", "Chapter Usage", "Documentation", "Attachment Cards"]
 )
 
 with overview:
@@ -850,4 +854,7 @@ with docs_tab:
         with st.expander(label):
             st.code(str(path.relative_to(ROOT)), language=None)
             if path.exists():
-                st.markdown(path.read_text(encoding="utf-8")[:2500])
+                st.markdown(path.read_text(encoding="utf-8"))
+
+with cards_tab:
+    render_attachment_cards("Workflow Graph + Table Attachment Cards")

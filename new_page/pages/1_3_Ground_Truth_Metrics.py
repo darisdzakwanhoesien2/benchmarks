@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 
 import altair as alt
 import pandas as pd
@@ -9,10 +10,13 @@ from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precisio
 st.set_page_config(page_title="Ground Truth Metrics", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 ARTIFACTS = ROOT / "results" / "revision_analysis"
 ANNOTATION_PATH = ARTIFACTS / "pilot_ground_truth_annotations.csv"
 SEED_PATH = ARTIFACTS / "pilot_ground_truth_seed.csv"
 SILVER_PATH = ARTIFACTS / "silver_tone_ground_truth.csv"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def load_annotations():
@@ -36,6 +40,17 @@ def cohen_kappa(y_true, y_pred):
 
 
 def metric_table(df, truth_col, pred_col, label):
+    missing = [col for col in [truth_col, pred_col] if col not in df.columns]
+    if missing:
+        return pd.DataFrame(
+            [
+                {
+                    "target": label,
+                    "n": 0,
+                    "status": f"Skipped: missing column(s) {', '.join(missing)}",
+                }
+            ]
+        ), pd.DataFrame()
     valid = df[df[truth_col].astype(str).str.strip().ne("") & df[pred_col].astype(str).str.strip().ne("")].copy()
     if valid.empty:
         return pd.DataFrame(), valid
@@ -93,7 +108,7 @@ if df.empty:
     st.error("No annotation seed or saved annotation file was found.")
     st.stop()
 
-tabs = st.tabs(["Overview", "Tone Metrics", "ESG Metrics", "Aspect Metrics", "Errors", "Exports"])
+tabs = st.tabs(["Overview", "Tone Metrics", "ESG Metrics", "Aspect Metrics", "Errors", "Exports", "Attachment Cards"])
 
 with tabs[0]:
     labeled_tone = df["ground_truth_tone"].astype(str).str.strip().ne("").sum()
@@ -109,8 +124,8 @@ with tabs[0]:
     st.dataframe(df.head(100), use_container_width=True)
 
 tone_metrics, tone_valid = metric_table(df, "ground_truth_tone", "tone_pred", "tone")
-esg_metrics, esg_valid = metric_table(df, "ground_truth_esg", "esg", "esg") if "ground_truth_esg" in df else (pd.DataFrame(), pd.DataFrame())
-aspect_metrics, aspect_valid = metric_table(df, "ground_truth_aspect", "aspect", "aspect") if "ground_truth_aspect" in df else (pd.DataFrame(), pd.DataFrame())
+esg_metrics, esg_valid = metric_table(df, "ground_truth_esg", "esg", "esg")
+aspect_metrics, aspect_valid = metric_table(df, "ground_truth_aspect", "aspect", "aspect")
 
 with tabs[1]:
     st.subheader("Tone Classification Metrics")
@@ -146,3 +161,11 @@ with tabs[5]:
     if SILVER_PATH.exists():
         silver = pd.read_csv(SILVER_PATH)
         st.download_button("Download full silver scaffold CSV", silver.to_csv(index=False).encode("utf-8"), "silver_tone_ground_truth.csv", "text/csv")
+
+with tabs[6]:
+    render_attachment_cards(
+        "Ground Truth Metrics Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        rq_default="RQ2",
+        figures=["A.13", "A.17", "A.18", "A.19", "A.20"],
+    )

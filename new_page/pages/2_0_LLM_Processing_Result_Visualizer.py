@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+import sys
 from typing import Any
 
 import altair as alt
@@ -13,10 +14,13 @@ import streamlit as st
 st.set_page_config(page_title="LLM Processing Result Visualizer", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 RESULTS_DIR = ROOT / "results"
 T1_PATH = RESULTS_DIR / "predictions.json"
 T2_PATH = RESULTS_DIR / "absa_results.json"
 T3_PATH = RESULTS_DIR / "esg_records.json"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def clean(value: Any) -> str:
@@ -416,7 +420,7 @@ overview[3].metric("T2 runs", f"{len(filtered_t2_runs):,}")
 overview[4].metric("T2 predictions", f"{len(filtered_t2_preds):,}")
 overview[5].metric("T1 rows", f"{len(filtered_t1):,}")
 
-tabs = st.tabs(["Overview", "Pipeline Waterfall", "T3 ESG Records", "T3 Run Quality", "T2 ABSA", "T1 ClimateBERT", "Records & Exports"])
+tabs = st.tabs(["Overview", "Pipeline Waterfall", "T3 ESG Records", "T3 Run Quality", "T2 ABSA", "T1 ClimateBERT", "Records & Exports", "Attachment Cards"])
 
 with tabs[0]:
     c1, c2 = st.columns(2)
@@ -529,3 +533,10 @@ with tabs[6]:
     st.dataframe(filtered_t2_runs.head(int(table_limit)), use_container_width=True, height=300)
     st.markdown("**T1 rows**")
     st.dataframe(filtered_t1.head(int(table_limit)), use_container_width=True, height=300)
+
+with tabs[7]:
+    render_attachment_cards(
+        "LLM Processing Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        figures=["A.1", "A.2", "A.3", "A.10", "A.11", "A.14", "A.17", "A.20"],
+    )

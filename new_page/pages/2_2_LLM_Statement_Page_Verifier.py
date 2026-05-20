@@ -16,8 +16,11 @@ st.set_page_config(page_title="LLM Statement Page Verifier", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = ROOT / "results"
+VIS_DIR = RESULTS_DIR / "visualizations"
 DATASET_DIR = ROOT / "data" / "thesis_dataset"
 T3_PATH = RESULTS_DIR / "esg_records.json"
+TONE_FLAT_PATH = VIS_DIR / "tone_records_flat.csv"
+COMPILED_VERIFICATION_PATH = RESULTS_DIR / "revision_analysis" / "llm_statement_page_verifier_compiled.csv"
 
 STOPWORDS = {
     "about",
@@ -123,6 +126,37 @@ def flatten_t3(path: Path) -> pd.DataFrame:
                     "statement_len": len(statement),
                     "aspect": clean(record.get("aspect")),
                     "labels": labels_text,
+                    "esg": clean(record.get("esg")).upper(),
+                    "tone": clean(record.get("tone")).lower(),
+                    "sentiment": clean(record.get("sentiment")).lower(),
+                    "reasoning": clean(record.get("reasoning")),
+                }
+            )
+    if rows:
+        return pd.DataFrame(rows)
+    if TONE_FLAT_PATH.exists():
+        try:
+            flat = pd.read_csv(TONE_FLAT_PATH).fillna("")
+        except Exception:
+            return pd.DataFrame(rows)
+        for idx, record in flat.iterrows():
+            target = clean(record.get("target"))
+            document = target.split("/")[0] if "/" in target else clean(record.get("target_doc")) or target
+            statement = clean(record.get("text"))
+            rows.append(
+                {
+                    "record_key": f"flat:{idx}",
+                    "run_idx": record.get("run_idx", ""),
+                    "record_idx": record.get("record_idx", idx),
+                    "timestamp": clean(record.get("timestamp")),
+                    "model": clean(record.get("model")),
+                    "target": target,
+                    "document": document,
+                    "prompt": clean(record.get("prompt")),
+                    "statement": statement,
+                    "statement_len": len(statement),
+                    "aspect": clean(record.get("aspect")),
+                    "labels": clean(record.get("labels")),
                     "esg": clean(record.get("esg")).upper(),
                     "tone": clean(record.get("tone")).lower(),
                     "sentiment": clean(record.get("sentiment")).lower(),
@@ -263,6 +297,51 @@ def verify_statement(statement: str, pages_df: pd.DataFrame) -> pd.DataFrame:
     return out.sort_values(["status_rank", "score", "token_coverage"], ascending=[True, False, False])
 
 
+def compile_best_statement_matches(records: pd.DataFrame, dataset_dir: Path, all_documents: list[str]) -> pd.DataFrame:
+    rows: list[dict[str, Any]] = []
+    pages_cache: dict[str, pd.DataFrame] = {}
+    for _, record in records.iterrows():
+        document = clean(record.get("document"))
+        if document not in all_documents:
+            rows.append(
+                {
+                    **record.to_dict(),
+                    "best_status": "missing_document",
+                    "best_page": "",
+                    "best_page_number": None,
+                    "best_score": 0.0,
+                    "best_token_coverage": 0.0,
+                    "best_sequence_ratio": 0.0,
+                    "best_matched_terms": "",
+                    "best_page_path": "",
+                    "best_snippet": "",
+                }
+            )
+            continue
+        if document not in pages_cache:
+            pages_cache[document] = load_document_pages(dataset_dir, document)
+        matches = verify_statement(clean(record.get("statement")), pages_cache[document])
+        if matches.empty:
+            best = {}
+        else:
+            best = matches.iloc[0].to_dict()
+        rows.append(
+            {
+                **record.to_dict(),
+                "best_status": clean(best.get("status")) or "not found",
+                "best_page": clean(best.get("page")),
+                "best_page_number": best.get("page_number"),
+                "best_score": best.get("score", 0.0),
+                "best_token_coverage": best.get("token_coverage", 0.0),
+                "best_sequence_ratio": best.get("sequence_ratio", 0.0),
+                "best_matched_terms": clean(best.get("matched_terms")),
+                "best_page_path": clean(best.get("path")),
+                "best_snippet": clean(best.get("snippet")),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
 def highlight_terms(text: str, terms_text: str) -> str:
     output = escape(clean(text))
     terms = [term for term in terms_text.split(", ") if len(term) >= 4][:20]
@@ -286,6 +365,8 @@ documents = list_documents(DATASET_DIR)
 with st.sidebar:
     st.header("Source files")
     st.caption(f"LLM records: `{T3_PATH}`")
+    if not T3_PATH.exists() and TONE_FLAT_PATH.exists():
+        st.caption(f"Fallback flat records: `{TONE_FLAT_PATH}`")
     st.caption(f"OCR pages: `{DATASET_DIR}`")
     if st.button("Refresh files", use_container_width=True):
         st.cache_data.clear()
@@ -326,6 +407,41 @@ metric_cols[0].metric("Extracted records", f"{len(records_df):,}")
 metric_cols[1].metric("Filtered records", f"{len(filtered):,}")
 metric_cols[2].metric("OCR documents", f"{len(documents):,}")
 metric_cols[3].metric("Records with target doc", f"{records_df['document'].isin(documents).sum():,}" if not records_df.empty else "0")
+
+with st.expander("Compiled statement-page verification dataset", expanded=COMPILED_VERIFICATION_PATH.exists()):
+    st.caption(f"Compiled CSV: `{COMPILED_VERIFICATION_PATH}`")
+    compile_limit = st.number_input(
+        "Compile row limit",
+        min_value=50,
+        max_value=max(int(len(filtered)), 50),
+        value=min(int(len(filtered)), 500) if len(filtered) else 50,
+        step=50,
+        help="Use a limit while testing. Set to the filtered row count to compile all visible records.",
+    )
+    compile_scope = st.radio("Compile scope", ["Filtered records", "All records"], horizontal=True)
+    compile_source = filtered if compile_scope == "Filtered records" else records_df
+    if st.button("Compile best page matches CSV", type="primary", use_container_width=True):
+        to_compile = compile_source.head(int(compile_limit)).copy()
+        with st.spinner(f"Compiling best page matches for {len(to_compile):,} statements..."):
+            compiled = compile_best_statement_matches(to_compile, DATASET_DIR, documents)
+            COMPILED_VERIFICATION_PATH.parent.mkdir(parents=True, exist_ok=True)
+            compiled.to_csv(COMPILED_VERIFICATION_PATH, index=False)
+        st.success(f"Saved {len(compiled):,} compiled verification rows.")
+        st.rerun()
+    if COMPILED_VERIFICATION_PATH.exists():
+        compiled_existing = pd.read_csv(COMPILED_VERIFICATION_PATH).fillna("")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Compiled rows", f"{len(compiled_existing):,}")
+        c2.metric("Exact / likely", f"{int(compiled_existing.get('best_status', pd.Series(dtype=str)).astype(str).isin(['exact', 'likely']).sum()):,}")
+        c3.metric("Not found", f"{int(compiled_existing.get('best_status', pd.Series(dtype=str)).astype(str).eq('not found').sum()):,}")
+        st.dataframe(compiled_existing.head(200), use_container_width=True, hide_index=True, height=300)
+        st.download_button(
+            "Download compiled verifier CSV",
+            compiled_existing.to_csv(index=False).encode("utf-8"),
+            "llm_statement_page_verifier_compiled.csv",
+            "text/csv",
+            use_container_width=True,
+        )
 
 if records_df.empty:
     st.warning("No parsed LLM ESG records were found.")

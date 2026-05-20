@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+import sys
 from typing import Any
 
 import altair as alt
@@ -13,9 +14,12 @@ import streamlit as st
 st.set_page_config(page_title="Ground Truth Record Audit", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 RESULTS_DIR = ROOT / "results"
 DEFAULT_T1_JSONL = RESULTS_DIR / "t1_results.jsonl"
 DEFAULT_T2_JSONL = RESULTS_DIR / "t2_results.jsonl"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def clean(value: Any) -> str:
@@ -253,7 +257,17 @@ t1_path = Path(t1_path_input).expanduser()
 t2_path = Path(t2_path_input).expanduser()
 
 t1 = flatten_t1(load_json_or_jsonl(t1_path))
+for col in ["label", "model", "backend", "text", "success", "error", "prediction_label", "prediction_score"]:
+    if col not in t1.columns:
+        t1[col] = pd.Series(dtype=object)
 t2_labels, t2_predictions = flatten_t2(load_json_or_jsonl(t2_path))
+for frame, cols in [
+    (t2_labels, ["label", "text", "rule_tone", "hybrid_error"]),
+    (t2_predictions, ["label", "tone_pred", "sentiment_pred", "ontology_path"]),
+]:
+    for col in cols:
+        if col not in frame.columns:
+            frame[col] = pd.Series(dtype=object)
 t1_summary = summarize_label_t1(t1)
 t2_summary = summarize_label_t2(t2_labels, t2_predictions)
 
@@ -268,6 +282,23 @@ joined = pd.DataFrame({"label": labels})
 if not joined.empty:
     joined = joined.merge(t1_summary, on="label", how="left")
     joined = joined.merge(t2_summary, on="label", how="left", suffixes=("_t1", "_t2"))
+    if "text_t1" not in joined.columns:
+        joined["text_t1"] = joined["text"] if "text" in joined.columns else ""
+    if "text_t2" not in joined.columns:
+        joined["text_t2"] = ""
+    for col, default in [
+        ("t1_total_runs", 0),
+        ("t1_failure_count", 0),
+        ("prediction_count", 0),
+        ("hybrid_error", ""),
+        ("hybrid_tones", ""),
+        ("rule_tone", ""),
+        ("t1_models", ""),
+        ("t1_prediction_labels", ""),
+        ("avg_prediction_score", pd.NA),
+    ]:
+        if col not in joined.columns:
+            joined[col] = default
     joined["text_joined"] = joined["text_t1"].where(joined["text_t1"].map(clean).ne(""), joined["text_t2"])
     joined["has_t1"] = joined["t1_total_runs"].fillna(0).gt(0)
     joined["has_t2"] = joined["prediction_count"].fillna(0).gt(0) | joined["hybrid_error"].map(clean).ne("")
@@ -319,7 +350,7 @@ top[5].metric("Joined complete", f"{int(filtered['pipeline_status'].eq('t1+t2').
 st.caption(f"T1 output: `{t1_path}`")
 st.caption(f"T2 output: `{t2_path}`")
 
-tabs = st.tabs(["Overview", "Label Audit", "T1 Records", "T2 Predictions", "Exports"])
+tabs = st.tabs(["Overview", "Label Audit", "T1 Records", "T2 Predictions", "Exports", "Attachment Cards"])
 
 with tabs[0]:
     st.markdown(
@@ -452,4 +483,12 @@ with tabs[4]:
         t2_predictions.to_csv(index=False).encode("utf-8"),
         "ground_truth_t2_sentence_predictions.csv",
         "text/csv",
+    )
+
+with tabs[5]:
+    render_attachment_cards(
+        "Ground Truth Record Audit Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        rq_default="RQ2",
+        figures=["A.13", "A.17", "A.18", "A.19", "A.20"],
     )

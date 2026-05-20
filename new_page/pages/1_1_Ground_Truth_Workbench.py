@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 
 import altair as alt
 import pandas as pd
@@ -8,6 +9,7 @@ import streamlit as st
 st.set_page_config(page_title="Ground Truth Workbench", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 ARTIFACTS = ROOT / "results" / "revision_analysis"
 SEED_PATH = ARTIFACTS / "pilot_ground_truth_seed.csv"
 ANNOTATION_PATH = ARTIFACTS / "pilot_ground_truth_annotations.csv"
@@ -16,6 +18,8 @@ SILVER_PATH = ARTIFACTS / "silver_tone_ground_truth.csv"
 TONE_OPTIONS = ["", "commitment", "action", "outcome", "none", "unknown"]
 ESG_OPTIONS = ["", "e", "s", "g", "none", "unknown"]
 STATUS_OPTIONS = ["needs_review", "reviewed", "uncertain", "discard"]
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def load_table():
@@ -61,7 +65,7 @@ view = df[
     & df["language"].isin(lang_filter)
 ].copy()
 
-overview, annotate, agreement, export = st.tabs(["Overview", "Annotate", "Agreement", "Export"])
+overview, annotate, agreement, export, attachment_cards = st.tabs(["Overview", "Annotate", "Agreement", "Export", "Attachment Cards"])
 
 with overview:
     c1, c2, c3, c4 = st.columns(4)
@@ -201,3 +205,11 @@ with export:
             mime="text/csv",
         )
         st.dataframe(silver.head(100), use_container_width=True, height=420)
+
+with attachment_cards:
+    render_attachment_cards(
+        "Ground Truth Workbench Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        rq_default="RQ2",
+        figures=["A.13", "A.17", "A.18", "A.19", "A.20"],
+    )

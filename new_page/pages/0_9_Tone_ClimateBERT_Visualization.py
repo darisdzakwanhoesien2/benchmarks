@@ -1,6 +1,7 @@
 import json
 import re
 from pathlib import Path
+import sys
 
 import altair as alt
 import pandas as pd
@@ -10,6 +11,7 @@ import streamlit as st
 st.set_page_config(page_title="Tone vs ClimateBERT", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 RESULTS_DIR = ROOT / "results"
 ESG_RECORDS = RESULTS_DIR / "esg_records.json"
 CLIMATEBERT_RESULTS = RESULTS_DIR / "climatebert_results.json"
@@ -17,6 +19,8 @@ DOC_PATH = ROOT / "docs" / "tone_climatebert_comparison.md"
 
 TONE_ORDER = ["commitment", "action", "outcome", "none", "unknown", "missing"]
 PILLAR_ORDER = ["e", "s", "g", "none", "missing"]
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 def clean_label(value, default="missing"):
@@ -266,8 +270,8 @@ filtered = tone_df[
     & tone_df["target_doc"].isin(selected_targets)
 ].copy()
 
-tab_overview, tab_comparison, tab_climatebert, tab_records, tab_docs = st.tabs(
-    ["Overview", "Tone Comparison", "ClimateBERT Runs", "Records", "Documentation"]
+tab_overview, tab_comparison, tab_climatebert, tab_records, tab_docs, tab_cards = st.tabs(
+    ["Overview", "Tone Comparison", "ClimateBERT Runs", "Records", "Documentation", "Attachment Cards"]
 )
 
 with tab_overview:
@@ -430,3 +434,11 @@ with tab_docs:
         st.markdown(DOC_PATH.read_text(encoding="utf-8"))
     else:
         st.info("No generated documentation found yet. Run code/visualize_tone_climatebert.py to create it.")
+
+with tab_cards:
+    render_attachment_cards(
+        "Tone vs ClimateBERT Graph + Table Attachment Cards",
+        chapter_default="Chapter 5",
+        rq_default="RQ3",
+        figures=["A.4", "A.5", "A.15"],
+    )
