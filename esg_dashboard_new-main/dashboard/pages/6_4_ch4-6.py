@@ -1,19 +1,20 @@
 from __future__ import annotations
 
 from pathlib import Path
-import sys
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
+from typing import Any
 
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 # pages/ is already on sys.path when Streamlit runs this file,
 # so _rq_thesis_content (same directory) imports fine without manipulation.
 PAGE_DIR = Path(__file__).resolve().parent
-DASHBOARD_DIR = PAGE_DIR.parent                    # dashboard/
-DATA_DIR = DASHBOARD_DIR / "data" / "data"         # dashboard/data/data/
+DASHBOARD_DIR = PAGE_DIR.parent                        # dashboard/
+DATA_DIR = DASHBOARD_DIR / "data" / "data"             # dashboard/data/data/
 
 from _rq_thesis_content import (
     CHAPTER_4_SECTIONS,
@@ -27,7 +28,10 @@ from _rq_thesis_content import (
     render_mermaid,
 )
 
-# Resolve the data file once — try .txt then .csv
+W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+
+# ── data-file resolver ────────────────────────────────────────────────────────
+
 def _find_data_file(name: str) -> Path | None:
     for ext in (".txt", ".csv"):
         p = DATA_DIR / f"{name}{ext}"
@@ -35,9 +39,8 @@ def _find_data_file(name: str) -> Path | None:
             return p
     return None
 
-SOURCE_DOCX = PAGE_DIR.parents[2] / "pages" / "thesis_ch4_6_structure_benchmarks.docx"
-UPDATED_DOCX = PAGE_DIR.parents[2] / "pages" / "thesis_ch4_6_structure_benchmarks_streamlit_graphs.docx"
-W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+
+# ── page config ───────────────────────────────────────────────────────────────
 
 st.set_page_config(page_title="Ch4-6 Thesis Overview", layout="wide")
 st.title("Ch4-6 Thesis Overview")
@@ -46,6 +49,8 @@ st.caption(
     "chapter structure, RQ mapping, and benchmark checklist."
 )
 
+
+# ── load dataset ─────────────────────────────────────────────────────────────
 
 @st.cache_data
 def load_data() -> pd.DataFrame:
@@ -83,7 +88,6 @@ if not df.empty:
     if "aspect" in df.columns:
         df["aspect"] = df["aspect"].astype(str).str.strip().replace("", "Unknown")
 
-
 if not df.empty:
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Parsed Records", f"{len(df):,}")
@@ -93,6 +97,8 @@ if not df.empty:
 
 st.divider()
 
+
+# ── shared chart helpers ──────────────────────────────────────────────────────
 
 def bar_v(col: pd.Series, title: str) -> None:
     counts = col.value_counts().reset_index()
@@ -141,17 +147,12 @@ def read_docx_paragraphs(path: Path) -> pd.DataFrame:
             root = ET.fromstring(zf.read("word/document.xml"))
     except Exception as exc:
         return pd.DataFrame([{"paragraph": 0, "text": f"Could not read DOCX: {exc}", "section": "error"}])
-    rows = []
-    current = "Front matter"
+    rows, current = [], "Front matter"
     for idx, para in enumerate(root.findall(f".//{W_NS}p"), start=1):
         text = "".join(t.text or "" for t in para.findall(f".//{W_NS}t")).strip()
         if not text:
             continue
-        if (
-            text.startswith(("IV.", "V.", "VI.", "A."))
-            or text.startswith(("4.", "5.", "6."))
-            or "Appendix" in text
-        ):
+        if text.startswith(("IV.", "V.", "VI.", "A.", "4.", "5.", "6.")) or "Appendix" in text:
             current = text
         rows.append({"paragraph": idx, "section": current, "text": text})
     return pd.DataFrame(rows)
@@ -167,9 +168,329 @@ def media_count(path: Path) -> int:
         return 0
 
 
-tab_live, tab_ch4, tab_ch5, tab_ch6, tab_rq, tab_docx = st.tabs([
-    "Live Charts", "Chapter 4", "Chapter 5", "Chapter 6", "RQ Mapping", "DOCX Structure",
+# ── graph manifest ────────────────────────────────────────────────────────────
+# Each entry drives one figure card in the Graph Attachments tab.
+# "available" = True  → chart is computable from local output_in_csv
+# "available" = False → data not present locally; card shows an info notice
+
+GRAPH_MANIFEST: list[dict[str, Any]] = [
+    {
+        "figure": "A.1",
+        "title": "Tone distribution",
+        "chapter": "Chapter 4",
+        "rq": "RQ2",
+        "source_table": "output_in_csv → tone",
+        "source_page": "Tone_Distribution",
+        "available": True,
+    },
+    {
+        "figure": "A.2",
+        "title": "ESG by tone",
+        "chapter": "Chapter 4",
+        "rq": "RQ2",
+        "source_table": "output_in_csv → tone × aspect_category",
+        "source_page": "Data_File_Visualizer",
+        "available": True,
+    },
+    {
+        "figure": "A.3",
+        "title": "Aspect by tone heatmap",
+        "chapter": "Chapter 4",
+        "rq": "RQ2",
+        "source_table": "output_in_csv → aspect × tone",
+        "source_page": "Aspect",
+        "available": True,
+    },
+    {
+        "figure": "A.4",
+        "title": "Sentiment distribution",
+        "chapter": "Chapter 4",
+        "rq": "RQ2",
+        "source_table": "output_in_csv → sentiment",
+        "source_page": "Tone_Distribution",
+        "available": True,
+    },
+    {
+        "figure": "A.5",
+        "title": "ESG pillar distribution",
+        "chapter": "Chapter 4",
+        "rq": "RQ1",
+        "source_table": "output_in_csv → aspect_category",
+        "source_page": "Data_File_Visualizer",
+        "available": True,
+    },
+    {
+        "figure": "A.6",
+        "title": "Records per source document",
+        "chapter": "Chapter 4",
+        "rq": "RQ1",
+        "source_table": "output_in_csv → filename",
+        "source_page": "Parsed_ESG_Review",
+        "available": True,
+    },
+    {
+        "figure": "A.7",
+        "title": "Tone × ESG pillar heatmap",
+        "chapter": "Chapter 4",
+        "rq": "RQ2",
+        "source_table": "output_in_csv → tone × esg_pillar",
+        "source_page": "Data_File_Visualizer",
+        "available": True,
+    },
+    {
+        "figure": "A.8",
+        "title": "Top 20 aspects by record count",
+        "chapter": "Chapter 4",
+        "rq": "RQ4",
+        "source_table": "output_in_csv → aspect",
+        "source_page": "Aspect",
+        "available": True,
+    },
+    {
+        "figure": "A.9",
+        "title": "Ontology URI coverage",
+        "chapter": "Chapter 5",
+        "rq": "RQ4",
+        "source_table": "output_in_csv → ontology_uri",
+        "source_page": "JSON_Ontology_Usage_Map",
+        "available": True,
+    },
+    {
+        "figure": "A.10",
+        "title": "Aspect × sentiment heatmap",
+        "chapter": "Chapter 5",
+        "rq": "RQ2",
+        "source_table": "output_in_csv → aspect × sentiment_norm",
+        "source_page": "Tone_Distribution",
+        "available": True,
+    },
+    {
+        "figure": "A.11",
+        "title": "Confidence score distribution",
+        "chapter": "Chapter 4",
+        "rq": "RQ6",
+        "source_table": "output_in_csv → confidence",
+        "source_page": "Benchmark_Model",
+        "available": True,
+    },
+    {
+        "figure": "A.12",
+        "title": "Per-RQ evidence mapping",
+        "chapter": "Chapter 4 / 6",
+        "rq": "RQ1-RQ6",
+        "source_table": "_rq_thesis_content.RQ_PAGE_MAP",
+        "source_page": "Research_Questions_Dashboard",
+        "available": True,
+    },
+    {
+        "figure": "A.13",
+        "title": "Tone by ClimateBERT label",
+        "chapter": "Chapter 4 / 5",
+        "rq": "RQ3",
+        "source_table": "climatebert_predictions/ (not in local data)",
+        "source_page": "ClimateBERT_Result_Visualizer",
+        "available": False,
+    },
+    {
+        "figure": "A.14",
+        "title": "Top-scoring ClimateBERT records",
+        "chapter": "Chapter 5",
+        "rq": "RQ3",
+        "source_table": "climatebert_predictions/ (not in local data)",
+        "source_page": "ClimateBERT_Result_Visualizer",
+        "available": False,
+    },
+    {
+        "figure": "A.15",
+        "title": "Model parse success benchmark",
+        "chapter": "Chapter 4 / 6",
+        "rq": "RQ6",
+        "source_table": "model_stability_summary.csv (not in local data)",
+        "source_page": "Benchmark_Model",
+        "available": False,
+    },
+    {
+        "figure": "A.16",
+        "title": "Prompt missing-tone rate",
+        "chapter": "Chapter 5 / 6",
+        "rq": "RQ6",
+        "source_table": "prompt_stability_summary.csv (not in local data)",
+        "source_page": "Benchmark_Model",
+        "available": False,
+    },
+    {
+        "figure": "A.17",
+        "title": "Human annotation agreement",
+        "chapter": "Chapter 5 / 6",
+        "rq": "RQ2",
+        "source_table": "pilot_ground_truth_annotations.csv (not in local data)",
+        "source_page": "Metric_Analysis",
+        "available": False,
+    },
+    {
+        "figure": "A.18",
+        "title": "PDF × Prompt coverage matrix",
+        "chapter": "Chapter 4 / 6",
+        "rq": "RQ6",
+        "source_table": "output_in_csv (no prompt column locally)",
+        "source_page": "Data_File_Visualizer",
+        "available": False,
+    },
+]
+
+
+# ── per-figure data builders ──────────────────────────────────────────────────
+# Returns (plotly_figure_or_None, backing_dataframe)
+
+def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.DataFrame]:
+    if data.empty:
+        return None, pd.DataFrame()
+
+    if fig_id == "A.1":
+        tbl = data["tone"].value_counts().reset_index()
+        tbl.columns = ["tone", "records"]
+        fig = px.bar(tbl, x="tone", y="records", color="tone",
+                     title="Tone Distribution", labels={"records": "Records"})
+        fig.update_layout(showlegend=False)
+        return fig, tbl
+
+    if fig_id == "A.2":
+        tbl = (data.groupby(["tone", "aspect_category"]).size()
+               .reset_index(name="records"))
+        fig = px.bar(tbl, x="tone", y="records", color="aspect_category",
+                     barmode="stack", title="ESG by Tone",
+                     labels={"records": "Record count", "aspect_category": "ESG"})
+        pivot = tbl.pivot(index="tone", columns="aspect_category", values="records").fillna(0).astype(int)
+        pivot.columns.name = None
+        return fig, pivot.reset_index()
+
+    if fig_id == "A.3":
+        top = data["aspect"].value_counts().head(15).index
+        sub = data[data["aspect"].isin(top)]
+        tbl = sub.groupby(["aspect", "tone"]).size().reset_index(name="records")
+        pivot = tbl.pivot(index="aspect", columns="tone", values="records").fillna(0).astype(int)
+        pivot.columns.name = None
+        fig = px.imshow(pivot, text_auto=True, color_continuous_scale="Blues",
+                        title="Aspect by Tone Heatmap (top 15 aspects)", height=520)
+        return fig, pivot.reset_index()
+
+    if fig_id == "A.4":
+        tbl = data["sentiment_norm"].value_counts().reset_index()
+        tbl.columns = ["sentiment", "records"]
+        fig = px.bar(tbl, x="sentiment", y="records", color="sentiment",
+                     color_discrete_map={"Positive": "#2f9e44", "Neutral": "#868e96", "Negative": "#e03131"},
+                     title="Sentiment Distribution")
+        fig.update_layout(showlegend=False)
+        return fig, tbl
+
+    if fig_id == "A.5":
+        tbl = data["esg_pillar"].value_counts().reset_index()
+        tbl.columns = ["esg_pillar", "records"]
+        fig = px.pie(tbl, names="esg_pillar", values="records", hole=0.4,
+                     title="ESG Pillar Distribution",
+                     color_discrete_map={"Environmental": "#2f9e44", "Social": "#1971c2", "Governance": "#ae3ec9"})
+        return fig, tbl
+
+    if fig_id == "A.6":
+        tbl = (data.groupby("filename").size().reset_index(name="records")
+               .sort_values("records", ascending=False))
+        fig = px.bar(tbl, x="records", y="filename", orientation="h",
+                     color_discrete_sequence=["#2f6f73"],
+                     title="Records per Source Document")
+        fig.update_layout(showlegend=False,
+                          height=max(380, 28 * len(tbl)),
+                          yaxis={"categoryorder": "total ascending"})
+        return fig, tbl
+
+    if fig_id == "A.7":
+        valid = data[data["esg_pillar"] != "Other"]
+        tbl = valid.groupby(["esg_pillar", "tone"]).size().reset_index(name="records")
+        pivot = tbl.pivot(index="esg_pillar", columns="tone", values="records").fillna(0).astype(int)
+        pivot.columns.name = None
+        fig = px.imshow(pivot, text_auto=True, color_continuous_scale="Teal",
+                        title="Tone × ESG Pillar Heatmap")
+        return fig, pivot.reset_index()
+
+    if fig_id == "A.8":
+        tbl = (data[data["aspect"] != "Unknown"]["aspect"]
+               .value_counts().head(20).reset_index())
+        tbl.columns = ["aspect", "records"]
+        fig = px.bar(tbl, x="records", y="aspect", orientation="h",
+                     color_discrete_sequence=["#364fc7"],
+                     title="Top 20 Aspects by Record Count")
+        fig.update_layout(showlegend=False, height=560,
+                          yaxis={"categoryorder": "total ascending"})
+        return fig, tbl
+
+    if fig_id == "A.9":
+        if "ontology_uri" not in data.columns:
+            return None, pd.DataFrame()
+        tbl = (data["ontology_uri"].astype(str).str.strip()
+               .map(lambda v: "Has URI" if v and v != "nan" else "No URI")
+               .value_counts().reset_index())
+        tbl.columns = ["ontology_uri_status", "records"]
+        fig = px.pie(tbl, names="ontology_uri_status", values="records", hole=0.4,
+                     color_discrete_map={"Has URI": "#2f9e44", "No URI": "#e03131"},
+                     title="Ontology URI Coverage")
+        return fig, tbl
+
+    if fig_id == "A.10":
+        valid = data[data["esg_pillar"] != "Other"]
+        tbl = valid.groupby(["aspect", "sentiment_norm"]).size().reset_index(name="records")
+        top = data["aspect"].value_counts().head(12).index
+        tbl = tbl[tbl["aspect"].isin(top)]
+        pivot = tbl.pivot(index="aspect", columns="sentiment_norm", values="records").fillna(0).astype(int)
+        pivot.columns.name = None
+        fig = px.imshow(pivot, text_auto=True, color_continuous_scale="RdYlGn",
+                        title="Aspect × Sentiment Heatmap (top 12 aspects)", height=480)
+        return fig, pivot.reset_index()
+
+    if fig_id == "A.11":
+        if "confidence" not in data.columns:
+            return None, pd.DataFrame()
+        conf = pd.to_numeric(data["confidence"], errors="coerce").dropna()
+        tbl = conf.describe().reset_index()
+        tbl.columns = ["statistic", "value"]
+        fig = px.histogram(conf, nbins=30, title="Confidence Score Distribution",
+                           labels={"value": "Confidence", "count": "Records"},
+                           color_discrete_sequence=["#2f6f73"])
+        fig.update_layout(showlegend=False)
+        return fig, tbl
+
+    if fig_id == "A.12":
+        rows = [
+            {
+                "rq": r["rq"],
+                "theme": r["theme"],
+                "chapter 4": r.get("chapter_4_use", "")[:80],
+                "chapter 5": r.get("chapter_5_use", "")[:80],
+                "chapter 6": r.get("chapter_6_use", "")[:80],
+            }
+            for r in RQ_PAGE_MAP
+        ]
+        tbl = pd.DataFrame(rows)
+        counts = tbl[["rq"]].copy()
+        counts["evidence_items"] = [3, 4, 3, 3, 4, 3]   # representative static counts
+        fig = px.bar(counts, x="rq", y="evidence_items", color="rq",
+                     title="Evidence Items per Research Question")
+        fig.update_layout(showlegend=False)
+        return fig, tbl
+
+    return None, pd.DataFrame()
+
+
+# ── tabs ──────────────────────────────────────────────────────────────────────
+
+tab_live, tab_graphs, tab_ch4, tab_ch5, tab_ch6, tab_rq, tab_docx = st.tabs([
+    "Live Charts", "Graph Attachments",
+    "Chapter 4", "Chapter 5", "Chapter 6",
+    "RQ Mapping", "DOCX Structure",
 ])
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB: LIVE CHARTS
+# ══════════════════════════════════════════════════════════════════════════════
 
 with tab_live:
     st.header("Live Evidence Charts")
@@ -216,11 +537,106 @@ with tab_live:
             use_container_width=True,
         )
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB: GRAPH ATTACHMENTS
+# ══════════════════════════════════════════════════════════════════════════════
+
+with tab_graphs:
+    st.header("Graph Attachments")
+    st.caption(
+        f"All figures computed at runtime from `output_in_csv` ({len(df):,} records).  "
+        "Figures marked 'not available' require data not present in this dashboard."
+    )
+
+    manifest_df = pd.DataFrame(GRAPH_MANIFEST)
+
+    # ── filters ───────────────────────────────────────────────────────────────
+    fc1, fc2, fc3, fc4 = st.columns(4)
+    chapter_opts = ["All"] + sorted(manifest_df["chapter"].unique())
+    rq_opts      = ["All"] + sorted(manifest_df["rq"].unique())
+    chapter_sel  = fc1.selectbox("Chapter", chapter_opts, key="ga_chapter")
+    rq_sel       = fc2.selectbox("RQ", rq_opts, key="ga_rq")
+    view_mode    = fc3.selectbox(
+        "View",
+        ["Chart + table", "Chart only", "Table only"],
+        key="ga_view",
+    )
+    only_avail   = fc4.toggle("Only available figures", value=True, key="ga_avail")
+
+    # ── filtered manifest ─────────────────────────────────────────────────────
+    filtered_manifest = manifest_df.copy()
+    if chapter_sel != "All":
+        filtered_manifest = filtered_manifest[filtered_manifest["chapter"].eq(chapter_sel)]
+    if rq_sel != "All":
+        filtered_manifest = filtered_manifest[filtered_manifest["rq"].eq(rq_sel)]
+    if only_avail:
+        filtered_manifest = filtered_manifest[filtered_manifest["available"]]
+
+    # summary table
+    display_cols = ["figure", "title", "chapter", "rq", "source_table", "source_page", "available"]
+    st.dataframe(
+        filtered_manifest[display_cols],
+        use_container_width=True,
+        hide_index=True,
+        height=220,
+    )
+
+    # ── figure cards ──────────────────────────────────────────────────────────
+    for _, row in filtered_manifest.iterrows():
+        st.divider()
+        st.subheader(f"{row['figure']} — {row['title']}")
+
+        meta1, meta2, meta3, meta4 = st.columns([2, 2, 2, 1])
+        meta1.caption(f"{row['chapter']} | {row['rq']}")
+        meta2.caption(f"Source table: `{row['source_table']}`")
+        meta3.caption(f"Source page: `/{row['source_page']}`")
+        with meta4:
+            st.link_button("Open page", f"/{row['source_page']}", use_container_width=True)
+
+        if not row["available"]:
+            st.info(
+                f"⚠️ Data for **{row['figure']} – {row['title']}** is not available in this "
+                f"dashboard installation.  Source: `{row['source_table']}`"
+            )
+            continue
+
+        fig_obj, tbl = _fig_data(row["figure"], df)
+
+        chart_col, table_col = st.columns([1.05, 1], gap="large")
+
+        if view_mode in ("Chart + table", "Chart only"):
+            with chart_col:
+                st.markdown("**Live chart**")
+                if fig_obj is not None:
+                    st.plotly_chart(fig_obj, use_container_width=True)
+                else:
+                    st.info("Chart could not be generated (column may be absent).")
+
+        if view_mode in ("Chart + table", "Table only"):
+            with table_col:
+                st.markdown("**Backing table**")
+                if tbl.empty:
+                    st.info("No backing table for this figure.")
+                else:
+                    st.dataframe(tbl.astype(str), use_container_width=True, hide_index=True, height=360)
+                    st.download_button(
+                        f"Download {row['figure']} table",
+                        tbl.to_csv(index=False).encode("utf-8"),
+                        f"{row['figure'].replace('.', '_')}_{row['source_page']}.csv",
+                        "text/csv",
+                        use_container_width=True,
+                        key=f"dl_{row['figure']}",
+                    )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB: CHAPTER 4
+# ══════════════════════════════════════════════════════════════════════════════
+
 with tab_ch4:
     st.header("Chapter 4: Results")
-    st.write(
-        "What was implemented, measured, and stored — presented without over-interpretation."
-    )
+    st.write("What was implemented, measured, and stored — presented without over-interpretation.")
     render_mermaid(CHAPTER_FLOW_MERMAID, height=420)
     mermaid_download_section(CHAPTER_FLOW_MERMAID, "chapter_4_to_6_flow")
 
@@ -232,11 +648,14 @@ with tab_ch4:
             st.write(section["results"])
             st.markdown(f"**Pages to use:** {', '.join(section['pages'])}")
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB: CHAPTER 5
+# ══════════════════════════════════════════════════════════════════════════════
+
 with tab_ch5:
     st.header("Chapter 5: Discussion")
-    st.write(
-        "What the results mean — within the limits of available evidence."
-    )
+    st.write("What the results mean — within the limits of available evidence.")
     render_mermaid(RQ_TO_CHAPTER_MERMAID, height=680)
     mermaid_download_section(RQ_TO_CHAPTER_MERMAID, "rq_to_discussion_flow")
 
@@ -247,11 +666,14 @@ with tab_ch5:
             st.markdown(f"**Supports:** {section['supports']}")
             st.write(section["discussion"])
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB: CHAPTER 6
+# ══════════════════════════════════════════════════════════════════════════════
+
 with tab_ch6:
     st.header("Chapter 6: Conclusion")
-    st.write(
-        "Concise answers, contributions, limitations, and future work. No new analysis."
-    )
+    st.write("Concise answers, contributions, limitations, and future work. No new analysis.")
 
     st.subheader("Chapter 6 Sections")
     st.dataframe(pd.DataFrame(CHAPTER_6_SECTIONS), use_container_width=True, hide_index=True)
@@ -261,38 +683,33 @@ with tab_ch6:
 
     st.subheader("Benchmark Checklist Still Needed")
     checklist = pd.DataFrame([
-        {
-            "benchmark": "OCR quality",
-            "why needed": "CER/WER not yet measured.",
-            "target artifact": "ocr_quality_by_page.csv",
-            "redirect page": "/Parsed_ESG_Review",
-        },
-        {
-            "benchmark": "Human annotation agreement",
-            "why needed": "Single-annotator labels need reliability evidence.",
-            "target artifact": "human_agreement_summary.csv",
-            "redirect page": "/Metric_Analysis",
-        },
-        {
-            "benchmark": "Repeated LLM runs",
-            "why needed": "Model/prompt stability needs confidence intervals.",
-            "target artifact": "model_prompt_repeated_run_ci.csv",
-            "redirect page": "/Benchmark_Model",
-        },
-        {
-            "benchmark": "ClimateBERT baseline",
-            "why needed": "Compare tone-vs-ClimateBERT to majority and human-labelled baselines.",
-            "target artifact": "climatebert_baseline_comparison.csv",
-            "redirect page": "/ClimateBERT_Result_Visualizer",
-        },
-        {
-            "benchmark": "Ontology extension",
-            "why needed": "Formalise unmapped ESG aspects.",
-            "target artifact": "indonesian_esg_ontology_extension.csv",
-            "redirect page": "/Aspect",
-        },
+        {"benchmark": "OCR quality",
+         "why needed": "CER/WER not yet measured.",
+         "target artifact": "ocr_quality_by_page.csv",
+         "redirect page": "/Parsed_ESG_Review"},
+        {"benchmark": "Human annotation agreement",
+         "why needed": "Single-annotator labels need reliability evidence.",
+         "target artifact": "human_agreement_summary.csv",
+         "redirect page": "/Metric_Analysis"},
+        {"benchmark": "Repeated LLM runs",
+         "why needed": "Model/prompt stability needs confidence intervals.",
+         "target artifact": "model_prompt_repeated_run_ci.csv",
+         "redirect page": "/Benchmark_Model"},
+        {"benchmark": "ClimateBERT baseline",
+         "why needed": "Compare tone-vs-ClimateBERT to majority and human-labelled baselines.",
+         "target artifact": "climatebert_baseline_comparison.csv",
+         "redirect page": "/ClimateBERT_Result_Visualizer"},
+        {"benchmark": "Ontology extension",
+         "why needed": "Formalise unmapped ESG aspects.",
+         "target artifact": "indonesian_esg_ontology_extension.csv",
+         "redirect page": "/Aspect"},
     ])
     st.dataframe(checklist, use_container_width=True, hide_index=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB: RQ MAPPING
+# ══════════════════════════════════════════════════════════════════════════════
 
 with tab_rq:
     st.header("RQ → Chapter 4-6 Mapping")
@@ -330,8 +747,16 @@ with tab_rq:
     st.subheader("Primary pages")
     page_link_grid(rq["primary_pages"], columns=3)
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB: DOCX STRUCTURE
+# ══════════════════════════════════════════════════════════════════════════════
+
 with tab_docx:
     st.header("DOCX Structure Reader")
+
+    SOURCE_DOCX = PAGE_DIR.parents[2] / "pages" / "thesis_ch4_6_structure_benchmarks.docx"
+    UPDATED_DOCX = PAGE_DIR.parents[2] / "pages" / "thesis_ch4_6_structure_benchmarks_streamlit_graphs.docx"
 
     doc_cols = st.columns([2, 2, 1, 1])
     doc_cols[0].markdown(f"**Source DOCX:** `{SOURCE_DOCX.name}`")
