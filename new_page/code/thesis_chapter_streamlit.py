@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import json
+import uuid
 from typing import Any
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
@@ -198,15 +199,23 @@ def pdf_outline(max_lines: int = 140) -> pd.DataFrame:
 
 def mermaid_html(code: str, height: int = 620) -> str:
     escaped = code.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    element_id = f"mermaid-{uuid.uuid4().hex}"
     return f"""
-    <div class="mermaid">
+    <div id="{element_id}" class="mermaid">
     {escaped}
     </div>
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
       mermaid.initialize({{
-        startOnLoad: true,
+        startOnLoad: false,
         securityLevel: 'loose',
+        suppressErrorRendering: false,
+        flowchart: {{
+          htmlLabels: true,
+          curve: 'basis',
+          nodeSpacing: 42,
+          rankSpacing: 58
+        }},
         theme: 'base',
         themeVariables: {{
           primaryColor: '#e8f3f1',
@@ -217,6 +226,7 @@ def mermaid_html(code: str, height: int = 620) -> str:
           tertiaryColor: '#fff7ed'
         }}
       }});
+      await mermaid.run({{ nodes: [document.getElementById('{element_id}')] }});
     </script>
     <style>
       .mermaid {{
@@ -323,53 +333,217 @@ def rq_evidence_mermaid() -> str:
 
 def pipeline_mermaid() -> str:
     return """flowchart TD
-    PDFS["Sustainability report PDFs"] --> OCR["Bulk OCR<br/>pages + markdown"]
-    OCR --> PAGES["thesis_dataset/*/pages/page_XXXX.md"]
-    PAGES --> PROMPTS["Seven prompt templates<br/>zero-shot, few-shot, CoT<br/>English + Indonesian"]
-    PROMPTS --> LLM["LLM extraction jobs<br/>OpenRouter / LM Studio / Ollama"]
-    LLM --> JSON["esg_records.json / JSONL runs"]
-    JSON --> FLAT["tone_records_flat.csv<br/>332 evidence records"]
-    FLAT --> ABSA["ABSA dimensions<br/>aspect, ESG, sentiment, tone"]
-    FLAT --> CBERTR["ClimateBERT comparison<br/>proxy + real labels"]
-    FLAT --> ONTO["Ontology mapping<br/>GRI/SASB path + Indonesian-specific aspects"]
-    FLAT --> DIAG["Diagnostics<br/>missing tone, schema drift, failure modes"]
-    ABSA --> CH4["Chapter IV results graphs"]
-    CBERTR --> CH4
+    subgraph S0["A. Thesis Source Layer"]
+      DRAFT["thesis_draft_1.pdf<br/>Chapters 1 to 3 define problem, gaps, RQs, and methodology"]
+      C456["thesis_chapters_4_5_6.docx<br/>Chapters 4 to 6 receive generated evidence and interpretation"]
+      PDFS["Sustainability report PDFs<br/>Indonesian listed-company reports"]
+    end
+
+    subgraph S1["B. OCR and Page Preparation"]
+      OCR["Bulk OCR process<br/>PDF pages become text and markdown"]
+      PAGE_MD["Page markdown files<br/>thesis_dataset pages page_XXXX.md"]
+      OCR_AUDIT["OCR processing audit<br/>document status, pages, errors"]
+    end
+
+    subgraph S2["C. Prompt and LLM Execution"]
+      PROMPTS["Prompt templates<br/>zero-shot, few-shot, chain-of-thought, English, Indonesian"]
+      PROVIDERS["Provider options<br/>OpenRouter, LM Studio, Ollama"]
+      JOBS["Background job runner<br/>job id, status, progress, events"]
+      RAW_RUNS["Raw LLM run records<br/>results esg_records json"]
+    end
+
+    subgraph S3["D. Structured ESG Evidence"]
+      FLAT["Flattened evidence table<br/>tone_records_flat csv"]
+      ABSA["ABSA dimensions<br/>aspect, ESG pillar, sentiment, tone"]
+      PROVENANCE["Provenance fields<br/>target document, prompt, model, timestamp, record index"]
+      PDF_PROMPT["PDF by prompt matrix<br/>which prompt processed which source"]
+    end
+
+    subgraph S4["E. Validation and Diagnostics"]
+      CLIMATE["ClimateBERT comparison<br/>proxy and real commitment labels"]
+      ONTO["Ontology mapping<br/>GRI and SASB coverage plus novel aspects"]
+      FAIL["Failure mode audit<br/>missing tone, schema drift, OCR loss, bilingual issues"]
+      STABILITY["Model and prompt stability<br/>parse success, missing-tone rate, field completion"]
+    end
+
+    subgraph S5["F. Thesis Outputs"]
+      CH4["Chapter 4<br/>implementation results and figures"]
+      CH5["Chapter 5<br/>discussion, limitations, construct validity"]
+      CH6["Chapter 6<br/>answers, contributions, future work"]
+      DASH["Streamlit dashboard<br/>interactive evidence layer"]
+    end
+
+    DRAFT --> PROMPTS
+    DRAFT --> C456
+    PDFS --> OCR
+    OCR --> PAGE_MD
+    OCR --> OCR_AUDIT
+    PAGE_MD --> PROMPTS
+    PROMPTS --> PROVIDERS
+    PROVIDERS --> JOBS
+    JOBS --> RAW_RUNS
+    RAW_RUNS --> FLAT
+    FLAT --> ABSA
+    FLAT --> PROVENANCE
+    FLAT --> PDF_PROMPT
+    ABSA --> CLIMATE
+    ABSA --> ONTO
+    RAW_RUNS --> FAIL
+    RAW_RUNS --> STABILITY
+    OCR_AUDIT --> CH4
+    PDF_PROMPT --> CH4
+    CLIMATE --> CH4
     ONTO --> CH4
-    DIAG --> CH5["Chapter V discussion"]
-    CH4 --> CH6["Chapter VI contributions and future work"]
+    FAIL --> CH5
+    STABILITY --> CH5
+    CH4 --> CH5
+    CH5 --> CH6
+    CH4 --> DASH
+    CH5 --> DASH
+    CH6 --> DASH
     """
 
 
 def validation_mermaid() -> str:
     return """flowchart TD
-    EXTRACT["LLM extracted records"] --> SILVER["Silver dataset<br/>silver_tone_ground_truth.csv"]
-    SILVER --> HUMAN["Pilot human annotation<br/>tone, ESG, aspect, status"]
-    SILVER --> CLIMATE["ClimateBERT run<br/>resume unprocessed records"]
-    HUMAN --> KAPPA["Agreement metrics<br/>human vs LLM"]
-    CLIMATE --> CKB["ClimateBERT kappa<br/>tone vs climate commitment"]
-    EXTRACT --> STABILITY["Prompt/model stability<br/>parse success, missing tone, schema drift"]
-    EXTRACT --> FAIL["Failure mode audit"]
-    KAPPA --> VALIDITY["Construct validity argument"]
-    CKB --> VALIDITY
-    STABILITY --> RELIABILITY["Reliability and reproducibility"]
-    FAIL --> LIMITS["Limitations and future work"]
-    VALIDITY --> CH5["Chapter V"]
-    RELIABILITY --> CH6["Chapter VI"]
-    LIMITS --> CH6
+    subgraph INPUTS["A. Validation Inputs"]
+      EXTRACT["LLM extracted ESG records<br/>records from esg_records json and tone_records_flat csv"]
+      SILVER["Silver dataset<br/>silver_tone_ground_truth csv"]
+      IMPORTED["Imported model outputs<br/>ClimateBERT output csv and manual uploads"]
+    end
+
+    subgraph HUMAN["B. Human and Pilot Annotation"]
+      SAMPLE["Pilot annotation target<br/>150 to 250 records or full silver set"]
+      TONE_GT["Ground-truth tone<br/>commitment, action, outcome, missing, other"]
+      ESG_GT["Ground-truth ESG<br/>E, S, G, E-S, E-G, S-G, E-S-G"]
+      ASPECT_GT["Ground-truth aspect<br/>domain-specific ESG vocabulary"]
+      REVIEW["Needs-review status<br/>unannotated rows remain visible"]
+    end
+
+    subgraph MODEL["C. Model Comparison"]
+      CLIMATE["ClimateBERT local run<br/>continue from unprocessed text"]
+      PROXY["Proxy climate labels<br/>derived from tone and label fields"]
+      CROSSTAB["Tone by ClimateBERT crosstab<br/>agreement and divergence"]
+      KAPPA["Agreement metrics<br/>percent agreement and Cohen kappa"]
+    end
+
+    subgraph RELIABILITY["D. Reliability Checks"]
+      PROMPT_STAB["Prompt stability<br/>runs, missing-tone rate, schema drift"]
+      MODEL_STAB["Model stability<br/>parse success, average records, provider differences"]
+      FAILURE["Failure-mode audit<br/>bilingual text, numeric loss, schema field missing"]
+      ONTO["Ontology coverage<br/>mapped and unmapped aspects"]
+    end
+
+    subgraph CLAIMS["E. Thesis Claims"]
+      CONSTRUCT["Construct validity<br/>tone is not identical to climate commitment"]
+      REPRO["Reproducibility<br/>job logs, artifacts, run configs, dashboards"]
+      LIMIT["Limitations<br/>OCR quality, prompt sensitivity, annotation scale"]
+      CONTRIBUTION["Contribution<br/>Indonesian ESG vocabulary and executable thesis pipeline"]
+    end
+
+    EXTRACT --> SILVER
+    IMPORTED --> CLIMATE
+    SILVER --> SAMPLE
+    SAMPLE --> TONE_GT
+    SAMPLE --> ESG_GT
+    SAMPLE --> ASPECT_GT
+    SAMPLE --> REVIEW
+    TONE_GT --> CROSSTAB
+    ESG_GT --> ONTO
+    ASPECT_GT --> ONTO
+    CLIMATE --> CROSSTAB
+    PROXY --> CROSSTAB
+    CROSSTAB --> KAPPA
+    EXTRACT --> PROMPT_STAB
+    EXTRACT --> MODEL_STAB
+    EXTRACT --> FAILURE
+    ONTO --> LIMIT
+    PROMPT_STAB --> REPRO
+    MODEL_STAB --> REPRO
+    FAILURE --> LIMIT
+    KAPPA --> CONSTRUCT
+    ONTO --> CONTRIBUTION
+    CONSTRUCT --> CH5["Chapter 5 Discussion"]
+    REPRO --> CH6["Chapter 6 Conclusion"]
+    LIMIT --> CH5
+    LIMIT --> CH6
+    CONTRIBUTION --> CH6
     """
 
 
 def artifact_mermaid() -> str:
     return """flowchart LR
-    DOCX["thesis_chapters_4_5_6.docx"] --> PAGES["Streamlit chapter pages<br/>6_1, 6_2, 6_3"]
-    PDF["thesis_draft_1.pdf"] --> MAP["Integrated thesis map page"]
-    REV["results/revision_analysis/*.csv"] --> PAGES
-    VIS["results/visualizations/*.csv + *.png"] --> PAGES
-    JOBS["background job folders<br/>status.json + events.jsonl"] --> MAP
-    PAGES --> DASH["Interactive evidence dashboard"]
-    MAP --> DASH
-    DASH --> THESIS["Thesis defense narrative<br/>RQs -> evidence -> interpretation -> contributions"]
+    subgraph SOURCE["A. Source Documents"]
+      PDF["thesis_draft_1.pdf<br/>problem, literature, method, thesis spine"]
+      DOCX["thesis_chapters_4_5_6.docx<br/>implementation, discussion, conclusion draft"]
+      REPORTS["raw sustainability reports<br/>PDF disclosure corpus"]
+    end
+
+    subgraph RUNS["B. Execution Artifacts"]
+      OCR_SUM["ocr_processing_summary csv<br/>document and page audit"]
+      ESG_JSON["esg_records json<br/>LLM runs and extracted records"]
+      JOB_DIRS["background job folders<br/>config, status, control, events"]
+      CLIMATE_OUT["climatebert outputs<br/>local model predictions and resume progress"]
+    end
+
+    subgraph ANALYSIS["C. Analysis Tables"]
+      TONE_FLAT["tone_records_flat csv<br/>record-level ABSA table"]
+      TONE_ESG["tone_esg_crosstab csv<br/>tone by ESG pillar"]
+      TONE_CB["tone_climatebert_label_crosstab csv<br/>tone by climate label"]
+      MODEL_STAB["model_stability_summary csv<br/>provider and model performance"]
+      PROMPT_STAB["prompt_stability_summary csv<br/>prompt reliability"]
+      FAILURE["failure_mode_counts csv<br/>diagnostic categories"]
+      ONTO["ontology_coverage csv<br/>mapped and novel aspects"]
+      AGREEMENT["climatebert_proxy_agreement_summary csv<br/>agreement and kappa"]
+    end
+
+    subgraph PAGES["D. Streamlit Pages"]
+      INTEGRATION["6_0 Integration Mermaid<br/>thesis map and lineage"]
+      CH4["6_1 Chapter 4<br/>live implementation results"]
+      CH5["6_2 Chapter 5<br/>live discussion claims"]
+      CH6["6_3 Chapter 6<br/>live conclusion claims"]
+      ACTION["3_0 Thesis Action Plan<br/>processing, migration, annotation"]
+    end
+
+    subgraph THESIS["E. Thesis Outputs"]
+      FIGURES["figures and tables<br/>dashboard-ready charts"]
+      CLAIMS["citation-backed paragraphs<br/>AP evidence references"]
+      NOTES["empty analysis boxes<br/>manual interpretation updates"]
+      DEFENSE["defense narrative<br/>RQ evidence, limitation, contribution"]
+    end
+
+    PDF --> INTEGRATION
+    DOCX --> INTEGRATION
+    REPORTS --> OCR_SUM
+    REPORTS --> ESG_JSON
+    OCR_SUM --> TONE_FLAT
+    ESG_JSON --> TONE_FLAT
+    JOB_DIRS --> MODEL_STAB
+    ESG_JSON --> MODEL_STAB
+    CLIMATE_OUT --> AGREEMENT
+    CLIMATE_OUT --> TONE_CB
+    TONE_FLAT --> TONE_ESG
+    TONE_FLAT --> FAILURE
+    TONE_FLAT --> ONTO
+    TONE_FLAT --> PROMPT_STAB
+    TONE_FLAT --> ACTION
+    MODEL_STAB --> ACTION
+    PROMPT_STAB --> ACTION
+    TONE_ESG --> CH4
+    TONE_CB --> CH4
+    AGREEMENT --> CH5
+    FAILURE --> CH5
+    ONTO --> CH5
+    MODEL_STAB --> CH6
+    PROMPT_STAB --> CH6
+    CH4 --> FIGURES
+    CH5 --> CLAIMS
+    CH6 --> CLAIMS
+    ACTION --> NOTES
+    INTEGRATION --> DEFENSE
+    FIGURES --> DEFENSE
+    CLAIMS --> DEFENSE
+    NOTES --> DEFENSE
     """
 
 
