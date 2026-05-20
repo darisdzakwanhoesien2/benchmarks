@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 import sys
 
 import pandas as pd
@@ -272,7 +273,80 @@ def benchmarking_rows(bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
     )
 
 
+EDGE_RE = re.compile(r"^(\s*)([A-Za-z][A-Za-z0-9_]*)\s+-->\s+([A-Za-z][A-Za-z0-9_]*)(\s*)$")
+NODE_RE = re.compile(r'^\s*([A-Za-z][A-Za-z0-9_]*)\["(.+?)"\]\s*$')
+
+
+def _clean_node_label(label: str) -> str:
+    return re.sub(r"<br\s*/?>", " - ", label).replace('"', "").strip()
+
+
+def _integrated_node_labels(mermaid: str) -> dict[str, str]:
+    labels: dict[str, str] = {}
+    for line in mermaid.splitlines():
+        match = NODE_RE.match(line)
+        if match:
+            labels[match.group(1)] = _clean_node_label(match.group(2))
+    return labels
+
+
+def _integrated_edges(mermaid: str) -> list[tuple[str, str]]:
+    edges: list[tuple[str, str]] = []
+    for line in mermaid.splitlines():
+        match = EDGE_RE.match(line)
+        if match:
+            edges.append((match.group(2), match.group(3)))
+    return edges
+
+
+def _edge_explanation(source_label: str, target_label: str) -> str:
+    return (
+        f"`{source_label}` is connected to `{target_label}` because the source either feeds data into, "
+        "justifies, validates, or operationalizes the target in the thesis workflow. Read this edge as a "
+        "traceability link: it shows how a concept, research question, artifact, validation result, or page "
+        "supports the next thesis claim."
+    )
+
+
+def label_mermaid_edges(mermaid: str) -> str:
+    edge_id = 1
+    labelled_lines: list[str] = []
+    for line in mermaid.splitlines():
+        match = EDGE_RE.match(line)
+        if not match:
+            labelled_lines.append(line)
+            continue
+        indent, source, target, trailing = match.groups()
+        labelled_lines.append(f"{indent}{source} -- ({edge_id:03d}) --> {target}{trailing}")
+        edge_id += 1
+    return "\n".join(labelled_lines)
+
+
+def integrated_edge_explanation_rows() -> pd.DataFrame:
+    raw = integrated_thesis_mermaid_raw()
+    labels = _integrated_node_labels(raw)
+    rows = []
+    for idx, (source, target) in enumerate(_integrated_edges(raw), start=1):
+        source_label = labels.get(source, source)
+        target_label = labels.get(target, target)
+        rows.append(
+            {
+                "edge": f"({idx:03d})",
+                "source node": source,
+                "source meaning": source_label,
+                "target node": target,
+                "target meaning": target_label,
+                "explanation": _edge_explanation(source_label, target_label),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
 def integrated_thesis_mermaid() -> str:
+    return label_mermaid_edges(integrated_thesis_mermaid_raw())
+
+
+def integrated_thesis_mermaid_raw() -> str:
     return """flowchart TD
     subgraph DRAFT_FOUNDATION["PDF Draft Foundation"]
       I["Chapter I<br/>problem, motivation, objectives, RQs"]
@@ -693,6 +767,31 @@ with tab_integrated:
     )
 
     render_mermaid(integrated_thesis_mermaid(), height=1600)
+
+    st.subheader("0. Arrow / Connection Explanations")
+    edge_df = integrated_edge_explanation_rows()
+    edge_filter = st.text_input(
+        "Search edge explanations",
+        value="",
+        placeholder="Example: (005), RQ5, JOB_DIRS, ClimateBERT, Chapter 5",
+        key="integrated_edge_explanation_search",
+    )
+    edge_display = filter_df(edge_df, chapter_filter, rq_filter, layer_filter)
+    if edge_filter.strip():
+        needle = edge_filter.strip()
+        edge_display = edge_display[
+            edge_display.astype(str).apply(
+                lambda col: col.str.contains(needle, case=False, regex=False)
+            ).any(axis=1)
+        ]
+    st.dataframe(edge_display, use_container_width=True, hide_index=True, height=420)
+    st.download_button(
+        "Download connection explanation CSV",
+        edge_display.to_csv(index=False).encode("utf-8"),
+        "integrated_navigator_connection_explanations.csv",
+        "text/csv",
+        use_container_width=True,
+    )
 
     st.subheader("1. Chapter Breakdown and Meaning")
     breakdown = pd.DataFrame(chapter_breakdown_rows())
