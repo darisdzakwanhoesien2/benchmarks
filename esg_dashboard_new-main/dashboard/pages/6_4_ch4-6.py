@@ -9,11 +9,11 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+# pages/ is already on sys.path when Streamlit runs this file,
+# so _rq_thesis_content (same directory) imports fine without manipulation.
 PAGE_DIR = Path(__file__).resolve().parent
-DASHBOARD_DIR = PAGE_DIR.parent  # dashboard/ — contains utils/
-for _p in (str(PAGE_DIR), str(DASHBOARD_DIR)):
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+DASHBOARD_DIR = PAGE_DIR.parent                    # dashboard/
+DATA_DIR = DASHBOARD_DIR / "data" / "data"         # dashboard/data/data/
 
 from _rq_thesis_content import (
     CHAPTER_4_SECTIONS,
@@ -26,11 +26,17 @@ from _rq_thesis_content import (
     page_link_grid,
     render_mermaid,
 )
-from utils.data_loader import read_dataset, resolve_data_path
 
-_BENCHMARKS_DIR = PAGE_DIR.parents[2]  # esg_dashboard_new-main/ -> benchmarks/
-SOURCE_DOCX = _BENCHMARKS_DIR / "pages" / "thesis_ch4_6_structure_benchmarks.docx"
-UPDATED_DOCX = _BENCHMARKS_DIR / "pages" / "thesis_ch4_6_structure_benchmarks_streamlit_graphs.docx"
+# Resolve the data file once — try .txt then .csv
+def _find_data_file(name: str) -> Path | None:
+    for ext in (".txt", ".csv"):
+        p = DATA_DIR / f"{name}{ext}"
+        if p.exists():
+            return p
+    return None
+
+SOURCE_DOCX = PAGE_DIR.parents[2] / "pages" / "thesis_ch4_6_structure_benchmarks.docx"
+UPDATED_DOCX = PAGE_DIR.parents[2] / "pages" / "thesis_ch4_6_structure_benchmarks_streamlit_graphs.docx"
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
 st.set_page_config(page_title="Ch4-6 Thesis Overview", layout="wide")
@@ -43,7 +49,10 @@ st.caption(
 
 @st.cache_data
 def load_data() -> pd.DataFrame:
-    df = read_dataset("output_in_csv")
+    path = _find_data_file("output_in_csv")
+    if path is None:
+        return pd.DataFrame()
+    df = pd.read_csv(path)
     df.columns = df.columns.str.lower().str.strip()
     return df
 
@@ -164,11 +173,8 @@ tab_live, tab_ch4, tab_ch5, tab_ch6, tab_rq, tab_docx = st.tabs([
 
 with tab_live:
     st.header("Live Evidence Charts")
-    try:
-        data_path = resolve_data_path("output_in_csv")
-        st.caption(f"Source: `{data_path}`  ·  {len(df):,} records")
-    except Exception:
-        pass
+    data_file = _find_data_file("output_in_csv")
+    st.caption(f"Source: `{data_file}`  ·  {len(df):,} records")
 
     if df.empty:
         st.warning("Dataset is empty or could not be loaded.")
