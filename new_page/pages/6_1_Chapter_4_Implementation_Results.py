@@ -140,5 +140,5 @@ with tab_cards:
     render_attachment_cards(
         "Chapter 4 Graph + Table Attachment Cards",
         chapter_default="Chapter 4",
-        figures=["A.1", "A.2", "A.3", "A.4", "A.7", "A.8", "A.10", "A.14", "A.17", "A.18", "A.19", "A.20"],
+        figures=["A.1", "A.2", "A.3", "A.4", "A.7", "A.8", "A.10", "A.14", "A.17", "A.18", "A.19", "A.20", "A.21"],
     )

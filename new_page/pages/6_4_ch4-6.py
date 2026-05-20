@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import sys
 from xml.etree import ElementTree as ET
@@ -342,26 +343,71 @@ def ground_truth_t2_output_rows() -> pd.DataFrame:
     )
 
 
-def pdf_prompt_matrix_rows() -> pd.DataFrame:
-    """Pivot table: rows = PDF/company, columns = prompt templates, values = record count."""
-    silver = load_csv(REV / "silver_tone_ground_truth.csv")
-    if silver.empty or "prompt" not in silver.columns:
+def load_action_plan_llm_records() -> pd.DataFrame:
+    """Mirror the Action Plan PDF x prompt matrix source without importing the page."""
+    rows: list[dict[str, object]] = []
+    esg_path = ROOT / "results" / "esg_records.json"
+    if esg_path.exists():
+        try:
+            data = json.loads(esg_path.read_text(encoding="utf-8"))
+        except Exception:
+            data = []
+        if isinstance(data, list):
+            for run in data:
+                if not isinstance(run, dict):
+                    continue
+                records = run.get("records") if isinstance(run.get("records"), list) else []
+                target = str(run.get("target", "") or "")
+                rows.append(
+                    {
+                        "target_doc": target.split("/")[0] or "unknown",
+                        "target": target,
+                        "prompt": str(run.get("prompt", "") or "unknown"),
+                        "model": str(run.get("model", "") or ""),
+                        "ok": bool(run.get("ok")),
+                        "records_count": len(records),
+                    }
+                )
+
+    flat = load_csv(VIS / "tone_records_flat.csv")
+    if not flat.empty and "prompt" in flat.columns:
+        if "target_doc" not in flat.columns:
+            flat["target_doc"] = flat.get("target", pd.Series(["unknown"] * len(flat))).astype(str).str.split("/").str[0]
+        group_cols = [col for col in ["target_doc", "target", "prompt", "model"] if col in flat.columns]
+        if group_cols:
+            grouped = flat.groupby(group_cols, dropna=False).size().reset_index(name="records_count")
+            grouped["ok"] = grouped["records_count"].gt(0)
+            rows.extend(grouped.to_dict("records"))
+    return pd.DataFrame(rows)
+
+
+def pdf_prompt_matrix_rows(metric: str = "Extracted records") -> pd.DataFrame:
+    """Pivot table from Action Plan logic: rows = PDF, columns = prompts."""
+    records = load_action_plan_llm_records()
+    required = {"target_doc", "prompt", "records_count"}
+    if records.empty or not required.issubset(records.columns):
         return pd.DataFrame()
-    row_col = "company" if "company" in silver.columns else "target"
-    pivot = (
-        silver.groupby([row_col, "prompt"])
-        .size()
-        .reset_index(name="records")
-        .pivot(index=row_col, columns="prompt", values="records")
-        .fillna(0)
-        .astype(int)
-    )
-    # Shorten prompt column names: strip .md and leading "tone_"
+    records = records.copy()
+    records["target_doc"] = records["target_doc"].astype(str).str.strip().replace("", "unknown")
+    records["prompt"] = records["prompt"].astype(str).str.strip().replace("", "unknown")
+    records["ok"] = records["ok"].fillna(False).astype(bool) if "ok" in records.columns else True
+    records["records_count"] = pd.to_numeric(records["records_count"], errors="coerce").fillna(0).astype(int)
+
+    if metric == "Runs / batches":
+        grouped = records.groupby(["target_doc", "prompt"], dropna=False).size().reset_index(name="value")
+    elif metric == "Successful runs":
+        grouped = records[records["ok"]].groupby(["target_doc", "prompt"], dropna=False).size().reset_index(name="value")
+    else:
+        grouped = records.groupby(["target_doc", "prompt"], dropna=False)["records_count"].sum().reset_index(name="value")
+    if grouped.empty:
+        return pd.DataFrame()
+
+    pivot = grouped.pivot_table(index="target_doc", columns="prompt", values="value", aggfunc="sum", fill_value=0).astype(int)
     pivot.columns = [str(c).replace(".md", "").replace("tone_", "") for c in pivot.columns]
     pivot.columns.name = None
-    pivot.index.name = "PDF / Company"
-    pivot["TOTAL"] = pivot.sum(axis=1)
-    pivot = pivot.sort_values("TOTAL", ascending=False)
+    pivot.index.name = "target_doc"
+    pivot.insert(0, "total", pivot.sum(axis=1))
+    pivot = pivot.sort_values("total", ascending=False)
     return pivot.reset_index()
 
 
@@ -433,8 +479,8 @@ def ensure_extra_graph_attachments() -> None:
     draw_docx_table_heatmap(
         GRAPH_DIR / "docx_pdf_prompt_matrix.png",
         "PDF × Prompt Coverage Matrix",
-        pdf_prompt_matrix_rows(),
-        "Records extracted per company × prompt template combination",
+        pdf_prompt_matrix_rows("Extracted records"),
+        "Records extracted per source PDF × prompt template combination",
     )
 
 
@@ -625,9 +671,9 @@ def graph_manifest() -> pd.DataFrame:
             "title": "PDF × Prompt coverage matrix",
             "path": GRAPH_DIR / "docx_pdf_prompt_matrix.png",
             "chapter": "Chapter 4 / 6",
-            "rq": "RQ6",
-            "source table": "silver_tone_ground_truth.csv",
-            "source page": "pages/6_4_ch4-6.py",
+            "rq": "RQ1 / RQ6",
+            "source table": "esg_records.json + tone_records_flat.csv",
+            "source page": "pages/3_0_Thesis_Action_Plan.py",
         },
     ]
     df = pd.DataFrame(rows)
@@ -950,7 +996,7 @@ with tab_graphs:
                 st.markdown("**Original graph attachment**")
                 st.caption("This is the graph image embedded into the updated DOCX appendix.")
                 if path.exists():
-                    st.image(str(path), use_container_width=True)
+                    st.image(str(path), use_column_width=True)
                 else:
                     st.warning("Missing graph file.")
         if view_mode in {"Graph + original table", "Original table only"}:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import sys
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 from typing import Any
@@ -15,6 +16,13 @@ import streamlit as st
 PAGE_DIR = Path(__file__).resolve().parent
 DASHBOARD_DIR = PAGE_DIR.parent                        # dashboard/
 DATA_DIR = DASHBOARD_DIR / "data" / "data"             # dashboard/data/data/
+PRIMARY_DATASET = "data_output"
+FALLBACK_DATASET = "output_in_csv"
+
+if str(DASHBOARD_DIR) not in sys.path:
+    sys.path.insert(0, str(DASHBOARD_DIR))
+
+from utils.data_loader import load_and_parse, read_dataset, resolve_data_path
 
 from _rq_thesis_content import (
     CHAPTER_4_SECTIONS,
@@ -33,6 +41,10 @@ W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 # ── data-file resolver ────────────────────────────────────────────────────────
 
 def _find_data_file(name: str) -> Path | None:
+    try:
+        return resolve_data_path(name)
+    except FileNotFoundError:
+        pass
     for ext in (".txt", ".csv"):
         p = DATA_DIR / f"{name}{ext}"
         if p.exists():
@@ -53,13 +65,22 @@ st.caption(
 # ── load dataset ─────────────────────────────────────────────────────────────
 
 @st.cache_data
-def load_data() -> pd.DataFrame:
-    path = _find_data_file("output_in_csv")
-    if path is None:
-        return pd.DataFrame()
-    df = pd.read_csv(path)
+def load_data() -> tuple[pd.DataFrame, str, str]:
+    try:
+        path = resolve_data_path(PRIMARY_DATASET)
+        df = load_and_parse()
+        source_label = "data_output parsed JSON"
+    except Exception:
+        path = _find_data_file(FALLBACK_DATASET)
+        if path is None:
+            return pd.DataFrame(), "not found", FALLBACK_DATASET
+        df = read_dataset(FALLBACK_DATASET)
+        source_label = "output_in_csv fallback"
+
     df.columns = df.columns.str.lower().str.strip()
-    return df
+    if {"sentence", "aspect"}.issubset(df.columns):
+        df = df[df["sentence"].notna() & df["aspect"].notna()].copy()
+    return df, str(path), source_label
 
 
 def _esg_pillar(raw: str) -> str:
@@ -73,7 +94,7 @@ def _sentiment_norm(raw: str) -> str:
 
 
 try:
-    df = load_data()
+    df, data_path, data_source_label = load_data()
 except Exception as exc:
     st.error(f"Could not load dataset: {exc}")
     st.stop()
@@ -170,7 +191,7 @@ def media_count(path: Path) -> int:
 
 # ── graph manifest ────────────────────────────────────────────────────────────
 # Each entry drives one figure card in the Graph Attachments tab.
-# "available" = True  → chart is computable from local output_in_csv
+# "available" = True  → chart is computable from the current parsed local data
 # "available" = False → data not present locally; card shows an info notice
 
 GRAPH_MANIFEST: list[dict[str, Any]] = [
@@ -179,7 +200,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Tone distribution",
         "chapter": "Chapter 4",
         "rq": "RQ2",
-        "source_table": "output_in_csv → tone",
+        "source_table": "data_output parsed JSON → tone",
         "source_page": "Tone_Distribution",
         "available": True,
     },
@@ -188,7 +209,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "ESG by tone",
         "chapter": "Chapter 4",
         "rq": "RQ2",
-        "source_table": "output_in_csv → tone × aspect_category",
+        "source_table": "data_output parsed JSON → tone × aspect_category",
         "source_page": "Data_File_Visualizer",
         "available": True,
     },
@@ -197,7 +218,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Aspect by tone heatmap",
         "chapter": "Chapter 4",
         "rq": "RQ2",
-        "source_table": "output_in_csv → aspect × tone",
+        "source_table": "data_output parsed JSON → aspect × tone",
         "source_page": "Aspect",
         "available": True,
     },
@@ -206,7 +227,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Sentiment distribution",
         "chapter": "Chapter 4",
         "rq": "RQ2",
-        "source_table": "output_in_csv → sentiment",
+        "source_table": "data_output parsed JSON → sentiment",
         "source_page": "Tone_Distribution",
         "available": True,
     },
@@ -215,7 +236,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "ESG pillar distribution",
         "chapter": "Chapter 4",
         "rq": "RQ1",
-        "source_table": "output_in_csv → aspect_category",
+        "source_table": "data_output parsed JSON → aspect_category",
         "source_page": "Data_File_Visualizer",
         "available": True,
     },
@@ -224,7 +245,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Records per source document",
         "chapter": "Chapter 4",
         "rq": "RQ1",
-        "source_table": "output_in_csv → filename",
+        "source_table": "data_output parsed JSON → filename",
         "source_page": "Parsed_ESG_Review",
         "available": True,
     },
@@ -233,7 +254,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Tone × ESG pillar heatmap",
         "chapter": "Chapter 4",
         "rq": "RQ2",
-        "source_table": "output_in_csv → tone × esg_pillar",
+        "source_table": "data_output parsed JSON → tone × esg_pillar",
         "source_page": "Data_File_Visualizer",
         "available": True,
     },
@@ -242,7 +263,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Top 20 aspects by record count",
         "chapter": "Chapter 4",
         "rq": "RQ4",
-        "source_table": "output_in_csv → aspect",
+        "source_table": "data_output parsed JSON → aspect",
         "source_page": "Aspect",
         "available": True,
     },
@@ -251,7 +272,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Ontology URI coverage",
         "chapter": "Chapter 5",
         "rq": "RQ4",
-        "source_table": "output_in_csv → ontology_uri",
+        "source_table": "data_output parsed JSON → ontology_uri",
         "source_page": "JSON_Ontology_Usage_Map",
         "available": True,
     },
@@ -260,7 +281,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Aspect × sentiment heatmap",
         "chapter": "Chapter 5",
         "rq": "RQ2",
-        "source_table": "output_in_csv → aspect × sentiment_norm",
+        "source_table": "data_output parsed JSON → aspect × sentiment_norm",
         "source_page": "Tone_Distribution",
         "available": True,
     },
@@ -269,7 +290,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "Confidence score distribution",
         "chapter": "Chapter 4",
         "rq": "RQ6",
-        "source_table": "output_in_csv → confidence",
+        "source_table": "data_output parsed JSON → confidence",
         "source_page": "Benchmark_Model",
         "available": True,
     },
@@ -332,7 +353,7 @@ GRAPH_MANIFEST: list[dict[str, Any]] = [
         "title": "PDF × Prompt coverage matrix",
         "chapter": "Chapter 4 / 6",
         "rq": "RQ6",
-        "source_table": "output_in_csv (no prompt column locally)",
+        "source_table": "data_output parsed JSON (no prompt column locally)",
         "source_page": "Data_File_Visualizer",
         "available": False,
     },
@@ -494,8 +515,7 @@ tab_live, tab_graphs, tab_ch4, tab_ch5, tab_ch6, tab_rq, tab_docx = st.tabs([
 
 with tab_live:
     st.header("Live Evidence Charts")
-    data_file = _find_data_file("output_in_csv")
-    st.caption(f"Source: `{data_file}`  ·  {len(df):,} records")
+    st.caption(f"Source: `{data_path}` ({data_source_label})  ·  {len(df):,} parsed ESG records")
 
     if df.empty:
         st.warning("Dataset is empty or could not be loaded.")
@@ -545,7 +565,7 @@ with tab_live:
 with tab_graphs:
     st.header("Graph Attachments")
     st.caption(
-        f"All figures computed at runtime from `output_in_csv` ({len(df):,} records).  "
+        f"All figures computed at runtime from `{data_path}` ({len(df):,} parsed ESG records).  "
         "Figures marked 'not available' require data not present in this dashboard."
     )
 

@@ -1065,6 +1065,6 @@ def agreement_chart(df: pd.DataFrame) -> None:
 
 def image_or_info(path: Path, caption: str) -> None:
     if path.exists():
-        st.image(str(path), caption=caption, use_container_width=True)
+        st.image(str(path), caption=caption, use_column_width=True)
     else:
         st.info(f"Missing image: `{path.relative_to(ROOT)}`")
