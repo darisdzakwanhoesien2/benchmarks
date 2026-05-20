@@ -63,7 +63,7 @@ def parse_prediction_text(value: Any) -> tuple[str, float | None]:
         return "", None
     if text.lower().startswith("error:"):
         return "error", None
-    matches = re.findall(r"([A-Za-z][A-Za-z0-9_\\- ]{0,60}):\\s*([0-9]*\\.?[0-9]+)", text)
+    matches = re.findall(r"([A-Za-z][A-Za-z0-9_ -]{0,60}):\s*([0-9]*\.?[0-9]+)", text)
     if not matches:
         return text.splitlines()[0][:80], None
     label, score = matches[-1]

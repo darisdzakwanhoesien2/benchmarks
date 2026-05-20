@@ -27,6 +27,7 @@ PROMPT_DIR = ROOT / "prompt"
 LLM_JOBS_DIR = ROOT / "results" / "background_llm_jobs"
 LLM_WORKER = ROOT / "code" / "llm_background_worker.py"
 MODELS_CACHE_PATH = PAGES_DIR / "models_cache.json"
+DASHBOARD_SOURCE_PAGE = PAGES_DIR / "5_Thesis_Systematic_Workflow_dashboard.py"
 
 SILVER_PATH       = ARTIFACTS / "silver_tone_ground_truth.csv"
 ANNOTATION_PATH   = ARTIFACTS / "pilot_ground_truth_annotations.csv"
@@ -544,6 +545,105 @@ def migrate_live_reprocess_outputs(silver_df, live_silver_df, model_static_df, m
     return migrated
 
 
+def safe_streamlit_page_name(raw_name):
+    name = str(raw_name or "").strip()
+    if not name:
+        name = "5_1_Thesis_Systematic_Workflow_dashboard_generated.py"
+    name = name.replace("/", "_").replace("\\", "_")
+    if not name.endswith(".py"):
+        name = f"{name}.py"
+    safe = []
+    for char in name:
+        safe.append(char if char.isalnum() or char in {"_", "-", "."} else "_")
+    return "".join(safe)
+
+
+def dashboard_fallback_template(page_title):
+    return f'''from __future__ import annotations
+
+from pathlib import Path
+
+import altair as alt
+import pandas as pd
+import streamlit as st
+
+
+st.set_page_config(page_title="{page_title}", layout="wide")
+
+ROOT = Path(__file__).resolve().parents[1]
+RESULTS = ROOT / "results"
+REVISION = RESULTS / "revision_analysis"
+VIS = RESULTS / "visualizations"
+
+
+def load_csv(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    try:
+        return pd.read_csv(path).fillna("")
+    except Exception:
+        return pd.DataFrame()
+
+
+st.title("{page_title}")
+st.caption("Generated from Thesis Action Plan. It reads current revision-analysis and visualization outputs.")
+
+tone_records = load_csv(VIS / "tone_records_flat.csv")
+model_stability = load_csv(REVISION / "model_stability_summary.csv")
+prompt_stability = load_csv(REVISION / "prompt_stability_summary.csv")
+ontology = load_csv(REVISION / "ontology_coverage.csv")
+failure = load_csv(REVISION / "failure_mode_counts.csv")
+
+cols = st.columns(5)
+cols[0].metric("Tone records", f"{{len(tone_records):,}}")
+cols[1].metric("Models", f"{{model_stability['model'].nunique() if 'model' in model_stability.columns else 0:,}}")
+cols[2].metric("Prompts", f"{{len(prompt_stability):,}}")
+cols[3].metric("Ontology rows", f"{{len(ontology):,}}")
+cols[4].metric("Failure rows", f"{{len(failure):,}}")
+
+tab1, tab2, tab3 = st.tabs(["Tone Records", "Model Stability", "Prompt Stability"])
+
+with tab1:
+    if tone_records.empty:
+        st.info("No tone records found.")
+    else:
+        st.dataframe(tone_records, use_container_width=True, height=360)
+        if "tone" in tone_records.columns:
+            counts = tone_records["tone"].astype(str).replace("", "missing").value_counts().reset_index()
+            counts.columns = ["tone", "count"]
+            chart = alt.Chart(counts).mark_bar().encode(
+                x=alt.X("count:Q"),
+                y=alt.Y("tone:N", sort="-x"),
+                tooltip=["tone", "count"],
+            )
+            st.altair_chart(chart, use_container_width=True)
+
+with tab2:
+    st.dataframe(model_stability, use_container_width=True, height=360)
+
+with tab3:
+    st.dataframe(prompt_stability, use_container_width=True, height=360)
+'''
+
+
+def create_workflow_dashboard_page(raw_name, overwrite=False):
+    page_name = safe_streamlit_page_name(raw_name)
+    target = PAGES_DIR / page_name
+    if target.exists() and not overwrite:
+        return target, False, "exists"
+    if DASHBOARD_SOURCE_PAGE.exists():
+        source = DASHBOARD_SOURCE_PAGE.read_text(encoding="utf-8", errors="ignore")
+        header = (
+            "# Generated from 3_0_Thesis_Action_Plan.py.\n"
+            "# Source template: 5_Thesis_Systematic_Workflow_dashboard.py\n\n"
+        )
+        target.write_text(header + source, encoding="utf-8")
+    else:
+        title = page_name.replace(".py", "").replace("_", " ")
+        target.write_text(dashboard_fallback_template(title), encoding="utf-8")
+    return target, True, "created"
+
+
 def looks_like_model_dir(p: Path) -> bool:
     return any((p / fn).exists() for fn in ("config.json", "pytorch_model.bin", "model.safetensors", "tf_model.h5"))
 
@@ -895,6 +995,32 @@ with st.expander("Refresh / migrate reprocess outputs", expanded=bool(legacy_liv
     if migrate_disabled:
         st.info("No unmigrated live reprocess outputs were detected right now.")
 
+with st.expander("Create Streamlit workflow dashboard page", expanded=False):
+    st.caption(
+        "Create a new page based on `5_Thesis_Systematic_Workflow_dashboard.py`. "
+        "The generated page will appear in the Streamlit sidebar after refresh."
+    )
+    page_name_input = st.text_input(
+        "New dashboard page filename",
+        value="5_1_Thesis_Systematic_Workflow_dashboard_generated.py",
+        key="workflow_dashboard_page_name",
+    )
+    overwrite_dashboard_page = st.checkbox(
+        "Overwrite if this page already exists",
+        value=False,
+        key="workflow_dashboard_overwrite",
+    )
+    preview_page_name = safe_streamlit_page_name(page_name_input)
+    st.caption(f"Target: `{PAGES_DIR / preview_page_name}`")
+    if st.button("Create workflow dashboard Streamlit page", type="primary", use_container_width=True, key="create_workflow_dashboard_page"):
+        target, created, status = create_workflow_dashboard_page(page_name_input, overwrite_dashboard_page)
+        if created:
+            st.success(f"Created dashboard page: `{target.name}`. Refresh Streamlit/sidebar to open it.")
+        elif status == "exists":
+            st.warning(f"`{target.name}` already exists. Enable overwrite if you want to replace it.")
+        else:
+            st.info(f"No change for `{target.name}`.")
+
 for col, (label, val, ok) in zip(st.columns(6), [
     ("ClimateBERT real",  f"{cb_real}/{cb_target_total}",    cb_real >= cb_target_total),
     ("Tone labels",       f"{tone_done}/{ANNOTATION_TARGET}",   tone_done >= ANNOTATION_TARGET),
@@ -1068,6 +1194,8 @@ if show[1]:
                 cb_total = int(cb_status.get("total") or 0)
                 cb_completed = int(cb_status.get("completed") or 0)
                 st.progress((cb_completed / cb_total) if cb_total else 0.0, text=f"{cb_completed}/{cb_total} records complete")
+                if st.button("Refresh selected ClimateBERT job progress", use_container_width=True, key="refresh_selected_cb_progress"):
+                    st.rerun()
                 s1, s2, s3, s4 = st.columns(4)
                 s1.metric("Status", cb_status.get("status", "unknown"))
                 s2.metric("Failed", int(cb_status.get("failed") or 0))
@@ -1147,7 +1275,10 @@ if show[1]:
                 latest_status = read_json(CLIMATEBERT_JOBS / cb_jobs_for_status[0] / "status.json", {})
                 latest_total = int(latest_status.get("total") or 0)
                 latest_completed = int(latest_status.get("completed") or 0)
-                st.caption(f"Latest background job: `{cb_jobs_for_status[0]}`")
+                latest_cols = st.columns([3, 1])
+                latest_cols[0].caption(f"Latest background job: `{cb_jobs_for_status[0]}`")
+                if latest_cols[1].button("Refresh progress", use_container_width=True, key="refresh_latest_cb_progress"):
+                    st.rerun()
                 st.progress(
                     min(latest_completed / latest_total, 1.0) if latest_total else 0.0,
                     text=f"Latest job progress: {latest_completed}/{latest_total} records · {latest_status.get('status', 'unknown')}",
