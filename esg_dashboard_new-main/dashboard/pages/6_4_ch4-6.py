@@ -10,8 +10,10 @@ import plotly.express as px
 import streamlit as st
 
 PAGE_DIR = Path(__file__).resolve().parent
-if str(PAGE_DIR) not in sys.path:
-    sys.path.insert(0, str(PAGE_DIR))
+DASHBOARD_DIR = PAGE_DIR.parent  # dashboard/ — contains utils/
+for _p in (str(PAGE_DIR), str(DASHBOARD_DIR)):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 from _rq_thesis_content import (
     CHAPTER_4_SECTIONS,
