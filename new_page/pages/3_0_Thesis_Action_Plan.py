@@ -708,6 +708,26 @@ def nonempty_count(df, col):
     return int(series.astype(str).str.strip().ne("").sum())
 
 
+def climatebert_processed_record_ids(imported_df):
+    ids = set()
+    if not imported_df.empty and {"record_id", "climatebert_commitment_pred"}.issubset(imported_df.columns):
+        pred = column_series(imported_df, "climatebert_commitment_pred").astype(str).str.strip()
+        ids.update(imported_df.loc[pred.ne(""), "record_id"].astype(str))
+    if CLIMATEBERT_OUTPUT_PATH.exists():
+        try:
+            bg = pd.read_csv(CLIMATEBERT_OUTPUT_PATH).fillna("")
+            if "record_id" in bg.columns:
+                label_cols = [c for c in ["climate_commitment", "label", "top_label", "climate_commitment_label"] if c in bg.columns]
+                if label_cols:
+                    mask = bg[label_cols].astype(str).apply(lambda row: row.str.strip().ne("").any(), axis=1)
+                    ids.update(bg.loc[mask, "record_id"].astype(str))
+                else:
+                    ids.update(bg["record_id"].astype(str))
+        except Exception:
+            pass
+    return ids
+
+
 def missing_annotation_mask(df):
     if df.empty:
         return pd.Series(dtype=bool)
@@ -804,6 +824,14 @@ aspect_done  = ann_n(annot, "ground_truth_aspect")
 cb_real      = nonempty_count(imported, "climatebert_commitment_pred") if not imported.empty else 0
 n_models     = model_stab["model"].astype(str).nunique() if not model_stab.empty and "model" in model_stab.columns else 0
 cb_target_total = len(silver) if not silver.empty else 332
+cb_processed_ids = climatebert_processed_record_ids(imported)
+cb_unprocessed_ids = []
+if not silver.empty and "record_id" in silver.columns:
+    cb_unprocessed_ids = [
+        str(record_id)
+        for record_id in silver["record_id"].astype(str).tolist()
+        if str(record_id) not in cb_processed_ids
+    ]
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -981,20 +1009,35 @@ if show[1]:
             cb_max_chars = bg_cols[1].number_input("Max chars/text", 256, 4000, 1200, 128, key="cb_bg_max_chars")
             cb_dry_run = bg_cols[2].checkbox("Dry run", value=False, key="cb_bg_dry_run")
             cb_skip_existing = st.checkbox("Skip record IDs already present in imported ClimateBERT CSV", value=True, key="cb_bg_skip_existing")
+            cb_resume_missing = st.checkbox(
+                "Continue only unprocessed records",
+                value=True,
+                key="cb_bg_resume_missing",
+                help="Build this background job from the record IDs missing in imported/background ClimateBERT output, instead of scanning all rows.",
+            )
+            cb_resume_ids = cb_unprocessed_ids if cb_resume_missing else []
+            if cb_resume_missing:
+                st.caption(
+                    f"Resume mode will process **{len(cb_resume_ids):,}** unprocessed record(s) "
+                    f"and skip **{len(cb_processed_ids):,}** already processed record ID(s)."
+                )
             if st.button("Start Step 1 ClimateBERT background run", type="primary", use_container_width=True, key="start_cb_bg"):
                 job_id = f"climatebert_step1_{utc_now_id()}_{uuid.uuid4().hex[:6]}"
                 job_dir = CLIMATEBERT_JOBS / job_id
+                effective_total = len(cb_resume_ids) if cb_resume_missing else (int(cb_limit) if int(cb_limit) else len(silver))
                 config = {
                     "job_id": job_id,
                     "model_backend": cb_model_backend,
                     "model_id": cb_model_id,
                     "local_model_path": cb_local_path,
                     "limit": int(cb_limit),
+                    "record_ids": cb_resume_ids,
                     "max_chars": int(cb_max_chars),
                     "skip_existing": bool(cb_skip_existing),
                     "dry_run": bool(cb_dry_run),
                     "text_col": "text",
                     "record_col": "record_id",
+                    "resume_missing_only": bool(cb_resume_missing),
                     "created_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
                 }
                 write_json(job_dir / "config.json", config)
@@ -1004,11 +1047,11 @@ if show[1]:
                     {
                         "job_id": job_id,
                         "status": "queued",
-                        "total": int(cb_limit) if int(cb_limit) else len(silver),
+                        "total": effective_total,
                         "completed": 0,
                         "failed": 0,
                         "skipped": 0,
-                        "current": "Queued",
+                        "current": "Queued missing-only resume" if cb_resume_missing else "Queued",
                         "created_at": config["created_at"],
                     },
                 )
@@ -1089,6 +1132,15 @@ if show[1]:
                 min(cb_real / cb_target_total, 1.0) if cb_target_total else 0.0,
                 text=f"Imported ClimateBERT output progress: {cb_real}/{cb_target_total} records",
             )
+            st.caption(
+                f"Detected processed record IDs across imported/background output: **{len(cb_processed_ids):,}**. "
+                f"Remaining unprocessed records: **{len(cb_unprocessed_ids):,}**."
+            )
+            if cb_unprocessed_ids:
+                with st.expander("Preview unprocessed ClimateBERT records", expanded=False):
+                    preview_cols = [c for c in ["record_id", "company", "prompt", "model", "tone_pred", "text"] if c in silver.columns]
+                    preview = silver[silver["record_id"].astype(str).isin(cb_unprocessed_ids)][preview_cols].head(50)
+                    st.dataframe(preview, use_container_width=True, hide_index=True, height=220)
 
             cb_jobs_for_status = climatebert_jobs()
             if cb_jobs_for_status:

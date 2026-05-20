@@ -90,6 +90,10 @@ def main(job_id: str) -> int:
         raise RuntimeError(f"Missing input file: {SILVER_PATH}")
 
     silver = pd.read_csv(SILVER_PATH).fillna("")
+    record_col = str(config.get("record_col") or "record_id")
+    record_ids = [str(value) for value in config.get("record_ids", []) if str(value).strip()]
+    if record_ids and record_col in silver.columns:
+        silver = silver[silver[record_col].astype(str).isin(set(record_ids))].copy()
     limit = int(config.get("limit") or 0)
     if limit > 0:
         silver = silver.head(limit)
@@ -98,7 +102,6 @@ def main(job_id: str) -> int:
     model_id = str(config.get("model_id") or "climatebert/distilroberta-base-climate-commitment")
     local_model_path = str(config.get("local_model_path") or "")
     text_col = str(config.get("text_col") or "text")
-    record_col = str(config.get("record_col") or "record_id")
     max_chars = int(config.get("max_chars") or 1200)
     skip_existing = bool(config.get("skip_existing", True))
     dry_run = bool(config.get("dry_run", False))
@@ -154,8 +157,11 @@ def main(job_id: str) -> int:
 
     existing = load_existing_outputs(IMPORTED_PATH)
     existing_ids = set(existing[record_col].astype(str)) if skip_existing and record_col in existing.columns else set()
+    script_existing = load_existing_outputs(SCRIPT_OUTPUT_PATH)
+    if skip_existing and record_col in script_existing.columns:
+        existing_ids.update(script_existing[record_col].astype(str))
     output_rows: list[dict[str, Any]] = existing.to_dict("records") if not existing.empty else []
-    script_rows = load_existing_outputs(SCRIPT_OUTPUT_PATH).to_dict("records")
+    script_rows = script_existing.to_dict("records") if not script_existing.empty else []
     completed = 0
     failed = 0
     skipped = 0
