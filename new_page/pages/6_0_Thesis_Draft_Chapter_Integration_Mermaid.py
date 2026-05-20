@@ -274,100 +274,330 @@ def benchmarking_rows(bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
 
 def integrated_thesis_mermaid() -> str:
     return """flowchart TD
-    subgraph C123["Chapters 1 to 3: Thesis Foundation"]
-      C11["Chapter 1.1 Context<br/>Why ESG disclosure needs executable evidence"]
-      C12["Chapter 1.2 Problem<br/>Unstructured reports to auditable ESG records"]
+    subgraph DRAFT_FOUNDATION["PDF Draft Foundation"]
+      I["Chapter I<br/>problem, motivation, objectives, RQs"]
+      II["Chapter II<br/>literature gaps, ESG disclosure, Climate NLP"]
+      III["Chapter III<br/>methodology, corpus, validation design"]
+      DRAFT["thesis_draft_1.pdf<br/>full thesis spine"]
+      C456["thesis_chapters_4_5_6.docx<br/>implementation, discussion, conclusion"]
+      DRAFT --> I
+      DRAFT --> II
+      DRAFT --> III
+      DRAFT --> C456
+    end
+
+    subgraph CHAPTER_BREAKDOWN["Detailed Chapter Breakdown"]
+      C11["Chapter 1.1 Context<br/>why ESG disclosure needs executable evidence"]
+      C12["Chapter 1.2 Problem<br/>unstructured reports to auditable ESG records"]
       C13["Chapter 1.3 Research Questions<br/>RQ1 to RQ6 become executable tasks"]
-      C21["Chapter 2.1 ESG Literature<br/>Aspect, pillar, sentiment, tone"]
-      C22["Chapter 2.2 Climate NLP<br/>ClimateBERT as benchmark construct"]
-      C31["Chapter 3.1 Corpus<br/>PDF reports and page provenance"]
-      C32["Chapter 3.2 Pipeline Method<br/>OCR, prompts, LLM, ABSA, validation"]
-      C33["Chapter 3.3 Validation Method<br/>annotation, benchmarks, reliability"]
+      C21["Chapter 2.1 ESG disclosure literature<br/>aspect, pillar, sentiment, tone"]
+      C22["Chapter 2.2 Climate NLP and ClimateBERT<br/>benchmark construct"]
+      C23["Chapter 2.3 Research gap<br/>Indonesian ESG ABSA and reproducibility"]
+      C31["Chapter 3.1 Data and corpus<br/>report PDFs and page provenance"]
+      C32["Chapter 3.2 Methodology pipeline<br/>OCR, prompts, LLM, ABSA, validation"]
+      C33["Chapter 3.3 Annotation and validation<br/>ground truth, benchmarks, reliability"]
     end
 
-    subgraph CH4["Chapter 4: Evidence and Results"]
-      RQ1["RQ1 Structured ESG records<br/>OCR scope and record extraction"]
+    subgraph RESULTS["Chapter IV Evidence"]
+      RQ1["RQ1 PDF to structured ESG<br/>OCR pages, JSON records, provenance"]
       RQ2["RQ2 ABSA schema<br/>aspect, ESG, sentiment, tone"]
-      RQ3["RQ3 ClimateBERT comparison<br/>agreement and divergence"]
-      RQ4["RQ4 Error diagnostics<br/>failure modes and ontology gaps"]
-      RQ5["RQ5 Reproducibility<br/>artifacts, jobs, dashboards"]
-      RQ6["RQ6 Stability<br/>model and prompt benchmarking"]
+      RQ3["RQ3 ClimateBERT comparison<br/>agreement, kappa, crosstab"]
+      RQ4["RQ4 Diagnostics<br/>failure modes, schema drift, ontology gaps"]
+      RQ5["RQ5 Reproducibility<br/>artifact inventory, dashboards, logs"]
+      RQ6["RQ6 Stability<br/>model and prompt metrics"]
     end
 
-    subgraph ART["Execution Artifacts and Streamlit Pages"]
-      OCR["ocr_processing_summary csv"]
-      ESG["esg_records json"]
-      FLAT["tone_records_flat csv"]
-      CB["climatebert agreement csv"]
-      ONTO["ontology coverage csv"]
-      FAIL["failure mode csv"]
-      STAB["model and prompt stability csv"]
-      JOBS["background job configs and events"]
-      P60["6_0 integrated map"]
-      P61["6_1 chapter 4 page"]
-      P62["6_2 chapter 5 page"]
-      P63["6_3 chapter 6 page"]
+    subgraph DISCUSSION["Chapter V Interpretation"]
+      V1["Commitment dominance"]
+      V2["ClimateBERT divergence<br/>construct validity"]
+      V3["Schema drift as diagnostic signal"]
+      V4["Indonesian ESG vocabulary contribution"]
+      V5["Limitations"]
     end
 
-    subgraph VAL["Validation and Reliability"]
-      HUMAN["Human annotation<br/>silver ground truth"]
-      CLIMATE["ClimateBERT local benchmark"]
-      BENCH["Benchmarking<br/>models, prompts, ontology, reproducibility"]
-      REL["Reliability claims<br/>repeatability and provenance"]
-      LIMITS["Limitations<br/>OCR quality, schema drift, label scale"]
+    subgraph CONCLUSION["Chapter VI Closure"]
+      C1["Contribution summary"]
+      C2["Answers to RQs"]
+      C3["Practical implications"]
+      C4["Future work"]
     end
 
-    subgraph C56["Chapters 5 and 6: Interpretation and Closure"]
-      DISC["Chapter 5 Discussion<br/>construct validity and limitations"]
-      CONC["Chapter 6 Conclusion<br/>answers, contributions, future work"]
-      CONTRIB["Thesis contribution<br/>Indonesian ESG executable evidence workflow"]
+    subgraph S0["A. Source and OCR Preparation"]
+      PDFS["Sustainability report PDFs<br/>Indonesian disclosure corpus"]
+      OCR["Bulk OCR process<br/>PDF pages become text and markdown"]
+      PAGE_MD["Page markdown files<br/>thesis dataset pages page_XXXX md"]
+      OCR_AUDIT["OCR processing audit<br/>document status, pages, errors"]
     end
 
-    C11 --> C12 --> C13
-    C21 --> RQ2
-    C22 --> RQ3
-    C31 --> RQ1
-    C32 --> RQ1
-    C32 --> RQ5
-    C33 --> RQ3
-    C33 --> RQ6
+    subgraph S2["C. Prompt and LLM Execution"]
+      PROMPTS["Prompt templates<br/>zero-shot, few-shot, chain-of-thought, English, Indonesian"]
+      PROVIDERS["Provider options<br/>OpenRouter, LM Studio, Ollama"]
+      JOBS["Background job runner<br/>job id, status, progress, events"]
+      RAW_RUNS["Raw LLM run records<br/>results esg_records json"]
+    end
+
+    subgraph S3["D. Structured ESG Evidence"]
+      FLAT["Flattened evidence table<br/>tone_records_flat csv"]
+      ABSA["ABSA dimensions<br/>aspect, ESG pillar, sentiment, tone"]
+      PROVENANCE["Provenance fields<br/>target document, prompt, model, timestamp, record index"]
+      PDF_PROMPT["PDF by prompt matrix<br/>which prompt processed which source"]
+    end
+
+    subgraph S4["E. Validation and Diagnostics"]
+      CLIMATE["ClimateBERT comparison<br/>proxy and real commitment labels"]
+      ONTO["Ontology mapping<br/>GRI and SASB coverage plus novel aspects"]
+      FAIL["Failure mode audit<br/>missing tone, schema drift, OCR loss, bilingual issues"]
+      STABILITY["Model and prompt stability<br/>parse success, missing-tone rate, field completion"]
+    end
+
+    subgraph S5["F. Thesis Outputs"]
+      CH4["Chapter 4<br/>implementation results and figures"]
+      CH5["Chapter 5<br/>discussion, limitations, construct validity"]
+      CH6["Chapter 6<br/>answers, contributions, future work"]
+      DASH["Streamlit dashboard<br/>interactive evidence layer"]
+    end
+
+    subgraph INPUTS["Validation Inputs"]
+      EXTRACT["LLM extracted ESG records<br/>records from esg_records json and tone_records_flat csv"]
+      SILVER["Silver dataset<br/>silver_tone_ground_truth csv"]
+      IMPORTED["Imported model outputs<br/>ClimateBERT output csv and manual uploads"]
+    end
+
+    subgraph HUMAN["Human and Pilot Annotation"]
+      SAMPLE["Pilot annotation target<br/>150 to 250 records or full silver set"]
+      TONE_GT["Ground-truth tone<br/>commitment, action, outcome, missing, other"]
+      ESG_GT["Ground-truth ESG<br/>E, S, G, E-S, E-G, S-G, E-S-G"]
+      ASPECT_GT["Ground-truth aspect<br/>domain-specific ESG vocabulary"]
+      REVIEW["Needs-review status<br/>unannotated rows remain visible"]
+    end
+
+    subgraph MODEL["Model Comparison"]
+      CLIMATE_LOCAL["ClimateBERT local run<br/>continue from unprocessed text"]
+      PROXY["Proxy climate labels<br/>derived from tone and label fields"]
+      CROSSTAB["Tone by ClimateBERT crosstab<br/>agreement and divergence"]
+      KAPPA["Agreement metrics<br/>percent agreement and Cohen kappa"]
+    end
+
+    subgraph RELIABILITY["Reliability Checks"]
+      PROMPT_STAB["Prompt stability<br/>runs, missing-tone rate, schema drift"]
+      MODEL_STAB["Model stability<br/>parse success, average records, provider differences"]
+      FAILURE["Failure-mode audit<br/>bilingual text, numeric loss, schema field missing"]
+      ONTO_VAL["Ontology coverage<br/>mapped and unmapped aspects"]
+    end
+
+    subgraph CLAIMS["Thesis Claims"]
+      CONSTRUCT["Construct validity<br/>tone is not identical to climate commitment"]
+      REPRO["Reproducibility<br/>job logs, artifacts, run configs, dashboards"]
+      LIMIT["Limitations<br/>OCR quality, prompt sensitivity, annotation scale"]
+      CONTRIBUTION["Contribution<br/>Indonesian ESG vocabulary and executable thesis pipeline"]
+    end
+
+    subgraph SOURCE["Source Documents"]
+      PDF["thesis_draft_1.pdf<br/>problem, literature, method, thesis spine"]
+      DOCX["thesis_chapters_4_5_6.docx<br/>implementation, discussion, conclusion draft"]
+      REPORTS["raw sustainability reports<br/>PDF disclosure corpus"]
+    end
+
+    subgraph RUNS["Execution Artifacts"]
+      OCR_SUM["ocr_processing_summary csv<br/>document and page audit"]
+      ESG_JSON["esg_records json<br/>LLM runs and extracted records"]
+      JOB_DIRS["background job folders<br/>config, status, control, events"]
+      CLIMATE_OUT["climatebert outputs<br/>local model predictions and resume progress"]
+    end
+
+    subgraph ANALYSIS["Analysis Tables"]
+      TONE_FLAT["tone_records_flat csv<br/>record-level ABSA table"]
+      TONE_ESG["tone_esg_crosstab csv<br/>tone by ESG pillar"]
+      TONE_CB["tone_climatebert_label_crosstab csv<br/>tone by climate label"]
+      MODEL_STAB_ART["model_stability_summary csv<br/>provider and model performance"]
+      PROMPT_STAB_ART["prompt_stability_summary csv<br/>prompt reliability"]
+      FAILURE_ART["failure_mode_counts csv<br/>diagnostic categories"]
+      ONTO_ART["ontology_coverage csv<br/>mapped and novel aspects"]
+      AGREEMENT["climatebert_proxy_agreement_summary csv<br/>agreement and kappa"]
+    end
+
+    subgraph PAGES["Streamlit Pages"]
+      INTEGRATION["6_0 Integration Mermaid<br/>thesis map and lineage"]
+      PAGE_CH4["6_1 Chapter 4<br/>live implementation results"]
+      PAGE_CH5["6_2 Chapter 5<br/>live discussion claims"]
+      PAGE_CH6["6_3 Chapter 6<br/>live conclusion claims"]
+      ACTION["3_0 Thesis Action Plan<br/>processing, migration, annotation"]
+    end
+
+    subgraph THESIS["Thesis Outputs"]
+      FIGURES["figures and tables<br/>dashboard-ready charts"]
+      CLAIM_TEXT["citation-backed paragraphs<br/>AP evidence references"]
+      NOTES["empty analysis boxes<br/>manual interpretation updates"]
+      DEFENSE["defense narrative<br/>RQ evidence, limitation, contribution"]
+    end
+
+    I --> C11
+    I --> C12
+    I --> C13
+    II --> C21
+    II --> C22
+    II --> C23
+    III --> C31
+    III --> C32
+    III --> C33
+    C11 --> C12
+    C12 --> C13
     C13 --> RQ1
     C13 --> RQ2
     C13 --> RQ3
     C13 --> RQ4
     C13 --> RQ5
     C13 --> RQ6
-    RQ1 --> OCR
-    RQ1 --> ESG
-    RQ2 --> FLAT
-    RQ3 --> CB
-    RQ4 --> FAIL
-    RQ4 --> ONTO
-    RQ5 --> JOBS
-    RQ5 --> P60
-    RQ6 --> STAB
-    OCR --> P61
-    ESG --> P61
-    FLAT --> P61
-    CB --> P62
-    FAIL --> P62
-    ONTO --> P62
-    STAB --> P63
-    JOBS --> P60
-    FLAT --> HUMAN
-    CB --> CLIMATE
-    STAB --> BENCH
-    ONTO --> BENCH
-    JOBS --> REL
-    FAIL --> LIMITS
-    HUMAN --> DISC
-    CLIMATE --> DISC
-    BENCH --> DISC
-    REL --> CONC
-    LIMITS --> DISC
-    LIMITS --> CONC
-    DISC --> CONC
-    CONC --> CONTRIB
+    C21 --> RQ2
+    C22 --> RQ3
+    C23 --> RQ4
+    C23 --> RQ5
+    C23 --> RQ6
+    C31 --> RQ1
+    C32 --> RQ1
+    C32 --> RQ5
+    C33 --> RQ2
+    C33 --> RQ3
+    C33 --> RQ6
+
+    I --> RQ1
+    I --> RQ2
+    I --> RQ3
+    I --> RQ4
+    I --> RQ5
+    I --> RQ6
+    II --> V1
+    II --> V2
+    II --> V3
+    II --> V4
+    III --> RQ1
+    III --> RQ5
+    RQ1 --> C2
+    RQ2 --> V1
+    RQ3 --> V2
+    RQ4 --> V3
+    RQ4 --> V4
+    RQ5 --> C1
+    RQ6 --> V5
+    V1 --> C1
+    V2 --> C2
+    V3 --> C4
+    V4 --> C1
+    V5 --> C4
+    C1 --> CH6
+    C2 --> CH6
+    C3 --> CH6
+    C4 --> CH6
+
+    DRAFT --> PROMPTS
+    DRAFT --> C456
+    PDFS --> OCR
+    OCR --> PAGE_MD
+    OCR --> OCR_AUDIT
+    PAGE_MD --> PROMPTS
+    PROMPTS --> PROVIDERS
+    PROVIDERS --> JOBS
+    JOBS --> RAW_RUNS
+    RAW_RUNS --> FLAT
+    FLAT --> ABSA
+    FLAT --> PROVENANCE
+    FLAT --> PDF_PROMPT
+    ABSA --> CLIMATE
+    ABSA --> ONTO
+    RAW_RUNS --> FAIL
+    RAW_RUNS --> STABILITY
+    OCR_AUDIT --> CH4
+    PDF_PROMPT --> CH4
+    CLIMATE --> CH4
+    ONTO --> CH4
+    FAIL --> CH5
+    STABILITY --> CH5
+    CH4 --> CH5
+    CH5 --> CH6
+    CH4 --> DASH
+    CH5 --> DASH
+    CH6 --> DASH
+
+    EXTRACT --> SILVER
+    IMPORTED --> CLIMATE_LOCAL
+    SILVER --> SAMPLE
+    SAMPLE --> TONE_GT
+    SAMPLE --> ESG_GT
+    SAMPLE --> ASPECT_GT
+    SAMPLE --> REVIEW
+    TONE_GT --> CROSSTAB
+    ESG_GT --> ONTO_VAL
+    ASPECT_GT --> ONTO_VAL
+    CLIMATE_LOCAL --> CROSSTAB
+    PROXY --> CROSSTAB
+    CROSSTAB --> KAPPA
+    EXTRACT --> PROMPT_STAB
+    EXTRACT --> MODEL_STAB
+    EXTRACT --> FAILURE
+    ONTO_VAL --> LIMIT
+    PROMPT_STAB --> REPRO
+    MODEL_STAB --> REPRO
+    FAILURE --> LIMIT
+    KAPPA --> CONSTRUCT
+    ONTO_VAL --> CONTRIBUTION
+    CONSTRUCT --> PAGE_CH5
+    REPRO --> PAGE_CH6
+    LIMIT --> PAGE_CH5
+    LIMIT --> PAGE_CH6
+    CONTRIBUTION --> PAGE_CH6
+
+    PDF --> INTEGRATION
+    DOCX --> INTEGRATION
+    REPORTS --> OCR_SUM
+    REPORTS --> ESG_JSON
+    OCR_SUM --> TONE_FLAT
+    ESG_JSON --> TONE_FLAT
+    JOB_DIRS --> MODEL_STAB_ART
+    ESG_JSON --> MODEL_STAB_ART
+    CLIMATE_OUT --> AGREEMENT
+    CLIMATE_OUT --> TONE_CB
+    TONE_FLAT --> TONE_ESG
+    TONE_FLAT --> FAILURE_ART
+    TONE_FLAT --> ONTO_ART
+    TONE_FLAT --> PROMPT_STAB_ART
+    TONE_FLAT --> ACTION
+    MODEL_STAB_ART --> ACTION
+    PROMPT_STAB_ART --> ACTION
+    TONE_ESG --> PAGE_CH4
+    TONE_CB --> PAGE_CH4
+    AGREEMENT --> PAGE_CH5
+    FAILURE_ART --> PAGE_CH5
+    ONTO_ART --> PAGE_CH5
+    MODEL_STAB_ART --> PAGE_CH6
+    PROMPT_STAB_ART --> PAGE_CH6
+    PAGE_CH4 --> FIGURES
+    PAGE_CH5 --> CLAIM_TEXT
+    PAGE_CH6 --> CLAIM_TEXT
+    ACTION --> NOTES
+    INTEGRATION --> DEFENSE
+    FIGURES --> DEFENSE
+    CLAIM_TEXT --> DEFENSE
+    NOTES --> DEFENSE
+
+    RQ1 --> OCR_SUM
+    RQ1 --> ESG_JSON
+    RQ2 --> TONE_FLAT
+    RQ2 --> TONE_ESG
+    RQ3 --> AGREEMENT
+    RQ3 --> TONE_CB
+    RQ4 --> FAILURE_ART
+    RQ4 --> ONTO_ART
+    RQ5 --> JOB_DIRS
+    RQ5 --> INTEGRATION
+    RQ6 --> MODEL_STAB_ART
+    RQ6 --> PROMPT_STAB_ART
+    FLAT --> EXTRACT
+    CLIMATE --> CLIMATE_OUT
+    ONTO --> ONTO_ART
+    FAIL --> FAILURE_ART
+    STABILITY --> MODEL_STAB_ART
+    STABILITY --> PROMPT_STAB_ART
+    DASH --> INTEGRATION
     """
 
 
@@ -418,6 +648,10 @@ with tab_integrated:
         "Chapter 6: each thesis section explains a claim, each RQ produces Chapter 4 evidence, and each claim is "
         "tied to execution artifacts, validation artifacts, and Streamlit pages."
     )
+    st.info(
+        "The integrated Mermaid canvas is intentionally large: it combines Thesis Spine, RQ Evidence, Pipeline, "
+        "Validation, and Artifact Lineage in one graph. Use the diagram toolbar or scroll inside the frame to inspect details."
+    )
 
     f1, f2, f3 = st.columns(3)
     chapter_filter = f1.selectbox(
@@ -458,7 +692,7 @@ with tab_integrated:
         ],
     )
 
-    render_mermaid(integrated_thesis_mermaid(), height=1120)
+    render_mermaid(integrated_thesis_mermaid(), height=1600)
 
     st.subheader("1. Chapter Breakdown and Meaning")
     breakdown = pd.DataFrame(chapter_breakdown_rows())
