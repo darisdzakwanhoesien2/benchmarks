@@ -1,11 +1,11 @@
 # Thesis Systematic Workflow Dashboard Report
 
-- Results root: `/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results`
-- Saved output root: `/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/thesis_workflow_dashboard`
+- Results root: `/home/ubuntu/apps/benchmarks/new_page/results`
+- Saved output root: `/home/ubuntu/apps/benchmarks/new_page/results/thesis_workflow_dashboard`
 - Tone records: 332
 - T2 rows: 2,074
 - Pilot labels: 70
-- Result artifacts: 40
+- Result artifacts: 1,080
 
 ## Saved Graph Attachments
 
@@ -73,7 +73,7 @@
 
 ## RQ5 Reproducibility, documentation, and visualization
 
-**RQ5 results.** The dashboard currently indexes 40 result artifacts, 1 LLM background jobs, and 0 ground-truth background jobs.
+**RQ5 results.** The dashboard currently indexes 1,080 result artifacts, 157 LLM background jobs, and 0 ground-truth background jobs.
 
 **RQ5 graph.** Artifact inventory, background job status, and exported dashboard report files
 

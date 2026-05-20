@@ -1,0 +1,25 @@
+{
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "KETERBUKAAN INFORMASI\n\nWismilak\n\n# Keterbukaan Informasi PT Wismilak Inti Makmur Tbk\n\n21 September 2022 - Konsisten jalankan inovasi baru terus dilakukan Wismilak. Di bulan Agustus, Wismilak kembali meluncurkan produk baru di segmen Sigaret Kretek Tangan (SKT) dengan jenama, Wismilak ARJA. Peluncuran Wismilak ARJA telah dilakukan di beberapa zona di Jawa Timur dan hingga saat ini memperoleh sambutan yang baik dari konsumen.\n\n\"Kami terus fokus pada produk-produk yang diminati konsumen. Wismilak ARJA hadir dengan dengan cita rasa tobacco based berkualitas baik dengan harga terjangkau. Respon konsumen sangat positif\" kata Surjanto Yasaputera, Sekretaris Perusahaan Wismilak.\n\nDitambahkan Surjanto, Wismilak ARJA akan memperluas jangkauan secara progresif. Ditargetkan, akan segera berekspansi ke daerah lain.\n\nDi sisi lain, PT Wismilak Inti Makmur Tbk (Wismilak) telah mencatatkan kinerja yang baik, hingga 31 Agustus 2022. Wismilak membukukan penjualan bersih konsolidasian sebesar Rp2.318,7 miliar, meningkat sebesar 39,9% dibandingkan tahun sebelumnya pada periode yang sama, yaitu sebesar Rp1.657,2 miliar. Sedangkan laba bersih perusahaan mencapai Rp138,5 miliar, mengalami kenaikan 50,1% di periode yang sama tahun 2021. Pertumbuhan produk Wismilak di segmen Sigaret Kretek Mesin (SKM) juga tercatat naik sebesar 52,7%, dibandingkan tahun sebelumnya di periode yang sama.\n\nSelain fokus pada produk-produk yang diminati konsumen, Wismilak juga terus melakukan penetrasi pasar di berbagai channel, salah satunya dengan menjaring pasar ekspor.\n\n\"Akibat pandemi, seluruh industri pasti merasakan dampak yang sama terkait kegiatan ekspor. Mulai dari kelangkaan container, biaya shipment yang tinggi hingga lockdown di beberapa negara. Wismilak tetap berupaya mengoptimalkan peluang yang tersedia dengan fokus pada peningkatan penjualan di pasar domestik sambil tetap menyusun strategi aktifitas ekspor. Fokus kami untuk ekspor saat ini adalah untuk produk filter rokok (filter rod)\" lanjut Surjanto.\n\nUntuk mendukung strategi tersebut, Wismilak mengoptimalkan berbagai peluang salah satunya dengan hadir di event-event eksibisi bertaraf Internasional. Wismilak yakin melalui strategi tersebut, tidak hanya dapat menjaring pasar ekspor namun dapat lebih mengikuti tren produk yang diminati pasar saat ini.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": null
+    }
+  ],
+  "model": "mistral-ocr-latest",
+  "document_annotation": null,
+  "usage_info": {
+    "pages_processed": 1,
+    "doc_size_bytes": 559588
+  }
+}

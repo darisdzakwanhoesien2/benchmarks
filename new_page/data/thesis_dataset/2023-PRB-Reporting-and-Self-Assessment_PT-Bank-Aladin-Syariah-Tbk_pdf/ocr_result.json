@@ -1,0 +1,579 @@
+{
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "Aladin Bank Syariah Masa Depan\n\n# Principle 1: Alignment\n\n![img-0.jpeg](img-0.jpeg)\n\nWe will align our business strategy to be consistent with and contribute to individuals' needs and society's goals, as expressed in the Sustainable Development Goals, the Paris Climate Agreement and relevant national and regional frameworks.\n\n# Business model\n\nDescribe (high-level) your bank's business model, including the main customer segments served, types of products and services provided, the main sectors and types of activities across the main geographies in which your bank operates or provides products and services. Please also quantify the information by disclosing e.g. the distribution of your bank's portfolio (%) in terms of geographies, segments (i.e. by balance sheet and/or off-balance sheet) or by disclosing the number of customers and clients served.\n\n|  Response | Links and references  |\n| --- | --- |\n|  PT Bank Aladin Syariah Tbk (“Bank Aladin Syariah” or “The Bank”) is a publicly listed digital sharia commercial bank operating in Indonesia with a strong commitment to sustainability. Following a major transformation from a traditional commercial bank to a digital bank in 2021, the Bank continues to expand its operation by implementing the omni channel (online to offline) strategy through the ongoing partnership with the Alfamart Group, one of the largest retailers in the country, and through the Bank's mobile banking application. | The Bank's 2023 Annual Report, page 62 <https://aladinbank.id/uploads/2024/04/AR-2023.pdf>.  |\n|  As of December 31, 2023, the Bank had accumulated the following figures: • More than 5.2 million installed applications; • More than 3.1 million registered users/customers; • IDR 3.2 trillion of third party funds balance; and • IDR 3.1 trillion of outstanding financing portfolio. | Bank Company Presentation, April 2024, slide #9 <https://aladinbank.id/uploads/2024/05/BA NK-Company-Presen tation_1Q24.pdf>  |\n|  In 2023, Bank Aladin Syariah introduced more products and services, making the current offerings as follows. 1) Retail Segment a) Ala Dompet: a savings product based on profit sharing that is used for daily banking transactions. b) Ala Impian: a goal-oriented savings product that is based on profit sharing. c) Ala Berbagi: type of services offered in the mobile application to enable customers to make donations for social causes through trusted agencies. d) Payment and Purchase: type of services offered in the mobile application to enable customers to pay | The Bank's 2023 Sustainability Report, page 49 https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYAR IAH-2023.pdf  |",
+      "images": [
+        {
+          "id": "img-0.jpeg",
+          "top_left_x": 89,
+          "top_left_y": 209,
+          "bottom_right_x": 159,
+          "bottom_right_y": 272,
+          "image_base64": "data:image/jpeg;base64,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",
+          "image_annotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf",
+        "https://aladinbank.id/uploads/2024/05/BANK-Company-Presentation_1Q24.pdf",
+        "https://aladinbank.id/uploads/2024/05/BANK-Company-Presentation_1Q24.pdf",
+        "https://aladinbank.id/uploads/2024/05/BANK-Company-Presentation_1Q24.pdf",
+        "https://aladinbank.id/uploads/2024/05/BANK-Company-Presentation_1Q24.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 1,
+      "markdown": "2\n\n|  monthly utility bills, purchase electricity tokens, as well as to top up e-money and mobile airtime.\ne) Cash Withdrawals and Deposits: type of services to enable customers to perform cash in and cash out without using an ATM card at all Alfamart counters.\nf) QRIS: a digital payment using a scanned QR code.\ng) Aladin ATM Card: can be used to transact and withdraw cash at ATMs/EDCs belonging to the GPN, LINK, ATM Bersama, Prima and Plus networks.\nh) Banking as a Service (BaaS): digital banking services to non-banking partners via application programming interfaces (APIs).\ni) Payroll Financing: financing to workers of partner companies for consumptive purposes.\n\n2) Business Segment\na) Ala Bisnis Savings: a savings product offered to businesses to facilitate day-to-day business transactions with competitive profit sharing.\nb) Ala Bisnis Deposit: a time deposit savings product offered to businesses.\nc) Invoice Financing: financing in the form of receivables collection management services based on proof of invoice, offered with or without recourse.\nd) Working Capital Financing: financing working capital needs for a specific period of time in accordance with sharia principles.\n\nBank Aladin Syariah’s vision is to become the Leading Digital Sharia Bank through sustainable innovations. Our sustainability mission is to open access to trusted sharia banking products and services for all levels of society, including the underbanked segment through digital platforms.\n\nIn terms of financing, the Bank caters both retail and business segments. The business segment still accounted for the majority portion of the Bank’s financing portfolio by contributing 99.45% to the overall financing outstanding in 2023. Further, the majority of the Bank’s financing went to the MSME segment with total financing outstanding reaching IDR 1.99 trillion, representing 64.19% of the total financing outstanding in the same period.\n\nMeanwhile, our savings products are mostly enjoyed by the segments that to this date have not been served well: women and low-income households. In 2023, our funding products were used by 2.96 million customers who are categorized as low-income individuals. Further, close to half of our funding customers were women with a total of 1.5 million customers. | The Bank’s 2023 Sustainability Report, page 12\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf\n\nThe Bank’s 2023 Sustainability Report, page 16\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |\n| --- | --- |",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 2,
+      "markdown": "3\n\n|  ## Strategy alignment\n\nDoes your corporate strategy identify and reflect sustainability as strategic priority/ies for your bank?\n\n- ☑ Yes\n- ☐ No\n\nPlease describe how your bank has aligned and/or is planning to align its strategy to be consistent with the Sustainable Development Goals (SDGs), the Paris Climate Agreement, and relevant national and regional frameworks.\n\nDoes your bank also reference any of the following frameworks or sustainability regulatory reporting requirements in its strategic priorities or policies to implement these?\n\n- ☑ UN Guiding Principles on Business and Human Rights\n- ☑ International Labour Organization fundamental conventions\n- ☑ UN Global Compact\n- ☐ UN Declaration on the Rights of Indigenous Peoples\n- ☐ Any applicable regulatory reporting requirements on environmental risk assessments, e.g. on climate risk - please specify which ones: ---\n- ☐ Any applicable regulatory reporting requirements on social risk assessments, e.g. on modern slavery - please specify which ones: ---\n- ☐ None of the above  |   |\n| --- | --- |\n|  ### Response\n\nBank Aladin Syariah’s strategy is built around our vision and sustainability mission. We do this by collaborating with various stakeholders and aligning the sustainability principles, including UN Global Compact and PRB, into our operation. We also aim to contribute directly and indirectly to several SDGs through the way we operate and implement our business under the four sustainability strategy framework pillars as follows.\n\n1. Banking Responsibly Pillar (SDG 16): we are committed to upholding integrity in a prudent manner.\n2. Grow with Our People Pillar (SDG 5, 8): This pillar emphasizes the Bank's responsibility to support the interests of all employees as the Bank's main asset.\n3. Leave No One Behind Pillar (SDG 5, 10, 11, 17): we are committed to supporting and providing services to all levels of society, including groups that are considered vulnerable such as low-income communities, MSMEs, women, and other groups that have not been served optimally by formal financial institutions (underbanked).\n4. Act with Conscience for the Planet Pillar (SDG 13): Bank Aladin Syariah is committed to protecting and preserving the environment through financing green projects/initiatives, and by properly managing our operational wastes and use of energy.\n\nThe strategy is reviewed and refined as needed on an annual basis by referring to stakeholders’ feedback, Bank’s internal | ### Links and references\n\nPlease refer to “Sustainability Strategy” on page 12 of our 2023 Sustainability Report https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 3,
+      "markdown": "conditions, regulatory changes, and any updates on the global sustainability reporting platforms.\n\nBank Aladin Syariah's climate and social alignment strategies are guided by the Bank's Environment and Social Risk Management Policy. The policy is reviewed on a regular basis to reflect any changes on the national regulations and/or UN Guiding Principles.\n\nIn 2024, we intend to beef up our capacity in managing the climate-related risks in alignment with the upcoming OJK's directives to have all banks in Indonesia perform and report climate-related risks stress testing exercises by 2026. This will be realized through assigning a dedicated unit to manage the risks and a series of training sessions.\n\n# Principle 2: Impact and Target Setting\n\n![img-1.jpeg](img-1.jpeg)\n\nWe will continuously increase our positive impacts while reducing the negative impacts on, and managing the risks to, people and environment resulting from our activities, products and services. To this end, we will set and publish targets where we can have the most significant impacts.\n\n# 2.1 Impact Analysis (Key Step 1)\n\nShow that your bank has performed an impact analysis of its portfolio/s to identify its most significant impact areas and determine priority areas for target-setting. The impact analysis shall be updated regularly $^{1}$  and fulfil the following requirements/elements (a-d) $^{2}$ :\n\na) Scope: What is the scope of your bank's impact analysis? Please describe which parts of the bank's core business areas, products/services across the main geographies that the bank operates in (as described under 1.1) have been considered in the impact analysis. Please also describe which areas have not yet been included, and why.\n\n# Response\n\nOur impact analysis covers solely the Bank as a single entity. The Bank's geographical coverage is only in Indonesia as presented in the 2023 Sustainability Report. The Bank's financing into the business segment was considered in performing the impact analysis given its major contribution to the overall asset and revenue of the Bank.\n\n# Links and references\n\nPlease refer to \"Operational Area\" on page 50 of our 2023 Sustainability Report https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+      "images": [
+        {
+          "id": "img-1.jpeg",
+          "top_left_x": 89,
+          "top_left_y": 452,
+          "bottom_right_x": 159,
+          "bottom_right_y": 515,
+          "image_base64": "data:image/jpeg;base64,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",
+          "image_annotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://www.unepfi.org/wordpress/wp-content/uploads/2022/05/Impact-and-Target-Process-V-1.1-09.05.2022.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 4,
+      "markdown": "b) **Portfolio composition**: Has your bank considered the composition of its portfolio (in %) in the analysis? Please provide proportional composition of your portfolio globally and per geographical scope\n\ni) by sectors &amp; industries³ for business, corporate and investment banking portfolios (i.e. sector exposure or industry breakdown in %), and/or\nii) by products &amp; services and by types of customers for consumer and retail banking portfolios.\n\nIf your bank has taken another approach to determine the bank's scale of exposure, please elaborate, to show how you have considered where the bank's core business/major activities lie in terms of industries or sectors.\n\n|  **Response** |   | **Links and references**  |\n| --- | --- | --- |\n|  As indicated in Section 1.1, the vast majority of the financing portfolio as at December 31, 2023 went into the business segment. Within this segment, MSME financing constituted 64% of the total financing outstanding while the remaining went to corporate clients.\n\nIn terms of sector financing exposure, the Bank's financing portfolio for the same period is presented in the table below: |   |   |\n|  Financing Portfolio By Sectors | Composition (%) |   |\n|  Business Segment | 99.45% |   |\n|  - Wholesale & Retail Trading | 17.91% |   |\n|  - Construction | 1.88% |   |\n|  - Processing | 1.55% |   |\n|  - Financial Services | 34.74% |   |\n|  - Healthcare Providers | 16.11% |   |\n|  - Logistics and Warehousing | 8.86% |   |\n|  - Travel Agents | 3.06% |   |\n|  - Other Sectors | 15.34% |   |\n|  |   |   |\n|  Retail Segment | 0.55% |   |\n|  |   |   |\n|  Total | 100.00% |   |\n|  The top five sectors that we financed in 2023 were:\n1. Financial Services: 34.74%\n2. Wholesale & Retail Trading: 17.91%\n3. Healthcare Providers: 16.11%\n4. Logistics & Warehousing: 8.86%\n5. Travel Agents: 3.06% |   |   |\n\nThe Bank's 2023 Annual Report, page 460, https://aladinbank.id/uploads/2024/04/AR-2023.pdf\n\n³ 'Key sectors' relative to different impact areas, i.e. those sectors whose positive and negative impacts are particularly strong, are particularly relevant here.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 5,
+      "markdown": "6\n\nc) **Context**: What are the main challenges and priorities related to sustainable development in the main countries/regions in which your bank and/or your clients operate?⁴ Please describe how these have been considered, including what stakeholders you have engaged to help inform this element of the impact analysis.\n\nThis step aims to put your bank's portfolio impacts into the context of society's needs.\n\n|  Response | Links and references  |\n| --- | --- |\n|  Main challenges to sustainable development in Indonesia are as follows.\n\n1. **Huge number of small enterprises still financially underserved.** Indonesia is home to more than 60 million ultra-micro and micro businesses. They are the critical driving force of Indonesia’s economy, accounting for more than 60% of Indonesia’s GDP and absorbing a whopping 97% of the workforce. However, a lack of access to formal banking services has hindered their ability to access capital, limiting their growth potential. In a recent study by Indonesia’s Ministry of Cooperatives, more than half of surveyed ultra-micro and micro-businesses remain financially underserved. Many lack bank accounts, are in debt, and transact predominantly in cash, making it difficult for them to build a legitimate credit history that would give them access to formal funding when they need it.\n\n2. **Progress in reducing inequality stagnated.** While the poverty rate has increased significantly in the past 10 years, and in the aftermath of COVID-19 the Gini Index began to slowly rise again as the Gini Index increased to 38.3 in 2023 from 37.9 in 2022. Moreover, after falling during the pandemic, median wages have not yet fully recovered after accounting for inflation.\n\n3. **Adverse climate conditions could lead to a surge in food prices and jeopardize poverty reduction efforts.** Drier than normal conditions brought by the El Niño in 2023 reduced and delayed rice harvests in early 2024. This had led to escalating prices of staple crops and basic food items like rice, chicken meat and eggs. Further, the climate crisis could negatively impact the poor population as the impacts of climate change could cost between 2.5–7% of the country’s GDP, with the poorest bearing the brunt of this burden.\n\n4. **Big issue of plastic waste pollution.** Indonesia is the fourth most populous country and second-largest plastic polluter in the world after China. The country produces 7.8 million tonnes of plastic waste annually, of which about 4.9 million tonnes is mismanaged. An estimated 346.5 kton/year (estimated range of 201.1 – 552.3 kton/year) of plastic waste is discharged into the marine environment from land-based sources in Indonesia, two thirds of which come from Java and Sumatra.\n\n5. **Depleting resources.** Indonesia’s development model | Please refer to the World Economic Forum - Forum Institutional\nhttps://www.weforum.org/agenda/2022/05/digitalization-financial-inclusion-in-indonesia/\nand the World Bank Gini Index - Indonesia data at\nhttps://data.worldbank.org/indicator/SI.POV.GINI?locations=ID\n\nhttps://documents1.worldbank.org/curated/en/099062124085019387/pdf/P1795561b546840d6197b5181ca07a690ed.pdf\n\nhttps://www.worldbank.org/en/country/indonesia/publication/plastic-waste-discharges-from-rivers-and-coastlines-in-indonesia  |\n\n⁴ Global priorities might alternatively be considered for banks with highly diversified and international portfolios.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://jakartaglobe.id/business/indonesia-in-full-swing-to-strengthen-its-economic-backbone/",
+        "https://www.weforum.org/agenda/2022/05/digitalization-financial-inclusion-in-indonesia/",
+        "https://www.weforum.org/agenda/2022/05/digitalization-financial-inclusion-in-indonesia/",
+        "https://jakartaglobe.id/business/indonesia-in-full-swing-to-strengthen-its-economic-backbone/",
+        "https://jakartaglobe.id/business/indonesia-in-full-swing-to-strengthen-its-economic-backbone/",
+        "https://www.weforum.org/agenda/2022/05/digitalization-financial-inclusion-in-indonesia/",
+        "https://www.weforum.org/agenda/2022/05/digitalization-financial-inclusion-in-indonesia/",
+        "https://data.worldbank.org/indicator/SI.POV.GINI?locations=ID",
+        "https://data.worldbank.org/indicator/SI.POV.GINI?locations=ID",
+        "https://data.worldbank.org/indicator/SI.POV.GINI?locations=ID",
+        "https://documents1.worldbank.org/curated/en/099062124085019387/pdf/P1795561b546840d6197b5181ca07a690ed.pdf",
+        "https://documents1.worldbank.org/curated/en/099062124085019387/pdf/P1795561b546840d6197b5181ca07a690ed.pdf",
+        "https://documents1.worldbank.org/curated/en/099062124085019387/pdf/P1795561b546840d6197b5181ca07a690ed.pdf",
+        "https://documents1.worldbank.org/curated/en/099062124085019387/pdf/P1795561b546840d6197b5181ca07a690ed.pdf",
+        "https://documents1.worldbank.org/curated/en/099062124085019387/pdf/P1795561b546840d6197b5181ca07a690ed.pdf",
+        "https://documents1.worldbank.org/curated/en/099062124085019387/pdf/P1795561b546840d6197b5181ca07a690ed.pdf",
+        "https://www.worldbank.org/en/country/indonesia/publication/plastic-waste-discharges-from-rivers-and-coastlines-in-indonesia",
+        "https://www.worldbank.org/en/country/indonesia/publication/plastic-waste-discharges-from-rivers-and-coastlines-in-indonesia",
+        "https://www.worldbank.org/en/country/indonesia/publication/plastic-waste-discharges-from-rivers-and-coastlines-in-indonesia",
+        "https://www.worldbank.org/en/country/indonesia/publication/plastic-waste-discharges-from-rivers-and-coastlines-in-indonesia",
+        "https://www.worldbank.org/en/country/indonesia/publication/plastic-waste-discharges-from-rivers-and-coastlines-in-indonesia",
+        "https://www.worldbank.org/en/country/indonesia/publication/plastic-waste-discharges-from-rivers-and-coastlines-in-indonesia"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 6,
+      "markdown": "|  over the decades has been to exploit its abundant natural resources to support the huge number of population and the economy. The consequences of the current rate of development and destruction of the environment have been severe as Indonesia faces housing, water and food shortages.\n\nThe above country context was taken into consideration while conducting an impact analysis using the UNEP FI Portfolio Impact Analysis Tool v.3. |   |\n| --- | --- |\n|  Based on these first 3 elements of an impact analysis, what positive and negative impact areas has your bank identified? Which (at least two) significant impact areas did you prioritize to pursue your target setting strategy (see 2.2)? Please disclose.  |   |\n|  Response\n\nThe UNEP FI Portfolio Impact Identification Tool v.3 identified the following significant impact areas of potential positive and negative impact, and their alignment to the corresponding SDGs:\n1. Social topics: Integrity & security of person and Health & safety (SDG 1, 5, 8, and 10).\n2. Environmental topics: Climate stability, Biodiversity & healthy ecosystems, and Circularity/Resource Efficiency & Circular Economy (SDG 11, 12, 13, 14, and 15).\n3. Economic topics: Financial Health & Inclusion and Socio-economic convergence (SDG 8, 9, 10, and 17).\n\nBased on the impact analysis and internal discussions that we conducted, the top significant impact areas which we prioritized are Financial Health and Inclusion (SDG 8 - Decent Work and Economic Growth and SDG 10 - Reduced Inequalities) and Circularity/Resource Efficiency & Circular Economy (SDG 11 - Sustainable Cities and Communities and 12 - Responsible Consumption and Production). The Financial Health and Inclusion had already been selected in our first PRB Report. Meanwhile, the Circularity is selected as the second impact area considering its positive impact under the environmental topics, its relevance based on the Indonesia context, and the type of sectors and clients that we financed. | Links and references  |\n|  d) For these (min. two prioritized impact areas): **Performance measurement:** Has your bank identified which sectors & industries as well as types of customers financed or invested in are causing the strongest actual positive or negative impacts? Please describe how you assessed the performance of these, using appropriate indicators related to significant impact areas that apply to your bank's context.\n\nIn determining priority areas for target-setting among its areas of most significant impact, you should consider the bank's current performance levels, i.e. qualitative and/or quantitative indicators and/or proxies of the social, economic and environmental impacts resulting from the bank's activities and provision of products and services. If  |   |\n\n5 To prioritize the areas of most significant impact, a qualitative overlay to the quantitative analysis as described in a), b) and c) will be important, e.g. through stakeholder engagement and further geographic contextualisation.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 7,
+      "markdown": "8\n\n|  you have identified climate and/or financial health & inclusion as your most significant impact areas, please also refer to the applicable indicators in the Annex.\nIf your bank has taken another approach to assess the intensity of impact resulting from the bank's activities and provision of products and services, please describe this.\n\nThe outcome of this step will then also provide the baseline (incl. indicators) you can use for setting targets in two areas of most significant impact. | **Response**\n\nAs mentioned above, we used the UNEP FI Portfolio Impact Analysis Tool v.3 to identify the most relevant impact areas related to the business segment. By taking into account results of the impact analysis, we identified Financial Health and Inclusion and Circularity as the impact areas that we prioritized.\n\n**Financial Health and Inclusion (first confirmed impact area)**\nAligned with our sustainability strategy framework, we believe that the Bank can create the biggest positive impact in support of the SDG 8 and 10 under the Healthy Economies/Financial Health and Inclusion area of impact by providing easy access and affordable financial products and services to all segments in Indonesia, including the vulnerable groups (low income individuals, MSMEs including women-owned, and underbanked population who live in semi urban and rural areas), with the objectives to:\n1. Increasing financial inclusion for MSMEs and low income customers.\n2. Enhancing access to financial opportunities for existing retail clients.\n3. Strengthening financial resilience of the respective segments.\n\nAs indicated in the previous report, we are tracking the following indicators to assess the effectiveness of our engagements in achieving the overall Financial Health and Inclusion targets.\n\n1. Short term (output)\na. Number of products/services in the portfolio with a focus on financial inclusion;\nb. Number of products/services in the portfolio with a focus on financial health;\nc. Number of individuals supported with financial / digital education initiatives;\nd. Number of active partnerships to achieve financial health/inclusion goals;\ne. Number of retail customers per month;\nf. Percentage of retail customers with effective access to a basic banking product.\n\n2. Medium term (outcome)\na. Percentage of retail customers showing an increase or stable amounts in savings, deposit and or investment account balances;\nb. % of retail customers with a non-performing financing; | **Links and references**\n2023 Sustainability Report, page 16\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |\n| --- | --- | --- |",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 8,
+      "markdown": "c. % of retail customers actively using the digital banking platform.\n\n3. Long term (impact)\na. % of retail customers with 2 or more active financial products from different categories, with the bank;\nb. % of retail customers with products connected to long-term saving and investment plans;\nc. % of retail customers that feel confident about their financial situation in the next 12 months;\nd. % of retail customers who have a minimum balance of four times the average monthly consumption expenses per capita in Indonesia to cover any unexpected emergencies.\n\nCircularity (second confirmed impact area)\nAnother area that the Bank can contribute positively is in the area of Circularity, particularly through promoting and financing the effective use of resources and the proper management and usage of waste. The focus on Circularity is aligned with SDG 11 and 12.\n\nSince the Circularity is an impact area that we recently confirmed, we intend to continuously monitor and evaluate on the following indicators:\n\n1. Action\na. Increase of portfolio screened against circularity criteria (IDR);\nb. Increase of portfolio screened positively against circularity criteria (IDR);\n\n2. Output\na. Increase of financing to key clients with circular activities (IDR);\nb. Increase of financing to key clients with circular opportunities (IDR).\n\n3. Outcome\na. Increase of proportion of exposure amount to circular activities (IDR).\n\n4. Impact\na. Energy use reduction reported by clients (%).",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 9,
+      "markdown": "10\n\n# Self-assessment summary:\n\nWhich of the following components of impact analysis has your bank completed, in order to identify the areas in which your bank has its most significant (potential) positive and negative impacts?⁶\n\n|  Scope: | ☑ Yes | ☐ In progress | ☐ No  |\n| --- | --- | --- | --- |\n|  Portfolio composition: | ☑ Yes | ☐ In progress | ☐ No  |\n|  Context: | ☑ Yes | ☐ In progress | ☐ No  |\n|  Performance measurement: | ☐ Yes | ☑ In progress | ☐ No  |\n\nWhich most significant impact areas have you identified for your bank, as a result of the impact analysis?\n\nFinancial Health &amp; Inclusion and Circular Economy\n\nHow recent is the data used for and disclosed in the impact analysis?\n\n☐ Up to 6 months prior to publication\n☑ Up to 12 months prior to publication\n☐ Up to 18 months prior to publication\n☐ Longer than 18 months prior to publication\n\nOpen text field to describe potential challenges, aspects not covered by the above etc.: (optional)\n\n⁶ You can respond “Yes” to a question if you have completed one of the described steps, e.g. the initial impact analysis has been carried out, a pilot has been conducted.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 10,
+      "markdown": "11\n\n## 2.2 Target Setting (Key Step 2)\n\nShow that your bank has set and published a minimum of two targets which address at least two different areas of most significant impact that you identified in your impact analysis.\n\nThe targets⁷ have to be Specific, Measurable (qualitative or quantitative), Achievable, Relevant and Time-bound (SMART). Please disclose the following elements of target setting (a-d), for each target separately:\n\na) **Alignment**: which international, regional or national policy frameworks to align your bank's portfolio with⁸ have you identified as relevant? Show that the selected indicators and targets are linked to and drive alignment with and greater contribution to appropriate Sustainable Development Goals, the goals of the Paris Agreement, and other relevant international, national or regional frameworks.\n\nYou can build upon the context items under 2.1.\n\n| Response | Links and references |\n| --- | --- |\n| With regard to Financial Health & Inclusion, we are aligning our targets with the 2025 National Strategy on Indonesian Financial Literacy, in which the vision is to create an Indonesian Society that has a high financial literacy index (well literate) so that appropriate financial products and services can be utilized to achieve sustainable financial well-being. The Bank aims to achieve the targets by utilizing digital technology, building and expanding strategic alliances to serve various segments in Indonesia, and expanding access to and availability of financial products and services. Meanwhile, in terms of Circularity, the Bank is aligning the respective targets with the Enhanced Nationally Determined Contribution of the Republic of Indonesia that was issued in 2022. The Bank's impact target will be focusing on the reduced use of energy, which is aligned with the Government's GHG emissions reduction target per each sector as resulted from the reduced use of energy. | 2021 – 2025 National Strategy on Indonesian Financial Literacy\nenhanced nationally determined contribution republic of indonesia 2022 | unfccc |\n\nb) **Baseline**: Have you determined a baseline for selected indicators and assessed the current level of alignment? Please disclose the indicators used as well as the year of the baseline.\n\nYou can build upon the performance measurement undertaken in 2.1 to determine the baseline for your target.\n\nA package of indicators has been developed for climate change mitigation and financial health &amp; inclusion to guide and support banks in their target setting and implementation journey. The overview of indicators can be found in the Annex of this template.\n\nIf your bank has prioritized climate mitigation and/or financial health &amp; inclusion as (one of) your most significant impact areas, it is strongly recommended to report on the indicators in the Annex, using an overview table like below including the impact area, all relevant indicators and the corresponding indicator codes:\n\n⁷ Operational targets (relating to for example water consumption in office buildings, gender equality on the bank's management board or business-trip related greenhouse gas emissions) are not in scope of the PRB.\n\n⁸ Your bank should consider the main challenges and priorities in terms of sustainable development in your main country/ies of operation for the purpose of setting targets. These can be found in National Development Plans and strategies, international goals such as the SDGs or the Paris Climate Agreement, and regional frameworks. Aligning means there should be a clear link between the bank's targets and these frameworks and priorities, therefore showing how the target supports and drives contributions to the national and global goals.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://ojk.go.id/en/berita-dan-kegiatan/publikasi/Documents/Pages/National-Strategy-on-Indonesian-Financial-Literacy-%28SNLKI%29-2021---2025/National%2520Strategy%2520on%2520Indonesian%2520Financial%2520Literacy%2520%28SNLKI%29%25202021%2520%25E2%2580%2593%25202025.pdf",
+        "https://ojk.go.id/en/berita-dan-kegiatan/publikasi/Documents/Pages/National-Strategy-on-Indonesian-Financial-Literacy-%28SNLKI%29-2021---2025/National%2520Strategy%2520on%2520Indonesian%2520Financial%2520Literacy%2520%28SNLKI%29%25202021%2520%25E2%2580%2593%25202025.pdf",
+        "https://ojk.go.id/en/berita-dan-kegiatan/publikasi/Documents/Pages/National-Strategy-on-Indonesian-Financial-Literacy-%28SNLKI%29-2021---2025/National%2520Strategy%2520on%2520Indonesian%2520Financial%2520Literacy%2520%28SNLKI%29%25202021%2520%25E2%2580%2593%25202025.pdf",
+        "https://unfccc.int/sites/default/files/NDC/2022-09/23.09.2022_Enhanced%2520NDC%2520Indonesia.pdf",
+        "https://unfccc.int/sites/default/files/NDC/2022-09/23.09.2022_Enhanced%2520NDC%2520Indonesia.pdf",
+        "https://unfccc.int/sites/default/files/NDC/2022-09/23.09.2022_Enhanced%2520NDC%2520Indonesia.pdf",
+        "https://unfccc.int/sites/default/files/NDC/2022-09/23.09.2022_Enhanced%2520NDC%2520Indonesia.pdf",
+        "https://unfccc.int/sites/default/files/NDC/2022-09/23.09.2022_Enhanced%2520NDC%2520Indonesia.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 11,
+      "markdown": "|  Impact area | Indicator code | Response  |\n| --- | --- | --- |\n|  Financial health & inclusion | CS024 | # of individuals supported with dedicated and effective financial and/or digital education initiatives  |\n|   |  CS025 | # of products and services in the portfolio with a focus on financial health/inclusion  |\n|   |  CS027 | # of active partnerships to achieve financial health and inclusion targets  |\n|   |  CS038 | % of retail customers with effective access to a basic banking product  |\n|   |  CS009 | % of customers showing an increase or stable amounts in savings, deposit and/or investment account balances.  |\n|   |  CS028 | % of retail customers with 2 or more active financial products, from different categories, with the bank  |\n|   |  CS010 | % of retail customers with products connected to long-term saving and investment plans  |\n|   |  CS004 | % of retail customers that feel confident about their financial situation in the next 12 months  |\n|   |  N/A | % of retail customers who have a minimum balance of four times the average monthly consumption expenses per capita in Indonesia to cover any unexpected emergencies  |\n\nIn case you have identified other and/or additional indicators as relevant to determine the baseline and assess the level of alignment towards impact driven targets, please disclose these.\n\n# Response\n\n# Financial Health and Inclusion\n\nUnder the Financial Health &amp; Inclusion impact area, the Bank had identified the following as baseline figures as per the 2022 figures, similar to the previous year report.\n\na. % of retail customers with 2 or more active financial products from different categories, with the bank:  $1.01\\%$\nb. % of retail customers with products connected to long-term saving and investment plans:  $7\\%$\nc. % of retail customers that feel confident about their financial situation in the next 12 months: none.\nd. % of retail customers who have a minimum balance of four times the average monthly consumption expenses per capita in Indonesia to cover any unexpected emergencies: 0.05%.\n\n# Circularity\n\nConsidering that the Circularity impact area is a newly identified area, we are using the 2023 figures as baseline. As such, the baseline figures for the set indicators are as follows.\n\na. Increase of proportion of exposure amount to circular activities (IDR): 0.\nb. Energy use reduction reported by clients  $(\\%)$  : 0.\n\n# Links and references\n\nPRB-Reporting-and-Se\n\nIf-Assessment_PT\n\nBank Aladin Syariah\n\nTbk_Dec2022_v.02.do\n\ncx\n\nc) SMART targets (incl. key performance indicators (KPIs) $^9$ ): Please disclose the targets for your first and your second area of most significant impact, if already in place (as well as",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2023/05/PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk_Dec2022_v.02.docx.pdf",
+        "https://aladinbank.id/uploads/2023/05/PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk_Dec2022_v.02.docx.pdf",
+        "https://aladinbank.id/uploads/2023/05/PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk_Dec2022_v.02.docx.pdf",
+        "https://aladinbank.id/uploads/2023/05/PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk_Dec2022_v.02.docx.pdf",
+        "https://aladinbank.id/uploads/2023/05/PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk_Dec2022_v.02.docx.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 12,
+      "markdown": "13\n\n|  further impact areas, if in place). Which KPIs are you using to monitor progress towards reaching the target? Please disclose.  |   |\n| --- | --- |\n|  We have set the following sustainability-related SMART targets under each of the impact areas. | Links and references  |\n|  Financial Health & Inclusion (to be achieved by end of 2025)\na. % of retail customers with 2 or more active financial products from different categories, with the bank: 10%\nb. % of individual and MSME customers with products connected to long-term saving and investment plans: 20%\nc. % of retail customers that feel confident about their financial situation in the next 12 months: 10%.\nd. % of retail customers who have a minimum balance of four times the average monthly consumption expenses per capita in Indonesia to cover any unexpected emergencies: 1%. | Please refer to 2023 Sustainability Report, page 16  |\n|  Circularity (to be achieved by end of 2025)\na. Increase of proportion of exposure amount to circular activities (IDR): IDR 10 billion.\nb. Energy use reduction reported by clients (%): 2%. |   |\n|  To be achieved by end of 2030:\nFinancial Health & Inclusion\na. % of retail customers with 2 or more active financial products from different categories, with the bank: 30%.\nb. % of retail customers with products connected to long-term saving and investment plans: 40%.\nc. % of retail customers that feel confident about their financial situation in the next 12 months: 20%.\nd. % of retail customers who have a minimum balance of four times the average monthly consumption expenses per capita in Indonesia to cover any unexpected emergencies: 2.5%. |   |\n|  Circularity\na. Increase of proportion of exposure amount to circular activities (IDR): IDR 100 billion.\nb. Energy use reduction reported by clients (%): 10%. |   |\n|  To be achieved by end of 2040:\nFinancial Health & Inclusion\na. % of retail customers with 2 or more active financial products from different categories, with the bank: 50%.\nb. % of retail customers with products connected to long-term saving and investment plans: 50%\nc. % of retail customers that feel confident about their financial situation in the next 12 months: 40%.\nd. % of retail customers who have a minimum balance of four times the average monthly consumption expenses per capita in Indonesia to cover any unexpected emergencies: 5% |   |",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 13,
+      "markdown": "14\n\n|  Circularity a. Increase of proportion of exposure amount to circular activities (IDR): IDR 500 billion. b. Energy use reduction reported by clients (%): 20%. |   |\n| --- | --- |\n|  d) **Action plan:** which actions including milestones have you defined to meet the set targets? Please describe. Please also show that your bank has analysed and acknowledged significant (potential) indirect impacts of the set targets within the impact area or on other impact areas and that it has set out relevant actions to avoid, mitigate, or compensate potential negative impacts.  |   |\n|  Response Bank Aladin Syariah has taken a number of actions to meet the set targets. These actions, among others, were as follows. 1. Refined the sustainability strategy, roadmap and targets. 2. Developed additional products and services which include the launch of Banking as a Service (BaaS) that can meet the needs of various segments, including the targeted low income and MSME segments. 3. Increased financing for sustainable businesses, including initiated financing to green projects/businesses. 4. Continue to develop the Bank's internal capacity by participating in training, seminars, and workshops on sustainability-related topics, including Sustainable Finance, Integration of Human Rights Principles in Business, and Setting Climate Targets. 5. Organized financial and digital literacy sessions to existing/potential customers via social media posts and online training platforms, in partnerships with other institutions, such as Benih Baik and Alfamind. 6. Initiated the Integration of the Indonesia Green Taxonomy (IGT) Project, supported by UNEP FI, to further support the process of classification, monitoring and reporting of the Bank's loan portfolio based on the IGT criteria. 7. Strengthen sustainability governance by refining the Code of Ethics and Code of Conduct, and Standard Procedures of Commercial Financing. 8. Expanded the scope of the partnership with the Alfamart Group to combine online and offline banking systems (omnichannel) to reach various levels of society, including the vulnerable segments (low income households, MSMEs, etc.). | Links and references The Bank's 2023 Sustainability Report, page 15 https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 14,
+      "markdown": "15\n\n|  Self-assessment summary\nWhich of the following components of target setting in line with the PRB requirements has your bank completed or is currently in a process of assessing for your...  |   |   |\n| --- | --- | --- |\n|   | Financial Health & Inclusion | Circularity  |\n|  Alignment | ☑ Yes\n☐ In progress\n☐ No | ☑ Yes\n☐ In progress\n☐ No  |\n|  Baseline | ☑ Yes\n☐ In progress\n☐ No | ☑ Yes\n☐ In progress\n☐ No  |\n|  SMART targets | ☑ Yes\n☐ In progress\n☐ No | ☑ Yes\n☐ In progress\n☐ No  |\n|  Action plan | ☑ Yes\n☐ In progress\n☐ No | ☐ Yes\n☑ In progress\n☐ No  |\n\n## 2.3 Target implementation and monitoring (Key Step 2)\n\nFor each target separately:\n\nShow that your bank has implemented the actions it had previously defined to meet the set target.\n\nReport on your bank’s progress since the last report towards achieving each of the set targets and the impact your progress resulted in, using the indicators and KPIs to monitor progress you have defined under 2.2.\n\nOr, in case of changes to implementation plans (relevant for 2nd and subsequent reports only): describe the potential changes (changes to priority impact areas, changes to indicators, acceleration/review of targets, introduction of new milestones or revisions of action plans) and explain why those changes have become necessary.\n\n|  Response | Links and references  |\n| --- | --- |",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 15,
+      "markdown": "16\n\n|  **Financial Health and Inclusion**\nThe Bank continues to monitor, measure and report our progress on the set targets under the Financial Health and Inclusion area. Results of our measurement were reported in the 2023 Sustainability Report. | Please refer to the 2023 Sustainability Report page 16\n\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |\n| --- | --- |\n|  **Circularity**\nThe Bank will periodically track the base growth with regard to the increase of proportion of exposure amount to circular activities as well as the energy use reduction reported by clients. Such monitoring activity will start in 2024. | Please refer to the 2023 Sustainability Report page 20\n\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 16,
+      "markdown": "17\n\n# Principle 3: Clients and Customers\n\n![img-2.jpeg](img-2.jpeg)\n\nWe will work responsibly with our clients and our customers to encourage sustainable practices and enable economic activities that create shared prosperity for current and future generations.\n\n## 3.1 Client engagement\n\nDoes your bank have a policy or engagement process with clients and customers¹⁰ in place to encourage sustainable practices?\n\n☑ Yes\n☐ In progress\n☐ No\n\nDoes your bank have a policy for sectors in which you have identified the highest (potential) negative impacts?\n\n☐ Yes\n☑ In progress\n☐ No\n\nDescribe how your bank has worked with and/or is planning to work with its clients and customers to encourage sustainable practices and enable sustainable economic activities¹¹). It should include information on relevant policies, actions planned/implemented to support clients' transition, selected indicators on client engagement and, where possible, the impacts achieved.\n\nThis should be based on and in line with the impact analysis, target-setting and action plans put in place by the bank (see P2).\n\n|  Response | Links and references  |\n| --- | --- |\n|  Bank Aladin Syariah is committed to meet or even exceed the set targets under the Financial Health & Inclusion and Circularity areas. To serve this commitment, we have developed/are developing policies and/or engagement processes that consist of: | Please refer to our 2023 Sustainability Report, page 14-15.  |\n|  1. Refined the Code of Ethics and Code of Conduct that aims, among others, at facilitating the Bank to serve all customers without any discrimination based on race, gender, etc, and highlighting the Bank's commitment to sustainability, including the implementation of sustainable financing. |   |\n|  2. Refinement of the Commercial Financing Procedure to include the Indonesia Green Taxonomy classification measures. |   |\n|  3. Created a financial literacy and inclusion function that coordinates the overall implementation of financial literacy and inclusion programs initiated by the Bank. |   |\n|  4. Deepen relationships with existing partners to enable us to expand the reach to MSME and low income segments. |   |\n|  The Bank is also guided by the Exclusion List which prohibits the  |   |\n\n¹⁰ A client engagement process is a process of supporting clients towards transitioning their business models in line with sustainability goals by strategically accompanying them through a variety of customer relationship channels.\n\n¹¹ Sustainable economic activities promote the transition to a low-carbon, more resource-efficient and sustainable economy.",
+      "images": [
+        {
+          "id": "img-2.jpeg",
+          "top_left_x": 93,
+          "top_left_y": 134,
+          "bottom_right_x": 163,
+          "bottom_right_y": 195,
+          "image_base64": "data:image/jpeg;base64,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",
+          "image_annotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 17,
+      "markdown": "|  Bank from lending to businesses that engaged in activities that are not in accordance with the sharia principles, including and not limited to production, trading and distribution of alcoholic beverages, gambling and casino; production or activities involving harmful or exploitative forms of forced labor/harmful child labor; and production, trade or activities that are deemed illegal under the laws of the Republic of Indonesia or international conventions/agreements, or subject to international bans. Going forward, we plan to conduct a one-on-one discussion with selected corporate clients, especially those in the textile/garment and construction sectors, with the aim of supporting them with financing in pursuing circular opportunities. |   |\n| --- | --- |\n|  3.2 Business opportunities Describe what strategic business opportunities in relation to the increase of positive and the reduction of negative impacts your bank has identified and/or how you have worked on these in the reporting period. Provide information on existing products and services, information on sustainable products developed in terms of value (USD or local currency) and/or as a % of your portfolio, and which SDGs or impact areas you are striving to make a positive impact on (e.g. green mortgages – climate, social bonds – financial inclusion, etc.).  |   |\n|  Response With the aim of enhancing financial inclusion, the Bank launched Banking as a Service (BaaS) feature in collaboration with Alfagift, part of the Alfamart Group. We also introduced QRIS to allow our customers to easily make payments, and launched the cash deposit and withdrawal feature in partnership with Alfamidi - allowing our customers to do cash-in/out at more than 2,000 outlets - in addition to the existing arrangement with 19,000 Alfamart outlets in Indonesia. These newly launched services contributed to the income from banking transactions, which was recorded at IDR 30.2 billion in 2023. On the financing side, we initiated our first financing to a sustainable project in 2023 that was initiated by a commercial waste management company, making the total financing outstanding to sustainable projects at IDR 34.5 billion by the end of 2023. In the meantime, we were also engaging in discussions with potential clients and developing a pipeline of green/circular projects that we plan to finance in 2024. We aim to have a minimum green financing portfolio of 1% from the total financing for productive purposes by the end of 2024. | Links and references Please refer to our 2023 Annual Report on page 15 and 479 https://aladinbank.id/uploads/2024/04/AR-2023.pdf 2023 Sustainability Report on page 33 https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/AR-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 18,
+      "markdown": "19\n\n# Principle 4: Stakeholders\n\n![img-3.jpeg](img-3.jpeg)\n\nWe will proactively and responsibly consult, engage and partner with relevant stakeholders to achieve society's goals.\n\n## 4.1 Stakeholder identification and consultation\n\nDoes your bank have a process to identify and regularly consult, engage, collaborate and partner with stakeholders (or stakeholder groups¹²) you have identified as relevant in relation to the impact analysis and target setting process?\n\n☑ Yes\n☐ In progress\n☐ No\n\nPlease describe which stakeholders (or groups/types of stakeholders) you have identified, consulted, engaged, collaborated or partnered with for the purpose of implementing the Principles and improving your bank's impacts. This should include a high-level overview of how your bank has identified relevant stakeholders, what issues were addressed/results achieved and how they fed into the action planning process.\n\n|  Response | Links and references  |\n| --- | --- |\n|  Bank Aladin Syariah utilized a methodology to identify stakeholders and issues that are deemed material to each group of stakeholders, i.e. materiality assessment. The methodology used is described as follows. |   |\n|  1. Identification: defining all stakeholders involved in the sustainability of the Bank and identifying their perspectives and interests; |   |\n|  2. Prioritization: determining the ranking of topics based on significance to stakeholders (via survey) and significance to Bank (via discussion with the senior management); |   |\n|  3. Validation: sharing the results and recommendations to the senior management to obtain validation; and |   |\n|  4. Refinement: adjusting topics and strategy at an appropriate level to reflect their importance and priority to the stakeholders. |   |\n|  The above methodology is performed every year to redefine and/or reconfirm existing Standard Topics to maintain the relevance of the topics to the Bank's business and operation. The overall stakeholders engagement process is outlined in detail under the Determination and Establishment of Standards Topic According to the GRI Section on page 6 of the 2023 Sustainability Report. |   |\n|  In addition, Bank Aladin Syariah is actively participating in various webinars and workshops under the PRB with the aim of enhancing our knowledge in sustainable banking practices, |   |\n\n¹² Such as regulators, investors, governments, suppliers, customers and clients, academia, civil society institutions, communities, representatives of indigenous population and non-profit organizations",
+      "images": [
+        {
+          "id": "img-3.jpeg",
+          "top_left_x": 98,
+          "top_left_y": 155,
+          "bottom_right_x": 167,
+          "bottom_right_y": 218,
+          "image_base64": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAA/AEUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD37FB4GTSk4Ga53xl4gm0HQXexga51W5PkWNsgy0spB7egAJPsKAMHxR8YfCvhPVJNNu3u7m7iIEsdpEG8s4zgkkDP0puj/FrTvEFvJcaR4c8R3sUb7HeG1jIU+/7yvky+kuJr6eW9Lm5kctMX+9vJO7PvnNfQ/wCznpN9a6Lquo3CtHa3ciCAMMB9obcw/MD8KAO9/wCE7m/6EzxV/wCAUf8A8co/4Tub/oTPFX/gFH/8crsMVmaxr+k6BbpNq1/DaRyHahlONx9gOaAKWkeLbPVb4WEtlqGm3zIXS3v4PLaRR1KkEqcegOa365rX7NPEugQajot1FJe2zC70+4jbKs4H3cjPDDKn61p+H9Yh17RrfUYQU8wFZIz1ikBw6EdiGBFAGniilooARmAUkkADkk9q47w8P+Em12fxRMCbKINbaUrdCmfnmx6sRgH0HvUvi25n1Ga18L2EjLcagpa7kXrDaj759i2dg+p9K6a1tYbK1itbeNY4YUCRoo4VQMAUAYl/4J8M6pqH2690KwnuycmV4RuY+p9fxrcghht4o4oI0iiQYRI12qB6ADgVx3j/AFKeym0a2fVJtI0u7ndLzUIiA0eFyi7iCF3HIyfSsbQ/Gt3a6ReQJJca1I1+bTSLuVABdj5R8zgAHaS2SOoU0Aen5rznXZ7m9+IcdzoNjBq91pVo0F1b3DiOOIyEEbZOQJMDkY+6a1JtL8cx2r3MfiCxmudpP2MWYji/3VfJYH0Yg/SsHw/Ney+G10nw7oc8dvcxv9t1S+uQrLK2VlOBlncNnngcccUAWfAviPQdJs00O41e1bUJrqV2WBX+zpI7kmKOQjadvTr2rWlI8J+MRcfc0nXJAsv92G7xwx9A4GD/ALQHrXKvb6xf+CbXwOnhi6gu4vKga9O020YRgfOVwcljjIGM5PNek6to9vrWjT6ZdAmKaPZu7qR91h7gjIoA0gc0VznhPVJ76wm0/VTjVtMf7Pddt5x8sg9nXDfiaKAKmoyHQPHNtqs2DY6pElhLIf8AlhKpYx8/3W3Ffrj8Ou61Q1jSbfWtJudPvF3QzoVOOoPYj3BwRWV4Q1S5ubWfS9TcHVtMfyLk/wDPVf4JR7MvP1z6UAdBNBHPGUmjSRG4KuAQfwNcr43h+x6Vp+p2/kq+lXkc6QO4QSggxmNc8BiHO0dyAO9dLqFxLa6ZdXEEJmliid0iHV2AJC/jXkVney6lc+Eby88RDXZtQvEkn0p1TbbttYl0VQCvlnjDZz1oA7dviLorQFbVL64v8caelpJ5+7+6QRhfqTj3rlNU8OajpegaWdW+13GnT3rXOsWVkCwQuZH42/MyhnUEZ6L0r1O6Mq2c7QKHmEbbAe7Y4H5181/DrxZ47vfijbW95d386yzFb23l3bETnJx0XHagD2D4dwGObWW0+C8t/DzzIdOhug4K/J85QNyEJ6A13LMEVnYgKBkkngCl7/56VyniyebVLq18K2UjJLfKXvZVPMNqPvfQuflH1J7UAU9AtD4m1HUvEe6SC0uilvZ+X8pliiL4kP8AvM7Y9gKK7KC3S1tore3jRIYlCIgHCqBgAUUATnpXIeKoZNFv7XxZaIx+yL5OoRIP9bak8nA7ofmHtu9a6+mSRrJGyMoZWGCD3B60AMhljuIY5oXDxyKGRxyGHUEVVtdD0qyvpb210yzgupf9ZNFAqu/1IGTXL2kXiTwjG+m6boq6zpayMbPy7tIZIIzyI2D8ELyAc9MelWP+El8X/wDQg3H/AINLf/4qgDrsHB+mOtNWFEkaQIoZurAYJ+tcn/wkvi//AKEG4/8ABpb/APxVH/CSeL/+hBuP/Bpb/wDxVAHRarqdro2lXOo3jbLe3jLsfp0A9yePqax/CGmXMUFxrOpoV1XVH82ZT/yxj/5ZxD/dX9c1RWy1zxTqFk2taUml6XZyic2rXCTPcSr9zdt4CKecZOSBXZgYoAWiiigD/9k=",
+          "image_annotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 19,
+      "markdown": "20\n\nincluding practical knowledge in climate target setting and learning from best practices in addressing sustainability challenges. The Bank has also been participating actively in the UN Global Compact-organized seminars and training sessions, focusing more on the topics of human rights and gender equality, with the objective of driving internal change at the Bank.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 20,
+      "markdown": "21\n\n# Principle 5: Governance &amp; Culture\n\n![img-4.jpeg](img-4.jpeg)\n\nWe will implement our commitment to these Principles through effective governance and a culture of responsible banking\n\n## 5.1 Governance Structure for Implementation of the Principles\n\nDoes your bank have a governance system in place that incorporates the PRB?\n\n☑ Yes\n☐ In progress\n☐ No\n\nPlease describe the relevant governance structures, policies and procedures your bank has in place/is planning to put in place to manage significant positive and negative (potential) impacts and support the effective implementation of the Principles. This includes information about\n\n- which committee has responsibility over the sustainability strategy as well as targets approval and monitoring (including information about the highest level of governance the PRB is subjected to),\n- details about the chair of the committee and the process and frequency for the board having oversight of PRB implementation (including remedial action in the event of targets or milestones not being achieved or unexpected negative impacts being detected), as well as\n- remuneration practices linked to sustainability targets.\n\n|  Response | Links and references  |\n| --- | --- |\n|  In reflection of the Bank's slogan as \"The Sharia Bank for the Future\", Bank Aladin Syariah believes in a better future as we grow together with the communities where we operate. Such aspiration might not be realized, however, given the persistent challenges to sustainable development in Indonesia as presented under the Context section. Therefore it is crucial for us to uphold our sustainability commitment by integrating sustainability principles into the Bank's operational activities in order to help our customers and communities in addressing the sustainable development challenges. | 2023 Sustainability Report, page 31\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |\n|  To ensure the principles of sustainability are well integrated into the Bank's operation, the Bank's Board of Directors has established a Sustainability Executive Committee. The Committee is responsible for making decisions related to sustainability-related matters, as well as overseeing the overall implementation of the sustainability programs with regard to the targets. The Committee, which regularly meets at least once in a quarter, also monitors the overall impact of the Bank towards the economy, environment and communities. | The 2023 Sustainability Report, page 83\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |\n|  With regard to implementation, the Bank has formed a Sustainability Division. This division is responsible for developing and/or updating sustainable finance strategies, roadmaps, work plans, targets, governance, and related policies and procedures, |   |",
+      "images": [
+        {
+          "id": "img-4.jpeg",
+          "top_left_x": 92,
+          "top_left_y": 144,
+          "bottom_right_x": 159,
+          "bottom_right_y": 205,
+          "image_base64": "data:image/jpeg;base64,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",
+          "image_annotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 21,
+      "markdown": "22\n\n|  as well as coordinating the overall implementation of sustainability programs in other departments. |   |\n| --- | --- |\n|  5.2 Promoting a culture of responsible banking: Describe the initiatives and measures of your bank to foster a culture of responsible banking among its employees (e.g., capacity building, e-learning, sustainability trainings for client-facing roles, inclusion in remuneration structures and performance management and leadership communication, amongst others).  |   |\n|  Response | Links and references  |\n|  During 2023, we have performed the following activities to foster a culture of responsible banking internally: 1. Refined the Code of Ethics and Code of Conduct to strengthen the Bank's commitment in human rights, anti discrimination, anti fraudulent practices and sustainability principles; promote safeguards in the workplace; introduce a whistleblowing system as a means of raising concerns; and protect data privacy. 2. Disseminated the Code of Ethics and Code of Conduct to all staff via online training sessions. 3. Organized an intermediate level training session on sustainable finance to relevant staff, and participated in the Business and Human Rights Accelerator Program organized by the UN Global Compact (UNGC) and the Climate Targets Setting Workshop organized by the UN Environment Programme Finance Initiative (UNEP FI). 4. Participated in the 2023 S&P Global CSA Rating to identify any rooms for improvement in relations to sustainability. 5. Requested staff to submit their mobility data as part of calculating the Scope 3 emissions from staff travels. 6. Communicated sustainability-related topics, including waste management and emissions, to all staff through sharing sessions and internal communications media. | The 2023 Sustainability Report, page 32\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |\n|  5.3 Policies and due diligence processes  |   |\n|  Does your bank have policies in place that address environmental and social risks within your portfolio?¹³ Please describe. Please describe what due diligence processes your bank has installed to identify and manage environmental and social risks associated with your portfolio. This can include aspects such as identification of significant/salient risks, environmental and social risks mitigation and definition of action plans, monitoring and reporting on risks and any existing grievance mechanism, as well as the governance structures you have in place to oversee these risks.  |   |\n|  Response | Links and references  |\n\n¹³ Applicable examples of types of policies are: exclusion policies for certain sectors/activities; zero-deforestation policies; zero-tolerance policies; gender-related policies; social due diligence policies; stakeholder engagement policies; whistle-blower policies etc., or any applicable national guidelines related to social risks.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 22,
+      "markdown": "23\n\n|  The Bank's Environmental and Social Risk Management Policy was introduced and implemented in 2022. The policy was used as one of the references in refining the Commercial Financing Procedure, aside from the Indonesia Green Taxonomy that was issued by the regulator in 2023. | The 2023 Sustainability Report, page 37\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |\n| --- | --- |\n\n## Self-assessment summary\n\nDoes the CEO or other C-suite officers have regular oversight over the implementation of the Principles through the bank's governance system?\n\n☑ Yes\n☐ No\n\nDoes the governance system entail structures to oversee PRB implementation (e.g. incl. impact analysis and target setting, actions to achieve these targets and processes of remedial action in the event targets/milestones are not achieved or unexpected neg. impacts are detected)?\n\n☑ Yes\n☐ No\n\nDoes your bank have measures in place to promote a culture of sustainability among employees (as described in 5.2)?\n\n☑ Yes\n☐ In progress\n☐ No\n\n## Principle 6: Transparency &amp; Accountability\n\n![img-5.jpeg](img-5.jpeg)\n\nWe will periodically review our individual and collective implementation of these Principles and be transparent about and accountable for our positive and negative impacts and our contribution to society's goals.\n\n### 6.1 Assurance\n\nHas this publicly disclosed information on your PRB commitments been assured by an independent assurer?\n\n☐ Yes\n☑ Partially\n☐ No\n\nIf applicable, please include the link or description of the assurance statement.\n\n|  Response | Links and references  |\n| --- | --- |\n|  Most data and information contained in this report were sourced from the Bank's 2023 Sustainability Report. The Sustainability Report was already assured by PT SGS Indonesia, a company that is independent and has no relationship with the Bank. | The 2023 Sustainability Report, page 144\nhttps://aladinbank.id/uploads/2024/04/SR-BANK-A  |",
+      "images": [
+        {
+          "id": "img-5.jpeg",
+          "top_left_x": 95,
+          "top_left_y": 600,
+          "bottom_right_x": 164,
+          "bottom_right_y": 663,
+          "image_base64": "data:image/jpeg;base64,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",
+          "image_annotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 23,
+      "markdown": "24\n\n|   | LADIN-SYARIAH-2023.pdf  |\n| --- | --- |\n|  6.2 Reporting on other frameworks Does your bank disclose sustainability information in any of the listed below standards and frameworks? ☑ GRI ☐ SASB ☐ CDP ☐ IFRS Sustainability Disclosure Standards (to be published) ☐ TCFD ☐ Other: ...  |   |\n|  Response Our 2023 Sustainability Report is aligned with the GRI standard reporting format. | Links and references The 2023 Sustainability Report, page 4 https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf  |\n|  6.3 Outlook What are the next steps your bank will undertake in next 12 month-reporting period (particularly on impact analysis¹⁴, target setting¹⁵ and governance structure for implementing the PRB)? Please describe briefly.  |   |\n|  Response We intend to review our targets in both the Financial Health & Inclusion and Circularity impact areas against the FY24 results, and would make a proper adjustment as necessary. We will also continue to work with UNEP FI under the PRB to improve our internal capacity in responsible banking, which would allow us to meet or even exceed the set targets and drive positive impacts to our stakeholders in Indonesia. | Links and references  |\n\n¹⁴ For example outlining plans for increasing the scope by including areas that have not yet been covered, or planned steps in terms of portfolio composition, context and performance measurement\n¹⁵ For example outlining plans for baseline measurement, developing targets for (more) impact areas, setting interim targets, developing action plans etc.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf",
+        "https://aladinbank.id/uploads/2024/04/SR-BANK-ALADIN-SYARIAH-2023.pdf"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    },
+    {
+      "index": 24,
+      "markdown": "25\n\n# 6.4 Challenges\n\nHere is a short section to find out about challenges your bank is possibly facing regarding the implementation of the Principles for Responsible Banking. Your feedback will be helpful to contextualise the collective progress of PRB signatory banks.\n\nWhat challenges have you prioritized to address when implementing the Principles for Responsible Banking? Please choose what you consider the top three challenges your bank has prioritized to address in the last 12 months (optional question).\n\nIf desired, you can elaborate on challenges and how you are tackling these:\n\n☐ Embedding PRB oversight into governance\n☐ Customer engagement\n☐ Gaining or maintaining momentum in the bank\n☐ Stakeholder engagement\n☐ Getting started: where to start and what to focus on in the beginning\n☑ Data availability\n☐ Data quality\n☑ Conducting an impact analysis\n☐ Access to resources\n☐ Assessing negative environmental and social impacts\n☐ Reporting\n☐ Assurance\n☐ Choosing the right performance measurement methodology/ies\n☐ Prioritizing actions internally\n☑ Setting targets\n☐ Other: ...\n\nIf desired, you can elaborate on challenges and how you are tackling these:\n\nWhile we have been comfortable in conducting an impact analysis and setting the targets for the Financial Health and Inclusion impact area, we encountered some issues when conducting an impact analysis and setting the targets of the newly identified impact area: Circularity. Nonetheless, the UNEP FI has vast resources and tools that help us in addressing the challenges.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 87,
+        "height": 1019,
+        "width": 721
+      },
+      "confidence_scores": null
+    }
+  ],
+  "model": "mistral-ocr-latest",
+  "document_annotation": null,
+  "usage_info": {
+    "pages_processed": 25,
+    "doc_size_bytes": 679779
+  }
+}

@@ -4,8 +4,8 @@
   "t2_rows": 2074,
   "pilot_labels": 70,
   "ocr_docs": 23,
-  "artifacts": 40,
-  "llm_jobs": 1,
+  "artifacts": 1080,
+  "llm_jobs": 157,
   "ground_truth_jobs": 0,
   "climatebert_percent_agreement": 0.8373493975903614,
   "climatebert_cohen_kappa": 0.6451446894422231

@@ -1,12 +1,12 @@
 # Research Question Artifact Export
 
-Generated: 2026-05-09T07:09:07
+Generated: 2026-05-20T21:20:59
 
 ## Sources
 
 - Existing data: `/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/data_output.txt`
 - Prediction outputs: `/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/data/data/climatebert_predictions`
-- Streamlit RQ page: `/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/esg_dashboard_new-main/dashboard/pages/04_Research_Questions_Visualizer.py`
+- Streamlit RQ page: `/home/ubuntu/apps/benchmarks/esg_dashboard_new-main/dashboard/pages/04_Research_Questions_Visualizer.py`
 
 ## Image Outputs and Explanations
 

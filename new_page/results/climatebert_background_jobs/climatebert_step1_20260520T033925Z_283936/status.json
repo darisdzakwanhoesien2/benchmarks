@@ -1,0 +1,18 @@
+{
+  "job_id": "climatebert_step1_20260520T033925Z_283936",
+  "status": "completed",
+  "total": 0,
+  "completed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Finished",
+  "created_at": "2026-05-20T03:39:25Z",
+  "pid": 1830326,
+  "updated_at": "2026-05-20T03:39:38Z",
+  "model_backend": "Local model",
+  "model_id": "ClimateControversyBERT_classification/model_classification",
+  "started_at": "2026-05-20T03:39:26Z",
+  "finished_at": "2026-05-20T03:39:38Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/revision_analysis/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/revision_analysis/climatebert_record_batch_import.csv"
+}

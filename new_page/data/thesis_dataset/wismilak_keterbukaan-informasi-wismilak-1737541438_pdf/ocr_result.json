@@ -1,0 +1,25 @@
+{
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "WISMILAK\n\n# Keterbukaan Informasi PT Wismilak Inti Makmur Tbk\n\nPT Wismilak Inti Makmur Tbk (Wismilak) telah mencatatkan kinerja yang semakin membaik, hingga 31 Juli 2022, Wismilak membukukan penjualan bersih konsolidasian sebesar Rp1.947,8 miliar, meningkat sebesar 38,4% dibandingkan tahun sebelumnya pada periode yang sama, yaitu sebesar Rp1.407,3 miliar. Sedangkan laba bersih perusahaan mencapai Rp106,6 miliar, mengalami kenaikan 31,2% di periode yang sama tahun 2021. Pertumbuhan produk Wismilak di segmen Sigaret Kretek Mesin (SKM) juga tercatat naik sebesar 50,2%, dibandingkan tahun sebelumnya di periode yang sama.\n\n\"Pertumbuhan SKM merupakan kelanjutan dari upaya yang dilakukan Wismilak sejak 2019. Kami terus konsisten melakukan inovasi dengan adanya produk baru dan mencermati pasar yang sesuai dan fokus pada produk yang diminati konsumen,\" ungkap Surjanto Yasaputera, Sekretaris Perusahaan Wismilak.\n\nSebagaimana telah diketahui, Wismilak telah melakukan pembelian kembali saham atau Buyback saham terhitung sejak 1 Agustus 2022. Pembelian kembali saham dijelaskan Wismilak menggunakan dana yang telah dicadangkan sendiri sehingga tidak mempengaruhi pendapatan Perseroan.\n\n\"Kami yakin Buyback saham yang kami laksanakan tidak akan memberikan dampak negatif terhadap kegiatan usaha. Wismilak memiliki modal kerja dan arus kas yang cukup memadai untuk kegiatan operasional kami,\" lanjut Surjanto, di kesempatan yang sama.\n\nSurjanto menambahkan bahwa Buyback saham juga dilakukan di harga yang dianggap baik dan wajar melalui pasar regular.\n\nUntuk aktifitas operasional, Wismilak terus fokus pada strategi bisnis, salah satunya adalah pengembangan rokok kualitas premium. Sebagai produsen rokok di Tier 2, Wismilak memastikan akan terus konsisten memanfaatkan peluang di tengah kondisi daya beli masyarakat, melalui pengembangan produk dengan harga yang terjangkau, berkualitas baik, dan rasa yang disukai konsumen. Kondisi pasar yang masih dipengaruhi oleh pandemi, terus disikapi dengan penuh kehati-hatian oleh Wismilak meskipun saat ini laju Covid-19 di Indonesia dalam trend melandai.\n\n\"Kami terus menjalankan aktifitas dengan tetap melakukan upaya pencegahan dan penanggulangan Covid-19 di tempat kerja. Kami bersyukur, upaya ini berjalan sesuai harapan dan memperoleh apresiasi dari Kementerian Ketenagakerjaan Republik Indonesia. Ditahun 2021 dan 2022 Wismilak bersyukur dapat meraih penghargaan Pencegahan dan Penaggulangan (P2) COVID-19 di Tempat Kerja dari Kementerian Ketenagakerjaan RI,\" tutup Surjanto.",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 93,
+        "height": 1023,
+        "width": 791
+      },
+      "confidence_scores": null
+    }
+  ],
+  "model": "mistral-ocr-latest",
+  "document_annotation": null,
+  "usage_info": {
+    "pages_processed": 1,
+    "doc_size_bytes": 432753
+  }
+}

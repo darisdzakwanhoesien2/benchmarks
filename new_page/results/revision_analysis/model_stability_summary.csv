@@ -1,3 +1,7 @@
-model,runs,json_parse_success_rate,avg_records,missing_tone_rate,schema_drift_rate
-arcee-ai/trinity-large-preview:free,90,1.0,3.022222222222222,0.0004629629629629629,0.0011165577342047931
-openai/gpt-oss-120b:free,20,1.0,3.0,1.0,0.425
+model,runs,json_parse_success_rate,avg_records,missing_tone_rate,schema_drift_rate,source
+arcee-ai/trinity-large-preview:free,90,1.0,3.022222222222222,0.0004629629629629,0.0011165577342047,revision_analysis
+openai/gpt-oss-120b:free,20,1.0,3.0,1.0,0.425,revision_analysis
+arcee-ai/trinity-large-thinking:free,89,0.898876404494382,12.51685393258427,0.0,0.0,live_reprocess
+minimax/minimax-m2.5:free,776,0.5657216494845361,4.940721649484536,0.0005216484089723526,0.002577319587628866,live_reprocess
+openai/gpt-oss-20b:free,145,0.9586206896551724,1.1310344827586207,0.0,0.0,live_reprocess
+qwen3.5:0.8b,2,0.0,0.0,0.0,0.0,live_reprocess

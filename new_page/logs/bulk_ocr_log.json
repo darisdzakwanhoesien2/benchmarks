@@ -154,5 +154,843 @@
     "pages": 170,
     "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/amman_2024 Sustainability Report_pdf/ocr_result.json",
     "time": "2026-05-05 20:13:38"
+  },
+  "GoTo_s 2021 Sustainability Report.pdf": {
+    "status": "done",
+    "pages": 100,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/GoTo_s 2021 Sustainability Report_pdf/ocr_result.json",
+    "time": "2026-05-12 13:09:41"
+  },
+  "GoTo_s 2022 Sustainability Report.pdf": {
+    "status": "done",
+    "pages": 174,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/GoTo_s 2022 Sustainability Report_pdf/ocr_result.json",
+    "time": "2026-05-12 13:09:55"
+  },
+  "GoTo_s 2023 Sustainability Report.pdf": {
+    "status": "done",
+    "pages": 92,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/GoTo_s 2023 Sustainability Report_pdf/ocr_result.json",
+    "time": "2026-05-12 13:10:11"
+  },
+  "GoTo_s 2024 Sustainability Report.pdf": {
+    "status": "done",
+    "pages": 132,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/GoTo_s 2024 Sustainability Report_pdf/ocr_result.json",
+    "time": "2026-05-12 13:10:33"
+  },
+  "arci-sustainability-report-2021.pdf": {
+    "status": "done",
+    "pages": 138,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/arci-sustainability-report-2021_pdf/ocr_result.json",
+    "time": "2026-05-12 14:02:41"
+  },
+  "arci-sustainability-report-2022.pdf": {
+    "status": "done",
+    "pages": 142,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/arci-sustainability-report-2022_pdf/ocr_result.json",
+    "time": "2026-05-12 14:02:50"
+  },
+  "arci-sustainability-report-2023.pdf": {
+    "status": "done",
+    "pages": 131,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/arci-sustainability-report-2023_pdf/ocr_result.json",
+    "time": "2026-05-12 14:02:59"
+  },
+  "arci-sustainability-report-2024.pdf": {
+    "status": "done",
+    "pages": 143,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/arci-sustainability-report-2024_pdf/ocr_result.json",
+    "time": "2026-05-12 14:04:42"
+  },
+  "ARCI-SR-2025-E-reporting.pdf": {
+    "status": "done",
+    "pages": 137,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/ARCI-SR-2025-E-reporting_pdf/ocr_result.json",
+    "time": "2026-05-12 14:04:51"
+  },
+  "Final_annual_report_2021_31_May_2022.pdf": {
+    "status": "done",
+    "pages": 336,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Final_annual_report_2021_31_May_2022_pdf/ocr_result.json",
+    "time": "2026-05-12 20:12:28"
+  },
+  "Annual_Report_22.pdf": {
+    "status": "done",
+    "pages": 392,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Annual_Report_22_pdf/ocr_result.json",
+    "time": "2026-05-12 20:12:53"
+  },
+  "Annual_Report_2024.pdf": {
+    "status": "done",
+    "pages": 446,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Annual_Report_2024_pdf/ocr_result.json",
+    "time": "2026-05-12 20:13:19"
+  },
+  "Annual_Report_PT_Soho_Global_Health_Tbk_FY_2023.pdf": {
+    "status": "done",
+    "pages": 420,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Annual_Report_PT_Soho_Global_Health_Tbk_FY_2023_pdf/ocr_result.json",
+    "time": "2026-05-12 20:13:44"
+  },
+  "Annual_Report_PT_Soho_Global_Health_Tbk_website.pdf": {
+    "status": "done",
+    "pages": 500,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Annual_Report_PT_Soho_Global_Health_Tbk_website_pdf/ocr_result.json",
+    "time": "2026-05-12 20:14:18"
+  },
+  "wika_beton_SR-WTON-2024 Final Submit.pdf": {
+    "status": "done",
+    "pages": 260,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_SR-WTON-2024 Final Submit_pdf/ocr_result.json",
+    "time": "2026-05-12 21:26:51"
+  },
+  "wika_beton_SR-WTON-25042024-Hires.pdf": {
+    "status": "done",
+    "pages": 142,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_SR-WTON-25042024-Hires_pdf/ocr_result.json",
+    "time": "2026-05-12 21:27:08"
+  },
+  "wika_beton_sr_2015.pdf": {
+    "status": "done",
+    "pages": 88,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_sr_2015_pdf/ocr_result.json",
+    "time": "2026-05-12 21:27:15"
+  },
+  "wika_beton_sr_2016.pdf": {
+    "status": "done",
+    "pages": 94,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_sr_2016_pdf/ocr_result.json",
+    "time": "2026-05-12 21:27:24"
+  },
+  "wika_beton_sr_2014.pdf": {
+    "status": "done",
+    "pages": 87,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_sr_2014_pdf/ocr_result.json",
+    "time": "2026-05-12 21:27:33"
+  },
+  "wika_beton_sr_2019.pdf": {
+    "status": "done",
+    "pages": 182,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_sr_2019_pdf/ocr_result.json",
+    "time": "2026-05-12 21:27:44"
+  },
+  "wika_beton_sr_2018.pdf": {
+    "status": "done",
+    "pages": 96,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_sr_2018_pdf/ocr_result.json",
+    "time": "2026-05-12 21:27:56"
+  },
+  "wika_beton_SR-WTON-2025.pdf": {
+    "status": "done",
+    "pages": 312,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_SR-WTON-2025_pdf/ocr_result.json",
+    "time": "2026-05-12 21:28:22"
+  },
+  "wika_beton_sr_2017.pdf": {
+    "status": "done",
+    "pages": 132,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_sr_2017_pdf/ocr_result.json",
+    "time": "2026-05-12 21:28:31"
+  },
+  "wika_beton_Wika-Beton-SR-2021-30-Maret-2022-1605.pdf": {
+    "status": "done",
+    "pages": 104,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_Wika-Beton-SR-2021-30-Maret-2022-1605_pdf/ocr_result.json",
+    "time": "2026-05-12 21:28:40"
+  },
+  "wika_beton_SR-WTON-TB-22-FINAL-270323.pdf": {
+    "status": "done",
+    "pages": 102,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_SR-WTON-TB-22-FINAL-270323_pdf/ocr_result.json",
+    "time": "2026-05-12 21:28:48"
+  },
+  "wika_beton_SR-WTON-2020-Final.pdf": {
+    "status": "done",
+    "pages": 106,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wika_beton_SR-WTON-2020-Final_pdf/ocr_result.json",
+    "time": "2026-05-12 21:28:57"
+  },
+  "waskita_karya_SR-2013.pdf": {
+    "status": "done",
+    "pages": 90,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2013_pdf/ocr_result.json",
+    "time": "2026-05-12 21:57:07"
+  },
+  "waskita_karya_SR-2014.pdf": {
+    "status": "done",
+    "pages": 74,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2014_pdf/ocr_result.json",
+    "time": "2026-05-12 21:57:19"
+  },
+  "waskita_karya_SR-2015.pdf": {
+    "status": "done",
+    "pages": 80,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2015_pdf/ocr_result.json",
+    "time": "2026-05-12 21:57:31"
+  },
+  "waskita_karya_SR-2016.pdf": {
+    "status": "done",
+    "pages": 82,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2016_pdf/ocr_result.json",
+    "time": "2026-05-12 21:57:39"
+  },
+  "waskita_karya_SR-2017.pdf": {
+    "status": "done",
+    "pages": 108,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2017_pdf/ocr_result.json",
+    "time": "2026-05-12 21:57:53"
+  },
+  "waskita_karya_SR-2018.pdf": {
+    "status": "done",
+    "pages": 100,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2018_pdf/ocr_result.json",
+    "time": "2026-05-12 21:58:10"
+  },
+  "waskita_karya_SR-2019.pdf": {
+    "status": "done",
+    "pages": 103,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2019_pdf/ocr_result.json",
+    "time": "2026-05-12 21:58:19"
+  },
+  "waskita_karya_SR-2020.pdf": {
+    "status": "done",
+    "pages": 160,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2020_pdf/ocr_result.json",
+    "time": "2026-05-12 21:58:37"
+  },
+  "waskita_karya_SR-2021.pdf": {
+    "status": "done",
+    "pages": 160,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2021_pdf/ocr_result.json",
+    "time": "2026-05-12 21:58:53"
+  },
+  "waskita_karya_SR-2022.pdf": {
+    "status": "done",
+    "pages": 178,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR-2022_pdf/ocr_result.json",
+    "time": "2026-05-12 21:59:07"
+  },
+  "waskita_karya_SR2023.pdf": {
+    "status": "done",
+    "pages": 158,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR2023_pdf/ocr_result.json",
+    "time": "2026-05-12 21:59:22"
+  },
+  "waskita_karya_SR2024.pdf": {
+    "status": "done",
+    "pages": 172,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR2024_pdf/ocr_result.json",
+    "time": "2026-05-12 21:59:37"
+  },
+  "waskita_karya_SR2025.pdf": {
+    "status": "done",
+    "pages": 225,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_karya_SR2025_pdf/ocr_result.json",
+    "time": "2026-05-12 21:59:56"
+  },
+  "waskita_precast_SR2017.pdf": {
+    "status": "done",
+    "pages": 98,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR2017_pdf/ocr_result.json",
+    "time": "2026-05-12 22:09:26"
+  },
+  "waskita_precast_SR2018.pdf": {
+    "status": "done",
+    "pages": 172,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR2018_pdf/ocr_result.json",
+    "time": "2026-05-12 22:09:39"
+  },
+  "waskita_precast_SR2019.pdf": {
+    "status": "done",
+    "pages": 180,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR2019_pdf/ocr_result.json",
+    "time": "2026-05-12 22:09:56"
+  },
+  "waskita_precast_SR2020-EN.pdf": {
+    "status": "done",
+    "pages": 124,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR2020-EN_pdf/ocr_result.json",
+    "time": "2026-05-12 22:10:08"
+  },
+  "waskita_precast_SR2021.pdf": {
+    "status": "done",
+    "pages": 206,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR2021_pdf/ocr_result.json",
+    "time": "2026-05-12 22:10:24"
+  },
+  "waskita_precast_SR2022.pdf": {
+    "status": "done",
+    "pages": 202,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR2022_pdf/ocr_result.json",
+    "time": "2026-05-12 22:10:51"
+  },
+  "waskita_precast_SR-2024.pdf": {
+    "status": "done",
+    "pages": 270,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR-2024_pdf/ocr_result.json",
+    "time": "2026-05-12 22:11:11"
+  },
+  "waskita_precast_SR-2023.pdf": {
+    "status": "done",
+    "pages": 202,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR-2023_pdf/ocr_result.json",
+    "time": "2026-05-12 22:11:27"
+  },
+  "waskita_precast_SR2016.pdf": {
+    "status": "done",
+    "pages": 126,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR2016_pdf/ocr_result.json",
+    "time": "2026-05-12 22:11:37"
+  },
+  "waskita_precast_SR-2025.pdf": {
+    "status": "done",
+    "pages": 270,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/waskita_precast_SR-2025_pdf/ocr_result.json",
+    "time": "2026-05-12 22:11:55"
+  },
+  "wismilak_keterbukaan-informasi-wismilak-1737541487.pdf": {
+    "status": "done",
+    "pages": 5,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_keterbukaan-informasi-wismilak-1737541487_pdf/ocr_result.json",
+    "time": "2026-05-13 09:03:26"
+  },
+  "wismilak_dividen-rups-1737541177.pdf": {
+    "status": "done",
+    "pages": 4,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_dividen-rups-1737541177_pdf/ocr_result.json",
+    "time": "2026-05-13 09:03:31"
+  },
+  "wismilak_materi-public-expose-1737541343.pdf": {
+    "status": "done",
+    "pages": 37,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_materi-public-expose-1737541343_pdf/ocr_result.json",
+    "time": "2026-05-13 09:03:38"
+  },
+  "wismilak_laporan-kegiatan-tanggung-jawab-sosial-perseroan-tahun-2024-1745286470.pdf": {
+    "status": "done",
+    "pages": 9,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_laporan-kegiatan-tanggung-jawab-sosial-perseroan-tahun-2024-1745286470_pdf/ocr_result.json",
+    "time": "2026-05-13 09:03:42"
+  },
+  "wismilak_keterbukaan-informasi-wismilak-1737541438.pdf": {
+    "status": "done",
+    "pages": 1,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_keterbukaan-informasi-wismilak-1737541438_pdf/ocr_result.json",
+    "time": "2026-05-13 09:03:45"
+  },
+  "wismilak_hasil-rups-wismilak-1737541300.pdf": {
+    "status": "done",
+    "pages": 5,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_hasil-rups-wismilak-1737541300_pdf/ocr_result.json",
+    "time": "2026-05-13 09:03:48"
+  },
+  "wismilak_kebijakan-keselamatan-dan-kesehatan-kerja-pt-gelora-djaja-1745485864.pdf": {
+    "status": "done",
+    "pages": 1,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_kebijakan-keselamatan-dan-kesehatan-kerja-pt-gelora-djaja-1745485864_pdf/ocr_result.json",
+    "time": "2026-05-13 09:03:52"
+  },
+  "wismilak_keterbukaan-informasi-wismilak-1737541395.pdf": {
+    "status": "done",
+    "pages": 1,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_keterbukaan-informasi-wismilak-1737541395_pdf/ocr_result.json",
+    "time": "2026-05-13 09:03:55"
+  },
+  "wismilak_standar-perilaku-perusahaan-1772105040.pdf": {
+    "status": "done",
+    "pages": 64,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_standar-perilaku-perusahaan-1772105040_pdf/ocr_result.json",
+    "time": "2026-05-13 09:04:08"
+  },
+  "wismilak_continuous-development-for-sustaining-growth-1777448684.pdf": {
+    "status": "done",
+    "pages": 132,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_continuous-development-for-sustaining-growth-1777448684_pdf/ocr_result.json",
+    "time": "2026-05-13 09:04:25"
+  },
+  "wismilak_kebijakan-pengadaan-berkelanjutan-1745213072.pdf": {
+    "status": "done",
+    "pages": 4,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_kebijakan-pengadaan-berkelanjutan-1745213072_pdf/ocr_result.json",
+    "time": "2026-05-13 09:04:28"
+  },
+  "wismilak_laporan-kegiatan-tanggung-jawab-sosial-perseroan-tahun-2025-1777361505.pdf": {
+    "status": "done",
+    "pages": 13,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_laporan-kegiatan-tanggung-jawab-sosial-perseroan-tahun-2025-1777361505_pdf/ocr_result.json",
+    "time": "2026-05-13 09:04:36"
+  },
+  "wismilak_keterbukaan-informasi-1758785942.pdf": {
+    "status": "done",
+    "pages": 1,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_keterbukaan-informasi-1758785942_pdf/ocr_result.json",
+    "time": "2026-05-13 09:04:40"
+  },
+  "wismilak_collaboration-for-better-engagement-1737540448.pdf": {
+    "status": "done",
+    "pages": 78,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_collaboration-for-better-engagement-1737540448_pdf/ocr_result.json",
+    "time": "2026-05-13 09:04:48"
+  },
+  "wismilak_keterbukaan-informasi-1770112024.pdf": {
+    "status": "done",
+    "pages": 2,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_keterbukaan-informasi-1770112024_pdf/ocr_result.json",
+    "time": "2026-05-13 09:04:51"
+  },
+  "wismilak_growing-together-to-achieve-a-better-impacts-1737540363 (1).pdf": {
+    "status": "done",
+    "pages": 101,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_growing-together-to-achieve-a-better-impacts-1737540363 (1)_pdf/ocr_result.json",
+    "time": "2026-05-13 09:05:00"
+  },
+  "wismilak_stepping-towards-sustainability-1737540622.pdf": {
+    "status": "done",
+    "pages": 102,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_stepping-towards-sustainability-1737540622_pdf/ocr_result.json",
+    "time": "2026-05-13 09:05:10"
+  },
+  "wismilak_memastikan-komitmen-1741148950.pdf": {
+    "status": "done",
+    "pages": 92,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_memastikan-komitmen-1741148950_pdf/ocr_result.json",
+    "time": "2026-05-13 09:05:17"
+  },
+  "wismilak_strengthening-synergy-1737540533.pdf": {
+    "status": "done",
+    "pages": 104,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_strengthening-synergy-1737540533_pdf/ocr_result.json",
+    "time": "2026-05-13 09:05:25"
+  },
+  "wismilak_implementing-sustainability-for-the-future-1745561962.pdf": {
+    "status": "failed",
+    "error": "Signed URL failed: {\"detail\": \"No file matches the given query.\"}"
+  },
+  "wismilak_growing-together-to-achieve-a-better-impacts-1737540363.pdf": {
+    "status": "done",
+    "pages": 101,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/wismilak_growing-together-to-achieve-a-better-impacts-1737540363_pdf/ocr_result.json",
+    "time": "2026-05-13 09:05:33"
+  },
+  "Solusi_Sinergi_Digital_Annual_Report_2020.pdf": {
+    "status": "done",
+    "pages": 259,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Solusi_Sinergi_Digital_Annual_Report_2020_pdf/ocr_result.json",
+    "time": "2026-05-13 09:07:44"
+  },
+  "Solusi_Sinergi_Digital_Annual_Report_2021 (1).pdf": {
+    "status": "failed",
+    "error": "Signed URL failed: {\"detail\": \"No file matches the given query.\"}"
+  },
+  "Solusi_Sinergi_Digital_Annual Report Tahun 2022.pdf": {
+    "status": "done",
+    "pages": 288,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Solusi_Sinergi_Digital_Annual Report Tahun 2022_pdf/ocr_result.json",
+    "time": "2026-05-13 09:08:06"
+  },
+  "Solusi_Sinergi_Digital_Annual_Report_2023.pdf": {
+    "status": "done",
+    "pages": 292,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Solusi_Sinergi_Digital_Annual_Report_2023_pdf/ocr_result.json",
+    "time": "2026-05-13 09:08:21"
+  },
+  "Solusi_Sinergi_Digital_Annual_Report_2024.pdf": {
+    "status": "done",
+    "pages": 339,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Solusi_Sinergi_Digital_Annual_Report_2024_pdf/ocr_result.json",
+    "time": "2026-05-13 09:08:47"
+  },
+  "Solusi_Sinergi_Digital_Annual_Report_2025_new.pdf": {
+    "status": "done",
+    "pages": 414,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Solusi_Sinergi_Digital_Annual_Report_2025_new_pdf/ocr_result.json",
+    "time": "2026-05-13 09:09:11"
+  },
+  "Danamon SR 2019-R1.pdf": {
+    "status": "done",
+    "pages": 96,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Danamon SR 2019-R1_pdf/ocr_result.json",
+    "time": "2026-05-16 18:18:02"
+  },
+  "Laporan Keberlanjutan 2020 PT Bank Danamon Indonesia.pdf": {
+    "status": "done",
+    "pages": 104,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Laporan Keberlanjutan 2020 PT Bank Danamon Indonesia_pdf/ocr_result.json",
+    "time": "2026-05-16 18:18:10"
+  },
+  "Laporan Keberlanjutan 2021 PT Bank Danamon Indonesia.pdf": {
+    "status": "done",
+    "pages": 120,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Laporan Keberlanjutan 2021 PT Bank Danamon Indonesia_pdf/ocr_result.json",
+    "time": "2026-05-16 18:18:19"
+  },
+  "Danamon - SR - 2022 - 8 Maret 2023 - 1700.pdf": {
+    "status": "done",
+    "pages": 118,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Danamon - SR - 2022 - 8 Maret 2023 - 1700_pdf/ocr_result.json",
+    "time": "2026-05-16 18:18:27"
+  },
+  "SR Danamon 2023 - MidRes.pdf": {
+    "status": "done",
+    "pages": 140,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/SR Danamon 2023 - MidRes_pdf/ocr_result.json",
+    "time": "2026-05-16 18:18:41"
+  },
+  "AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium.pdf": {
+    "status": "done",
+    "pages": 776,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium_pdf/ocr_result.json",
+    "time": "2026-05-16 18:19:20"
+  },
+  "Sustainability-Report-2025-PT-Global-Digital-Niaga-Tbk.pdf": {
+    "status": "done",
+    "pages": 126,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Sustainability-Report-2025-PT-Global-Digital-Niaga-Tbk_pdf/ocr_result.json",
+    "time": "2026-05-16 18:20:04"
+  },
+  "Sustainability-Report-2023-PT-Global-Digital-Niaga-Tbk-.pdf": {
+    "status": "done",
+    "pages": 93,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Sustainability-Report-2023-PT-Global-Digital-Niaga-Tbk-_pdf/ocr_result.json",
+    "time": "2026-05-16 18:20:17"
+  },
+  "Sustainability-Report-2022-PT-Global-Digital-Niaga-Tbk-lowres.pdf": {
+    "status": "done",
+    "pages": 164,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Sustainability-Report-2022-PT-Global-Digital-Niaga-Tbk-lowres_pdf/ocr_result.json",
+    "time": "2026-05-16 18:20:30"
+  },
+  "SR-Bank-Aladin-Syariah-2025.pdf": {
+    "status": "done",
+    "pages": 237,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/SR-Bank-Aladin-Syariah-2025_pdf/ocr_result.json",
+    "time": "2026-05-17 00:16:46"
+  },
+  "SR-ALADIN-2024_Asurer.pdf": {
+    "status": "done",
+    "pages": 196,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/SR-ALADIN-2024_Asurer_pdf/ocr_result.json",
+    "time": "2026-05-17 00:17:00"
+  },
+  "2023-PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk.pdf": {
+    "status": "done",
+    "pages": 25,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/2023-PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk_pdf/ocr_result.json",
+    "time": "2026-05-17 00:17:06"
+  },
+  "SR-BANK-ALADIN-SYARIAH-2023.pdf": {
+    "status": "done",
+    "pages": 158,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/SR-BANK-ALADIN-SYARIAH-2023_pdf/ocr_result.json",
+    "time": "2026-05-17 00:17:17"
+  },
+  "PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk_Dec2022_v.02.docx.pdf": {
+    "status": "done",
+    "pages": 30,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/PRB-Reporting-and-Self-Assessment_PT-Bank-Aladin-Syariah-Tbk_Dec2022_v_02_docx_pdf/ocr_result.json",
+    "time": "2026-05-17 00:17:22"
+  },
+  "SR-ALADIN-22_.pdf": {
+    "status": "done",
+    "pages": 148,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/SR-ALADIN-22__pdf/ocr_result.json",
+    "time": "2026-05-17 00:17:32"
+  },
+  "SR-ALADIN-2021-upload.pdf": {
+    "status": "done",
+    "pages": 84,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/SR-ALADIN-2021-upload_pdf/ocr_result.json",
+    "time": "2026-05-17 00:17:42"
+  },
+  "ABM_Layout_SR_2023_Layout_Design_FINAL.pdf": {
+    "status": "done",
+    "pages": 242,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/ABM_Layout_SR_2023_Layout_Design_FINAL_pdf/ocr_result.json",
+    "time": "2026-05-17 00:22:11"
+  },
+  "ABM_SR_2022-Layout_Design-Concept_Now-1905HiRes_with_smartlink.pdf": {
+    "status": "done",
+    "pages": 248,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/ABM_SR_2022-Layout_Design-Concept_Now-1905HiRes_with_smartlink_pdf/ocr_result.json",
+    "time": "2026-05-17 00:22:35"
+  },
+  "ABM_2021_SR_-_A_Better_Method_Towards_Sustainability_Final_Ver..pdf": {
+    "status": "done",
+    "pages": 242,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/ABM_2021_SR_-_A_Better_Method_Towards_Sustainability_Final_Ver__pdf/ocr_result.json",
+    "time": "2026-05-17 00:22:53"
+  },
+  "ABM_SR_2020__ABMM_110521_Hires_smart.pdf": {
+    "status": "done",
+    "pages": 115,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/ABM_SR_2020__ABMM_110521_Hires_smart_pdf/ocr_result.json",
+    "time": "2026-05-17 00:23:04"
+  },
+  "ABM_Summary_SR_2019_ABMM.pdf": {
+    "status": "done",
+    "pages": 20,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/ABM_Summary_SR_2019_ABMM_pdf/ocr_result.json",
+    "time": "2026-05-17 00:23:10"
+  },
+  "ABM_ABM-Sustainability-Report-2019.pdf": {
+    "status": "done",
+    "pages": 120,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/ABM_ABM-Sustainability-Report-2019_pdf/ocr_result.json",
+    "time": "2026-05-17 00:23:25"
+  },
+  "6849334c0762bebc54db68f5_AR SR ARKO 2022.pdf": {
+    "status": "done",
+    "pages": 262,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/6849334c0762bebc54db68f5_AR SR ARKO 2022_pdf/ocr_result.json",
+    "time": "2026-05-17 00:23:38"
+  },
+  "6849339af3baf643f44fc1e1_AR SR ARKO 2021.pdf": {
+    "status": "done",
+    "pages": 245,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/6849339af3baf643f44fc1e1_AR SR ARKO 2021_pdf/ocr_result.json",
+    "time": "2026-05-17 00:23:56"
+  },
+  "684932f78f79dd3a78d1dc25_AR SR ARKO 2023.pdf": {
+    "status": "done",
+    "pages": 797,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/684932f78f79dd3a78d1dc25_AR SR ARKO 2023_pdf/ocr_result.json",
+    "time": "2026-05-17 00:28:47"
+  },
+  "6849329f0e739f1100ec0e48_AR SR ARKO 2024.pdf": {
+    "status": "done",
+    "pages": 326,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/6849329f0e739f1100ec0e48_AR SR ARKO 2024_pdf/ocr_result.json",
+    "time": "2026-05-17 00:29:08"
+  },
+  "69b974897d9c0c212f16304d_AR SR ARKO 2025.pdf": {
+    "status": "done",
+    "pages": 347,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/69b974897d9c0c212f16304d_AR SR ARKO 2025_pdf/ocr_result.json",
+    "time": "2026-05-17 00:29:38"
+  },
+  "Selamat_Sempurna_Sustainability Report SMSM 2021.pdf": {
+    "status": "done",
+    "pages": 94,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Selamat_Sempurna_Sustainability Report SMSM 2021_pdf/ocr_result.json",
+    "time": "2026-05-17 09:02:46"
+  },
+  "Selamat_Sempurna_Sustainability Report SMSM 2022 v2.pdf": {
+    "status": "failed",
+    "error": "Signed URL failed: {\"detail\": \"No file matches the given query.\"}"
+  },
+  "Selamat_Sempurna_Sustainability Report SMSM 2023.pdf": {
+    "status": "done",
+    "pages": 124,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Selamat_Sempurna_Sustainability Report SMSM 2023_pdf/ocr_result.json",
+    "time": "2026-05-17 09:02:59"
+  },
+  "Selamat_Sempurna_Sustainability Report SMSM Tahun Buku 2024.pdf": {
+    "status": "done",
+    "pages": 128,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Selamat_Sempurna_Sustainability Report SMSM Tahun Buku 2024_pdf/ocr_result.json",
+    "time": "2026-05-17 09:03:09"
+  },
+  "Selamat_Sempurna_Sustainability Report SMSM 2025.pdf": {
+    "status": "done",
+    "pages": 148,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Selamat_Sempurna_Sustainability Report SMSM 2025_pdf/ocr_result.json",
+    "time": "2026-05-17 09:03:18"
+  },
+  "Selamat_Sempurna_SR SMSM Tahun Buku 2020.pdf": {
+    "status": "failed",
+    "error": "Signed URL failed: {\"detail\": \"No file matches the given query.\"}"
+  },
+  "Sustainability_Report_PT_Sentul_City_2021.pdf": {
+    "status": "done",
+    "pages": 45,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Sustainability_Report_PT_Sentul_City_2021_pdf/ocr_result.json",
+    "time": "2026-05-17 14:15:35"
+  },
+  "Sustainability_Report_2022_PT_Sentul _City _Tbk.pdf": {
+    "status": "done",
+    "pages": 59,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Sustainability_Report_2022_PT_Sentul _City _Tbk_pdf/ocr_result.json",
+    "time": "2026-05-17 14:15:43"
+  },
+  "Sustainability Report Sentul City 2023 (OJK).pdf": {
+    "status": "done",
+    "pages": 75,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Sustainability Report Sentul City 2023 (OJK)_pdf/ocr_result.json",
+    "time": "2026-05-17 14:15:53"
+  },
+  "Sustainability_Report_PT_Sentul_City_Tbk_2024.pdf": {
+    "status": "done",
+    "pages": 94,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Sustainability_Report_PT_Sentul_City_Tbk_2024_pdf/ocr_result.json",
+    "time": "2026-05-17 14:16:02"
+  },
+  "Sustainability_Report_PT_Sentul_City_Tbk_2025.pdf": {
+    "status": "done",
+    "pages": 110,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Sustainability_Report_PT_Sentul_City_Tbk_2025_pdf/ocr_result.json",
+    "time": "2026-05-17 14:16:11"
+  },
+  "28April2016-Sustainability-Report-2015.pdf": {
+    "status": "done",
+    "pages": 82,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/28April2016-Sustainability-Report-2015_pdf/ocr_result.json",
+    "time": "2026-05-17 14:22:50"
+  },
+  "25September2020-Laporan-Keberlanjutan-2019.pdf": {
+    "status": "done",
+    "pages": 108,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/25September2020-Laporan-Keberlanjutan-2019_pdf/ocr_result.json",
+    "time": "2026-05-17 14:22:58"
+  },
+  "30August2019-Sustainability-Report-2018-1.pdf": {
+    "status": "done",
+    "pages": 108,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/30August2019-Sustainability-Report-2018-1_pdf/ocr_result.json",
+    "time": "2026-05-17 14:23:08"
+  },
+  "8August2018-Sustainability-Report-2017.pdf": {
+    "status": "done",
+    "pages": 114,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/8August2018-Sustainability-Report-2017_pdf/ocr_result.json",
+    "time": "2026-05-17 14:23:17"
+  },
+  "29April2017-Sustainability-Report-2016.pdf": {
+    "status": "done",
+    "pages": 92,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/29April2017-Sustainability-Report-2016_pdf/ocr_result.json",
+    "time": "2026-05-17 14:23:27"
+  },
+  "BNBR-Integrated-Annual-Report-2023-INDO.pdf": {
+    "status": "done",
+    "pages": 416,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BNBR-Integrated-Annual-Report-2023-INDO_pdf/ocr_result.json",
+    "time": "2026-05-17 14:24:01"
+  },
+  "BNBR-Integrated-Annual-Report-2022-INDO-2.pdf": {
+    "status": "done",
+    "pages": 416,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BNBR-Integrated-Annual-Report-2022-INDO-2_pdf/ocr_result.json",
+    "time": "2026-05-17 14:32:35"
+  },
+  "BNBR-Annual-Report-Integrated-2021-INDO-Low-Res.pdf": {
+    "status": "done",
+    "pages": 372,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BNBR-Annual-Report-Integrated-2021-INDO-Low-Res_pdf/ocr_result.json",
+    "time": "2026-05-17 14:33:00"
+  },
+  "BNBR-Sustainability-Report-2020-INDO-web-1.pdf": {
+    "status": "done",
+    "pages": 106,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BNBR-Sustainability-Report-2020-INDO-web-1_pdf/ocr_result.json",
+    "time": "2026-05-17 14:33:11"
+  },
+  "BNBR-Integrated-Annual-Report-2024-Bilingual-Submission-2.pdf": {
+    "status": "done",
+    "pages": 590,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BNBR-Integrated-Annual-Report-2024-Bilingual-Submission-2_pdf/ocr_result.json",
+    "time": "2026-05-17 14:33:46"
+  },
+  "BNBR-Integrated-Annual-Report-2025.pdf": {
+    "status": "done",
+    "pages": 612,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BNBR-Integrated-Annual-Report-2025_pdf/ocr_result.json",
+    "time": "2026-05-17 14:34:26"
+  },
+  "ENG2020042015873632559969.pdf": {
+    "status": "done",
+    "pages": 132,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/ENG2020042015873632559969_pdf/ocr_result.json",
+    "time": "2026-05-17 14:34:36"
+  },
+  "2017 Sustainability Report PT Bank Permata Tbk (Rev May2018)_0.pdf": {
+    "status": "done",
+    "pages": 156,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/2017 Sustainability Report PT Bank Permata Tbk (Rev May2018)_0_pdf/ocr_result.json",
+    "time": "2026-05-17 16:05:54"
+  },
+  "SR PERMATABANK 2016_0.pdf": {
+    "status": "done",
+    "pages": 136,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/SR PERMATABANK 2016_0_pdf/ocr_result.json",
+    "time": "2026-05-17 16:06:04"
+  },
+  "PT Bank Permata Tbk Laporan Keberlanjutan SR2015.pdf": {
+    "status": "done",
+    "pages": 172,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/PT Bank Permata Tbk Laporan Keberlanjutan SR2015_pdf/ocr_result.json",
+    "time": "2026-05-17 16:06:29"
+  },
+  "PermataBank_SR_2014_Final_0.pdf": {
+    "status": "done",
+    "pages": 98,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/PermataBank_SR_2014_Final_0_pdf/ocr_result.json",
+    "time": "2026-05-17 16:06:38"
+  },
+  "FA_SR Bank Permata 2025_Website 2.pdf": {
+    "status": "done",
+    "pages": 160,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/FA_SR Bank Permata 2025_Website 2_pdf/ocr_result.json",
+    "time": "2026-05-17 16:06:51"
+  },
+  "FA Permata SR 2024 HiRes_0.pdf": {
+    "status": "done",
+    "pages": 132,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/FA Permata SR 2024 HiRes_0_pdf/ocr_result.json",
+    "time": "2026-05-17 16:07:03"
+  },
+  "SR Permatabank 2023 HIRES_0.pdf": {
+    "status": "done",
+    "pages": 144,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/SR Permatabank 2023 HIRES_0_pdf/ocr_result.json",
+    "time": "2026-05-17 16:07:30"
+  },
+  "HIRES_PERMATABANK_FINAL_SR 2022_21.03.2023_0.pdf": {
+    "status": "done",
+    "pages": 182,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/HIRES_PERMATABANK_FINAL_SR 2022_21_03_2023_0_pdf/ocr_result.json",
+    "time": "2026-05-17 16:07:57"
+  },
+  "Hires_PermataBank SR_2021.pdf": {
+    "status": "done",
+    "pages": 154,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Hires_PermataBank SR_2021_pdf/ocr_result.json",
+    "time": "2026-05-17 16:08:14"
+  },
+  "Permata_SR2018_22 April 2019_Small Size_0.pdf": {
+    "status": "done",
+    "pages": 162,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/Permata_SR2018_22 April 2019_Small Size_0_pdf/ocr_result.json",
+    "time": "2026-05-17 16:08:25"
+  },
+  "PermataBank_SR2019_OJK.pdf": {
+    "status": "done",
+    "pages": 174,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/PermataBank_SR2019_OJK_pdf/ocr_result.json",
+    "time": "2026-05-17 16:08:37"
+  },
+  "BULL - SR 2022.pdf": {
+    "status": "done",
+    "pages": 84,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BULL - SR 2022_pdf/ocr_result.json",
+    "time": "2026-05-17 16:09:05"
+  },
+  "AR_SR_BULL_2021.pdf": {
+    "status": "done",
+    "pages": 308,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/AR_SR_BULL_2021_pdf/ocr_result.json",
+    "time": "2026-05-17 16:09:29"
+  },
+  "BULL - SR 2023 - 240520.pdf": {
+    "status": "done",
+    "pages": 104,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BULL - SR 2023 - 240520_pdf/ocr_result.json",
+    "time": "2026-05-17 16:09:39"
+  },
+  "BULL - SR 2024_250613 LR_compressed.pdf": {
+    "status": "done",
+    "pages": 116,
+    "json_output": "/home/ubuntu/apps/benchmarks/new_page/data/thesis_dataset/BULL - SR 2024_250613 LR_compressed_pdf/ocr_result.json",
+    "time": "2026-05-17 16:09:48"
   }
 }
