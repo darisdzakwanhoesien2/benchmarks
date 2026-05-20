@@ -7,6 +7,7 @@ from zipfile import ZipFile
 
 import pandas as pd
 import streamlit as st
+from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +18,7 @@ GRAPH_DIR = ROOT / "results" / "docx_graph_attachments"
 VIS = ROOT / "results" / "visualizations"
 TOOLS = ROOT / "tools"
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+REV = ROOT / "results" / "revision_analysis"
 
 sys.path.insert(0, str(ROOT / "code"))
 sys.path.insert(0, str(TOOLS))
@@ -71,6 +73,162 @@ def media_count(path: Path) -> int:
             return len([name for name in zf.namelist() if name.startswith("word/media/")])
     except Exception:
         return 0
+
+
+def chart_font(size: int, bold: bool = False) -> ImageFont.ImageFont:
+    candidates = [
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/System/Library/Fonts/Supplemental/Helvetica.ttc",
+    ]
+    for candidate in candidates:
+        try:
+            return ImageFont.truetype(candidate, size)
+        except Exception:
+            continue
+    return ImageFont.load_default()
+
+
+def wrap_label(draw: ImageDraw.ImageDraw, text: str, max_width: int, font: ImageFont.ImageFont) -> list[str]:
+    words = str(text).split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        trial = f"{current} {word}".strip()
+        if draw.textbbox((0, 0), trial, font=font)[2] <= max_width or not current:
+            current = trial
+        else:
+            lines.append(current)
+            current = word
+    if current:
+        lines.append(current)
+    return lines
+
+
+def draw_docx_bar_chart(path: Path, title: str, rows: pd.DataFrame, label_col: str, value_col: str, subtitle: str = "") -> None:
+    if rows.empty or label_col not in rows.columns or value_col not in rows.columns:
+        return
+    plot = rows[[label_col, value_col]].copy()
+    plot[value_col] = pd.to_numeric(plot[value_col], errors="coerce").fillna(0)
+    plot = plot.sort_values(value_col, ascending=False).head(14)
+    width, height = 1800, max(720, 180 + len(plot) * 78)
+    image = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(image)
+    title_font = chart_font(46, True)
+    subtitle_font = chart_font(25)
+    label_font = chart_font(25)
+    value_font = chart_font(23)
+    draw.rectangle((0, 0, width, 104), fill="#eef6f4")
+    draw.text((52, 28), title, fill="#173f42", font=title_font)
+    if subtitle:
+        draw.text((54, 116), subtitle, fill="#5b6472", font=subtitle_font)
+    max_value = max(float(plot[value_col].max()), 1)
+    x0, x1 = 560, width - 180
+    y = 190
+    for _, row in plot.iterrows():
+        label = str(row[label_col])
+        value = float(row[value_col])
+        for idx, line in enumerate(wrap_label(draw, label, 470, label_font)[:2]):
+            draw.text((54, y - 4 + idx * 28), line, fill="#1f2937", font=label_font)
+        bar_width = int((x1 - x0) * value / max_value)
+        draw.rounded_rectangle((x0, y, x0 + bar_width, y + 38), radius=8, fill="#2f6f73")
+        draw.line((x0, y + 50, x1, y + 50), fill="#e5e7eb", width=2)
+        value_text = f"{value:.3f}" if value <= 1 else f"{value:,.0f}"
+        draw.text((x0 + bar_width + 18, y + 3), value_text, fill="#111827", font=value_font)
+        y += 78
+    path.parent.mkdir(parents=True, exist_ok=True)
+    image.save(path)
+
+
+def human_annotation_agreement_rows() -> pd.DataFrame:
+    seed = load_csv(REV / "pilot_ground_truth_seed.csv")
+    silver = load_csv(REV / "silver_tone_ground_truth.csv")
+    rows = []
+    for field in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect"]:
+        completed = int(seed[field].astype(str).str.strip().ne("").sum()) if not seed.empty and field in seed.columns else 0
+        rows.append({"metric": f"{field} completed", "records": completed})
+    if not seed.empty and "review_status" in seed.columns:
+        for status, count in seed["review_status"].astype(str).replace("", "missing").value_counts().items():
+            rows.append({"metric": f"review_status: {status}", "records": int(count)})
+    rows.append({"metric": "silver dataset rows", "records": len(silver)})
+    rows.append({"metric": "pilot seed rows", "records": len(seed)})
+    return pd.DataFrame(rows)
+
+
+def repeated_llm_run_rows() -> pd.DataFrame:
+    model = load_csv(REV / "model_stability_summary.csv")
+    prompt = load_csv(REV / "prompt_stability_summary.csv")
+    rows = []
+    if not model.empty and {"model", "runs"}.issubset(model.columns):
+        for _, row in model.iterrows():
+            rows.append({"benchmark unit": f"model: {row['model']}", "runs": pd.to_numeric(row["runs"], errors="coerce")})
+    if not prompt.empty and {"prompt", "runs"}.issubset(prompt.columns):
+        for _, row in prompt.iterrows():
+            rows.append({"benchmark unit": f"prompt: {row['prompt']}", "runs": pd.to_numeric(row["runs"], errors="coerce")})
+    return pd.DataFrame(rows).fillna(0)
+
+
+def climatebert_baseline_rows() -> pd.DataFrame:
+    agreement = load_csv(REV / "climatebert_proxy_agreement_summary.csv")
+    records = load_csv(REV / "climatebert_proxy_agreement_records.csv")
+    rows = []
+    if not agreement.empty:
+        row = agreement.iloc[0]
+        for metric in ["percent_agreement", "cohen_kappa", "tone_commitment_rate", "climate_commitment_label_rate"]:
+            if metric in agreement.columns:
+                rows.append({"metric": metric, "value": pd.to_numeric(row[metric], errors="coerce")})
+    if not records.empty and "agreement_commitment" in records.columns:
+        agree_rate = records["agreement_commitment"].astype(str).str.lower().isin(["true", "1"]).mean()
+        rows.append({"metric": "record_level_agreement_rate", "value": agree_rate})
+    if not records.empty and "tone_pred" in records.columns:
+        commitment_rate = records["tone_pred"].astype(str).str.lower().eq("commitment").mean()
+        rows.append({"metric": "majority_baseline_commitment_binary", "value": max(commitment_rate, 1 - commitment_rate)})
+    return pd.DataFrame(rows)
+
+
+def ontology_extension_rows() -> pd.DataFrame:
+    ontology = load_csv(REV / "ontology_coverage.csv")
+    if ontology.empty:
+        return pd.DataFrame()
+    df = ontology.copy()
+    df["records"] = pd.to_numeric(df.get("records", 0), errors="coerce").fillna(0)
+    if "mapped_to_ontology" in df.columns:
+        df = df[~df["mapped_to_ontology"].astype(str).str.lower().isin(["true", "1", "yes"])]
+    return df.sort_values("records", ascending=False).head(20)
+
+
+def ensure_extra_graph_attachments() -> None:
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_human_annotation_agreement.png",
+        "Human Annotation Agreement Readiness",
+        human_annotation_agreement_rows(),
+        "metric",
+        "records",
+        "Current ground-truth completion and pilot review status",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_repeated_llm_runs.png",
+        "Repeated LLM Runs Coverage",
+        repeated_llm_run_rows(),
+        "benchmark unit",
+        "runs",
+        "Current run counts by model and prompt; confidence intervals still need repeated runs",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_climatebert_baseline.png",
+        "ClimateBERT Baseline Comparison",
+        climatebert_baseline_rows(),
+        "metric",
+        "value",
+        "Agreement, kappa, label rates, and majority baseline",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_ontology_extension_candidates.png",
+        "Ontology Extension Candidates",
+        ontology_extension_rows(),
+        "aspect",
+        "records",
+        "Top unmapped Indonesian ESG aspects for ontology extension",
+    )
 
 
 def graph_manifest() -> pd.DataFrame:
@@ -183,6 +341,42 @@ def graph_manifest() -> pd.DataFrame:
             "source table": "ontology_coverage.csv",
             "source page": "pages/6_2_Chapter_5_Discussion.py",
         },
+        {
+            "figure": "A.13",
+            "title": "Human annotation agreement",
+            "path": GRAPH_DIR / "docx_human_annotation_agreement.png",
+            "chapter": "Chapter 5 / 6",
+            "rq": "RQ2",
+            "source table": "pilot_ground_truth_seed.csv + silver_tone_ground_truth.csv",
+            "source page": "pages/1_1_Ground_Truth_Workbench.py",
+        },
+        {
+            "figure": "A.14",
+            "title": "Repeated LLM runs",
+            "path": GRAPH_DIR / "docx_repeated_llm_runs.png",
+            "chapter": "Chapter 4 / 6",
+            "rq": "RQ6",
+            "source table": "model_stability_summary.csv + prompt_stability_summary.csv",
+            "source page": "pages/2_3_LLM_Background_Run_Monitor.py",
+        },
+        {
+            "figure": "A.15",
+            "title": "ClimateBERT baseline",
+            "path": GRAPH_DIR / "docx_climatebert_baseline.png",
+            "chapter": "Chapter 5 / 6",
+            "rq": "RQ3",
+            "source table": "climatebert_proxy_agreement_summary.csv + climatebert_proxy_agreement_records.csv",
+            "source page": "pages/1_4_ClimateBERT_Record_Batch.py",
+        },
+        {
+            "figure": "A.16",
+            "title": "Ontology extension",
+            "path": GRAPH_DIR / "docx_ontology_extension_candidates.png",
+            "chapter": "Chapter 5 / 6",
+            "rq": "RQ4",
+            "source table": "ontology_coverage.csv",
+            "source page": "pages/1_6_Ontology_Path_Viewer.py",
+        },
     ]
     df = pd.DataFrame(rows)
     df["exists"] = df["path"].map(lambda p: Path(p).exists())
@@ -229,6 +423,14 @@ def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame])
         return load_csv(ROOT / "results" / "revision_analysis" / "prompt_stability_summary.csv")
     if figure == "A.12":
         return load_csv(ROOT / "results" / "revision_analysis" / "ontology_coverage.csv")
+    if figure == "A.13":
+        return human_annotation_agreement_rows()
+    if figure == "A.14":
+        return repeated_llm_run_rows()
+    if figure == "A.15":
+        return climatebert_baseline_rows()
+    if figure == "A.16":
+        return ontology_extension_rows()
     return pd.DataFrame()
 
 
@@ -353,6 +555,7 @@ def regenerate_docx() -> Path:
 
 
 bundle = data_bundle()
+ensure_extra_graph_attachments()
 
 st.title("Ch4-6 Structure Benchmarks and Graph Attachments")
 st.caption(
