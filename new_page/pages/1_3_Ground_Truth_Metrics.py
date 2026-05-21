@@ -39,6 +39,13 @@ def cohen_kappa(y_true, y_pred):
     return (po - pe) / (1 - pe) if (1 - pe) else 0.0
 
 
+def normalize_tone_label(value):
+    text = str(value or "").strip().lower()
+    if text in {"", "missing", "none", "nan", "null", "unknown", "no tone", "not_applicable", "n/a"}:
+        return "none"
+    return text
+
+
 def metric_table(df, truth_col, pred_col, label):
     missing = [col for col in [truth_col, pred_col] if col not in df.columns]
     if missing:
@@ -54,8 +61,12 @@ def metric_table(df, truth_col, pred_col, label):
     valid = df[df[truth_col].astype(str).str.strip().ne("") & df[pred_col].astype(str).str.strip().ne("")].copy()
     if valid.empty:
         return pd.DataFrame(), valid
-    y_true = valid[truth_col].astype(str)
-    y_pred = valid[pred_col].astype(str)
+    if "tone" in label.lower():
+        y_true = valid[truth_col].map(normalize_tone_label)
+        y_pred = valid[pred_col].map(normalize_tone_label)
+    else:
+        y_true = valid[truth_col].astype(str)
+        y_pred = valid[pred_col].astype(str)
     out = pd.DataFrame(
         [
             {
@@ -76,8 +87,14 @@ def show_confusion(df, truth_col, pred_col, title):
     if df.empty:
         st.info("No labeled rows available for this confusion matrix.")
         return
-    labels = sorted(set(df[truth_col].astype(str)) | set(df[pred_col].astype(str)))
-    cm = confusion_matrix(df[truth_col].astype(str), df[pred_col].astype(str), labels=labels)
+    if "tone" in title.lower():
+        actual = df[truth_col].map(normalize_tone_label)
+        predicted = df[pred_col].map(normalize_tone_label)
+    else:
+        actual = df[truth_col].astype(str)
+        predicted = df[pred_col].astype(str)
+    labels = sorted(set(actual) | set(predicted))
+    cm = confusion_matrix(actual, predicted, labels=labels)
     cm_df = pd.DataFrame(cm, index=labels, columns=labels).reset_index().melt(id_vars="index", var_name="predicted", value_name="count")
     cm_df = cm_df.rename(columns={"index": "actual"})
     chart = (

@@ -453,5 +453,5 @@ with tabs[6]:
         "ground_truth.py Pipeline Graph + Table Attachment Cards",
         chapter_default="Chapter 4",
         rq_default="RQ2",
-        figures=["A.17", "A.18", "A.19", "A.20"],
+        figures=["A.17", "A.18", "A.19", "A.20", "A.22", "A.23", "A.24", "A.25", "A.26", "A.27", "A.28", "A.29"],
     )

@@ -784,6 +784,15 @@ def live_figure_data(figure: str, data: pd.DataFrame) -> tuple[go.Figure | None,
     def has_columns(*cols: str) -> bool:
         return all(col in data.columns for col in cols)
 
+    def uri_status(value: Any) -> str:
+        try:
+            if pd.isna(value):
+                return "No URI"
+        except Exception:
+            pass
+        text = str(value).strip()
+        return "Has URI" if text and text.lower() not in {"nan", "none", "<na>"} else "No URI"
+
     if figure == "A.1" and has_columns("tone"):
         tbl = data["tone"].value_counts().reset_index()
         tbl.columns = ["tone", "records"]
@@ -833,7 +842,7 @@ def live_figure_data(figure: str, data: pd.DataFrame) -> tuple[go.Figure | None,
         fig.update_layout(showlegend=False, height=560, yaxis={"categoryorder": "total ascending"})
         return fig, tbl
     if figure == "A.9" and "ontology_uri" in data.columns:
-        status = data["ontology_uri"].astype(str).str.strip().map(lambda v: "Has URI" if v and v.lower() != "nan" else "No URI")
+        status = data["ontology_uri"].map(uri_status)
         tbl = status.value_counts().reset_index()
         tbl.columns = ["ontology_uri_status", "records"]
         fig = px.pie(tbl, names="ontology_uri_status", values="records", hole=0.4, title="Ontology URI Coverage")
