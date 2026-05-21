@@ -36,6 +36,13 @@ def redirect_button(label: str, page: str) -> None:
     st.link_button(label, page_slug(page), use_container_width=True)
 
 
+def show_image(path: Path, caption: str | None = None) -> None:
+    try:
+        st.image(str(path), caption=caption, width="stretch")
+    except TypeError:
+        st.image(str(path), caption=caption, use_column_width=True)
+
+
 def graph_attachment_manifest() -> pd.DataFrame:
     rows = [
         ("A.1", "Tone distribution", VIS / "tone_distribution.png", "Chapter 4", "RQ2", "tone_records_flat.csv", "pages/6_1_Chapter_4_Implementation_Results.py"),
@@ -291,7 +298,7 @@ def render_attachment_cards(
             with graph_col:
                 st.markdown("**Original graph attachment**")
                 if path.exists():
-                    st.image(str(path), use_column_width=True)
+                    show_image(path)
                 else:
                     st.warning("Missing graph file.")
         if view_mode in {"Graph + original table", "Original table only"}:
