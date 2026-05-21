@@ -37,9 +37,17 @@ from thesis_chapter_streamlit import (  # noqa: E402
     prompt_stability_chart,
     workflow_coverage_chart,
 )
+from action_plan_status import action_plan_status_rows  # noqa: E402
 
 
 st.set_page_config(page_title="Ch4-6 Benchmarks + DOCX Graphs", layout="wide")
+
+
+def show_image(path: Path, caption: str | None = None) -> None:
+    try:
+        st.image(str(path), caption=caption, width="stretch")
+    except TypeError:
+        st.image(str(path), caption=caption, use_column_width=True)
 
 
 def read_docx_paragraphs(path: Path) -> pd.DataFrame:
@@ -880,6 +888,25 @@ doc_cols[1].markdown(f"**Updated DOCX:** `{UPDATED_DOCX}`")
 doc_cols[2].metric("Embedded graphs", media_count(UPDATED_DOCX))
 doc_cols[3].metric("Graph files", int(graph_manifest()["exists"].sum()))
 
+st.subheader("Thesis Action Plan Live Status")
+action_status = action_plan_status_rows()
+status_cols = st.columns(len(action_status) if not action_status.empty else 1)
+for idx, (_, row) in enumerate(action_status.iterrows()):
+    with status_cols[idx]:
+        st.metric(
+            str(row["metric"]),
+            str(row["value"]),
+            delta="✓ Done" if bool(row["ok"]) else "Needed",
+            delta_color="normal" if bool(row["ok"]) else "inverse",
+        )
+        try:
+            completed = float(row["completed"])
+            target = float(str(row["target"]).replace("+", ""))
+            st.progress(min(completed / target, 1.0) if target else 0.0)
+        except Exception:
+            pass
+st.caption("These counters mirror the live completion block in `pages/3_0_Thesis_Action_Plan.py`.")
+
 action_cols = st.columns([1, 1, 2])
 with action_cols[0]:
     if st.button("Regenerate updated DOCX", type="primary", use_container_width=True):
@@ -935,6 +962,21 @@ with tab_summary:
     for idx, (label, page) in enumerate(redirects):
         with redirect_cols[idx]:
             redirect_button(label, page)
+
+    st.subheader("Action Plan Completion Evidence")
+    st.dataframe(
+        action_status[["metric", "value", "status", "source page"]].astype(str),
+        use_container_width=True,
+        hide_index=True,
+        height=260,
+    )
+    st.download_button(
+        "Download Action Plan status CSV",
+        action_status.to_csv(index=False).encode("utf-8"),
+        "action_plan_live_status.csv",
+        "text/csv",
+        use_container_width=True,
+    )
 
     st.subheader("What the DOCX update adds")
     st.markdown(
@@ -996,7 +1038,7 @@ with tab_graphs:
                 st.markdown("**Original graph attachment**")
                 st.caption("This is the graph image embedded into the updated DOCX appendix.")
                 if path.exists():
-                    st.image(str(path), use_column_width=True)
+                    show_image(path)
                 else:
                     st.warning("Missing graph file.")
         if view_mode in {"Graph + original table", "Original table only"}:

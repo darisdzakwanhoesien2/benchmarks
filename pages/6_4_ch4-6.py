@@ -1,17 +1,25 @@
 from __future__ import annotations
 
+import importlib.util
+import json
 from pathlib import Path
 import sys
+from typing import Any
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
 
 BENCHMARKS_ROOT = Path(__file__).resolve().parents[1]
 ROOT = BENCHMARKS_ROOT / "new_page"
+DASHBOARD_DIR = BENCHMARKS_ROOT / "esg_dashboard_new-main" / "dashboard"
+DASHBOARD_DATA_DIR = DASHBOARD_DIR / "data" / "data"
+DASHBOARD_ONTOLOGY_DIR = DASHBOARD_DIR / "data"
 SOURCE_DOCX = BENCHMARKS_ROOT / "pages" / "thesis_ch4_6_structure_benchmarks.docx"
 UPDATED_DOCX = BENCHMARKS_ROOT / "pages" / "thesis_ch4_6_structure_benchmarks_streamlit_graphs.docx"
 GRAPH_DIR = ROOT / "results" / "docx_graph_attachments"
@@ -39,6 +47,52 @@ from thesis_chapter_streamlit import (  # noqa: E402
 
 
 st.set_page_config(page_title="Ch4-6 Benchmarks + DOCX Graphs", layout="wide")
+
+
+def _load_dashboard_data_loader():
+    module_path = DASHBOARD_DIR / "utils" / "data_loader.py"
+    spec = importlib.util.spec_from_file_location("dashboard_page_data_loader", module_path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Could not load dashboard data loader from {module_path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_dashboard_loader = _load_dashboard_data_loader()
+format_display_value = _dashboard_loader.format_display_value
+load_and_parse = _dashboard_loader.load_and_parse
+read_dashboard_dataset = _dashboard_loader.read_dataset
+resolve_dashboard_data_path = _dashboard_loader.resolve_data_path
+
+
+def _load_ontology(name: str) -> dict[str, Any]:
+    path = DASHBOARD_ONTOLOGY_DIR / name
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _ontology_alias_map(ontology: dict[str, Any]) -> dict[str, str]:
+    mapping: dict[str, str] = {}
+    for key, meta in ontology.items():
+        label = meta.get("label", key) if isinstance(meta, dict) else key
+        values = [key, label]
+        if isinstance(meta, dict):
+            values.extend(meta.get("aliases", []))
+        for value in values:
+            if value is not None:
+                mapping[str(value).strip().lower()] = str(label).strip()
+    return mapping
+
+
+TONE_MAP = _ontology_alias_map(_load_ontology("tone_ontology.json"))
+SENTIMENT_MAP = _ontology_alias_map(_load_ontology("sentiment_ontology.json"))
+ASPECT_CATEGORY_MAP = _ontology_alias_map(_load_ontology("aspect_category_ontology.json"))
+HEAVY_SOURCE_COLUMNS = {"text", "markdown_full", "cleaned_markdown", "original", "pa"}
 
 
 def read_docx_paragraphs(path: Path) -> pd.DataFrame:
@@ -645,6 +699,200 @@ def load_csv(path: Path) -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def _normalize_from_map(value: Any, mapping: dict[str, str], fallback: str = "Other / Unclassified") -> str:
+    text = format_display_value(value)
+    if not text:
+        return fallback
+    return mapping.get(text.lower(), fallback)
+
+
+def _find_dashboard_data_file(name: str) -> Path | None:
+    try:
+        return resolve_dashboard_data_path(name)
+    except FileNotFoundError:
+        pass
+    for ext in (".csv", ".txt"):
+        path = DASHBOARD_DATA_DIR / f"{name}{ext}"
+        if path.exists():
+            return path
+    return None
+
+
+@st.cache_data
+def load_dashboard_records() -> tuple[pd.DataFrame, str, str]:
+    try:
+        path = resolve_dashboard_data_path("data_output")
+        df = load_and_parse()
+        source_label = "dashboard/data/data/data_output parsed JSON"
+    except Exception:
+        path = _find_dashboard_data_file("output_in_csv")
+        if path is None:
+            return pd.DataFrame(), "not found", "dashboard data not found"
+        df = read_dashboard_dataset("output_in_csv")
+        source_label = "dashboard/data/data/output_in_csv fallback"
+
+    df.columns = df.columns.str.lower().str.strip()
+    df = df.loc[:, ~df.columns.duplicated()].copy()
+    df = df.drop(columns=[col for col in HEAVY_SOURCE_COLUMNS if col in df.columns])
+    if {"sentence", "aspect"}.issubset(df.columns):
+        df = df[df["sentence"].notna() & df["aspect"].notna()].copy()
+    for col in ["filename", "model", "sentence", "aspect", "aspect_category", "sentiment", "tone"]:
+        if col in df.columns:
+            df[col] = df[col].map(format_display_value)
+    if "sentence" in df.columns:
+        df = df[df["sentence"] != ""].reset_index(drop=True)
+
+    if "aspect_category" in df.columns:
+        df["aspect_category_raw"] = df["aspect_category"]
+        df["aspect_category"] = df["aspect_category"].apply(lambda value: _normalize_from_map(value, ASPECT_CATEGORY_MAP))
+        df["esg_pillar"] = df["aspect_category"]
+    if "sentiment" in df.columns:
+        df["sentiment_raw"] = df["sentiment"]
+        df["sentiment_norm"] = df["sentiment"].apply(lambda value: _normalize_from_map(value, SENTIMENT_MAP))
+    if "tone" in df.columns:
+        df["tone_raw"] = df["tone"]
+        df["tone"] = df["tone"].apply(lambda value: _normalize_from_map(value, TONE_MAP))
+    if "aspect" in df.columns:
+        df["aspect"] = df["aspect"].replace("", "Unknown")
+    if "filename" in df.columns:
+        df["filename"] = df["filename"].replace("", "Unknown source")
+    return df, str(path), source_label
+
+
+def live_graph_manifest() -> pd.DataFrame:
+    rows = [
+        ("A.1", "Tone distribution", "Chapter 4", "RQ2", "data_output parsed JSON -> tone", "Tone_Distribution", True),
+        ("A.2", "ESG by tone", "Chapter 4", "RQ2", "data_output parsed JSON -> tone x aspect_category", "Data_File_Visualizer", True),
+        ("A.3", "Aspect by tone heatmap", "Chapter 4", "RQ2", "data_output parsed JSON -> aspect x tone", "Aspect", True),
+        ("A.4", "Sentiment distribution", "Chapter 4", "RQ2", "data_output parsed JSON -> sentiment", "Tone_Distribution", True),
+        ("A.5", "ESG pillar distribution", "Chapter 4", "RQ1", "data_output parsed JSON -> aspect_category", "Data_File_Visualizer", True),
+        ("A.6", "Records per source document", "Chapter 4", "RQ1", "data_output parsed JSON -> filename", "Parsed_ESG_Review", True),
+        ("A.7", "Tone x ESG pillar heatmap", "Chapter 4", "RQ2", "data_output parsed JSON -> tone x esg_pillar", "Data_File_Visualizer", True),
+        ("A.8", "Top 20 aspects by record count", "Chapter 4", "RQ4", "data_output parsed JSON -> aspect", "Aspect", True),
+        ("A.9", "Ontology URI coverage", "Chapter 5", "RQ4", "data_output parsed JSON -> ontology_uri", "JSON_Ontology_Usage_Map", True),
+        ("A.10", "Aspect x sentiment heatmap", "Chapter 5", "RQ2", "data_output parsed JSON -> aspect x sentiment_norm", "Tone_Distribution", True),
+        ("A.11", "Confidence score distribution", "Chapter 4", "RQ6", "data_output parsed JSON -> confidence", "Benchmark_Model", True),
+        ("A.12", "Per-RQ evidence mapping", "Chapter 4 / 6", "RQ1-RQ6", "chapter-to-RQ mapping", "Research_Questions_Dashboard", True),
+    ]
+    return pd.DataFrame(rows, columns=["figure", "title", "chapter", "rq", "source table", "source page", "available"])
+
+
+def live_figure_data(figure: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.DataFrame]:
+    if data.empty:
+        return None, pd.DataFrame()
+
+    def has_columns(*cols: str) -> bool:
+        return all(col in data.columns for col in cols)
+
+    if figure == "A.1" and has_columns("tone"):
+        tbl = data["tone"].value_counts().reset_index()
+        tbl.columns = ["tone", "records"]
+        fig = px.bar(tbl, x="tone", y="records", color="tone", title="Tone Distribution")
+        fig.update_layout(showlegend=False)
+        return fig, tbl
+    if figure == "A.2" and has_columns("tone", "aspect_category"):
+        tbl = data.groupby(["tone", "aspect_category"]).size().reset_index(name="records")
+        fig = px.bar(tbl, x="tone", y="records", color="aspect_category", barmode="stack", title="ESG by Tone")
+        pivot = tbl.pivot(index="tone", columns="aspect_category", values="records").fillna(0).astype(int)
+        pivot.columns.name = None
+        return fig, pivot.reset_index()
+    if figure == "A.3" and has_columns("aspect", "tone"):
+        top = data["aspect"].value_counts().head(15).index
+        tbl = data[data["aspect"].isin(top)].groupby(["aspect", "tone"]).size().reset_index(name="records")
+        pivot = tbl.pivot(index="aspect", columns="tone", values="records").fillna(0).astype(int)
+        pivot.columns.name = None
+        fig = px.imshow(pivot, text_auto=True, color_continuous_scale="Blues", title="Aspect by Tone Heatmap", height=520)
+        return fig, pivot.reset_index()
+    if figure == "A.4" and has_columns("sentiment_norm"):
+        tbl = data["sentiment_norm"].value_counts().reset_index()
+        tbl.columns = ["sentiment", "records"]
+        fig = px.bar(tbl, x="sentiment", y="records", color="sentiment", title="Sentiment Distribution")
+        fig.update_layout(showlegend=False)
+        return fig, tbl
+    if figure == "A.5" and has_columns("esg_pillar"):
+        tbl = data["esg_pillar"].value_counts().reset_index()
+        tbl.columns = ["esg_pillar", "records"]
+        fig = px.pie(tbl, names="esg_pillar", values="records", hole=0.4, title="ESG Pillar Distribution")
+        return fig, tbl
+    if figure == "A.6" and has_columns("filename"):
+        tbl = data.groupby("filename").size().reset_index(name="records").sort_values("records", ascending=False)
+        fig = px.bar(tbl, x="records", y="filename", orientation="h", title="Records per Source Document")
+        fig.update_layout(showlegend=False, height=max(380, 28 * len(tbl)), yaxis={"categoryorder": "total ascending"})
+        return fig, tbl
+    if figure == "A.7" and has_columns("esg_pillar", "tone"):
+        valid = data[data["esg_pillar"] != "Other / Unclassified"]
+        tbl = valid.groupby(["esg_pillar", "tone"]).size().reset_index(name="records")
+        pivot = tbl.pivot(index="esg_pillar", columns="tone", values="records").fillna(0).astype(int)
+        pivot.columns.name = None
+        fig = px.imshow(pivot, text_auto=True, color_continuous_scale="Teal", title="Tone x ESG Pillar Heatmap")
+        return fig, pivot.reset_index()
+    if figure == "A.8" and has_columns("aspect"):
+        tbl = data[data["aspect"] != "Unknown"]["aspect"].value_counts().head(20).reset_index()
+        tbl.columns = ["aspect", "records"]
+        fig = px.bar(tbl, x="records", y="aspect", orientation="h", title="Top 20 Aspects by Record Count")
+        fig.update_layout(showlegend=False, height=560, yaxis={"categoryorder": "total ascending"})
+        return fig, tbl
+    if figure == "A.9" and "ontology_uri" in data.columns:
+        status = data["ontology_uri"].astype(str).str.strip().map(lambda v: "Has URI" if v and v.lower() != "nan" else "No URI")
+        tbl = status.value_counts().reset_index()
+        tbl.columns = ["ontology_uri_status", "records"]
+        fig = px.pie(tbl, names="ontology_uri_status", values="records", hole=0.4, title="Ontology URI Coverage")
+        return fig, tbl
+    if figure == "A.10" and has_columns("aspect", "sentiment_norm"):
+        top = data["aspect"].value_counts().head(12).index
+        tbl = data[data["aspect"].isin(top)].groupby(["aspect", "sentiment_norm"]).size().reset_index(name="records")
+        pivot = tbl.pivot(index="aspect", columns="sentiment_norm", values="records").fillna(0).astype(int)
+        pivot.columns.name = None
+        fig = px.imshow(pivot, text_auto=True, color_continuous_scale="RdYlGn", title="Aspect x Sentiment Heatmap", height=480)
+        return fig, pivot.reset_index()
+    if figure == "A.11" and "confidence" in data.columns:
+        conf = pd.to_numeric(data["confidence"], errors="coerce").dropna()
+        tbl = conf.describe().reset_index()
+        tbl.columns = ["statistic", "value"]
+        fig = px.histogram(conf, nbins=30, title="Confidence Score Distribution")
+        fig.update_layout(showlegend=False)
+        return fig, tbl
+    if figure == "A.12":
+        tbl = chapter_mapping_rows()
+        counts = tbl[["chapter"]].copy()
+        counts["evidence_items"] = 1
+        counts = counts.groupby("chapter", as_index=False)["evidence_items"].sum()
+        fig = px.bar(counts, x="chapter", y="evidence_items", color="chapter", title="Chapter Evidence Items")
+        fig.update_layout(showlegend=False)
+        return fig, tbl
+    return None, pd.DataFrame()
+
+
+def dashboard_result_bundle(data: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    tone_records = data.copy()
+    if "filename" in tone_records.columns and "target_doc" not in tone_records.columns:
+        tone_records["target_doc"] = tone_records["filename"]
+    if "esg_pillar" in tone_records.columns and "esg" not in tone_records.columns:
+        tone_records["esg"] = tone_records["esg_pillar"]
+    if {"tone", "esg"}.issubset(tone_records.columns):
+        tone_esg = (
+            tone_records.groupby(["tone", "esg"])
+            .size()
+            .reset_index(name="records")
+            .pivot(index="tone", columns="esg", values="records")
+            .fillna(0)
+            .astype(int)
+            .reset_index()
+        )
+    else:
+        tone_esg = pd.DataFrame()
+    return {
+        "tone_records": tone_records,
+        "tone_esg": tone_esg,
+        "ocr": pd.DataFrame(),
+        "agreement": pd.DataFrame(),
+        "ontology": pd.DataFrame(),
+        "model_stability": pd.DataFrame(),
+        "prompt_stability": pd.DataFrame(),
+        "inventory": pd.DataFrame(),
+    }
+
+
 def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
     figure = str(row["figure"])
     if figure == "A.1":
@@ -816,13 +1064,13 @@ def regenerate_docx() -> Path:
     return update_document()
 
 
-bundle = data_bundle()
-ensure_extra_graph_attachments()
+dashboard_df, dashboard_data_path, dashboard_source_label = load_dashboard_records()
+bundle = dashboard_result_bundle(dashboard_df)
 
 st.title("Ch4-6 Structure Benchmarks and Graph Attachments")
 st.caption(
     "Streamlit reader for `thesis_ch4_6_structure_benchmarks.docx`, the updated graph-attached DOCX, "
-    "and the live evidence used by pages/6_1, pages/6_2, and pages/6_3."
+    "and live figures recomputed from the dashboard dataset instead of `new_page/results` artifacts."
 )
 metric_row(bundle)
 
@@ -917,48 +1165,50 @@ with tab_docx:
     st.dataframe(display, use_container_width=True, hide_index=True, height=560)
 
 with tab_graphs:
-    st.header("Graph Attachments")
-    manifest = graph_manifest()
+    st.header("Live Figure Tables")
+    st.caption(
+        f"Computed from `{dashboard_data_path}` ({dashboard_source_label}); "
+        "`new_page/results` PNG and CSV artifacts are intentionally not used in this tab."
+    )
+    manifest = live_graph_manifest()
     c1, c2, c3, c4 = st.columns(4)
     chapter_filter = c1.selectbox("Chapter", ["All"] + sorted(manifest["chapter"].unique().tolist()))
     rq_filter = c2.selectbox("RQ", ["All"] + sorted(manifest["rq"].unique().tolist()))
-    view_mode = c3.selectbox("View", ["Graph + original table", "Graph only", "Original table only"])
-    only_existing = c4.toggle("Only existing files", value=True)
+    view_mode = c3.selectbox("View", ["Chart + table", "Chart only", "Table only"])
+    only_available = c4.toggle("Only available figures", value=True)
     filtered = manifest.copy()
     if chapter_filter != "All":
         filtered = filtered[filtered["chapter"].eq(chapter_filter)]
     if rq_filter != "All":
         filtered = filtered[filtered["rq"].eq(rq_filter)]
-    if only_existing:
-        filtered = filtered[filtered["exists"]]
+    if only_available:
+        filtered = filtered[filtered["available"]]
     st.dataframe(filtered, use_container_width=True, hide_index=True, height=260)
 
     for _, row in filtered.iterrows():
-        path = Path(row["path"])
         st.divider()
         st.subheader(f"{row['figure']} - {row['title']}")
         meta_cols = st.columns([2, 2, 2, 1])
         meta_cols[0].caption(f"{row['chapter']} | {row['rq']}")
-        meta_cols[1].caption(f"Graph: `{path}`")
-        meta_cols[2].caption(f"Original table: `{row['source table']}`")
+        meta_cols[1].caption(f"Source data: `{row['source table']}`")
+        meta_cols[2].caption(f"Source page: `/{row['source page']}`")
         with meta_cols[3]:
             redirect_button("Open page", str(row["source page"]))
 
+        fig_obj, source_df = live_figure_data(str(row["figure"]), dashboard_df)
         graph_col, table_col = st.columns([1.05, 1], gap="large")
-        if view_mode in {"Graph + original table", "Graph only"}:
+        if view_mode in {"Chart + table", "Chart only"}:
             with graph_col:
-                st.markdown("**Original graph attachment**")
-                st.caption("This is the graph image embedded into the updated DOCX appendix.")
-                if path.exists():
-                    st.image(str(path), use_container_width=True)
+                st.markdown("**Live chart**")
+                if fig_obj is not None:
+                    st.plotly_chart(fig_obj, use_container_width=True)
                 else:
-                    st.warning("Missing graph file.")
-        if view_mode in {"Graph + original table", "Original table only"}:
+                    st.info("Chart could not be generated from the dashboard dataset.")
+        if view_mode in {"Chart + table", "Table only"}:
             with table_col:
-                st.markdown("**Original / backing table**")
-                source_df = source_dataframe_for_figure(row, bundle)
+                st.markdown("**Computed backing table**")
                 if source_df.empty:
-                    st.info("No backing table is available for this attachment yet.")
+                    st.info("No backing table is available from the dashboard dataset.")
                 else:
                     if str(row["figure"]) == "A.21" and len(source_df.columns) > 2:
                         # Pivot table: apply colour gradient on numeric columns
@@ -984,7 +1234,7 @@ with tab_graphs:
                     else:
                         st.dataframe(source_df.astype(str), use_container_width=True, hide_index=True, height=360)
                     st.download_button(
-                        f"Download {row['figure']} backing table",
+                        f"Download {row['figure']} computed table",
                         source_df.to_csv(index=False).encode("utf-8"),
                         f"{row['figure'].replace('.', '_')}_{str(row['source table']).replace('/', '_')}.csv",
                         "text/csv",
@@ -1009,29 +1259,46 @@ with tab_chapters:
     st.dataframe(checklist, use_container_width=True, hide_index=True, height=240)
 
 with tab_live:
-    st.header("Live Charts from the Chapter Pages")
-    live_tabs = st.tabs(["Chapter 4", "Chapter 5", "Chapter 6"])
-    with live_tabs[0]:
-        st.subheader("Chapter 4 result evidence")
-        c1, c2 = st.columns(2)
-        with c1:
-            count_chart(bundle["tone_records"], "tone", "Tone distribution")
-        with c2:
-            count_chart(bundle["tone_records"], "esg", "ESG pillar distribution")
-        heatmap_from_table(bundle["tone_esg"], "tone", "Tone x ESG pillar")
-    with live_tabs[1]:
-        st.subheader("Chapter 5 discussion evidence")
-        c1, c2 = st.columns(2)
-        with c1:
-            agreement_chart(bundle["agreement"])
-        with c2:
-            ontology_chart(bundle["ontology"])
-        prompt_stability_chart(bundle["prompt_stability"])
-    with live_tabs[2]:
-        st.subheader("Chapter 6 conclusion evidence")
-        workflow_coverage_chart()
-        c1, c2 = st.columns(2)
-        with c1:
-            artifact_chart(bundle["inventory"])
-        with c2:
-            model_stability_chart(bundle["model_stability"])
+    st.header("Live Charts from Dashboard Data")
+    st.caption(
+        f"Source: `{dashboard_data_path}` ({len(dashboard_df):,} parsed ESG records). "
+        "This view avoids `new_page/results` data sources."
+    )
+    if dashboard_df.empty:
+        st.warning("Dashboard dataset is empty or could not be loaded.")
+    else:
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Parsed Records", f"{len(dashboard_df):,}")
+        c2.metric("Unique Tones", int(dashboard_df["tone"].nunique()) if "tone" in dashboard_df.columns else "n/a")
+        c3.metric("Source Documents", int(dashboard_df["filename"].nunique()) if "filename" in dashboard_df.columns else "n/a")
+        c4.metric("Unique Aspects", int(dashboard_df["aspect"].nunique()) if "aspect" in dashboard_df.columns else "n/a")
+
+        live_tabs = st.tabs(["Distribution", "Cross Tabs", "Data Preview"])
+        with live_tabs[0]:
+            left, right = st.columns(2)
+            with left:
+                fig_obj, _ = live_figure_data("A.1", dashboard_df)
+                if fig_obj is not None:
+                    st.plotly_chart(fig_obj, use_container_width=True)
+            with right:
+                fig_obj, _ = live_figure_data("A.5", dashboard_df)
+                if fig_obj is not None:
+                    st.plotly_chart(fig_obj, use_container_width=True)
+            left, right = st.columns(2)
+            with left:
+                fig_obj, _ = live_figure_data("A.4", dashboard_df)
+                if fig_obj is not None:
+                    st.plotly_chart(fig_obj, use_container_width=True)
+            with right:
+                fig_obj, _ = live_figure_data("A.8", dashboard_df)
+                if fig_obj is not None:
+                    st.plotly_chart(fig_obj, use_container_width=True)
+        with live_tabs[1]:
+            fig_obj, _ = live_figure_data("A.7", dashboard_df)
+            if fig_obj is not None:
+                st.plotly_chart(fig_obj, use_container_width=True)
+            fig_obj, _ = live_figure_data("A.10", dashboard_df)
+            if fig_obj is not None:
+                st.plotly_chart(fig_obj, use_container_width=True)
+        with live_tabs[2]:
+            st.dataframe(dashboard_df.head(500).astype(str), use_container_width=True, hide_index=True, height=520)
