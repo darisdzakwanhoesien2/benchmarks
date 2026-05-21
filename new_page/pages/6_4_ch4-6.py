@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from datetime import datetime
 import json
+import pickle
 from pathlib import Path
 import sys
 from xml.etree import ElementTree as ET
@@ -21,6 +23,10 @@ TOOLS = ROOT / "tools"
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 REV = ROOT / "results" / "revision_analysis"
 WORKFLOW = ROOT / "results" / "thesis_workflow_dashboard"
+SNAPSHOT_DIR = ROOT / "results" / "ch4_6_frozen_analysis"
+SNAPSHOT_GRAPH_DIR = SNAPSHOT_DIR / "graphs"
+SNAPSHOT_PATH = SNAPSHOT_DIR / "analysis_snapshot.pkl"
+SNAPSHOT_SCHEMA_VERSION = 2
 
 sys.path.insert(0, str(ROOT / "code"))
 sys.path.insert(0, str(TOOLS))
@@ -1273,13 +1279,180 @@ def regenerate_docx() -> Path:
     return update_document()
 
 
-bundle = data_bundle()
-ensure_extra_graph_attachments()
+def snapshot_source_paths() -> list[Path]:
+    paths = [
+        ROOT / "results",
+        VIS,
+        REV,
+        WORKFLOW,
+        SOURCE_DOCX,
+        UPDATED_DOCX,
+        ROOT / "results" / "esg_records.json",
+        ROOT / "results" / "t1_results.jsonl",
+        ROOT / "results" / "t1_results.json",
+        ROOT / "results" / "t2_results.jsonl",
+        ROOT / "results" / "t2_results.json",
+        VIS / "tone_records_flat.csv",
+        VIS / "tone_esg_crosstab.csv",
+        VIS / "tone_climatebert_label_crosstab.csv",
+        VIS / "climatebert_remote_flat.csv",
+        REV / "model_stability_summary.csv",
+        REV / "prompt_stability_summary.csv",
+        REV / "failure_mode_counts.csv",
+        REV / "ontology_coverage.csv",
+        REV / "climatebert_proxy_agreement_summary.csv",
+        REV / "climatebert_proxy_agreement_records.csv",
+        REV / "ocr_processing_summary.csv",
+        REV / "greenwashing_index_by_company.csv",
+        REV / "silver_tone_ground_truth.csv",
+        REV / "pilot_ground_truth_seed.csv",
+        REV / "pilot_ground_truth_annotations.csv",
+        REV / "climatebert_record_batch_import.csv",
+        REV / "climatebert_output.csv",
+        WORKFLOW / "t2_flat_outputs.csv",
+    ]
+    return sorted({path.resolve() for path in paths}, key=str)
+
+
+def source_fingerprint() -> dict[str, dict[str, int | bool]]:
+    fingerprint: dict[str, dict[str, int | bool]] = {}
+    for path in snapshot_source_paths():
+        try:
+            stat = path.stat()
+        except FileNotFoundError:
+            fingerprint[str(path)] = {"exists": False, "mtime_ns": 0, "size": 0}
+            continue
+        fingerprint[str(path)] = {
+            "exists": True,
+            "mtime_ns": int(stat.st_mtime_ns),
+            "size": int(stat.st_size),
+        }
+    return fingerprint
+
+
+def fingerprint_changed(snapshot: dict, current: dict[str, dict[str, int | bool]]) -> bool:
+    return snapshot.get("source_fingerprint", {}) != current
+
+
+def changed_source_count(snapshot: dict, current: dict[str, dict[str, int | bool]]) -> int:
+    previous = snapshot.get("source_fingerprint", {})
+    return sum(1 for key in set(previous) | set(current) if previous.get(key) != current.get(key))
+
+
+def format_snapshot_time(snapshot: dict) -> str:
+    created_at = str(snapshot.get("created_at", ""))
+    if not created_at:
+        return "unknown time"
+    try:
+        return datetime.fromisoformat(created_at).strftime("%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return created_at
+
+
+def load_analysis_snapshot() -> dict | None:
+    if not SNAPSHOT_PATH.exists():
+        return None
+    try:
+        with SNAPSHOT_PATH.open("rb") as handle:
+            snapshot = pickle.load(handle)
+    except Exception:
+        return None
+    if snapshot.get("schema_version") != SNAPSHOT_SCHEMA_VERSION:
+        return None
+    required = {"bundle", "manifest", "action_status", "source_tables", "source_fingerprint"}
+    return snapshot if required.issubset(snapshot) else None
+
+
+def save_analysis_snapshot(snapshot: dict) -> None:
+    SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+    with SNAPSHOT_PATH.open("wb") as handle:
+        pickle.dump(snapshot, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+def freeze_manifest_graph_files(manifest: pd.DataFrame) -> pd.DataFrame:
+    frozen = manifest.copy()
+    SNAPSHOT_GRAPH_DIR.mkdir(parents=True, exist_ok=True)
+    for idx, row in frozen.iterrows():
+        source = Path(row["path"])
+        target_name = f"{str(row['figure']).replace('.', '_')}_{source.name}"
+        target = SNAPSHOT_GRAPH_DIR / target_name
+        if source.exists():
+            try:
+                target.write_bytes(source.read_bytes())
+                frozen.at[idx, "path"] = str(target)
+                frozen.at[idx, "exists"] = True
+            except Exception:
+                frozen.at[idx, "exists"] = False
+        else:
+            frozen.at[idx, "exists"] = False
+    return frozen
+
+
+def build_analysis_snapshot() -> dict:
+    frozen_bundle = data_bundle()
+    ensure_extra_graph_attachments()
+    live_manifest = graph_manifest()
+    frozen_manifest = freeze_manifest_graph_files(live_manifest)
+    frozen_tables: dict[str, pd.DataFrame] = {}
+    for _, row in live_manifest.iterrows():
+        frozen_tables[str(row["figure"])] = source_dataframe_for_figure(row, frozen_bundle)
+    if not frozen_manifest.empty:
+        frozen_tables["A.9"] = frozen_manifest[["figure", "title", "chapter", "rq", "source table", "source page", "exists"]]
+    return {
+        "schema_version": SNAPSHOT_SCHEMA_VERSION,
+        "created_at": datetime.now().isoformat(timespec="seconds"),
+        "source_fingerprint": source_fingerprint(),
+        "bundle": frozen_bundle,
+        "manifest": frozen_manifest,
+        "action_status": action_plan_status_rows(),
+        "source_tables": frozen_tables,
+    }
+
+
+def get_frozen_source_table(row: pd.Series, snapshot: dict, frozen_bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    figure = str(row["figure"])
+    table = snapshot.get("source_tables", {}).get(figure)
+    if isinstance(table, pd.DataFrame):
+        return table.copy()
+    return source_dataframe_for_figure(row, frozen_bundle)
+
+
+snapshot = load_analysis_snapshot()
+current_fingerprint = source_fingerprint()
 
 st.title("Ch4-6 Structure Benchmarks and Graph Attachments")
 st.caption(
     "Streamlit reader for `thesis_ch4_6_structure_benchmarks.docx`, the updated graph-attached DOCX, "
-    "and the live evidence used by pages/6_1, pages/6_2, and pages/6_3."
+    "and the frozen evidence used by pages/6_1, pages/6_2, and pages/6_3."
+)
+
+refresh_cols = st.columns([1.1, 1.2, 2.7])
+refresh_requested = refresh_cols[0].button("Refresh frozen analysis", type="primary", use_container_width=True)
+if snapshot is None:
+    refresh_cols[1].warning("No frozen snapshot yet.")
+elif fingerprint_changed(snapshot, current_fingerprint):
+    refresh_cols[1].warning(f"New source data detected in {changed_source_count(snapshot, current_fingerprint)} file(s).")
+else:
+    refresh_cols[1].success("Frozen data is current.")
+
+if snapshot is None or refresh_requested:
+    with st.spinner("Building and saving frozen Ch4-6 analysis snapshot..."):
+        snapshot = build_analysis_snapshot()
+        save_analysis_snapshot(snapshot)
+    st.success(f"Frozen analysis saved to `{SNAPSHOT_PATH}`.")
+    current_fingerprint = snapshot["source_fingerprint"]
+
+if snapshot is None:
+    st.error("Could not create or load the frozen analysis snapshot.")
+    st.stop()
+
+bundle = snapshot["bundle"]
+manifest = snapshot["manifest"]
+action_status = snapshot["action_status"]
+
+refresh_cols[2].caption(
+    f"Using snapshot from {format_snapshot_time(snapshot)}. "
+    "The page stays on this stored analysis until you press refresh."
 )
 metric_row(bundle)
 
@@ -1289,10 +1462,9 @@ doc_cols = st.columns([2, 2, 1, 1])
 doc_cols[0].markdown(f"**Source DOCX:** `{SOURCE_DOCX}`")
 doc_cols[1].markdown(f"**Updated DOCX:** `{UPDATED_DOCX}`")
 doc_cols[2].metric("Embedded graphs", media_count(UPDATED_DOCX))
-doc_cols[3].metric("Graph files", int(graph_manifest()["exists"].sum()))
+doc_cols[3].metric("Graph files", int(manifest["exists"].sum()) if "exists" in manifest.columns else 0)
 
-st.subheader("Thesis Action Plan Live Status")
-action_status = action_plan_status_rows()
+st.subheader("Thesis Action Plan Frozen Status")
 status_cols = st.columns(len(action_status) if not action_status.empty else 1)
 for idx, (_, row) in enumerate(action_status.iterrows()):
     with status_cols[idx]:
@@ -1308,7 +1480,7 @@ for idx, (_, row) in enumerate(action_status.iterrows()):
             st.progress(min(completed / target, 1.0) if target else 0.0)
         except Exception:
             pass
-st.caption("These counters mirror the live completion block in `pages/3_0_Thesis_Action_Plan.py`.")
+st.caption("These counters are frozen from the completion block in `pages/3_0_Thesis_Action_Plan.py`.")
 
 action_cols = st.columns([1, 1, 2])
 with action_cols[0]:
@@ -1337,7 +1509,7 @@ with action_cols[2]:
     )
 
 tab_summary, tab_docx, tab_graphs, tab_chapters, tab_live = st.tabs(
-    ["DOCX Summary", "DOCX Structure", "Graph Attachments", "Chapter 4-6 Mapping", "Live Charts"]
+    ["DOCX Summary", "DOCX Structure", "Graph Attachments", "Chapter 4-6 Mapping", "Frozen Charts"]
 )
 
 with tab_summary:
@@ -1353,8 +1525,8 @@ with tab_summary:
     st.dataframe(summary_rows.astype(str), use_container_width=True, hide_index=True, height=180)
 
     st.subheader("Snapshot with Existing Data and Redirects")
-    snapshot = docx_snapshot_rows(bundle)
-    st.dataframe(snapshot, use_container_width=True, hide_index=True, height=300)
+    snapshot_rows = docx_snapshot_rows(bundle)
+    st.dataframe(snapshot_rows, use_container_width=True, hide_index=True, height=300)
     redirect_cols = st.columns(4)
     redirects = [
         ("Chapter 4 results", "pages/6_1_Chapter_4_Implementation_Results.py"),
@@ -1376,7 +1548,7 @@ with tab_summary:
     st.download_button(
         "Download Action Plan status CSV",
         action_status.to_csv(index=False).encode("utf-8"),
-        "action_plan_live_status.csv",
+        "action_plan_frozen_status.csv",
         "text/csv",
         use_container_width=True,
     )
@@ -1384,7 +1556,7 @@ with tab_summary:
     st.subheader("What the DOCX update adds")
     st.markdown(
         """
-        - **Appendix A.1** live evidence snapshot from the shared result bundle.
+        - **Appendix A.1** frozen evidence snapshot from the shared result bundle.
         - **Appendix A.2** mapping from Streamlit pages `6_1`, `6_2`, and `6_3` to thesis chapter roles.
         - **Appendix A.3** attached graph register with 12 graph images.
         - **Appendix A.4** chapter-level insertion notes.
@@ -1409,7 +1581,6 @@ with tab_docx:
 
 with tab_graphs:
     st.header("Graph Attachments")
-    manifest = graph_manifest()
     c1, c2, c3, c4 = st.columns(4)
     chapter_filter = c1.selectbox("Chapter", ["All"] + sorted(manifest["chapter"].unique().tolist()))
     rq_filter = c2.selectbox("RQ", ["All"] + sorted(manifest["rq"].unique().tolist()))
@@ -1447,7 +1618,7 @@ with tab_graphs:
         if view_mode in {"Graph + original table", "Original table only"}:
             with table_col:
                 st.markdown("**Original / backing table**")
-                source_df = source_dataframe_for_figure(row, bundle)
+                source_df = get_frozen_source_table(row, snapshot, bundle)
                 if source_df.empty:
                     st.info("No backing table is available for this attachment yet.")
                 else:
@@ -1500,7 +1671,7 @@ with tab_chapters:
     st.dataframe(checklist, use_container_width=True, hide_index=True, height=240)
 
 with tab_live:
-    st.header("Live Charts from the Chapter Pages")
+    st.header("Frozen Charts from the Chapter Pages")
     live_tabs = st.tabs(["Chapter 4", "Chapter 5", "Chapter 6"])
     with live_tabs[0]:
         st.subheader("Chapter 4 result evidence")
