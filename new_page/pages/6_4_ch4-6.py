@@ -37,7 +37,14 @@ from thesis_chapter_streamlit import (  # noqa: E402
     prompt_stability_chart,
     workflow_coverage_chart,
 )
-from action_plan_status import action_plan_status_rows  # noqa: E402
+from action_plan_status import (  # noqa: E402
+    ANNOTATION_PATH,
+    SEED_PATH,
+    SILVER_PATH,
+    action_plan_status_rows,
+    build_annotation_table,
+    load_csv as action_load_csv,
+)
 
 
 st.set_page_config(page_title="Ch4-6 Benchmarks + DOCX Graphs", layout="wide")
@@ -351,6 +358,71 @@ def ground_truth_t2_output_rows() -> pd.DataFrame:
     )
 
 
+def coalesce_text_columns(df: pd.DataFrame, columns: list[str]) -> pd.Series:
+    candidates = []
+    for col in columns:
+        if col in df.columns:
+            candidates.append(df[col].astype(str).str.strip())
+    if not candidates:
+        return pd.Series([""] * len(df), index=df.index, dtype=str)
+    stacked = pd.concat(candidates, axis=1)
+    return stacked.replace("", pd.NA).bfill(axis=1).iloc[:, 0].fillna("").astype(str)
+
+
+def full_action_plan_records() -> pd.DataFrame:
+    """Use the same full annotation/silver source family as the Action Plan counters."""
+    silver = action_load_csv(SILVER_PATH)
+    seed = action_load_csv(SEED_PATH)
+    annotations = action_load_csv(ANNOTATION_PATH)
+    full = build_annotation_table(silver, seed, annotations)
+    if full.empty:
+        full = load_csv(VIS / "tone_records_flat.csv")
+    if full.empty:
+        return pd.DataFrame()
+    out = full.copy()
+    out["tone_label"] = coalesce_text_columns(out, ["ground_truth_tone", "silver_tone_ground_truth", "tone_pred", "tone"])
+    out["esg_label"] = coalesce_text_columns(out, ["ground_truth_esg", "esg"])
+    out["aspect_label"] = coalesce_text_columns(out, ["ground_truth_aspect", "aspect"])
+    return out
+
+
+def full_tone_distribution_rows() -> pd.DataFrame:
+    df = full_action_plan_records()
+    if df.empty:
+        return pd.DataFrame()
+    tone = df["tone_label"].astype(str).str.strip()
+    tone = tone[tone.ne("")]
+    return tone.value_counts().rename_axis("tone").reset_index(name="records")
+
+
+def full_tone_esg_crosstab_rows() -> pd.DataFrame:
+    df = full_action_plan_records()
+    if df.empty:
+        return pd.DataFrame()
+    view = df[(df["tone_label"].astype(str).str.strip().ne("")) & (df["esg_label"].astype(str).str.strip().ne(""))]
+    if view.empty:
+        return pd.DataFrame()
+    pivot = pd.crosstab(view["tone_label"], view["esg_label"])
+    pivot.index.name = "tone"
+    pivot.columns.name = None
+    return pivot.reset_index()
+
+
+def full_aspect_tone_crosstab_rows() -> pd.DataFrame:
+    df = full_action_plan_records()
+    if df.empty:
+        return pd.DataFrame()
+    view = df[(df["aspect_label"].astype(str).str.strip().ne("")) & (df["tone_label"].astype(str).str.strip().ne(""))]
+    if view.empty:
+        return pd.DataFrame()
+    pivot = pd.crosstab(view["aspect_label"], view["tone_label"])
+    pivot["total"] = pivot.sum(axis=1)
+    pivot = pivot.sort_values("total", ascending=False).drop(columns=["total"])
+    pivot.index.name = "aspect"
+    pivot.columns.name = None
+    return pivot.reset_index()
+
+
 def load_action_plan_llm_records() -> pd.DataFrame:
     """Mirror the Action Plan PDF x prompt matrix source without importing the page."""
     rows: list[dict[str, object]] = []
@@ -420,6 +492,26 @@ def pdf_prompt_matrix_rows(metric: str = "Extracted records") -> pd.DataFrame:
 
 
 def ensure_extra_graph_attachments() -> None:
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_full_tone_distribution.png",
+        "Full Tone Distribution",
+        full_tone_distribution_rows(),
+        "tone",
+        "records",
+        "Uses Action Plan full silver/annotation labels, not the older 332-row visualization snapshot",
+    )
+    draw_docx_table_heatmap(
+        GRAPH_DIR / "docx_full_esg_by_tone.png",
+        "Full ESG × Tone Matrix",
+        full_tone_esg_crosstab_rows(),
+        "Rows are tone labels; columns are ESG labels from the full Action Plan evidence table",
+    )
+    draw_docx_table_heatmap(
+        GRAPH_DIR / "docx_full_aspect_by_tone_heatmap.png",
+        "Full Aspect × Tone Matrix",
+        full_aspect_tone_crosstab_rows(),
+        "Top rows by total aspect frequency from the full Action Plan evidence table",
+    )
     draw_docx_bar_chart(
         GRAPH_DIR / "docx_human_annotation_agreement.png",
         "Human Annotation Agreement Readiness",
@@ -496,30 +588,30 @@ def graph_manifest() -> pd.DataFrame:
     rows = [
         {
             "figure": "A.1",
-            "title": "Tone distribution",
-            "path": VIS / "tone_distribution.png",
+            "title": "Full tone distribution",
+            "path": GRAPH_DIR / "docx_full_tone_distribution.png",
             "chapter": "Chapter 4",
             "rq": "RQ2",
-            "source table": "tone_records_flat.csv",
-            "source page": "pages/6_1_Chapter_4_Implementation_Results.py",
+            "source table": "silver_tone_ground_truth.csv + pilot_ground_truth_annotations.csv",
+            "source page": "pages/3_0_Thesis_Action_Plan.py",
         },
         {
             "figure": "A.2",
-            "title": "ESG by tone",
-            "path": VIS / "esg_by_tone.png",
+            "title": "Full ESG by tone",
+            "path": GRAPH_DIR / "docx_full_esg_by_tone.png",
             "chapter": "Chapter 4",
             "rq": "RQ2",
-            "source table": "tone_esg_crosstab.csv",
-            "source page": "pages/6_1_Chapter_4_Implementation_Results.py",
+            "source table": "silver_tone_ground_truth.csv + pilot_ground_truth_annotations.csv",
+            "source page": "pages/3_0_Thesis_Action_Plan.py",
         },
         {
             "figure": "A.3",
-            "title": "Aspect by tone heatmap",
-            "path": VIS / "aspect_by_tone_heatmap.png",
+            "title": "Full aspect by tone heatmap",
+            "path": GRAPH_DIR / "docx_full_aspect_by_tone_heatmap.png",
             "chapter": "Chapter 4",
             "rq": "RQ2",
-            "source table": "aspect_tone_crosstab.csv",
-            "source page": "pages/6_1_Chapter_4_Implementation_Results.py",
+            "source table": "silver_tone_ground_truth.csv + pilot_ground_truth_annotations.csv",
+            "source page": "pages/3_0_Thesis_Action_Plan.py",
         },
         {
             "figure": "A.4",
@@ -702,14 +794,11 @@ def load_csv(path: Path) -> pd.DataFrame:
 def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
     figure = str(row["figure"])
     if figure == "A.1":
-        df = bundle["tone_records"]
-        if df.empty or "tone" not in df.columns:
-            return pd.DataFrame()
-        return df["tone"].astype(str).replace("", "missing").value_counts().rename_axis("tone").reset_index(name="records")
+        return full_tone_distribution_rows()
     if figure == "A.2":
-        return load_csv(VIS / "tone_esg_crosstab.csv")
+        return full_tone_esg_crosstab_rows()
     if figure == "A.3":
-        return load_csv(VIS / "aspect_tone_crosstab.csv")
+        return full_aspect_tone_crosstab_rows()
     if figure == "A.4":
         return load_csv(VIS / "tone_climatebert_label_crosstab.csv")
     if figure == "A.5":
