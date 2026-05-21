@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import importlib.util
 from pathlib import Path
 import sys
 from xml.etree import ElementTree as ET
@@ -28,14 +29,21 @@ HEAVY_SOURCE_COLUMNS = {
     "pa",
 }
 
-if str(DASHBOARD_DIR) not in sys.path:
-    sys.path.insert(0, str(DASHBOARD_DIR))
+def _load_local_data_loader():
+    module_path = DASHBOARD_DIR / "utils" / "data_loader.py"
+    spec = importlib.util.spec_from_file_location("dashboard_local_data_loader", module_path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Could not load local data loader from {module_path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
-loaded_utils = sys.modules.get("utils")
-if loaded_utils is not None and not hasattr(loaded_utils, "__path__"):
-    del sys.modules["utils"]
 
-from utils.data_loader import format_display_value, load_and_parse, read_dataset, resolve_data_path
+_data_loader = _load_local_data_loader()
+format_display_value = _data_loader.format_display_value
+load_and_parse = _data_loader.load_and_parse
+read_dataset = _data_loader.read_dataset
+resolve_data_path = _data_loader.resolve_data_path
 
 from _rq_thesis_content import (
     CHAPTER_4_SECTIONS,
