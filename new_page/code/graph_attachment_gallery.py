@@ -6,6 +6,8 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from ground_truth_graphs import ground_truth_attachment_rows, ground_truth_source_dataframe, ensure_ground_truth_graphs
+
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
@@ -67,6 +69,8 @@ def graph_attachment_manifest() -> pd.DataFrame:
         ("A.20", "ground_truth.py T2 tone outputs", GRAPH_DIR / "docx_ground_truth_t2_outputs.png", "Chapter 4", "RQ2", "t2_flat_outputs.csv + t2_results.jsonl", "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py"),
         ("A.21", "PDF x prompt processing matrix", GRAPH_DIR / "docx_pdf_prompt_matrix.png", "Chapter 4 / 6", "RQ1 / RQ6", "esg_records.json + tone_records_flat.csv", "pages/3_0_Thesis_Action_Plan.py"),
     ]
+    ensure_ground_truth_graphs()
+    rows.extend(ground_truth_attachment_rows())
     df = pd.DataFrame(rows, columns=["figure", "title", "path", "chapter", "rq", "source table", "source page"])
     df["exists"] = df["path"].map(lambda path: Path(path).exists())
     df["path"] = df["path"].astype(str)
@@ -100,6 +104,13 @@ def _completion_rows() -> pd.DataFrame:
             completed = int(df[col].astype(str).str.strip().ne("").sum())
             rows.append({"field": col, "completed": completed, "missing": len(df) - completed, "total": len(df)})
     return pd.DataFrame(rows)
+
+
+def _normalize_tone_label(value) -> str:
+    text = str(value or "").strip().lower()
+    if text in {"", "missing", "none", "nan", "null", "unknown", "no tone", "not_applicable", "n/a"}:
+        return "none"
+    return text
 
 
 def _action_plan_llm_records() -> pd.DataFrame:
@@ -226,7 +237,15 @@ def source_dataframe_for_attachment(row: pd.Series) -> pd.DataFrame:
         pred = "tone_pred" if "tone_pred" in df.columns else "tone"
         if truth not in df.columns or pred not in df.columns:
             return pd.DataFrame()
-        return df.groupby([truth, pred], dropna=False).size().reset_index(name="records")
+        view = df.assign(truth=df[truth].map(_normalize_tone_label), prediction=df[pred].map(_normalize_tone_label))
+        pivot = pd.crosstab(view["truth"], view["prediction"])
+        order = [label for label in ["action", "commitment", "outcome", "none"] if label in set(pivot.index) | set(pivot.columns)]
+        if order:
+            pivot = pivot.reindex(index=order, columns=order, fill_value=0)
+        pivot.index.name = "truth"
+        pivot.columns.name = None
+        pivot["total"] = pivot.sum(axis=1)
+        return pivot.reset_index()
     if figure == "A.20":
         t2 = load_csv(WORKFLOW / "t2_flat_outputs.csv")
         if t2.empty:
@@ -235,6 +254,8 @@ def source_dataframe_for_attachment(row: pd.Series) -> pd.DataFrame:
         return t2.groupby(cols, dropna=False).size().reset_index(name="records") if cols else t2.head(30)
     if figure == "A.21":
         return _pdf_prompt_matrix_rows("Extracted records")
+    if figure in {f"A.{idx}" for idx in range(22, 30)}:
+        return ground_truth_source_dataframe(figure)
     return pd.DataFrame()
 
 

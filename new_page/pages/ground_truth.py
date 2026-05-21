@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import Any, Set, Tuple, List, Dict, Optional
 import time
 import traceback
+import sys
 
 import streamlit as st
 
@@ -24,12 +25,15 @@ except Exception as e:
 # PATHS
 # ───────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 DATA_PATH = ROOT / "results" / "esg_records.json"
 RESULTS_DIR = ROOT / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
 T1_FILE = RESULTS_DIR / "t1_results.jsonl"
 T2_FILE = RESULTS_DIR / "t2_results.jsonl"
+
+from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 # ───────────────────────────────────────────────────────────────
 # MODEL CACHE / FALLBACK
@@ -48,6 +52,16 @@ if MODELS_CACHE_PATH.exists():
 st.set_page_config(page_title="ESG Pipeline", layout="wide")
 st.title("🌿 ESG Pipeline (Resumable)")
 st.caption("Now supports resume from cutoff 🚀")
+
+with st.expander("📊 Visualize existing ground_truth.py outputs", expanded=False):
+    st.caption("Graph-card view of saved T1/T2 outputs with original graph attachments and backing tables.")
+    render_attachment_cards(
+        "ground_truth.py Graph + Table Attachment Cards",
+        chapter_default="Chapter 4",
+        rq_default="RQ2",
+        figures=["A.22", "A.23", "A.24", "A.25", "A.26", "A.27", "A.28", "A.29"],
+        show_filters=False,
+    )
 
 if _climatebert_error:
     st.warning(f"⚠️ ClimateBERT not available: {_climatebert_error}")

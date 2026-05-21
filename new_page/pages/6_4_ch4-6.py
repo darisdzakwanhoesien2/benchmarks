@@ -45,6 +45,11 @@ from action_plan_status import (  # noqa: E402
     build_annotation_table,
     load_csv as action_load_csv,
 )
+from ground_truth_graphs import (  # noqa: E402
+    ensure_ground_truth_graphs,
+    ground_truth_attachment_rows,
+    ground_truth_source_dataframe,
+)
 
 
 st.set_page_config(page_title="Ch4-6 Benchmarks + DOCX Graphs", layout="wide")
@@ -315,6 +320,13 @@ def pilot_annotation_completion_rows() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def normalize_tone_label(value) -> str:
+    text = str(value or "").strip().lower()
+    if text in {"", "missing", "none", "nan", "null", "unknown", "no tone", "not_applicable", "n/a"}:
+        return "none"
+    return text
+
+
 def ground_truth_tone_comparison_rows() -> pd.DataFrame:
     annotation = load_csv(REV / "pilot_ground_truth_annotations.csv")
     seed = load_csv(REV / "pilot_ground_truth_seed.csv")
@@ -328,18 +340,18 @@ def ground_truth_tone_comparison_rows() -> pd.DataFrame:
     pred_col = "tone_pred" if "tone_pred" in df.columns else "tone"
     if truth_col not in df.columns or pred_col not in df.columns:
         return pd.DataFrame()
-    out = (
-        df.assign(
-            truth=df[truth_col].astype(str).str.strip().replace("", "missing"),
-            prediction=df[pred_col].astype(str).str.strip().replace("", "missing"),
-        )
-        .groupby(["truth", "prediction"], dropna=False)
-        .size()
-        .reset_index(name="records")
-        .sort_values("records", ascending=False)
+    view = df.assign(
+        truth=df[truth_col].map(normalize_tone_label),
+        prediction=df[pred_col].map(normalize_tone_label),
     )
-    out["truth_source"] = truth_col
-    return out
+    pivot = pd.crosstab(view["truth"], view["prediction"])
+    order = [label for label in ["action", "commitment", "outcome", "none"] if label in set(pivot.index) | set(pivot.columns)]
+    if order:
+        pivot = pivot.reindex(index=order, columns=order, fill_value=0)
+    pivot.index.name = "truth"
+    pivot.columns.name = None
+    pivot["total"] = pivot.sum(axis=1)
+    return pivot.reset_index()
 
 
 def ground_truth_t2_output_rows() -> pd.DataFrame:
@@ -423,6 +435,162 @@ def full_aspect_tone_crosstab_rows() -> pd.DataFrame:
     return pivot.reset_index()
 
 
+def aspect_cooccurrence_rows() -> pd.DataFrame:
+    df = full_action_plan_records()
+    if df.empty or "aspect_label" not in df.columns:
+        return pd.DataFrame()
+    group_col = "target" if "target" in df.columns else ("company" if "company" in df.columns else "")
+    if not group_col:
+        return pd.DataFrame()
+    rows = []
+    for group, sub in df.groupby(group_col, dropna=False):
+        aspects = sorted({str(v).strip().lower() for v in sub["aspect_label"] if str(v).strip()})
+        for i, left in enumerate(aspects):
+            for right in aspects[i + 1 :]:
+                rows.append({"aspect_a": left, "aspect_b": right, "records": 1})
+    if not rows:
+        return pd.DataFrame()
+    return (
+        pd.DataFrame(rows)
+        .groupby(["aspect_a", "aspect_b"], dropna=False)["records"]
+        .sum()
+        .reset_index()
+        .sort_values("records", ascending=False)
+        .head(40)
+    )
+
+
+def aspect_centrality_rows() -> pd.DataFrame:
+    edges = aspect_cooccurrence_rows()
+    freq = full_action_plan_records()
+    if edges.empty:
+        return pd.DataFrame()
+    degree = {}
+    for _, row in edges.iterrows():
+        weight = float(row["records"])
+        degree[row["aspect_a"]] = degree.get(row["aspect_a"], 0.0) + weight
+        degree[row["aspect_b"]] = degree.get(row["aspect_b"], 0.0) + weight
+    out = pd.DataFrame([{"aspect": aspect, "weighted_degree": weight} for aspect, weight in degree.items()])
+    if not freq.empty and "aspect_label" in freq.columns:
+        counts = freq["aspect_label"].astype(str).str.lower().str.strip().value_counts().rename_axis("aspect").reset_index(name="frequency")
+        out = out.merge(counts, on="aspect", how="left")
+    out["frequency"] = pd.to_numeric(out.get("frequency", 0), errors="coerce").fillna(0)
+    out["centrality_score"] = out["weighted_degree"] + out["frequency"]
+    return out.sort_values("centrality_score", ascending=False).head(30)
+
+
+def aspect_importance_rows() -> pd.DataFrame:
+    df = full_action_plan_records()
+    if df.empty:
+        return pd.DataFrame()
+    view = df[df["aspect_label"].astype(str).str.strip().ne("")].copy()
+    if view.empty:
+        return pd.DataFrame()
+    view["tone_norm"] = view["tone_label"].map(normalize_tone_label)
+    summary = (
+        view.groupby("aspect_label", dropna=False)
+        .agg(
+            records=("aspect_label", "size"),
+            commitment=("tone_norm", lambda s: int(s.eq("commitment").sum())),
+            action=("tone_norm", lambda s: int(s.eq("action").sum())),
+            outcome=("tone_norm", lambda s: int(s.eq("outcome").sum())),
+            none=("tone_norm", lambda s: int(s.eq("none").sum())),
+        )
+        .reset_index()
+        .rename(columns={"aspect_label": "aspect"})
+    )
+    centrality = aspect_centrality_rows()[["aspect", "weighted_degree"]] if not aspect_centrality_rows().empty else pd.DataFrame(columns=["aspect", "weighted_degree"])
+    summary["aspect"] = summary["aspect"].astype(str).str.lower().str.strip()
+    summary = summary.merge(centrality, on="aspect", how="left")
+    summary["weighted_degree"] = pd.to_numeric(summary["weighted_degree"], errors="coerce").fillna(0)
+    summary["non_outcome_intensity"] = (summary["commitment"] + summary["action"] + summary["none"]) / summary["records"].clip(lower=1)
+    summary["importance_score"] = (summary["records"] * (1 + summary["non_outcome_intensity"]) + summary["weighted_degree"]).round(3)
+    return summary.sort_values("importance_score", ascending=False).head(30)
+
+
+def aspect_tone_dynamics_rows() -> pd.DataFrame:
+    df = full_action_plan_records()
+    if df.empty:
+        return pd.DataFrame()
+    view = df[df["aspect_label"].astype(str).str.strip().ne("")].copy()
+    if view.empty:
+        return pd.DataFrame()
+    view["aspect"] = view["aspect_label"].astype(str).str.lower().str.strip()
+    view["tone_norm"] = view["tone_label"].map(normalize_tone_label)
+    rows = []
+    for aspect, sub in view.groupby("aspect"):
+        counts = sub["tone_norm"].value_counts()
+        total = int(counts.sum())
+        dominant = str(counts.index[0]) if total else ""
+        dominant_share = float(counts.iloc[0] / total) if total else 0
+        rows.append(
+            {
+                "aspect": aspect,
+                "records": total,
+                "dominant_tone": dominant,
+                "dominant_share": round(dominant_share, 4),
+                "polarization": round(1 - dominant_share, 4),
+                "tone_diversity": int(counts.size),
+            }
+        )
+    return pd.DataFrame(rows).sort_values(["polarization", "records"], ascending=False).head(30)
+
+
+def aspect_entity_comparison_rows() -> pd.DataFrame:
+    df = full_action_plan_records()
+    if df.empty or "company" not in df.columns:
+        return pd.DataFrame()
+    view = df[df["aspect_label"].astype(str).str.strip().ne("")].copy()
+    if view.empty:
+        return pd.DataFrame()
+    top_aspects = view["aspect_label"].astype(str).str.lower().str.strip().value_counts().head(10).index.tolist()
+    view["aspect"] = view["aspect_label"].astype(str).str.lower().str.strip()
+    view = view[view["aspect"].isin(top_aspects)]
+    pivot = pd.crosstab(view["company"].astype(str).str[:42], view["aspect"])
+    pivot["total"] = pivot.sum(axis=1)
+    pivot = pivot.sort_values("total", ascending=False).head(20).drop(columns=["total"])
+    pivot.index.name = "company"
+    pivot.columns.name = None
+    return pivot.reset_index()
+
+
+def aspect_temporal_evolution_rows() -> pd.DataFrame:
+    df = full_action_plan_records()
+    if df.empty:
+        return pd.DataFrame()
+    view = df[df["aspect_label"].astype(str).str.strip().ne("")].copy()
+    if view.empty:
+        return pd.DataFrame()
+    timestamp = pd.to_datetime(view.get("timestamp", ""), errors="coerce")
+    view["year"] = timestamp.dt.year
+    if view["year"].isna().all():
+        extracted = view.get("target", pd.Series([""] * len(view))).astype(str).str.extract(r"(20\d{2})")[0]
+        view["year"] = pd.to_numeric(extracted, errors="coerce")
+    view["year"] = view["year"].fillna(0).astype(int).astype(str).replace("0", "unknown")
+    top_aspects = view["aspect_label"].astype(str).str.lower().str.strip().value_counts().head(10).index.tolist()
+    view["aspect"] = view["aspect_label"].astype(str).str.lower().str.strip()
+    view = view[view["aspect"].isin(top_aspects)]
+    pivot = pd.crosstab(view["year"], view["aspect"])
+    pivot.index.name = "year"
+    pivot.columns.name = None
+    return pivot.reset_index()
+
+
+def aspect_ontology_matrix_rows() -> pd.DataFrame:
+    ontology = load_csv(REV / "ontology_coverage.csv")
+    if ontology.empty:
+        return pd.DataFrame()
+    df = ontology.copy()
+    df["mapped"] = df.get("mapped_to_ontology", False).astype(str).str.lower().isin(["true", "1", "yes"]).map({True: "mapped", False: "novel"})
+    return (
+        df.groupby(["mapped", "suggested_path"], dropna=False)["records"]
+        .sum()
+        .reset_index()
+        .sort_values("records", ascending=False)
+        .head(30)
+    )
+
+
 def load_action_plan_llm_records() -> pd.DataFrame:
     """Mirror the Action Plan PDF x prompt matrix source without importing the page."""
     rows: list[dict[str, object]] = []
@@ -492,6 +660,7 @@ def pdf_prompt_matrix_rows(metric: str = "Extracted records") -> pd.DataFrame:
 
 
 def ensure_extra_graph_attachments() -> None:
+    ensure_ground_truth_graphs()
     draw_docx_bar_chart(
         GRAPH_DIR / "docx_full_tone_distribution.png",
         "Full Tone Distribution",
@@ -560,13 +729,11 @@ def ensure_extra_graph_attachments() -> None:
         "completed",
         "Ground-truth fields completed in the pilot annotation table",
     )
-    draw_docx_bar_chart(
+    draw_docx_table_heatmap(
         GRAPH_DIR / "docx_ground_truth_tone_comparison.png",
-        "Ground Truth Tone Comparison",
+        "Ground Truth Tone Truth × Prediction",
         ground_truth_tone_comparison_rows(),
-        "truth",
-        "records",
-        "Human or silver ground-truth tone compared with model tone output",
+        "missing, blank, unknown, and none are normalized to none",
     )
     draw_docx_bar_chart(
         GRAPH_DIR / "docx_ground_truth_t2_outputs.png",
@@ -581,6 +748,58 @@ def ensure_extra_graph_attachments() -> None:
         "PDF × Prompt Coverage Matrix",
         pdf_prompt_matrix_rows("Extracted records"),
         "Records extracted per source PDF × prompt template combination",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "aspect_cooccurrence_edges.png",
+        "Aspect Co-occurrence Graph Edges",
+        aspect_cooccurrence_rows().assign(edge=lambda d: d["aspect_a"].astype(str) + " + " + d["aspect_b"].astype(str)) if not aspect_cooccurrence_rows().empty else pd.DataFrame(),
+        "edge",
+        "records",
+        "Aspect pairs that appear in the same document/source target",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "aspect_network_centrality.png",
+        "Aspect Network Centrality",
+        aspect_centrality_rows(),
+        "aspect",
+        "centrality_score",
+        "Frequency plus weighted co-occurrence degree",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "aspect_importance_scores.png",
+        "Aspect Importance Scores",
+        aspect_importance_rows(),
+        "aspect",
+        "importance_score",
+        "Frequency, non-outcome intensity, and graph connectivity",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "aspect_tone_dynamics.png",
+        "Aspect-Tone Dynamics",
+        aspect_tone_dynamics_rows(),
+        "aspect",
+        "polarization",
+        "Higher values mean tone is more mixed across the aspect",
+    )
+    draw_docx_table_heatmap(
+        GRAPH_DIR / "aspect_entity_comparison.png",
+        "Cross-Entity Aspect Comparison",
+        aspect_entity_comparison_rows(),
+        "Companies compared by their dominant aspect profiles",
+    )
+    draw_docx_table_heatmap(
+        GRAPH_DIR / "aspect_temporal_evolution.png",
+        "Temporal Aspect Evolution",
+        aspect_temporal_evolution_rows(),
+        "Top aspects by detected year from timestamp/source target",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "aspect_ontology_coverage_paths.png",
+        "Aspect Ontology Coverage",
+        aspect_ontology_matrix_rows(),
+        "suggested_path",
+        "records",
+        "Mapped versus novel ESG vocabulary paths",
     )
 
 
@@ -776,6 +995,85 @@ def graph_manifest() -> pd.DataFrame:
             "source page": "pages/3_0_Thesis_Action_Plan.py",
         },
     ]
+    rows.extend(
+        {
+            "figure": figure,
+            "title": title,
+            "path": path,
+            "chapter": chapter,
+            "rq": rq,
+            "source table": source_table,
+            "source page": source_page,
+        }
+        for figure, title, path, chapter, rq, source_table, source_page in ground_truth_attachment_rows()
+    )
+    rows.extend(
+        [
+            {
+                "figure": "A.30",
+                "title": "Aspect co-occurrence graph",
+                "path": GRAPH_DIR / "aspect_cooccurrence_edges.png",
+                "chapter": "Chapter 4 / 5",
+                "rq": "RQ2 / RQ4",
+                "source table": "silver_tone_ground_truth.csv + pilot_ground_truth_annotations.csv",
+                "source page": "pages/6_4_ch4-6.py",
+            },
+            {
+                "figure": "A.31",
+                "title": "Aspect network centrality",
+                "path": GRAPH_DIR / "aspect_network_centrality.png",
+                "chapter": "Chapter 5",
+                "rq": "RQ4",
+                "source table": "aspect co-occurrence edge list",
+                "source page": "pages/6_4_ch4-6.py",
+            },
+            {
+                "figure": "A.32",
+                "title": "Aspect importance scoring",
+                "path": GRAPH_DIR / "aspect_importance_scores.png",
+                "chapter": "Chapter 4 / 5",
+                "rq": "RQ2 / RQ4",
+                "source table": "full Action Plan evidence table",
+                "source page": "pages/6_4_ch4-6.py",
+            },
+            {
+                "figure": "A.33",
+                "title": "Aspect-tone dynamics",
+                "path": GRAPH_DIR / "aspect_tone_dynamics.png",
+                "chapter": "Chapter 5",
+                "rq": "RQ4",
+                "source table": "full Action Plan evidence table",
+                "source page": "pages/6_4_ch4-6.py",
+            },
+            {
+                "figure": "A.34",
+                "title": "Cross-entity aspect comparison",
+                "path": GRAPH_DIR / "aspect_entity_comparison.png",
+                "chapter": "Chapter 4 / 5",
+                "rq": "RQ2 / RQ4",
+                "source table": "full Action Plan evidence table",
+                "source page": "pages/6_4_ch4-6.py",
+            },
+            {
+                "figure": "A.35",
+                "title": "Temporal aspect evolution",
+                "path": GRAPH_DIR / "aspect_temporal_evolution.png",
+                "chapter": "Chapter 5",
+                "rq": "RQ4",
+                "source table": "full Action Plan evidence table",
+                "source page": "pages/6_4_ch4-6.py",
+            },
+            {
+                "figure": "A.36",
+                "title": "Aspect ontology coverage paths",
+                "path": GRAPH_DIR / "aspect_ontology_coverage_paths.png",
+                "chapter": "Chapter 5 / 6",
+                "rq": "RQ4",
+                "source table": "ontology_coverage.csv",
+                "source page": "pages/1_6_Ontology_Path_Viewer.py",
+            },
+        ]
+    )
     df = pd.DataFrame(rows)
     df["exists"] = df["path"].map(lambda p: Path(p).exists())
     df["path"] = df["path"].astype(str)
@@ -836,6 +1134,22 @@ def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame])
         return ground_truth_t2_output_rows()
     if figure == "A.21":
         return pdf_prompt_matrix_rows()
+    if figure in {f"A.{idx}" for idx in range(22, 30)}:
+        return ground_truth_source_dataframe(figure)
+    if figure == "A.30":
+        return aspect_cooccurrence_rows()
+    if figure == "A.31":
+        return aspect_centrality_rows()
+    if figure == "A.32":
+        return aspect_importance_rows()
+    if figure == "A.33":
+        return aspect_tone_dynamics_rows()
+    if figure == "A.34":
+        return aspect_entity_comparison_rows()
+    if figure == "A.35":
+        return aspect_temporal_evolution_rows()
+    if figure == "A.36":
+        return aspect_ontology_matrix_rows()
     return pd.DataFrame()
 
 
