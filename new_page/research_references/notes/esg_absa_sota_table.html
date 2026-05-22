@@ -1,0 +1,91 @@
+
+<style>
+h2.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+*{box-sizing:border-box}
+.wrap{padding:.75rem 0;font-size:13px;color:var(--color-text-primary)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{padding:4px 10px;border-radius:99px;border:0.5px solid var(--color-border-secondary);cursor:pointer;font-size:12px;color:var(--color-text-secondary);background:transparent;transition:background .15s,color .15s}
+.pill.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{text-align:left;padding:6px 8px;border-bottom:0.5px solid var(--color-border-secondary);font-weight:500;color:var(--color-text-secondary);white-space:nowrap}
+tbody td{padding:7px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;line-height:1.5}
+tbody tr:hover{background:var(--color-background-secondary)}
+.tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500;margin:1px}
+.t-lex{background:var(--color-background-warning);color:var(--color-text-warning)}
+.t-ml{background:var(--color-background-info);color:var(--color-text-info)}
+.t-bert{background:var(--color-background-success);color:var(--color-text-success)}
+.t-llm{background:var(--color-background-danger);color:var(--color-text-danger)}
+.t-this{background:#EEEDFE;color:#3C3489}
+.gap-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.g-yes{background:#97C459}.g-partial{background:#FAC775}.g-no{background:#F09595}
+</style>
+<div class="wrap">
+<h2 class="sr-only">State-of-the-art comparison table for ESG aspect-based sentiment analysis methods</h2>
+<div class="filters" id="filters">
+<button class="pill active" onclick="filter('all')">All</button>
+<button class="pill" onclick="filter('lexicon')">Lexicon-based</button>
+<button class="pill" onclick="filter('ml')">ML-based</button>
+<button class="pill" onclick="filter('bert')">Transformer/BERT</button>
+<button class="pill" onclick="filter('llm')">LLM-based</button>
+<button class="pill" onclick="filter('this')">This thesis</button>
+</div>
+<table id="tbl">
+<thead>
+<tr>
+<th>Study</th>
+<th>Method</th>
+<th>Domain / language</th>
+<th>Sentence-level</th>
+<th>Tone taxonomy</th>
+<th>Bilingual</th>
+<th>Greenwashing</th>
+</tr>
+</thead>
+<tbody id="body"></tbody>
+</table>
+</div>
+<script>
+const rows=[
+{fam:'lexicon',study:'Gutierrez-Bustamante & Espinosa-Leal (2022)',method:'NLP keyword scoring','domain':'Nordic ESG, English',sent:'No',tone:'No',bil:'No',green:'No'},
+{fam:'lexicon',study:'Ignatov & Rudolf (2023)',method:'Sentiment lexicon','domain':'Corporate ESG, English',sent:'No',tone:'No',bil:'No',green:'Partial'},
+{fam:'ml',study:'Moreno & Caminero (2022)',method:'Text mining + topic model','domain':'Climate disclosures, English',sent:'No',tone:'No',bil:'No',green:'Partial'},
+{fam:'ml',study:'Gorovaia & Makrominas (2024)',method:'NLP + supervised classifier','domain':'CSR reports, English',sent:'No',tone:'No',bil:'No',green:'Yes'},
+{fam:'ml',study:'Srivastava & Anand (2023)',method:'Bibliometric + NLP','domain':'Corporate disclosures',sent:'No',tone:'No',bil:'No',green:'No'},
+{fam:'bert',study:'Huang, Wang & Yang — FinBERT (2023)',method:'Domain-adapted BERT','domain':'Financial text, English',sent:'Yes',tone:'No',bil:'No',green:'No'},
+{fam:'bert',study:'Schimanski et al. — ClimateBERT-NetZero (2023)',method:'DistilRoBERTa fine-tuned','domain':'Climate policy, English',sent:'Yes',tone:'Partial',bil:'No',green:'Partial'},
+{fam:'bert',study:'Garrido-Merchan et al. (2023)',method:'ClimateBERT fine-tuning','domain':'Climate risk, English',sent:'Yes',tone:'No',bil:'No',green:'No'},
+{fam:'bert',study:'Kim, Lee & Yoo (2024)',method:'BERT text analysis','domain':'ESG + UN SDGs, English',sent:'Yes',tone:'No',bil:'No',green:'No'},
+{fam:'bert',study:'van der Heever et al. (2024)',method:'XAI + ABSA','domain':'ESG / green finance',sent:'Yes',tone:'No',bil:'No',green:'Partial'},
+{fam:'bert',study:'Smid & Kral (2025)',method:'Cross-lingual ABSA survey','domain':'Multi-domain, multilingual',sent:'Yes',tone:'No',bil:'Yes',green:'No'},
+{fam:'llm',study:'Mishra et al. — DocQA (2024)',method:'LLM + RAG','domain':'ESG reports, English',sent:'Yes',tone:'No',bil:'No',green:'No'},
+{fam:'llm',study:'Hassani, Bahini & Mushtaq (2025)',method:'LLM discourse analysis','domain':'Corporate ESG, English',sent:'Yes',tone:'Partial',bil:'No',green:'Partial'},
+{fam:'llm',study:'Hang (2025)',method:'LLM supply chain analysis','domain':'Carbon disclosure, multilingual',sent:'Yes',tone:'No',bil:'Partial',green:'No'},
+{fam:'llm',study:'Seow (2025)',method:'Systematic LLM review','domain':'ESG analytics broad',sent:'Partial',tone:'No',bil:'No',green:'No'},
+{fam:'this',study:'Hoesien (2026) — this thesis',method:'Multi-layer ABSA pipeline','domain':'Indonesian ESG, bilingual',sent:'Yes',tone:'Yes',bil:'Yes',green:'Yes'},
+];
+const tagMap={lexicon:'t-lex',ml:'t-ml',bert:'t-bert',llm:'t-llm',this:'t-this'};
+const famLabel={lexicon:'Lexicon',ml:'ML',bert:'BERT',llm:'LLM',this:'This thesis'};
+function dot(v){
+  const cls=v==='Yes'?'g-yes':v==='Partial'?'g-partial':'g-no';
+  return `<span class="gap-dot ${cls}"></span>${v}`;
+}
+function render(fam){
+  const body=document.getElementById('body');
+  body.innerHTML=rows.filter(r=>fam==='all'||r.fam===fam).map(r=>`
+<tr>
+<td><span style="font-size:11px;font-weight:500;color:var(--color-text-secondary)">${r.study}</span></td>
+<td><span class="tag ${tagMap[r.fam]}">${famLabel[r.fam]}</span><br><span style="font-size:11px;color:var(--color-text-secondary)">${r.method}</span></td>
+<td style="font-size:11px">${r.domain}</td>
+<td>${dot(r.sent)}</td>
+<td>${dot(r.tone)}</td>
+<td>${dot(r.bil)}</td>
+<td>${dot(r.green)}</td>
+</tr>`).join('');
+}
+function filter(fam){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  render(fam);
+}
+render('all');
+</script>

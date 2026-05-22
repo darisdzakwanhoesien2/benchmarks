@@ -1,0 +1,81 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.pipe{display:flex;flex-direction:column;gap:0;}
+.stage{border-radius:10px;border:0.5px solid;padding:12px 16px;margin-bottom:4px;}
+.stage-title{font-size:13px;font-weight:500;margin-bottom:2px;}
+.stage-sub{font-size:11px;opacity:.8;}
+.arrow-down{text-align:center;font-size:18px;color:var(--color-border-secondary);margin:2px 0;line-height:1;}
+.row{display:flex;gap:10px;}
+.half{flex:1;}
+.mini{font-size:11px;border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:8px 10px;margin-bottom:6px;background:var(--color-background-secondary);}
+.mini strong{display:block;font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;}
+.mini span{font-size:10px;color:var(--color-text-secondary);}
+.tag{display:inline-block;font-size:9px;padding:2px 6px;border-radius:8px;font-weight:600;margin-right:3px;margin-top:2px;}
+.agree{background:#EAF3DE;color:#3B6D11;border:0.5px solid #639922;}
+.conflict{background:#FCEBEB;color:#A32D2D;border:0.5px solid #E24B4A;}
+.llmonly{background:#FAEEDA;color:#854F0B;border:0.5px solid #BA7517;}
+.cbonly{background:#E6F1FB;color:#185FA5;border:0.5px solid #378ADD;}
+</style>
+
+<div class="pipe">
+
+  <div class="stage" style="background:#E6F1FB;border-color:#378ADD;color:#0C447C;">
+    <div class="stage-title">① Input text segment</div>
+    <div class="stage-sub">Each paragraph / sentence from ESG disclosure, news, or corporate report</div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <div class="row">
+    <div class="half">
+      <div class="stage" style="background:#EEEDFE;border-color:#7F77DD;color:#3C3489;height:100%;">
+        <div class="stage-title">② LLM ABSA prompt</div>
+        <div class="stage-sub">Outputs: aspect, labels[], esg, tone, sentiment, score, reasoning</div>
+      </div>
+    </div>
+    <div class="half">
+      <div class="stage" style="background:#9FE1CB;border-color:#1D9E75;color:#085041;height:100%;">
+        <div class="stage-title">② ClimateBERT inference</div>
+        <div class="stage-sub">Run same text through 5–7 models in parallel → probabilities per label</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <div class="stage" style="background:#FAEEDA;border-color:#BA7517;color:#633806;">
+    <div class="stage-title">③ Label alignment layer</div>
+    <div class="stage-sub">Map LLM labels → ClimateBERT model outputs · compute agreement score per label</div>
+    <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+      <span class="tag agree">agree</span> LLM + CB both positive
+      <span class="tag conflict">conflict</span> LLM positive, CB negative (or vice versa)
+      <span class="tag llmonly">LLM-only</span> No CB model for label
+      <span class="tag cbonly">CB-only</span> CB fires, LLM missed it
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <div class="row">
+    <div class="half">
+      <div class="stage" style="background:#EAF3DE;border-color:#639922;color:#27500A;">
+        <div class="stage-title">④a High agreement path</div>
+        <div class="stage-sub">Both agree → high-confidence label · use for downstream scoring</div>
+      </div>
+    </div>
+    <div class="half">
+      <div class="stage" style="background:#FCEBEB;border-color:#E24B4A;color:#791F1F;">
+        <div class="stage-title">④b Conflict path</div>
+        <div class="stage-sub">Disagreement → flag for review · or trust ClimateBERT over LLM as ground truth</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <div class="stage" style="background:#D3D1C7;border-color:#888780;color:#2C2C2A;">
+    <div class="stage-title">⑤ Enriched JSON output</div>
+    <div class="stage-sub">Original LLM fields + cb_labels{}, agreement_score, confidence_tier (high/medium/low/conflict)</div>
+  </div>
+
+</div>

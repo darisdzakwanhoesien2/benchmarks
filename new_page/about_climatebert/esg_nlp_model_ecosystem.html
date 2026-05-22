@@ -1,0 +1,146 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.wrap{display:flex;flex-direction:column;gap:10px;}
+.family{border-radius:12px;border:0.5px solid;padding:13px 15px;}
+.fam-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.fam-title{font-size:13px;font-weight:500;}
+.fam-badge{font-size:9px;padding:3px 9px;border-radius:10px;font-weight:600;}
+.fam-sub{font-size:10px;color:var(--color-text-secondary);margin-top:1px;}
+.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.model-grid.two{grid-template-columns:repeat(2,1fr);}
+.model-card{border-radius:8px;border:0.5px solid;padding:9px 10px;}
+.mc-name{font-size:11px;font-weight:500;margin-bottom:3px;}
+.mc-hf{font-size:9px;font-family:var(--font-mono);color:var(--color-text-tertiary);margin-bottom:5px;}
+.mc-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px;}
+.tag{font-size:9px;padding:1px 5px;border-radius:6px;font-weight:500;}
+.e{background:#EAF3DE;color:#27500A;border:0.5px solid #639922;}
+.s{background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;}
+.g{background:#EEEDFE;color:#3C3489;border:0.5px solid #7F77DD;}
+.all{background:#F1EFE8;color:#444441;border:0.5px solid #888780;}
+.fin{background:#FFF3CD;color:#856404;border:0.5px solid #FFC107;}
+.mc-desc{font-size:10px;color:var(--color-text-secondary);line-height:1.5;}
+.paper-ref{font-size:9px;color:var(--color-text-tertiary);margin-top:4px;font-style:italic;}
+</style>
+
+<div class="wrap">
+
+<div class="family" style="background:#EAF3DE22;border-color:#639922;">
+  <div class="fam-head">
+    <span class="fam-badge" style="background:#C0DD97;color:#27500A;border:0.5px solid #639922;">ClimateBERT family</span>
+    <div><div class="fam-title">climatebert / (HF org)</div><div class="fam-sub">Webersinke et al. 2022 · AAAI · sister org of ESGBERT · E-dominant</div></div>
+  </div>
+  <div class="model-grid">
+    <div class="model-card" style="background:#EAF3DE;border-color:#639922;">
+      <div class="mc-name">distilroberta-base-climate-f</div>
+      <div class="mc-hf">climatebert/distilroberta-base-climate-f</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922;">MLM base</span></div>
+      <div class="mc-desc">Domain-adapted LM on 2M+ climate paragraphs. Foundation for all fine-tuned CB models.</div>
+    </div>
+    <div class="model-card" style="background:#EAF3DE;border-color:#639922;">
+      <div class="mc-name">climate-detector</div>
+      <div class="mc-hf">climatebert/distilroberta-base-climate-detector</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag all">binary</span></div>
+      <div class="mc-desc">Is this text climate-related? Yes/No. Your best triage gate for E rows.</div>
+    </div>
+    <div class="model-card" style="background:#EAF3DE;border-color:#639922;">
+      <div class="mc-name">climate-sentiment</div>
+      <div class="mc-hf">climatebert/distilroberta-base-climate-sentiment</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922;">3-class</span></div>
+      <div class="mc-desc">Opportunity / neutral / risk framing. Maps to your esg_risk_type field.</div>
+    </div>
+    <div class="model-card" style="background:#EAF3DE;border-color:#639922;">
+      <div class="mc-name">climate-commitment</div>
+      <div class="mc-hf">climatebert/distilroberta-base-climate-commitment</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag all">binary</span></div>
+      <div class="mc-desc">Future pledge vs. no pledge. Validates your tone=Commitment field.</div>
+    </div>
+    <div class="model-card" style="background:#EAF3DE;border-color:#639922;">
+      <div class="mc-name">netzero-reduction</div>
+      <div class="mc-hf">climatebert/netzero-reduction</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag all">binary</span></div>
+      <div class="mc-desc">Net-zero vs. reduction pledge. Validates target_type field.</div>
+    </div>
+    <div class="model-card" style="background:#EAF3DE;border-color:#639922;">
+      <div class="mc-name">climate-tcfd</div>
+      <div class="mc-hf">climatebert/distilroberta-base-climate-tcfd</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag g">G partial</span><span class="tag all">4-class</span></div>
+      <div class="mc-desc">Governance / Strategy / Risk Mgmt / Metrics. Best G-proxy you have from CB.</div>
+    </div>
+  </div>
+</div>
+
+<div class="family" style="background:#EEEDFE22;border-color:#7F77DD;">
+  <div class="fam-head">
+    <span class="fam-badge" style="background:#CECBF6;color:#3C3489;border:0.5px solid #7F77DD;">ESGBERT family</span>
+    <div><div class="fam-title">ESGBERT / (HF org) — Schimanski et al. Finance Research Letters 2024</div><div class="fam-sub">Sister org of ClimateBERT. Fills the S and G gap directly. Same authors.</div></div>
+  </div>
+  <div class="model-grid">
+    <div class="model-card" style="background:#EAF3DE;border-color:#639922;">
+      <div class="mc-name">EnvRoBERTa-environmental</div>
+      <div class="mc-hf">ESGBERT/EnvRoBERTa-environmental</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag all">binary</span></div>
+      <div class="mc-desc">Env-adapted RoBERTa. Use alongside CB detector for cross-model E agreement.</div>
+    </div>
+    <div class="model-card" style="background:#EAF3DE;border-color:#639922;">
+      <div class="mc-name">EnvironmentalBERT-action</div>
+      <div class="mc-hf">ESGBERT/EnvironmentalBERT-action</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag all">action</span></div>
+      <div class="mc-desc">Detects environmental action statements. Maps directly to tone=Action for E rows.</div>
+    </div>
+    <div class="model-card" style="background:#E6F1FB;border-color:#378ADD;">
+      <div class="mc-name">SocRoBERTa-social ⭐</div>
+      <div class="mc-hf">ESGBERT/SocRoBERTa-social</div>
+      <div class="mc-tags"><span class="tag s">S</span><span class="tag all">binary</span></div>
+      <div class="mc-desc">THE missing piece for your data. Detects social content — board bios, labour, community. Fills the CB S gap entirely.</div>
+    </div>
+    <div class="model-card" style="background:#EEEDFE;border-color:#7F77DD;">
+      <div class="mc-name">GovRoBERTa-governance ⭐</div>
+      <div class="mc-hf">ESGBERT/GovRoBERTa-governance</div>
+      <div class="mc-tags"><span class="tag g">G</span><span class="tag all">binary</span></div>
+      <div class="mc-desc">THE missing piece for your data. Rows 10–43 (board independence, composition) — this validates them directly.</div>
+    </div>
+    <div class="model-card" style="background:#E6F1FB;border-color:#378ADD;">
+      <div class="mc-name">SocialBERT-social</div>
+      <div class="mc-hf">ESGBERT/SocialBERT-social</div>
+      <div class="mc-tags"><span class="tag s">S</span><span class="tag all">binary</span><span class="tag" style="background:#FFF3CD;color:#856404;border:0.5px solid #FFC107;">faster</span></div>
+      <div class="mc-desc">Lighter, faster alternative to SocRoBERTa. Recommended by authors for production.</div>
+    </div>
+    <div class="model-card" style="background:#EEEDFE;border-color:#7F77DD;">
+      <div class="mc-name">GovernanceBERT-governance</div>
+      <div class="mc-hf">ESGBERT/GovernanceBERT-governance</div>
+      <div class="mc-tags"><span class="tag g">G</span><span class="tag all">binary</span></div>
+      <div class="mc-desc">Alternative G model to GovRoBERTa. Run both and ensemble for highest G confidence.</div>
+    </div>
+  </div>
+</div>
+
+<div class="family" style="background:#FFF3CD22;border-color:#FFC107;">
+  <div class="fam-head">
+    <span class="fam-badge" style="background:#FFF3CD;color:#856404;border:0.5px solid #FFC107;">FinBERT family</span>
+    <div><div class="fam-title">yiyanghkust / ProsusAI (HF)</div><div class="fam-sub">Huang et al. Contemporary Accounting Research 2023 · Finance-domain BERT · strongest for financial sentiment</div></div>
+  </div>
+  <div class="model-grid">
+    <div class="model-card" style="background:#FFF3CD;border-color:#FFC107;">
+      <div class="mc-name">finbert-esg</div>
+      <div class="mc-hf">yiyanghkust/finbert-esg</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag s">S</span><span class="tag g">G</span><span class="tag all">4-class</span></div>
+      <div class="mc-desc">E / S / G / None in one model. 2k annotated sentences from ESG + annual reports. Best single model for pillar classification. 89.5% accuracy.</div>
+      <div class="paper-ref">Huang et al. 2023, Contemporary Accounting Research</div>
+    </div>
+    <div class="model-card" style="background:#FFF3CD;border-color:#FFC107;">
+      <div class="mc-name">finbert-esg-9-categories ⭐</div>
+      <div class="mc-hf">yiyanghkust/finbert-esg-9-categories</div>
+      <div class="mc-tags"><span class="tag e">E</span><span class="tag s">S</span><span class="tag g">G</span><span class="tag all">9-class</span></div>
+      <div class="mc-desc">Climate Change · Natural Capital · Pollution & Waste · Human Capital · Product Liability · Community Relations · Corporate Governance · Business Ethics · Non-ESG</div>
+      <div class="paper-ref">Most granular single-model classifier available</div>
+    </div>
+    <div class="model-card" style="background:#FFF3CD;border-color:#FFC107;">
+      <div class="mc-name">finbert (sentiment)</div>
+      <div class="mc-hf">ProsusAI/finbert</div>
+      <div class="mc-tags"><span class="tag fin">Finance</span><span class="tag all">sentiment</span></div>
+      <div class="mc-desc">Positive / negative / neutral on financial text. Validates your sentiment_score on S and G rows where CB sentiment isn't trained.</div>
+    </div>
+  </div>
+</div>
+
+</div>

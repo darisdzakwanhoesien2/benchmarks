@@ -1,0 +1,103 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.zone-grid{display:flex;flex-direction:column;gap:8px;}
+.zone-card{border-radius:10px;border:0.5px solid;padding:12px 14px;}
+.zone-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.zone-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px;flex-shrink:0;}
+.zone-title{font-size:12px;font-weight:500;color:var(--color-text-primary);}
+.zone-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px;}
+.col-head{font-size:10px;font-weight:500;color:var(--color-text-secondary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;}
+.label-list{display:flex;flex-wrap:wrap;gap:3px;}
+.lbl{font-size:9px;padding:2px 6px;border-radius:6px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);font-family:var(--font-mono);}
+.model-list{display:flex;flex-wrap:wrap;gap:3px;}
+.mdl{font-size:9px;padding:2px 6px;border-radius:6px;font-weight:500;}
+.ex{font-size:10px;color:var(--color-text-secondary);font-style:italic;line-height:1.5;}
+</style>
+
+<div class="zone-grid">
+
+  <div class="zone-card" style="background:#EAF3DE;border-color:#639922;">
+    <div class="zone-header">
+      <span class="zone-badge" style="background:#C0DD97;color:#27500A;border:0.5px solid #639922;">E only</span>
+      <span class="zone-title">Pure environmental — no social or governance signal</span>
+    </div>
+    <div class="zone-body">
+      <div><div class="col-head">Your labels</div><div class="label-list"><span class="lbl">climate-detection</span><span class="lbl">climate-d</span><span class="lbl">climate-d-s</span><span class="lbl">netzero-reduction</span><span class="lbl">climate-commitment</span><span class="lbl">climate-f</span><span class="lbl">environmental-claims</span></div></div>
+      <div><div class="col-head">ClimateBERT validators</div><div class="model-list"><span class="mdl" style="background:#C0DD97;color:#27500A;">detector</span><span class="mdl" style="background:#C0DD97;color:#27500A;">specificity</span><span class="mdl" style="background:#C0DD97;color:#27500A;">commitment</span><span class="mdl" style="background:#C0DD97;color:#27500A;">netzero</span><span class="mdl" style="background:#C0DD97;color:#27500A;">sentiment</span></div></div>
+      <div><div class="col-head">Example</div><div class="ex">"We cut Scope 1 emissions by 18% this year."</div></div>
+    </div>
+  </div>
+
+  <div class="zone-card" style="background:#E6F1FB;border-color:#378ADD;">
+    <div class="zone-header">
+      <span class="zone-badge" style="background:#B5D4F4;color:#0C447C;border:0.5px solid #378ADD;">S only</span>
+      <span class="zone-title">Pure social — workforce, community, human rights, DEI</span>
+    </div>
+    <div class="zone-body">
+      <div><div class="col-head">Your labels</div><div class="label-list"><span class="lbl">none (extend)</span></div></div>
+      <div><div class="col-head">ClimateBERT validators</div><div class="model-list"><span class="mdl" style="background:#D3D1C7;color:#444441;">none — gap</span></div></div>
+      <div><div class="col-head">Example</div><div class="ex">"We trained 4,200 workers on safety protocols."</div></div>
+    </div>
+  </div>
+
+  <div class="zone-card" style="background:#EEEDFE;border-color:#7F77DD;">
+    <div class="zone-header">
+      <span class="zone-badge" style="background:#CECBF6;color:#3C3489;border:0.5px solid #7F77DD;">G only</span>
+      <span class="zone-title">Pure governance — board, audit, executive, policy, compliance</span>
+    </div>
+    <div class="zone-body">
+      <div><div class="col-head">Your labels</div><div class="label-list"><span class="lbl">governance</span><span class="lbl">strategy</span></div></div>
+      <div><div class="col-head">ClimateBERT validators</div><div class="model-list"><span class="mdl" style="background:#CECBF6;color:#3C3489;">tcfd → Governance pillar</span></div></div>
+      <div><div class="col-head">Example</div><div class="ex">"The audit committee reviewed executive remuneration."</div></div>
+    </div>
+  </div>
+
+  <div class="zone-card" style="background:#F1EFE8;border-color:#B4B2A9;">
+    <div class="zone-header">
+      <span class="zone-badge" style="background:#D3D1C7;color:#2C2C2A;border:0.5px solid #888780;">E-S</span>
+      <span class="zone-title">Just transition, climate employment, environmental justice</span>
+    </div>
+    <div class="zone-body">
+      <div><div class="col-head">Your labels</div><div class="label-list"><span class="lbl">climate-detection</span><span class="lbl">opportunity</span><span class="lbl">risk</span></div></div>
+      <div><div class="col-head">ClimateBERT validators</div><div class="model-list"><span class="mdl" style="background:#C0DD97;color:#27500A;">detector</span><span class="mdl" style="background:#C0DD97;color:#27500A;">sentiment</span><span class="mdl" style="background:#D3D1C7;color:#444441;">+ S model (gap)</span></div></div>
+      <div><div class="col-head">Example</div><div class="ex">"The coal plant closure will retrain 800 affected workers."</div></div>
+    </div>
+  </div>
+
+  <div class="zone-card" style="background:#F1EFE8;border-color:#B4B2A9;">
+    <div class="zone-header">
+      <span class="zone-badge" style="background:#D3D1C7;color:#2C2C2A;border:0.5px solid #888780;">E-G</span>
+      <span class="zone-title">Climate governance, TCFD disclosure, board climate oversight</span>
+    </div>
+    <div class="zone-body">
+      <div><div class="col-head">Your labels</div><div class="label-list"><span class="lbl">climate-tcfd</span><span class="lbl">governance</span><span class="lbl">strategy</span><span class="lbl">climate-commitment</span></div></div>
+      <div><div class="col-head">ClimateBERT validators</div><div class="model-list"><span class="mdl" style="background:#C0DD97;color:#27500A;">detector</span><span class="mdl" style="background:#CECBF6;color:#3C3489;">tcfd</span><span class="mdl" style="background:#C0DD97;color:#27500A;">commitment</span></div></div>
+      <div><div class="col-head">Example</div><div class="ex">"The board approved our TCFD-aligned climate strategy."</div></div>
+    </div>
+  </div>
+
+  <div class="zone-card" style="background:#F1EFE8;border-color:#B4B2A9;">
+    <div class="zone-header">
+      <span class="zone-badge" style="background:#D3D1C7;color:#2C2C2A;border:0.5px solid #888780;">S-G</span>
+      <span class="zone-title">Social governance — pay equity policy, DEI mandate, whistleblower</span>
+    </div>
+    <div class="zone-body">
+      <div><div class="col-head">Your labels</div><div class="label-list"><span class="lbl">governance</span><span class="lbl">strategy</span></div></div>
+      <div><div class="col-head">ClimateBERT validators</div><div class="model-list"><span class="mdl" style="background:#D3D1C7;color:#444441;">none — full gap</span></div></div>
+      <div><div class="col-head">Example</div><div class="ex">"The board mandated gender pay gap reporting by 2025."</div></div>
+    </div>
+  </div>
+
+  <div class="zone-card" style="background:#F1EFE8;border-color:#888780;">
+    <div class="zone-header">
+      <span class="zone-badge" style="background:#888780;color:#F1EFE8;border:0.5px solid #5F5E5A;">E-S-G</span>
+      <span class="zone-title">Full sustainability — integrated report, enterprise ESG strategy</span>
+    </div>
+    <div class="zone-body">
+      <div><div class="col-head">Your labels</div><div class="label-list"><span class="lbl">climate-tcfd</span><span class="lbl">governance</span><span class="lbl">strategy</span><span class="lbl">climate-commitment</span><span class="lbl">metrics</span></div></div>
+      <div><div class="col-head">ClimateBERT validators</div><div class="model-list"><span class="mdl" style="background:#C0DD97;color:#27500A;">detector</span><span class="mdl" style="background:#C0DD97;color:#27500A;">commitment</span><span class="mdl" style="background:#CECBF6;color:#3C3489;">tcfd</span><span class="mdl" style="background:#C0DD97;color:#27500A;">specificity</span></div></div>
+      <div><div class="col-head">Example</div><div class="ex">"Our board-approved ESG framework ties exec pay to community and emissions targets."</div></div>
+    </div>
+  </div>
+
+</div>

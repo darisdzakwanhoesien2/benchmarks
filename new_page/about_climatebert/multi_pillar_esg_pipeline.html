@@ -1,0 +1,124 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.pipe{display:flex;flex-direction:column;gap:0;}
+.stage{border-radius:10px;border:0.5px solid;padding:11px 14px;margin-bottom:4px;}
+.stage-title{font-size:12px;font-weight:500;margin-bottom:3px;}
+.stage-sub{font-size:11px;color:var(--color-text-secondary);line-height:1.5;}
+.arr{text-align:center;font-size:16px;color:var(--color-border-secondary);margin:1px 0;line-height:1;}
+.row2{display:flex;gap:8px;}
+.col3{display:flex;gap:8px;}
+.h3{flex:1;}
+.pill{display:inline-block;font-size:9px;padding:2px 6px;border-radius:8px;font-weight:600;margin:2px 2px 0 0;}
+.e-pill{background:#EAF3DE;color:#27500A;border:0.5px solid #639922;}
+.s-pill{background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;}
+.g-pill{background:#EEEDFE;color:#3C3489;border:0.5px solid #7F77DD;}
+.gap-pill{background:#FAEEDA;color:#854F0B;border:0.5px solid #BA7517;}
+.code{font-family:var(--font-mono);font-size:10px;background:var(--color-background-secondary);border-radius:6px;padding:8px 10px;margin-top:6px;color:var(--color-text-primary);line-height:1.6;}
+</style>
+
+<div class="pipe">
+
+  <div class="stage" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="stage-title">① LLM output: multi-pillar esg field</div>
+    <div class="stage-sub">Change your prompt's esg field from <code>E/S/G/none</code> to an array:</div>
+    <div class="code">"esg": ["E", "S"]  &nbsp;&nbsp;// can be ["E"], ["G"], ["E","S","G"], etc.<br>"esg_zone": "E-S" &nbsp;&nbsp;// derived: sort + join</div>
+  </div>
+
+  <div class="arr">↓</div>
+
+  <div class="stage" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="stage-title">② Zone detection logic</div>
+    <div class="stage-sub">Derive zone from esg[] array + labels[] signals:</div>
+    <div class="code">
+      E signals: climate-*, netzero-*, environmental-claims<br>
+      S signals: community, labour, diversity, health, safety<br>
+      G signals: governance, board, audit, policy, exec-pay<br>
+      <br>
+      esg_zone = sort(detected_pillars).join("-") or "none"
+    </div>
+  </div>
+
+  <div class="arr">↓</div>
+
+  <div class="col3">
+    <div class="h3">
+      <div class="stage" style="background:#EAF3DE;border-color:#639922;height:100%;">
+        <div class="stage-title" style="color:#27500A;">E validators</div>
+        <div class="stage-sub">
+          <span class="e-pill">detector</span>
+          <span class="e-pill">specificity</span>
+          <span class="e-pill">commitment</span>
+          <span class="e-pill">netzero</span>
+          <span class="e-pill">sentiment</span>
+          <span class="e-pill">tcfd</span>
+        </div>
+      </div>
+    </div>
+    <div class="h3">
+      <div class="stage" style="background:#E6F1FB;border-color:#378ADD;height:100%;">
+        <div class="stage-title" style="color:#0C447C;">S validators</div>
+        <div class="stage-sub">
+          <span class="gap-pill">gap — no CB model</span><br><br>
+          Use rule-based proxy:<br>
+          keyword match on social lexicon<br>
+          (labour, community, health...)
+        </div>
+      </div>
+    </div>
+    <div class="h3">
+      <div class="stage" style="background:#EEEDFE;border-color:#7F77DD;height:100%;">
+        <div class="stage-title" style="color:#3C3489;">G validators</div>
+        <div class="stage-sub">
+          <span class="g-pill">tcfd → Governance pillar</span><br><br>
+          Partial — TCFD governance<br>overlaps with G but does<br>not cover all G cases
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arr">↓</div>
+
+  <div class="stage" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="stage-title">③ Per-pillar confidence score</div>
+    <div class="stage-sub">Each pillar gets its own confidence independently:</div>
+    <div class="code">
+      "pillar_confidence": {<br>
+      &nbsp;&nbsp;"E": 0.91,  // strong — 5 CB models agree<br>
+      &nbsp;&nbsp;"S": 0.60,  // medium — LLM only, rule proxy match<br>
+      &nbsp;&nbsp;"G": 0.74   // medium — TCFD governance pillar fires<br>
+      }
+    </div>
+  </div>
+
+  <div class="arr">↓</div>
+
+  <div class="row2">
+    <div class="h3">
+      <div class="stage" style="background:#EAF3DE;border-color:#639922;">
+        <div class="stage-title" style="color:#27500A;">E-zone: full validation</div>
+        <div class="stage-sub">All 6 CB models apply. Highest confidence path.</div>
+      </div>
+    </div>
+    <div class="h3">
+      <div class="stage" style="background:#FAEEDA;border-color:#BA7517;">
+        <div class="stage-title" style="color:#854F0B;">S and G zones: partial</div>
+        <div class="stage-sub">Flag as CB-unvalidated. Use LLM reasoning + rule proxy as evidence. Lower confidence tier by one level.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arr">↓</div>
+
+  <div class="stage" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="stage-title">④ Final enriched JSON per segment</div>
+    <div class="code">
+      "esg": ["E", "S", "G"],<br>
+      "esg_zone": "E-S-G",<br>
+      "pillar_confidence": { "E": 0.91, "S": 0.60, "G": 0.74 },<br>
+      "zone_confidence": 0.75,  // min(pillar_confidence.values())<br>
+      "validation_coverage": "partial", // full=all pillars CB-validated<br>
+      "cb_gap_pillars": ["S"]   // pillars with no CB model
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,97 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+th{font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:6px 10px;text-align:left;border-bottom:0.5px solid var(--color-border-secondary);}
+td{padding:6px 10px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary);}
+tr:last-child td{border-bottom:none;}
+.pill{display:inline-block;font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600;}
+.e{background:#EAF3DE;color:#3B6D11;border:0.5px solid #639922;}
+.g{background:#E6F1FB;color:#185FA5;border:0.5px solid #378ADD;}
+.n{background:#D3D1C7;color:#444441;border:0.5px solid #888780;}
+.model-tag{font-size:9px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:6px;padding:2px 6px;color:var(--color-text-secondary);font-family:var(--font-mono);}
+.agree-col{font-size:10px;color:var(--color-text-secondary);}
+.high{color:#3B6D11;font-weight:500;}
+.med{color:#854F0B;font-weight:500;}
+.none-tag{color:var(--color-text-tertiary);font-style:italic;}
+</style>
+
+<h2 class="sr-only">Label-to-ClimateBERT model mapping table with agreement thresholds</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:22%">Your label</th>
+      <th style="width:30%">ClimateBERT model</th>
+      <th style="width:12%">ESG</th>
+      <th style="width:36%">Agreement logic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>climate-detection</code></td>
+      <td><span class="model-tag">distilroberta-base-climate-detector</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col"><span class="high">Strong</span> — if CB detector = "yes" + LLM label present → confirm</td>
+    </tr>
+    <tr>
+      <td><code>climate-d</code></td>
+      <td><span class="model-tag">distilroberta-base-climate-detector</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col"><span class="high">Strong</span> — general discussion, same model as detection</td>
+    </tr>
+    <tr>
+      <td><code>climate-d-s</code></td>
+      <td><span class="model-tag">climate-detector</span> + <span class="model-tag">climate-s</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col"><span class="med">Medium</span> — requires BOTH detector=yes AND specificity=specific</td>
+    </tr>
+    <tr>
+      <td><code>climate-specificity</code></td>
+      <td><span class="model-tag">distilroberta-base-climate-s</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col"><span class="high">Strong</span> — direct 1:1 model match</td>
+    </tr>
+    <tr>
+      <td><code>climate-commitment</code></td>
+      <td><span class="model-tag">distilroberta-base-climate-commitment</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col"><span class="high">Strong</span> — direct 1:1 match. Also cross-check tone=commitment in LLM</td>
+    </tr>
+    <tr>
+      <td><code>netzero-reduction</code></td>
+      <td><span class="model-tag">climatebert/netzero-reduction</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col"><span class="high">Strong</span> — direct 1:1. Distinguishes net-zero vs. reduction pledge</td>
+    </tr>
+    <tr>
+      <td><code>climate-sentiment</code><br><code>climate-s</code></td>
+      <td><span class="model-tag">distilroberta-base-climate-sentiment</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col"><span class="high">Strong</span> — CB outputs opportunity/neutral/risk. Map: opportunity=positive, risk=negative</td>
+    </tr>
+    <tr>
+      <td><code>climate-tcfd</code><br><code>governance</code><br><code>strategy</code><br><code>risk</code><br><code>opportunity</code></td>
+      <td><span class="model-tag">distilroberta-base-climate-tcfd</span></td>
+      <td><span class="pill g">G/E</span></td>
+      <td class="agree-col"><span class="med">Medium</span> — TCFD 4 pillars: Governance / Strategy / Risk Mgmt / Metrics. Map LLM labels → TCFD pillar</td>
+    </tr>
+    <tr>
+      <td><code>environmental-claims</code></td>
+      <td><span class="model-tag">climate-detector</span> + <span class="model-tag">climate-commitment</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col"><span class="med">Medium</span> — no dedicated CB model. Infer from detector=yes + commitment=yes</td>
+    </tr>
+    <tr>
+      <td><code>metrics</code></td>
+      <td><span class="none-tag">No direct CB model</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col">Use regex heuristic (numbers + units) as proxy validator alongside LLM label</td>
+    </tr>
+    <tr>
+      <td><code>climate-f</code></td>
+      <td><span class="none-tag">No direct CB model</span></td>
+      <td><span class="pill e">E</span></td>
+      <td class="agree-col">Cross-validate with tone=commitment in LLM output. No CB equivalent.</td>
+    </tr>
+  </tbody>
+</table>

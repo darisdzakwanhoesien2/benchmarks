@@ -1,0 +1,175 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+table{width:100%;border-collapse:collapse;font-size:10.5px;}
+th{font-size:10px;font-weight:500;color:var(--color-text-secondary);padding:6px 9px;text-align:left;border-bottom:0.5px solid var(--color-border-secondary);white-space:nowrap;}
+td{padding:6px 9px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+.field{font-family:var(--font-mono);font-size:10px;color:var(--color-text-primary);}
+.pill{display:inline-block;font-size:9px;padding:1px 6px;border-radius:6px;font-weight:500;white-space:nowrap;margin:1px 1px 1px 0;}
+.cb{background:#EAF3DE;color:#27500A;border:0.5px solid #639922;}
+.eg{background:#EEEDFE;color:#3C3489;border:0.5px solid #7F77DD;}
+.fb{background:#FFF3CD;color:#856404;border:0.5px solid #FFC107;}
+.ru{background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;}
+.lo{background:#FCEBEB;color:#A32D2D;border:0.5px solid #E24B4A;}
+.note{font-size:10px;color:var(--color-text-secondary);line-height:1.5;}
+.section-row td{background:var(--color-background-secondary);font-size:10px;font-weight:500;color:var(--color-text-secondary);padding:4px 9px;}
+</style>
+
+<table>
+<thead>
+<tr>
+  <th style="width:18%">Your field</th>
+  <th style="width:14%">E validator</th>
+  <th style="width:14%">S validator</th>
+  <th style="width:14%">G validator</th>
+  <th style="width:40%">How to use the output</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="section-row"><td colspan="5">── Core ABSA ──────────────────────────────────────────────────────────────</td></tr>
+
+<tr>
+  <td class="field">aspect_category</td>
+  <td><span class="pill cb">CB detector</span></td>
+  <td><span class="pill eg">SocRoBERTa</span></td>
+  <td><span class="pill eg">GovRoBERTa</span><br><span class="pill fb">FinBERT-ESG</span></td>
+  <td class="note">Run all three. If multiple fire → esg_zone = "E-S", "E-G" etc. FinBERT-ESG gives one label as tiebreaker.</td>
+</tr>
+<tr>
+  <td class="field">sentiment</td>
+  <td><span class="pill cb">CB sentiment</span></td>
+  <td><span class="pill fb">ProsusAI/finbert</span></td>
+  <td><span class="pill fb">ProsusAI/finbert</span></td>
+  <td class="note">CB sentiment for E rows. FinBERT sentiment for S/G rows. Your data (rows 10-43) → use FinBERT.</td>
+</tr>
+<tr>
+  <td class="field">sentiment_score</td>
+  <td><span class="pill cb">CB softmax</span></td>
+  <td><span class="pill fb">FinBERT softmax</span></td>
+  <td><span class="pill fb">FinBERT softmax</span></td>
+  <td class="note">Map model probability to –1→+1 range. Compare against your LLM score. Delta > 0.3 → conflict flag.</td>
+</tr>
+<tr>
+  <td class="field">tone</td>
+  <td><span class="pill cb">CB commitment</span><br><span class="pill eg">EnvironBERT-action</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">For E: commitment=yes → Commitment; action model=yes → Action. For S/G: no model, keep LLM tone.</td>
+</tr>
+<tr>
+  <td class="field">confidence</td>
+  <td colspan="3" style="text-align:center;"><span class="pill cb">CB agree</span> <span class="pill eg">ESGBERT agree</span> <span class="pill fb">FinBERT agree</span></td>
+  <td class="note">Weighted mean of all model agreement scores. More validators = higher-confidence confidence estimate.</td>
+</tr>
+
+<tr class="section-row"><td colspan="5">── Extended intelligence fields ────────────────────────────────────────────</td></tr>
+
+<tr>
+  <td class="field">materiality</td>
+  <td><span class="pill cb">CB specificity</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">CB specificity=specific → high materiality for E. No model for S/G materiality.</td>
+</tr>
+<tr>
+  <td class="field">claim_type</td>
+  <td><span class="pill ru">regex</span></td>
+  <td><span class="pill ru">regex</span></td>
+  <td><span class="pill ru">regex</span></td>
+  <td class="note">Numbers + units → quantitative. Applies across all pillars equally.</td>
+</tr>
+<tr>
+  <td class="field">has_kpi</td>
+  <td><span class="pill ru">regex</span></td>
+  <td><span class="pill ru">regex</span></td>
+  <td><span class="pill ru">regex</span></td>
+  <td class="note">%, tCO₂, MW, $M, headcount figures → has_kpi=true.</td>
+</tr>
+<tr>
+  <td class="field">time_horizon</td>
+  <td><span class="pill cb">CB commitment</span></td>
+  <td><span class="pill ru">regex "by 20XX"</span></td>
+  <td><span class="pill ru">regex "by 20XX"</span></td>
+  <td class="note">CB commitment=yes → future for E. Regex year pattern covers S/G.</td>
+</tr>
+<tr>
+  <td class="field">has_target</td>
+  <td><span class="pill cb">CB netzero</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">Only CB netzero model detects targets. No equivalent for S/G targets.</td>
+</tr>
+<tr>
+  <td class="field">target_type</td>
+  <td><span class="pill cb">CB netzero label</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">net-zero → science-based; reduction → absolute; "intensity" keyword → intensity.</td>
+</tr>
+<tr>
+  <td class="field">emission_scope</td>
+  <td><span class="pill ru">regex "Scope 1/2/3"</span></td>
+  <td>—</td>
+  <td>—</td>
+  <td class="note">E-only field. Regex match on explicit scope mentions.</td>
+</tr>
+<tr>
+  <td class="field">stakeholder</td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill eg">SocRoBERTa proxy</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">No model outputs stakeholder directly. SocRoBERTa firing = stakeholder is social group.</td>
+</tr>
+<tr>
+  <td class="field">esg_risk_type</td>
+  <td><span class="pill cb">CB sentiment</span></td>
+  <td><span class="pill fb">FinBERT sentiment</span></td>
+  <td><span class="pill fb">FinBERT sentiment</span></td>
+  <td class="note">CB: risk/opportunity label direct. FinBERT: negative→risk, positive→opportunity.</td>
+</tr>
+<tr>
+  <td class="field">impact_level</td>
+  <td><span class="pill cb">CB specificity</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">CB specificity score as proxy for E. No model for S/G impact level.</td>
+</tr>
+<tr>
+  <td class="field">regulation_uri</td>
+  <td><span class="pill cb">CB tcfd</span><br><span class="pill ru">regex CSRD/ISSB</span></td>
+  <td><span class="pill ru">regex</span></td>
+  <td><span class="pill cb">CB tcfd</span><br><span class="pill ru">regex</span></td>
+  <td class="note">TCFD model → "TCFD". Regex for CSRD, ISSB, EU Taxonomy, SDG references.</td>
+</tr>
+<tr>
+  <td class="field">externally_assured</td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">No model available. Consider regex on "assured by" / "verified by" / "third-party".</td>
+</tr>
+<tr>
+  <td class="field">value_chain_stage</td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">No model available. Scope 3 → supply_chain/downstream as heuristic proxy.</td>
+</tr>
+<tr>
+  <td class="field">policy_reference</td>
+  <td><span class="pill ru">regex</span></td>
+  <td><span class="pill ru">regex</span></td>
+  <td><span class="pill ru">regex</span></td>
+  <td class="note">Keyword match on policy, regulation, framework, act, directive.</td>
+</tr>
+<tr>
+  <td class="field">partner_type</td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td><span class="pill lo">LLM-only</span></td>
+  <td class="note">No model. Consider NER for org type detection as partial proxy.</td>
+</tr>
+
+</tbody>
+</table>

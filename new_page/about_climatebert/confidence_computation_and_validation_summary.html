@@ -1,0 +1,118 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.wrap{display:flex;flex-direction:column;gap:10px;}
+.card{border-radius:10px;border:0.5px solid var(--color-border-secondary);padding:13px 15px;background:var(--color-background-secondary);}
+.card-title{font-size:12px;font-weight:500;margin-bottom:8px;color:var(--color-text-primary);}
+.tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:4px;}
+.tier{border-radius:8px;padding:10px 10px;text-align:center;border:0.5px solid;}
+.tier-name{font-size:11px;font-weight:500;margin-bottom:3px;}
+.tier-score{font-size:18px;font-weight:500;margin-bottom:3px;}
+.tier-desc{font-size:9px;opacity:.8;line-height:1.4;}
+.formula-box{font-family:var(--font-mono);font-size:10px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px;color:var(--color-text-primary);line-height:1.8;margin-top:4px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.mini-card{border-radius:8px;border:0.5px solid;padding:10px 12px;}
+.mc-title{font-size:11px;font-weight:500;margin-bottom:6px;}
+.mc-row{font-size:10px;color:var(--color-text-secondary);padding:3px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;}
+.mc-row:last-child{border-bottom:none;}
+.mc-val{font-weight:500;color:var(--color-text-primary);}
+.status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;flex-shrink:0;}
+</style>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="card-title">Confidence score computation — how your prompt's <code>confidence</code> field gets anchored</div>
+    <div class="tier-grid">
+      <div class="tier" style="background:#EAF3DE;border-color:#639922;color:#27500A;">
+        <div class="tier-name">High</div>
+        <div class="tier-score">0.80–1.0</div>
+        <div class="tier-desc">CB model fires AND agrees with LLM. Both sentiment + detector align.</div>
+      </div>
+      <div class="tier" style="background:#FAEEDA;border-color:#BA7517;color:#854F0B;">
+        <div class="tier-name">Medium</div>
+        <div class="tier-score">0.55–0.79</div>
+        <div class="tier-desc">CB partially validates. Some fields LLM-only. No direct conflict.</div>
+      </div>
+      <div class="tier" style="background:#FCEBEB;border-color:#E24B4A;color:#A32D2D;">
+        <div class="tier-name">Conflict</div>
+        <div class="tier-score">0.30–0.54</div>
+        <div class="tier-desc">CB and LLM disagree on ≥1 key field. Flag for human review.</div>
+      </div>
+      <div class="tier" style="background:#F1EFE8;border-color:#B4B2A9;color:#444441;">
+        <div class="tier-name">Unvalidated</div>
+        <div class="tier-score">LLM score</div>
+        <div class="tier-desc">No CB model covers this field. Keep LLM confidence as-is.</div>
+      </div>
+    </div>
+    <div class="formula-box">
+# Fields grouped by validator source
+CB_fields    = [detector, sentiment, commitment, specificity, netzero, tcfd]
+rule_fields  = [claim_type, has_kpi, emission_scope, policy_reference, regulation_uri]
+llm_fields   = [stakeholder, externally_assured, value_chain_stage, partner_type, ontology_uri]
+
+# Agreement score per CB field
+agreement = mean([1 if CB_label == LLM_label else 0 for each CB_field])
+
+# Penalty for conflicts
+n_conflicts  = count(CB_label != LLM_label)
+conflict_pen = n_conflicts * 0.10
+
+# Final confidence
+cb_confidence   = agreement - conflict_pen
+final_confidence = 0.7 * cb_confidence + 0.3 * llm_raw_confidence
+    </div>
+  </div>
+
+  <div class="row3">
+
+    <div class="mini-card" style="background:#EAF3DE22;border-color:#639922;">
+      <div class="mc-title" style="color:#27500A;">sentiment_score rescaling</div>
+      <div class="mc-row"><span>CB output</span><span class="mc-val">softmax prob [0→1]</span></div>
+      <div class="mc-row"><span>opportunity class</span><span class="mc-val">score → +score</span></div>
+      <div class="mc-row"><span>risk class</span><span class="mc-val">score → –score</span></div>
+      <div class="mc-row"><span>neutral class</span><span class="mc-val">score → 0 ± small</span></div>
+      <div class="mc-row"><span>formula</span><span class="mc-val">(2×P_pos) – 1</span></div>
+      <div class="mc-row"><span>range</span><span class="mc-val">–1.0 → +1.0</span></div>
+    </div>
+
+    <div class="mini-card" style="background:#EEEDFE22;border-color:#7F77DD;">
+      <div class="mc-title" style="color:#3C3489;">TCFD → regulation_uri + aspect</div>
+      <div class="mc-row"><span>Governance</span><span class="mc-val">TCFD · G pillar</span></div>
+      <div class="mc-row"><span>Strategy</span><span class="mc-val">TCFD · E-G pillar</span></div>
+      <div class="mc-row"><span>Risk Management</span><span class="mc-val">TCFD · E pillar</span></div>
+      <div class="mc-row"><span>Metrics & Targets</span><span class="mc-val">TCFD · E pillar</span></div>
+      <div class="mc-row"><span>+ regex "CSRD"</span><span class="mc-val">regulation_uri=CSRD</span></div>
+      <div class="mc-row"><span>+ regex "ISSB"</span><span class="mc-val">regulation_uri=ISSB</span></div>
+    </div>
+
+    <div class="mini-card" style="background:#E6F1FB22;border-color:#378ADD;">
+      <div class="mc-title" style="color:#0C447C;">target_type derivation</div>
+      <div class="mc-row"><span>netzero model = net-zero</span><span class="mc-val">science-based</span></div>
+      <div class="mc-row"><span>netzero model = reduction</span><span class="mc-val">absolute</span></div>
+      <div class="mc-row"><span>+ "intensity" keyword</span><span class="mc-val">intensity</span></div>
+      <div class="mc-row"><span>+ "SBTi" / "1.5°C"</span><span class="mc-val">science-based</span></div>
+      <div class="mc-row"><span>no netzero signal</span><span class="mc-val">null</span></div>
+      <div class="mc-row"><span>has_target</span><span class="mc-val">true if any above</span></div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-title">Validation coverage summary per output object</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px;">
+      <div>
+        <div style="font-size:10px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;">CB-validated fields (7)</div>
+        <div style="color:var(--color-text-secondary);line-height:2;"><span class="status-dot" style="background:#639922;"></span>aspect_category<br><span class="status-dot" style="background:#639922;"></span>sentiment<br><span class="status-dot" style="background:#639922;"></span>sentiment_score<br><span class="status-dot" style="background:#639922;"></span>tone<br><span class="status-dot" style="background:#639922;"></span>has_target<br><span class="status-dot" style="background:#639922;"></span>target_type<br><span class="status-dot" style="background:#639922;"></span>esg_risk_type</div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;">Rule-validated fields (5)</div>
+        <div style="color:var(--color-text-secondary);line-height:2;"><span class="status-dot" style="background:#378ADD;"></span>claim_type<br><span class="status-dot" style="background:#378ADD;"></span>has_kpi<br><span class="status-dot" style="background:#378ADD;"></span>emission_scope<br><span class="status-dot" style="background:#378ADD;"></span>policy_reference<br><span class="status-dot" style="background:#378ADD;"></span>regulation_uri (partial)</div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;">LLM-only fields (7)</div>
+        <div style="color:var(--color-text-secondary);line-height:2;"><span class="status-dot" style="background:#E24B4A;"></span>sentence<br><span class="status-dot" style="background:#E24B4A;"></span>ontology_uri<br><span class="status-dot" style="background:#E24B4A;"></span>stakeholder<br><span class="status-dot" style="background:#E24B4A;"></span>externally_assured<br><span class="status-dot" style="background:#E24B4A;"></span>value_chain_stage<br><span class="status-dot" style="background:#E24B4A;"></span>partner_type<br><span class="status-dot" style="background:#E24B4A;"></span>materiality (partial)</div>
+      </div>
+    </div>
+  </div>
+
+</div>

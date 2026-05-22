@@ -1,0 +1,226 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.tab{padding:5px 13px;font-size:11px;font-weight:500;border:0.5px solid var(--color-border-secondary);border-radius:16px;cursor:pointer;color:var(--color-text-secondary);background:transparent;}
+.tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary);}
+.code{font-family:var(--font-mono);font-size:10px;background:var(--color-background-secondary);border-radius:9px;padding:13px 15px;line-height:1.85;color:var(--color-text-primary);white-space:pre;overflow-x:auto;}
+.comment{color:var(--color-text-tertiary);}
+.kw{color:#7F77DD;}
+.str{color:#639922;}
+.num{color:#BA7517;}
+#panel{min-height:300px;}
+</style>
+
+<div class="tabs" id="tabs">
+  <button class="tab active" onclick="show(0,this)">Setup</button>
+  <button class="tab" onclick="show(1,this)">Triage gate</button>
+  <button class="tab" onclick="show(2,this)">G validator</button>
+  <button class="tab" onclick="show(3,this)">E validator</button>
+  <button class="tab" onclick="show(4,this)">Final output</button>
+  <button class="tab" onclick="show(5,this)">New columns</button>
+</div>
+<div id="panel"></div>
+
+<script>
+const panels = [
+`<div class="code"><span class="comment"># ── 0. Setup ─────────────────────────────────────────────────</span>
+<span class="kw">from</span> transformers <span class="kw">import</span> pipeline
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> re
+
+<span class="comment"># Load all CB models once (82M each, fast on CPU)</span>
+cb = {
+    <span class="str">"detector"</span>:    pipeline(<span class="str">"text-classification"</span>, model=<span class="str">"climatebert/distilroberta-base-climate-detector"</span>),
+    <span class="str">"sentiment"</span>:   pipeline(<span class="str">"text-classification"</span>, model=<span class="str">"climatebert/distilroberta-base-climate-sentiment"</span>),
+    <span class="str">"commitment"</span>:  pipeline(<span class="str">"text-classification"</span>, model=<span class="str">"climatebert/distilroberta-base-climate-commitment"</span>),
+    <span class="str">"specificity"</span>: pipeline(<span class="str">"text-classification"</span>, model=<span class="str">"climatebert/distilroberta-base-climate-s"</span>),
+    <span class="str">"netzero"</span>:     pipeline(<span class="str">"text-classification"</span>, model=<span class="str">"climatebert/netzero-reduction"</span>),
+    <span class="str">"tcfd"</span>:        pipeline(<span class="str">"text-classification"</span>, model=<span class="str">"climatebert/distilroberta-base-climate-tcfd"</span>),
+}
+
+<span class="comment"># Load your dataframe</span>
+df = pd.read_csv(<span class="str">"parsed_esg_output.csv"</span>)
+<span class="comment"># Columns already in df:
+# sentence, aspect, aspect_category, sentiment, sentiment_score,
+# tone, materiality, stakeholder, impact_level, time_horizon, filename</span></div>`,
+
+`<div class="code"><span class="comment"># ── 1. Triage gate — run detector on ALL rows first ──────────</span>
+<span class="comment"># This is cheap (1 model) and segments your data correctly</span>
+
+<span class="kw">def</span> run_detector(text):
+    r = cb[<span class="str">"detector"</span>](text[:512])[<span class="num">0</span>]
+    <span class="kw">return</span> r[<span class="str">"label"</span>], round(r[<span class="str">"score"</span>], <span class="num">3</span>)
+
+df[[<span class="str">"cb_climate_label"</span>, <span class="str">"cb_climate_score"</span>]] = df[<span class="str">"sentence"</span>].apply(
+    <span class="kw">lambda</span> x: pd.Series(run_detector(x))
+)
+
+<span class="comment"># Split into three tracks</span>
+e_rows  = df[df[<span class="str">"aspect_category"</span>] == <span class="str">"E"</span>]          <span class="comment"># → run full CB pipeline</span>
+g_rows  = df[df[<span class="str">"aspect_category"</span>] == <span class="str">"G"</span>]          <span class="comment"># → run tcfd + sentiment only</span>
+s_rows  = df[df[<span class="str">"aspect_category"</span>] == <span class="str">"S"</span>]          <span class="comment"># → detector as negative check only</span>
+
+<span class="comment"># YOUR DATA: rows 10-43 from AR SR BHIT 2023
+# Expected: ~100% go to g_rows / s_rows track
+# cb_climate_label will be "No" for almost all → correct!</span>
+
+print(df.groupby([<span class="str">"aspect_category"</span>, <span class="str">"cb_climate_label"</span>]).size())</div>`,
+
+`<div class="code"><span class="comment"># ── 2. G validator — tcfd + sentiment ────────────────────────</span>
+<span class="comment"># For governance rows (most of your data)</span>
+
+TCFD_TO_ASPECT = {
+    <span class="str">"Governance"</span>:       (<span class="str">"G"</span>, <span class="str">"TCFD"</span>),
+    <span class="str">"Strategy"</span>:         (<span class="str">"E-G"</span>, <span class="str">"TCFD"</span>),
+    <span class="str">"Risk Management"</span>:  (<span class="str">"E"</span>, <span class="str">"TCFD"</span>),
+    <span class="str">"Metrics & Targets"</span>:(<span class="str">"E"</span>, <span class="str">"TCFD"</span>),
+}
+SENTIMENT_MAP = {
+    <span class="str">"opportunity"</span>: (<span class="str">"positive"</span>, <span class="num">1</span>),
+    <span class="str">"neutral"</span>:     (<span class="str">"neutral"</span>,  <span class="num">0</span>),
+    <span class="str">"risk"</span>:        (<span class="str">"negative"</span>, <span class="num">-1</span>),
+}
+
+<span class="kw">def</span> validate_g_row(text, llm_sentiment, llm_score, llm_aspect_cat):
+    tcfd_r = cb[<span class="str">"tcfd"</span>](text[:512])[<span class="num">0</span>]
+    sent_r = cb[<span class="str">"sentiment"</span>](text[:512])[<span class="num">0</span>]
+
+    tcfd_pillar = tcfd_r[<span class="str">"label"</span>]
+    cb_pillar, reg_uri = TCFD_TO_ASPECT.get(tcfd_pillar, (<span class="str">"G"</span>, <span class="str">"TCFD"</span>))
+    cb_sent, cb_dir   = SENTIMENT_MAP.get(sent_r[<span class="str">"label"</span>], (<span class="str">"neutral"</span>, <span class="num">0</span>))
+    cb_score          = round(sent_r[<span class="str">"score"</span>] * cb_dir, <span class="num">3</span>)
+
+    <span class="comment"># Agreement checks</span>
+    sent_agree    = cb_sent == llm_sentiment
+    pillar_agree  = cb_pillar == llm_aspect_cat <span class="kw">or</span> llm_aspect_cat <span class="kw">in</span> cb_pillar
+    score_delta   = round(abs(cb_score - llm_score), <span class="num">3</span>)
+    agreement     = round((<span class="num">0.5</span> * sent_agree + <span class="num">0.5</span> * pillar_agree), <span class="num">2</span>)
+
+    <span class="kw">return</span> {
+        <span class="str">"cb_tcfd_pillar"</span>:      tcfd_pillar,
+        <span class="str">"cb_tcfd_score"</span>:       round(tcfd_r[<span class="str">"score"</span>], <span class="num">3</span>),
+        <span class="str">"cb_sentiment_label"</span>:  cb_sent,
+        <span class="str">"cb_sentiment_score"</span>:  cb_score,
+        <span class="str">"cb_sentiment_delta"</span>:  score_delta,
+        <span class="str">"cb_sentiment_agree"</span>:  sent_agree,
+        <span class="str">"cb_pillar_agree"</span>:     pillar_agree,
+        <span class="str">"cb_agreement_score"</span>:  agreement,
+        <span class="str">"cb_regulation_uri"</span>:   reg_uri,
+        <span class="str">"cb_validation_tier"</span>:  <span class="str">"partial"</span>,    <span class="comment"># G = partial coverage</span>
+        <span class="str">"cb_gap_note"</span>:         <span class="str">"S/G not fully covered by CB"</span>,
+    }
+
+<span class="comment"># Apply to G rows</span>
+g_results = g_rows[<span class="str">"sentence"</span>].apply(
+    <span class="kw">lambda</span> r: pd.Series(validate_g_row(
+        r[<span class="str">"sentence"</span>], r[<span class="str">"sentiment"</span>], r[<span class="str">"sentiment_score"</span>], r[<span class="str">"aspect_category"</span>]
+    )), axis=<span class="num">1</span>
+)</div>`,
+
+`<div class="code"><span class="comment"># ── 3. E validator — full 6-model pipeline ───────────────────</span>
+<span class="comment"># For E rows (likely rare in your current document section)</span>
+
+<span class="kw">def</span> validate_e_row(text, llm_sentiment, llm_score, llm_tone):
+    det  = cb[<span class="str">"detector"</span>](text[:512])[<span class="num">0</span>]
+    sent = cb[<span class="str">"sentiment"</span>](text[:512])[<span class="num">0</span>]
+    comm = cb[<span class="str">"commitment"</span>](text[:512])[<span class="num">0</span>]
+    spec = cb[<span class="str">"specificity"</span>](text[:512])[<span class="num">0</span>]
+    netz = cb[<span class="str">"netzero"</span>](text[:512])[<span class="num">0</span>]
+    tcfd = cb[<span class="str">"tcfd"</span>](text[:512])[<span class="num">0</span>]
+
+    cb_sent_map = {<span class="str">"opportunity"</span>:<span class="str">"positive"</span>, <span class="str">"neutral"</span>:<span class="str">"neutral"</span>, <span class="str">"risk"</span>:<span class="str">"negative"</span>}
+    cb_tone_map = {<span class="str">"yes"</span>:<span class="str">"Commitment"</span>, <span class="str">"no"</span>:<span class="str">"Action"</span>}  <span class="comment"># simplified</span>
+
+    cb_sent  = cb_sent_map.get(sent[<span class="str">"label"</span>], <span class="str">"neutral"</span>)
+    cb_tone  = cb_tone_map.get(comm[<span class="str">"label"</span>], <span class="str">"Action"</span>)
+    cb_score = round(sent[<span class="str">"score"</span>] * (<span class="num">1</span> <span class="kw">if</span> sent[<span class="str">"label"</span>]==<span class="str">"opportunity"</span> <span class="kw">else</span> -<span class="num">1</span> <span class="kw">if</span> sent[<span class="str">"label"</span>]==<span class="str">"risk"</span> <span class="kw">else</span> <span class="num">0</span>), <span class="num">3</span>)
+
+    agreements = [
+        det[<span class="str">"label"</span>] == <span class="str">"yes"</span>,          <span class="comment"># is climate content?</span>
+        cb_sent == llm_sentiment,          <span class="comment"># sentiment direction</span>
+        cb_tone == llm_tone,               <span class="comment"># tone match</span>
+    ]
+    agreement_score = round(sum(agreements) / len(agreements), <span class="num">2</span>)
+
+    <span class="kw">return</span> {
+        <span class="str">"cb_climate_label"</span>:    det[<span class="str">"label"</span>],
+        <span class="str">"cb_climate_score"</span>:    round(det[<span class="str">"score"</span>], <span class="num">3</span>),
+        <span class="str">"cb_sentiment_label"</span>:  cb_sent,
+        <span class="str">"cb_sentiment_score"</span>:  cb_score,
+        <span class="str">"cb_sentiment_delta"</span>:  round(abs(cb_score - <span class="num">0</span>), <span class="num">3</span>),  <span class="comment"># vs LLM</span>
+        <span class="str">"cb_tone_label"</span>:       cb_tone,
+        <span class="str">"cb_tone_agree"</span>:       cb_tone == llm_tone,
+        <span class="str">"cb_specificity"</span>:      spec[<span class="str">"label"</span>],
+        <span class="str">"cb_commitment"</span>:       comm[<span class="str">"label"</span>],
+        <span class="str">"cb_netzero"</span>:          netz[<span class="str">"label"</span>],
+        <span class="str">"cb_tcfd_pillar"</span>:      tcfd[<span class="str">"label"</span>],
+        <span class="str">"cb_agreement_score"</span>:  agreement_score,
+        <span class="str">"cb_validation_tier"</span>:  <span class="str">"full"</span>,
+        <span class="str">"cb_gap_note"</span>:         <span class="str">"none"</span>,
+    }</div>`,
+
+`<div class="code"><span class="comment"># ── 4. Merge everything back into one dataframe ───────────────</span>
+
+<span class="kw">def</span> route_and_validate(row):
+    cat = row[<span class="str">"aspect_category"</span>]
+    text = row[<span class="str">"sentence"</span>]
+
+    <span class="kw">if</span> cat == <span class="str">"E"</span>:
+        <span class="kw">return</span> validate_e_row(text, row.sentiment, row.sentiment_score, row.tone)
+    <span class="kw">elif</span> cat == <span class="str">"G"</span>:
+        <span class="kw">return</span> validate_g_row(text, row.sentiment, row.sentiment_score, cat)
+    <span class="kw">elif</span> cat == <span class="str">"S"</span>:
+        <span class="comment"># S: use detector as negative confirmation only</span>
+        det = cb[<span class="str">"detector"</span>](text[:512])[<span class="num">0</span>]
+        <span class="kw">return</span> {
+            <span class="str">"cb_climate_label"</span>:   det[<span class="str">"label"</span>],
+            <span class="str">"cb_climate_score"</span>:   round(det[<span class="str">"score"</span>], <span class="num">3</span>),
+            <span class="str">"cb_validation_tier"</span>: <span class="str">"unvalidated"</span>,
+            <span class="str">"cb_gap_note"</span>:        <span class="str">"No CB model for S pillar"</span>,
+            <span class="str">"cb_agreement_score"</span>: <span class="num">None</span>,
+        }
+
+cb_cols = df.apply(route_and_validate, axis=<span class="num">1</span>, result_type=<span class="str">"expand"</span>)
+df_final = pd.concat([df, cb_cols], axis=<span class="num">1</span>)
+df_final.to_csv(<span class="str">"parsed_esg_validated.csv"</span>, index=<span class="kw">False</span>)</div>`,
+
+`<div class="code"><span class="comment"># ── 5. New columns added to your dataframe ────────────────────</span>
+<span class="comment">#
+# ORIGINAL COLUMNS (from your screenshot):
+# sentence, aspect, aspect_category, sentiment, sentiment_score,
+# tone, materiality, stakeholder, impact_level, time_horizon, filename
+#
+# NEW CB VALIDATION COLUMNS:
+#
+# cb_climate_label     → "Yes" / "No"  (detector)
+# cb_climate_score     → 0.0–1.0       (detector confidence)
+# cb_tcfd_pillar       → "Governance" / "Strategy" / "Risk Mgmt" / "Metrics"
+# cb_tcfd_score        → 0.0–1.0
+# cb_sentiment_label   → "positive" / "neutral" / "negative"
+# cb_sentiment_score   → –1.0 to +1.0  (rescaled from CB softmax)
+# cb_sentiment_delta   → |llm_score – cb_score|  (disagreement magnitude)
+# cb_sentiment_agree   → True / False
+# cb_pillar_agree      → True / False
+# cb_tone_label        → "Commitment" / "Action"  (E rows only)
+# cb_tone_agree        → True / False             (E rows only)
+# cb_specificity       → "specific" / "vague"     (E rows only)
+# cb_commitment        → "yes" / "no"             (E rows only)
+# cb_netzero           → "net-zero" / "reduction" (E rows only)
+# cb_agreement_score   → 0.0–1.0  (weighted across available CB checks)
+# cb_regulation_uri    → "TCFD" / null
+# cb_validation_tier   → "full" / "partial" / "unvalidated"
+# cb_gap_note          → explains what CB could not validate
+#
+# FOR YOUR DATA (G/S dominant):
+# Most rows → cb_validation_tier = "partial" or "unvalidated"
+# cb_climate_label = "No" for board biography content  ← correct!
+# cb_tcfd_pillar = "Governance" for board independence rows  ← useful!</span></div>`
+];
+
+function show(i, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel').innerHTML = panels[i];
+}
+show(0, document.querySelector('.tab'));
+</script>

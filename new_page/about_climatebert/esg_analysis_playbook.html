@@ -1,0 +1,180 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.tab{padding:5px 12px;font-size:11px;font-weight:500;border:0.5px solid var(--color-border-secondary);border-radius:14px;cursor:pointer;color:var(--color-text-secondary);background:transparent;}
+.tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary);}
+.panel{display:none;} .panel.show{display:block;}
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.a-card{border-radius:10px;border:0.5px solid;padding:12px 14px;}
+.a-title{font-size:12px;font-weight:500;margin-bottom:4px;}
+.a-models{font-size:10px;color:var(--color-text-secondary);margin-bottom:6px;}
+.a-body{font-size:11px;color:var(--color-text-secondary);line-height:1.6;}
+.a-output{font-size:10px;margin-top:6px;font-family:var(--font-mono);background:var(--color-background-secondary);border-radius:6px;padding:6px 8px;color:var(--color-text-primary);}
+.pill{display:inline-block;font-size:9px;padding:1px 5px;border-radius:6px;font-weight:500;}
+.cb{background:#EAF3DE;color:#27500A;border:0.5px solid #639922;}
+.eg{background:#EEEDFE;color:#3C3489;border:0.5px solid #7F77DD;}
+.fb{background:#FFF3CD;color:#856404;border:0.5px solid #FFC107;}
+.ru{background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;}
+</style>
+
+<div class="tabs">
+  <button class="tab active" onclick="sw(0,this)">Document-level</button>
+  <button class="tab" onclick="sw(1,this)">Sentence-level</button>
+  <button class="tab" onclick="sw(2,this)">Cross-doc / time</button>
+  <button class="tab" onclick="sw(3,this)">Greenwash detection</button>
+  <button class="tab" onclick="sw(4,this)">Your data specifically</button>
+</div>
+
+<div id="p0" class="panel show">
+<div class="analysis-grid">
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">ESG pillar balance score</div>
+    <div class="a-models"><span class="pill fb">FinBERT-ESG</span> <span class="pill eg">ESGBERT</span></div>
+    <div class="a-body">Count sentences per E/S/G pillar across the entire document. Compute E:S:G ratio. Compare against SASB sector benchmark or prior year report.</div>
+    <div class="a-output">{"E": 0.18, "S": 0.42, "G": 0.40, "none": 0.0}<br>→ G-heavy report, low E disclosure</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Section-level topic heatmap</div>
+    <div class="a-models"><span class="pill fb">FinBERT-ESG-9</span></div>
+    <div class="a-body">Run the 9-category FinBERT on every sentence. Aggregate by document section (Board, Remuneration, Climate, Supply Chain). Produce a section × category heatmap.</div>
+    <div class="a-output">section: "Board" → Corporate Governance: 0.87<br>section: "Risk" → Climate Change: 0.71</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Sentiment profile per pillar</div>
+    <div class="a-models"><span class="pill cb">CB sentiment</span> <span class="pill fb">FinBERT</span></div>
+    <div class="a-body">Mean sentiment score per E/S/G pillar. Identifies which pillar the company is most positive or negative about — and whether positivity is backed by outcomes or just commitments.</div>
+    <div class="a-output">E_sentiment: +0.61 · S_sentiment: +0.48<br>G_sentiment: +0.22 → G caution signal</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Tone distribution analysis</div>
+    <div class="a-models"><span class="pill cb">CB commitment</span> <span class="pill eg">EnvironBERT-action</span></div>
+    <div class="a-body">Count Commitment vs. Action vs. Outcome per pillar. A high Commitment / low Outcome ratio is the academic definition of cheap talk (Bingler et al. 2022).</div>
+    <div class="a-output">Commitment: 58% · Action: 31% · Outcome: 11%<br>→ cheap talk risk: HIGH</div>
+  </div>
+</div>
+</div>
+
+<div id="p1" class="panel">
+<div class="analysis-grid">
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Multi-model agreement score</div>
+    <div class="a-models"><span class="pill cb">CB</span> <span class="pill eg">ESGBERT</span> <span class="pill fb">FinBERT</span></div>
+    <div class="a-body">For each sentence, compute pairwise agreement across all applicable models. High disagreement sentences are genuine ambiguity cases — flag for human review or LLM re-analysis.</div>
+    <div class="a-output">sentence_id: 32 → agreement: 0.91 (high)<br>sentence_id: 36 → agreement: 0.41 (conflict)</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">LLM calibration analysis</div>
+    <div class="a-models"><span class="pill cb">CB sentiment</span> <span class="pill fb">FinBERT</span></div>
+    <div class="a-body">Plot LLM sentiment_score vs. CB/FinBERT sentiment score for all sentences. Measure Pearson r and mean absolute error. Diagnose where your LLM systematically over- or under-scores.</div>
+    <div class="a-output">Pearson r: 0.74 · MAE: 0.18<br>Bias: LLM over-scores G sentences by +0.12</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Materiality scoring</div>
+    <div class="a-models"><span class="pill cb">CB specificity</span> <span class="pill ru">regex KPI</span></div>
+    <div class="a-body">Rank sentences by: specificity score × has_kpi × (1 if outcome else 0.5). Surfaces the most material, evidence-backed statements from the full report.</div>
+    <div class="a-output">Top 10 most material sentences ranked<br>by composite materiality score</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">ABSA conflict detection</div>
+    <div class="a-models"><span class="pill cb">All CB</span> <span class="pill eg">All ESGBERT</span></div>
+    <div class="a-body">Flag sentences where LLM and model disagree on sentiment direction (positive vs. negative). These are your highest-risk sentences for annotation error or genuine ambiguity.</div>
+    <div class="a-output">conflict_sentences: [36, 74, 112]<br>conflict_type: sentiment_direction</div>
+  </div>
+</div>
+</div>
+
+<div id="p2" class="panel">
+<div class="analysis-grid">
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Year-over-year ESG shift</div>
+    <div class="a-models"><span class="pill fb">FinBERT-ESG</span> <span class="pill cb">CB sentiment</span></div>
+    <div class="a-body">Run the same pipeline on AR 2021, 2022, 2023. Track E:S:G ratio, mean sentiment per pillar, and Commitment/Outcome ratio over time. Detects disclosure evolution.</div>
+    <div class="a-output">2021→2023: E disclosure +14%<br>Outcome tone: +8% · Commitment: –6%</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Peer benchmarking</div>
+    <div class="a-models"><span class="pill fb">FinBERT-ESG-9</span> <span class="pill cb">CB netzero</span></div>
+    <div class="a-body">Run pipeline on multiple company annual reports. Compare ESG pillar balance, climate commitment density, and cheap-talk index. Academic equivalent: Bingler et al. 2022 multi-firm analysis.</div>
+    <div class="a-output">BHIT vs sector: G score +0.12<br>E commitment density: below median</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Regulation alignment tracking</div>
+    <div class="a-models"><span class="pill cb">CB tcfd</span> <span class="pill ru">regex CSRD/ISSB</span></div>
+    <div class="a-body">Track which regulatory frameworks are mentioned per year and per pillar. Detects regulatory responsiveness — does new regulation appear in next year's disclosure?</div>
+    <div class="a-output">TCFD mentions: 2021:3 → 2023:12<br>CSRD: first appears 2023</div>
+  </div>
+  <div class="a-card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="a-title">Sentiment momentum index</div>
+    <div class="a-models"><span class="pill cb">CB sentiment</span> <span class="pill fb">FinBERT</span></div>
+    <div class="a-body">Compute rolling mean sentiment per pillar across quarterly reports or annual reports. A declining E sentiment score despite positive commitments signals emerging greenwash risk.</div>
+    <div class="a-output">E_sentiment_trend: Q1:+0.71 → Q4:+0.43<br>→ divergence signal detected</div>
+  </div>
+</div>
+</div>
+
+<div id="p3" class="panel">
+<div class="analysis-grid">
+  <div class="a-card" style="background:#FCEBEB22;border-color:#E24B4A;">
+    <div class="a-title" style="color:#A32D2D;">Cheap talk index (Bingler et al. 2022)</div>
+    <div class="a-models"><span class="pill cb">CB commitment</span> <span class="pill cb">CB specificity</span></div>
+    <div class="a-body">commitment=yes AND specificity=vague → cheap talk sentence. Cheap talk index = cheap_talk_count / total_commitment_count. Published benchmark: &gt;40% = high risk.</div>
+    <div class="a-output">cheap_talk_sentences: 34<br>total_commitments: 58 → CTI: 0.586 HIGH</div>
+  </div>
+  <div class="a-card" style="background:#FCEBEB22;border-color:#E24B4A;">
+    <div class="a-title" style="color:#A32D2D;">Commitment-outcome gap</div>
+    <div class="a-models"><span class="pill cb">CB commitment</span> <span class="pill eg">EnvironBERT-action</span></div>
+    <div class="a-body">Match prior year commitments to current year outcomes. If a 2022 commitment has no 2023 outcome counterpart on the same topic → undelivered pledge. Flags accountability gaps.</div>
+    <div class="a-output">2022 commitments: 24<br>2023 outcomes matched: 9 → gap: 62.5%</div>
+  </div>
+  <div class="a-card" style="background:#FCEBEB22;border-color:#E24B4A;">
+    <div class="a-title" style="color:#A32D2D;">Sentiment-action divergence</div>
+    <div class="a-models"><span class="pill cb">CB sentiment</span> <span class="pill eg">EnvironBERT-action</span></div>
+    <div class="a-body">High positive sentiment + low action density = tone-action gap. Company sounds optimistic but describes few concrete actions. Academic parallel: Li et al. 2021 greenwash detection.</div>
+    <div class="a-output">E_sentiment: +0.74 · action_density: 0.11<br>→ tone-action divergence: HIGH</div>
+  </div>
+  <div class="a-card" style="background:#FCEBEB22;border-color:#E24B4A;">
+    <div class="a-title" style="color:#A32D2D;">KPI-claim ratio</div>
+    <div class="a-models"><span class="pill ru">regex has_kpi</span> <span class="pill cb">CB specificity</span></div>
+    <div class="a-body">Ratio of claims with measurable KPIs vs. all E-related claims. Low KPI ratio = qualitative-heavy disclosure. Academic threshold from GRI research: &lt;30% KPI ratio = low accountability.</div>
+    <div class="a-output">E_claims: 48 · with_kpi: 11<br>KPI_ratio: 0.229 → below 30% threshold</div>
+  </div>
+</div>
+</div>
+
+<div id="p4" class="panel">
+<div class="analysis-grid">
+  <div class="a-card" style="background:#EEEDFE22;border-color:#7F77DD;">
+    <div class="a-title">Your data: board section analysis</div>
+    <div class="a-models"><span class="pill eg">GovRoBERTa</span> <span class="pill fb">FinBERT</span></div>
+    <div class="a-body">Rows 10–43 are a board biography section. Run GovRoBERTa to confirm G pillar. Run FinBERT sentiment to validate your LLM's positive/neutral scores. Board independence sentences (row 10, 31, 37, 43) should cluster as G+positive.</div>
+    <div class="a-output">GovRoBERTa: 18/20 rows → governance ✓<br>FinBERT: 15/20 agree with LLM sentiment</div>
+  </div>
+  <div class="a-card" style="background:#EEEDFE22;border-color:#7F77DD;">
+    <div class="a-title">Your data: score calibration check</div>
+    <div class="a-models"><span class="pill fb">ProsusAI/finbert</span></div>
+    <div class="a-body">Row 36 has sentiment_score=–0.05 (near neutral) but the sentence is about leadership development joining MNC Group. FinBERT will likely score this as neutral or positive. If it does → LLM over-penalised it. Delta &gt; 0.2 → flag.</div>
+    <div class="a-output">row_36 LLM: –0.05 · FinBERT: +0.31<br>→ delta: 0.36 → conflict flagged</div>
+  </div>
+  <div class="a-card" style="background:#EEEDFE22;border-color:#7F77DD;">
+    <div class="a-title">Your data: S vs G disambiguation</div>
+    <div class="a-models"><span class="pill eg">SocRoBERTa</span> <span class="pill eg">GovRoBERTa</span></div>
+    <div class="a-body">Row 13 (career development, S) and row 17 (corporate governance, G) look similar in text. Run both models — SocRoBERTa and GovRoBERTa — to see which fires. Cases where both fire are E-S or S-G intersections.</div>
+    <div class="a-output">row_13: SocRoBERTa:0.81 GovRoBERTa:0.24 → S<br>row_17: SocRoBERTa:0.31 GovRoBERTa:0.79 → G</div>
+  </div>
+  <div class="a-card" style="background:#EEEDFE22;border-color:#7F77DD;">
+    <div class="a-title">Your data: Indonesian text note</div>
+    <div class="a-models"><span class="pill ru">preprocessing</span></div>
+    <div class="a-body">Several sentences begin in Indonesian ("Beliau juga menjabat", "Beliau bergabung"). All CB/ESGBERT/FinBERT models are English-only. Translate first with mBART or NLLB-200 before running models. Or use XLM-R based ESG models for multilingual support.</div>
+    <div class="a-output">Translate: Helsinki-NLP/opus-mt-id-en<br>or: facebook/nllb-200-distilled-600M</div>
+  </div>
+</div>
+</div>
+
+<script>
+function sw(i, btn) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
+  document.getElementById('p'+i).classList.add('show');
+}
+</script>

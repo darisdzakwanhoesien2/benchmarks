@@ -41,6 +41,7 @@ from thesis_chapter_streamlit import (  # noqa: E402
     model_stability_chart,
     ontology_chart,
     prompt_stability_chart,
+    render_mermaid,
     workflow_coverage_chart,
 )
 from action_plan_status import (  # noqa: E402
@@ -1086,6 +1087,111 @@ def graph_manifest() -> pd.DataFrame:
     return df
 
 
+def mermaid_label(value: object, max_len: int = 58) -> str:
+    text = str(value or "").replace("\n", " ").strip()
+    if len(text) > max_len:
+        text = text[: max_len - 1].rstrip() + "…"
+    return (
+        text.replace("\\", "\\\\")
+        .replace('"', "'")
+        .replace("[", "(")
+        .replace("]", ")")
+        .replace("{", "(")
+        .replace("}", ")")
+    )
+
+
+def mermaid_node_id(prefix: str, value: object, index: int | None = None) -> str:
+    import re
+
+    base = re.sub(r"[^A-Za-z0-9_]+", "_", str(value or "").strip()).strip("_")
+    if not base:
+        base = "unknown"
+    if base[0].isdigit():
+        base = f"n_{base}"
+    suffix = f"_{index}" if index is not None else ""
+    return f"{prefix}_{base[:44]}{suffix}"
+
+
+def graph_attachment_cluster_mermaid(rows: pd.DataFrame) -> str:
+    """Build a 5-cluster Mermaid map from graph attachment metadata.
+
+    Clusters:
+    1. figure-title node, e.g. A.1 - Full tone distribution
+    2. chapter
+    3. RQ
+    4. source table
+    5. source page
+    """
+    if rows.empty:
+        return "flowchart LR\n  EMPTY[\"No selected graph attachments\"]"
+
+    plot = rows[["figure", "title", "chapter", "rq", "source table", "source page"]].drop_duplicates().reset_index(drop=True)
+    lines = [
+        "flowchart LR",
+        '  subgraph FIGS["1. Figure - title"]',
+    ]
+    figure_ids: list[str] = []
+    class_nodes: dict[str, list[str]] = {"figure": [], "chapter": [], "rq": [], "table": [], "page": []}
+    for idx, row in plot.iterrows():
+        node_id = mermaid_node_id("FIG", row["figure"], idx)
+        figure_ids.append(node_id)
+        class_nodes["figure"].append(node_id)
+        lines.append(f'    {node_id}["{mermaid_label(row["figure"])} - {mermaid_label(row["title"], 70)}"]')
+    lines.append("  end")
+
+    cluster_specs = [
+        ("CH", "2. Chapter", "chapter"),
+        ("RQ", "3. Research question", "rq"),
+        ("SRC_TABLE", "4. Source table", "source table"),
+        ("SRC_PAGE", "5. Source page", "source page"),
+    ]
+    value_to_id: dict[tuple[str, str], str] = {}
+    for prefix, title, column in cluster_specs:
+        lines.append(f'  subgraph {prefix}S["{title}"]')
+        values = sorted({str(v) for v in plot[column].fillna("").astype(str).tolist() if str(v).strip()})
+        for idx, value in enumerate(values):
+            node_id = mermaid_node_id(prefix, value, idx)
+            value_to_id[(column, value)] = node_id
+            if column == "chapter":
+                class_nodes["chapter"].append(node_id)
+            elif column == "rq":
+                class_nodes["rq"].append(node_id)
+            elif column == "source table":
+                class_nodes["table"].append(node_id)
+            elif column == "source page":
+                class_nodes["page"].append(node_id)
+            lines.append(f'    {node_id}["{mermaid_label(value, 72)}"]')
+        lines.append("  end")
+
+    for idx, row in plot.iterrows():
+        fig_id = figure_ids[idx]
+        for column, label in [
+            ("chapter", "chapter"),
+            ("rq", "rq"),
+            ("source table", "table"),
+            ("source page", "page"),
+        ]:
+            value = str(row[column])
+            target = value_to_id.get((column, value))
+            if target:
+                lines.append(f'  {fig_id} -- "{label}" --> {target}')
+
+    lines.extend(
+        [
+            "  classDef figure fill:#eef6f4,stroke:#2f6f73,stroke-width:1px,color:#173f42;",
+            "  classDef chapter fill:#fff7e6,stroke:#b7791f,color:#4a2f00;",
+            "  classDef rq fill:#eef2ff,stroke:#4f46e5,color:#1e1b4b;",
+            "  classDef table fill:#f0fdf4,stroke:#16a34a,color:#052e16;",
+            "  classDef page fill:#fdf2f8,stroke:#db2777,color:#500724;",
+        ]
+    )
+    for class_name, nodes in class_nodes.items():
+        if nodes:
+            lines.append(f"  class {','.join(nodes)} {class_name};")
+    return "\n".join(lines)
+
+
 def load_csv(path: Path) -> pd.DataFrame:
     if not path.exists():
         return pd.DataFrame()
@@ -1594,6 +1700,32 @@ with tab_graphs:
     if only_existing:
         filtered = filtered[filtered["exists"]]
     st.dataframe(filtered, use_container_width=True, hide_index=True, height=260)
+
+    st.subheader("5-cluster Mermaid map")
+    st.caption(
+        "Maps each graph attachment into five clusters: figure-title, chapter, RQ, source table, and source page."
+    )
+    figure_options = filtered["figure"].astype(str).tolist()
+    default_figures = figure_options[: min(8, len(figure_options))]
+    selected_figures = st.multiselect(
+        "Figures to map",
+        figure_options,
+        default=default_figures,
+        help="Select fewer figures if the diagram becomes too dense.",
+        key="graph_attachment_mermaid_figures",
+    )
+    mermaid_rows = filtered[filtered["figure"].astype(str).isin(selected_figures)] if selected_figures else filtered.head(0)
+    mermaid_code = graph_attachment_cluster_mermaid(mermaid_rows)
+    render_mermaid(mermaid_code, height=max(520, min(1200, 260 + len(mermaid_rows) * 70)))
+    with st.expander("Mermaid source code"):
+        st.code(mermaid_code, language="mermaid")
+        st.download_button(
+            "Download Mermaid map",
+            mermaid_code.encode("utf-8"),
+            "graph_attachment_5_cluster_map.mmd",
+            "text/plain",
+            use_container_width=True,
+        )
 
     for _, row in filtered.iterrows():
         path = Path(row["path"])

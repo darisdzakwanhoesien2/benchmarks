@@ -1,0 +1,118 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.model-block{border-radius:10px;border:0.5px solid;padding:12px 14px;margin-bottom:10px;}
+.mb-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.mb-name{font-size:12px;font-weight:500;}
+.mb-badge{font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600;}
+.mapping-row{display:grid;grid-template-columns:1fr 24px 1fr;gap:6px;align-items:center;margin-bottom:6px;font-size:11px;}
+.from-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:5px 8px;}
+.to-box{border-radius:6px;padding:5px 8px;font-weight:500;}
+.arrow-mid{text-align:center;color:var(--color-text-tertiary);font-size:14px;}
+.note{font-size:10px;color:var(--color-text-secondary);margin-top:2px;padding-left:2px;}
+.code-inline{font-family:var(--font-mono);font-size:10px;background:var(--color-background-secondary);padding:1px 4px;border-radius:4px;}
+</style>
+
+<div class="model-block" style="background:#EAF3DE22;border-color:#639922;">
+  <div class="mb-head">
+    <span class="mb-badge" style="background:#C0DD97;color:#27500A;border:0.5px solid #639922;">detector</span>
+    <span class="mb-name">distilroberta-base-climate-detector</span>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">output: <code>yes</code> / <code>no</code> + score</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922;"><code>aspect_category</code> E confirmed<br><code>confidence</code> anchor point</div>
+  </div>
+  <div class="note">If detector=no but LLM says E → flag conflict. If detector=yes → E pillar validated.</div>
+</div>
+
+<div class="model-block" style="background:#EAF3DE22;border-color:#639922;">
+  <div class="mb-head">
+    <span class="mb-badge" style="background:#C0DD97;color:#27500A;border:0.5px solid #639922;">sentiment</span>
+    <span class="mb-name">distilroberta-base-climate-sentiment</span>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">output: <code>opportunity</code> / <code>neutral</code> / <code>risk</code> + score</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922;"><code>sentiment</code>: positive/neutral/negative<br><code>esg_risk_type</code>: risk or opportunity<br><code>sentiment_score</code>: rescaled to –1→+1</div>
+  </div>
+  <div class="note">opportunity → positive · risk → negative · score rescaling: (CB_score × 2) – 1 for positive class</div>
+</div>
+
+<div class="model-block" style="background:#EAF3DE22;border-color:#639922;">
+  <div class="mb-head">
+    <span class="mb-badge" style="background:#C0DD97;color:#27500A;border:0.5px solid #639922;">commitment</span>
+    <span class="mb-name">distilroberta-base-climate-commitment</span>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">output: <code>commitment</code> / <code>no_commitment</code> + score</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922;"><code>tone</code>: Commitment (if yes)<br><code>time_horizon</code>: future<br><code>has_target</code>: true (partial)</div>
+  </div>
+  <div class="note">Commitment=yes + netzero model → has_target=true. Commitment=yes alone → time_horizon=future</div>
+</div>
+
+<div class="model-block" style="background:#EAF3DE22;border-color:#639922;">
+  <div class="mb-head">
+    <span class="mb-badge" style="background:#C0DD97;color:#27500A;border:0.5px solid #639922;">specificity</span>
+    <span class="mb-name">distilroberta-base-climate-s</span>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">output: <code>specific</code> / <code>vague</code> + score</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922;"><code>materiality</code>: high if specific<br><code>impact_level</code>: high if specific<br><code>claim_type</code>: quantitative proxy</div>
+  </div>
+  <div class="note">specific + high score → materiality=high, impact_level=high. vague → materiality=low, impact_level=low</div>
+</div>
+
+<div class="model-block" style="background:#EAF3DE22;border-color:#639922;">
+  <div class="mb-head">
+    <span class="mb-badge" style="background:#C0DD97;color:#27500A;border:0.5px solid #639922;">netzero</span>
+    <span class="mb-name">climatebert/netzero-reduction</span>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">output: <code>net-zero</code> / <code>reduction</code> + score</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922;"><code>has_target</code>: true<br><code>target_type</code>: science-based (netzero) or absolute (reduction)<br><code>time_horizon</code>: future</div>
+  </div>
+  <div class="note">net-zero → target_type=science-based. reduction without net-zero → target_type=absolute. Both → has_target=true</div>
+</div>
+
+<div class="model-block" style="background:#EEEDFE22;border-color:#7F77DD;">
+  <div class="mb-head">
+    <span class="mb-badge" style="background:#CECBF6;color:#3C3489;border:0.5px solid #7F77DD;">tcfd</span>
+    <span class="mb-name">distilroberta-base-climate-tcfd</span>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">output: <code>Governance</code> / <code>Strategy</code> / <code>Risk Management</code> / <code>Metrics & Targets</code></div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#EEEDFE;color:#3C3489;border:0.5px solid #7F77DD;"><code>regulation_uri</code>: "TCFD"<br><code>aspect</code>: tcfd pillar name<br><code>aspect_category</code>: G (Governance pillar)</div>
+  </div>
+  <div class="note">Governance pillar → aspect_category = G. Strategy/Risk/Metrics → E or E-G. regulation_uri = "TCFD" always when tcfd fires.</div>
+</div>
+
+<div class="model-block" style="background:#E6F1FB22;border-color:#378ADD;">
+  <div class="mb-head">
+    <span class="mb-badge" style="background:#B5D4F4;color:#0C447C;border:0.5px solid #378ADD;">Rule layer</span>
+    <span class="mb-name">Regex + keyword heuristics (no CB model available)</span>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">pattern: numbers + % / tCO2 / MW / $M</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;"><code>claim_type</code>: quantitative<br><code>has_kpi</code>: true</div>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">pattern: "Scope 1" / "Scope 2" / "Scope 3"</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;"><code>emission_scope</code>: Scope 1/2/3/multiple</div>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">pattern: "by 20XX" / "target" / "by 2030"</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;"><code>time_horizon</code>: future<br><code>has_target</code>: true (reinforcement)</div>
+  </div>
+  <div class="mapping-row">
+    <div class="from-box">pattern: "CSRD" / "TCFD" / "EU Taxonomy" / "ISSB" / "SDG"</div>
+    <div class="arrow-mid">→</div>
+    <div class="to-box" style="background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;"><code>regulation_uri</code>: matched string<br><code>policy_reference</code>: true</div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.wrap{display:flex;flex-direction:column;gap:10px;}
+.card{border-radius:10px;border:0.5px solid;padding:12px 15px;}
+.card-title{font-size:12px;font-weight:500;margin-bottom:8px;}
+.row2{display:flex;gap:10px;}
+.h2{flex:1;}
+.table{width:100%;border-collapse:collapse;font-size:10px;}
+.table th{font-size:10px;font-weight:500;color:var(--color-text-secondary);padding:5px 8px;text-align:left;border-bottom:0.5px solid var(--color-border-secondary);}
+.table td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle;}
+.table tr:last-child td{border-bottom:none;}
+.pill{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;font-weight:600;}
+.e{background:#EAF3DE;color:#27500A;border:0.5px solid #639922;}
+.s{background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;}
+.g{background:#EEEDFE;color:#3C3489;border:0.5px solid #7F77DD;}
+.yes{background:#EAF3DE;color:#27500A;}
+.no{background:#FCEBEB;color:#A32D2D;}
+.low{background:#F1EFE8;color:#888780;}
+.warn{background:#FAEEDA;color:#854F0B;border:0.5px solid #BA7517;}
+.code{font-family:var(--font-mono);font-size:10px;background:var(--color-background-secondary);border-radius:7px;padding:9px 12px;line-height:1.8;color:var(--color-text-primary);}
+.step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
+.step-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px;}
+.step-body{flex:1;font-size:11px;color:var(--color-text-secondary);line-height:1.6;}
+.step-title{font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;}
+</style>
+
+<div class="wrap">
+
+<div class="card" style="background:#FAEEDA22;border-color:#BA7517;">
+  <div class="card-title" style="color:#854F0B;">⚠ What your data tells us before running ClimateBERT</div>
+  <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.7;">
+    Rows 10–43 are from an Indonesian annual report (AR SR BHIT 2023). The content is a <strong style="color:var(--color-text-primary);">board member biography section</strong> — Natalia Purnama's profile. 
+    This is <strong style="color:var(--color-text-primary);">G-dominant</strong> (governance) with some <strong style="color:var(--color-text-primary);">S signals</strong> (career, education). 
+    ClimateBERT <strong style="color:var(--color-text-primary);">detector will correctly return "no"</strong> on most rows — use this as a <em>document section classifier</em>, not a failure.
+  </div>
+</div>
+
+<div class="card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+  <div class="card-title">Step 1 — Run detector as triage gate first</div>
+  <div class="row2">
+    <div class="h2">
+      <div class="code">
+        # Run detector on every row<br>
+        for row in df.itertuples():<br>
+        &nbsp;&nbsp;result = detector(row.sentence)<br>
+        &nbsp;&nbsp;row["cb_climate"] = result["label"]<br>
+        &nbsp;&nbsp;row["cb_climate_score"] = result["score"]<br><br>
+        # Triage<br>
+        climate_rows = df[df.cb_climate == "Yes"]<br>
+        non_climate  = df[df.cb_climate == "No"]
+      </div>
+    </div>
+    <div class="h2">
+      <table class="table">
+        <thead><tr><th>Row</th><th>aspect_cat</th><th>CB detector</th><th>Run more CB?</th></tr></thead>
+        <tbody>
+          <tr><td>10</td><td><span class="pill g">G</span></td><td><span class="pill no">No · 0.94</span></td><td>Stop — G only</td></tr>
+          <tr><td>11</td><td><span class="pill g">G</span></td><td><span class="pill no">No · 0.91</span></td><td>Stop — G only</td></tr>
+          <tr><td>13</td><td><span class="pill s">S</span></td><td><span class="pill no">No · 0.88</span></td><td>Stop — S only</td></tr>
+          <tr><td>17</td><td><span class="pill g">G</span></td><td><span class="pill no">No · 0.90</span></td><td>Stop — G only</td></tr>
+          <tr><td>32</td><td><span class="pill g">G</span></td><td><span class="pill no">No · 0.87</span></td><td>Stop — G only</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:10px;color:var(--color-text-secondary);margin-top:6px;">Expected output: ~0 rows pass the gate for this section of the report</div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+  <div class="card-title">Step 2 — What ClimateBERT DOES validate in your G/S rows</div>
+  <table class="table">
+    <thead>
+      <tr><th>Your field</th><th>Your value (row 32)</th><th>CB model</th><th>CB output</th><th>Verdict</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>aspect_category</td><td><span class="pill g">G</span></td>
+        <td>tcfd model</td><td>Governance pillar: ~0.71</td>
+        <td><span class="pill yes">✓ confirms G</span></td>
+      </tr>
+      <tr>
+        <td>sentiment = positive</td><td>0.78</td>
+        <td>sentiment model</td><td>opportunity: 0.65</td>
+        <td><span class="pill yes">✓ directional agree</span></td>
+      </tr>
+      <tr>
+        <td>tone = Commitment</td><td>—</td>
+        <td>commitment model</td><td>commitment: 0.58</td>
+        <td><span class="pill warn">⚠ weak signal</span></td>
+      </tr>
+      <tr>
+        <td>has_target = false</td><td>—</td>
+        <td>netzero model</td><td>no target: 0.95</td>
+        <td><span class="pill yes">✓ agrees</span></td>
+      </tr>
+      <tr>
+        <td>aspect_category = E</td><td>G (not E)</td>
+        <td>detector</td><td>No: 0.87</td>
+        <td><span class="pill yes">✓ correct — not E</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+  <div class="card-title">Step 3 — Add cb_validation_tier to every row</div>
+  <div class="code">
+    def assign_cb_tier(row):<br>
+    &nbsp;&nbsp;if row.aspect_category == "E":<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;# Run all 6 CB models → full validation<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return run_full_cb_pipeline(row.sentence)<br>
+    &nbsp;&nbsp;elif row.aspect_category == "G":<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;# Run tcfd + sentiment only<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return run_cb_partial(row.sentence, models=["tcfd","sentiment"])<br>
+    &nbsp;&nbsp;elif row.aspect_category == "S":<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;# CB has no S model — use detector as negative confirmation<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return {"cb_tier": "unvalidated", "cb_note": "no CB S model"}<br>
+    &nbsp;&nbsp;else:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return {"cb_tier": "not_applicable"}
+  </div>
+</div>
+
+</div>

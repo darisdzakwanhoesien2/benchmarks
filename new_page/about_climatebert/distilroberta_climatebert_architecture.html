@@ -1,0 +1,262 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans);}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 12px;}
+.tab{padding:6px 14px;font-size:12px;font-weight:500;border:0.5px solid var(--color-border-secondary);border-radius:20px;cursor:pointer;color:var(--color-text-secondary);background:transparent;transition:all .15s;}
+.tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary);}
+.arch-wrap{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.arch-col{flex:0 0 180px;}
+.arch-col.wide{flex:0 0 320px;}
+.block{width:160px;border-radius:8px;border:0.5px solid;text-align:center;padding:7px 8px;font-size:12px;font-weight:500;margin:0 auto;}
+.conn{width:2px;height:14px;background:var(--color-border-secondary);margin:0 auto;}
+.spec-panel{flex:1;min-width:220px;background:var(--color-background-secondary);border-radius:12px;padding:16px;font-size:12px;}
+.spec-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.spec-row:last-child{border-bottom:none;}
+.spec-key{color:var(--color-text-secondary);}
+.spec-val{font-weight:500;color:var(--color-text-primary);}
+.diff-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;margin-left:6px;font-weight:500;}
+.new{background:var(--color-background-success);color:var(--color-text-success);}
+.frozen{background:var(--color-background-warning);color:var(--color-text-warning);}
+.arch-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);text-align:center;margin-bottom:10px;}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--color-text-secondary);margin-bottom:12px;}
+.leg-dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle;}
+</style>
+
+<h2 class="sr-only">Interactive architecture diagrams for DistilRoBERTa, ClimateBERT, and fine-tuned downstream models</h2>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="legend">
+  <span><span class="leg-dot" style="background:#B5D4F4;border:0.5px solid #378ADD;"></span>General pretrain (frozen)</span>
+  <span><span class="leg-dot" style="background:#9FE1CB;border:0.5px solid #1D9E75;"></span>Climate domain-adapted</span>
+  <span><span class="leg-dot" style="background:#F5C4B3;border:0.5px solid #D85A30;"></span>Task head (new)</span>
+  <span><span class="leg-dot" style="background:#D3D1C7;border:0.5px solid #888780;"></span>Shared / unchanged</span>
+</div>
+
+<div id="content"></div>
+
+<script>
+const models = [
+  {
+    id:'distilroberta',
+    label:'DistilRoBERTa',
+    subtitle:'Base model · 82M params',
+    color:'blue',
+    specs:[
+      ['Architecture','Transformer encoder'],
+      ['Params','82.4M'],
+      ['Layers','6 transformer blocks'],
+      ['Attention heads','12'],
+      ['Hidden dim','768'],
+      ['FF dim','3072'],
+      ['Vocab size','50,265 tokens'],
+      ['Context length','512 tokens'],
+      ['Pretraining obj','Masked LM (MLM)'],
+      ['Trained on','BookCorpus + Wikipedia + CC'],
+      ['Distilled from','RoBERTa-base (125M)'],
+    ],
+    blocks:[
+      {label:'Output logits',sub:'vocab projection',color:'#E6F1FB',stroke:'#378ADD',textColor:'#0C447C'},
+      {label:'[CLS] token repr.',sub:'pooled hidden state',color:'#E6F1FB',stroke:'#378ADD',textColor:'#0C447C'},
+      {label:'Transformer block ×6',sub:'Self-attn + FFN + LayerNorm',color:'#E6F1FB',stroke:'#378ADD',textColor:'#0C447C'},
+      {label:'Token embeddings',sub:'word + position',color:'#E6F1FB',stroke:'#378ADD',textColor:'#0C447C'},
+      {label:'Input tokens',sub:'max 512 tokens',color:'#D3D1C7',stroke:'#888780',textColor:'#444441'},
+    ],
+    note:'DistilRoBERTa is a distilled (compressed) version of RoBERTa: same architecture, 40% fewer params, 60% faster inference, retains ~97% of performance.'
+  },
+  {
+    id:'climatebert',
+    label:'ClimateBERT (base LM)',
+    subtitle:'Domain-adapted · same 82M params',
+    color:'teal',
+    specs:[
+      ['Architecture','Transformer encoder (unchanged)'],
+      ['Params','82.4M (no change)'],
+      ['Layers','6 transformer blocks'],
+      ['Attention heads','12'],
+      ['Hidden dim','768'],
+      ['FF dim','3072'],
+      ['Vocab size','50,265 (+ climate vocab)'],
+      ['Context length','512 tokens'],
+      ['Pretraining obj','MLM on climate corpus'],
+      ['Trained on','2M+ climate paragraphs'],
+      ['Starting point','DistilRoBERTa weights'],
+      ['MLM improvement','+48% over base'],
+    ],
+    blocks:[
+      {label:'Output logits',sub:'vocab projection',color:'#E6F1FB',stroke:'#378ADD',textColor:'#0C447C'},
+      {label:'[CLS] token repr.',sub:'pooled hidden state',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041',badge:'adapted'},
+      {label:'Transformer block ×6',sub:'weights updated on climate text',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041',badge:'adapted'},
+      {label:'Token embeddings',sub:'+ climate vocabulary',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041',badge:'adapted'},
+      {label:'Input tokens',sub:'climate-domain text',color:'#D3D1C7',stroke:'#888780',textColor:'#444441'},
+    ],
+    note:'Same architecture as DistilRoBERTa — only the weights are updated via continued MLM pretraining on the climate corpus. The "F" variant uses all 2M+ paragraphs (recommended).'
+  },
+  {
+    id:'detector',
+    label:'Climate detector',
+    subtitle:'Binary: climate vs non-climate',
+    color:'amber',
+    specs:[
+      ['Task','Text classification'],
+      ['Output classes','2 (climate / not climate)'],
+      ['Head','Linear + Softmax on [CLS]'],
+      ['Base','ClimateBERT (domain-adapted)'],
+      ['Encoder layers','Frozen or fine-tuned'],
+      ['Dataset','climate_detection (HF)'],
+      ['Typical use','Filter relevant paragraphs'],
+      ['Downloads','115k+ (most popular)'],
+    ],
+    blocks:[
+      {label:'Softmax output',sub:'climate / not-climate',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new head'},
+      {label:'Linear classifier',sub:'768 → 2',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new'},
+      {label:'[CLS] pooled state',sub:'sentence representation',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Transformer ×6',sub:'ClimateBERT weights',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Token embeddings',sub:'climate vocab',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Input tokens',sub:'any paragraph',color:'#D3D1C7',stroke:'#888780',textColor:'#444441'},
+    ],
+    note:'A linear classification head is added on top of the [CLS] token. Only the head (and optionally top encoder layers) are trained. The bulk of ClimateBERT weights are reused.'
+  },
+  {
+    id:'sentiment',
+    label:'Climate sentiment',
+    subtitle:'3-class: opportunity / neutral / risk',
+    color:'amber',
+    specs:[
+      ['Task','Sentiment classification'],
+      ['Output classes','3 (opportunity/neutral/risk)'],
+      ['Head','Linear + Softmax on [CLS]'],
+      ['Base','ClimateBERT'],
+      ['Dataset','climate_sentiment (HF)'],
+      ['Typical use','ESG risk/opportunity scoring'],
+    ],
+    blocks:[
+      {label:'Softmax output',sub:'opp. / neutral / risk',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new head'},
+      {label:'Linear classifier',sub:'768 → 3',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new'},
+      {label:'[CLS] pooled state',sub:'sentence representation',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Transformer ×6',sub:'ClimateBERT weights',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Token embeddings',sub:'climate vocab',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Input tokens',sub:'climate paragraph',color:'#D3D1C7',stroke:'#888780',textColor:'#444441'},
+    ],
+    note:'Same architecture as the detector — only the output dimension changes (3 classes instead of 2). Trained on annotated climate sentiment data from corporate disclosures.'
+  },
+  {
+    id:'commitment',
+    label:'Commitment detector',
+    subtitle:'Binary: pledge vs non-pledge',
+    color:'amber',
+    specs:[
+      ['Task','Commitment classification'],
+      ['Output classes','2 (commitment / no commitment)'],
+      ['Head','Linear + Softmax on [CLS]'],
+      ['Base','ClimateBERT'],
+      ['Dataset','climate_commitments_actions (HF)'],
+      ['Use case','Greenwash detection'],
+    ],
+    blocks:[
+      {label:'Softmax output',sub:'commitment / none',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new head'},
+      {label:'Linear classifier',sub:'768 → 2',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new'},
+      {label:'[CLS] pooled state',sub:'sentence representation',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Transformer ×6',sub:'ClimateBERT weights',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Token embeddings',sub:'climate vocab',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Input tokens',sub:'climate paragraph',color:'#D3D1C7',stroke:'#888780',textColor:'#444441'},
+    ],
+    note:'Combined with the specificity model, the outputs feed a "cheap talk index" that detects vague pledges in corporate disclosures.'
+  },
+  {
+    id:'specificity',
+    label:'Specificity classifier',
+    subtitle:'Binary: specific vs vague claim',
+    color:'amber',
+    specs:[
+      ['Task','Specificity classification'],
+      ['Output classes','2 (specific / vague)'],
+      ['Head','Linear + Softmax on [CLS]'],
+      ['Base','ClimateBERT'],
+      ['Dataset','climate_specificity (HF)'],
+      ['Use case','Cheap-talk index input'],
+    ],
+    blocks:[
+      {label:'Softmax output',sub:'specific / vague',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new head'},
+      {label:'Linear classifier',sub:'768 → 2',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new'},
+      {label:'[CLS] pooled state',sub:'sentence representation',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Transformer ×6',sub:'ClimateBERT weights',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Token embeddings',sub:'climate vocab',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Input tokens',sub:'climate paragraph',color:'#D3D1C7',stroke:'#888780',textColor:'#444441'},
+    ],
+    note:'Specificity + Commitment outputs are combined: a specific commitment = action; a vague commitment = cheap talk.'
+  },
+  {
+    id:'tcfd',
+    label:'TCFD classifier',
+    subtitle:'4-class TCFD category',
+    color:'amber',
+    specs:[
+      ['Task','Multi-class classification'],
+      ['Output classes','4 (TCFD pillars)'],
+      ['Classes','Governance / Strategy / Risk Mgmt / Metrics'],
+      ['Head','Linear + Softmax on [CLS]'],
+      ['Base','ClimateBERT'],
+      ['Dataset','tcfd_recommendations (HF)'],
+      ['Use case','Disclosure audit automation'],
+    ],
+    blocks:[
+      {label:'Softmax output',sub:'4 TCFD categories',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new head'},
+      {label:'Linear classifier',sub:'768 → 4',color:'#F5C4B3',stroke:'#D85A30',textColor:'#712B13',badge:'new'},
+      {label:'[CLS] pooled state',sub:'sentence representation',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Transformer ×6',sub:'ClimateBERT weights',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Token embeddings',sub:'climate vocab',color:'#9FE1CB',stroke:'#1D9E75',textColor:'#085041'},
+      {label:'Input tokens',sub:'climate disclosure text',color:'#D3D1C7',stroke:'#888780',textColor:'#444441'},
+    ],
+    note:'Only the output dim changes (768 → 4). This maps disclosures to one of the four Task Force on Climate-related Financial Disclosures pillars used by financial regulators.'
+  },
+];
+
+const tabsEl = document.getElementById('tabs');
+const contentEl = document.getElementById('content');
+
+models.forEach((m,i)=>{
+  const b = document.createElement('button');
+  b.className = 'tab' + (i===0?' active':'');
+  b.textContent = m.label;
+  b.onclick = ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    b.classList.add('active');
+    render(m);
+  };
+  tabsEl.appendChild(b);
+});
+
+function render(m){
+  const blocksHtml = [...m.blocks].reverse().map((b,i,arr)=>`
+    <div class="block" style="background:${b.color};border-color:${b.stroke};color:${b.textColor};">
+      <div style="font-weight:500;font-size:12px;">${b.label}</div>
+      <div style="font-size:11px;opacity:0.8;margin-top:2px;">${b.sub}</div>
+    </div>
+    ${i<arr.length-1?'<div class="conn"></div>':''}
+  `).reverse().join('');
+
+  const specsHtml = m.specs.map(([k,v])=>`
+    <div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${v}</span></div>
+  `).join('');
+
+  contentEl.innerHTML = `
+    <div class="arch-wrap">
+      <div class="arch-col">
+        <div class="arch-title">${m.label}</div>
+        <div class="arch-title" style="font-size:11px;margin-top:-6px;margin-bottom:12px;">${m.subtitle}</div>
+        ${blocksHtml}
+      </div>
+      <div style="flex:1;min-width:220px;">
+        <div class="spec-panel">
+          <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px;">Model specs</div>
+          ${specsHtml}
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;padding:0 2px;">${m.note}</div>
+      </div>
+    </div>
+  `;
+}
+
+render(models[0]);
+</script>

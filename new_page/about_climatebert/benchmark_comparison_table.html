@@ -1,0 +1,84 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.section{margin-bottom:16px;}
+.sec-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px;padding-bottom:4px;border-bottom:0.5px solid var(--color-border-tertiary);}
+table{width:100%;border-collapse:collapse;font-size:10.5px;}
+th{font-size:10px;font-weight:500;color:var(--color-text-secondary);padding:5px 8px;text-align:left;border-bottom:0.5px solid var(--color-border-secondary);}
+td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr.yours td{background:var(--color-background-success);}
+.pill{display:inline-block;font-size:9px;padding:1px 6px;border-radius:6px;font-weight:500;}
+.e{background:#EAF3DE;color:#27500A;border:0.5px solid #639922;}
+.s{background:#E6F1FB;color:#0C447C;border:0.5px solid #378ADD;}
+.g{background:#EEEDFE;color:#3C3489;border:0.5px solid #7F77DD;}
+.all{background:#F1EFE8;color:#5F5E5A;border:0.5px solid #888780;}
+.yours-badge{background:#EAF3DE;color:#27500A;border:0.5px solid #639922;font-size:9px;padding:1px 5px;border-radius:6px;}
+.metric{font-family:var(--font-mono);font-size:10px;}
+.na{color:var(--color-text-tertiary);font-style:italic;}
+</style>
+
+<div class="section">
+  <div class="sec-title">Task 1 — ESG pillar classification (E / S / G / none) · primary metric: F1-macro</div>
+  <table>
+    <thead><tr><th>Model</th><th>Architecture</th><th>Training data</th><th>E F1</th><th>S F1</th><th>G F1</th><th>Macro F1</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>TF-IDF + SVM</td><td>classical</td><td>your dataset</td><td class="metric">—</td><td class="metric">—</td><td class="metric">—</td><td class="metric">~0.60</td><td>keyword baseline</td></tr>
+      <tr><td>BERT-base</td><td>encoder 110M</td><td>your dataset</td><td class="metric">—</td><td class="metric">—</td><td class="metric">—</td><td class="metric">~0.72</td><td>generic pretrain</td></tr>
+      <tr><td>FinBERT-ESG</td><td>encoder 110M</td><td>2k ESG sentences</td><td class="metric">—</td><td class="metric">—</td><td class="metric">—</td><td class="metric">0.81</td><td>Huang et al. 2023</td></tr>
+      <tr><td>ClimateBERT + tcfd</td><td>encoder 82M</td><td>2M climate</td><td class="metric">0.85</td><td class="na">no S model</td><td class="metric">0.71</td><td class="metric">—</td><td>E strong, S gap</td></tr>
+      <tr><td>ESGBERT (all 3)</td><td>encoder 82M ×3</td><td>2k per pillar</td><td class="metric">—</td><td class="metric">—</td><td class="metric">—</td><td class="metric">0.83</td><td>Schimanski et al. 2024</td></tr>
+      <tr><td>GPT-4o zero-shot</td><td>decoder LLM</td><td>none (prompt)</td><td class="metric">—</td><td class="metric">—</td><td class="metric">—</td><td class="metric">~0.78</td><td>no fine-tune overhead</td></tr>
+      <tr class="yours"><td><strong>Your model ⭐</strong></td><td>DistilRoBERTa 82M</td><td>your ESG dataset</td><td class="metric">?</td><td class="metric">?</td><td class="metric">?</td><td class="metric">target: &gt;0.84</td><td><span class="yours-badge">your contribution</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="sec-title">Task 2 — Sentiment classification (positive / neutral / negative) · metric: F1-macro + Pearson r vs. LLM score</div>
+  <table>
+    <thead><tr><th>Model</th><th>Scope</th><th>Pos F1</th><th>Neu F1</th><th>Neg F1</th><th>Macro F1</th><th>Pearson r (vs LLM)</th></tr></thead>
+    <tbody>
+      <tr><td>ProsusAI/FinBERT</td><td><span class="pill all">E+S+G</span></td><td class="metric">—</td><td class="metric">—</td><td class="metric">—</td><td class="metric">~0.77</td><td class="metric">—</td></tr>
+      <tr><td>CB climate-sentiment</td><td><span class="pill e">E only</span></td><td class="metric">—</td><td class="metric">—</td><td class="metric">—</td><td class="metric">~0.80</td><td class="metric">—</td></tr>
+      <tr class="yours"><td><strong>Your model ⭐</strong></td><td><span class="pill all">E+S+G</span></td><td class="metric">?</td><td class="metric">?</td><td class="metric">?</td><td class="metric">target: &gt;0.82</td><td class="metric">target: &gt;0.75</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="sec-title">Task 3 — Tone classification (commitment / action / outcome) · metric: F1-macro</div>
+  <table>
+    <thead><tr><th>Model</th><th>Scope</th><th>Commit F1</th><th>Action F1</th><th>Outcome F1</th><th>Macro F1</th></tr></thead>
+    <tbody>
+      <tr><td>CB commitment model</td><td><span class="pill e">E only · binary</span></td><td class="metric">~0.82</td><td class="na">not modeled</td><td class="na">not modeled</td><td class="na">binary only</td></tr>
+      <tr><td>GPT-4o (your prompt)</td><td><span class="pill all">E+S+G</span></td><td class="metric">—</td><td class="metric">—</td><td class="metric">—</td><td class="metric">~0.75</td></tr>
+      <tr class="yours"><td><strong>Your model ⭐</strong></td><td><span class="pill all">E+S+G · 3-class</span></td><td class="metric">?</td><td class="metric">?</td><td class="metric">?</td><td class="metric">target: &gt;0.78</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="sec-title">Task 4 — Materiality / specificity · metric: F1-binary · also: LLM-model agreement rate</div>
+  <table>
+    <thead><tr><th>Model</th><th>Task</th><th>Specific F1</th><th>Vague F1</th><th>Agreement w/ LLM</th></tr></thead>
+    <tbody>
+      <tr><td>CB specificity</td><td><span class="pill e">E only</span></td><td class="metric">~0.79</td><td class="metric">~0.74</td><td class="metric">—</td></tr>
+      <tr class="yours"><td><strong>Your model ⭐</strong></td><td><span class="pill all">E+S+G</span></td><td class="metric">?</td><td class="metric">?</td><td class="metric">target: &gt;0.80</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="sec-title">Ablation study design — measure each component's contribution</div>
+  <table>
+    <thead><tr><th>Condition</th><th>What's removed</th><th>Expected macro F1 drop</th><th>What it proves</th></tr></thead>
+    <tbody>
+      <tr><td>Full model</td><td>nothing</td><td class="metric">baseline</td><td>full contribution</td></tr>
+      <tr><td>No DAPT</td><td>skip domain pretraining</td><td class="metric">−3 to −8 pts</td><td>value of domain adaptation</td></tr>
+      <tr><td>No multi-pillar</td><td>force single-label E/S/G</td><td class="metric">−2 to −5 pts on intersections</td><td>value of intersection labels</td></tr>
+      <tr><td>No LLM weak labels</td><td>human-only annotation</td><td class="metric">+0 to −2 pts</td><td>LLM annotation quality</td></tr>
+      <tr><td>Head-only freeze</td><td>freeze encoder</td><td class="metric">−4 to −10 pts</td><td>value of full fine-tune</td></tr>
+      <tr><td>DistilRoBERTa vs RoBERTa</td><td>use larger base</td><td class="metric">+1 to +3 pts (RoBERTa wins)</td><td>efficiency / accuracy tradeoff</td></tr>
+    </tbody>
+  </table>
+</div>

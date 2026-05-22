@@ -1,0 +1,156 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.wrap{display:flex;flex-direction:column;gap:0;}
+.phase{border-radius:12px;border:0.5px solid;padding:14px 16px;margin-bottom:8px;position:relative;}
+.phase-label{font-size:11px;font-weight:500;margin-bottom:10px;text-transform:none;}
+.row{display:flex;gap:8px;flex-wrap:wrap;}
+.box{border-radius:8px;border:0.5px solid;padding:9px 11px;flex:1;min-width:120px;}
+.bh{font-size:12px;font-weight:500;margin-bottom:3px;}
+.bs{font-size:10px;line-height:1.5;}
+.arrow-down{text-align:center;font-size:20px;color:var(--color-border-secondary);margin:0;line-height:1.2;}
+.tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:6px;font-weight:500;margin:2px 2px 0 0;}
+.contrib-badge{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:600;float:right;margin-top:-1px;}
+</style>
+
+<div class="wrap">
+
+<div class="phase" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+  <div class="phase-label">① Raw material — what you start with</div>
+  <div class="row">
+    <div class="box" style="background:#E6F1FB22;border-color:#378ADD;">
+      <div class="bh" style="color:#0C447C;">Unstructured text</div>
+      <div class="bs" style="color:var(--color-text-secondary);">Annual reports · sustainability PDFs · news articles · corporate disclosures · regulatory filings</div>
+    </div>
+    <div class="box" style="background:#E6F1FB22;border-color:#378ADD;">
+      <div class="bh" style="color:#0C447C;">Metadata</div>
+      <div class="bs" style="color:var(--color-text-secondary);">Company · year · sector · country · report type · regulation context (TCFD, CSRD, ISSB)</div>
+    </div>
+    <div class="box" style="background:#E6F1FB22;border-color:#378ADD;">
+      <div class="bh" style="color:#0C447C;">Your LLM + CB output</div>
+      <div class="bs" style="color:var(--color-text-secondary);">JSON with 20 fields per sentence · already processed · multi-pillar · validated</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-down">↓</div>
+
+<div class="phase" style="background:#EAF3DE22;border-color:#639922;">
+  <div class="phase-label" style="color:#27500A;">② Dataset construction <span class="contrib-badge" style="background:#C0DD97;color:#27500A;border:0.5px solid #639922;">Contribution A</span></div>
+  <div class="row">
+    <div class="box" style="background:#EAF3DE;border-color:#639922;">
+      <div class="bh" style="color:#27500A;">Annotation scheme</div>
+      <div class="bs" style="color:#3B6D11;">Define label taxonomy · inter-annotator guidelines · IAA target (κ ≥ 0.7) · label hierarchy for E/S/G/E-S/E-G/S-G/E-S-G</div>
+    </div>
+    <div class="box" style="background:#EAF3DE;border-color:#639922;">
+      <div class="bh" style="color:#27500A;">Annotation pipeline</div>
+      <div class="bs" style="color:#3B6D11;">LLM weak labels → human review → adjudication → final gold standard · document provenance tracked</div>
+    </div>
+    <div class="box" style="background:#EAF3DE;border-color:#639922;">
+      <div class="bh" style="color:#27500A;">Dataset splits</div>
+      <div class="bs" style="color:#3B6D11;">Train 70% · val 15% · test 15% · stratified by pillar · sector · year · language</div>
+    </div>
+    <div class="box" style="background:#EAF3DE;border-color:#639922;">
+      <div class="bh" style="color:#27500A;">Dataset card</div>
+      <div class="bs" style="color:#3B6D11;">HuggingFace datasets format · provenance · license · known limitations · datasheet</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-down">↓</div>
+
+<div class="phase" style="background:#FAEEDA22;border-color:#BA7517;">
+  <div class="phase-label" style="color:#854F0B;">③ Model training <span class="contrib-badge" style="background:#FAC775;color:#633806;border:0.5px solid #BA7517;">Contribution B</span></div>
+  <div class="row">
+    <div class="box" style="background:#FAEEDA;border-color:#BA7517;">
+      <div class="bh" style="color:#854F0B;">Base model selection</div>
+      <div class="bs" style="color:#633806;">DistilRoBERTa (fast · 82M) or RoBERTa-base (strong · 125M) or FinBERT (finance-aware) · justified by domain overlap analysis</div>
+    </div>
+    <div class="box" style="background:#FAEEDA;border-color:#BA7517;">
+      <div class="bh" style="color:#854F0B;">Fine-tuning config</div>
+      <div class="bs" style="color:#633806;">LR: 2e-5 · batch: 32 · epochs: 5 · warmup: 10% · weight decay: 0.01 · max_len: 512 · seed: reported</div>
+    </div>
+    <div class="box" style="background:#FAEEDA;border-color:#BA7517;">
+      <div class="bh" style="color:#854F0B;">Architecture variant</div>
+      <div class="bs" style="color:#633806;">Classification head: [CLS] → dropout → linear → softmax · one model per task OR multi-task head · LoRA for LLMs</div>
+    </div>
+    <div class="box" style="background:#FAEEDA;border-color:#BA7517;">
+      <div class="bh" style="color:#854F0B;">Model card</div>
+      <div class="bs" style="color:#633806;">HuggingFace model card · intended use · out-of-scope uses · training data · bias analysis · carbon footprint</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-down">↓</div>
+
+<div class="phase" style="background:#EEEDFE22;border-color:#7F77DD;">
+  <div class="phase-label" style="color:#3C3489;">④ Benchmarking <span class="contrib-badge" style="background:#CECBF6;color:#3C3489;border:0.5px solid #7F77DD;">Contribution C</span></div>
+  <div class="row">
+    <div class="box" style="background:#EEEDFE;border-color:#7F77DD;">
+      <div class="bh" style="color:#3C3489;">Intrinsic metrics</div>
+      <div class="bs" style="color:#534AB7;">F1-macro · F1-weighted · Precision · Recall · MCC · Cohen's κ · Confusion matrix per class</div>
+      <div style="margin-top:5px;"><span class="tag" style="background:#CECBF6;color:#3C3489;border:0.5px solid #7F77DD;">primary metric: F1-macro</span></div>
+    </div>
+    <div class="box" style="background:#EEEDFE;border-color:#7F77DD;">
+      <div class="bh" style="color:#3C3489;">Baseline comparisons</div>
+      <div class="bs" style="color:#534AB7;">BERT · FinBERT · ClimateBERT · FinBERT-ESG · ESGBERT · GPT-4o zero-shot · keyword baseline · TF-IDF + SVM</div>
+    </div>
+    <div class="box" style="background:#EEEDFE;border-color:#7F77DD;">
+      <div class="bh" style="color:#3C3489;">Cross-dataset eval</div>
+      <div class="bs" style="color:#534AB7;">Test on ClimateBERT datasets · TCFD benchmark · your held-out set · multilingual test (EN + ID)</div>
+    </div>
+    <div class="box" style="background:#EEEDFE;border-color:#7F77DD;">
+      <div class="bh" style="color:#3C3489;">Ablation study</div>
+      <div class="bs" style="color:#534AB7;">Remove each component: no DAPT · no specificity · no multi-pillar · head-only freeze · measures each contribution</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-down">↓</div>
+
+<div class="phase" style="background:#FCEBEB22;border-color:#E24B4A;">
+  <div class="phase-label" style="color:#A32D2D;">⑤ Analysis examples — what you demonstrate with the model <span class="contrib-badge" style="background:#F7C1C1;color:#791F1F;border:0.5px solid #E24B4A;">Contribution D</span></div>
+  <div class="row">
+    <div class="box" style="background:#FCEBEB;border-color:#E24B4A;">
+      <div class="bh" style="color:#A32D2D;">Cheap talk index</div>
+      <div class="bs" style="color:#791F1F;">commitment=yes AND specificity=vague / total E commitments · applied to full AR BHIT 2023 · ranked by sector</div>
+    </div>
+    <div class="box" style="background:#FCEBEB;border-color:#E24B4A;">
+      <div class="bh" style="color:#A32D2D;">Pillar balance map</div>
+      <div class="bs" style="color:#791F1F;">E:S:G sentence ratio per section of document · heatmap across companies · deviation from SASB sector norm</div>
+    </div>
+    <div class="box" style="background:#FCEBEB;border-color:#E24B4A;">
+      <div class="bh" style="color:#A32D2D;">Temporal analysis</div>
+      <div class="bs" style="color:#791F1F;">Year-on-year shift in sentiment · outcome density · regulation mention frequency · 2020–2023 longitudinal</div>
+    </div>
+    <div class="box" style="background:#FCEBEB;border-color:#E24B4A;">
+      <div class="bh" style="color:#A32D2D;">LLM calibration</div>
+      <div class="bs" style="color:#791F1F;">Pearson r between LLM scores and fine-tuned model scores · per-field MAE · conflict rate as model quality signal</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-down">↓</div>
+
+<div class="phase" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+  <div class="phase-label">⑥ Publication artifacts</div>
+  <div class="row">
+    <div class="box" style="border-color:var(--color-border-tertiary);">
+      <div class="bh">Paper</div>
+      <div class="bs" style="color:var(--color-text-secondary);">EMNLP / ACL / FinNLP / SustaiNLP · 8 pages + appendix · reproducibility checklist</div>
+    </div>
+    <div class="box" style="border-color:var(--color-border-tertiary);">
+      <div class="bh">HuggingFace release</div>
+      <div class="bs" style="color:var(--color-text-secondary);">Dataset + model weights + inference script · model card · dataset card · demo space</div>
+    </div>
+    <div class="box" style="border-color:var(--color-border-tertiary);">
+      <div class="bh">Reproducibility</div>
+      <div class="bs" style="color:var(--color-text-secondary);">All seeds reported · training code · evaluation scripts · docker container · requirements.txt</div>
+    </div>
+    <div class="box" style="border-color:var(--color-border-tertiary);">
+      <div class="bh">Demo</div>
+      <div class="bs" style="color:var(--color-text-secondary);">Streamlit / Gradio app · paste any ESG text · see full classification + validation scores live</div>
+    </div>
+  </div>
+</div>
+
+</div>

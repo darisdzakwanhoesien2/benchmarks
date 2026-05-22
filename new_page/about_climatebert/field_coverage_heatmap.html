@@ -1,0 +1,137 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.section{border-radius:10px;border:0.5px solid;padding:12px 14px;}
+.sec-head{font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sec-badge{font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600;}
+.field-row{display:flex;align-items:flex-start;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);gap:6px;}
+.field-row:last-child{border-bottom:none;}
+.field-name{font-size:10px;font-family:var(--font-mono);color:var(--color-text-primary);flex:0 0 auto;}
+.field-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.cb-tag{font-size:9px;padding:1px 6px;border-radius:6px;font-weight:500;white-space:nowrap;}
+.full{background:#EAF3DE;color:#27500A;border:0.5px solid #639922;}
+.partial{background:#FAEEDA;color:#854F0B;border:0.5px solid #BA7517;}
+.none{background:#FCEBEB;color:#A32D2D;border:0.5px solid #E24B4A;}
+.rule{background:#E6F1FB;color:#185FA5;border:0.5px solid #378ADD;}
+.model-hint{font-size:8px;color:var(--color-text-tertiary);text-align:right;}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;font-size:10px;color:var(--color-text-secondary);}
+.leg{display:flex;align-items:center;gap:4px;}
+.dot{width:8px;height:8px;border-radius:3px;flex-shrink:0;}
+</style>
+
+<div class="legend">
+  <div class="leg"><div class="dot" style="background:#EAF3DE;border:0.5px solid #639922;"></div>CB model validates directly</div>
+  <div class="leg"><div class="dot" style="background:#FAEEDA;border:0.5px solid #BA7517;"></div>CB partially informs</div>
+  <div class="leg"><div class="dot" style="background:#E6F1FB;border:0.5px solid #378ADD;"></div>Rule / heuristic validator</div>
+  <div class="leg"><div class="dot" style="background:#FCEBEB;border:0.5px solid #E24B4A;"></div>LLM-only, no external validator</div>
+</div>
+
+<div class="grid">
+
+  <div class="section" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="sec-head">
+      <span class="sec-badge" style="background:#EAF3DE;color:#27500A;border:0.5px solid #639922;">Core ABSA fields</span>
+    </div>
+
+    <div class="field-row">
+      <span class="field-name">sentence</span>
+      <div class="field-right"><span class="cb-tag none">LLM-only</span><span class="model-hint">segmentation task</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">aspect</span>
+      <div class="field-right"><span class="cb-tag partial">CB partial</span><span class="model-hint">tcfd pillar as proxy</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">aspect_category (E/S/G)</span>
+      <div class="field-right"><span class="cb-tag full">CB validates E</span><span class="model-hint">detector → E confirmed</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">ontology_uri</span>
+      <div class="field-right"><span class="cb-tag none">LLM-only</span><span class="model-hint">no CB equivalent</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">sentiment</span>
+      <div class="field-right"><span class="cb-tag full">CB direct</span><span class="model-hint">climate-sentiment model</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">sentiment_score</span>
+      <div class="field-right"><span class="cb-tag full">CB probability</span><span class="model-hint">map softmax score → –1/+1</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">tone</span>
+      <div class="field-right"><span class="cb-tag full">CB direct</span><span class="model-hint">commitment model + netzero</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">confidence</span>
+      <div class="field-right"><span class="cb-tag full">CB anchors</span><span class="model-hint">agreement score → confidence</span></div>
+    </div>
+  </div>
+
+  <div class="section" style="background:var(--color-background-secondary);border-color:var(--color-border-secondary);">
+    <div class="sec-head">
+      <span class="sec-badge" style="background:#FAEEDA;color:#854F0B;border:0.5px solid #BA7517;">Extended intelligence fields</span>
+    </div>
+
+    <div class="field-row">
+      <span class="field-name">materiality</span>
+      <div class="field-right"><span class="cb-tag partial">CB partial</span><span class="model-hint">specificity + detector score</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">claim_type</span>
+      <div class="field-right"><span class="cb-tag rule">Rule-based</span><span class="model-hint">regex: numbers → quantitative</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">has_kpi</span>
+      <div class="field-right"><span class="cb-tag rule">Rule-based</span><span class="model-hint">regex: % / units / years</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">time_horizon</span>
+      <div class="field-right"><span class="cb-tag partial">CB partial</span><span class="model-hint">commitment = future, netzero</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">has_target</span>
+      <div class="field-right"><span class="cb-tag full">CB direct</span><span class="model-hint">netzero-reduction model</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">target_type</span>
+      <div class="field-right"><span class="cb-tag full">CB direct</span><span class="model-hint">netzero vs reduction label</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">emission_scope</span>
+      <div class="field-right"><span class="cb-tag rule">Rule-based</span><span class="model-hint">regex: "Scope 1/2/3"</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">stakeholder</span>
+      <div class="field-right"><span class="cb-tag none">LLM-only</span><span class="model-hint">no CB model</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">esg_risk_type</span>
+      <div class="field-right"><span class="cb-tag full">CB direct</span><span class="model-hint">sentiment: risk/opportunity</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">impact_level</span>
+      <div class="field-right"><span class="cb-tag partial">CB partial</span><span class="model-hint">specificity score proxy</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">externally_assured</span>
+      <div class="field-right"><span class="cb-tag none">LLM-only</span><span class="model-hint">no CB model</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">value_chain_stage</span>
+      <div class="field-right"><span class="cb-tag none">LLM-only</span><span class="model-hint">no CB model</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">policy_reference</span>
+      <div class="field-right"><span class="cb-tag rule">Rule-based</span><span class="model-hint">keyword match on policy terms</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">partner_type</span>
+      <div class="field-right"><span class="cb-tag none">LLM-only</span><span class="model-hint">no CB model</span></div>
+    </div>
+    <div class="field-row">
+      <span class="field-name">regulation_uri</span>
+      <div class="field-right"><span class="cb-tag partial">CB partial</span><span class="model-hint">tcfd model → TCFD uri</span></div>
+    </div>
+  </div>
+
+</div>
