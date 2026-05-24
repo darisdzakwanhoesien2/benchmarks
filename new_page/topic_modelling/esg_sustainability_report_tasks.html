@@ -1,0 +1,651 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gap: 14px;
+    --card-radius: var(--border-radius-lg, 12px);
+  }
+  body { font-size: 14px; line-height: 1.6; color: var(--color-text-primary); }
+
+  .page-header {
+    padding: 2rem 0 1.5rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    margin-bottom: 1.5rem;
+  }
+  .page-header h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .page-header p { font-size: 13px; color: var(--color-text-secondary); }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .badge {
+    font-size: 11px; padding: 3px 10px; border-radius: 99px;
+    border: 0.5px solid var(--color-border-tertiary);
+    color: var(--color-text-secondary);
+    background: var(--color-background-secondary);
+  }
+  .badge.green { background: #EAF3DE; color: #3B6D11; border-color: #97C459; }
+  .badge.teal { background: #E1F5EE; color: #0F6E56; border-color: #5DCAA5; }
+  .badge.blue { background: #E6F1FB; color: #185FA5; border-color: #85B7EB; }
+  .badge.amber { background: #FAEEDA; color: #854F0B; border-color: #EF9F27; }
+  .badge.purple { background: #EEEDFE; color: #534AB7; border-color: #AFA9EC; }
+
+  .phase-label {
+    font-size: 11px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--color-text-tertiary);
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  .task-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--card-radius);
+    margin-bottom: var(--gap);
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .task-card:hover { border-color: var(--color-border-secondary); }
+
+  .task-header {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 16px; cursor: pointer; user-select: none;
+  }
+  .task-num {
+    min-width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500; flex-shrink: 0; margin-top: 1px;
+  }
+  .task-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .task-subtitle { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .chevron { font-size: 16px; color: var(--color-text-tertiary); transition: transform 0.2s; }
+  .task-card.open .chevron { transform: rotate(180deg); }
+
+  .task-body {
+    display: none; padding: 0 16px 16px 56px;
+    border-top: 0.5px solid var(--color-border-tertiary);
+  }
+  .task-card.open .task-body { display: block; }
+
+  .section-title {
+    font-size: 11px; font-weight: 500; color: var(--color-text-tertiary);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin: 14px 0 6px;
+  }
+  .task-body p, .task-body li { font-size: 13px; color: var(--color-text-secondary); line-height: 1.65; }
+  .task-body ul { padding-left: 18px; }
+  .task-body li { margin-bottom: 4px; }
+
+  .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-top: 8px; }
+  .step-box {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md, 8px);
+    padding: 10px 12px;
+    font-size: 12px;
+    border: 0.5px solid var(--color-border-tertiary);
+  }
+  .step-box .step-num { font-weight: 500; color: var(--color-text-primary); font-size: 11px; margin-bottom: 3px; }
+  .step-box p { color: var(--color-text-secondary); font-size: 12px; }
+
+  .output-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .output-tag {
+    font-size: 11px; padding: 3px 10px;
+    border-radius: 99px; border: 0.5px solid;
+  }
+
+  .inline-note {
+    background: var(--color-background-info);
+    color: var(--color-text-info);
+    border-radius: var(--border-radius-md);
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .compare-box {
+    border-radius: var(--border-radius-md); padding: 10px 12px;
+    border: 0.5px solid var(--color-border-tertiary);
+    font-size: 12px;
+  }
+  .compare-box .label { font-weight: 500; font-size: 11px; margin-bottom: 4px; }
+
+  .send-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; padding: 5px 12px; margin-top: 12px;
+    cursor: pointer; border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-secondary);
+    background: transparent; color: var(--color-text-primary);
+  }
+  .send-btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<h2 class="sr-only">Complete adapted task framework for ESG sustainability report analysis</h2>
+
+<div class="page-header">
+  <h1>ESG Sustainability Report Analysis — Complete Task Framework</h1>
+  <p>Adapted from parliamentary speech analysis for Indonesian listed company sustainability reports</p>
+  <div class="badge-row">
+    <span class="badge green">NLP / ABSA</span>
+    <span class="badge teal">Topic Modeling</span>
+    <span class="badge blue">Sentiment Analysis</span>
+    <span class="badge amber">Greenwashing Detection</span>
+    <span class="badge purple">Indonesian ESG / OJK</span>
+  </div>
+</div>
+
+<div class="phase-label">Phase 1 — Data Preparation</div>
+
+<div class="task-card" id="t1">
+  <div class="task-header" onclick="toggle('t1')">
+    <div class="task-num" style="background:#EAF3DE;color:#3B6D11;">1</div>
+    <div style="flex:1">
+      <div class="task-title">Text Preprocessing of Sustainability Report Sections</div>
+      <div class="task-subtitle">Tokenization, normalization, and domain-specific cleaning</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Perform standard NLP preprocessing on the <code>report_text</code> column extracted from each sustainability report section (e.g., environmental, social, governance). The pipeline must account for bilingual content (English + Bahasa Indonesia) common in Indonesian listed company reports.</p>
+    <div class="section-title">Steps</div>
+    <div class="step-grid">
+      <div class="step-box"><div class="step-num">1.1 Cleaning</div><p>Remove HTML tags, footnote markers, table artifacts, and page numbers from extracted text</p></div>
+      <div class="step-box"><div class="step-num">1.2 Normalization</div><p>Lowercase all text. Expand common ESG abbreviations (e.g., GHG → greenhouse gas, CSR → corporate social responsibility)</p></div>
+      <div class="step-box"><div class="step-num">1.3 Stop words</div><p>Apply combined EN + ID stop word lists. Add domain-specific stops: "company", "report", "perusahaan", "laporan", "sustainability"</p></div>
+      <div class="step-box"><div class="step-num">1.4 Lemmatization</div><p>Apply spaCy (en_core_web) for English, IndoNLU or PySastrawi for Bahasa Indonesia tokens</p></div>
+      <div class="step-box"><div class="step-num">1.5 Segmentation</div><p>Segment reports into ESG sub-sections (E / S / G pillars) as separate analysis units</p></div>
+      <div class="step-box"><div class="step-num">1.6 Metadata tagging</div><p>Tag each text unit with: company, sector, year, report_pillar, OJK listing tier</p></div>
+    </div>
+    <div class="section-title">Expected output</div>
+    <div class="output-row">
+      <span class="output-tag" style="background:#EAF3DE;color:#3B6D11;border-color:#97C459;">Cleaned corpus DataFrame</span>
+      <span class="output-tag" style="background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5;">Token lists per section</span>
+      <span class="output-tag" style="background:#E6F1FB;color:#185FA5;border-color:#85B7EB;">Metadata-annotated text units</span>
+    </div>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> For bilingual reports, detect language per sentence with langdetect before routing to the correct lemmatizer.</div>
+    <button class="send-btn" onclick="sendPrompt('Can you help me build a bilingual preprocessing pipeline for Indonesian sustainability reports in Python?')">Help me build this pipeline ↗</button>
+  </div>
+</div>
+
+<div class="task-card" id="t2">
+  <div class="task-header" onclick="toggle('t2')">
+    <div class="task-num" style="background:#EAF3DE;color:#3B6D11;">2</div>
+    <div style="flex:1">
+      <div class="task-title">Initial Data Exploration and Distribution Analysis</div>
+      <div class="task-subtitle">Understand corpus structure across companies, sectors, years, and ESG pillars</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Explore the distribution of key metadata features in your corpus to understand how ESG reporting varies across different dimensions before any modeling is applied.</p>
+    <div class="section-title">Variables to analyze</div>
+    <div class="compare-row">
+      <div class="compare-box">
+        <div class="label" style="color:#185FA5;">Original (Parliamentary)</div>
+        <ul style="padding-left:14px;font-size:12px;color:var(--color-text-secondary);">
+          <li>speech_date, year</li>
+          <li>gender, party_group</li>
+          <li>ministry, government</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <div class="label" style="color:#3B6D11;">Adapted (ESG Reports)</div>
+        <ul style="padding-left:14px;font-size:12px;color:var(--color-text-secondary);">
+          <li>report_year, report_date</li>
+          <li>company_size, sector (IDX)</li>
+          <li>ESG_pillar, OJK_tier</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-title">Visualizations to produce</div>
+    <ul>
+      <li>Report count per year per sector — grouped bar chart</li>
+      <li>Average word count per ESG pillar — box plot</li>
+      <li>Distribution of OJK listing tier across corpus — pie/donut chart</li>
+      <li>Heatmap: company × year coverage matrix to reveal gaps in longitudinal data</li>
+      <li>Sector representation imbalance analysis (flag underrepresented sectors)</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Flag companies with only 1 report year early — they cannot be used for longitudinal (Task 10) analysis.</div>
+  </div>
+</div>
+
+<div class="phase-label">Phase 2 — Lexical and Sentiment Analysis</div>
+
+<div class="task-card" id="t3">
+  <div class="task-header" onclick="toggle('t3')">
+    <div class="task-num" style="background:#E1F5EE;color:#0F6E56;">3</div>
+    <div style="flex:1">
+      <div class="task-title">ESG Word Frequency, N-Gram Analysis, and Sentiment Categorization</div>
+      <div class="task-subtitle">Term frequency patterns across sentiment categories with word cloud visualization</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Define a function to calculate the average sentiment score per report section using multiple sentiment metrics. Categorize each text unit into sentiment bins, then identify the most frequent terms and n-grams per category. This directly extends your existing LLM-based ABSA pipeline.</p>
+    <div class="section-title">Sentiment metrics to aggregate</div>
+    <ul>
+      <li><strong>afinn_sentiment</strong> — lexicon-based valence score</li>
+      <li><strong>bing_sentiment</strong> — positive/negative word ratio</li>
+      <li><strong>nrc_sentiment</strong> — emotion category distribution (trust, fear, anticipation, etc.)</li>
+      <li><strong>LLM_extracted_sentiment</strong> — your thesis pipeline output (κ=0.788 validated)</li>
+      <li><strong>ClimateBERT_score</strong> — specialized climate discourse model for comparison</li>
+    </ul>
+    <div class="section-title">Sentiment bins</div>
+    <div class="step-grid">
+      <div class="step-box"><div class="step-num">Strongly Negative</div><p>avg score ≤ −0.6</p></div>
+      <div class="step-box"><div class="step-num">Moderately Negative</div><p>−0.6 to −0.2</p></div>
+      <div class="step-box"><div class="step-num">Neutral</div><p>−0.2 to +0.2</p></div>
+      <div class="step-box"><div class="step-num">Moderately Positive</div><p>+0.2 to +0.6</p></div>
+      <div class="step-box"><div class="step-num">Strongly Positive</div><p>score ≥ +0.6</p></div>
+    </div>
+    <div class="section-title">Outputs</div>
+    <ul>
+      <li>Word clouds per sentiment bin — highlight greenwashing risk terms (e.g., "commitment", "strive", "target") in Strongly Positive</li>
+      <li>Top-20 unigrams and bigrams per bin as horizontal bar charts</li>
+      <li>N-gram comparison: E-pillar vs S-pillar vs G-pillar across bins</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Greenwashing hypothesis: If Strongly Positive bins show high frequency of vague future-tense commitments ("will achieve", "plans to", "target by 2030") without matching metric disclosures, this is a lexical greenwashing signal.</div>
+    <button class="send-btn" onclick="sendPrompt('How do I build a greenwashing lexical signal detector using n-gram frequency in sustainability reports?')">Explore greenwashing lexical signals ↗</button>
+  </div>
+</div>
+
+<div class="task-card" id="t4">
+  <div class="task-header" onclick="toggle('t4')">
+    <div class="task-num" style="background:#E1F5EE;color:#0F6E56;">4</div>
+    <div style="flex:1">
+      <div class="task-title">Cross-Category Analysis by Sector, ESG Pillar, and Company Size</div>
+      <div class="task-subtitle">Identify linguistic patterns across organizational and reporting dimensions</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Repeat the word frequency and n-gram analysis from Task 3 across the following grouping dimensions to identify how ESG language differs by context.</p>
+    <div class="section-title">Grouping dimensions</div>
+    <div class="compare-row">
+      <div class="compare-box">
+        <div class="label" style="color:#185FA5;">Organizational</div>
+        <ul style="padding-left:14px;font-size:12px;color:var(--color-text-secondary);">
+          <li>IDX sector (mining, finance, consumer, etc.)</li>
+          <li>Company size (large cap / mid / small)</li>
+          <li>OJK listing tier</li>
+          <li>State-owned (BUMN) vs private</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <div class="label" style="color:#3B6D11;">Reporting</div>
+        <ul style="padding-left:14px;font-size:12px;color:var(--color-text-secondary);">
+          <li>ESG pillar (E / S / G)</li>
+          <li>Report year</li>
+          <li>GRI-aligned vs non-GRI</li>
+          <li>Assurance level (verified vs unverified)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-title">Key analytical questions</div>
+    <ul>
+      <li>Do mining/extractive sector companies use more defensive or hedging language than services?</li>
+      <li>Is the G pillar consistently less positive in sentiment than E and S pillars?</li>
+      <li>Do BUMN companies use more regulatory compliance language vs private firms?</li>
+      <li>Does sentiment tone improve in years following OJK ESG disclosure mandates?</li>
+    </ul>
+  </div>
+</div>
+
+<div class="phase-label">Phase 3 — Similarity and Clustering</div>
+
+<div class="task-card" id="t5">
+  <div class="task-header" onclick="toggle('t5')">
+    <div class="task-num" style="background:#E6F1FB;color:#185FA5;">5</div>
+    <div style="flex:1">
+      <div class="task-title">Metadata-Based Report Similarity Calculation</div>
+      <div class="task-subtitle">Similarity using company characteristics and reporting metadata</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Propose and implement a method for calculating similarity between sustainability reports based on company and reporting metadata — analogous to demographic similarity in the original task. This establishes a non-text baseline for comparison with text-based similarity.</p>
+    <div class="section-title">Feature set for metadata similarity</div>
+    <ul>
+      <li>IDX sector category (one-hot encoded)</li>
+      <li>Company size quartile (market cap)</li>
+      <li>Report year (normalized)</li>
+      <li>OJK listing tier</li>
+      <li>BUMN / private ownership indicator</li>
+      <li>GRI alignment level</li>
+      <li>External assurance: yes/no</li>
+    </ul>
+    <div class="section-title">Method</div>
+    <ul>
+      <li>Encode categorical features; normalize continuous features</li>
+      <li>Compute cosine or Gower distance (handles mixed types) between company-year pairs</li>
+      <li>Produce a pairwise similarity matrix for use in Task 7 clustering</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Gower distance is preferred here since it natively handles mixed categorical + continuous features without requiring all features to be binary-encoded first.</div>
+  </div>
+</div>
+
+<div class="task-card" id="t6">
+  <div class="task-header" onclick="toggle('t6')">
+    <div class="task-num" style="background:#E6F1FB;color:#185FA5;">6</div>
+    <div style="flex:1">
+      <div class="task-title">Text-Based Report Similarity Calculation</div>
+      <div class="task-subtitle">TF-IDF, semantic embeddings, and Doc2Vec for content-level similarity</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Develop three parallel methods for computing similarity between sustainability report texts. Comparing these three methods reveals different facets of report relatedness and enables boilerplate/greenwashing detection.</p>
+    <div class="step-grid">
+      <div class="step-box">
+        <div class="step-num">TF-IDF Cosine</div>
+        <p>Sparse representation. High similarity between reports sharing rare ESG terms signals copy-paste boilerplate — a greenwashing indicator</p>
+      </div>
+      <div class="step-box">
+        <div class="step-num">Semantic (SBERT)</div>
+        <p>sentence-transformers paraphrase-multilingual-mpnet. Captures meaning even when wording differs — critical for bilingual reports</p>
+      </div>
+      <div class="step-box">
+        <div class="step-num">Doc2Vec</div>
+        <p>Document-level embedding. Track how a single company's vector drifts (or doesn't) across years — static vectors = stagnant ESG narrative</p>
+      </div>
+    </div>
+    <div class="section-title">Greenwashing application</div>
+    <ul>
+      <li>High TF-IDF similarity across years for same company → boilerplate recycling signal</li>
+      <li>High semantic similarity to industry peers but low actual ESG metric disclosure → isomorphic mimicry signal</li>
+      <li>Doc2Vec vectors stable across years despite claimed ESG progress → narrative stagnation signal</li>
+    </ul>
+    <button class="send-btn" onclick="sendPrompt('How can I use SBERT multilingual embeddings to detect boilerplate text recycling in Indonesian sustainability reports?')">Explore boilerplate detection ↗</button>
+  </div>
+</div>
+
+<div class="task-card" id="t7">
+  <div class="task-header" onclick="toggle('t7')">
+    <div class="task-num" style="background:#E6F1FB;color:#185FA5;">7</div>
+    <div style="flex:1">
+      <div class="task-title">Report Clustering Using Metadata and Text Similarities</div>
+      <div class="task-subtitle">K-Means, DBSCAN, and Agglomerative Clustering with comparative analysis</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Apply clustering algorithms separately to the metadata-based similarity matrix (Task 5) and the text-based similarity matrices (Task 6), then compare the resulting groupings to surface meaningful patterns.</p>
+    <div class="section-title">Clustering algorithms</div>
+    <ul>
+      <li><strong>K-Means</strong> — use elbow method and silhouette score to determine k; best for TF-IDF similarity</li>
+      <li><strong>DBSCAN</strong> — density-based; identifies outlier reports that don't conform to any cluster (potential greenwashing anomalies)</li>
+      <li><strong>Agglomerative Clustering</strong> — hierarchical; dendrogram reveals sector-level groupings</li>
+    </ul>
+    <div class="section-title">Comparison analysis</div>
+    <ul>
+      <li>Where metadata clusters ≠ text clusters: companies reporting similarly to peers but using very different language — or vice versa</li>
+      <li>Companies that cluster with peers on metadata but are isolated in text space may be genuine ESG leaders or laggards</li>
+      <li>Report report Rand Index / NMI between metadata clusters and text clusters as a quantitative divergence measure</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Cluster divergence (metadata vs text) is a novel greenwashing signal contribution: companies that structurally resemble responsible reporters but linguistically differ may be "performative" disclosers.</div>
+  </div>
+</div>
+
+<div class="phase-label">Phase 4 — Topic and Cluster Interpretation</div>
+
+<div class="task-card" id="t8">
+  <div class="task-header" onclick="toggle('t8')">
+    <div class="task-num" style="background:#FAEEDA;color:#854F0B;">8</div>
+    <div style="flex:1">
+      <div class="task-title">Cluster Analysis: Sentiment, Keywords, and Topic Modeling per Cluster</div>
+      <div class="task-subtitle">LDA and BERTopic within each cluster; map to your 46 ESG aspect clusters</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>For each cluster identified in Task 7, compute average sentiment scores, extract the most frequent terms, and apply topic modeling to characterize the dominant discourse within that cluster. This connects directly to your 46 identified Indonesian ESG aspect clusters.</p>
+    <div class="section-title">Per-cluster analysis</div>
+    <ul>
+      <li>Average sentiment score (all metrics) → sentiment profile per cluster</li>
+      <li>Top-20 most frequent unigrams and bigrams</li>
+      <li>LDA topic modeling (5–10 topics per cluster) with coherence score optimization</li>
+      <li>BERTopic for semantic topic extraction — handles multilingual text better than LDA</li>
+      <li>Map discovered topics to your predefined 46 Indonesian ESG aspect clusters</li>
+    </ul>
+    <div class="section-title">Visualization</div>
+    <ul>
+      <li>Radar chart: sentiment profile across E/S/G pillars per cluster</li>
+      <li>Topic-cluster heatmap: which ESG aspects dominate each cluster</li>
+      <li>pyLDAvis interactive visualization for LDA topics</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Your 46 aspect clusters are a natural labeling schema for the LDA topics. Use them as an external validation measure: if LDA topics map cleanly to your clusters, it validates both methods.</div>
+    <button class="send-btn" onclick="sendPrompt('How do I map LDA topics to a predefined ESG aspect taxonomy in Python?')">Map LDA to ESG aspects ↗</button>
+  </div>
+</div>
+
+<div class="task-card" id="t9">
+  <div class="task-header" onclick="toggle('t9')">
+    <div class="task-num" style="background:#FAEEDA;color:#854F0B;">9</div>
+    <div style="flex:1">
+      <div class="task-title">Correlation Between Company Features and Sentiment Scores</div>
+      <div class="task-subtitle">Statistical associations between organizational characteristics and ESG tone</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Calculate correlations between company/reporting features and sentiment scores to determine whether structural factors predict ESG tone — and by extension, whether certain company types are more likely to exhibit greenwashing language patterns.</p>
+    <div class="section-title">Feature × sentiment correlation matrix</div>
+    <div class="compare-row">
+      <div class="compare-box">
+        <div class="label" style="color:#854F0B;">Independent variables</div>
+        <ul style="padding-left:14px;font-size:12px;color:var(--color-text-secondary);">
+          <li>report_year</li>
+          <li>IDX sector</li>
+          <li>company_size (market cap)</li>
+          <li>OJK_tier</li>
+          <li>BUMN vs private</li>
+          <li>GRI alignment</li>
+          <li>assurance_level</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <div class="label" style="color:#854F0B;">Dependent variables</div>
+        <ul style="padding-left:14px;font-size:12px;color:var(--color-text-secondary);">
+          <li>afinn_sentiment</li>
+          <li>nrc_sentiment</li>
+          <li>LLM_extracted_sentiment</li>
+          <li>ClimateBERT_score</li>
+          <li>avg_composite_sentiment</li>
+          <li>E_pillar_score</li>
+          <li>S_pillar_score / G_pillar_score</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-title">Statistical methods</div>
+    <ul>
+      <li>Pearson r for continuous × continuous</li>
+      <li>Spearman ρ for ordinal features (OJK tier)</li>
+      <li>Eta-squared for categorical × continuous (sector, BUMN)</li>
+      <li>Visualize with seaborn heatmap + distribution plots per sector</li>
+    </ul>
+  </div>
+</div>
+
+<div class="phase-label">Phase 5 — Temporal and Entity Analysis</div>
+
+<div class="task-card" id="t10">
+  <div class="task-header" onclick="toggle('t10')">
+    <div class="task-num" style="background:#EEEDFE;color:#534AB7;">10</div>
+    <div style="flex:1">
+      <div class="task-title">ESG Topic Evolution Over Time and Across Companies</div>
+      <div class="task-subtitle">Dynamic LDA and BERTopic time-based analysis; longitudinal greenwashing tracking</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Track how ESG topics and sentiment evolve over report years for individual companies and sectors. This is the core temporal greenwashing detection component — identifying whether ESG narratives reflect genuine change or superficial recalibration.</p>
+    <div class="section-title">Temporal models</div>
+    <ul>
+      <li><strong>Dynamic LDA</strong> — model topic distribution shifts year over year; detect topics that emerge, persist, or disappear</li>
+      <li><strong>BERTopic with timestamps</strong> — topics over time visualization; handles semantic drift in ESG language</li>
+      <li><strong>Rolling sentiment trend</strong> — per company, per pillar, across years with statistical trend test (Mann-Kendall)</li>
+    </ul>
+    <div class="section-title">Cross-entity distributions</div>
+    <ul>
+      <li>Topic distribution by sector — which sectors dominate environmental vs governance discourse?</li>
+      <li>Topic distribution by company — identify outlier companies with unusually narrow or broad ESG topic coverage</li>
+      <li>Topic shift after OJK POJK 51/2017 (sustainable finance) mandate — a natural experiment</li>
+    </ul>
+    <div class="section-title">Greenwashing temporal signals</div>
+    <ul>
+      <li>Sentiment increases over time without corresponding disclosure of new metrics → positive sentiment inflation</li>
+      <li>Topic diversity decreases year-over-year despite claimed ESG maturation → topic narrowing signal</li>
+      <li>Sudden positive tone spike in year of regulatory mandate → compliance-driven rather than genuine improvement</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> OJK's POJK 51/2017 effective from 2020 for all issuers is your strongest natural experiment boundary for before/after analysis.</div>
+    <button class="send-btn" onclick="sendPrompt('How do I implement BERTopic with timestamps for longitudinal ESG report analysis in Python?')">Build temporal topic model ↗</button>
+  </div>
+</div>
+
+<div class="task-card" id="t11">
+  <div class="task-header" onclick="toggle('t11')">
+    <div class="task-num" style="background:#EEEDFE;color:#534AB7;">11</div>
+    <div style="flex:1">
+      <div class="task-title">Named Entity Recognition for ESG Content and Commitment Analysis</div>
+      <div class="task-subtitle">Identify regulatory bodies, certifications, targets, and co-occurrence networks</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Apply NER to sustainability report text to identify and categorize key entities. In this ESG context, named entities are not political figures but regulatory bodies, environmental certifications, policy frameworks, and quantitative commitments.</p>
+    <div class="section-title">(a) Entity frequency and sentiment context</div>
+    <ul>
+      <li>Entity types: ORG (OJK, BI, PROPER, GRI, CDP), CERT (ISO 14001, ISO 26000, PROPER Emas), POLICY (Paris Agreement, SDG), METRIC (ton CO₂, Rp billion), DATE (target years)</li>
+      <li>For each entity: count appearances in positive vs negative vs neutral sentence contexts</li>
+      <li>Flag entities mentioned only in positive contexts — potential greenwashing signal if paired with vague language</li>
+    </ul>
+    <div class="section-title">(b) Entity co-occurrence network</div>
+    <ul>
+      <li>Build co-occurrence graph: nodes = entities, edge weight = co-occurrence frequency within 50-word windows</li>
+      <li>Visualize with NetworkX + Pyvis: reveal which certification bodies are paired with which policy frameworks</li>
+      <li>Detect "certification clusters" — companies citing multiple certifications together may use them as a credential shield</li>
+    </ul>
+    <div class="section-title">(c) Cross-feature NER distribution</div>
+    <ul>
+      <li>Which sectors most frequently cite OJK / BI regulations? (signal: defensive regulatory framing vs proactive)</li>
+      <li>Are SDG references more common in S-pillar or G-pillar sections?</li>
+      <li>Does external assurance presence correlate with higher metric-entity (METRIC type) density?</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> Use spaCy with a fine-tuned Indonesian NER model or GLiNER for zero-shot entity extraction. For ESG-specific entities, supplement with a custom entity ruler pattern list.</div>
+    <button class="send-btn" onclick="sendPrompt('How do I build an ESG-specific NER pipeline for Indonesian company sustainability reports using spaCy?')">Build ESG NER pipeline ↗</button>
+  </div>
+</div>
+
+<div class="phase-label">Phase 6 — Predictive Modeling</div>
+
+<div class="task-card" id="t12">
+  <div class="task-header" onclick="toggle('t12')">
+    <div class="task-num" style="background:#FAECE7;color:#993C1D;">12</div>
+    <div style="flex:1">
+      <div class="task-title">ESG Sentiment Prediction from Metadata, Text, and Combined Features</div>
+      <div class="task-subtitle">Traditional ML + deep learning across three feature configurations</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Build sentiment classification models across three feature configurations. Target variable: average composite sentiment score binned into 5 categories (same as Task 3). This tests whether company structure, text, or their combination is most predictive of ESG tone.</p>
+    <div class="section-title">(a) Metadata features only</div>
+    <ul>
+      <li>Features: sector, company_size, OJK_tier, BUMN flag, GRI alignment, assurance_level, report_year</li>
+      <li>Models: Logistic Regression, Random Forest, XGBoost, TabNet (deep learning for tabular)</li>
+      <li>Evaluate: accuracy, F1-macro, confusion matrix across 5 sentiment bins</li>
+    </ul>
+    <div class="section-title">(b) Text features only</div>
+    <ul>
+      <li>Word2Vec / GloVe embeddings → mean-pooled document vectors → traditional classifiers</li>
+      <li>BERT / IndoBERT fine-tuned for sequence classification on ESG sentiment labels</li>
+      <li>ClimateBERT as a specialized baseline</li>
+    </ul>
+    <div class="section-title">(c) Combined features</div>
+    <ul>
+      <li>Concatenate metadata feature vector + BERT [CLS] token → MLP classifier</li>
+      <li>Compare with late fusion: ensemble metadata model + text model predictions</li>
+      <li>Ablation study: which feature group contributes most to performance improvement?</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> IndoBERT (indolem/indobert-base-uncased) is recommended for text-only models — it handles Bahasa Indonesia substantially better than multilingual BERT for this domain.</div>
+    <button class="send-btn" onclick="sendPrompt('How do I fine-tune IndoBERT for ESG sentiment classification in Indonesian sustainability reports?')">Fine-tune IndoBERT for ESG ↗</button>
+  </div>
+</div>
+
+<div class="task-card" id="t13">
+  <div class="task-header" onclick="toggle('t13')">
+    <div class="task-num" style="background:#FAECE7;color:#993C1D;">13</div>
+    <div style="flex:1">
+      <div class="task-title">Advanced LLM Techniques for Greenwashing-Aware Sentiment Analysis</div>
+      <div class="task-subtitle">Transformer models, nuance handling, and comparison with your ABSA pipeline</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Explore state-of-the-art transformer and LLM-based approaches to improve sentiment analysis beyond Task 12, with specific attention to greenwashing-relevant nuances: hedging language, vague commitments, and implicit positivity framing.</p>
+    <div class="section-title">Models to compare</div>
+    <div class="step-grid">
+      <div class="step-box"><div class="step-num">RoBERTa</div><p>Robust baseline; strong on nuanced sentiment; compare against your κ=0.788 human-LLM agreement</p></div>
+      <div class="step-box"><div class="step-num">ClimateBERT</div><p>Domain-specialized; your thesis already finds low agreement with this — make that disagreement a research finding</p></div>
+      <div class="step-box"><div class="step-num">GPT-4 / Claude</div><p>Prompted zero-shot ABSA; measure agreement with fine-tuned models</p></div>
+      <div class="step-box"><div class="step-num">IndoBERT + ESG fine-tune</div><p>Best for Bahasa Indonesia sections; use your labeled data as fine-tuning set</p></div>
+    </div>
+    <div class="section-title">Nuance-specific evaluation</div>
+    <ul>
+      <li>Hedging detection: "we aim to", "we plan to", "subject to conditions" — extract and score separately</li>
+      <li>Temporal vagueness: promises without specific years vs specific quantified targets — classify and correlate with sentiment scores</li>
+      <li>Implicit greenwashing: text that scores highly positive but contains no verifiable quantitative claims — design a composite "credibility-adjusted sentiment" score</li>
+    </ul>
+    <div class="section-title">Benchmarking framework</div>
+    <ul>
+      <li>Human-annotated sample (your existing labeled data) as gold standard</li>
+      <li>Metrics: Cohen's κ, F1-macro, calibration error</li>
+      <li>Your finding of low ClimateBERT agreement becomes a central discussion point: domain mismatch between Western climate discourse (ClimateBERT training) vs Indonesian ESG reporting language</li>
+    </ul>
+    <div class="inline-note"><i class="ti ti-info-circle" aria-hidden="true"></i> The ClimateBERT disagreement is a novel contribution — it suggests Indonesian ESG discourse has distinct linguistic characteristics not captured by Western-trained climate NLP models.</div>
+    <button class="send-btn" onclick="sendPrompt('How do I design a credibility-adjusted sentiment score to detect greenwashing in sustainability reports?')">Design credibility-adjusted sentiment ↗</button>
+  </div>
+</div>
+
+<div class="phase-label">Phase 7 — Synthesis</div>
+
+<div class="task-card" id="t14">
+  <div class="task-header" onclick="toggle('t14')">
+    <div class="task-num" style="background:#D3D1C7;color:#444441;">14</div>
+    <div style="flex:1">
+      <div class="task-title">Literature Review, Pipeline Evaluation, and Future Directions</div>
+      <div class="task-subtitle">Contextualize findings, compare methods, address limitations</div>
+    </div>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="task-body">
+    <p>Synthesize findings from all tasks within the academic literature. Critically evaluate the full analysis pipeline, propose improvements, and identify future research directions specific to Indonesian ESG NLP.</p>
+    <div class="section-title">Literature axes to cover</div>
+    <ul>
+      <li>ABSA in sustainability reporting — compare to Luo et al., Huang et al. greenwashing detection studies</li>
+      <li>LLM-based structured extraction vs traditional lexicon methods — cite ClimateBERT paper and critique its domain assumptions</li>
+      <li>Indonesian ESG regulatory context — OJK POJK 51/2017, Bank Indonesia green financing framework, PROPER environmental program</li>
+      <li>Greenwashing detection NLP literature — Carroll's ESG washing typology, GRI disclosure quality studies</li>
+    </ul>
+    <div class="section-title">Pipeline limitations to address</div>
+    <ul>
+      <li>Data imbalance: overrepresentation of large-cap companies in voluntary disclosure corpus</li>
+      <li>Bilingual text complexity: code-switching within sentences degrades single-language models</li>
+      <li>Ground truth scarcity: greenwashing labels are inherently subjective without external ESG ratings as anchors</li>
+      <li>ClimateBERT domain mismatch — your empirical finding adds to this discussion</li>
+    </ul>
+    <div class="section-title">Future directions</div>
+    <ul>
+      <li>Extend to ASEAN-wide sustainability reports for cross-country comparison</li>
+      <li>Integrate actual ESG performance data (emissions, water use) to ground-truth sentiment credibility</li>
+      <li>Develop an Indonesian ESG sentiment lexicon trained on annotated corpus from this thesis</li>
+      <li>Apply to non-listed UMKM ESG scoring (connecting to your green financing framework work)</li>
+    </ul>
+  </div>
+</div>
+
+<div style="height: 2rem;"></div>
+
+<script>
+function toggle(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+document.getElementById('t1').classList.add('open');
+</script>

@@ -6,7 +6,12 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from ground_truth_graphs import ground_truth_attachment_rows, ground_truth_source_dataframe, ensure_ground_truth_graphs
+from ground_truth_graphs import (
+    ensure_ground_truth_graphs,
+    ground_truth_attachment_rows,
+    ground_truth_source_dataframe,
+    t2_consolidated_output_rows,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,7 +65,7 @@ def graph_attachment_manifest() -> pd.DataFrame:
         ("A.11", "Prompt missing-tone benchmark", GRAPH_DIR / "docx_prompt_missing_tone_rate.png", "Chapter 5 / 6", "RQ6", "prompt_stability_summary.csv", "pages/6_2_Chapter_5_Discussion.py"),
         ("A.12", "Ontology mapped vs novel aspects", GRAPH_DIR / "docx_ontology_mapped_vs_unmapped.png", "Chapter 5 / 6", "RQ4", "ontology_coverage.csv", "pages/6_2_Chapter_5_Discussion.py"),
         ("A.13", "Human annotation agreement", GRAPH_DIR / "docx_human_annotation_agreement.png", "Chapter 5 / 6", "RQ2", "pilot_ground_truth_seed.csv + silver_tone_ground_truth.csv", "pages/1_1_Ground_Truth_Workbench.py"),
-        ("A.14", "Repeated LLM runs", GRAPH_DIR / "docx_repeated_llm_runs.png", "Chapter 4 / 6", "RQ6", "model_stability_summary.csv + prompt_stability_summary.csv", "pages/2_3_LLM_Background_Run_Monitor.py"),
+        ("A.14", "Repeated LLM runs", GRAPH_DIR / "docx_repeated_llm_runs.png", "Chapter 4 / 6", "RQ6", "prompt_stability_by_run.csv", "pages/2_3_LLM_Background_Run_Monitor.py"),
         ("A.15", "ClimateBERT baseline", GRAPH_DIR / "docx_climatebert_baseline.png", "Chapter 5 / 6", "RQ3", "climatebert_proxy_agreement_summary.csv + climatebert_proxy_agreement_records.csv", "pages/1_4_ClimateBERT_Record_Batch.py"),
         ("A.16", "Ontology extension", GRAPH_DIR / "docx_ontology_extension_candidates.png", "Chapter 5 / 6", "RQ4", "ontology_coverage.csv", "pages/1_6_Ontology_Path_Viewer.py"),
         ("A.17", "Ground truth scaffold coverage", GRAPH_DIR / "docx_ground_truth_scaffold_coverage.png", "Chapter 4", "RQ2", "tone_records_flat.csv + silver_tone_ground_truth.csv", "pages/1_8_Ground_Truth_Output_Visualizer.py"),
@@ -96,13 +101,67 @@ def _completion_rows() -> pd.DataFrame:
     seed = load_csv(REV / "pilot_ground_truth_seed.csv")
     annotation = load_csv(REV / "pilot_ground_truth_annotations.csv")
     df = annotation if not annotation.empty else seed
+    source = "pilot_ground_truth_annotations.csv" if not annotation.empty else "pilot_ground_truth_seed.csv"
     if df.empty:
         return pd.DataFrame()
     rows = []
     for col in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect", "annotator", "review_notes"]:
         if col in df.columns:
             completed = int(df[col].astype(str).str.strip().ne("").sum())
-            rows.append({"field": col, "completed": completed, "missing": len(df) - completed, "total": len(df)})
+            rows.append({"field": col, "completed": completed, "missing": len(df) - completed, "total": len(df), "source": source})
+    return pd.DataFrame(rows)
+
+
+def _repeated_llm_run_grid() -> pd.DataFrame:
+    by_run = load_csv(REV / "prompt_stability_by_run.csv")
+    if not by_run.empty and {"model", "prompt"}.issubset(by_run.columns):
+        view = by_run.copy()
+        view["model"] = view["model"].astype(str).str.strip().replace("", "unknown")
+        view["prompt"] = (
+            view["prompt"]
+            .astype(str)
+            .str.strip()
+            .replace("", "unknown")
+            .str.replace(".md", "", regex=False)
+            .str.replace("tone_", "", regex=False)
+        )
+        pivot = (
+            view.assign(runs=1)
+            .pivot_table(index="model", columns="prompt", values="runs", aggfunc="sum", fill_value=0)
+            .astype(int)
+        )
+        pivot.columns.name = None
+        pivot.insert(0, "total", pivot.sum(axis=1))
+        return pivot.sort_values("total", ascending=False).reset_index()
+
+    model = load_csv(REV / "model_stability_summary.csv")
+    prompt = load_csv(REV / "prompt_stability_summary.csv")
+    rows = []
+    if not model.empty and {"model", "runs"}.issubset(model.columns):
+        rows.extend({"benchmark unit": f"model: {r['model']}", "runs": r["runs"]} for _, r in model.iterrows())
+    if not prompt.empty and {"prompt", "runs"}.issubset(prompt.columns):
+        rows.extend({"benchmark unit": f"prompt: {r['prompt']}", "runs": r["runs"]} for _, r in prompt.iterrows())
+    return pd.DataFrame(rows).fillna(0)
+
+
+def _human_annotation_agreement_rows() -> pd.DataFrame:
+    annotation = load_csv(REV / "pilot_ground_truth_annotations.csv")
+    seed = load_csv(REV / "pilot_ground_truth_seed.csv")
+    silver = load_csv(REV / "silver_tone_ground_truth.csv")
+    df = annotation if not annotation.empty else seed
+    source = "pilot_ground_truth_annotations.csv" if not annotation.empty else "pilot_ground_truth_seed.csv"
+    rows = [
+        {"metric": "counted annotation rows", "records": len(df), "source": source},
+        {"metric": "saved human annotation rows", "records": len(annotation), "source": "pilot_ground_truth_annotations.csv"},
+        {"metric": "pilot seed rows", "records": len(seed), "source": "pilot_ground_truth_seed.csv"},
+        {"metric": "silver dataset rows", "records": len(silver), "source": "silver_tone_ground_truth.csv"},
+    ]
+    for field in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect"]:
+        if field in df.columns:
+            rows.append({"metric": f"{field} completed", "records": int(df[field].astype(str).str.strip().ne("").sum()), "source": source})
+    if "review_status" in df.columns:
+        status_values = df["review_status"].astype(str).str.strip().replace("", "missing")
+        rows.extend({"metric": f"review_status: {status}", "records": int(count), "source": source} for status, count in status_values.value_counts().items())
     return pd.DataFrame(rows)
 
 
@@ -195,22 +254,9 @@ def source_dataframe_for_attachment(row: pd.Series) -> pd.DataFrame:
     if figure in {"A.12", "A.16"}:
         return load_csv(REV / "ontology_coverage.csv")
     if figure == "A.13":
-        seed = load_csv(REV / "pilot_ground_truth_seed.csv")
-        silver = load_csv(REV / "silver_tone_ground_truth.csv")
-        rows = [{"metric": "pilot seed rows", "records": len(seed)}, {"metric": "silver dataset rows", "records": len(silver)}]
-        for field in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect"]:
-            if field in seed.columns:
-                rows.append({"metric": f"{field} completed", "records": int(seed[field].astype(str).str.strip().ne("").sum())})
-        return pd.DataFrame(rows)
+        return _human_annotation_agreement_rows()
     if figure == "A.14":
-        model = load_csv(REV / "model_stability_summary.csv")
-        prompt = load_csv(REV / "prompt_stability_summary.csv")
-        rows = []
-        if not model.empty and {"model", "runs"}.issubset(model.columns):
-            rows.extend({"unit": f"model: {r['model']}", "runs": r["runs"]} for _, r in model.iterrows())
-        if not prompt.empty and {"prompt", "runs"}.issubset(prompt.columns):
-            rows.extend({"unit": f"prompt: {r['prompt']}", "runs": r["runs"]} for _, r in prompt.iterrows())
-        return pd.DataFrame(rows)
+        return _repeated_llm_run_grid()
     if figure == "A.15":
         return load_csv(REV / "climatebert_proxy_agreement_summary.csv")
     if figure == "A.17":
@@ -247,11 +293,7 @@ def source_dataframe_for_attachment(row: pd.Series) -> pd.DataFrame:
         pivot["total"] = pivot.sum(axis=1)
         return pivot.reset_index()
     if figure == "A.20":
-        t2 = load_csv(WORKFLOW / "t2_flat_outputs.csv")
-        if t2.empty:
-            return t2
-        cols = [c for c in ["rule_tone", "tone_pred", "sentiment_pred"] if c in t2.columns]
-        return t2.groupby(cols, dropna=False).size().reset_index(name="records") if cols else t2.head(30)
+        return t2_consolidated_output_rows()
     if figure == "A.21":
         return _pdf_prompt_matrix_rows("Extracted records")
     if figure in {f"A.{idx}" for idx in range(22, 30)}:

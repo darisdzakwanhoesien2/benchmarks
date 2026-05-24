@@ -5,7 +5,7 @@
 - Tone records: 332
 - T2 rows: 2,074
 - Pilot labels: 70
-- Result artifacts: 1,089
+- Result artifacts: 1,142
 
 ## Saved Graph Attachments
 
@@ -59,7 +59,7 @@
 
 ## RQ4 Diagnostics and extraction weaknesses
 
-**RQ4 results.** The failure-mode table contains 10 mode-tone rows. Ontology coverage tracks 52 aspects, with 6 mapped to ontology paths.
+**RQ4 results.** The failure-mode table contains 10 mode-tone rows. Ontology coverage tracks 52 aspects, with 52 mapped to ontology paths.
 
 **RQ4 graph.** Failure-mode counts and ontology coverage by aspect
 
@@ -73,7 +73,7 @@
 
 ## RQ5 Reproducibility, documentation, and visualization
 
-**RQ5 results.** The dashboard currently indexes 1,089 result artifacts, 157 LLM background jobs, and 0 ground-truth background jobs.
+**RQ5 results.** The dashboard currently indexes 1,142 result artifacts, 157 LLM background jobs, and 0 ground-truth background jobs.
 
 **RQ5 graph.** Artifact inventory, background job status, and exported dashboard report files
 
@@ -87,7 +87,7 @@
 
 ## RQ6 Cross-model and cross-prompt stability
 
-**RQ6 results.** Model stability covers 2 models and prompt stability covers 7 prompts. The currently strongest parse-success model is arcee-ai/trinity-large-preview:free; the highest missing-tone prompt is data.md.
+**RQ6 results.** Model stability covers 6 models and prompt stability covers 7 prompts. The currently strongest parse-success model is arcee-ai/trinity-large-preview:free; the highest missing-tone prompt is data.md.
 
 **RQ6 graph.** Model parse success, schema drift, prompt field completion, and missing-tone rate
 

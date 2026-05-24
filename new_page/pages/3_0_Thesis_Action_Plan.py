@@ -17,8 +17,12 @@ import streamlit as st
 st.set_page_config(page_title="Thesis Action Plan", layout="wide")
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "code"))
 PAGES_DIR = Path(__file__).resolve().parent
+RESULTS = ROOT / "results"
+VIS = RESULTS / "visualizations"
 ARTIFACTS = ROOT / "results" / "revision_analysis"
+REVISION = ARTIFACTS
 CLIMATEBERT_JOBS = ROOT / "results" / "climatebert_background_jobs"
 CLIMATEBERT_WORKER = ROOT / "code" / "climatebert_background_worker.py"
 ROOT_MODELS_DIR = ROOT.parent / "model_download" / "models"
@@ -42,13 +46,64 @@ OCR_PATH          = ARTIFACTS / "ocr_processing_summary.csv"
 FAILURE_PATH      = ARTIFACTS / "failure_modes.csv"
 FAIL_CNT_PATH     = ARTIFACTS / "failure_mode_counts.csv"
 CLUSTER_PATH           = ARTIFACTS / "aspect_clusters.csv"
+ONTOLOGY_MISSING_LABELS_PATH = ARTIFACTS / "ontology_missing_aspect_labels.csv"
+NOVEL_ASPECT_REVIEW_PATH = ARTIFACTS / "ontology_novel_aspect_review.csv"
+A28_GENERAL_MISC_REVIEW_PATH = ARTIFACTS / "ground_truth_a28_general_misc_review.csv"
+T2_TONE_SENTIMENT_REVIEW_PATH = ARTIFACTS / "ground_truth_t2_tone_sentiment_review.csv"
+T2_UNMAPPED_TOPIC_SUGGESTIONS_PATH = ARTIFACTS / "ground_truth_t2_unmapped_topic_suggestions.csv"
+T2_UNMAPPED_MAPPING_CANDIDATES_PATH = ARTIFACTS / "ground_truth_t2_unmapped_mapping_candidates.csv"
 PROMPT_BY_RUN_PATH     = ARTIFACTS / "prompt_stability_by_run.csv"
+CHAPTER_RESOLUTION_PATH = ARTIFACTS / "chapter_4_6_resolution_decisions.json"
+CHAPTER_RESOLUTION_EXPORT_PATH = ARTIFACTS / "chapter_4_6_resolution_board.csv"
+CHAPTER_TONE_DENOMINATOR_PATH = ARTIFACTS / "chapter4_tone_denominator_audit.csv"
+CHAPTER_ONTOLOGY_TOP_UNMAPPED_PATH = ARTIFACTS / "chapter6_top_unmapped_ontology_candidates.csv"
+CHAPTER_BENCHMARK_GAP_PATH = ARTIFACTS / "chapter6_benchmark_gap_positioning.csv"
+CH46_PAGE_PATH = PAGES_DIR / "6_4_ch4-6.py"
 NOTES_PATH             = PAGES_DIR / "notes.md"
 ANNOTATION_TARGET = 250
+
+THESIS_TONE_TOTAL_RECORDS = 5444
+THESIS_TONE_COMPLETED_RECORDS = 4853
+THESIS_TONE_MISSING_RECORDS = 591
+CLIMATEBERT_MAJORITY_BASELINE = 0.654
+
+CH46_INTEGRATION_ARTIFACTS = {
+    "Chapter 4-6 resolution board": CHAPTER_RESOLUTION_EXPORT_PATH,
+    "Tone denominator audit": CHAPTER_TONE_DENOMINATOR_PATH,
+    "Top unmapped ontology candidates": CHAPTER_ONTOLOGY_TOP_UNMAPPED_PATH,
+    "Benchmark gap positioning": CHAPTER_BENCHMARK_GAP_PATH,
+}
 
 TONE_OPTS   = ["", "commitment", "action", "outcome", "none", "unknown"]
 ESG_OPTS    = ["", "e", "s", "g", "e-s", "e-g", "s-g", "e-s-g", "none", "unknown"]
 STATUS_OPTS = ["needs_review", "reviewed", "uncertain", "discard"]
+NOVEL_ASPECT_STATUS_OPTS = [
+    "needs_review",
+    "confirmed_novel",
+    "mapped_existing",
+    "placeholder",
+    "not_esg",
+    "merge_duplicate",
+    "discard",
+]
+A28_REVIEW_STATUS_OPTS = [
+    "needs_review",
+    "relabelled",
+    "confirmed_general_misc",
+    "not_esg",
+    "insufficient_context",
+    "discard",
+]
+T2_REVIEW_STATUS_OPTS = [
+    "needs_review",
+    "relabelled",
+    "confirmed",
+    "not_esg",
+    "insufficient_context",
+    "discard",
+]
+T2_TONE_OPTS = ["", "Commitment", "Action", "Outcome", "Unknown", "Unclassified / Unknown"]
+T2_SENTIMENT_OPTS = ["", "Neutral", "Positive", "Negative", "Unclassified / Unknown"]
 
 FAILURE_MODES = [
     "Bilingual code-switching", "Hedged modal verb", "Table / numeric data loss",
@@ -546,6 +601,512 @@ def migrate_live_reprocess_outputs(silver_df, live_silver_df, model_static_df, m
     return migrated
 
 
+@st.cache_data(show_spinner=False)
+def load_ground_truth_t2_outputs_for_a28():
+    try:
+        from ground_truth_graphs import load_t2_outputs
+
+        return load_t2_outputs().fillna("")
+    except Exception:
+        return pd.DataFrame()
+
+
+def normalize_ontology_path_text(value):
+    return str(value or "").strip().replace("→", "->").replace("  ", " ").lower()
+
+
+def stable_review_id(*parts):
+    digest = hashlib.sha1(
+        "|".join(str(part or "") for part in parts).encode("utf-8", errors="ignore")
+    ).hexdigest()
+    return f"a28_{digest[:12]}"
+
+
+def a28_general_misc_candidates(t2_df):
+    if t2_df.empty or "ontology_path" not in t2_df.columns:
+        return pd.DataFrame()
+    df = t2_df.copy()
+    normalized_path = df["ontology_path"].map(normalize_ontology_path_text)
+    view = df[normalized_path.str.contains("general -> misc", regex=False, na=False)].copy()
+    if view.empty:
+        return pd.DataFrame()
+    if "review_id" not in view.columns:
+        view["review_id"] = [
+            stable_review_id(
+                row.get("label", ""),
+                row.get("timestamp", ""),
+                row.get("sentence_text", row.get("text", "")),
+                idx,
+            )
+            for idx, row in view.iterrows()
+        ]
+    view["current_ontology_path"] = view["ontology_path"].astype(str)
+    text_source = first_nonempty_series(view, ["sentence_text", "text", "input_text"])
+    view["text_for_review"] = text_source
+    view["suggested_aspect"] = first_nonempty_series(view, ["rule_aspects", "section", "section_type"]).str.replace("|", " / ", regex=False)
+    view["corrected_ontology_path"] = ""
+    view["corrected_aspect"] = ""
+    view["review_status"] = "needs_review"
+    view["review_notes"] = ""
+    keep = [
+        "review_id",
+        "label",
+        "timestamp",
+        "section",
+        "section_type",
+        "rule_aspects",
+        "tone_pred",
+        "sentiment_pred",
+        "ontology_alignment",
+        "current_ontology_path",
+        "suggested_aspect",
+        "corrected_aspect",
+        "corrected_ontology_path",
+        "review_status",
+        "review_notes",
+        "text_for_review",
+    ]
+    return view[[col for col in keep if col in view.columns]]
+
+
+def t2_tone_sentiment_review_candidates(t2_df):
+    if t2_df.empty:
+        return pd.DataFrame()
+    df = t2_df.copy()
+    if "review_id" not in df.columns:
+        df["review_id"] = [
+            stable_review_id(
+                row.get("label", ""),
+                row.get("timestamp", ""),
+                row.get("sentence_text", row.get("text", "")),
+                idx,
+            )
+            for idx, row in df.iterrows()
+        ]
+    text_source = first_nonempty_series(df, ["sentence_text", "text", "input_text"])
+    df["text_for_review"] = text_source
+    if "ontology_path" not in df.columns:
+        df["ontology_path"] = ""
+    for col in ["rule_tone", "tone_pred", "sentiment_pred"]:
+        if col not in df.columns:
+            df[col] = ""
+    df["corrected_rule_tone"] = ""
+    df["corrected_hybrid_tone"] = ""
+    df["corrected_sentiment"] = ""
+    df["review_status"] = "needs_review"
+    df["review_notes"] = ""
+    tone_values = (
+        df[["rule_tone", "tone_pred"]]
+        .astype(str)
+        .apply(lambda col: col.str.strip().str.lower())
+    )
+    sentiment_values = df["sentiment_pred"].astype(str).str.strip().str.lower()
+    priority = (
+        tone_values["rule_tone"].isin(["", "unknown", "unclassified / unknown", "none", "nan", "null"])
+        | tone_values["tone_pred"].isin(["", "unknown", "unclassified / unknown", "none", "nan", "null"])
+        | sentiment_values.isin(["", "neutral", "unclassified / unknown", "none", "nan", "null"])
+        | tone_values["rule_tone"].ne(tone_values["tone_pred"])
+    )
+    df["review_priority"] = priority.map({True: "high", False: "normal"})
+    keep = [
+        "review_id",
+        "label",
+        "timestamp",
+        "rule_tone",
+        "tone_pred",
+        "sentiment_pred",
+        "corrected_rule_tone",
+        "corrected_hybrid_tone",
+        "corrected_sentiment",
+        "review_status",
+        "review_priority",
+        "ontology_path",
+        "ontology_alignment",
+        "greenwashing_index",
+        "review_notes",
+        "text_for_review",
+    ]
+    return df[[col for col in keep if col in df.columns]]
+
+
+def t2_unmapped_rows(t2_df):
+    if t2_df.empty:
+        return pd.DataFrame()
+    df = t2_df.copy()
+    if "ontology_path" not in df.columns:
+        df["ontology_path"] = ""
+    path_norm = df["ontology_path"].astype(str).str.strip().str.lower().str.replace("→", "->", regex=False)
+    unmapped_mask = (
+        path_norm.eq("")
+        | path_norm.str.contains("general -> misc", regex=False, na=False)
+        | path_norm.str.contains("misc", regex=False, na=False)
+    )
+    out = df[unmapped_mask].copy()
+    if out.empty:
+        return pd.DataFrame()
+    out["text_for_topic"] = first_nonempty_series(out, ["sentence_text", "text", "input_text"]).astype(str)
+    out["review_id"] = [
+        stable_review_id(
+            row.get("label", ""),
+            row.get("timestamp", ""),
+            row.get("text_for_topic", ""),
+            idx,
+        )
+        for idx, row in out.iterrows()
+    ]
+    return out
+
+
+def t2_recover_text_for_unmapped(unmapped_df):
+    if unmapped_df.empty:
+        return unmapped_df
+    out = unmapped_df.copy()
+    if "text_for_topic" in out.columns and out["text_for_topic"].astype(str).str.strip().ne("").any():
+        return out
+    try:
+        raw = pd.read_json(ROOT / "results" / "t2_results.jsonl", lines=True).fillna("")
+    except Exception:
+        return out
+    if raw.empty:
+        return out
+    raw["label_key"] = raw.get("label", "").astype(str).str.strip()
+    raw["text_recovered"] = first_nonempty_series(raw, ["text", "sentence_text", "input_text"]).astype(str)
+    out["label_key"] = out.get("label", "").astype(str).str.strip()
+    join_cols = ["label_key", "text_recovered"]
+    merged = out.merge(raw[join_cols].drop_duplicates("label_key", keep="last"), on="label_key", how="left")
+    base_text = merged.get("text_for_topic", pd.Series([""] * len(merged))).astype(str)
+    recovered = merged.get("text_recovered", pd.Series([""] * len(merged))).astype(str)
+    merged["text_for_topic"] = base_text.where(base_text.str.strip().ne(""), recovered)
+    return merged.drop(columns=[c for c in ["label_key", "text_recovered"] if c in merged.columns])
+
+
+def t2_rule_based_mapping_candidates(unmapped_df):
+    if unmapped_df.empty:
+        return pd.DataFrame()
+    out = unmapped_df.copy()
+    txt = out.get("text_for_topic", pd.Series([""] * len(out))).astype(str).str.lower()
+    sec = out.get("section", pd.Series([""] * len(out))).astype(str).str.lower()
+    sec_type = out.get("section_type", pd.Series([""] * len(out))).astype(str).str.lower()
+    aspects = out.get("rule_aspects", pd.Series([""] * len(out))).astype(str).str.lower()
+
+    def map_path(i):
+        t = txt.iloc[i]
+        s = sec.iloc[i]
+        st = sec_type.iloc[i]
+        a = aspects.iloc[i]
+        if any(k in t for k in ["emission", "carbon", "co2", "energy", "waste", "water"]) or "environment" in s:
+            return "Environmental -> Climate and Emissions"
+        if any(k in t for k in ["employee", "karyawan", "safety", "health", "community", "training"]) or "social" in s:
+            return "Social -> Workforce and Community"
+        if any(k in t for k in ["governance", "board", "audit", "compliance", "ethic", "corruption"]) or "governance" in s:
+            return "Governance -> Ethics and Compliance"
+        if "general" in a or "general" in st:
+            return "General -> Corporate Sustainability Narrative"
+        return ""
+
+    out["pattern_path"] = [map_path(i) for i in range(len(out))]
+    out["pattern_label"] = out["pattern_path"].astype(str).str.split("->").str[-1].str.strip()
+    out["pattern_confidence"] = out["pattern_path"].astype(str).str.strip().ne("").map({True: 0.72, False: 0.0})
+    return out
+
+
+def t2_embedding_mapping_candidates(unmapped_df, ontology_df):
+    if unmapped_df.empty:
+        return pd.DataFrame()
+    if ontology_df.empty or "aspect" not in ontology_df.columns:
+        out = unmapped_df.copy()
+        out["embed_path"] = ""
+        out["embed_label"] = ""
+        out["embed_similarity"] = 0.0
+        return out
+    try:
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.metrics.pairwise import cosine_similarity
+    except Exception:
+        out = unmapped_df.copy()
+        out["embed_path"] = ""
+        out["embed_label"] = ""
+        out["embed_similarity"] = 0.0
+        return out
+
+    candidates = ontology_df.copy()
+    candidates["aspect"] = candidates["aspect"].astype(str).str.strip()
+    candidates = candidates[~is_missing_aspect_series(candidates["aspect"])].copy()
+    if candidates.empty:
+        out = unmapped_df.copy()
+        out["embed_path"] = ""
+        out["embed_label"] = ""
+        out["embed_similarity"] = 0.0
+        return out
+    candidates["cand_text"] = candidates["aspect"].astype(str)
+    if "suggested_path" in candidates.columns:
+        candidates["cand_text"] = candidates["cand_text"] + " " + candidates["suggested_path"].astype(str)
+
+    out = unmapped_df.copy()
+    out["text_for_topic"] = out.get("text_for_topic", "").astype(str)
+    docs = out["text_for_topic"].fillna("").astype(str).tolist()
+    refs = candidates["cand_text"].fillna("").astype(str).tolist()
+    vec = TfidfVectorizer(lowercase=True, ngram_range=(1, 2), min_df=1, max_df=0.95)
+    X = vec.fit_transform(docs + refs)
+    dmat = X[: len(docs)]
+    rmat = X[len(docs) :]
+    sim = cosine_similarity(dmat, rmat)
+    best_idx = sim.argmax(axis=1)
+    best_sim = sim.max(axis=1)
+    cand_aspect = candidates["aspect"].reset_index(drop=True)
+    cand_path = candidates["suggested_path"].reset_index(drop=True) if "suggested_path" in candidates.columns else pd.Series([""] * len(candidates))
+    out["embed_label"] = [str(cand_aspect.iloc[i]) for i in best_idx]
+    out["embed_path"] = [str(cand_path.iloc[i]) for i in best_idx]
+    out["embed_similarity"] = best_sim
+    return out
+
+
+def t2_reassess_tone_sentiment_suggestions(df):
+    out = df.copy()
+    text = out.get("text_for_topic", pd.Series([""] * len(out))).astype(str).str.lower()
+    pos_kw = ["improve", "increase", "berhasil", "meningkat", "strong", "komitmen", "sustainab"]
+    neg_kw = ["risk", "penalty", "fine", "incident", "kecelakaan", "gagal", "complaint", "violation"]
+    commitment_kw = ["commit", "target", "akan", "will", "plan", "berkomitmen"]
+    action_kw = ["implemented", "melakukan", "dilakukan", "program", "training", "audit"]
+    outcome_kw = ["achieved", "reduced", "menurun", "hasil", "tercapai", "decreased"]
+
+    def contains_any(t, keys):
+        return any(k in t for k in keys)
+
+    rule_s, hybrid_s, sent_s = [], [], []
+    for t in text.tolist():
+        if contains_any(t, outcome_kw):
+            tone = "Outcome"
+        elif contains_any(t, action_kw):
+            tone = "Action"
+        elif contains_any(t, commitment_kw):
+            tone = "Commitment"
+        else:
+            tone = "Unknown"
+        rule_s.append(tone)
+        hybrid_s.append(tone)
+        if contains_any(t, neg_kw):
+            sent = "Negative"
+        elif contains_any(t, pos_kw):
+            sent = "Positive"
+        else:
+            sent = "Neutral"
+        sent_s.append(sent)
+    out["suggested_rule_tone"] = rule_s
+    out["suggested_hybrid_tone"] = hybrid_s
+    out["suggested_sentiment"] = sent_s
+    return out
+
+
+def t2_unmapped_mapping_pipeline(t2_df, ontology_df):
+    base = t2_unmapped_rows(t2_df)
+    base = t2_recover_text_for_unmapped(base)
+    pattern = t2_rule_based_mapping_candidates(base)
+    embed = t2_embedding_mapping_candidates(pattern, ontology_df)
+    final = t2_reassess_tone_sentiment_suggestions(embed)
+    if final.empty:
+        return final
+    final["proposed_ontology_path"] = final["pattern_path"].astype(str)
+    use_embed = final["proposed_ontology_path"].astype(str).str.strip().eq("") & (pd.to_numeric(final["embed_similarity"], errors="coerce").fillna(0) >= 0.18)
+    final.loc[use_embed, "proposed_ontology_path"] = final.loc[use_embed, "embed_path"].astype(str)
+    final["proposed_t2_label"] = final["proposed_ontology_path"].astype(str).str.split("->").str[-1].str.strip()
+    final.loc[final["proposed_t2_label"].eq(""), "proposed_t2_label"] = final.loc[final["proposed_t2_label"].eq(""), "embed_label"].astype(str)
+    final["mapping_method"] = "pattern"
+    final.loc[use_embed, "mapping_method"] = "embedding_fallback"
+    final["mapping_confidence"] = final["pattern_confidence"]
+    final.loc[use_embed, "mapping_confidence"] = final.loc[use_embed, "embed_similarity"].clip(0, 1)
+    final["review_status"] = "needs_review"
+    final["review_notes"] = ""
+    return final
+def t2_topic_mining(unmapped_df, n_topics=8, top_terms=12, min_df=5):
+    if unmapped_df.empty or "text_for_topic" not in unmapped_df.columns:
+        return pd.DataFrame(), pd.DataFrame(), "No unmapped rows available for topic mining."
+    try:
+        from sklearn.decomposition import LatentDirichletAllocation
+        from sklearn.feature_extraction.text import CountVectorizer
+    except Exception:
+        return pd.DataFrame(), pd.DataFrame(), "scikit-learn is not available in this environment."
+
+    texts = unmapped_df["text_for_topic"].astype(str).str.strip()
+    texts = texts[texts.ne("")]
+    if len(texts) < 5:
+        return pd.DataFrame(), pd.DataFrame(), f"Not enough non-empty unmapped text rows for topic mining (found {len(texts)})."
+
+    effective_min_df = max(2, int(min_df))
+    if len(texts) < effective_min_df:
+        effective_min_df = 2 if len(texts) >= 2 else 1
+
+    vectorizer = CountVectorizer(
+        lowercase=True,
+        stop_words="english",
+        ngram_range=(1, 2),
+        min_df=effective_min_df,
+        max_df=0.9,
+    )
+    X = vectorizer.fit_transform(texts)
+    if X.shape[1] == 0:
+        return pd.DataFrame(), pd.DataFrame(), "No usable vocabulary after preprocessing."
+
+    n_topics_eff = min(
+        max(2, int(n_topics)),
+        max(2, min(12, X.shape[0] // 20 + 1)),
+        max(2, min(20, X.shape[1])),
+    )
+    lda = LatentDirichletAllocation(n_components=n_topics_eff, random_state=42, learning_method="batch")
+    doc_topic = lda.fit_transform(X)
+    vocab = vectorizer.get_feature_names_out()
+
+    topic_rows = []
+    for topic_id, comp in enumerate(lda.components_):
+        top_idx = comp.argsort()[::-1][: int(top_terms)]
+        terms = [vocab[i] for i in top_idx]
+        topic_rows.append(
+            {
+                "topic_id": topic_id,
+                "top_terms": ", ".join(terms),
+                "support_docs": int((doc_topic.argmax(axis=1) == topic_id).sum()),
+                "proposed_t2_label": "",
+                "proposed_keywords_csv": ", ".join(terms[:8]),
+                "review_status": "needs_review",
+                "review_notes": "",
+            }
+        )
+
+    topic_df = pd.DataFrame(topic_rows).sort_values("support_docs", ascending=False).reset_index(drop=True)
+
+    texts_df = unmapped_df.loc[texts.index].copy()
+    dominant = doc_topic.argmax(axis=1)
+    confidence = doc_topic.max(axis=1)
+    texts_df = texts_df.reset_index(drop=True)
+    texts_df["topic_id"] = dominant
+    texts_df["topic_confidence"] = confidence
+    text_cols = [c for c in ["review_id", "label", "timestamp", "tone_pred", "sentiment_pred", "ontology_path"] if c in texts_df.columns]
+    text_cols += ["topic_id", "topic_confidence", "text_for_topic"]
+    return topic_df, texts_df[text_cols], ""
+
+
+def merge_a28_general_misc_review(candidates, saved):
+    if candidates.empty:
+        return candidates
+    out = candidates.copy()
+    if saved.empty or "review_id" not in saved.columns:
+        return out
+    saved_latest = saved.drop_duplicates("review_id", keep="last").set_index("review_id")
+    out = out.set_index("review_id", drop=False)
+    shared = out.index.intersection(saved_latest.index)
+    editable_cols = [
+        "corrected_aspect",
+        "corrected_ontology_path",
+        "review_status",
+        "review_notes",
+        "suggested_aspect",
+    ]
+    for col in editable_cols:
+        if col in saved_latest.columns and col in out.columns:
+            incoming = saved_latest.loc[shared, col].astype(str)
+            if col == "review_status":
+                valid = incoming.isin(A28_REVIEW_STATUS_OPTS)
+                out.loc[valid[valid].index, col] = incoming.loc[valid]
+            else:
+                use = incoming.str.strip().ne("")
+                out.loc[use[use].index, col] = incoming.loc[use]
+    return out.reset_index(drop=True)
+
+
+def merge_t2_tone_sentiment_review(candidates, saved):
+    if candidates.empty:
+        return candidates
+    out = candidates.copy()
+    if saved.empty or "review_id" not in saved.columns:
+        return out
+    saved_latest = saved.drop_duplicates("review_id", keep="last").set_index("review_id")
+    out = out.set_index("review_id", drop=False)
+    shared = out.index.intersection(saved_latest.index)
+    editable_cols = [
+        "corrected_rule_tone",
+        "corrected_hybrid_tone",
+        "corrected_sentiment",
+        "review_status",
+        "review_notes",
+    ]
+    for col in editable_cols:
+        if col in saved_latest.columns and col in out.columns:
+            incoming = saved_latest.loc[shared, col].astype(str)
+            if col == "review_status":
+                valid = incoming.isin(T2_REVIEW_STATUS_OPTS)
+                out.loc[valid[valid].index, col] = incoming.loc[valid]
+            else:
+                use = incoming.str.strip().ne("")
+                out.loc[use[use].index, col] = incoming.loc[use]
+    return out.reset_index(drop=True)
+
+
+def apply_t2_review_corrections(t2_df, review_df):
+    if t2_df.empty or review_df.empty or "review_id" not in review_df.columns:
+        return t2_df.copy()
+    df = t2_tone_sentiment_review_candidates(t2_df).copy()
+    saved = review_df.drop_duplicates("review_id", keep="last").set_index("review_id")
+    df = df.set_index("review_id", drop=False)
+    shared = df.index.intersection(saved.index)
+    mapping = {
+        "corrected_rule_tone": "rule_tone",
+        "corrected_hybrid_tone": "tone_pred",
+        "corrected_sentiment": "sentiment_pred",
+    }
+    for src, dst in mapping.items():
+        if src in saved.columns and dst in df.columns:
+            incoming = saved.loc[shared, src].astype(str).str.strip()
+            use = incoming.ne("")
+            df.loc[use[use].index, dst] = incoming.loc[use]
+    return df.reset_index(drop=True)
+
+
+def a28_review_summary(review_df):
+    if review_df.empty:
+        return pd.DataFrame()
+    rows = []
+    if "review_status" in review_df.columns:
+        rows.extend(
+            {"metric": f"status: {status}", "records": int(count)}
+            for status, count in review_df["review_status"].astype(str).replace("", "needs_review").value_counts().items()
+        )
+    if "corrected_ontology_path" in review_df.columns:
+        rows.append(
+            {
+                "metric": "corrected path filled",
+                "records": int(review_df["corrected_ontology_path"].astype(str).str.strip().ne("").sum()),
+            }
+        )
+    if "corrected_aspect" in review_df.columns:
+        rows.append(
+            {
+                "metric": "corrected aspect filled",
+                "records": int(review_df["corrected_aspect"].astype(str).str.strip().ne("").sum()),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def t2_review_summary(review_df):
+    if review_df.empty:
+        return pd.DataFrame()
+    rows = []
+    if "review_status" in review_df.columns:
+        rows.extend(
+            {"metric": f"status: {status}", "records": int(count)}
+            for status, count in review_df["review_status"].astype(str).replace("", "needs_review").value_counts().items()
+        )
+    for col in ["corrected_rule_tone", "corrected_hybrid_tone", "corrected_sentiment"]:
+        if col in review_df.columns:
+            rows.append(
+                {
+                    "metric": f"{col} filled",
+                    "records": int(review_df[col].astype(str).str.strip().ne("").sum()),
+                }
+            )
+    return pd.DataFrame(rows)
+
+
 def safe_streamlit_page_name(raw_name):
     name = str(raw_name or "").strip()
     if not name:
@@ -663,6 +1224,151 @@ def find_all_model_dirs(root: Path):
     return sorted(path for path in found if looks_like_model_dir(path))
 
 
+def climatebert_family_from_model_name(model_name):
+    text = str(model_name or "").lower()
+    if "climatecontroversybert_classification" in text or "model_classification" in text:
+        return "Climate controversy multiclass"
+    if "climatecontroversybert" in text or "model_controversy" in text:
+        return "Climate controversy binary"
+    if "commitment" in text:
+        return "Climate commitment binary"
+    if "detector" in text:
+        return "Climate detector binary"
+    if "specificity" in text:
+        return "Climate specificity binary"
+    if "tcfd" in text:
+        return "TCFD recommendation multiclass"
+    if "environmental-claims" in text:
+        return "Environmental claims binary"
+    if "netzero" in text or "netzero-reduction" in text:
+        return "Net-zero / reduction multiclass"
+    if "transition-physical" in text:
+        return "Transition / physical risk classifier"
+    if "renewable" in text:
+        return "Renewable-energy classifier"
+    if "environmental" in text or "envroberta" in text:
+        return "Environmental ESG binary"
+    if "governance" in text or "govroberta" in text:
+        return "Governance ESG binary"
+    if "social" in text or "socroberta" in text:
+        return "Social ESG binary"
+    if any(token in text for token in ["climate-d", "climate-f", "climate-s"]):
+        return "ClimateBERT base / masked language model"
+    return "Other local transformer"
+
+
+def climatebert_label_usage(model_name, label):
+    family = climatebert_family_from_model_name(model_name)
+    label_text = str(label or "").strip()
+    label_l = label_text.lower()
+    if label_text == "No classification labels in local config":
+        return "Do not combine with A.4 label analysis unless a classification label map is added."
+    if family == "Climate commitment binary":
+        if label_l == "yes":
+            return "Positive climate commitment/action class; compare only with commitment-style tone evidence."
+        if label_l == "no":
+            return "Negative commitment class; not equivalent to controversy, risk, or ESG pillar labels."
+    if family == "Climate detector binary":
+        if label_l == "yes":
+            return "Climate-related text class; use as a filtering/detection step, not a commitment label."
+        if label_l == "no":
+            return "Non-climate text class; use only for climate relevance filtering."
+    if family == "Environmental claims binary":
+        if label_l == "yes":
+            return "Environmental-claim class; use as environmental claim evidence, not commitment agreement."
+        if label_l == "no":
+            return "No environmental claim detected."
+    if family == "Climate specificity binary":
+        if label_l == "spec":
+            return "Specific climate disclosure class."
+        if label_l == "non":
+            return "Non-specific climate disclosure class."
+    if family == "TCFD recommendation multiclass":
+        return "TCFD category label; use for climate-disclosure topic routing, not tone agreement."
+    if family == "Climate controversy multiclass":
+        return "Controversy subtype label; keep separate from binary commitment yes/no."
+    if family == "Climate controversy binary":
+        return "Binary controversy label; use as a controversy signal, not a commitment label."
+    if family in {"Environmental ESG binary", "Governance ESG binary", "Social ESG binary"}:
+        if label_l == "none":
+            return "Negative class for this ESG pillar detector."
+        return "Positive ESG pillar detector label."
+    if family == "Net-zero / reduction multiclass":
+        if label_l == "none":
+            return "No net-zero or emissions-reduction target detected."
+        return "Target subtype label for net-zero or emissions-reduction detection."
+    if label_l.startswith("label_"):
+        return "Generic config label; semantic mapping is not stored in the local model config and needs manual documentation before use."
+    return "Local model label; inspect the model family before combining with A.4."
+
+
+def climatebert_model_label_inventory(root: Path = ROOT_MODELS_DIR):
+    rows = []
+    if not root.exists():
+        return pd.DataFrame(
+            columns=["model", "model_path", "model family", "architecture", "model_type", "label_id", "label", "label source", "A.4 use guidance"]
+        )
+    for config_path in sorted(root.rglob("config.json")):
+        if not config_path.is_file():
+            continue
+        try:
+            config = json.loads(config_path.read_text(encoding="utf-8", errors="ignore"))
+        except Exception:
+            config = {}
+        model_path = config_path.parent
+        model_name = str(model_path.relative_to(root))
+        architecture = ", ".join(config.get("architectures") or [])
+        model_type = str(config.get("model_type") or "")
+        id2label = config.get("id2label") if isinstance(config.get("id2label"), dict) else {}
+        if id2label:
+            for label_id, label in sorted(id2label.items(), key=lambda item: str(item[0])):
+                rows.append(
+                    {
+                        "model": model_name,
+                        "model_path": str(model_path),
+                        "model family": climatebert_family_from_model_name(model_name),
+                        "architecture": architecture,
+                        "model_type": model_type,
+                        "label_id": str(label_id),
+                        "label": str(label),
+                        "label source": "config.id2label",
+                        "A.4 use guidance": climatebert_label_usage(model_name, label),
+                    }
+                )
+            continue
+        label2id = config.get("label2id") if isinstance(config.get("label2id"), dict) else {}
+        if label2id:
+            for label, label_id in sorted(label2id.items(), key=lambda item: str(item[1])):
+                rows.append(
+                    {
+                        "model": model_name,
+                        "model_path": str(model_path),
+                        "model family": climatebert_family_from_model_name(model_name),
+                        "architecture": architecture,
+                        "model_type": model_type,
+                        "label_id": str(label_id),
+                        "label": str(label),
+                        "label source": "config.label2id",
+                        "A.4 use guidance": climatebert_label_usage(model_name, label),
+                    }
+                )
+            continue
+        rows.append(
+            {
+                "model": model_name,
+                "model_path": str(model_path),
+                "model family": climatebert_family_from_model_name(model_name),
+                "architecture": architecture,
+                "model_type": model_type,
+                "label_id": "",
+                "label": "No classification labels in local config",
+                "label source": "config has no id2label/label2id",
+                "A.4 use guidance": "Do not combine with A.4 label analysis unless a classification label map is added.",
+            }
+        )
+    return pd.DataFrame(rows)
+
+
 def cohen_kappa(a, b):
     pairs = [(str(x), str(y)) for x, y in zip(a, b) if str(x).strip() and str(y).strip()]
     if len(pairs) < 2:
@@ -684,6 +1390,264 @@ def kappa_label(k):
     if k >= 0.60: return f"κ = {k:.3f} — moderate 🟡"
     if k >= 0.40: return f"κ = {k:.3f} — fair 🟠"
     return f"κ = {k:.3f} — poor 🔴"
+
+
+def pct(value):
+    try:
+        return f"{float(value):.1%}"
+    except Exception:
+        return "n/a"
+
+
+def numeric_scalar(value, default=0.0):
+    try:
+        parsed = pd.to_numeric(value, errors="coerce")
+        if pd.isna(parsed):
+            return default
+        return float(parsed)
+    except Exception:
+        return default
+
+
+def tone_denominator_summary(total=THESIS_TONE_TOTAL_RECORDS, completed=THESIS_TONE_COMPLETED_RECORDS):
+    missing = max(int(total) - int(completed), 0)
+    return {
+        "total": int(total),
+        "completed": int(completed),
+        "missing": missing,
+        "completion_rate": float(completed / total) if total else 0.0,
+        "missing_rate": float(missing / total) if total else 0.0,
+    }
+
+
+def tone_denominator_policy_options(total=THESIS_TONE_TOTAL_RECORDS, completed=THESIS_TONE_COMPLETED_RECORDS):
+    summary = tone_denominator_summary(total, completed)
+    return pd.DataFrame(
+        [
+            {
+                "decision": "exclude_from_agreement",
+                "agreement denominator": summary["completed"],
+                "tone distribution denominator": summary["completed"],
+                "methodology implication": "Report missingness separately and compute tone agreement only on records with usable tone labels.",
+                "recommended": True,
+            },
+            {
+                "decision": "recode_as_none",
+                "agreement denominator": summary["total"],
+                "tone distribution denominator": summary["total"],
+                "methodology implication": "Treat extraction failure as substantive absence of disclosure tone, which can inflate the none class.",
+                "recommended": False,
+            },
+            {
+                "decision": "separate_unclassifiable",
+                "agreement denominator": summary["total"],
+                "tone distribution denominator": summary["total"],
+                "methodology implication": "Preserve failed tone extraction as an explicit quality category, not a disclosure tone.",
+                "recommended": False,
+            },
+        ]
+    )
+
+
+def methodology_paragraph_for_missing_tone(policy, total=THESIS_TONE_TOTAL_RECORDS, completed=THESIS_TONE_COMPLETED_RECORDS):
+    summary = tone_denominator_summary(total, completed)
+    if policy == "recode_as_none":
+        return (
+            f"Tone analysis used all {summary['total']:,} extracted records after recoding the "
+            f"{summary['missing']:,} records without a returned tone label as `none`. This choice treats absent tone output "
+            "as evidence that the statement did not contain a classifyable commitment, action, or outcome signal. "
+            "Because this can increase the `none` category, all agreement and distribution tables report the recoding decision explicitly."
+        )
+    if policy == "separate_unclassifiable":
+        return (
+            f"Tone analysis retained all {summary['total']:,} extracted records and coded the "
+            f"{summary['missing']:,} records without a returned tone label as `unclassifiable`. This separates model or schema failure "
+            "from the substantive `none` tone category, allowing missingness to be audited without dropping evidence from denominator checks. "
+            "Agreement statistics are reported both with and without the unclassifiable category where applicable."
+        )
+    return (
+        f"Tone agreement and tone-distribution statistics were computed on the {summary['completed']:,} records with a valid tone label, "
+        f"excluding the {summary['missing']:,} records ({summary['missing_rate']:.1%}) where the pipeline returned no tone value. "
+        "The excluded records are reported as a data-quality outcome rather than recoded as `none`, because absence of a model output is not "
+        "equivalent to a substantive no-tone disclosure. Therefore, Chapter 4 tables and figures that analyze tone use 4,853 as the effective "
+        "tone-analysis denominator, while corpus coverage tables retain 5,444 as the extraction denominator."
+    )
+
+
+def build_tone_denominator_audit(policy):
+    summary = tone_denominator_summary()
+    denominator = summary["completed"] if policy == "exclude_from_agreement" else summary["total"]
+    return pd.DataFrame(
+        [
+            {"chapter element": "Corpus extraction coverage", "denominator": summary["total"], "included": summary["total"], "excluded": 0, "note": "Use for total extracted-record coverage."},
+            {"chapter element": "Tone distribution", "denominator": denominator, "included": denominator, "excluded": summary["missing"] if policy == "exclude_from_agreement" else 0, "note": "Use this denominator in Chapter 4 tone tables and figures."},
+            {"chapter element": "Tone agreement / kappa", "denominator": denominator, "included": denominator, "excluded": summary["missing"] if policy == "exclude_from_agreement" else 0, "note": "Do not compute agreement over missing tone outputs unless using an explicit unclassifiable class."},
+            {"chapter element": "Missing-tone quality audit", "denominator": summary["total"], "included": summary["missing"], "excluded": summary["completed"], "note": "Report missingness as its own pipeline-quality result."},
+        ]
+    )
+
+
+def proxy_agreement_summary(proxy_summary_df):
+    if not proxy_summary_df.empty:
+        row = proxy_summary_df.iloc[0]
+        return {
+            "n": int(numeric_scalar(row.get("n", 0), 0)),
+            "percent_agreement": numeric_scalar(row.get("percent_agreement", 0), 0),
+            "cohen_kappa": numeric_scalar(row.get("cohen_kappa", 0), 0),
+            "tone_commitment_rate": numeric_scalar(row.get("tone_commitment_rate", 0), 0),
+            "climate_commitment_label_rate": numeric_scalar(row.get("climate_commitment_label_rate", 0), 0),
+        }
+    return {
+        "n": 332,
+        "percent_agreement": 0.8373493975903614,
+        "cohen_kappa": 0.6451446894422231,
+        "tone_commitment_rate": 0.3463855421686747,
+        "climate_commitment_label_rate": 0.3644578313253012,
+    }
+
+
+def climatebert_baseline_table(proxy_summary_df):
+    summary = proxy_agreement_summary(proxy_summary_df)
+    return pd.DataFrame(
+        [
+            {"metric": "Percent agreement", "value": summary["percent_agreement"], "display": pct(summary["percent_agreement"]), "interpretation": "Observed binary match rate between ABSA commitment-tone proxy and ClimateBERT climate-commitment label."},
+            {"metric": "Cohen kappa", "value": summary["cohen_kappa"], "display": f"{summary['cohen_kappa']:.3f}", "interpretation": "Chance-adjusted agreement; this is model-framework agreement, not human inter-rater reliability."},
+            {"metric": "Majority baseline", "value": CLIMATEBERT_MAJORITY_BASELINE, "display": pct(CLIMATEBERT_MAJORITY_BASELINE), "interpretation": "Naive always-commitment baseline supplied for A.15 framing."},
+            {"metric": "Agreement lift over majority baseline", "value": summary["percent_agreement"] - CLIMATEBERT_MAJORITY_BASELINE, "display": f"{(summary['percent_agreement'] - CLIMATEBERT_MAJORITY_BASELINE) * 100:.1f} pp", "interpretation": "Pipeline improves over the naive baseline, but the comparison should be framed as adjacent-construct agreement."},
+        ]
+    )
+
+
+def prompt_outlier_table(prompt_df):
+    if prompt_df.empty or "prompt" not in prompt_df.columns:
+        return pd.DataFrame(
+            [{"prompt": "data.md", "missing_tone_rate": 1.0, "recommended decision": "retain_as_failed_experiment", "chapter use": "Evidence that prompt design affects output validity."}]
+        )
+    out = prompt_df.copy()
+    if "missing_tone_rate" in out.columns:
+        out["missing_tone_rate"] = pd.to_numeric(out["missing_tone_rate"], errors="coerce").fillna(0)
+        out["is_failed_prompt"] = out["missing_tone_rate"].ge(1.0)
+    else:
+        out["missing_tone_rate"] = 0.0
+        out["is_failed_prompt"] = False
+    out["recommended decision"] = out["is_failed_prompt"].map({True: "retain_as_failed_experiment", False: "include_in_stability_summary"})
+    out["chapter use"] = out["is_failed_prompt"].map(
+        {
+            True: "Treat as a failed prompt condition and discuss separately before any stability claim.",
+            False: "Use in prompt stability comparison.",
+        }
+    )
+    return out.sort_values(["is_failed_prompt", "missing_tone_rate"], ascending=[False, False])
+
+
+def greenwashing_summary_table(greenwashing_df):
+    if greenwashing_df.empty or "greenwashing_index" not in greenwashing_df.columns:
+        return pd.DataFrame(
+            [
+                {"metric": "records", "value": 2071, "display": "2,071", "interpretation": "A.29 record count supplied for thesis framing."},
+                {"metric": "mean", "value": 3380.0, "display": "3,380", "interpretation": "Mean is driven by extreme outliers."},
+                {"metric": "median", "value": 0.0, "display": "0.0", "interpretation": "Median better represents the typical record."},
+            ]
+        )
+    values = pd.to_numeric(greenwashing_df["greenwashing_index"], errors="coerce").dropna()
+    if values.empty:
+        return pd.DataFrame()
+    rows = [
+        {"metric": "records", "value": int(values.count()), "display": f"{int(values.count()):,}", "interpretation": "Rows with a numeric greenwashing index."},
+        {"metric": "mean", "value": float(values.mean()), "display": f"{float(values.mean()):,.3g}", "interpretation": "Sensitive to extreme outliers."},
+        {"metric": "median", "value": float(values.median()), "display": f"{float(values.median()):,.3g}", "interpretation": "Recommended primary statistic for skewed prototype metric."},
+        {"metric": "max", "value": float(values.max()), "display": f"{float(values.max()):,.3g}", "interpretation": "Use to show tail heaviness."},
+    ]
+    if (values >= 0).all():
+        import math
+
+        rows.append(
+            {
+                "metric": "mean_log1p",
+                "value": float(values.apply(lambda x: math.log1p(x)).mean()),
+                "display": f"{float(values.apply(lambda x: math.log1p(x)).mean()):,.3g}",
+                "interpretation": "Use log+1 transformation when charting the distribution.",
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def a19_confusion_narrative():
+    return (
+        "A.19 shows the largest substantive confusion around the boundary between realized outcomes and weaker disclosure tones. "
+        "Outcome rows include 934 correct classifications but 101 cases assigned as action, indicating that the model sometimes "
+        "reads implemented or measured results as activity language. The `none` row includes 1,781 correct classifications but "
+        "223 cases assigned as commitment, showing a tendency to over-read generic sustainability language as forward-looking commitment. "
+        "This should be interpreted as a claim-maturity boundary problem rather than a simple accuracy failure."
+    )
+
+
+def ontology_top_unmapped_table(full_ontology_df, novel_review_df, top_n=15):
+    if full_ontology_df.empty:
+        return pd.DataFrame()
+    base = full_ontology_df.copy()
+    mapped = ontology_bool(base["mapped_to_ontology"]) if "mapped_to_ontology" in base.columns else pd.Series([False] * len(base))
+    base = base[~mapped].copy()
+    if "aspect" in base.columns:
+        base = base[~is_missing_aspect_series(base["aspect"])].copy()
+    if "records" in base.columns:
+        base["records"] = pd.to_numeric(base["records"], errors="coerce").fillna(0).astype(int)
+    base["suggested_cluster"] = base["aspect"].map(suggest_aspect_cluster)
+    base["suggested_gri_sasb_tcfd_node"] = base["aspect"].map(suggest_ontology_path)
+    if not novel_review_df.empty and {"aspect", "ontology_path"}.issubset(novel_review_df.columns):
+        reviewed_paths = (
+            novel_review_df.drop_duplicates("aspect", keep="last")
+            .set_index("aspect")["ontology_path"]
+            .astype(str)
+            .to_dict()
+        )
+        base["reviewed_ontology_path"] = base["aspect"].map(reviewed_paths).fillna("")
+    keep = ["aspect", "records", "suggested_cluster", "suggested_gri_sasb_tcfd_node", "reviewed_ontology_path"]
+    return base[[col for col in keep if col in base.columns]].sort_values("records", ascending=False).head(top_n)
+
+
+def benchmark_gap_table():
+    return pd.DataFrame(
+        [
+            {"benchmark": "FinBERT", "reported metric": "F1=97.3%", "handles finance/ESG language": "yes", "Indonesian": "no", "multi-aspect": "no", "tone-labeled disclosure maturity": "no", "positioning": "Strong domain classifier, but not the thesis niche."},
+            {"benchmark": "ESG-BERT", "reported metric": "F1=88%", "handles finance/ESG language": "yes", "Indonesian": "no", "multi-aspect": "limited", "tone-labeled disclosure maturity": "no", "positioning": "Relevant ESG baseline without Indonesian multi-aspect tone coverage."},
+            {"benchmark": "SpanEval", "reported metric": "F1=75.42%", "handles finance/ESG language": "partial", "Indonesian": "no", "multi-aspect": "yes", "tone-labeled disclosure maturity": "no", "positioning": "Useful extraction benchmark, but not a sustainability disclosure tone system."},
+            {"benchmark": "ClimateBERT", "reported metric": "F1=1.16", "handles finance/ESG language": "climate-specific", "Indonesian": "no", "multi-aspect": "no", "tone-labeled disclosure maturity": "no", "positioning": "Adjacent climate NLP baseline; measures climate commitment, not ABSA tone maturity."},
+            {"benchmark": "GH-ABSA", "reported metric": "accuracy=4.71", "handles finance/ESG language": "no", "Indonesian": "no", "multi-aspect": "yes", "tone-labeled disclosure maturity": "no", "positioning": "ABSA reference point, but not designed for Indonesian sustainability disclosures."},
+            {"benchmark": "This thesis", "reported metric": "prototype system", "handles finance/ESG language": "yes", "Indonesian": "yes", "multi-aspect": "yes", "tone-labeled disclosure maturity": "yes", "positioning": "Niche contribution: Indonesian-language, multi-aspect, tone-labeled sustainability disclosure analysis."},
+        ]
+    )
+
+
+def ch46_page_uses_artifact(filename):
+    if not CH46_PAGE_PATH.exists():
+        return False
+    try:
+        source = CH46_PAGE_PATH.read_text(encoding="utf-8", errors="ignore")
+    except Exception:
+        return False
+    constant_markers = {
+        "chapter_4_6_resolution_board.csv": "CHAPTER_RESOLUTION_PATH",
+        "chapter4_tone_denominator_audit.csv": "TONE_DENOMINATOR_AUDIT_PATH",
+        "chapter6_top_unmapped_ontology_candidates.csv": "TOP_UNMAPPED_ONTOLOGY_PATH",
+        "chapter6_benchmark_gap_positioning.csv": "BENCHMARK_GAP_PATH",
+    }
+    return filename in source or constant_markers.get(filename, "") in source
+
+
+def ch46_integration_status_rows():
+    rows = []
+    for label, path in CH46_INTEGRATION_ARTIFACTS.items():
+        rows.append(
+            {
+                "integration item": label,
+                "artifact": str(path.relative_to(ROOT)),
+                "artifact exists": path.exists(),
+                "6_4_ch4-6.py consumes it": ch46_page_uses_artifact(path.name),
+                "status": "Done" if path.exists() and ch46_page_uses_artifact(path.name) else "Needed",
+            }
+        )
+    return pd.DataFrame(rows)
 
 
 def normalise_cols(df):
@@ -856,16 +1820,200 @@ def import_climatebert_output(df_up, label_col):
     return merged
 
 
+def climatebert_a4_legacy_summary():
+    legacy = load(VIS / "tone_climatebert_label_crosstab.csv")
+    if legacy.empty:
+        return {"rows": 0, "columns": 0, "label_assignments": 0}
+    numeric = legacy.select_dtypes(include="number")
+    return {
+        "rows": len(legacy),
+        "columns": max(len(legacy.columns) - 1, 0),
+        "label_assignments": int(numeric.to_numpy().sum()) if not numeric.empty else 0,
+    }
+
+
+def climatebert_label_column(df):
+    for col in ["climatebert_label", "label", "top_label", "climate_commitment_label"]:
+        if col in df.columns and column_series(df, col).astype(str).str.strip().ne("").any():
+            return col
+    return ""
+
+
+def climatebert_tone_crosstab(df):
+    if df.empty or "tone_pred" not in df.columns:
+        return pd.DataFrame()
+    label_col = climatebert_label_column(df)
+    if not label_col:
+        return pd.DataFrame()
+    view = df.copy()
+    view["tone"] = column_series(view, "tone_pred").astype(str).str.strip().replace("", "missing")
+    view["climatebert_label"] = column_series(view, label_col).astype(str).str.strip().replace("", "missing")
+    pivot = pd.crosstab(view["tone"], view["climatebert_label"])
+    pivot.index.name = "tone"
+    pivot.columns.name = None
+    return pivot.reset_index()
+
+
+def climatebert_commitment_crosstab(df):
+    if df.empty or "tone_pred" not in df.columns or "climatebert_commitment_pred" not in df.columns:
+        return pd.DataFrame()
+    view = df.copy()
+    view["tone"] = column_series(view, "tone_pred").astype(str).str.strip().replace("", "missing")
+    view["climatebert_commitment"] = (
+        column_series(view, "climatebert_commitment_pred")
+        .astype(str)
+        .str.lower()
+        .isin(["true", "1", "yes"])
+        .map({True: "commitment", False: "not commitment"})
+    )
+    pivot = pd.crosstab(view["tone"], view["climatebert_commitment"])
+    pivot.index.name = "tone"
+    pivot.columns.name = None
+    return pivot.reset_index()
+
+
+def climatebert_model_summary(df):
+    if df.empty or "climatebert_model" not in df.columns:
+        return pd.DataFrame()
+    group_cols = [col for col in ["climatebert_model", "climatebert_model_backend", "climatebert_job_id"] if col in df.columns]
+    summary = df.groupby(group_cols, dropna=False).size().reset_index(name="records")
+    return summary.sort_values("records", ascending=False)
+
+
+def climatebert_label_definitions(labels=None):
+    definitions = {
+        "yes": {
+            "model family": "distilroberta-base-climate-commitment",
+            "dashboard meaning": "The ClimateBERT commitment classifier marked the text as a climate-commitment statement.",
+            "how to use": "Use for binary commitment agreement against `tone_pred == commitment`.",
+        },
+        "no": {
+            "model family": "distilroberta-base-climate-commitment",
+            "dashboard meaning": "The ClimateBERT commitment classifier did not mark the text as a climate-commitment statement.",
+            "how to use": "Use as the negative class in binary commitment agreement.",
+        },
+        "Brown Projects": {
+            "model family": "ClimateControversyBERT_classification",
+            "dashboard meaning": "A controversy-classification label for climate-related project content that the model associates with brown or carbon-intensive project framing.",
+            "how to use": "Do not treat as `not commitment` by itself; interpret as a separate controversy/project label.",
+        },
+        "Misinformation": {
+            "model family": "ClimateControversyBERT_classification",
+            "dashboard meaning": "A controversy-classification label for climate claims the model associates with misleading, questionable, or unsupported framing.",
+            "how to use": "Use as a diagnostic controversy label, not as a binary commitment label.",
+        },
+        "Ambiguous Actions": {
+            "model family": "ClimateControversyBERT_classification",
+            "dashboard meaning": "A controversy-classification label for action claims that are vague, unclear, or insufficiently specific.",
+            "how to use": "Use to identify weakly specified action language; keep separate from commitment yes/no.",
+        },
+        "missing": {
+            "model family": "Data quality",
+            "dashboard meaning": "No usable ClimateBERT label was available for that record.",
+            "how to use": "Exclude from agreement metrics unless missingness itself is being audited.",
+        },
+    }
+    rows = []
+    wanted = sorted({str(label) for label in labels if str(label).strip()}) if labels is not None else sorted(definitions)
+    for label in wanted:
+        rows.append(
+            {
+                "ClimateBERT label": label,
+                **definitions.get(
+                    label,
+                    {
+                        "model family": "ClimateBERT / ESG auxiliary classifier",
+                        "dashboard meaning": "Label emitted by the selected ClimateBERT-style model or inherited from earlier ClimateBERT-style proxy labels.",
+                        "how to use": "Inspect the model/job source before interpreting this label as commitment, controversy, or ESG-topic evidence.",
+                    },
+                ),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def climatebert_a4_logic_rows(label_col):
+    return pd.DataFrame(
+        [
+            {
+                "step": "Choose label column",
+                "logic": f"The page uses `{label_col or 'no label column found'}` as the multiclass ClimateBERT label column.",
+            },
+            {
+                "step": "Full label table",
+                "logic": "Rows are `tone_pred`; columns are ClimateBERT labels; cells are record counts from `pd.crosstab(tone_pred, climatebert_label)`.",
+            },
+            {
+                "step": "Binary commitment table",
+                "logic": "`climatebert_commitment_pred` is converted to commitment/not commitment and crosstabbed against `tone_pred`.",
+            },
+            {
+                "step": "Important separation",
+                "logic": "`yes/no` labels come from the commitment model; `Brown Projects`, `Misinformation`, and `Ambiguous Actions` come from the controversy classifier, so they should not be collapsed into the binary commitment metric.",
+            },
+            {
+                "step": "Thesis interpretation",
+                "logic": "Use the binary table for RQ3 commitment agreement, and use controversy labels only as a diagnostic lens for weak, ambiguous, or problematic climate disclosure language.",
+            },
+        ]
+    )
+
+
+def climatebert_a4_work_items(silver_df, imported_df):
+    legacy = climatebert_a4_legacy_summary()
+    real_rows = len(imported_df)
+    label_col = climatebert_label_column(imported_df)
+    processed = nonempty_count(imported_df, "climatebert_commitment_pred") if not imported_df.empty else 0
+    expected = len(silver_df) if not silver_df.empty else 0
+    models = climatebert_model_summary(imported_df)
+    model_names = models["climatebert_model"].astype(str).str.lower().tolist() if not models.empty and "climatebert_model" in models.columns else []
+    commitment_model_rows = sum("commitment" in name for name in model_names)
+    return pd.DataFrame(
+        [
+            {
+                "work item": "Explain A.4 denominator",
+                "current evidence": f"{legacy['label_assignments']:,} exploded label assignments from {legacy['rows']} tone rows and {legacy['columns']} label columns",
+                "next action": "Treat legacy A.4 as the compact 332-record visualization, not the full Action Plan corpus.",
+                "status": "done" if legacy["label_assignments"] else "needed",
+            },
+            {
+                "work item": "Build full-corpus ClimateBERT x tone table",
+                "current evidence": f"{real_rows:,} imported rows; {processed:,}/{expected:,} rows have commitment predictions",
+                "next action": "Use the full imported table to continue A.4 analysis for all silver/action-plan records.",
+                "status": "done" if expected and processed >= expected else "needed",
+            },
+            {
+                "work item": "Verify ClimateBERT model family",
+                "current evidence": f"{len(models):,} model/job group(s); label column = {label_col or 'missing'}",
+                "next action": "Confirm whether outputs came from the commitment model or from another ClimateBERT classifier before interpreting labels.",
+                "status": "review" if commitment_model_rows != len(model_names) else "done",
+            },
+            {
+                "work item": "Separate binary commitment from multiclass labels",
+                "current evidence": "Imported file contains both `climatebert_commitment_pred` and model labels when available.",
+                "next action": "Report commitment agreement separately from multiclass/controversy label distribution.",
+                "status": "needed",
+            },
+            {
+                "work item": "Regenerate thesis figure/table after review",
+                "current evidence": "Legacy A.4 PNG/CSV still lives in results/visualizations.",
+                "next action": "After model verification, promote the full-corpus continuation table into the Chapter 4-6 graph attachments.",
+                "status": "needed",
+            },
+        ]
+    )
+
+
 def suggest_aspect_cluster(aspect):
     text = str(aspect or "").lower()
     rules = [
-        ("Governance & Ethics", ["korupsi", "antikorupsi", "anti korupsi", "etik", "governance", "komisaris", "direksi", "kepatuhan", "compliance", "gratifikasi", "conflict", "konflik kepentingan"]),
-        ("Energy & Climate", ["climate", "karbon", "emisi", "netzero", "net zero", "energi", "energy", "scope", "ghg", "iklim", "renewable"]),
-        ("Waste & Pollution", ["limbah", "waste", "pollution", "polusi", "air limbah", "b3", "sampah", "emission", "water", "air"]),
-        ("Human Capital", ["karyawan", "employee", "pelatihan", "training", "keselamatan", "k3", "human", "tenaga kerja", "labor", "pekerja"]),
+        ("Governance & Ethics", ["korupsi", "antikorupsi", "anti korupsi", "etik", "governance", "tata kelola", "komisaris", "direksi", "kepatuhan", "compliance", "gratifikasi", "conflict", "konflik kepentingan", "pengendalian internal", "manajemen risiko", "pengelolaan risiko"]),
+        ("Energy & Climate", ["climate", "karbon", "emisi", "netzero", "net zero", "energi", "energy", "scope", "ghg", "iklim", "renewable", "rendah emisi"]),
+        ("Waste & Pollution", ["limbah", "waste", "pollution", "polusi", "air limbah", "b3", "sampah", "emission", "water", "air", "lingkungan", "ramah lingkungan"]),
+        ("Human Capital", ["karyawan", "employee", "pelatihan", "training", "keselamatan", "k3", "human", "tenaga kerja", "labor", "pekerja", "hak asasi manusia", "ham"]),
         ("Community Relations", ["masyarakat", "community", "komunitas", "sosial", "csr", "pemberdayaan", "pendidikan", "donasi", "stakeholder"]),
         ("Supply Chain", ["vendor", "supplier", "rantai pasok", "supply", "procurement", "pemasok"]),
-        ("Financial Sustainability", ["financial", "keuangan", "investasi", "economic", "ekonomi", "profit", "revenue"]),
+        ("Financial Sustainability", ["financial", "keuangan", "investasi", "economic", "ekonomi", "profit", "revenue", "kinerja esg"]),
         ("Digital & Data", ["digital", "data", "cyber", "teknologi", "technology", "privacy"]),
         ("Biodiversity & Land", ["biodiversity", "keanekaragaman", "lahan", "land", "hutan", "forest", "habitat"]),
     ]
@@ -880,6 +2028,9 @@ def suggest_aspect_cluster(aspect):
 def suggest_ontology_path(aspect):
     cluster = suggest_aspect_cluster(aspect)
     text = str(aspect or "").strip()
+    lowered = text.lower()
+    if any(token in lowered for token in ["keberlanjutan", "sustainability", "pengungkapan", "pelaporan", "prospektif"]):
+        return f"GRI 2 General Disclosures / GRI 3 Material Topics -> {text}"
     if cluster == "Energy & Climate":
         return f"GRI 305 Emissions / TCFD Climate -> {text}"
     if cluster == "Waste & Pollution":
@@ -899,6 +2050,246 @@ def suggest_ontology_path(aspect):
     if cluster == "Digital & Data":
         return f"Governance / Data and Technology -> {text}"
     return ""
+
+
+def first_nonempty_series(df, columns):
+    candidates = []
+    for col in columns:
+        if col in df.columns:
+            candidates.append(column_series(df, col).astype(str).str.strip())
+    if not candidates:
+        return pd.Series([""] * len(df), index=df.index, dtype=str)
+    combined = pd.concat(candidates, axis=1)
+    return combined.replace("", pd.NA).bfill(axis=1).iloc[:, 0].fillna("").astype(str)
+
+
+def ontology_bool(series):
+    return pd.Series(series).astype(str).str.lower().isin(["true", "1", "yes"])
+
+
+MISSING_ASPECT_VALUES = {"", "missing", "none", "nan", "null", "unknown", "n/a", "not_applicable"}
+
+
+def is_missing_aspect_series(series):
+    return pd.Series(series).astype(str).str.strip().str.lower().isin(MISSING_ASPECT_VALUES)
+
+
+def build_full_ontology_coverage(source_df):
+    if source_df.empty:
+        return pd.DataFrame()
+    aspects = first_nonempty_series(source_df, ["ground_truth_aspect", "aspect"])
+    view = pd.DataFrame({"aspect": aspects.str.lower().str.strip()})
+    view["aspect"] = view["aspect"].replace("", "missing")
+    counts = view["aspect"].value_counts().rename_axis("aspect").reset_index(name="records")
+    counts["suggested_path"] = counts["aspect"].map(suggest_ontology_path)
+    counts["mapped_to_ontology"] = counts["suggested_path"].astype(str).str.strip().ne("")
+    counts.loc[counts["aspect"].isin(["missing", "none", "nan"]), "mapped_to_ontology"] = False
+    return counts[["aspect", "records", "mapped_to_ontology", "suggested_path"]]
+
+
+def ontology_missing_aspect_records(source_df):
+    if source_df.empty:
+        return pd.DataFrame()
+    df = source_df.copy()
+    if "record_id" not in df.columns:
+        df["record_id"] = [f"row_{idx}" for idx in range(len(df))]
+
+    has_ground_truth = "ground_truth_aspect" in df.columns
+    has_pipeline = "aspect" in df.columns
+    ground_truth = column_series(df, "ground_truth_aspect").astype(str).str.strip() if has_ground_truth else pd.Series([""] * len(df), index=df.index)
+    pipeline = column_series(df, "aspect").astype(str).str.strip() if has_pipeline else pd.Series([""] * len(df), index=df.index)
+    needs_label = is_missing_aspect_series(ground_truth) if has_ground_truth else is_missing_aspect_series(pipeline)
+    out = df.loc[needs_label].copy()
+    if out.empty:
+        return pd.DataFrame()
+
+    out["current_ground_truth_aspect"] = ground_truth.loc[out.index].values
+    out["pipeline_aspect"] = pipeline.loc[out.index].values
+    out["suggested_aspect_label"] = out["pipeline_aspect"].where(~is_missing_aspect_series(out["pipeline_aspect"]), "")
+    out["suggested_cluster"] = out["suggested_aspect_label"].map(suggest_aspect_cluster)
+    out["suggested_ontology_path"] = out["suggested_aspect_label"].map(suggest_ontology_path)
+    if has_ground_truth:
+        out["missing_reason"] = "missing ground_truth_aspect"
+    else:
+        out["missing_reason"] = "placeholder pipeline aspect"
+    out["corrected_aspect_label"] = ""
+    out["ontology_extension_status"] = "needs_review"
+    out["review_notes"] = ""
+    keep = [
+        "record_id",
+        "company",
+        "target",
+        "prompt",
+        "tone_pred",
+        "ground_truth_esg",
+        "esg",
+        "current_ground_truth_aspect",
+        "pipeline_aspect",
+        "suggested_aspect_label",
+        "corrected_aspect_label",
+        "suggested_cluster",
+        "suggested_ontology_path",
+        "ontology_extension_status",
+        "missing_reason",
+        "review_notes",
+        "text",
+    ]
+    return out[[col for col in keep if col in out.columns]]
+
+
+def merge_saved_missing_aspect_labels(candidates, saved):
+    if candidates.empty or saved.empty or "record_id" not in saved.columns:
+        return candidates
+    out = candidates.copy()
+    saved_latest = saved.drop_duplicates("record_id", keep="last").set_index("record_id")
+    out = out.set_index("record_id", drop=False)
+    for col in ["corrected_aspect_label", "ontology_extension_status", "review_notes", "suggested_ontology_path", "suggested_cluster"]:
+        if col in saved_latest.columns and col in out.columns:
+            incoming = saved_latest[col].astype(str)
+            shared = out.index.intersection(incoming.index)
+            use = incoming.loc[shared].str.strip().ne("")
+            update_index = use[use].index
+            out.loc[update_index, col] = incoming.loc[update_index]
+    return out.reset_index(drop=True)
+
+
+def build_novel_aspect_review_table(unmapped_df, saved_review):
+    if unmapped_df.empty:
+        return pd.DataFrame()
+    review = unmapped_df.copy()
+    if "aspect" not in review.columns:
+        return pd.DataFrame()
+    review["aspect"] = review["aspect"].astype(str).str.strip()
+    review = review[review["aspect"].ne("")].copy()
+    if review.empty:
+        return pd.DataFrame()
+    if "records" in review.columns:
+        review["records"] = pd.to_numeric(review["records"], errors="coerce").fillna(0).astype(int)
+    else:
+        review["records"] = 0
+    if "suggested_path" not in review.columns:
+        review["suggested_path"] = ""
+    review["suggested_cluster"] = review["aspect"].map(suggest_aspect_cluster)
+    review["review_status"] = "needs_review"
+    review["canonical_aspect"] = review["aspect"].where(~is_missing_aspect_series(review["aspect"]), "")
+    review["reviewed_cluster"] = review["suggested_cluster"]
+    review["ontology_path"] = review["suggested_path"]
+    review["thesis_note"] = ""
+
+    editable_cols = [
+        "review_status",
+        "canonical_aspect",
+        "reviewed_cluster",
+        "ontology_path",
+        "thesis_note",
+    ]
+    if not saved_review.empty and "aspect" in saved_review.columns:
+        saved_latest = saved_review.drop_duplicates("aspect", keep="last").set_index("aspect")
+        review = review.set_index("aspect", drop=False)
+        shared = review.index.intersection(saved_latest.index)
+        for col in editable_cols:
+            if col in saved_latest.columns:
+                incoming = saved_latest.loc[shared, col].astype(str)
+                if col == "review_status":
+                    valid = incoming.isin(NOVEL_ASPECT_STATUS_OPTS)
+                    update_index = valid[valid].index
+                else:
+                    valid = incoming.str.strip().ne("")
+                    update_index = valid[valid].index
+                review.loc[update_index, col] = incoming.loc[update_index]
+        review = review.reset_index(drop=True)
+
+    keep = [
+        "aspect",
+        "records",
+        "review_status",
+        "canonical_aspect",
+        "suggested_cluster",
+        "reviewed_cluster",
+        "suggested_path",
+        "ontology_path",
+        "thesis_note",
+    ]
+    return review[[col for col in keep if col in review.columns]].sort_values("records", ascending=False)
+
+
+def ontology_a12_summary(legacy_df, full_df, corpus_rows):
+    legacy_records = int(pd.to_numeric(legacy_df.get("records", pd.Series(dtype=float)), errors="coerce").fillna(0).sum()) if not legacy_df.empty else 0
+    full_records = int(pd.to_numeric(full_df.get("records", pd.Series(dtype=float)), errors="coerce").fillna(0).sum()) if not full_df.empty else 0
+    legacy_mapped = int(ontology_bool(legacy_df["mapped_to_ontology"]).sum()) if not legacy_df.empty and "mapped_to_ontology" in legacy_df.columns else 0
+    full_mapped = int(ontology_bool(full_df["mapped_to_ontology"]).sum()) if not full_df.empty and "mapped_to_ontology" in full_df.columns else 0
+    return {
+        "legacy_aspects": len(legacy_df),
+        "legacy_records": legacy_records,
+        "legacy_mapped": legacy_mapped,
+        "full_aspects": len(full_df),
+        "full_records": full_records,
+        "full_mapped": full_mapped,
+        "corpus_rows": int(corpus_rows),
+    }
+
+
+def ontology_a12_breakdown(full_df):
+    if full_df.empty:
+        return {
+            "mapped_aspects": 0,
+            "mapped_records": 0,
+            "placeholder_aspects": 0,
+            "placeholder_records": 0,
+            "substantive_novel_aspects": 0,
+            "substantive_novel_records": 0,
+        }
+    work = full_df.copy()
+    work["records"] = pd.to_numeric(work.get("records", 0), errors="coerce").fillna(0).astype(int)
+    mapped_mask = ontology_bool(work["mapped_to_ontology"]) if "mapped_to_ontology" in work.columns else pd.Series([False] * len(work))
+    placeholder_mask = is_missing_aspect_series(work["aspect"]) if "aspect" in work.columns else pd.Series([False] * len(work))
+    substantive_novel_mask = (~mapped_mask) & (~placeholder_mask)
+    return {
+        "mapped_aspects": int(mapped_mask.sum()),
+        "mapped_records": int(work.loc[mapped_mask, "records"].sum()),
+        "placeholder_aspects": int(placeholder_mask.sum()),
+        "placeholder_records": int(work.loc[placeholder_mask, "records"].sum()),
+        "substantive_novel_aspects": int(substantive_novel_mask.sum()),
+        "substantive_novel_records": int(work.loc[substantive_novel_mask, "records"].sum()),
+    }
+
+
+def ontology_a12_work_items(legacy_df, full_df, corpus_rows):
+    summary = ontology_a12_summary(legacy_df, full_df, corpus_rows)
+    return pd.DataFrame(
+        [
+            {
+                "work item": "Explain A.12 denominator",
+                "current evidence": f"Legacy ontology file covers {summary['legacy_records']:,} record assignments across {summary['legacy_aspects']:,} unique aspect rows.",
+                "next action": "Describe A.12 as compact 332-record ontology coverage, not full-corpus coverage.",
+                "status": "done" if summary["legacy_records"] else "needed",
+            },
+            {
+                "work item": "Build full-corpus ontology coverage",
+                "current evidence": f"Continuation table covers {summary['full_records']:,}/{summary['corpus_rows']:,} Action Plan rows across {summary['full_aspects']:,} unique aspects.",
+                "next action": "Use the current silver/annotation table to extend A.12 beyond the legacy visualization snapshot.",
+                "status": "done" if summary["corpus_rows"] and summary["full_records"] >= summary["corpus_rows"] else "review",
+            },
+            {
+                "work item": "Review mapped vs novel labels",
+                "current evidence": f"Legacy mapped rows: {summary['legacy_mapped']:,}/{summary['legacy_aspects']:,}; full mapped rows: {summary['full_mapped']:,}/{summary['full_aspects']:,}.",
+                "next action": "Manually review high-frequency unmapped aspects before claiming Indonesian ESG vocabulary extension.",
+                "status": "needed",
+            },
+            {
+                "work item": "Separate placeholders from real novel aspects",
+                "current evidence": "`missing`, `none`, and blank-derived aspects can dominate coverage if they remain in the aspect column.",
+                "next action": "Report placeholder coverage separately from substantive novel ESG vocabulary.",
+                "status": "needed",
+            },
+            {
+                "work item": "Promote full A.12 after review",
+                "current evidence": "Legacy A.12 PNG/CSV still points to the compact ontology snapshot.",
+                "next action": "After mapping review, save the full ontology continuation table and use it in Chapter 4-6 graph attachments.",
+                "status": "needed",
+            },
+        ]
+    )
 
 
 # ── Load data ─────────────────────────────────────────────────────────────────
@@ -1034,14 +2425,1295 @@ for col, (label, val, ok) in zip(st.columns(6), [
     col.metric(label, val, delta="✓ Done" if ok else "Needed",
                delta_color="normal" if ok else "inverse")
 
+chapter_decisions = read_json(
+    CHAPTER_RESOLUTION_PATH,
+    {
+        "missing_tone_policy": "exclude_from_agreement",
+        "data_md_policy": "retain_as_failed_experiment",
+        "greenwashing_policy": "median_primary_log1p_sensitivity",
+        "ontology_top_n": 15,
+    },
+)
+proxy_summary_file = load(ARTIFACTS / "climatebert_proxy_agreement_summary.csv")
+greenwashing_file = load(ARTIFACTS / "greenwashing_index_by_company.csv")
+
+with st.expander("Chapter 4-6 resolution board — decisions, denominators, and thesis text", expanded=True):
+    st.caption(
+        "This board turns the current thesis-review issues into explicit methodology decisions, Chapter 4/5 interpretation text, "
+        "and exportable Chapter 6 contribution tables."
+    )
+    integration_status = ch46_integration_status_rows()
+    with st.expander("Integration with `pages/6_4_ch4-6.py`", expanded=False):
+        st.caption(
+            "This verifies that the Chapter 4-6 DOCX/graph page is consuming the same saved artifacts that this Action Plan exports."
+        )
+        st.dataframe(integration_status.astype(str), use_container_width=True, hide_index=True, height=180)
+        if integration_status["status"].eq("Done").all():
+            st.success("All Chapter 4-6 resolution artifacts exist and are wired into `6_4_ch4-6.py`.")
+        else:
+            st.warning("Some artifacts are missing or not yet referenced by `6_4_ch4-6.py`. Save artifacts here, then refresh the Ch4-6 page snapshot.")
+
+    policy_options = tone_denominator_policy_options()
+    policy_keys = policy_options["decision"].tolist()
+    current_policy = chapter_decisions.get("missing_tone_policy", "exclude_from_agreement")
+    if current_policy not in policy_keys:
+        current_policy = "exclude_from_agreement"
+    prompt_policy_options = ["retain_as_failed_experiment", "exclude_from_stability_analysis"]
+    current_prompt_policy = chapter_decisions.get("data_md_policy", "retain_as_failed_experiment")
+    if current_prompt_policy not in prompt_policy_options:
+        current_prompt_policy = "retain_as_failed_experiment"
+    greenwashing_policy_options = ["median_primary_log1p_sensitivity", "prototype_metric_acknowledgement", "raw_mean_with_outlier_warning"]
+    current_greenwashing_policy = chapter_decisions.get("greenwashing_policy", "median_primary_log1p_sensitivity")
+    if current_greenwashing_policy not in greenwashing_policy_options:
+        current_greenwashing_policy = "median_primary_log1p_sensitivity"
+
+    decision_cols = st.columns([2, 2, 2, 1])
+    with decision_cols[0]:
+        missing_tone_policy = st.selectbox(
+            "591 missing tone records",
+            policy_keys,
+            index=policy_keys.index(current_policy),
+            format_func=lambda value: {
+                "exclude_from_agreement": "Exclude from agreement (recommended)",
+                "recode_as_none": "Recode as none",
+                "separate_unclassifiable": "Separate unclassifiable category",
+            }.get(value, value),
+            key="ch46_missing_tone_policy",
+        )
+    with decision_cols[1]:
+        data_md_policy = st.selectbox(
+            "data.md prompt outlier",
+            prompt_policy_options,
+            index=prompt_policy_options.index(current_prompt_policy),
+            format_func=lambda value: {
+                "retain_as_failed_experiment": "Keep as failed experiment (recommended)",
+                "exclude_from_stability_analysis": "Exclude from stability analysis",
+            }.get(value, value),
+            key="ch46_data_md_policy",
+        )
+    with decision_cols[2]:
+        greenwashing_policy = st.selectbox(
+            "Greenwashing index framing",
+            greenwashing_policy_options,
+            index=greenwashing_policy_options.index(current_greenwashing_policy),
+            format_func=lambda value: {
+                "median_primary_log1p_sensitivity": "Median primary + log1p sensitivity",
+                "prototype_metric_acknowledgement": "Prototype metric acknowledgement",
+                "raw_mean_with_outlier_warning": "Raw mean with explicit outlier warning",
+            }.get(value, value),
+            key="ch46_greenwashing_policy",
+        )
+    with decision_cols[3]:
+        ontology_top_n = st.number_input(
+            "Top unmapped",
+            min_value=10,
+            max_value=25,
+            value=int(chapter_decisions.get("ontology_top_n", 15) or 15),
+            step=1,
+            key="ch46_ontology_top_n",
+        )
+
+    tone_summary = tone_denominator_summary()
+    tone_audit = build_tone_denominator_audit(missing_tone_policy)
+    baseline_df = climatebert_baseline_table(proxy_summary_file)
+    prompt_outliers = prompt_outlier_table(prompt_stab)
+    greenwashing_summary = greenwashing_summary_table(greenwashing_file)
+    top_unmapped_export = ontology_top_unmapped_table(
+        load(ARTIFACTS / "ontology_coverage_full.csv"),
+        load(NOVEL_ASPECT_REVIEW_PATH),
+        int(ontology_top_n),
+    )
+    benchmark_df = benchmark_gap_table()
+
+    summary_cols = st.columns(6)
+    summary_cols[0].metric("Tone corpus", f"{tone_summary['total']:,}")
+    summary_cols[1].metric("Tone usable", f"{tone_summary['completed']:,}", f"{tone_summary['completion_rate']:.1%}")
+    summary_cols[2].metric("Tone missing", f"{tone_summary['missing']:,}", f"{tone_summary['missing_rate']:.1%}", delta_color="inverse")
+    proxy_stats = proxy_agreement_summary(proxy_summary_file)
+    summary_cols[3].metric("Proxy agreement", pct(proxy_stats["percent_agreement"]))
+    summary_cols[4].metric("Proxy kappa", f"{proxy_stats['cohen_kappa']:.3f}")
+    summary_cols[5].metric("Majority baseline", pct(CLIMATEBERT_MAJORITY_BASELINE))
+
+    tab_ch4, tab_ch5, tab_ch6, tab_export = st.tabs(["Chapter 4", "Chapter 5", "Chapter 6", "Save / export"])
+
+    with tab_ch4:
+        st.markdown("#### Missing-tone denominator decision")
+        st.dataframe(policy_options, use_container_width=True, hide_index=True, height=150)
+        st.dataframe(tone_audit, use_container_width=True, hide_index=True, height=180)
+        st.markdown("**Methodology paragraph**")
+        st.write(methodology_paragraph_for_missing_tone(missing_tone_policy))
+
+        st.markdown("#### ClimateBERT proxy kappa interpretation")
+        st.write(
+            "The 0.645 kappa should be described as agreement between ABSA-derived tone commitment and ClimateBERT climate-commitment labels, "
+            "not as human inter-rater reliability. It is a construct-validity result: the two tools weakly to moderately align because they "
+            "measure adjacent but different properties. ClimateBERT identifies climate-commitment classification, while the ABSA layer asks "
+            "whether a disclosure claim is a commitment, action, outcome, or none. The disagreement is therefore a Chapter 4/5 finding, not just an error."
+        )
+
+        st.markdown("#### A.19 confusion matrix narrative")
+        st.write(a19_confusion_narrative())
+        st.dataframe(
+            pd.DataFrame(
+                [
+                    {"confusion boundary": "outcome -> action", "correct cell": 934, "misclassified cell": 101, "interpretation": "Measured or realized outcomes are sometimes read as activity language."},
+                    {"confusion boundary": "none -> commitment", "correct cell": 1781, "misclassified cell": 223, "interpretation": "Generic sustainability language is sometimes over-read as forward-looking commitment."},
+                ]
+            ),
+            use_container_width=True,
+            hide_index=True,
+            height=120,
+        )
+
+    with tab_ch5:
+        st.markdown("#### data.md prompt outlier")
+        st.dataframe(prompt_outliers, use_container_width=True, hide_index=True, height=240)
+        if data_md_policy == "retain_as_failed_experiment":
+            st.write(
+                "`data.md` should remain in the Chapter 5 validation section as a failed prompt condition. Its 1.000 missing-tone rate shows "
+                "that the evaluation pipeline detected a complete field-level failure, which strengthens the prompt-engineering argument. "
+                "State stability claims on the remaining successful prompt family separately."
+            )
+        else:
+            st.write(
+                "`data.md` should be excluded from the main prompt-stability aggregate and documented as a failed pilot prompt. "
+                "The stability claim must state that it applies after removing this failed condition."
+            )
+
+        st.markdown("#### A.15 ClimateBERT baseline framing")
+        st.dataframe(baseline_df, use_container_width=True, hide_index=True, height=180)
+        st.write(
+            "The honest A.15 framing is that the ABSA pipeline beats the naive majority baseline but not by enough to claim that it simply "
+            "replaces ClimateBERT. The stronger thesis claim is construct complementarity: ClimateBERT and tone-labeled ABSA measure adjacent "
+            "but distinct disclosure properties."
+        )
+
+        st.markdown("#### A.29 greenwashing index")
+        st.dataframe(greenwashing_summary, use_container_width=True, hide_index=True, height=180)
+        st.write(
+            "Report the median as the primary statistic and use a log+1 transformed chart or sensitivity paragraph for the mean. "
+            "A mean around 3,380 against a median of 0.0 across 2,071 records means the prototype index is dominated by extreme outliers, "
+            "so raw bar charts need explicit caveats."
+        )
+
+    with tab_ch6:
+        st.markdown("#### Ontology contribution table")
+        if top_unmapped_export.empty:
+            st.info("No top-unmapped ontology candidate table is available yet. Save A.12 continuation tables first, then return here.")
+        else:
+            st.dataframe(top_unmapped_export, use_container_width=True, hide_index=True, height=360)
+            st.caption(
+                "Use this as the missing A.16 backing table: top unmapped or reviewed aspects with suggested GRI/SASB/TCFD placement."
+            )
+
+        st.markdown("#### Benchmark gap positioning")
+        st.dataframe(benchmark_df, use_container_width=True, hide_index=True, height=260)
+        st.write(
+            "Chapter 6 should position the contribution as the combination these benchmarks do not cover simultaneously: Indonesian-language, "
+            "multi-aspect, tone-labeled sustainability disclosure text. Incomplete benchmark checklist items such as OCR quality, a second "
+            "annotator, and ontology formalization should be framed as concrete future research directions."
+        )
+
+    with tab_export:
+        resolution_rows = pd.DataFrame(
+            [
+                {"chapter": "4", "issue": "591 missing tone records", "decision": missing_tone_policy, "evidence": f"{tone_summary['completed']:,}/{tone_summary['total']:,} usable tone records", "writeup": methodology_paragraph_for_missing_tone(missing_tone_policy)},
+                {"chapter": "4", "issue": "Proxy kappa 0.645", "decision": "frame_as_tone_vs_climatebert_construct_agreement", "evidence": f"agreement={pct(proxy_stats['percent_agreement'])}; kappa={proxy_stats['cohen_kappa']:.3f}", "writeup": "Do not describe as human inter-rater agreement; interpret as ABSA tone vs ClimateBERT climate-commitment agreement."},
+                {"chapter": "4", "issue": "A.19 commitment/action/outcome/none confusion", "decision": "add_narrative_interpretation", "evidence": "outcome correct=934, outcome->action=101, none correct=1,781, none->commitment=223", "writeup": a19_confusion_narrative()},
+                {"chapter": "5", "issue": "data.md missing-tone outlier", "decision": data_md_policy, "evidence": "data.md missing_tone_rate=1.000", "writeup": "Use the outlier as validation evidence for prompt sensitivity, or exclude it only after documenting it as a failed experiment."},
+                {"chapter": "5", "issue": "A.15 ClimateBERT baseline", "decision": "frame_as_adjacent_constructs", "evidence": f"percent agreement={pct(proxy_stats['percent_agreement'])}; kappa={proxy_stats['cohen_kappa']:.3f}; majority baseline={pct(CLIMATEBERT_MAJORITY_BASELINE)}", "writeup": "The pipeline beats the majority baseline but should be argued as complementary to ClimateBERT, not as a replacement."},
+                {"chapter": "5", "issue": "A.29 greenwashing index", "decision": greenwashing_policy, "evidence": "mean=3,380; median=0.0; n=2,071", "writeup": "Use median primary and log+1 sensitivity, or explicitly label the index as a prototype metric dominated by outliers."},
+                {"chapter": "6", "issue": "Ontology contribution", "decision": "add_top_unmapped_mapping_table", "evidence": "52/52 aspects mapped in compact table; 138 novel/unmapped and 194 mapped reported in thesis notes", "writeup": "Use the top 10-15 unmapped aspects table with suggested GRI/SASB/TCFD nodes as A.16 backing evidence."},
+                {"chapter": "6", "issue": "Benchmark gap framing", "decision": "claim_combined_indonesian_multi_aspect_tone_niche", "evidence": "FinBERT, ESG-BERT, SpanEval, ClimateBERT, and GH-ABSA do not cover all target pillars simultaneously.", "writeup": "Frame incomplete benchmark checklist items as future work: OCR quality, second annotator, and ontology formalization."},
+            ]
+        )
+        st.dataframe(resolution_rows, use_container_width=True, hide_index=True, height=320)
+        save_decisions = st.button("Save Chapter 4-6 resolution artifacts", type="primary", use_container_width=True, key="save_ch46_resolution_artifacts")
+        if save_decisions:
+            write_json(
+                CHAPTER_RESOLUTION_PATH,
+                {
+                    "missing_tone_policy": missing_tone_policy,
+                    "data_md_policy": data_md_policy,
+                    "greenwashing_policy": greenwashing_policy,
+                    "ontology_top_n": int(ontology_top_n),
+                    "updated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                },
+            )
+            resolution_rows.to_csv(CHAPTER_RESOLUTION_EXPORT_PATH, index=False)
+            tone_audit.to_csv(CHAPTER_TONE_DENOMINATOR_PATH, index=False)
+            if not top_unmapped_export.empty:
+                top_unmapped_export.to_csv(CHAPTER_ONTOLOGY_TOP_UNMAPPED_PATH, index=False)
+            benchmark_df.to_csv(CHAPTER_BENCHMARK_GAP_PATH, index=False)
+            st.success(
+                "Saved chapter resolution artifacts to `results/revision_analysis`: "
+                "`chapter_4_6_resolution_board.csv`, `chapter4_tone_denominator_audit.csv`, "
+                "`chapter6_top_unmapped_ontology_candidates.csv`, and `chapter6_benchmark_gap_positioning.csv`."
+            )
+        st.download_button(
+            "Download resolution board CSV",
+            resolution_rows.to_csv(index=False).encode("utf-8"),
+            "chapter_4_6_resolution_board.csv",
+            "text/csv",
+            use_container_width=True,
+        )
+
+t2_outputs_for_review = load_ground_truth_t2_outputs_for_a28()
+a28_candidates = a28_general_misc_candidates(t2_outputs_for_review)
+saved_a28_review = load(A28_GENERAL_MISC_REVIEW_PATH)
+a28_review = merge_a28_general_misc_review(a28_candidates, saved_a28_review)
+t2_review_candidates = t2_tone_sentiment_review_candidates(t2_outputs_for_review)
+saved_t2_review = load(T2_TONE_SENTIMENT_REVIEW_PATH)
+t2_tone_sentiment_review = merge_t2_tone_sentiment_review(t2_review_candidates, saved_t2_review)
+
+with st.expander(
+    "A.24-A.28 continuation — Reassess ground_truth.py T2 tone, sentiment, and General -> Misc ontology paths",
+    expanded=not a28_review.empty or not t2_tone_sentiment_review.empty,
+):
+    st.caption(
+        "This panel reads `ground_truth.py` T2 outputs and saves human reassessment rows without overwriting the raw T2 JSON/CSV. "
+        "Saved corrections are stored in `results/revision_analysis` and can be used by refreshed graph attachments."
+    )
+    summary_cols = st.columns(6)
+    summary_cols[0].metric("T2 rows", f"{len(t2_outputs_for_review):,}")
+    summary_cols[1].metric("A.28 General -> Misc rows", f"{len(a28_review):,}")
+    summary_cols[2].metric("A.28 saved reviews", f"{len(saved_a28_review):,}")
+    high_priority_count = (
+        int(t2_tone_sentiment_review["review_priority"].astype(str).eq("high").sum())
+        if not t2_tone_sentiment_review.empty and "review_priority" in t2_tone_sentiment_review.columns
+        else 0
+    )
+    summary_cols[3].metric("Tone/sentiment rows", f"{len(t2_tone_sentiment_review):,}")
+    summary_cols[4].metric("High-priority reassessment", f"{high_priority_count:,}")
+    summary_cols[5].metric("Tone/sentiment saved", f"{len(saved_t2_review):,}")
+
+    tab_tone_sentiment, tab_general_misc, tab_unmapped_topic_mining, tab_corrected_summary = st.tabs(
+        ["Tone + sentiment reassessment", "A.28 General -> Misc relabel", "Unmapped topic mining", "Corrected summaries"]
+    )
+
+    with tab_tone_sentiment:
+        if t2_tone_sentiment_review.empty:
+            st.info("No T2 tone/sentiment rows were found.")
+        else:
+            filter_cols = st.columns([1, 1, 1, 1])
+            with filter_cols[0]:
+                t2_priority_filter = st.multiselect(
+                    "Priority",
+                    ["high", "normal"],
+                    default=["high"],
+                    key="t2_reassess_priority_filter",
+                )
+            with filter_cols[1]:
+                t2_status_filter = st.multiselect(
+                    "Review status",
+                    T2_REVIEW_STATUS_OPTS,
+                    default=["needs_review"],
+                    key="t2_reassess_status_filter",
+                )
+            with filter_cols[2]:
+                t2_current_tone_filter = st.multiselect(
+                    "Current hybrid tone",
+                    sorted(t2_tone_sentiment_review["tone_pred"].astype(str).replace("", "missing").unique().tolist()),
+                    default=[],
+                    key="t2_reassess_tone_filter",
+                )
+            with filter_cols[3]:
+                t2_limit = st.number_input(
+                    "Rows",
+                    min_value=25,
+                    max_value=1000,
+                    value=200,
+                    step=25,
+                    key="t2_reassess_limit",
+                )
+
+            t2_visible = t2_tone_sentiment_review.copy()
+            if t2_priority_filter and "review_priority" in t2_visible.columns:
+                t2_visible = t2_visible[t2_visible["review_priority"].isin(t2_priority_filter)].copy()
+            if t2_status_filter and "review_status" in t2_visible.columns:
+                t2_visible = t2_visible[t2_visible["review_status"].isin(t2_status_filter)].copy()
+            if t2_current_tone_filter and "tone_pred" in t2_visible.columns:
+                tone_lookup = t2_visible["tone_pred"].astype(str).replace("", "missing")
+                t2_visible = t2_visible[tone_lookup.isin(t2_current_tone_filter)].copy()
+            sort_cols = [col for col in ["review_priority", "tone_pred", "sentiment_pred"] if col in t2_visible.columns]
+            if sort_cols:
+                t2_visible = t2_visible.sort_values(sort_cols, ascending=True)
+            t2_visible = t2_visible.head(int(t2_limit))
+            st.caption(
+                "Use `corrected_rule_tone` and `corrected_hybrid_tone` for Commitment, Action, Outcome, or Unknown. "
+                "Use `corrected_sentiment` for Neutral, Positive, or Negative. Leave correction cells blank when the current label is acceptable."
+            )
+            edited_t2_review = st.data_editor(
+                t2_visible,
+                column_config={
+                    "review_id": st.column_config.TextColumn("review_id", disabled=True, width="small"),
+                    "label": st.column_config.TextColumn("label", disabled=True, width="medium"),
+                    "timestamp": st.column_config.TextColumn("timestamp", disabled=True, width="small"),
+                    "rule_tone": st.column_config.TextColumn("rule tone", disabled=True, width="small"),
+                    "tone_pred": st.column_config.TextColumn("hybrid tone", disabled=True, width="small"),
+                    "sentiment_pred": st.column_config.TextColumn("sentiment", disabled=True, width="small"),
+                    "corrected_rule_tone": st.column_config.SelectboxColumn("corrected rule tone", options=T2_TONE_OPTS, width="medium"),
+                    "corrected_hybrid_tone": st.column_config.SelectboxColumn("corrected hybrid tone", options=T2_TONE_OPTS, width="medium"),
+                    "corrected_sentiment": st.column_config.SelectboxColumn("corrected sentiment", options=T2_SENTIMENT_OPTS, width="medium"),
+                    "review_status": st.column_config.SelectboxColumn("status", options=T2_REVIEW_STATUS_OPTS, width="medium"),
+                    "review_priority": st.column_config.TextColumn("priority", disabled=True, width="small"),
+                    "ontology_path": st.column_config.TextColumn("ontology path", disabled=True, width="large"),
+                    "ontology_alignment": st.column_config.NumberColumn("ontology alignment", disabled=True, width="small"),
+                    "greenwashing_index": st.column_config.NumberColumn("greenwashing", disabled=True, width="small"),
+                    "review_notes": st.column_config.TextColumn("notes", width="large"),
+                    "text_for_review": st.column_config.TextColumn("text", disabled=True, width="large"),
+                },
+                hide_index=True,
+                use_container_width=True,
+                height=560,
+                key="t2_tone_sentiment_reassessment_editor",
+            )
+            tone_save_cols = st.columns(3)
+            if tone_save_cols[0].button("Save visible T2 tone/sentiment edits", type="primary", use_container_width=True, key="save_t2_tone_sentiment_review"):
+                existing = load(T2_TONE_SENTIMENT_REVIEW_PATH)
+                combined = pd.concat([existing, edited_t2_review], ignore_index=True, sort=False)
+                if "review_id" in combined.columns:
+                    combined = combined.drop_duplicates("review_id", keep="last")
+                combined.to_csv(T2_TONE_SENTIMENT_REVIEW_PATH, index=False)
+                st.success(f"Saved {len(edited_t2_review):,} T2 reassessment row(s) -> {T2_TONE_SENTIMENT_REVIEW_PATH.name}")
+                st.rerun()
+            if tone_save_cols[1].button("Save all high-priority rows", use_container_width=True, key="save_t2_high_priority_defaults"):
+                high_priority = t2_tone_sentiment_review[
+                    t2_tone_sentiment_review["review_priority"].astype(str).eq("high")
+                ].copy()
+                existing = load(T2_TONE_SENTIMENT_REVIEW_PATH)
+                combined = pd.concat([existing, high_priority], ignore_index=True, sort=False)
+                if "review_id" in combined.columns:
+                    combined = combined.drop_duplicates("review_id", keep="last")
+                combined.to_csv(T2_TONE_SENTIMENT_REVIEW_PATH, index=False)
+                st.success(f"Saved {len(high_priority):,} high-priority T2 reassessment row(s).")
+                st.rerun()
+            tone_save_cols[2].download_button(
+                "Download T2 reassessment",
+                edited_t2_review.to_csv(index=False).encode("utf-8"),
+                "ground_truth_t2_tone_sentiment_review.csv",
+                "text/csv",
+                use_container_width=True,
+            )
+
+    with tab_general_misc:
+        if a28_review.empty:
+            st.info("No exact `General -> Misc` rows were found in the current T2 ontology paths.")
+        else:
+            a28_filter_cols = st.columns([1, 1, 1])
+            with a28_filter_cols[0]:
+                a28_status_filter = st.multiselect(
+                    "Review status",
+                    A28_REVIEW_STATUS_OPTS,
+                    default=["needs_review"],
+                    key="a28_general_misc_status_filter",
+                )
+            with a28_filter_cols[1]:
+                a28_show_filled = st.radio(
+                    "Correction state",
+                    ["Needs path", "Has path", "All"],
+                    horizontal=True,
+                    key="a28_general_misc_correction_state",
+                )
+            with a28_filter_cols[2]:
+                a28_limit = st.number_input(
+                    "Rows",
+                    min_value=25,
+                    max_value=1000,
+                    value=200,
+                    step=25,
+                    key="a28_general_misc_limit",
+                )
+            a28_visible = a28_review.copy()
+            if a28_status_filter and "review_status" in a28_visible.columns:
+                a28_visible = a28_visible[a28_visible["review_status"].isin(a28_status_filter)].copy()
+            has_corrected_path = a28_visible["corrected_ontology_path"].astype(str).str.strip().ne("")
+            if a28_show_filled == "Needs path":
+                a28_visible = a28_visible[~has_corrected_path].copy()
+            elif a28_show_filled == "Has path":
+                a28_visible = a28_visible[has_corrected_path].copy()
+            a28_visible = a28_visible.head(int(a28_limit))
+            st.caption(
+                "Relabel rows where `General -> Misc` is too coarse. Use GRI/SASB/TCFD-style paths or a clear thesis ontology path."
+            )
+            edited_a28 = st.data_editor(
+                a28_visible,
+                column_config={
+                    "review_id": st.column_config.TextColumn("review_id", disabled=True, width="small"),
+                    "label": st.column_config.TextColumn("label", disabled=True, width="medium"),
+                    "timestamp": st.column_config.TextColumn("timestamp", disabled=True, width="small"),
+                    "section": st.column_config.TextColumn("section", disabled=True, width="small"),
+                    "section_type": st.column_config.TextColumn("section type", disabled=True, width="small"),
+                    "rule_aspects": st.column_config.TextColumn("rule aspects", disabled=True, width="medium"),
+                    "tone_pred": st.column_config.TextColumn("tone", disabled=True, width="small"),
+                    "sentiment_pred": st.column_config.TextColumn("sentiment", disabled=True, width="small"),
+                    "ontology_alignment": st.column_config.NumberColumn("alignment", disabled=True, width="small"),
+                    "current_ontology_path": st.column_config.TextColumn("current ontology path", disabled=True, width="large"),
+                    "suggested_aspect": st.column_config.TextColumn("suggested aspect", width="medium"),
+                    "corrected_aspect": st.column_config.TextColumn("corrected aspect", width="medium"),
+                    "corrected_ontology_path": st.column_config.TextColumn("corrected ontology path", width="large"),
+                    "review_status": st.column_config.SelectboxColumn("status", options=A28_REVIEW_STATUS_OPTS, width="medium"),
+                    "review_notes": st.column_config.TextColumn("notes", width="large"),
+                    "text_for_review": st.column_config.TextColumn("text", disabled=True, width="large"),
+                },
+                hide_index=True,
+                use_container_width=True,
+                height=560,
+                key="a28_general_misc_relabel_editor",
+            )
+            a28_save_cols = st.columns(3)
+            if a28_save_cols[0].button("Save visible A.28 relabels", type="primary", use_container_width=True, key="save_a28_general_misc_review"):
+                existing = load(A28_GENERAL_MISC_REVIEW_PATH)
+                combined = pd.concat([existing, edited_a28], ignore_index=True, sort=False)
+                if "review_id" in combined.columns:
+                    combined = combined.drop_duplicates("review_id", keep="last")
+                combined.to_csv(A28_GENERAL_MISC_REVIEW_PATH, index=False)
+                st.success(f"Saved {len(edited_a28):,} A.28 relabel row(s) -> {A28_GENERAL_MISC_REVIEW_PATH.name}")
+                st.rerun()
+            a28_save_cols[1].download_button(
+                "Download A.28 relabels",
+                edited_a28.to_csv(index=False).encode("utf-8"),
+                "ground_truth_a28_general_misc_review.csv",
+                "text/csv",
+                use_container_width=True,
+            )
+            if a28_save_cols[2].button("Save all A.28 candidates", use_container_width=True, key="save_a28_all_candidates"):
+                existing = load(A28_GENERAL_MISC_REVIEW_PATH)
+                combined = pd.concat([existing, a28_review], ignore_index=True, sort=False)
+                if "review_id" in combined.columns:
+                    combined = combined.drop_duplicates("review_id", keep="last")
+                combined.to_csv(A28_GENERAL_MISC_REVIEW_PATH, index=False)
+                st.success(f"Saved {len(a28_review):,} A.28 candidate row(s).")
+                st.rerun()
+
+    with tab_unmapped_topic_mining:
+        t2_unmapped = t2_unmapped_rows(t2_outputs_for_review)
+        mapped_candidates = t2_unmapped_mapping_pipeline(t2_outputs_for_review, full_ontology if 'full_ontology' in locals() else pd.DataFrame())
+        st.caption(
+            "Topic-model unmapped T2 rows to discover vocabulary gaps, then propose add/edit actions for T2 keyword labels."
+        )
+        tm_cols = st.columns([1, 1, 1, 3])
+        with tm_cols[0]:
+            n_topics = st.number_input("Topics", min_value=3, max_value=25, value=8, step=1, key="t2_unmapped_topics_n")
+        with tm_cols[1]:
+            top_terms = st.number_input("Top terms", min_value=5, max_value=30, value=12, step=1, key="t2_unmapped_topics_terms")
+        with tm_cols[2]:
+            min_df = st.number_input("Min DF", min_value=2, max_value=50, value=5, step=1, key="t2_unmapped_topics_min_df")
+
+        st.metric("Unmapped T2 rows", f"{len(t2_unmapped):,}")
+        if not mapped_candidates.empty:
+            mc1, mc2, mc3, mc4 = st.columns(4)
+            mc1.metric("Recovered text rows", f"{int(mapped_candidates['text_for_topic'].astype(str).str.strip().ne('').sum()):,}")
+            mc2.metric("With ontology proposal", f"{int(mapped_candidates['proposed_ontology_path'].astype(str).str.strip().ne('').sum()):,}")
+            mc3.metric("Pattern method", f"{int(mapped_candidates['mapping_method'].astype(str).eq('pattern').sum()):,}")
+            mc4.metric("Embedding fallback", f"{int(mapped_candidates['mapping_method'].astype(str).eq('embedding_fallback').sum()):,}")
+
+        topic_df, topic_rows_df, topic_msg = t2_topic_mining(
+            mapped_candidates if not mapped_candidates.empty else t2_unmapped,
+            n_topics=int(n_topics),
+            top_terms=int(top_terms),
+            min_df=int(min_df),
+        )
+        if topic_msg:
+            st.info(topic_msg)
+        elif topic_df.empty:
+            st.info("No topic output generated.")
+        else:
+            saved_topic_suggestions = load(T2_UNMAPPED_TOPIC_SUGGESTIONS_PATH)
+            if not saved_topic_suggestions.empty and "topic_id" in saved_topic_suggestions.columns:
+                topic_df = topic_df.set_index("topic_id", drop=False)
+                saved_latest = saved_topic_suggestions.drop_duplicates("topic_id", keep="last").set_index("topic_id")
+                shared = topic_df.index.intersection(saved_latest.index)
+                for col in ["proposed_t2_label", "proposed_keywords_csv", "review_status", "review_notes"]:
+                    if col in saved_latest.columns and col in topic_df.columns:
+                        incoming = saved_latest.loc[shared, col].astype(str)
+                        use = incoming.str.strip().ne("")
+                        topic_df.loc[use[use].index, col] = incoming.loc[use]
+                topic_df = topic_df.reset_index(drop=True)
+
+            st.markdown("**Topic summary -> proposed T2 updates**")
+            edited_topics = st.data_editor(
+                topic_df,
+                column_config={
+                    "topic_id": st.column_config.NumberColumn("topic", disabled=True, width="small"),
+                    "support_docs": st.column_config.NumberColumn("support docs", disabled=True, width="small"),
+                    "top_terms": st.column_config.TextColumn("top terms", disabled=True, width="large"),
+                    "proposed_t2_label": st.column_config.TextColumn("proposed T2 label", width="medium"),
+                    "proposed_keywords_csv": st.column_config.TextColumn("proposed keywords (csv)", width="large"),
+                    "review_status": st.column_config.SelectboxColumn(
+                        "status",
+                        options=["needs_review", "candidate", "approved_add", "approved_edit", "reject"],
+                        width="small",
+                    ),
+                    "review_notes": st.column_config.TextColumn("notes", width="large"),
+                },
+                hide_index=True,
+                use_container_width=True,
+                height=360,
+                key="t2_unmapped_topic_editor",
+            )
+            save_topic_cols = st.columns(3)
+            if save_topic_cols[0].button(
+                "Save topic suggestions",
+                type="primary",
+                use_container_width=True,
+                key="save_t2_unmapped_topic_suggestions",
+            ):
+                existing = load(T2_UNMAPPED_TOPIC_SUGGESTIONS_PATH)
+                combined = pd.concat([existing, edited_topics], ignore_index=True, sort=False)
+                if "topic_id" in combined.columns:
+                    combined = combined.drop_duplicates("topic_id", keep="last")
+                combined.to_csv(T2_UNMAPPED_TOPIC_SUGGESTIONS_PATH, index=False)
+                st.success(
+                    f"Saved {len(edited_topics):,} topic suggestion row(s) -> {T2_UNMAPPED_TOPIC_SUGGESTIONS_PATH.name}"
+                )
+            save_topic_cols[1].download_button(
+                "Download topic suggestions",
+                edited_topics.to_csv(index=False).encode("utf-8"),
+                "ground_truth_t2_unmapped_topic_suggestions.csv",
+                "text/csv",
+                use_container_width=True,
+            )
+            save_topic_cols[2].download_button(
+                "Download topic-assigned rows",
+                topic_rows_df.to_csv(index=False).encode("utf-8"),
+                "ground_truth_t2_unmapped_topic_rows.csv",
+                "text/csv",
+                use_container_width=True,
+            )
+            st.markdown("**Topic-assigned unmapped rows (sample)**")
+            st.dataframe(
+                topic_rows_df.sort_values(["topic_id", "topic_confidence"], ascending=[True, False]).head(300),
+                use_container_width=True,
+                hide_index=True,
+                height=360,
+            )
+            st.warning(
+                "Use approved topic suggestions to update T2 keyword dictionaries manually, then rerun T2 and compare unmapped rates before/after."
+            )
+        st.markdown("**Auto-suggested reassessment candidates (ontology + tone + sentiment)**")
+        if mapped_candidates.empty:
+            st.info("No unmapped mapping candidates available.")
+        else:
+            saved_map = load(T2_UNMAPPED_MAPPING_CANDIDATES_PATH)
+            table = mapped_candidates.copy()
+            if not saved_map.empty and "review_id" in saved_map.columns:
+                latest = saved_map.drop_duplicates("review_id", keep="last").set_index("review_id")
+                table = table.set_index("review_id", drop=False)
+                shared = table.index.intersection(latest.index)
+                for col in [
+                    "proposed_ontology_path",
+                    "proposed_t2_label",
+                    "suggested_rule_tone",
+                    "suggested_hybrid_tone",
+                    "suggested_sentiment",
+                    "review_status",
+                    "review_notes",
+                ]:
+                    if col in latest.columns and col in table.columns:
+                        incoming = latest.loc[shared, col].astype(str)
+                        use = incoming.str.strip().ne("")
+                        table.loc[use[use].index, col] = incoming.loc[use]
+                table = table.reset_index(drop=True)
+            table = table.sort_values(["mapping_confidence"], ascending=False)
+            edit_cols = [
+                c
+                for c in [
+                    "review_id",
+                    "label",
+                    "timestamp",
+                    "tone_pred",
+                    "sentiment_pred",
+                    "ontology_path",
+                    "mapping_method",
+                    "mapping_confidence",
+                    "proposed_ontology_path",
+                    "proposed_t2_label",
+                    "suggested_rule_tone",
+                    "suggested_hybrid_tone",
+                    "suggested_sentiment",
+                    "review_status",
+                    "review_notes",
+                    "text_for_topic",
+                ]
+                if c in table.columns
+            ]
+            edited_map = st.data_editor(
+                table[edit_cols].head(600),
+                column_config={
+                    "review_id": st.column_config.TextColumn("review_id", disabled=True, width="small"),
+                    "label": st.column_config.TextColumn("label", disabled=True, width="medium"),
+                    "tone_pred": st.column_config.TextColumn("current hybrid tone", disabled=True, width="small"),
+                    "sentiment_pred": st.column_config.TextColumn("current sentiment", disabled=True, width="small"),
+                    "ontology_path": st.column_config.TextColumn("current ontology path", disabled=True, width="large"),
+                    "mapping_method": st.column_config.TextColumn("mapping method", disabled=True, width="small"),
+                    "mapping_confidence": st.column_config.NumberColumn("confidence", disabled=True, width="small"),
+                    "proposed_ontology_path": st.column_config.TextColumn("proposed ontology path", width="large"),
+                    "proposed_t2_label": st.column_config.TextColumn("proposed T2 label", width="medium"),
+                    "suggested_rule_tone": st.column_config.SelectboxColumn("suggested rule tone", options=T2_TONE_OPTS, width="small"),
+                    "suggested_hybrid_tone": st.column_config.SelectboxColumn("suggested hybrid tone", options=T2_TONE_OPTS, width="small"),
+                    "suggested_sentiment": st.column_config.SelectboxColumn("suggested sentiment", options=T2_SENTIMENT_OPTS, width="small"),
+                    "review_status": st.column_config.SelectboxColumn(
+                        "status",
+                        options=["needs_review", "candidate", "approved", "rejected"],
+                        width="small",
+                    ),
+                    "review_notes": st.column_config.TextColumn("notes", width="large"),
+                    "text_for_topic": st.column_config.TextColumn("text", disabled=True, width="large"),
+                },
+                hide_index=True,
+                use_container_width=True,
+                height=520,
+                key="t2_unmapped_mapping_editor",
+            )
+            map_save_cols = st.columns(3)
+            if map_save_cols[0].button(
+                "Save reassessment candidates",
+                type="primary",
+                use_container_width=True,
+                key="save_t2_unmapped_mapping_candidates",
+            ):
+                existing = load(T2_UNMAPPED_MAPPING_CANDIDATES_PATH)
+                combined = pd.concat([existing, edited_map], ignore_index=True, sort=False)
+                if "review_id" in combined.columns:
+                    combined = combined.drop_duplicates("review_id", keep="last")
+                combined.to_csv(T2_UNMAPPED_MAPPING_CANDIDATES_PATH, index=False)
+                st.success(
+                    f"Saved {len(edited_map):,} reassessment candidate row(s) -> {T2_UNMAPPED_MAPPING_CANDIDATES_PATH.name}"
+                )
+            map_save_cols[1].download_button(
+                "Download reassessment candidates",
+                edited_map.to_csv(index=False).encode("utf-8"),
+                "ground_truth_t2_unmapped_mapping_candidates.csv",
+                "text/csv",
+                use_container_width=True,
+            )
+            approved = edited_map[
+                edited_map["review_status"].astype(str).isin(["approved"])
+            ].copy() if "review_status" in edited_map.columns else pd.DataFrame()
+            map_save_cols[2].download_button(
+                "Download approved-only",
+                approved.to_csv(index=False).encode("utf-8"),
+                "ground_truth_t2_unmapped_mapping_candidates_approved.csv",
+                "text/csv",
+                use_container_width=True,
+            )
+
+    with tab_corrected_summary:
+        corrected_t2 = apply_t2_review_corrections(t2_outputs_for_review, load(T2_TONE_SENTIMENT_REVIEW_PATH))
+        summary_left, summary_right = st.columns(2)
+        with summary_left:
+            st.markdown("**Saved T2 reassessment summary**")
+            st.dataframe(t2_review_summary(load(T2_TONE_SENTIMENT_REVIEW_PATH)), use_container_width=True, hide_index=True, height=220)
+            if not corrected_t2.empty:
+                for col, title in [
+                    ("rule_tone", "Corrected rule tone"),
+                    ("tone_pred", "Corrected hybrid tone"),
+                    ("sentiment_pred", "Corrected sentiment"),
+                ]:
+                    if col in corrected_t2.columns:
+                        counts = corrected_t2[col].astype(str).replace("", "Unclassified / Unknown").value_counts().rename_axis(title).reset_index(name="records")
+                        st.dataframe(counts, use_container_width=True, hide_index=True, height=180)
+        with summary_right:
+            st.markdown("**Saved A.28 relabel summary**")
+            st.dataframe(a28_review_summary(load(A28_GENERAL_MISC_REVIEW_PATH)), use_container_width=True, hide_index=True, height=220)
+            if not load(A28_GENERAL_MISC_REVIEW_PATH).empty:
+                corrected_paths = load(A28_GENERAL_MISC_REVIEW_PATH)
+                path_col = "corrected_ontology_path"
+                if path_col in corrected_paths.columns:
+                    path_counts = (
+                        corrected_paths[path_col]
+                        .astype(str)
+                        .str.strip()
+                        .replace("", "not corrected")
+                        .value_counts()
+                        .rename_axis("corrected ontology path")
+                        .reset_index(name="records")
+                        .head(30)
+                    )
+                    st.dataframe(path_counts, use_container_width=True, hide_index=True, height=360)
+        st.info(
+            "After saving corrections, refresh the Chapter 4-6 graph attachments or rerun the graph page to regenerate A.24, A.25, A.26, and A.28 from the corrected review artifacts."
+        )
+
+legacy_a4 = climatebert_a4_legacy_summary()
+full_a4 = climatebert_tone_crosstab(imported)
+binary_a4 = climatebert_commitment_crosstab(imported)
+a4_work = climatebert_a4_work_items(silver, imported)
+a4_model_summary = climatebert_model_summary(imported)
+a4_label_col = climatebert_label_column(imported)
+a4_model_label_inventory = climatebert_model_label_inventory()
+a4_labels = []
+if a4_label_col and a4_label_col in imported.columns:
+    a4_labels = sorted(imported[a4_label_col].astype(str).str.strip().replace("", pd.NA).dropna().unique().tolist())
+
+with st.expander("A.4 continuation — Tone by ClimateBERT label", expanded=legacy_a4["label_assignments"] < cb_real):
+    st.caption(
+        "A.4 currently points to the older `results/visualizations/tone_climatebert_label_crosstab.csv`. "
+        "That file is based on the compact visualization snapshot and counts exploded label assignments, "
+        "so its total can be larger than 332 but smaller than the full Action Plan corpus."
+    )
+    a4_cols = st.columns(4)
+    a4_cols[0].metric("Legacy A.4 exploded label-cell count", f"{legacy_a4['label_assignments']:,}")
+    a4_cols[1].metric("Legacy compact tone rows", f"{legacy_a4['rows']:,}")
+    a4_cols[2].metric("Full corpus rows (Action Plan)", f"{cb_target_total:,}")
+    a4_cols[3].metric("Current ClimateBERT predictions", f"{cb_real:,}/{cb_target_total:,}")
+    st.warning(
+        "A.4 denominator clarification: `Legacy A.4 exploded label-cell count` and `Full corpus rows` are different units and must not be compared directly."
+    )
+    local_label_count = int(a4_model_label_inventory["label"].nunique()) if not a4_model_label_inventory.empty and "label" in a4_model_label_inventory.columns else 0
+    st.caption(
+        f"Local model inventory: `{ROOT_MODELS_DIR}` contains "
+        f"{a4_model_label_inventory['model'].nunique() if not a4_model_label_inventory.empty and 'model' in a4_model_label_inventory.columns else 0:,} "
+        f"config-backed model folder(s) and {local_label_count:,} distinct documented label value(s)."
+    )
+
+    with st.expander("Definitions and table logic", expanded=True):
+        st.caption(
+            "A.4 currently combines labels from different ClimateBERT-style model families. "
+            "The first table defines observed A.4 labels; the local inventory below documents every label map found in `model_download/models`."
+        )
+        st.dataframe(
+            climatebert_label_definitions(a4_labels),
+            use_container_width=True,
+            hide_index=True,
+            height=240,
+        )
+        if a4_model_label_inventory.empty:
+            st.info(f"No local model labels found at `{ROOT_MODELS_DIR}`.")
+        else:
+            st.markdown("**Local `model_download/models` label inventory**")
+            st.dataframe(
+                a4_model_label_inventory,
+                use_container_width=True,
+                hide_index=True,
+                height=360,
+            )
+            generic = a4_model_label_inventory[
+                a4_model_label_inventory["label"].astype(str).str.startswith("LABEL_")
+                | a4_model_label_inventory["label"].astype(str).eq("No classification labels in local config")
+            ]
+            if not generic.empty:
+                st.warning(
+                    "Some local models expose generic `LABEL_*` values or no classification label map in `config.json`. "
+                    "Keep those out of A.4 interpretation until their semantic mapping is manually confirmed."
+                )
+        st.markdown("**How A.4 is computed**")
+        st.dataframe(
+            climatebert_a4_logic_rows(a4_label_col),
+            use_container_width=True,
+            hide_index=True,
+            height=220,
+        )
+        st.warning(
+            "Do not read `Brown Projects`, `Misinformation`, or `Ambiguous Actions` as the negative side of the commitment model. "
+            "They come from a controversy classifier, while `yes/no` comes from the binary commitment classifier."
+        )
+
+    st.markdown("**Work to continue**")
+    st.dataframe(a4_work, use_container_width=True, hide_index=True, height=220)
+
+    tab_full, tab_binary, tab_models, tab_inventory = st.tabs(["Full label table", "Binary commitment table", "Model/job check", "Local label inventory"])
+    with tab_full:
+        if full_a4.empty:
+            st.info("No full ClimateBERT label table can be built yet. Import ClimateBERT outputs with a label column first.")
+        else:
+            st.dataframe(full_a4, use_container_width=True, hide_index=True, height=260)
+            label_cols = [c for c in full_a4.columns if c != "tone"]
+            long_full = full_a4.melt("tone", value_vars=label_cols, var_name="climatebert_label", value_name="records")
+            chart = (
+                alt.Chart(long_full)
+                .mark_rect()
+                .encode(
+                    x=alt.X("climatebert_label:N", title="ClimateBERT label"),
+                    y=alt.Y("tone:N", title="Tone"),
+                    color=alt.Color("records:Q", scale=alt.Scale(scheme="tealblues")),
+                    tooltip=["tone", "climatebert_label", "records"],
+                )
+                .properties(height=260)
+            )
+            labels = alt.Chart(long_full).mark_text(fontSize=11).encode(
+                x="climatebert_label:N",
+                y="tone:N",
+                text="records:Q",
+                color=alt.condition(alt.datum.records > long_full["records"].max() * 0.55, alt.value("white"), alt.value("#1f2937")),
+            )
+            st.altair_chart(chart + labels, use_container_width=True)
+    with tab_binary:
+        if binary_a4.empty:
+            st.info("No binary commitment crosstab can be built yet.")
+        else:
+            st.dataframe(binary_a4, use_container_width=True, hide_index=True, height=220)
+            bin_cols = [c for c in binary_a4.columns if c != "tone"]
+            long_binary = binary_a4.melt("tone", value_vars=bin_cols, var_name="climatebert_commitment", value_name="records")
+            bar = (
+                alt.Chart(long_binary)
+                .mark_bar()
+                .encode(
+                    x=alt.X("records:Q", title="Records"),
+                    y=alt.Y("tone:N", title="Tone", sort="-x"),
+                    color=alt.Color("climatebert_commitment:N", title="ClimateBERT"),
+                    tooltip=["tone", "climatebert_commitment", "records"],
+                )
+                .properties(height=260)
+            )
+            st.altair_chart(bar, use_container_width=True)
+    with tab_models:
+        if a4_model_summary.empty:
+            st.info("No ClimateBERT model metadata found in the imported output.")
+        else:
+            st.dataframe(a4_model_summary, use_container_width=True, hide_index=True, height=260)
+            st.warning(
+                "Review this before promoting the full table to the thesis figure. "
+                "Some current rows may come from non-commitment ClimateBERT classifiers, so their labels should not be mixed with binary commitment agreement."
+            )
+    with tab_inventory:
+        if a4_model_label_inventory.empty:
+            st.info(f"No local model labels found at `{ROOT_MODELS_DIR}`.")
+        else:
+            family_counts = (
+                a4_model_label_inventory.groupby(["model family"], dropna=False)
+                .agg(models=("model", "nunique"), label_rows=("label", "size"), labels=("label", lambda s: ", ".join(sorted({str(v) for v in s})[:12])))
+                .reset_index()
+                .sort_values(["models", "label_rows"], ascending=False)
+            )
+            st.dataframe(family_counts, use_container_width=True, hide_index=True, height=260)
+            st.dataframe(a4_model_label_inventory, use_container_width=True, hide_index=True, height=360)
+            st.download_button(
+                "Download local ClimateBERT-style label inventory",
+                a4_model_label_inventory.to_csv(index=False).encode("utf-8"),
+                "climatebert_model_download_label_inventory.csv",
+                "text/csv",
+                use_container_width=True,
+            )
+
+    save_cols = st.columns(3)
+    if save_cols[0].button("Save A.4 continuation tables", type="primary", use_container_width=True, key="save_a4_continuation"):
+        if not full_a4.empty:
+            full_a4.to_csv(VIS / "tone_climatebert_label_crosstab_full.csv", index=False)
+        if not binary_a4.empty:
+            binary_a4.to_csv(VIS / "tone_climatebert_commitment_crosstab_full.csv", index=False)
+        a4_work.to_csv(ARTIFACTS / "climatebert_a4_continuation_worklist.csv", index=False)
+        if not a4_model_label_inventory.empty:
+            a4_model_label_inventory.to_csv(ARTIFACTS / "climatebert_model_download_label_inventory.csv", index=False)
+        st.success(
+            "Saved full A.4 continuation artifacts: "
+            "`tone_climatebert_label_crosstab_full.csv`, "
+            "`tone_climatebert_commitment_crosstab_full.csv`, and "
+            "`climatebert_a4_continuation_worklist.csv`. "
+            "The local model label inventory is saved as `climatebert_model_download_label_inventory.csv` when labels are found."
+        )
+    save_cols[1].download_button(
+        "Download worklist CSV",
+        a4_work.to_csv(index=False).encode("utf-8"),
+        "climatebert_a4_continuation_worklist.csv",
+        "text/csv",
+        use_container_width=True,
+    )
+    if not full_a4.empty:
+        save_cols[2].download_button(
+            "Download full A.4 table",
+            full_a4.to_csv(index=False).encode("utf-8"),
+            "tone_climatebert_label_crosstab_full.csv",
+            "text/csv",
+            use_container_width=True,
+        )
+
+full_ontology = build_full_ontology_coverage(annot if not annot.empty else silver)
+a12_summary = ontology_a12_summary(ontology, full_ontology, len(annot if not annot.empty else silver))
+a12_breakdown = ontology_a12_breakdown(full_ontology)
+a12_work = ontology_a12_work_items(ontology, full_ontology, len(annot if not annot.empty else silver))
+
+with st.expander("A.12 continuation — Ontology mapped vs novel aspects", expanded=a12_summary["legacy_records"] < a12_summary["corpus_rows"]):
+    st.caption(
+        "A.12 currently uses `results/revision_analysis/ontology_coverage.csv`. "
+        "That file is a unique-aspect coverage table from the compact legacy evidence snapshot: "
+        "its `records` values sum to the old denominator, not the current Action Plan corpus."
+    )
+    a12_cols = st.columns(4)
+    a12_cols[0].metric("Legacy covered records", f"{a12_summary['legacy_records']:,}")
+    a12_cols[1].metric("Legacy aspect rows", f"{a12_summary['legacy_aspects']:,}")
+    a12_cols[2].metric("Full covered records", f"{a12_summary['full_records']:,}/{a12_summary['corpus_rows']:,}")
+    a12_cols[3].metric("Full unique aspects", f"{a12_summary['full_aspects']:,}")
+    st.warning(
+        "A.12 clarification: placeholders (`missing`, `none`, `unknown`, etc.) are tracked separately from substantive novel aspects."
+    )
+    b1, b2, b3 = st.columns(3)
+    b1.metric(
+        "Mapped (full)",
+        f"{a12_breakdown['mapped_aspects']:,} aspects",
+        delta=f"{a12_breakdown['mapped_records']:,} records",
+    )
+    b2.metric(
+        "Substantive novel (full)",
+        f"{a12_breakdown['substantive_novel_aspects']:,} aspects",
+        delta=f"{a12_breakdown['substantive_novel_records']:,} records",
+    )
+    b3.metric(
+        "Placeholders (full)",
+        f"{a12_breakdown['placeholder_aspects']:,} aspects",
+        delta=f"{a12_breakdown['placeholder_records']:,} records",
+    )
+
+    st.markdown("**Work to continue**")
+    st.dataframe(a12_work, use_container_width=True, hide_index=True, height=220)
+
+    tab_full_ontology, tab_unmapped, tab_legacy_ontology = st.tabs(["Full ontology table", "High-frequency novel aspects", "Legacy A.12 table"])
+    with tab_full_ontology:
+        if full_ontology.empty:
+            st.info("No full ontology continuation table can be built yet.")
+        else:
+            st.dataframe(full_ontology, use_container_width=True, hide_index=True, height=300)
+            plot = full_ontology.copy()
+            plot["mapped"] = "substantive novel / needs review"
+            mapped_mask = ontology_bool(plot["mapped_to_ontology"])
+            placeholder_mask = is_missing_aspect_series(plot["aspect"])
+            plot.loc[mapped_mask, "mapped"] = "mapped"
+            plot.loc[placeholder_mask, "mapped"] = "placeholder / missing label"
+            summary_plot = plot.groupby("mapped", dropna=False)["records"].sum().reset_index()
+            chart = (
+                alt.Chart(summary_plot)
+                .mark_bar()
+                .encode(
+                    x=alt.X("records:Q", title="Record assignments"),
+                    y=alt.Y("mapped:N", title=None),
+                    color=alt.Color("mapped:N", legend=None),
+                    tooltip=["mapped", "records"],
+                )
+                .properties(height=160)
+            )
+            st.altair_chart(chart, use_container_width=True)
+    with tab_unmapped:
+        if full_ontology.empty:
+            st.info("No unmapped aspect table available yet.")
+        else:
+            unmapped_full = full_ontology[~ontology_bool(full_ontology["mapped_to_ontology"])].copy()
+            saved_novel_review = load(NOVEL_ASPECT_REVIEW_PATH)
+            novel_review = build_novel_aspect_review_table(unmapped_full, saved_novel_review)
+            st.caption(
+                "These are candidates for ontology extension. Review high-frequency rows first, and keep placeholders like `missing` separate from real ESG concepts."
+            )
+            if novel_review.empty:
+                st.info("No novel aspect rows are available for editing.")
+            else:
+                review_counts = novel_review["review_status"].value_counts().to_dict() if "review_status" in novel_review.columns else {}
+                cluster_filled = int(novel_review["reviewed_cluster"].astype(str).str.strip().ne("").sum()) if "reviewed_cluster" in novel_review.columns else 0
+                path_filled = int(novel_review["ontology_path"].astype(str).str.strip().ne("").sum()) if "ontology_path" in novel_review.columns else 0
+                notes_filled = int(novel_review["thesis_note"].astype(str).str.strip().ne("").sum()) if "thesis_note" in novel_review.columns else 0
+                novel_cols = st.columns(7)
+                novel_cols[0].metric("Novel rows", f"{len(novel_review):,}")
+                novel_cols[1].metric("Confirmed", f"{review_counts.get('confirmed_novel', 0):,}")
+                novel_cols[2].metric("Mapped existing", f"{review_counts.get('mapped_existing', 0):,}")
+                novel_cols[3].metric("Still needs review", f"{review_counts.get('needs_review', 0):,}")
+                novel_cols[4].metric("Cluster filled", f"{cluster_filled:,}")
+                novel_cols[5].metric("Path filled", f"{path_filled:,}")
+                novel_cols[6].metric("Notes filled", f"{notes_filled:,}")
+                st.caption(
+                    "`Confirmed` and `Mapped existing` count only rows where `review_status` is set to "
+                    "`confirmed_novel` or `mapped_existing`. Cluster, ontology path, and thesis notes are tracked separately."
+                )
+
+                filter_left, filter_mid, filter_right = st.columns([2, 1, 1])
+                with filter_left:
+                    status_filter = st.multiselect(
+                        "Review status",
+                        NOVEL_ASPECT_STATUS_OPTS,
+                        default=["needs_review", "confirmed_novel"],
+                        key="a12_novel_status_filter",
+                    )
+                with filter_mid:
+                    table_scope = st.radio(
+                        "Table rows",
+                        ["Top N", "All"],
+                        horizontal=True,
+                        key="a12_novel_table_scope",
+                    )
+                with filter_right:
+                    top_novel_rows = st.number_input(
+                        "Top N",
+                        min_value=10,
+                        max_value=500,
+                        value=100,
+                        step=10,
+                        disabled=table_scope == "All",
+                        key="a12_novel_rows_limit",
+                    )
+
+                visible_novel = novel_review.copy()
+                if status_filter and "review_status" in visible_novel.columns:
+                    visible_novel = visible_novel[visible_novel["review_status"].isin(status_filter)].copy()
+                visible_novel = visible_novel.sort_values("records", ascending=False)
+                if table_scope == "Top N":
+                    visible_novel = visible_novel.head(int(top_novel_rows))
+                st.caption(f"Showing {len(visible_novel):,} of {len(novel_review):,} novel aspect row(s) in the editable table.")
+                st.caption("Reviewed cluster options: " + ", ".join(CLUSTER_NAMES))
+
+                edited_novel = st.data_editor(
+                    visible_novel,
+                    column_config={
+                        "aspect": st.column_config.TextColumn("aspect", disabled=True, width="large"),
+                        "records": st.column_config.NumberColumn("records", disabled=True, width="small"),
+                        "review_status": st.column_config.SelectboxColumn("status", options=NOVEL_ASPECT_STATUS_OPTS, width="medium"),
+                        "canonical_aspect": st.column_config.TextColumn("canonical aspect", width="large"),
+                        "suggested_cluster": st.column_config.TextColumn("suggested cluster", disabled=True, width="medium"),
+                        "reviewed_cluster": st.column_config.SelectboxColumn("reviewed cluster", options=[""] + CLUSTER_NAMES, width="medium"),
+                        "suggested_path": st.column_config.TextColumn("suggested path", disabled=True, width="large"),
+                        "ontology_path": st.column_config.TextColumn("ontology path", width="large"),
+                        "thesis_note": st.column_config.TextColumn("thesis note", width="large"),
+                    },
+                    hide_index=True,
+                    use_container_width=True,
+                    height=700 if table_scope == "All" else 420,
+                    key="a12_high_frequency_novel_aspect_editor",
+                )
+
+                edit_actions = st.columns(3)
+                if edit_actions[0].button("Save visible novel aspect edits", type="primary", use_container_width=True, key="save_a12_novel_aspects"):
+                    existing = load(NOVEL_ASPECT_REVIEW_PATH)
+                    combined = pd.concat([existing, edited_novel], ignore_index=True, sort=False)
+                    if "aspect" in combined.columns:
+                        combined = combined.drop_duplicates("aspect", keep="last")
+                    combined.to_csv(NOVEL_ASPECT_REVIEW_PATH, index=False)
+                    st.success(f"Saved {len(edited_novel):,} novel aspect review row(s) -> {NOVEL_ASPECT_REVIEW_PATH.name}")
+                    st.rerun()
+                if edit_actions[1].button("Save all auto-suggestions", use_container_width=True, key="save_a12_all_novel_auto"):
+                    auto = novel_review.copy()
+                    existing = load(NOVEL_ASPECT_REVIEW_PATH)
+                    combined = pd.concat([existing, auto], ignore_index=True, sort=False)
+                    if "aspect" in combined.columns:
+                        combined = combined.drop_duplicates("aspect", keep="last")
+                    combined.to_csv(NOVEL_ASPECT_REVIEW_PATH, index=False)
+                    st.success(f"Saved {len(auto):,} auto-filled novel aspect review row(s) -> {NOVEL_ASPECT_REVIEW_PATH.name}")
+                    st.rerun()
+                edit_actions[2].download_button(
+                    "Download edited novel aspects",
+                    edited_novel.to_csv(index=False).encode("utf-8"),
+                    "ontology_novel_aspect_review.csv",
+                    "text/csv",
+                    use_container_width=True,
+                )
+
+                chart_left, chart_right = st.columns([1, 1])
+                with chart_left:
+                    chart_scope = st.radio(
+                        "Chart rows",
+                        ["Top 20", "All visible table rows"],
+                        horizontal=True,
+                        key="a12_novel_chart_scope",
+                    )
+                with chart_right:
+                    color_by_status = st.checkbox(
+                        "Color by status",
+                        value=True,
+                        key="a12_novel_chart_color_status",
+                    )
+
+                chart_source = edited_novel.copy()
+                if "canonical_aspect" in chart_source.columns:
+                    chart_source["display_aspect"] = chart_source["canonical_aspect"].astype(str).str.strip()
+                    chart_source.loc[chart_source["display_aspect"].eq(""), "display_aspect"] = chart_source["aspect"]
+                else:
+                    chart_source["display_aspect"] = chart_source["aspect"]
+                top = chart_source.sort_values("records", ascending=False)
+                if chart_scope == "Top 20":
+                    top = top.head(20)
+                chart_encoding = {
+                    "x": alt.X("records:Q", title="Records"),
+                    "y": alt.Y("display_aspect:N", sort="-x", title=None),
+                    "tooltip": [
+                        alt.Tooltip("aspect:N", title="original aspect"),
+                        alt.Tooltip("display_aspect:N", title="canonical aspect"),
+                        alt.Tooltip("records:Q"),
+                        alt.Tooltip("review_status:N", title="status"),
+                        alt.Tooltip("ontology_path:N", title="ontology path"),
+                    ],
+                }
+                if color_by_status:
+                    chart_encoding["color"] = alt.Color("review_status:N", title="Status")
+                    bar = alt.Chart(top).mark_bar().encode(**chart_encoding)
+                else:
+                    bar = alt.Chart(top).mark_bar(color="#2f6f73").encode(**chart_encoding)
+                bar = bar.properties(height=min(1200, max(180, len(top) * 24)))
+                st.altair_chart(bar, use_container_width=True)
+    with tab_legacy_ontology:
+        if ontology.empty:
+            st.info("No legacy ontology coverage table found.")
+        else:
+            st.dataframe(ontology, use_container_width=True, hide_index=True, height=300)
+
+    save_a12_cols = st.columns(3)
+    if save_a12_cols[0].button("Save A.12 continuation tables", type="primary", use_container_width=True, key="save_a12_continuation"):
+        if not full_ontology.empty:
+            full_ontology.to_csv(ARTIFACTS / "ontology_coverage_full.csv", index=False)
+            unmapped_full = full_ontology[~ontology_bool(full_ontology["mapped_to_ontology"])].copy()
+            novel_review = build_novel_aspect_review_table(unmapped_full, load(NOVEL_ASPECT_REVIEW_PATH))
+            if not novel_review.empty:
+                novel_review.to_csv(NOVEL_ASPECT_REVIEW_PATH, index=False)
+        a12_work.to_csv(ARTIFACTS / "ontology_a12_continuation_worklist.csv", index=False)
+        st.success(
+            "Saved A.12 continuation artifacts: "
+            "`ontology_coverage_full.csv`, `ontology_novel_aspect_review.csv`, "
+            "and `ontology_a12_continuation_worklist.csv`."
+        )
+    save_a12_cols[1].download_button(
+        "Download A.12 worklist",
+        a12_work.to_csv(index=False).encode("utf-8"),
+        "ontology_a12_continuation_worklist.csv",
+        "text/csv",
+        use_container_width=True,
+    )
+    if not full_ontology.empty:
+        save_a12_cols[2].download_button(
+            "Download full ontology table",
+            full_ontology.to_csv(index=False).encode("utf-8"),
+            "ontology_coverage_full.csv",
+            "text/csv",
+            use_container_width=True,
+        )
+
+missing_aspect_candidates = ontology_missing_aspect_records(annot if not annot.empty else silver)
+saved_missing_labels = load(ONTOLOGY_MISSING_LABELS_PATH)
+missing_aspect_review = merge_saved_missing_aspect_labels(missing_aspect_candidates, saved_missing_labels)
+missing_label_done = (
+    int(missing_aspect_review["corrected_aspect_label"].astype(str).str.strip().ne("").sum())
+    if not missing_aspect_review.empty and "corrected_aspect_label" in missing_aspect_review.columns
+    else 0
+)
+
+with st.expander("A.16 continuation — Label missing ontology-extension data", expanded=not missing_aspect_review.empty and missing_label_done < len(missing_aspect_review)):
+    st.caption(
+        "A.16 should describe ontology-extension candidates, not placeholder values. "
+        "Use this panel to label records where the aspect is blank, `missing`, `none`, or otherwise not a substantive ESG concept."
+    )
+    a16_cols = st.columns(4)
+    a16_cols[0].metric("Rows needing aspect review", f"{len(missing_aspect_review):,}")
+    a16_cols[1].metric("Corrected labels saved", f"{missing_label_done:,}")
+    a16_cols[2].metric("Saved label file rows", f"{len(saved_missing_labels):,}")
+    a16_cols[3].metric("Remaining", f"{max(len(missing_aspect_review) - missing_label_done, 0):,}")
+
+    if missing_aspect_review.empty:
+        st.success("No missing or placeholder aspect rows were detected in the current annotation/silver table.")
+    else:
+        row_view = st.radio(
+            "Rows to show",
+            ["Needs label", "Labelled", "All"],
+            horizontal=True,
+            key="a16_missing_rows_view",
+        )
+        review_table = missing_aspect_review.copy()
+        has_label = review_table["corrected_aspect_label"].astype(str).str.strip().ne("")
+        if row_view == "Needs label":
+            review_table = review_table[~has_label].copy()
+        elif row_view == "Labelled":
+            review_table = review_table[has_label].copy()
+        review_table = review_table.head(250)
+
+        edit_cols = [
+            "record_id",
+            "company",
+            "tone_pred",
+            "ground_truth_esg",
+            "esg",
+            "current_ground_truth_aspect",
+            "pipeline_aspect",
+            "suggested_aspect_label",
+            "corrected_aspect_label",
+            "suggested_cluster",
+            "suggested_ontology_path",
+            "ontology_extension_status",
+            "missing_reason",
+            "review_notes",
+            "text",
+        ]
+        st.caption(
+            f"Showing {len(review_table):,} row(s). Fill `corrected_aspect_label`; set status to `labelled` when ready."
+        )
+        edited_missing = st.data_editor(
+            review_table[[col for col in edit_cols if col in review_table.columns]],
+            column_config={
+                "record_id": st.column_config.TextColumn("record_id", disabled=True, width="small"),
+                "company": st.column_config.TextColumn("company", disabled=True, width="small"),
+                "tone_pred": st.column_config.TextColumn("tone", disabled=True, width="small"),
+                "ground_truth_esg": st.column_config.TextColumn("GT ESG", disabled=True, width="small"),
+                "esg": st.column_config.TextColumn("pipeline ESG", disabled=True, width="small"),
+                "current_ground_truth_aspect": st.column_config.TextColumn("current GT aspect", disabled=True, width="medium"),
+                "pipeline_aspect": st.column_config.TextColumn("pipeline aspect", disabled=True, width="medium"),
+                "suggested_aspect_label": st.column_config.TextColumn("suggested aspect", disabled=True, width="medium"),
+                "corrected_aspect_label": st.column_config.TextColumn("corrected aspect", width="large"),
+                "suggested_cluster": st.column_config.SelectboxColumn("cluster", options=[""] + CLUSTER_NAMES, width="medium"),
+                "suggested_ontology_path": st.column_config.TextColumn("ontology path", width="large"),
+                "ontology_extension_status": st.column_config.SelectboxColumn(
+                    "status",
+                    options=["needs_review", "labelled", "not_esg", "insufficient_context", "discard"],
+                    width="medium",
+                ),
+                "missing_reason": st.column_config.TextColumn("reason", disabled=True, width="medium"),
+                "review_notes": st.column_config.TextColumn("notes", width="large"),
+                "text": st.column_config.TextColumn("text", disabled=True, width="large"),
+            },
+            hide_index=True,
+            use_container_width=True,
+            height=420,
+            key="a16_missing_aspect_editor",
+        )
+
+        a16_save_cols = st.columns(3)
+        if a16_save_cols[0].button("Save visible A.16 labels", type="primary", use_container_width=True, key="save_a16_missing_labels"):
+            existing = load(ONTOLOGY_MISSING_LABELS_PATH)
+            combined = pd.concat([existing, edited_missing], ignore_index=True, sort=False)
+            if "record_id" in combined.columns:
+                combined = combined.drop_duplicates("record_id", keep="last")
+            combined.to_csv(ONTOLOGY_MISSING_LABELS_PATH, index=False)
+            st.success(f"Saved {len(edited_missing):,} visible label row(s) -> {ONTOLOGY_MISSING_LABELS_PATH.name}")
+            st.rerun()
+
+        valid_updates = edited_missing[
+            edited_missing["corrected_aspect_label"].astype(str).str.strip().ne("")
+        ].copy() if "corrected_aspect_label" in edited_missing.columns else pd.DataFrame()
+        apply_disabled = valid_updates.empty or annot.empty or "record_id" not in annot.columns
+        if a16_save_cols[1].button(
+            "Apply labels to annotation file",
+            use_container_width=True,
+            disabled=apply_disabled,
+            key="apply_a16_missing_labels",
+        ):
+            base = annot.copy().set_index("record_id", drop=False)
+            updates = valid_updates.set_index("record_id", drop=False)
+            shared = base.index.intersection(updates.index)
+            base.loc[shared, "ground_truth_aspect"] = updates.loc[shared, "corrected_aspect_label"].astype(str)
+            base.reset_index(drop=True).to_csv(ANNOTATION_PATH, index=False)
+            st.success(f"Applied {len(shared):,} corrected aspect label(s) -> {ANNOTATION_PATH.name}")
+            st.rerun()
+
+        a16_save_cols[2].download_button(
+            "Download A.16 labels",
+            merge_saved_missing_aspect_labels(missing_aspect_candidates, edited_missing).to_csv(index=False).encode("utf-8"),
+            "ontology_missing_aspect_labels.csv",
+            "text/csv",
+            use_container_width=True,
+        )
+
+        with st.expander("A.16 labelling guidance", expanded=False):
+            st.markdown(
+                """
+                - Use a concrete ESG topic for `corrected_aspect_label`, not `missing` or `none`.
+                - Mark `not_esg` when the record is not actually ESG evidence.
+                - Mark `insufficient_context` when the text is too fragmentary to infer a defensible aspect.
+                - Keep placeholders separate from novel ontology terms when writing the A.16 interpretation.
+                """
+            )
+
 st.divider()
 
 # ═════════════════════════════════════════════════════════════════════════════
 # STEP 1 — ClimateBERT
 # ═════════════════════════════════════════════════════════════════════════════
 if show[1]:
-    badge = "✅" if cb_real == 332 else ("🟡" if cb_real > 0 else "🔴")
-    with st.expander(f"{badge} Step 1 — Run ClimateBERT on all 332 records  ·  ~2 h", expanded=cb_real < 332):
+    badge = "✅" if cb_real >= cb_target_total else ("🟡" if cb_real > 0 else "🔴")
+    with st.expander(
+        f"{badge} Step 1 — Run ClimateBERT on all {cb_target_total:,} records",
+        expanded=cb_real < cb_target_total,
+    ):
 
         left, right = st.columns([3, 2], gap="large")
 
@@ -1052,13 +3724,14 @@ if show[1]:
                 "sentence and answers one question: *is this a climate-commitment statement or not?*\n\n"
                 "Right now your κ = 0.645 is based on **proxy labels** — labels your own LLM pipeline "
                 "generated as a stand-in. To make RQ3 publication-ready, you need to run the real "
-                "ClimateBERT model on all 332 records and import those outputs here.\n\n"
-                "**It takes about 10 minutes on a laptop CPU or 2 minutes on free Google Colab GPU.**"
+                "ClimateBERT model on the current analysis records and import those outputs here.\n\n"
+                f"The current Action Plan corpus has **{cb_target_total:,}** records; older A.4 visualizations used the compact 332-record snapshot.\n\n"
+                "**Runtime depends on the selected model and whether you resume only missing records.**"
             )
 
             st.markdown("#### Step-by-step")
             st.markdown(
-                "1. **Download** the 332-record batch input CSV below.\n"
+                f"1. **Download** the {cb_target_total:,}-record batch input CSV below.\n"
                 "2. **Run the script** — paste it into a `.py` file or Google Colab cell.\n"
                 "3. The script produces `climatebert_output.csv`.\n"
                 "4. **Upload** that CSV in the import section below — the Agreement panel updates automatically."
@@ -2218,7 +4891,7 @@ if show.get("matrix", True):
                 for c in pivot.columns
             ]
             pivot.columns.name = None
-            pivot.index.name = "PDF / Company"
+            pivot.index.name = row_col
 
             if is_count:
                 pivot = pivot.round(0).astype(int)

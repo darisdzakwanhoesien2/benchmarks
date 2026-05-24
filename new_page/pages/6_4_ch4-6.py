@@ -26,7 +26,12 @@ WORKFLOW = ROOT / "results" / "thesis_workflow_dashboard"
 SNAPSHOT_DIR = ROOT / "results" / "ch4_6_frozen_analysis"
 SNAPSHOT_GRAPH_DIR = SNAPSHOT_DIR / "graphs"
 SNAPSHOT_PATH = SNAPSHOT_DIR / "analysis_snapshot.pkl"
-SNAPSHOT_SCHEMA_VERSION = 2
+SNAPSHOT_SCHEMA_VERSION = 3
+CHAPTER_RESOLUTION_PATH = REV / "chapter_4_6_resolution_board.csv"
+CHAPTER_DECISIONS_PATH = REV / "chapter_4_6_resolution_decisions.json"
+TONE_DENOMINATOR_AUDIT_PATH = REV / "chapter4_tone_denominator_audit.csv"
+TOP_UNMAPPED_ONTOLOGY_PATH = REV / "chapter6_top_unmapped_ontology_candidates.csv"
+BENCHMARK_GAP_PATH = REV / "chapter6_benchmark_gap_positioning.csv"
 
 sys.path.insert(0, str(ROOT / "code"))
 sys.path.insert(0, str(TOOLS))
@@ -56,6 +61,7 @@ from ground_truth_graphs import (  # noqa: E402
     ensure_ground_truth_graphs,
     ground_truth_attachment_rows,
     ground_truth_source_dataframe,
+    t2_consolidated_output_rows,
 )
 
 
@@ -236,21 +242,49 @@ def draw_docx_table_heatmap(path: Path, title: str, df: pd.DataFrame, subtitle: 
 
 
 def human_annotation_agreement_rows() -> pd.DataFrame:
+    annotation = load_csv(REV / "pilot_ground_truth_annotations.csv")
     seed = load_csv(REV / "pilot_ground_truth_seed.csv")
     silver = load_csv(REV / "silver_tone_ground_truth.csv")
-    rows = []
+    df = annotation if not annotation.empty else seed
+    source = "pilot_ground_truth_annotations.csv" if not annotation.empty else "pilot_ground_truth_seed.csv"
+    rows = [
+        {"metric": "counted annotation rows", "records": len(df), "source": source},
+        {"metric": "saved human annotation rows", "records": len(annotation), "source": "pilot_ground_truth_annotations.csv"},
+        {"metric": "pilot seed rows", "records": len(seed), "source": "pilot_ground_truth_seed.csv"},
+        {"metric": "silver dataset rows", "records": len(silver), "source": "silver_tone_ground_truth.csv"},
+    ]
     for field in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect"]:
-        completed = int(seed[field].astype(str).str.strip().ne("").sum()) if not seed.empty and field in seed.columns else 0
-        rows.append({"metric": f"{field} completed", "records": completed})
-    if not seed.empty and "review_status" in seed.columns:
-        for status, count in seed["review_status"].astype(str).replace("", "missing").value_counts().items():
-            rows.append({"metric": f"review_status: {status}", "records": int(count)})
-    rows.append({"metric": "silver dataset rows", "records": len(silver)})
-    rows.append({"metric": "pilot seed rows", "records": len(seed)})
+        completed = int(df[field].astype(str).str.strip().ne("").sum()) if not df.empty and field in df.columns else 0
+        rows.append({"metric": f"{field} completed", "records": completed, "source": source})
+    if not df.empty and "review_status" in df.columns:
+        status_values = df["review_status"].astype(str).str.strip().replace("", "missing")
+        for status, count in status_values.value_counts().items():
+            rows.append({"metric": f"review_status: {status}", "records": int(count), "source": source})
     return pd.DataFrame(rows)
 
 
 def repeated_llm_run_rows() -> pd.DataFrame:
+    by_run = load_csv(REV / "prompt_stability_by_run.csv")
+    if not by_run.empty and {"model", "prompt"}.issubset(by_run.columns):
+        view = by_run.copy()
+        view["model"] = view["model"].astype(str).str.strip().replace("", "unknown")
+        view["prompt"] = (
+            view["prompt"]
+            .astype(str)
+            .str.strip()
+            .replace("", "unknown")
+            .str.replace(".md", "", regex=False)
+            .str.replace("tone_", "", regex=False)
+        )
+        pivot = (
+            view.assign(runs=1)
+            .pivot_table(index="model", columns="prompt", values="runs", aggfunc="sum", fill_value=0)
+            .astype(int)
+        )
+        pivot.columns.name = None
+        pivot.insert(0, "total", pivot.sum(axis=1))
+        return pivot.sort_values("total", ascending=False).reset_index()
+
     model = load_csv(REV / "model_stability_summary.csv")
     prompt = load_csv(REV / "prompt_stability_summary.csv")
     rows = []
@@ -281,7 +315,130 @@ def climatebert_baseline_rows() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def chapter_resolution_rows() -> pd.DataFrame:
+    rows = load_csv(CHAPTER_RESOLUTION_PATH)
+    if not rows.empty:
+        return rows
+    return pd.DataFrame(
+        [
+            {
+                "chapter": "4",
+                "issue": "591 missing tone records",
+                "decision": "exclude_from_agreement",
+                "evidence": "4,853/5,444 usable tone records",
+                "writeup": "Tone agreement and tone-distribution statistics use 4,853 as the effective denominator; the 591 missing tone outputs are reported as data-quality missingness.",
+            },
+            {
+                "chapter": "5",
+                "issue": "A.15 ClimateBERT baseline",
+                "decision": "frame_as_adjacent_constructs",
+                "evidence": "83.7% agreement, kappa=0.645, majority baseline=65.4%",
+                "writeup": "Use ClimateBERT as an adjacent construct comparison, not a replacement benchmark.",
+            },
+            {
+                "chapter": "6",
+                "issue": "Benchmark gap framing",
+                "decision": "claim_combined_indonesian_multi_aspect_tone_niche",
+                "evidence": "Existing benchmarks do not cover Indonesian + multi-aspect + tone maturity together.",
+                "writeup": "Use benchmark gaps as the contribution claim and future-work structure.",
+            },
+        ]
+    )
+
+
+def tone_denominator_audit_rows() -> pd.DataFrame:
+    rows = load_csv(TONE_DENOMINATOR_AUDIT_PATH)
+    if not rows.empty:
+        return rows
+    return pd.DataFrame(
+        [
+            {"chapter element": "Corpus extraction coverage", "denominator": 5444, "included": 5444, "excluded": 0, "note": "Use for total extracted-record coverage."},
+            {"chapter element": "Tone distribution", "denominator": 4853, "included": 4853, "excluded": 591, "note": "Use this denominator in Chapter 4 tone tables and figures."},
+            {"chapter element": "Tone agreement / kappa", "denominator": 4853, "included": 4853, "excluded": 591, "note": "Do not compute agreement over missing tone outputs."},
+        ]
+    )
+
+
+def top_unmapped_ontology_rows() -> pd.DataFrame:
+    rows = load_csv(TOP_UNMAPPED_ONTOLOGY_PATH)
+    if not rows.empty:
+        return rows
+    return ontology_extension_rows()
+
+
+def benchmark_gap_positioning_rows() -> pd.DataFrame:
+    rows = load_csv(BENCHMARK_GAP_PATH)
+    if not rows.empty:
+        return rows
+    return pd.DataFrame(
+        [
+            {"benchmark": "FinBERT", "reported metric": "F1=97.3%", "Indonesian": "no", "multi-aspect": "no", "tone-labeled disclosure maturity": "no"},
+            {"benchmark": "ESG-BERT", "reported metric": "F1=88%", "Indonesian": "no", "multi-aspect": "limited", "tone-labeled disclosure maturity": "no"},
+            {"benchmark": "ClimateBERT", "reported metric": "F1=1.16", "Indonesian": "no", "multi-aspect": "no", "tone-labeled disclosure maturity": "no"},
+            {"benchmark": "This thesis", "reported metric": "prototype system", "Indonesian": "yes", "multi-aspect": "yes", "tone-labeled disclosure maturity": "yes"},
+        ]
+    )
+
+
+def benchmark_gap_chart_rows() -> pd.DataFrame:
+    df = benchmark_gap_positioning_rows()
+    if df.empty:
+        return df
+    out = df.copy()
+    coverage_cols = [
+        "handles finance/ESG language",
+        "Indonesian",
+        "multi-aspect",
+        "tone-labeled disclosure maturity",
+    ]
+    available = [col for col in coverage_cols if col in out.columns]
+    for col in available:
+        out[col] = out[col].astype(str).str.lower().map({"yes": 1.0, "limited": 0.5, "partial": 0.5}).fillna(0.0)
+    out["combined_capability_score"] = out[available].sum(axis=1) if available else 0
+    return out
+
+
+def action_plan_integration_rows() -> pd.DataFrame:
+    checks = [
+        {
+            "integration item": "Chapter 4-6 resolution board",
+            "required in Action Plan": str(CHAPTER_RESOLUTION_PATH.relative_to(ROOT)),
+            "used by 6_4 page": "chapter_resolution_rows()",
+            "status": "Done" if CHAPTER_RESOLUTION_PATH.exists() else "Needed",
+            "next action": "Open Action Plan resolution board and save artifacts.",
+        },
+        {
+            "integration item": "Tone denominator audit",
+            "required in Action Plan": str(TONE_DENOMINATOR_AUDIT_PATH.relative_to(ROOT)),
+            "used by 6_4 page": "tone_denominator_audit_rows()",
+            "status": "Done" if TONE_DENOMINATOR_AUDIT_PATH.exists() else "Needed",
+            "next action": "Save Chapter 4 denominator decision in Action Plan.",
+        },
+        {
+            "integration item": "Top unmapped ontology candidates",
+            "required in Action Plan": str(TOP_UNMAPPED_ONTOLOGY_PATH.relative_to(ROOT)),
+            "used by 6_4 page": "A.16 backing table",
+            "status": "Done" if TOP_UNMAPPED_ONTOLOGY_PATH.exists() else "Needed",
+            "next action": "Save A.12/A.16 ontology continuation and resolution artifacts.",
+        },
+        {
+            "integration item": "Benchmark gap positioning",
+            "required in Action Plan": str(BENCHMARK_GAP_PATH.relative_to(ROOT)),
+            "used by 6_4 page": "Chapter 6 contribution table",
+            "status": "Done" if BENCHMARK_GAP_PATH.exists() else "Needed",
+            "next action": "Save Chapter 6 benchmark gap table from Action Plan.",
+        },
+    ]
+    return pd.DataFrame(checks)
+
+
 def ontology_extension_rows() -> pd.DataFrame:
+    top_unmapped = load_csv(TOP_UNMAPPED_ONTOLOGY_PATH)
+    if not top_unmapped.empty:
+        out = top_unmapped.copy()
+        if "records" in out.columns:
+            out["records"] = pd.to_numeric(out["records"], errors="coerce").fillna(0)
+        return out.sort_values("records", ascending=False).head(20)
     ontology = load_csv(REV / "ontology_coverage.csv")
     if ontology.empty:
         return pd.DataFrame()
@@ -314,16 +471,18 @@ def pilot_annotation_completion_rows() -> pd.DataFrame:
     annotation = load_csv(REV / "pilot_ground_truth_annotations.csv")
     seed = load_csv(REV / "pilot_ground_truth_seed.csv")
     df = annotation if not annotation.empty else seed
+    source = "pilot_ground_truth_annotations.csv" if not annotation.empty else "pilot_ground_truth_seed.csv"
     if df.empty:
         return pd.DataFrame()
     rows = []
     for col in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect", "annotator", "review_notes"]:
         if col in df.columns:
             done = int(df[col].astype(str).str.strip().ne("").sum())
-            rows.append({"field": col, "completed": done, "missing": len(df) - done, "total": len(df)})
+            rows.append({"field": col, "completed": done, "missing": len(df) - done, "total": len(df), "source": source})
     if "review_status" in df.columns:
-        for status, count in df["review_status"].astype(str).replace("", "missing").value_counts().items():
-            rows.append({"field": f"review_status: {status}", "completed": int(count), "missing": 0, "total": len(df)})
+        status_values = df["review_status"].astype(str).str.strip().replace("", "missing")
+        for status, count in status_values.value_counts().items():
+            rows.append({"field": f"review_status: {status}", "completed": int(count), "missing": 0, "total": len(df), "source": source})
     return pd.DataFrame(rows)
 
 
@@ -362,19 +521,26 @@ def ground_truth_tone_comparison_rows() -> pd.DataFrame:
 
 
 def ground_truth_t2_output_rows() -> pd.DataFrame:
-    t2 = load_csv(WORKFLOW / "t2_flat_outputs.csv")
-    if t2.empty:
-        return pd.DataFrame()
-    group_cols = [col for col in ["rule_tone", "tone_pred", "sentiment_pred"] if col in t2.columns]
-    if not group_cols:
-        return t2.head(30)
-    return (
-        t2.assign(records=1)
-        .groupby(group_cols, dropna=False)["records"]
-        .sum()
-        .reset_index()
-        .sort_values("records", ascending=False)
+    return t2_consolidated_output_rows()
+
+
+def ground_truth_t2_output_chart_rows() -> pd.DataFrame:
+    rows = ground_truth_t2_output_rows()
+    if rows.empty:
+        return rows
+    required = ["rule_tone", "tone_pred", "sentiment_pred"]
+    if not set(required).issubset(rows.columns):
+        return rows
+    out = rows.copy()
+    out["output_group"] = (
+        "Rule: "
+        + out["rule_tone"].astype(str)
+        + " | Hybrid: "
+        + out["tone_pred"].astype(str)
+        + " | Sentiment: "
+        + out["sentiment_pred"].astype(str)
     )
+    return out
 
 
 def coalesce_text_columns(df: pd.DataFrame, columns: list[str]) -> pd.Series:
@@ -696,13 +862,11 @@ def ensure_extra_graph_attachments() -> None:
         "records",
         "Current ground-truth completion and pilot review status",
     )
-    draw_docx_bar_chart(
+    draw_docx_table_heatmap(
         GRAPH_DIR / "docx_repeated_llm_runs.png",
-        "Repeated LLM Runs Coverage",
+        "Repeated LLM Runs Grid",
         repeated_llm_run_rows(),
-        "benchmark unit",
-        "runs",
-        "Current run counts by model and prompt; confidence intervals still need repeated runs",
+        "Rows are models; columns are prompt templates; cells are run/batch counts",
     )
     draw_docx_bar_chart(
         GRAPH_DIR / "docx_climatebert_baseline.png",
@@ -718,7 +882,23 @@ def ensure_extra_graph_attachments() -> None:
         ontology_extension_rows(),
         "aspect",
         "records",
-        "Top unmapped Indonesian ESG aspects for ontology extension",
+        "Top unmapped Indonesian ESG aspects from the Action Plan Chapter 6 resolution artifact",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_chapter4_tone_denominator_audit.png",
+        "Chapter 4 Tone Denominator Audit",
+        tone_denominator_audit_rows(),
+        "chapter element",
+        "denominator",
+        "Action Plan decision: tone agreement/distribution uses the effective denominator, not the extraction denominator",
+    )
+    draw_docx_bar_chart(
+        GRAPH_DIR / "docx_chapter6_benchmark_gap_positioning.png",
+        "Chapter 6 Benchmark Gap Positioning",
+        benchmark_gap_chart_rows(),
+        "benchmark",
+        "combined_capability_score",
+        "Which benchmarks cover the combined Indonesian multi-aspect tone-labelling niche",
     )
     draw_docx_bar_chart(
         GRAPH_DIR / "docx_ground_truth_scaffold_coverage.png",
@@ -745,10 +925,10 @@ def ensure_extra_graph_attachments() -> None:
     draw_docx_bar_chart(
         GRAPH_DIR / "docx_ground_truth_t2_outputs.png",
         "ground_truth.py T2 Tone Outputs",
-        ground_truth_t2_output_rows(),
-        "tone_pred",
+        ground_truth_t2_output_chart_rows(),
+        "output_group",
         "records",
-        "Flattened T2 hybrid/rule output from the resumable ground_truth.py pipeline",
+        "Flattened T2 output with blank/unknown labels consolidated as Unclassified / Unknown",
     )
     draw_docx_table_heatmap(
         GRAPH_DIR / "docx_pdf_prompt_matrix.png",
@@ -935,7 +1115,7 @@ def graph_manifest() -> pd.DataFrame:
             "path": GRAPH_DIR / "docx_repeated_llm_runs.png",
             "chapter": "Chapter 4 / 6",
             "rq": "RQ6",
-            "source table": "model_stability_summary.csv + prompt_stability_summary.csv",
+            "source table": "prompt_stability_by_run.csv",
             "source page": "pages/2_3_LLM_Background_Run_Monitor.py",
         },
         {
@@ -953,8 +1133,8 @@ def graph_manifest() -> pd.DataFrame:
             "path": GRAPH_DIR / "docx_ontology_extension_candidates.png",
             "chapter": "Chapter 5 / 6",
             "rq": "RQ4",
-            "source table": "ontology_coverage.csv",
-            "source page": "pages/1_6_Ontology_Path_Viewer.py",
+            "source table": "chapter6_top_unmapped_ontology_candidates.csv",
+            "source page": "pages/3_0_Thesis_Action_Plan.py",
         },
         {
             "figure": "A.17",
@@ -1079,12 +1259,136 @@ def graph_manifest() -> pd.DataFrame:
                 "source table": "ontology_coverage.csv",
                 "source page": "pages/1_6_Ontology_Path_Viewer.py",
             },
+            {
+                "figure": "A.37",
+                "title": "Chapter 4 tone denominator audit",
+                "path": GRAPH_DIR / "docx_chapter4_tone_denominator_audit.png",
+                "chapter": "Chapter 4",
+                "rq": "RQ2 / RQ3",
+                "source table": "chapter4_tone_denominator_audit.csv",
+                "source page": "pages/3_0_Thesis_Action_Plan.py",
+            },
+            {
+                "figure": "A.38",
+                "title": "Chapter 6 benchmark gap positioning",
+                "path": GRAPH_DIR / "docx_chapter6_benchmark_gap_positioning.png",
+                "chapter": "Chapter 6",
+                "rq": "RQ6",
+                "source table": "chapter6_benchmark_gap_positioning.csv",
+                "source page": "pages/3_0_Thesis_Action_Plan.py",
+            },
         ]
     )
     df = pd.DataFrame(rows)
     df["exists"] = df["path"].map(lambda p: Path(p).exists())
     df["path"] = df["path"].astype(str)
-    return df
+    return add_source_table_descriptions(df)
+
+
+def describe_source_table(source_table: object) -> str:
+    text = str(source_table or "").strip()
+    normalized = text.lower()
+    descriptions = {
+        "silver_tone_ground_truth.csv + pilot_ground_truth_annotations.csv": (
+            "Merged full evidence table combining silver tone labels with any saved pilot human annotations; "
+            "used for tone, ESG, aspect, and aspect-network summaries."
+        ),
+        "tone_climatebert_label_crosstab.csv": (
+            "Crosstab of ABSA tone predictions against ClimateBERT climate label outputs; "
+            "used to inspect proxy agreement patterns."
+        ),
+        "climatebert_remote_flat.csv": (
+            "Flattened ClimateBERT remote-run outputs with record-level scores and labels; "
+            "used for top-scoring ClimateBERT examples."
+        ),
+        "DOCX evidence summary": (
+            "Derived summary of the source and graph-attached DOCX files, embedded media count, "
+            "and key evidence snapshot metrics."
+        ),
+        "chapter-to-RQ mapping": (
+            "Hand-curated mapping from thesis chapters and Streamlit pages to research questions and figure usage."
+        ),
+        "benchmark checklist": (
+            "Checklist of remaining benchmark evidence needed for stronger thesis claims, including OCR quality, "
+            "human agreement, repeated runs, ClimateBERT baseline, and ontology extension."
+        ),
+        "graph manifest": (
+            "Attachment register listing each figure, title, chapter, RQ, backing source table, source page, "
+            "file path, and file-existence status."
+        ),
+        "model_stability_summary.csv": (
+            "Model-level run summary with parse success and stability metrics used for model benchmark figures."
+        ),
+        "prompt_stability_summary.csv": (
+            "Prompt-template stability summary, including missing-tone and related prompt sensitivity metrics."
+        ),
+        "ontology_coverage.csv": (
+            "Aspect ontology coverage table showing mapped versus unmapped ESG vocabulary and suggested paths."
+        ),
+        "chapter_4_6_resolution_board.csv": (
+            "Action Plan resolution board that records the Chapter 4-6 decisions, evidence, and ready-to-use thesis write-up text."
+        ),
+        "chapter4_tone_denominator_audit.csv": (
+            "Action Plan denominator audit showing where to use 5,444 extraction records versus 4,853 usable tone records."
+        ),
+        "chapter6_top_unmapped_ontology_candidates.csv": (
+            "Action Plan A.16/Chapter 6 backing table for high-frequency unmapped aspects and suggested GRI/SASB/TCFD placement."
+        ),
+        "chapter6_benchmark_gap_positioning.csv": (
+            "Action Plan benchmark gap table positioning this thesis against FinBERT, ESG-BERT, SpanEval, ClimateBERT, and GH-ABSA."
+        ),
+        "pilot_ground_truth_seed.csv + silver_tone_ground_truth.csv": (
+            "Pilot annotation seed joined with silver labels to summarize ground-truth readiness and agreement coverage."
+        ),
+        "model_stability_summary.csv + prompt_stability_summary.csv": (
+            "Combined model and prompt run summaries used to count repeated LLM benchmark coverage."
+        ),
+        "prompt_stability_by_run.csv": (
+            "Run-level LLM processing table; A.14 pivots it into a model-by-prompt grid where each cell counts runs or batches."
+        ),
+        "climatebert_proxy_agreement_summary.csv + climatebert_proxy_agreement_records.csv": (
+            "ClimateBERT proxy comparison artifacts: aggregate agreement metrics plus record-level agreement evidence."
+        ),
+        "tone_records_flat.csv + silver_tone_ground_truth.csv": (
+            "Flattened ABSA tone records combined with silver labels to show ground-truth scaffold coverage."
+        ),
+        "pilot_ground_truth_seed.csv + pilot_ground_truth_annotations.csv": (
+            "Pilot annotation seed and saved annotation file used to measure completion of human-labelled fields."
+        ),
+        "t2_flat_outputs.csv + t2_results.jsonl": (
+            "Flattened and raw T2 ground_truth.py outputs used to summarize rule, hybrid, and sentiment tone results."
+        ),
+        "esg_records.json + tone_records_flat.csv": (
+            "Raw ESG extraction runs plus flattened tone records used to build the PDF by prompt coverage matrix."
+        ),
+        "aspect co-occurrence edge list": (
+            "Derived edge table where each row links two aspects that appear in the same document or source target."
+        ),
+        "full Action Plan evidence table": (
+            "Derived full evidence table from the Action Plan annotation pipeline, used for aspect importance, "
+            "entity comparison, temporal evolution, and tone dynamics."
+        ),
+    }
+    if text in descriptions:
+        return descriptions[text]
+    if "ground_truth" in normalized:
+        return "Ground-truth source artifact used for human-label coverage, prediction comparison, or validation tables."
+    if "tone" in normalized:
+        return "Tone-analysis artifact used for ABSA label distributions, crosstabs, or flattened record evidence."
+    if "climatebert" in normalized:
+        return "ClimateBERT comparison artifact used for climate-label baseline, agreement, or score inspection."
+    if "ontology" in normalized:
+        return "Ontology artifact used to evaluate mapped and novel ESG aspect vocabulary."
+    if "model" in normalized or "prompt" in normalized:
+        return "Stability benchmark artifact used to evaluate model or prompt-level processing behavior."
+    return "Backing source artifact used to reproduce or inspect this graph attachment."
+
+
+def add_source_table_descriptions(manifest_df: pd.DataFrame) -> pd.DataFrame:
+    out = manifest_df.copy()
+    if "source table" in out.columns:
+        out["source table description"] = out["source table"].map(describe_source_table)
+    return out
 
 
 def mermaid_label(value: object, max_len: int = 58) -> str:
@@ -1210,6 +1514,9 @@ def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame])
     if figure == "A.3":
         return full_aspect_tone_crosstab_rows()
     if figure == "A.4":
+        full_a4 = load_csv(VIS / "tone_climatebert_label_crosstab_full.csv")
+        if not full_a4.empty:
+            return full_a4
         return load_csv(VIS / "tone_climatebert_label_crosstab.csv")
     if figure == "A.5":
         df = load_csv(VIS / "climatebert_remote_flat.csv")
@@ -1221,7 +1528,8 @@ def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame])
     if figure == "A.8":
         return benchmark_checklist_rows()
     if figure == "A.9":
-        return graph_manifest()[["figure", "title", "chapter", "rq", "source table", "source page", "exists"]]
+        columns = ["figure", "title", "chapter", "rq", "source table", "source table description", "source page", "exists"]
+        return graph_manifest()[columns]
     if figure == "A.10":
         return load_csv(ROOT / "results" / "revision_analysis" / "model_stability_summary.csv")
     if figure == "A.11":
@@ -1262,6 +1570,10 @@ def source_dataframe_for_figure(row: pd.Series, bundle: dict[str, pd.DataFrame])
         return aspect_temporal_evolution_rows()
     if figure == "A.36":
         return aspect_ontology_matrix_rows()
+    if figure == "A.37":
+        return tone_denominator_audit_rows()
+    if figure == "A.38":
+        return benchmark_gap_positioning_rows()
     return pd.DataFrame()
 
 
@@ -1326,6 +1638,18 @@ def docx_snapshot_rows(bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
                 "existing data": "ontology_coverage.csv",
                 "redirect page": "pages/6_2_Chapter_5_Discussion.py",
             },
+            {
+                "metric": "Tone denominator decision",
+                "value": "4,853 / 5,444",
+                "existing data": "chapter4_tone_denominator_audit.csv",
+                "redirect page": "pages/3_0_Thesis_Action_Plan.py",
+            },
+            {
+                "metric": "Chapter resolution rows",
+                "value": f"{len(chapter_resolution_rows()):,}",
+                "existing data": "chapter_4_6_resolution_board.csv",
+                "redirect page": "pages/3_0_Thesis_Action_Plan.py",
+            },
         ]
     )
 
@@ -1336,20 +1660,20 @@ def chapter_mapping_rows() -> pd.DataFrame:
             {
                 "chapter": "Chapter 4 - Implementation and Results",
                 "streamlit page": "pages/6_1_Chapter_4_Implementation_Results.py",
-                "primary evidence": "tone records, PDF x prompt matrix, tone/ESG distributions, ClimateBERT crosstab, artifact/model/prompt stability",
-                "figures": "A.1, A.2, A.3, A.4, A.7, A.8, A.10",
+                "primary evidence": "tone records, PDF x prompt matrix, tone/ESG distributions, denominator audit, ClimateBERT crosstab, artifact/model/prompt stability",
+                "figures": "A.1, A.2, A.3, A.4, A.7, A.8, A.10, A.19, A.37",
             },
             {
                 "chapter": "Chapter 5 - Discussion",
                 "streamlit page": "pages/6_2_Chapter_5_Discussion.py",
-                "primary evidence": "agreement metrics, ontology coverage, failure modes, prompt/model sensitivity",
-                "figures": "A.4, A.5, A.11, A.12",
+                "primary evidence": "agreement metrics, ontology coverage, failure modes, prompt/model sensitivity, greenwashing caveat, data.md failed prompt framing",
+                "figures": "A.4, A.5, A.11, A.12, A.15, A.29",
             },
             {
                 "chapter": "Chapter 6 - Conclusion",
                 "streamlit page": "pages/6_3_Chapter_6_Conclusion.py",
-                "primary evidence": "contribution summary, RQ answers, artifact inventory, future-work benchmark checklist",
-                "figures": "A.6, A.7, A.8, A.9, A.10, A.11, A.12",
+                "primary evidence": "contribution summary, RQ answers, artifact inventory, top unmapped ontology candidates, benchmark gap positioning, future-work checklist",
+                "figures": "A.6, A.7, A.8, A.9, A.10, A.11, A.12, A.16, A.38",
             },
         ]
     )
@@ -1404,6 +1728,7 @@ def snapshot_source_paths() -> list[Path]:
         VIS / "climatebert_remote_flat.csv",
         REV / "model_stability_summary.csv",
         REV / "prompt_stability_summary.csv",
+        REV / "prompt_stability_by_run.csv",
         REV / "failure_mode_counts.csv",
         REV / "ontology_coverage.csv",
         REV / "climatebert_proxy_agreement_summary.csv",
@@ -1415,6 +1740,11 @@ def snapshot_source_paths() -> list[Path]:
         REV / "pilot_ground_truth_annotations.csv",
         REV / "climatebert_record_batch_import.csv",
         REV / "climatebert_output.csv",
+        CHAPTER_RESOLUTION_PATH,
+        CHAPTER_DECISIONS_PATH,
+        TONE_DENOMINATOR_AUDIT_PATH,
+        TOP_UNMAPPED_ONTOLOGY_PATH,
+        BENCHMARK_GAP_PATH,
         WORKFLOW / "t2_flat_outputs.csv",
     ]
     return sorted({path.resolve() for path in paths}, key=str)
@@ -1503,7 +1833,10 @@ def build_analysis_snapshot() -> dict:
     for _, row in live_manifest.iterrows():
         frozen_tables[str(row["figure"])] = source_dataframe_for_figure(row, frozen_bundle)
     if not frozen_manifest.empty:
-        frozen_tables["A.9"] = frozen_manifest[["figure", "title", "chapter", "rq", "source table", "source page", "exists"]]
+        columns = ["figure", "title", "chapter", "rq", "source table", "source table description", "source page", "exists"]
+        frozen_tables["A.9"] = add_source_table_descriptions(frozen_manifest)[columns]
+    frozen_tables["chapter_resolution"] = chapter_resolution_rows()
+    frozen_tables["action_plan_integration"] = action_plan_integration_rows()
     return {
         "schema_version": SNAPSHOT_SCHEMA_VERSION,
         "created_at": datetime.now().isoformat(timespec="seconds"),
@@ -1517,10 +1850,12 @@ def build_analysis_snapshot() -> dict:
 
 def get_frozen_source_table(row: pd.Series, snapshot: dict, frozen_bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
     figure = str(row["figure"])
+    if figure in {"A.13", "A.14", "A.18", "A.23"}:
+        return add_source_table_descriptions(source_dataframe_for_figure(row, frozen_bundle))
     table = snapshot.get("source_tables", {}).get(figure)
     if isinstance(table, pd.DataFrame):
-        return table.copy()
-    return source_dataframe_for_figure(row, frozen_bundle)
+        return add_source_table_descriptions(table)
+    return add_source_table_descriptions(source_dataframe_for_figure(row, frozen_bundle))
 
 
 snapshot = load_analysis_snapshot()
@@ -1553,7 +1888,7 @@ if snapshot is None:
     st.stop()
 
 bundle = snapshot["bundle"]
-manifest = snapshot["manifest"]
+manifest = add_source_table_descriptions(snapshot["manifest"])
 action_status = snapshot["action_status"]
 
 refresh_cols[2].caption(
@@ -1587,6 +1922,59 @@ for idx, (_, row) in enumerate(action_status.iterrows()):
         except Exception:
             pass
 st.caption("These counters are frozen from the completion block in `pages/3_0_Thesis_Action_Plan.py`.")
+
+legacy_a4_df = load_csv(VIS / "tone_climatebert_label_crosstab.csv")
+full_a4_df = load_csv(VIS / "tone_climatebert_label_crosstab_full.csv")
+legacy_a4_numeric = legacy_a4_df.select_dtypes(include="number")
+legacy_a4_label_assignments = int(legacy_a4_numeric.to_numpy().sum()) if not legacy_a4_numeric.empty else 0
+legacy_a4_rows = int(len(legacy_a4_df))
+full_a4_numeric = full_a4_df.select_dtypes(include="number")
+full_a4_label_assignments = int(full_a4_numeric.to_numpy().sum()) if not full_a4_numeric.empty else 0
+
+st.subheader("A.4 Denominator Clarification")
+a4_cols = st.columns(4)
+a4_cols[0].metric("Legacy A.4 exploded label-cell count", f"{legacy_a4_label_assignments:,}")
+a4_cols[1].metric("Legacy compact tone rows", f"{legacy_a4_rows:,}")
+a4_cols[2].metric("Full corpus rows (Action Plan)", "5,444")
+a4_cols[3].metric(
+    "Full A.4 exploded label-cell count",
+    f"{full_a4_label_assignments:,}" if full_a4_label_assignments else "not generated",
+)
+st.warning(
+    "Do not compare exploded label-cell counts with row counts directly. "
+    "Legacy A.4 comes from the compact snapshot; full-corpus A.4 uses the continuation table when available."
+)
+viz_df = pd.DataFrame(
+    [
+        {"A.4 scope": "Legacy compact tone rows", "count": legacy_a4_rows, "unit": "rows"},
+        {"A.4 scope": "Legacy exploded label-cell count", "count": legacy_a4_label_assignments, "unit": "label-cell assignments"},
+        {"A.4 scope": "Full corpus rows (Action Plan)", "count": 5444, "unit": "rows"},
+        {
+            "A.4 scope": "Full exploded label-cell count",
+            "count": full_a4_label_assignments if full_a4_label_assignments else 0,
+            "unit": "label-cell assignments",
+        },
+    ]
+)
+st.markdown("**A.4 Scope Comparison (visual)**")
+st.bar_chart(viz_df.set_index("A.4 scope")["count"])
+st.dataframe(viz_df, use_container_width=True, hide_index=True)
+
+st.markdown("**Full A.4 - Tone by ClimateBERT label**")
+if full_a4_df.empty:
+    st.info(
+        "Full A.4 crosstab is not available yet. Generate/save `tone_climatebert_label_crosstab_full.csv` "
+        "from `pages/3_0_Thesis_Action_Plan.py` first."
+    )
+else:
+    tone_col = "tone" if "tone" in full_a4_df.columns else full_a4_df.columns[0]
+    a4_matrix = full_a4_df.copy()
+    value_cols = [c for c in a4_matrix.columns if c != tone_col]
+    for col in value_cols:
+        a4_matrix[col] = pd.to_numeric(a4_matrix[col], errors="coerce").fillna(0)
+    st.caption("Heatmap-style matrix of tone rows vs ClimateBERT labels using the full Action Plan corpus.")
+    st.dataframe(a4_matrix, use_container_width=True, hide_index=True, height=280)
+    st.bar_chart(a4_matrix.set_index(tone_col))
 
 action_cols = st.columns([1, 1, 2])
 with action_cols[0]:
@@ -1651,6 +2039,16 @@ with tab_summary:
         hide_index=True,
         height=260,
     )
+    st.subheader("Action Plan -> Chapter 4-6 Integration")
+    integration = snapshot.get("source_tables", {}).get("action_plan_integration")
+    if not isinstance(integration, pd.DataFrame):
+        integration = action_plan_integration_rows()
+    st.dataframe(integration.astype(str), use_container_width=True, hide_index=True, height=220)
+    resolution = snapshot.get("source_tables", {}).get("chapter_resolution")
+    if not isinstance(resolution, pd.DataFrame):
+        resolution = chapter_resolution_rows()
+    with st.expander("Saved Chapter 4-6 resolution board", expanded=False):
+        st.dataframe(resolution.astype(str), use_container_width=True, hide_index=True, height=300)
     st.download_button(
         "Download Action Plan status CSV",
         action_status.to_csv(index=False).encode("utf-8"),
@@ -1693,13 +2091,30 @@ with tab_graphs:
     view_mode = c3.selectbox("View", ["Graph + original table", "Graph only", "Original table only"])
     only_existing = c4.toggle("Only existing files", value=True)
     filtered = manifest.copy()
+    filtered["_figure_title"] = filtered["figure"].astype(str) + " - " + filtered["title"].astype(str)
     if chapter_filter != "All":
         filtered = filtered[filtered["chapter"].eq(chapter_filter)]
     if rq_filter != "All":
         filtered = filtered[filtered["rq"].eq(rq_filter)]
     if only_existing:
         filtered = filtered[filtered["exists"]]
-    st.dataframe(filtered, use_container_width=True, hide_index=True, height=260)
+    c5, c6 = st.columns(2)
+    figure_title_options = ["All"] + sorted(filtered["_figure_title"].dropna().astype(str).unique().tolist())
+    source_page_options = ["All"] + sorted(filtered["source page"].dropna().astype(str).unique().tolist())
+    figure_title_filter = c5.selectbox("Figure - Title", figure_title_options)
+    source_page_filter = c6.selectbox("Source Page", source_page_options)
+    if figure_title_filter != "All":
+        filtered = filtered[filtered["_figure_title"].eq(figure_title_filter)]
+    if source_page_filter != "All":
+        filtered = filtered[filtered["source page"].astype(str).eq(source_page_filter)]
+    st.dataframe(filtered.drop(columns=["_figure_title"]), use_container_width=True, hide_index=True, height=260)
+    with st.expander("Source table descriptions", expanded=False):
+        source_table_guide = (
+            add_source_table_descriptions(manifest)[["source table", "source table description"]]
+            .drop_duplicates()
+            .sort_values("source table")
+        )
+        st.dataframe(source_table_guide, use_container_width=True, hide_index=True, height=320)
 
     st.subheader("5-cluster Mermaid map")
     st.caption(
@@ -1737,6 +2152,8 @@ with tab_graphs:
         meta_cols[2].caption(f"Original table: `{row['source table']}`")
         with meta_cols[3]:
             redirect_button("Open page", str(row["source page"]))
+        if str(row.get("source table description", "")).strip():
+            st.caption(f"Source table description: {row['source table description']}")
 
         graph_col, table_col = st.columns([1.05, 1], gap="large")
         if view_mode in {"Graph + original table", "Graph only"}:
@@ -1801,6 +2218,15 @@ with tab_chapters:
     st.subheader("Benchmark checklist still needed")
     checklist = benchmark_checklist_rows()
     st.dataframe(checklist, use_container_width=True, hide_index=True, height=240)
+
+    st.subheader("Resolved Action Plan items now integrated")
+    resolution = snapshot.get("source_tables", {}).get("chapter_resolution")
+    if not isinstance(resolution, pd.DataFrame):
+        resolution = chapter_resolution_rows()
+    st.dataframe(resolution.astype(str), use_container_width=True, hide_index=True, height=320)
+
+    st.subheader("Chapter 4 denominator audit")
+    st.dataframe(tone_denominator_audit_rows().astype(str), use_container_width=True, hide_index=True, height=180)
 
 with tab_live:
     st.header("Frozen Charts from the Chapter Pages")

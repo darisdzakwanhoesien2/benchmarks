@@ -1,0 +1,7 @@
+benchmark,reported metric,handles finance/ESG language,Indonesian,multi-aspect,tone-labeled disclosure maturity,positioning
+FinBERT,F1=97.3%,yes,no,no,no,"Strong domain classifier, but not the thesis niche."
+ESG-BERT,F1=88%,yes,no,limited,no,Relevant ESG baseline without Indonesian multi-aspect tone coverage.
+SpanEval,F1=75.42%,partial,no,yes,no,"Useful extraction benchmark, but not a sustainability disclosure tone system."
+ClimateBERT,F1=1.16,climate-specific,no,no,no,"Adjacent climate NLP baseline; measures climate commitment, not ABSA tone maturity."
+GH-ABSA,accuracy=4.71,no,no,yes,no,"ABSA reference point, but not designed for Indonesian sustainability disclosures."
+This thesis,prototype system,yes,yes,yes,yes,"Niche contribution: Indonesian-language, multi-aspect, tone-labeled sustainability disclosure analysis."

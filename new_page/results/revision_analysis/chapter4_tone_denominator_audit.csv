@@ -1,0 +1,5 @@
+chapter element,denominator,included,excluded,note
+Corpus extraction coverage,5444,5444,0,Use for total extracted-record coverage.
+Tone distribution,4853,4853,591,Use this denominator in Chapter 4 tone tables and figures.
+Tone agreement / kappa,4853,4853,591,Do not compute agreement over missing tone outputs.
+Missing-tone quality audit,5444,591,4853,Report missingness as its own pipeline-quality result.

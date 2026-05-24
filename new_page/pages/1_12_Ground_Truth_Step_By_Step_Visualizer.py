@@ -26,6 +26,7 @@ DEFAULT_T2 = RESULTS_DIR / "t2_results.jsonl"
 GT_JOBS_DIR = RESULTS_DIR / "ground_truth_background_jobs"
 GT_WORKER_PATH = ROOT / "code" / "ground_truth_background_worker.py"
 MODELS_CACHE_PATH = Path(__file__).parent / "models_cache.json"
+ROOT_MODELS_DIR = ROOT.parent / "model_download" / "models"
 
 from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
@@ -422,6 +423,57 @@ def build_source_row_coverage(processing_coverage: pd.DataFrame) -> pd.DataFrame
     return summary[columns]
 
 
+def build_t1_model_coverage(text_units: pd.DataFrame, t1_df: pd.DataFrame, expected_models: list[str]) -> pd.DataFrame:
+    columns = ["label", "model", "done", "status", "success", "attempts", "prediction_label", "error", "backend", "text"]
+    models = [clean(model) for model in expected_models if clean(model)]
+    if text_units.empty or not models:
+        return pd.DataFrame(columns=columns)
+
+    labels = text_units[["label", "text"]].drop_duplicates().copy()
+    labels["label"] = labels["label"].map(clean)
+    expected = labels.merge(pd.DataFrame({"model": models}), how="cross")
+
+    if t1_df.empty or not {"label", "model"}.issubset(t1_df.columns):
+        expected["done"] = False
+        expected["status"] = "missing"
+        for col in ["success", "attempts", "prediction_label", "error", "backend"]:
+            expected[col] = "" if col != "attempts" else 0
+        return expected[columns]
+
+    view = t1_df.copy()
+    view["label"] = view["label"].map(clean)
+    view["model"] = view["model"].map(clean)
+    if "success" not in view.columns:
+        view["success"] = False
+    if "error" not in view.columns:
+        view["error"] = ""
+    if "backend" not in view.columns:
+        view["backend"] = ""
+    if "prediction_label" not in view.columns:
+        view["prediction_label"] = ""
+    summary = (
+        view.groupby(["label", "model"], dropna=False)
+        .agg(
+            success=("success", lambda values: bool(pd.Series(values).fillna(False).astype(bool).any())),
+            attempts=("label", "size"),
+            prediction_label=("prediction_label", lambda values: next((clean(v) for v in values if clean(v).lower() not in {"missing", "none", "nan", "null", "error"}), "")),
+            error=("error", lambda values: next((clean(v) for v in values if clean(v)), "")),
+            backend=("backend", lambda values: next((clean(v) for v in values if clean(v)), "")),
+        )
+        .reset_index()
+    )
+    coverage = expected.merge(summary, on=["label", "model"], how="left")
+    coverage["attempts"] = pd.to_numeric(coverage["attempts"], errors="coerce").fillna(0).astype(int)
+    coverage["success"] = coverage["success"].fillna(False).astype(bool)
+    coverage["prediction_label"] = coverage["prediction_label"].fillna("")
+    usable_label = coverage["prediction_label"].map(clean).str.lower().isin({"", "missing", "none", "nan", "null", "error"})
+    coverage["done"] = coverage["success"] & ~usable_label & coverage["error"].fillna("").map(clean).eq("")
+    coverage["status"] = coverage["done"].map({True: "done", False: "missing"})
+    coverage["error"] = coverage["error"].fillna("")
+    coverage["backend"] = coverage["backend"].fillna("")
+    return coverage[columns]
+
+
 def utc_now_id() -> str:
     return datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
 
@@ -468,6 +520,8 @@ def ground_truth_jobs_frame() -> pd.DataFrame:
                 "items": len(config.get("items", [])) if isinstance(config.get("items"), list) else 0,
                 "run_t1": bool(config.get("run_t1")),
                 "run_t2": bool(config.get("run_t2")),
+                "t1_backend": clean(config.get("t1_backend")),
+                "models": ", ".join(clean(model) for model in config.get("models", []) if clean(model)) if isinstance(config.get("models"), list) else "",
                 "current": clean(status.get("current")),
                 "updated_at": clean(status.get("updated_at")),
             }
@@ -515,6 +569,21 @@ def model_cache_options() -> list[str]:
     if isinstance(data, list):
         return [clean(item) for item in data if clean(item)]
     return []
+
+
+def find_all_model_dirs(root: Path) -> list[Path]:
+    if not root.exists():
+        return []
+    found: set[Path] = set()
+    for name in ("config.json", "pytorch_model.bin", "model.safetensors", "tf_model.h5"):
+        for path in root.rglob(name):
+            if path.is_file():
+                found.add(path.parent.resolve())
+    return sorted(found)
+
+
+def local_model_options() -> list[str]:
+    return sorted(str(path.relative_to(ROOT_MODELS_DIR)) for path in find_all_model_dirs(ROOT_MODELS_DIR))
 
 
 st.title("Ground Truth Step-by-Step Visualizer")
@@ -661,23 +730,58 @@ with tabs[2]:
             )
             run_t2_background = st.checkbox("Run T2 rule/hybrid processing", value=True)
             run_t1_background = st.checkbox("Run T1 ClimateBERT processing", value=False)
+            t1_background_backend = st.radio(
+                "T1 background backend",
+                ["ClimateBERT API", "Local models"],
+                index=0,
+                disabled=not run_t1_background,
+            )
+            split_strategy = st.radio(
+                "Job split strategy",
+                ["By model", "By row chunks"],
+                index=0,
+                disabled=not run_t1_background,
+                help="By model starts one independent worker per selected T1 model. Row chunks split candidate text units across workers.",
+            )
             n_chunks = st.number_input("Split into N background chunks", min_value=1, max_value=50, value=4, step=1)
         with bg_right:
-            model_options = model_cache_options()
-            free_models = [model for model in model_options if ":free" in model or "free" in model.lower()]
-            default_models = free_models[:1] or model_options[:1]
-            selected_models = st.multiselect(
-                "T1 ClimateBERT model ids",
-                options=model_options,
-                default=default_models if run_t1_background else [],
-                disabled=not run_t1_background,
-            )
-            extra_models_text = st.text_area(
-                "Additional T1 model ids, one per line",
-                value="",
-                height=90,
-                disabled=not run_t1_background,
-            )
+            if t1_background_backend == "Local models":
+                model_options = local_model_options()
+                preferred = [
+                    model
+                    for model in model_options
+                    if any(token in model.lower() for token in ["controversy", "commitment", "detector", "econ"])
+                ]
+                default_models = preferred[:1] or model_options[:1]
+                selected_models = st.multiselect(
+                    "Local T1 model folders",
+                    options=model_options,
+                    default=default_models if run_t1_background else [],
+                    disabled=not run_t1_background,
+                    help=f"Discovered under `{ROOT_MODELS_DIR}`.",
+                )
+                extra_models_text = st.text_area(
+                    "Additional local model folders/paths, one per line",
+                    value="",
+                    height=90,
+                    disabled=not run_t1_background,
+                )
+            else:
+                model_options = model_cache_options()
+                free_models = [model for model in model_options if ":free" in model or "free" in model.lower()]
+                default_models = free_models[:1] or model_options[:1]
+                selected_models = st.multiselect(
+                    "T1 ClimateBERT model ids",
+                    options=model_options,
+                    default=default_models if run_t1_background else [],
+                    disabled=not run_t1_background,
+                )
+                extra_models_text = st.text_area(
+                    "Additional T1 model ids, one per line",
+                    value="",
+                    height=90,
+                    disabled=not run_t1_background,
+                )
             include_current_filter = st.checkbox(
                 "Use current search/status filtered table",
                 value=False,
@@ -694,12 +798,54 @@ with tabs[2]:
         bg_models.extend([line.strip() for line in extra_models_text.splitlines() if line.strip()])
         bg_models = sorted(set(bg_models))
         bg_total_tasks = (len(bg_candidates) if run_t2_background else 0) + (len(bg_candidates) * len(bg_models) if run_t1_background else 0)
+        t1_model_coverage = build_t1_model_coverage(candidate_source, t1_df, bg_models) if run_t1_background else pd.DataFrame()
 
         summary_cols = st.columns(4)
         summary_cols[0].metric("Candidate text units", f"{len(bg_candidates):,}")
-        summary_cols[1].metric("Chunks to start", f"{min(int(n_chunks), max(1, len(bg_candidates))) if len(bg_candidates) else 0:,}")
+        if run_t1_background and split_strategy == "By model":
+            planned_jobs = len(bg_models) + (min(int(n_chunks), max(1, len(bg_candidates))) if run_t2_background and len(bg_candidates) else 0)
+        else:
+            planned_jobs = min(int(n_chunks), max(1, len(bg_candidates))) if len(bg_candidates) else 0
+        summary_cols[1].metric("Jobs to start", f"{planned_jobs:,}")
         summary_cols[2].metric("Queued T1 models", f"{len(bg_models):,}" if run_t1_background else "0")
         summary_cols[3].metric("Total operations", f"{bg_total_tasks:,}")
+
+        if run_t1_background and not t1_model_coverage.empty:
+            missing_model_tasks = t1_model_coverage[~t1_model_coverage["done"]].copy()
+            model_remaining = (
+                t1_model_coverage.groupby("model", dropna=False)["done"]
+                .agg(total="size", completed="sum")
+                .reset_index()
+            )
+            model_remaining["remaining"] = model_remaining["total"] - model_remaining["completed"]
+            model_remaining["completion_pct"] = (model_remaining["completed"] / model_remaining["total"].clip(lower=1) * 100).round(2)
+            st.markdown("**Remaining T1 label x model tasks**")
+            c_missing, c_chart = st.columns([1, 1])
+            with c_missing:
+                st.dataframe(
+                    model_remaining.sort_values(["remaining", "model"], ascending=[False, True]),
+                    use_container_width=True,
+                    height=220,
+                )
+            with c_chart:
+                chart = (
+                    alt.Chart(model_remaining)
+                    .mark_bar(cornerRadiusTopLeft=2, cornerRadiusTopRight=2)
+                    .encode(
+                        x=alt.X("model:N", sort="-y", title=None),
+                        y=alt.Y("remaining:Q", title="Remaining tasks"),
+                        color=alt.value("#b45309"),
+                        tooltip=list(model_remaining.columns),
+                    )
+                    .properties(height=220, title="Remaining by model")
+                )
+                st.altair_chart(chart, use_container_width=True)
+            st.download_button(
+                "Download missing T1 model tasks",
+                missing_model_tasks.to_csv(index=False).encode("utf-8"),
+                "ground_truth_missing_t1_model_tasks.csv",
+                "text/csv",
+            )
 
         can_start_background = (
             len(bg_candidates) > 0
@@ -716,22 +862,34 @@ with tabs[2]:
             chunks = chunk_records(queued_records, int(n_chunks))
             started_ids: list[str] = []
             created_at = datetime.utcnow().isoformat(timespec="seconds") + "Z"
-            for part_index, chunk in enumerate(chunks, start=1):
+
+            job_specs: list[tuple[int, list[dict[str, Any]], list[str], bool, bool]] = []
+            if run_t1_background and split_strategy == "By model":
+                for model in bg_models:
+                    job_specs.append((len(job_specs) + 1, queued_records, [model], True, False))
+                if run_t2_background:
+                    for chunk in chunks:
+                        job_specs.append((len(job_specs) + 1, chunk, [], False, True))
+            else:
+                for chunk in chunks:
+                    job_specs.append((len(job_specs) + 1, chunk, bg_models, bool(run_t1_background), bool(run_t2_background)))
+
+            for part_index, chunk, models_for_job, job_run_t1, job_run_t2 in job_specs:
                 job_id = f"{batch_id}_part_{part_index:03d}"
                 job_dir = GT_JOBS_DIR / job_id
                 config = {
                     "job_id": job_id,
                     "batch_id": batch_id,
                     "part": part_index,
-                    "parts": len(chunks),
+                    "parts": len(job_specs),
                     "items": chunk,
-                    "run_t1": bool(run_t1_background),
-                    "run_t2": bool(run_t2_background),
-                    "t1_backend": "ClimateBERT API",
-                    "models": bg_models,
+                    "run_t1": job_run_t1,
+                    "run_t2": job_run_t2,
+                    "t1_backend": t1_background_backend,
+                    "models": models_for_job,
                     "created_at": created_at,
                 }
-                total = (len(chunk) * len(bg_models) if run_t1_background else 0) + (len(chunk) if run_t2_background else 0)
+                total = (len(chunk) * len(models_for_job) if job_run_t1 else 0) + (len(chunk) if job_run_t2 else 0)
                 write_json(job_dir / "config.json", config)
                 write_json(
                     job_dir / "status.json",

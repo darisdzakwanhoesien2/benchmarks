@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from functools import lru_cache
 import json
 import os
 from pathlib import Path
@@ -16,6 +17,7 @@ RESULTS_DIR = ROOT / "results"
 JOBS_DIR = RESULTS_DIR / "ground_truth_background_jobs"
 T1_FILE = RESULTS_DIR / "t1_results.jsonl"
 T2_FILE = RESULTS_DIR / "t2_results.jsonl"
+ROOT_MODELS_DIR = ROOT.parent / "model_download" / "models"
 
 
 try:
@@ -100,9 +102,31 @@ def load_processed_t1(path: Path = T1_FILE) -> set[tuple[str, str]]:
             row = json.loads(line)
         except Exception:
             continue
-        if isinstance(row, dict):
+        if isinstance(row, dict) and is_complete_t1_record(row):
             done.add((str(row.get("label", "")), str(row.get("model", ""))))
     return done
+
+
+def has_usable_t1_label(result: Any) -> bool:
+    if isinstance(result, list) and result:
+        first = result[0] if isinstance(result[0], dict) else {}
+        label = str(first.get("label", "")).strip().lower()
+        return label not in {"", "missing", "none", "nan", "null", "error"}
+    if isinstance(result, dict):
+        if str(result.get("error", "")).strip():
+            return False
+        label = str(result.get("prediction") or result.get("label") or "").strip().lower()
+        return label not in {"", "missing", "none", "nan", "null", "error"}
+    label = str(result or "").strip().lower()
+    return label not in {"", "missing", "none", "nan", "null", "error"}
+
+
+def is_complete_t1_record(row: dict[str, Any]) -> bool:
+    if str(row.get("error") or "").strip():
+        return False
+    if row.get("success") is False:
+        return False
+    return has_usable_t1_label(row.get("result"))
 
 
 def load_processed_t2(path: Path = T2_FILE) -> set[str]:
@@ -119,14 +143,53 @@ def load_processed_t2(path: Path = T2_FILE) -> set[str]:
     return done
 
 
-def run_t1_item(job_dir: Path, item: dict[str, Any], model: str, backend: str) -> bool:
-    if backend != "ClimateBERT API":
-        raise RuntimeError(f"Unsupported background T1 backend: {backend}")
-    from api.climatebert_client import ClimateBERTClient
+def find_all_model_dirs(root: Path) -> list[Path]:
+    if not root.exists():
+        return []
+    found: set[Path] = set()
+    for name in ("config.json", "pytorch_model.bin", "model.safetensors", "tf_model.h5"):
+        for path in root.rglob(name):
+            if path.is_file():
+                found.add(path.parent.resolve())
+    return sorted(found)
 
-    api = ClimateBERTClient()
+
+def local_model_map() -> dict[str, Path]:
+    return {str(path.relative_to(ROOT_MODELS_DIR)): path for path in find_all_model_dirs(ROOT_MODELS_DIR)}
+
+
+def resolve_local_model_path(model: str) -> Path | None:
+    model_path = Path(model).expanduser()
+    if model_path.exists():
+        return model_path.resolve()
+    direct = ROOT_MODELS_DIR / model
+    if direct.exists():
+        return direct.resolve()
+    return local_model_map().get(model)
+
+
+@lru_cache(maxsize=8)
+def load_local_pipeline(local_path: str):
+    from transformers import pipeline
+
+    return pipeline("text-classification", model=local_path, tokenizer=local_path)
+
+
+def run_t1_item(job_dir: Path, item: dict[str, Any], model: str, backend: str) -> bool:
     try:
-        result = api.predict(str(item["text"]), model_key=model)
+        if backend == "ClimateBERT API":
+            from api.climatebert_client import ClimateBERTClient
+
+            api = ClimateBERTClient()
+            result = api.predict(str(item["text"]), model_key=model)
+        elif backend == "Local models":
+            model_path = resolve_local_model_path(model)
+            if model_path is None:
+                raise RuntimeError(f"Local model path not found: {model}")
+            pipe = load_local_pipeline(str(model_path))
+            result = pipe(str(item["text"]), truncation=True)
+        else:
+            raise RuntimeError(f"Unsupported background T1 backend: {backend}")
         success = True
         error = None
     except Exception as exc:
@@ -148,7 +211,7 @@ def run_t1_item(job_dir: Path, item: dict[str, Any], model: str, backend: str) -
             "background_job_id": job_dir.name,
         },
     )
-    return success
+    return success and has_usable_t1_label(result)
 
 
 def run_t2_item(item: dict[str, Any]) -> tuple[bool, str | None]:

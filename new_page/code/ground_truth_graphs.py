@@ -13,12 +13,17 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 WORKFLOW = RESULTS / "thesis_workflow_dashboard"
 GRAPH_DIR = RESULTS / "docx_graph_attachments"
+REV = RESULTS / "revision_analysis"
 
 T1_JSONL = RESULTS / "t1_results.jsonl"
 T1_JSON = RESULTS / "t1_results.json"
 T2_JSONL = RESULTS / "t2_results.jsonl"
 T2_JSON = RESULTS / "t2_results.json"
 T2_FLAT = WORKFLOW / "t2_flat_outputs.csv"
+T2_TONE_SENTIMENT_REVIEW = REV / "ground_truth_t2_tone_sentiment_review.csv"
+A28_GENERAL_MISC_REVIEW = REV / "ground_truth_a28_general_misc_review.csv"
+T2_UNKNOWN_LABEL = "Unclassified / Unknown"
+T2_MISSING_TOKENS = {"", "missing", "none", "nan", "null", "unknown", "no tone", "not_applicable", "n/a"}
 
 
 def clean(value: Any) -> str:
@@ -176,6 +181,103 @@ def load_t2_outputs() -> pd.DataFrame:
     return flatten_t2(load_json_or_jsonl(path))
 
 
+def stable_review_id(*parts: Any) -> str:
+    import hashlib
+
+    digest = hashlib.sha1(
+        "|".join(clean(part) for part in parts).encode("utf-8", errors="ignore")
+    ).hexdigest()
+    return f"a28_{digest[:12]}"
+
+
+def load_review_csv(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    try:
+        return pd.read_csv(path).fillna("")
+    except Exception:
+        return pd.DataFrame()
+
+
+def attach_t2_review_ids(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty or "review_id" in df.columns:
+        return df.copy()
+    out = df.copy()
+    out["review_id"] = [
+        stable_review_id(
+            row.get("label", ""),
+            row.get("timestamp", ""),
+            row.get("sentence_text", row.get("text", "")),
+            idx,
+        )
+        for idx, row in out.iterrows()
+    ]
+    return out
+
+
+def apply_t2_review_corrections(df: pd.DataFrame) -> pd.DataFrame:
+    out = attach_t2_review_ids(df)
+    review = load_review_csv(T2_TONE_SENTIMENT_REVIEW)
+    if out.empty or review.empty or "review_id" not in review.columns:
+        return out
+    review = review.drop_duplicates("review_id", keep="last").set_index("review_id")
+    out = out.set_index("review_id", drop=False)
+    shared = out.index.intersection(review.index)
+    mapping = {
+        "corrected_rule_tone": "rule_tone",
+        "corrected_hybrid_tone": "tone_pred",
+        "corrected_sentiment": "sentiment_pred",
+    }
+    for src, dst in mapping.items():
+        if src in review.columns and dst in out.columns:
+            incoming = review.loc[shared, src].astype(str).str.strip()
+            use = incoming.ne("")
+            out.loc[use[use].index, dst] = incoming.loc[use]
+    return out.reset_index(drop=True)
+
+
+def apply_a28_ontology_corrections(df: pd.DataFrame) -> pd.DataFrame:
+    out = attach_t2_review_ids(df)
+    review = load_review_csv(A28_GENERAL_MISC_REVIEW)
+    if out.empty or review.empty or "review_id" not in review.columns or "ontology_path" not in out.columns:
+        return out
+    review = review.drop_duplicates("review_id", keep="last").set_index("review_id")
+    out = out.set_index("review_id", drop=False)
+    shared = out.index.intersection(review.index)
+    if "corrected_ontology_path" in review.columns:
+        incoming = review.loc[shared, "corrected_ontology_path"].astype(str).str.strip()
+        use = incoming.ne("")
+        out.loc[use[use].index, "ontology_path"] = incoming.loc[use]
+    return out.reset_index(drop=True)
+
+
+def normalize_t2_output_label(value: Any) -> str:
+    text = clean(value)
+    if text.lower() in T2_MISSING_TOKENS:
+        return T2_UNKNOWN_LABEL
+    canonical = {
+        "action": "Action",
+        "commitment": "Commitment",
+        "outcome": "Outcome",
+        "neutral": "Neutral",
+        "positive": "Positive",
+        "negative": "Negative",
+    }
+    return canonical.get(text.lower(), text)
+
+
+def consolidated_t2_outputs() -> pd.DataFrame:
+    df = apply_t2_review_corrections(load_t2_outputs()).copy()
+    if df.empty:
+        return df
+    for col in ["rule_tone", "tone_pred", "sentiment_pred"]:
+        if col in df.columns:
+            df[col] = df[col].map(normalize_t2_output_label)
+        else:
+            df[col] = T2_UNKNOWN_LABEL
+    return df
+
+
 def count_rows(df: pd.DataFrame, col: str, label: str | None = None) -> pd.DataFrame:
     if df.empty or col not in df.columns:
         return pd.DataFrame(columns=[label or col, "records"])
@@ -202,27 +304,74 @@ def t1_prediction_rows() -> pd.DataFrame:
     return count_rows(load_t1_outputs(), "prediction_label", "prediction_label")
 
 
+def t1_missing_prediction_by_model_rows() -> pd.DataFrame:
+    df = load_t1_outputs()
+    if df.empty or "model" not in df.columns:
+        return pd.DataFrame(columns=["model", "total_pairs", "present_labels", "missing_labels", "missing_rate"])
+    view = df.copy()
+    view["model"] = view["model"].map(clean).replace("", "unknown")
+    if "label" not in view.columns:
+        view["label"] = view.index.astype(str)
+    label = view["prediction_label"].map(clean).str.lower()
+    error = view["error"].map(clean) if "error" in view.columns else pd.Series([""] * len(view), index=view.index)
+    success = view["success"].fillna(False).astype(bool) if "success" in view.columns else pd.Series([True] * len(view), index=view.index)
+    complete = (~label.isin(["", "missing", "none", "nan", "null", "error"])) & error.eq("") & success
+    pairs = (
+        view.assign(complete_label=complete)
+        .groupby(["label", "model"], dropna=False)
+        .agg(present_label=("complete_label", "max"))
+        .reset_index()
+    )
+    pairs["missing_label"] = ~pairs["present_label"]
+    out = (
+        pairs
+        .groupby("model", dropna=False)
+        .agg(
+            total_pairs=("model", "size"),
+            present_labels=("present_label", "sum"),
+            missing_labels=("missing_label", "sum"),
+        )
+        .reset_index()
+    )
+    out["missing_rate"] = (out["missing_labels"] / out["total_pairs"].clip(lower=1)).round(4)
+    return out.sort_values(["missing_labels", "missing_rate"], ascending=False)
+
+
 def t2_rule_tone_rows() -> pd.DataFrame:
-    return count_rows(load_t2_outputs(), "rule_tone", "rule_tone")
+    return count_rows(consolidated_t2_outputs(), "rule_tone", "rule_tone")
 
 
 def t2_hybrid_tone_rows() -> pd.DataFrame:
-    return count_rows(load_t2_outputs(), "tone_pred", "tone_pred")
+    return count_rows(consolidated_t2_outputs(), "tone_pred", "tone_pred")
 
 
 def t2_sentiment_rows() -> pd.DataFrame:
-    return count_rows(load_t2_outputs(), "sentiment_pred", "sentiment_pred")
+    return count_rows(consolidated_t2_outputs(), "sentiment_pred", "sentiment_pred")
+
+
+def t2_consolidated_output_rows() -> pd.DataFrame:
+    df = consolidated_t2_outputs()
+    if df.empty:
+        return pd.DataFrame()
+    group_cols = [col for col in ["rule_tone", "tone_pred", "sentiment_pred"] if col in df.columns]
+    if not group_cols:
+        return df.head(30)
+    return (
+        df.assign(records=1)
+        .groupby(group_cols, dropna=False)["records"]
+        .sum()
+        .reset_index()
+        .sort_values("records", ascending=False)
+    )
 
 
 def t2_rule_hybrid_tone_matrix_rows() -> pd.DataFrame:
-    df = load_t2_outputs()
+    df = consolidated_t2_outputs()
     if df.empty or not {"rule_tone", "tone_pred"}.issubset(df.columns):
         return pd.DataFrame()
     view = df[df["rule_tone"].map(clean).ne("") & df["tone_pred"].map(clean).ne("")].copy()
     if view.empty:
         return pd.DataFrame()
-    view["rule_tone"] = view["rule_tone"].astype(str).str.lower()
-    view["tone_pred"] = view["tone_pred"].astype(str).str.lower()
     pivot = pd.crosstab(view["rule_tone"], view["tone_pred"])
     pivot.index.name = "rule_tone"
     pivot.columns.name = None
@@ -230,7 +379,7 @@ def t2_rule_hybrid_tone_matrix_rows() -> pd.DataFrame:
 
 
 def t2_ontology_path_rows() -> pd.DataFrame:
-    return count_rows(load_t2_outputs(), "ontology_path", "ontology_path").head(30)
+    return count_rows(apply_a28_ontology_corrections(load_t2_outputs()), "ontology_path", "ontology_path").head(30)
 
 
 def t2_numeric_summary_rows() -> pd.DataFrame:
@@ -348,11 +497,18 @@ def draw_heatmap(path: Path, title: str, df: pd.DataFrame, subtitle: str = "") -
 
 def ensure_ground_truth_graphs() -> None:
     draw_bar(GRAPH_DIR / "ground_truth_t1_status.png", "ground_truth.py T1 Status", t1_status_rows(), "status", subtitle="Success/failure rows from T1 model outputs")
-    draw_bar(GRAPH_DIR / "ground_truth_t1_prediction_labels.png", "ground_truth.py T1 Prediction Labels", t1_prediction_rows(), "prediction_label", subtitle="ClimateBERT/local classifier labels")
-    draw_bar(GRAPH_DIR / "ground_truth_t2_rule_tone.png", "ground_truth.py T2 Rule-Based Tone", t2_rule_tone_rows(), "rule_tone", subtitle="Rule-based tone outputs")
-    draw_bar(GRAPH_DIR / "ground_truth_t2_hybrid_tone.png", "ground_truth.py T2 Hybrid Tone", t2_hybrid_tone_rows(), "tone_pred", subtitle="Hybrid ABSA tone outputs")
-    draw_bar(GRAPH_DIR / "ground_truth_t2_sentiment.png", "ground_truth.py T2 Sentiment", t2_sentiment_rows(), "sentiment_pred", subtitle="Hybrid ABSA sentiment outputs")
-    draw_heatmap(GRAPH_DIR / "ground_truth_rule_vs_hybrid_tone.png", "ground_truth.py Rule × Hybrid Tone", t2_rule_hybrid_tone_matrix_rows(), "Rule-based tone compared with hybrid tone")
+    draw_bar(
+        GRAPH_DIR / "ground_truth_t1_prediction_labels.png",
+        "ground_truth.py T1 Missing Labels by Model",
+        t1_missing_prediction_by_model_rows(),
+        "model",
+        "missing_labels",
+        "Rows where T1 returned blank, none, error, or failed prediction labels",
+    )
+    draw_bar(GRAPH_DIR / "ground_truth_t2_rule_tone.png", "ground_truth.py T2 Rule-Based Tone", t2_rule_tone_rows(), "rule_tone", subtitle="Blank/unknown labels consolidated as Unclassified / Unknown")
+    draw_bar(GRAPH_DIR / "ground_truth_t2_hybrid_tone.png", "ground_truth.py T2 Hybrid Tone", t2_hybrid_tone_rows(), "tone_pred", subtitle="Blank/unknown labels consolidated as Unclassified / Unknown")
+    draw_bar(GRAPH_DIR / "ground_truth_t2_sentiment.png", "ground_truth.py T2 Sentiment", t2_sentiment_rows(), "sentiment_pred", subtitle="Blank/unknown labels consolidated as Unclassified / Unknown")
+    draw_heatmap(GRAPH_DIR / "ground_truth_rule_vs_hybrid_tone.png", "ground_truth.py Rule × Hybrid Tone", t2_rule_hybrid_tone_matrix_rows(), "Includes Unclassified / Unknown instead of dropping blank/unknown labels")
     draw_bar(GRAPH_DIR / "ground_truth_ontology_paths.png", "ground_truth.py Ontology Paths", t2_ontology_path_rows(), "ontology_path", subtitle="Top ontology paths from T2")
     draw_bar(GRAPH_DIR / "ground_truth_numeric_summary.png", "ground_truth.py Numeric Metrics", t2_numeric_summary_rows(), "metric", "mean", "Mean values for ontology, greenwashing, tone, and sentiment scores")
 
@@ -360,7 +516,7 @@ def ensure_ground_truth_graphs() -> None:
 def ground_truth_attachment_rows() -> list[tuple[str, str, Path, str, str, str, str]]:
     return [
         ("A.22", "ground_truth.py T1 status", GRAPH_DIR / "ground_truth_t1_status.png", "Chapter 4", "RQ2", "t1_results.jsonl", "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py"),
-        ("A.23", "ground_truth.py T1 prediction labels", GRAPH_DIR / "ground_truth_t1_prediction_labels.png", "Chapter 4", "RQ2", "t1_results.jsonl", "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py"),
+        ("A.23", "ground_truth.py T1 missing labels by model", GRAPH_DIR / "ground_truth_t1_prediction_labels.png", "Chapter 4", "RQ2", "t1_results.jsonl", "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py"),
         ("A.24", "ground_truth.py T2 rule tone", GRAPH_DIR / "ground_truth_t2_rule_tone.png", "Chapter 4", "RQ2", "t2_flat_outputs.csv + t2_results.jsonl", "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py"),
         ("A.25", "ground_truth.py T2 hybrid tone", GRAPH_DIR / "ground_truth_t2_hybrid_tone.png", "Chapter 4", "RQ2", "t2_flat_outputs.csv + t2_results.jsonl", "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py"),
         ("A.26", "ground_truth.py T2 sentiment", GRAPH_DIR / "ground_truth_t2_sentiment.png", "Chapter 4", "RQ2", "t2_flat_outputs.csv + t2_results.jsonl", "pages/1_9_Ground_Truth_Pipeline_Output_Visualizer.py"),
@@ -373,7 +529,7 @@ def ground_truth_attachment_rows() -> list[tuple[str, str, Path, str, str, str, 
 def ground_truth_source_dataframe(figure: str) -> pd.DataFrame:
     mapping = {
         "A.22": t1_status_rows,
-        "A.23": t1_prediction_rows,
+        "A.23": t1_missing_prediction_by_model_rows,
         "A.24": t2_rule_tone_rows,
         "A.25": t2_hybrid_tone_rows,
         "A.26": t2_sentiment_rows,

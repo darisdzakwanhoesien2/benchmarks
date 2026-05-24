@@ -290,13 +290,13 @@ if source_labels and expected_models:
 expected_pairs_df = pd.DataFrame(expected_pair_rows)
 if not expected_pairs_df.empty:
     t1_coverage = expected_pairs_df.merge(t1_unique, on=["label", "model"], how="left")
-    t1_coverage["done"] = t1_coverage["success"].notna()
+    t1_coverage["done"] = t1_coverage["success"].fillna(False).astype(bool) & t1_coverage["error"].fillna("").map(clean).eq("")
     t1_coverage["status"] = t1_coverage["done"].map({True: "done", False: "missing"})
 else:
     t1_coverage = t1_unique.copy()
     if not t1_coverage.empty:
-        t1_coverage["done"] = True
-        t1_coverage["status"] = "done"
+        t1_coverage["done"] = t1_coverage["success"].fillna(False).astype(bool) & t1_coverage["error"].fillna("").map(clean).eq("")
+        t1_coverage["status"] = t1_coverage["done"].map({True: "done", False: "missing"})
 
 t2_coverage = source_df[["label"]].drop_duplicates().copy() if not source_df.empty else pd.DataFrame(columns=["label"])
 if not t2_coverage.empty:

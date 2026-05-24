@@ -1,0 +1,6 @@
+work item,current evidence,next action,status
+Explain A.12 denominator,Legacy ontology file covers 332 record assignments across 52 unique aspect rows.,"Describe A.12 as compact 332-record ontology coverage, not full-corpus coverage.",done
+Build full-corpus ontology coverage,"Continuation table covers 5,444/5,444 Action Plan rows across 1,924 unique aspects.",Use the current silver/annotation table to extend A.12 beyond the legacy visualization snapshot.,done
+Review mapped vs novel labels,"Legacy mapped rows: 52/52; full mapped rows: 1,136/1,924.",Manually review high-frequency unmapped aspects before claiming Indonesian ESG vocabulary extension.,needed
+Separate placeholders from real novel aspects,"`missing`, `none`, and blank-derived aspects can dominate coverage if they remain in the aspect column.",Report placeholder coverage separately from substantive novel ESG vocabulary.,needed
+Promote full A.12 after review,Legacy A.12 PNG/CSV still points to the compact ontology snapshot.,"After mapping review, save the full ontology continuation table and use it in Chapter 4-6 graph attachments.",needed

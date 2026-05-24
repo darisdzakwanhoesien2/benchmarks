@@ -1,0 +1,464 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.hdr{padding:1.75rem 0 1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
+.hdr h1{font-size:20px;font-weight:500;margin-bottom:4px}
+.hdr p{font-size:13px;color:var(--color-text-secondary)}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.bdg{font-size:11px;padding:3px 10px;border-radius:99px;border:0.5px solid;background:var(--color-background-secondary);color:var(--color-text-secondary);border-color:var(--color-border-tertiary)}
+.bdg.teal{background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5}
+.bdg.blue{background:#E6F1FB;color:#185FA5;border-color:#85B7EB}
+.bdg.purple{background:#EEEDFE;color:#534AB7;border-color:#AFA9EC}
+.bdg.amber{background:#FAEEDA;color:#854F0B;border-color:#EF9F27}
+.bdg.coral{background:#FAECE7;color:#993C1D;border-color:#F0997B}
+.phase{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-tertiary);margin:1.5rem 0 .5rem}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.card:hover{border-color:var(--color-border-secondary)}
+.chdr{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+.num{min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:1px}
+.ctitle{font-size:14px;font-weight:500;flex:1}
+.csub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.chev{font-size:16px;color:var(--color-text-tertiary);transition:transform .2s}
+.card.open .chev{transform:rotate(180deg)}
+.cbody{display:none;padding:0 16px 16px 56px;border-top:0.5px solid var(--color-border-tertiary)}
+.card.open .cbody{display:block}
+.stitle{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin:14px 0 6px}
+.cbody p,.cbody li{font-size:13px;color:var(--color-text-secondary);line-height:1.65}
+.cbody ul{padding-left:18px}
+.cbody li{margin-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:8px}
+.box{background:var(--color-background-secondary);border-radius:8px;padding:10px 12px;font-size:12px;border:0.5px solid var(--color-border-tertiary)}
+.box .bn{font-weight:500;color:var(--color-text-primary);font-size:11px;margin-bottom:3px}
+.box p{color:var(--color-text-secondary);font-size:12px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.cbox{border-radius:8px;padding:10px 12px;border:0.5px solid var(--color-border-tertiary);font-size:12px}
+.cbox .lb{font-weight:500;font-size:11px;margin-bottom:4px}
+.note{background:var(--color-background-info);color:var(--color-text-info);border-radius:8px;padding:8px 12px;font-size:12px;margin-top:10px}
+.warn{background:var(--color-background-warning);color:var(--color-text-warning);border-radius:8px;padding:8px 12px;font-size:12px;margin-top:10px}
+.otags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.otag{font-size:11px;padding:3px 10px;border-radius:99px;border:0.5px solid}
+.sbtn{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:5px 12px;margin-top:12px;cursor:pointer;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary)}
+.sbtn:hover{background:var(--color-background-secondary)}
+</style>
+
+<h2 class="sr-only">Complete adapted task framework mapping News Popularity Graph Analysis to ESG ABSA research</h2>
+
+<div class="hdr">
+  <h1>ESG Report Network Analysis — Adapted from News Popularity Graph Project</h1>
+  <p>Mapping tweet/social network graph methods to sustainability report co-entity and co-aspect networks</p>
+  <div class="badges">
+    <span class="bdg teal">Graph construction</span>
+    <span class="bdg blue">Network centrality</span>
+    <span class="bdg purple">Community detection</span>
+    <span class="bdg amber">ESG ABSA</span>
+    <span class="bdg coral">Greenwashing signals</span>
+  </div>
+</div>
+
+<div class="phase">Conceptual mapping</div>
+<div class="card" id="map">
+  <div class="chdr" onclick="tog('map')">
+    <div class="num" style="background:#E1F5EE;color:#0F6E56"><i class="ti ti-arrows-exchange" style="font-size:13px" aria-hidden="true"></i></div>
+    <div style="flex:1">
+      <div class="ctitle">Original → ESG adaptation key</div>
+      <div class="csub">How every original data element maps to your corpus</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <div class="row2">
+      <div class="cbox">
+        <div class="lb" style="color:#185FA5">Original (NYT tweets)</div>
+        <ul style="padding-left:14px;color:var(--color-text-secondary);font-size:12px">
+          <li>Tweet = node</li>
+          <li>Shared named entity = edge</li>
+          <li>Retweet / Like / Reply counts = engagement metrics</li>
+          <li>bag_of_phrases = text content</li>
+          <li>Timestamp = temporal axis</li>
+          <li>Louvain community = topic cluster</li>
+          <li>Erdős node = most-connected tweet</li>
+        </ul>
+      </div>
+      <div class="cbox">
+        <div class="lb" style="color:#3B6D11">Adapted (ESG reports)</div>
+        <ul style="padding-left:14px;color:var(--color-text-secondary);font-size:12px">
+          <li>Report section = node</li>
+          <li>Shared ESG entity/aspect = edge</li>
+          <li>Sentiment score / aspect frequency = engagement analog</li>
+          <li>Preprocessed section text = text content</li>
+          <li>Report year = temporal axis</li>
+          <li>Louvain community = ESG discourse cluster</li>
+          <li>Erdős node = most-connected ESG section</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note"><i class="ti ti-info-circle" aria-hidden="true"></i> Node granularity: define nodes at the report section level (E/S/G pillar per company per year) rather than full reports — gives ~3× more nodes and richer connectivity.</div>
+  </div>
+</div>
+
+<div class="phase">Part 1 — Graph construction & analysis</div>
+
+<div class="card open" id="t1">
+  <div class="chdr" onclick="tog('t1')">
+    <div class="num" style="background:#E1F5EE;color:#0F6E56">1</div>
+    <div style="flex:1">
+      <div class="ctitle">ESG entity graph construction using NER</div>
+      <div class="csub">Build co-entity network from sustainability report sections</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Use spaCy (+ custom ESG entity ruler) to extract named entities from each report section. Connect section nodes that share at least one entity. This constructs the foundational graph for all subsequent network analysis.</p>
+    <div class="stitle">Original task analog</div>
+    <p>NER graph construction from bag_of_phrases; connect tweets sharing ≥1 entity; histogram of entity counts by type.</p>
+    <div class="stitle">Adapted procedure</div>
+    <ul>
+      <li>Extract entities per section: ORG (OJK, GRI, PROPER, ISO bodies), ENV (emission targets, biodiversity), POLICY (Paris Agreement, SDGs), METRIC (numeric disclosures), CERT (ISO 14001, PROPER Emas)</li>
+      <li>Build bipartite graph: section nodes ↔ entity nodes; project onto section–section unipartite graph where edge weight = number of shared entities</li>
+      <li>Apply minimum edge weight threshold (≥2 shared entities) to reduce noise</li>
+      <li>Plot histograms: entity count per type (ORG / POLICY / CERT / METRIC) across full corpus</li>
+    </ul>
+    <div class="stitle">ESG-specific addition</div>
+    <ul>
+      <li>Separate graph per ESG pillar: E-graph, S-graph, G-graph — compare structural properties across pillars</li>
+      <li>Color-code nodes by sector (IDX) to reveal sector clustering in the graph layout</li>
+    </ul>
+    <div class="stitle">Expected outputs</div>
+    <div class="otags">
+      <span class="otag" style="background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5">NetworkX graph object</span>
+      <span class="otag" style="background:#E6F1FB;color:#185FA5;border-color:#85B7EB">Entity type histogram</span>
+      <span class="otag" style="background:#EEEDFE;color:#534AB7;border-color:#AFA9EC">Gephi-ready .graphml</span>
+    </div>
+    <button class="sbtn" onclick="sendPrompt('How do I build a co-entity graph from ESG report sections using spaCy and NetworkX in Python?')">Build co-entity graph ↗</button>
+  </div>
+</div>
+
+<div class="card" id="t2">
+  <div class="chdr" onclick="tog('t2')">
+    <div class="num" style="background:#E1F5EE;color:#0F6E56">2</div>
+    <div style="flex:1">
+      <div class="ctitle">Degree distribution and centrality summary</div>
+      <div class="csub">Identify the most connected ESG sections in the network</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Use NetworkX to compute and visualize degree distribution. High-degree nodes are sections that share entities with the widest range of other sections — these are structurally "central" ESG disclosures in Indonesian corporate reporting.</p>
+    <div class="stitle">Metrics to compute and tabulate</div>
+    <div class="grid">
+      <div class="box"><div class="bn">Max degree</div><p>Section with most entity-sharing connections</p></div>
+      <div class="box"><div class="bn">Min degree</div><p>Isolated or near-isolated sections</p></div>
+      <div class="box"><div class="bn">Avg degree</div><p>Mean connectivity across all section nodes</p></div>
+      <div class="box"><div class="bn">Avg path length</div><p>Mean shortest path between any two connected sections</p></div>
+      <div class="box"><div class="bn">Degree centrality</div><p>Normalized degree per node; save as CSV</p></div>
+      <div class="box"><div class="bn">Density</div><p>Ratio of actual to possible edges</p></div>
+    </div>
+    <div class="stitle">Plot</div>
+    <ul>
+      <li>Degree distribution histogram (log–log scale to test power-law — common in entity co-occurrence networks)</li>
+      <li>Annotate top-5 highest-degree nodes with their company + pillar label</li>
+    </ul>
+    <div class="stitle">ESG interpretation</div>
+    <ul>
+      <li>High-degree environmental sections that are hubs: do they belong to mining/extractive companies? (defensive ESG framing hypothesis)</li>
+      <li>Isolated (degree-0) nodes: sections with entirely unique or no recognized entities — flag as boilerplate-free or entity-poor</li>
+    </ul>
+    <div class="note"><i class="ti ti-info-circle" aria-hidden="true"></i> Save degree centrality scores to CSV indexed by company + year + pillar for use in Task 5 token correlation analysis.</div>
+  </div>
+</div>
+
+<div class="card" id="t3">
+  <div class="chdr" onclick="tog('t3')">
+    <div class="num" style="background:#E1F5EE;color:#0F6E56">3</div>
+    <div style="flex:1">
+      <div class="ctitle">Betweenness and closeness centrality analysis</div>
+      <div class="csub">Find sections that bridge ESG discourse communities</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Compute betweenness and closeness centralities. In the ESG graph, high-betweenness sections are those whose entity vocabulary bridges otherwise disconnected ESG topics — potentially integrative or cross-pillar disclosures.</p>
+    <div class="stitle">Original task analog</div>
+    <p>Compute and plot betweenness and closeness centralities. Save scores. Analyze top nodes' bag_of_phrases content.</p>
+    <div class="stitle">Adapted procedure</div>
+    <ul>
+      <li>Compute <code>nx.betweenness_centrality(G, normalized=True)</code> and <code>nx.closeness_centrality(G)</code></li>
+      <li>Plot both distributions as bar charts (top-20 nodes each)</li>
+      <li>Save full scores to CSV: node_id, company, year, pillar, betweenness, closeness</li>
+    </ul>
+    <div class="stitle">Content analysis of top nodes</div>
+    <ul>
+      <li>For the top-10 nodes by betweenness: extract their section text, identify which ESG aspects (from your 46-cluster taxonomy) appear most frequently</li>
+      <li>Hypothesis: high-betweenness sections mention cross-pillar entities (e.g., SDG goals that span E+S+G) — test this</li>
+      <li>For top-10 by closeness: these are sections most "reachable" from any other section — likely generic/templated language hubs</li>
+    </ul>
+    <div class="stitle">Greenwashing signal</div>
+    <ul>
+      <li>Sections with high closeness but low sentiment specificity (vague positive language, few METRIC-type entities) may be isomorphic templates</li>
+      <li>Compare betweenness centrality between GRI-aligned vs non-aligned reports</li>
+    </ul>
+    <button class="sbtn" onclick="sendPrompt('How do I interpret betweenness centrality in an ESG entity co-occurrence graph?')">Interpret centrality for ESG ↗</button>
+  </div>
+</div>
+
+<div class="card" id="t4">
+  <div class="chdr" onclick="tog('t4')">
+    <div class="num" style="background:#E1F5EE;color:#0F6E56">4</div>
+    <div style="flex:1">
+      <div class="ctitle">Clustering coefficients and local structure analysis</div>
+      <div class="csub">Measure how tightly ESG sections cluster around shared entities</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Calculate clustering coefficients for all nodes. A high clustering coefficient means a section's neighbors are also densely connected to each other — indicating a tight-knit ESG topic subgroup. Low coefficients indicate bridging nodes between sparse groups.</p>
+    <div class="stitle">Procedure</div>
+    <ul>
+      <li>Compute <code>nx.clustering(G)</code> for all nodes; save to CSV</li>
+      <li>Plot histogram with 10 bins: distribution of clustering coefficients across all section nodes</li>
+      <li>Compute global average clustering coefficient and compare to equivalent Erdős–Rényi random graph (same n, m) as a null model</li>
+    </ul>
+    <div class="stitle">ESG interpretation</div>
+    <ul>
+      <li>Nodes with high clustering: likely belong to sector-specific ESG subgraphs (e.g., banking sector governance sections all citing OJK together)</li>
+      <li>Nodes with near-zero clustering despite moderate degree: true bridge nodes connecting otherwise separate ESG discourse clusters</li>
+      <li>Compare average clustering per sector: do mining companies form denser local clusters (due to shared environmental regulation citations)?</li>
+    </ul>
+    <div class="stitle">Expected outputs</div>
+    <div class="otags">
+      <span class="otag" style="background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5">Clustering coefficient CSV</span>
+      <span class="otag" style="background:#FAEEDA;color:#854F0B;border-color:#EF9F27">10-bin histogram</span>
+      <span class="otag" style="background:#E6F1FB;color:#185FA5;border-color:#85B7EB">Random graph comparison</span>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="t5">
+  <div class="chdr" onclick="tog('t5')">
+    <div class="num" style="background:#E1F5EE;color:#0F6E56">5</div>
+    <div style="flex:1">
+      <div class="ctitle">Sentiment–centrality correlation and token analysis</div>
+      <div class="csub">ESG analog of retweet/like/reply correlation with content tokens</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Replace the original engagement metrics (retweet, reply, like counts) with ESG "influence metrics": sentiment score, aspect frequency, and entity density. Correlate these with graph centrality measures and analyze which tokens/entities appear in the highest and lowest performing sections.</p>
+    <div class="stitle">Original task analog</div>
+    <p>For Retweet/Reply/Like counts, extract top-10 tokens/entities. For top and bottom 5 nodes by each metric, report most frequent tokens. Discuss content–popularity correlations.</p>
+    <div class="stitle">ESG influence metrics (replacing engagement counts)</div>
+    <div class="grid">
+      <div class="box"><div class="bn">Sentiment score</div><p>Composite LLM-extracted score per section</p></div>
+      <div class="box"><div class="bn">Aspect frequency</div><p>Number of ESG aspects detected per section</p></div>
+      <div class="box"><div class="bn">Entity density</div><p>Named entity count ÷ token count</p></div>
+      <div class="box"><div class="bn">Metric density</div><p>METRIC-type entity count — quantitative specificity</p></div>
+    </div>
+    <div class="stitle">Analysis</div>
+    <ul>
+      <li>For each metric: extract top-10 most frequent tokens/entities across top-scoring sections</li>
+      <li>For top-5 and bottom-5 nodes by degree centrality: report most frequent tokens and average sentiment — do high-centrality sections use more positive or more hedged language?</li>
+      <li>Compute Pearson r between (degree centrality, betweenness) and (sentiment score, entity density) — discuss whether centrality predicts ESG tone quality</li>
+      <li>Key ESG insight: if high-centrality sections have high sentiment but low metric density → centrality driven by vague popular language = greenwashing network signal</li>
+    </ul>
+    <div class="warn"><i class="ti ti-alert-triangle" aria-hidden="true"></i> This is a novel contribution: network centrality as a proxy for ESG narrative influence, correlated with sentiment credibility.</div>
+    <button class="sbtn" onclick="sendPrompt('How do I correlate network centrality metrics with ESG sentiment scores in a co-entity graph?')">Correlate centrality with sentiment ↗</button>
+  </div>
+</div>
+
+<div class="card" id="t6">
+  <div class="chdr" onclick="tog('t6')">
+    <div class="num" style="background:#EEEDFE;color:#534AB7">6</div>
+    <div style="flex:1">
+      <div class="ctitle">Community detection and ESG discourse cluster profiling</div>
+      <div class="csub">Louvain algorithm + Gephi visualization + word clouds per community</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Apply the Louvain community detection algorithm to identify natural groupings in the ESG entity graph. Visualize in Gephi. Profile each community using word clouds and ESG aspect distributions — linking network communities to your 46 aspect clusters.</p>
+    <div class="stitle">Original task analog</div>
+    <p>Apply Louvain; visualize with Gephi; generate word clouds for the three largest communities from concatenated bag_of_phrases.</p>
+    <div class="stitle">Adapted procedure</div>
+    <ul>
+      <li>Apply <code>community.best_partition(G)</code> (python-louvain) with resolution parameter tuning</li>
+      <li>Export to Gephi: node attributes = community ID, company, sector, year, pillar, sentiment score</li>
+      <li>In Gephi: use ForceAtlas2 layout; color nodes by community; size nodes by degree centrality</li>
+      <li>For the 3 largest communities: concatenate all section texts and generate word clouds using wordcloud library</li>
+    </ul>
+    <div class="stitle">Community profiling</div>
+    <ul>
+      <li>Per community: dominant sector composition, dominant ESG pillar, average sentiment score, top-5 named entities</li>
+      <li>Map community vocabulary to your 46 ESG aspect clusters — does each Louvain community correspond to a coherent aspect group?</li>
+      <li>Identify "mixed" communities that span pillars — these may represent integrative ESG reporters vs pillar-siloed reporters</li>
+    </ul>
+    <div class="stitle">ESG discourse naming</div>
+    <ul>
+      <li>Assign each community a descriptive ESG label (e.g., "Regulatory compliance cluster", "Climate target cluster", "Workforce social cluster") based on dominant entities and aspects</li>
+      <li>Validate labels against LDA topics from the main ABSA pipeline (Task 8 of previous framework)</li>
+    </ul>
+    <div class="stitle">Expected outputs</div>
+    <div class="otags">
+      <span class="otag" style="background:#EEEDFE;color:#534AB7;border-color:#AFA9EC">Gephi visualization</span>
+      <span class="otag" style="background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5">3 word clouds</span>
+      <span class="otag" style="background:#FAEEDA;color:#854F0B;border-color:#EF9F27">Community profile table</span>
+    </div>
+    <button class="sbtn" onclick="sendPrompt('How do I apply Louvain community detection to an ESG co-entity graph and export to Gephi?')">Louvain + Gephi for ESG ↗</button>
+  </div>
+</div>
+
+<div class="card" id="t7">
+  <div class="chdr" onclick="tog('t7')">
+    <div class="num" style="background:#EEEDFE;color:#534AB7">7</div>
+    <div style="flex:1">
+      <div class="ctitle">Attribute correlation (1): sentiment metric cross-correlations</div>
+      <div class="csub">ESG analog of retweet–like and reply–like Pearson correlations</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Replace the original tweet engagement pair correlations (retweet–like, reply–like) with ESG sentiment metric pair correlations. Compute Pearson r and p-value for each pair to establish which sentiment measures are most aligned — directly relevant to your existing κ=0.788 agreement finding.</p>
+    <div class="stitle">Original task analog</div>
+    <p>Pearson correlation + p-value between Retweet and Like counts, and between Reply and Like counts.</p>
+    <div class="stitle">Adapted sentiment metric pairs</div>
+    <div class="grid">
+      <div class="box"><div class="bn">Pair 1</div><p>LLM_sentiment ↔ afinn_sentiment — validates your pipeline against lexicon baseline</p></div>
+      <div class="box"><div class="bn">Pair 2</div><p>LLM_sentiment ↔ ClimateBERT_score — your thesis low-agreement finding quantified here</p></div>
+      <div class="box"><div class="bn">Pair 3</div><p>nrc_sentiment ↔ bing_sentiment — lexicon–lexicon internal consistency</p></div>
+      <div class="box"><div class="bn">Pair 4</div><p>E_pillar_score ↔ G_pillar_score — do environmental and governance tones co-vary?</p></div>
+    </div>
+    <div class="stitle">Additional ESG pairs</div>
+    <ul>
+      <li>Sentiment score ↔ degree centrality: do more "networked" sections score higher sentiment?</li>
+      <li>Sentiment score ↔ clustering coefficient: are tight local clusters more positive?</li>
+      <li>Entity density ↔ metric density: does more entity use correlate with more quantitative disclosure?</li>
+    </ul>
+    <div class="stitle">Reporting format</div>
+    <ul>
+      <li>Correlation matrix heatmap (seaborn) for all metric pairs</li>
+      <li>Scatter plots with regression line for each significant pair (p &lt; 0.05)</li>
+      <li>Table: metric pair, r value, p-value, interpretation</li>
+    </ul>
+    <div class="note"><i class="ti ti-info-circle" aria-hidden="true"></i> The LLM ↔ ClimateBERT low correlation is already a known finding in your thesis — this task provides a formal statistical framing of that result with network-context enrichment.</div>
+  </div>
+</div>
+
+<div class="card" id="t8">
+  <div class="chdr" onclick="tog('t8')">
+    <div class="num" style="background:#EEEDFE;color:#534AB7">8</div>
+    <div style="flex:1">
+      <div class="ctitle">Attribute correlation (2): sentiment scores vs text complexity and entity count</div>
+      <div class="csub">ESG analog of engagement count vs token count in bag_of_phrases</div>
+    </div>
+    <i class="ti ti-chevron-down chev" onclick="tog('t8')" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Replace the original correlation between engagement counts and token count with a richer set of text complexity measures correlated against ESG sentiment and network metrics. This tests whether more verbose or entity-rich sections are systematically more positive or more central.</p>
+    <div class="stitle">Original task analog</div>
+    <p>Pearson correlation + p-value between Retweet/Reply/Like counts and token count in bag_of_phrases.</p>
+    <div class="stitle">Adapted variable pairs</div>
+    <div class="grid">
+      <div class="box"><div class="bn">Token count ↔ sentiment</div><p>Do longer sections score higher sentiment? (verbosity–positivity bias)</p></div>
+      <div class="box"><div class="bn">Entity count ↔ sentiment</div><p>More named entities = more credible = more positive?</p></div>
+      <div class="box"><div class="bn">Metric density ↔ sentiment</div><p>Quantitative disclosure density vs tone — key greenwashing test</p></div>
+      <div class="box"><div class="bn">Aspect count ↔ degree centrality</div><p>Sections covering more ESG aspects = more connected in the network</p></div>
+      <div class="box"><div class="bn">Hedging phrase count ↔ sentiment</div><p>"We aim to", "subject to" phrase frequency vs composite score</p></div>
+      <div class="box"><div class="bn">Future tense ratio ↔ sentiment</div><p>Commitment-heavy language vs present-tense disclosure</p></div>
+    </div>
+    <div class="stitle">Greenwashing insight</div>
+    <ul>
+      <li>If sentiment ↑ as metric density ↓: sections score highly positive despite low quantitative disclosure — greenwashing linguistic pattern</li>
+      <li>If hedging count ↑ correlates with sentiment ↑: vague commitments inflating positive scores</li>
+    </ul>
+    <div class="warn"><i class="ti ti-alert-triangle" aria-hidden="true"></i> These two greenwashing correlations (Tasks 7 and 8 combined) are a substantial novel contribution for your thesis discussion chapter.</div>
+    <button class="sbtn" onclick="sendPrompt('How do I test the correlation between hedging phrase frequency and sentiment scores in ESG reports using Python?')">Test hedging–sentiment correlation ↗</button>
+  </div>
+</div>
+
+<div class="phase">Part 2 — Simulation</div>
+
+<div class="card" id="t9">
+  <div class="chdr" onclick="tog('t9')">
+    <div class="num" style="background:#FAEEDA;color:#854F0B">9</div>
+    <div style="flex:1">
+      <div class="ctitle">ESG influence propagation simulation (Erdős number analog)</div>
+      <div class="csub">Model how ESG discourse spreads from the most-connected section</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Replace the Erdős number simulation (BFS distance from highest-degree node) with an ESG influence propagation simulation. The highest-degree section node becomes the "ESG hub" — compute every other section's graph distance from it, analogous to Erdős numbers. Then extend with a simple diffusion simulation.</p>
+    <div class="stitle">Original task analog</div>
+    <p>Use highest-degree node as "Erdős." Calculate other nodes' Erdős numbers via BFS. Save and plot distribution.</p>
+    <div class="stitle">Part A — ESG Erdős number</div>
+    <ul>
+      <li>Identify the highest-degree section node (the "ESG hub")</li>
+      <li>Compute BFS shortest path from hub to all connected nodes using <code>nx.single_source_shortest_path_length(G, hub)</code></li>
+      <li>Save ESG distance scores to CSV: node_id, company, year, pillar, esg_distance</li>
+      <li>Plot distribution histogram — what fraction of sections are within 2 hops of the hub?</li>
+      <li>Analyze: which sectors / pillars tend to be farthest from the hub (most isolated ESG discourse)?</li>
+    </ul>
+    <div class="stitle">Part B — ESG discourse diffusion simulation</div>
+    <ul>
+      <li>Simulate how a "greenwashing signal" (a specific vague entity, e.g., "net zero commitment") propagates across the network year-over-year</li>
+      <li>Use a simple SIR (Susceptible–Infected–Recovered) analog: sections "adopt" the phrase if ≥k neighbors contain it in prior year</li>
+      <li>Plot adoption curve across years — does the signal spread faster in denser sectors?</li>
+    </ul>
+    <div class="stitle">Expected outputs</div>
+    <div class="otags">
+      <span class="otag" style="background:#FAEEDA;color:#854F0B;border-color:#EF9F27">ESG distance CSV</span>
+      <span class="otag" style="background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5">BFS distance histogram</span>
+      <span class="otag" style="background:#EEEDFE;color:#534AB7;border-color:#AFA9EC">Diffusion curve plot</span>
+    </div>
+    <div class="note"><i class="ti ti-info-circle" aria-hidden="true"></i> The diffusion simulation is an original extension not in the original project — it directly supports your greenwashing isomorphic mimicry hypothesis (companies adopting ESG language from peer network neighbors).</div>
+    <button class="sbtn" onclick="sendPrompt('How do I implement a BFS Erdős number simulation and an SIR diffusion model on a NetworkX ESG graph?')">Build ESG diffusion simulation ↗</button>
+  </div>
+</div>
+
+<div class="phase">Part 3 — Literature review</div>
+
+<div class="card" id="t10">
+  <div class="chdr" onclick="tog('t10')">
+    <div class="num" style="background:#B4B2A9;color:#444441">10</div>
+    <div style="flex:1">
+      <div class="ctitle">Literature review: graph-based ESG analysis and entity network methods</div>
+      <div class="csub">Contextualize network findings within ESG NLP and graph analytics literature</div>
+    </div>
+    <i class="ti ti-chevron-down chev" aria-hidden="true"></i>
+  </div>
+  <div class="cbody">
+    <p>Adapt the original literature review (social network analysis, tweet virality, named entity influence on engagement) to ESG and sustainability discourse contexts. Cover both the graph/network methods used and the domain-specific ESG NLP literature.</p>
+    <div class="stitle">Original literature axes</div>
+    <p>Social network analysis, tweet virality, named entity influence on engagement.</p>
+    <div class="stitle">Adapted literature axes</div>
+    <div class="grid">
+      <div class="box"><div class="bn">Graph-based NLP</div><p>Knowledge graphs in financial text; entity co-occurrence networks in corporate disclosure analysis</p></div>
+      <div class="box"><div class="bn">ESG network structure</div><p>Studies on ESG disclosure diffusion; institutional isomorphism in sustainability reporting (DiMaggio & Powell)</p></div>
+      <div class="box"><div class="bn">NER in sustainability</div><p>Entity extraction from CSR/sustainability reports; GRI-entity recognition systems</p></div>
+      <div class="box"><div class="bn">Community detection in text graphs</div><p>Louvain and topic-graph alignment; modularity in discourse networks</p></div>
+      <div class="box"><div class="bn">Greenwashing network signals</div><p>Isomorphic mimicry literature; textual similarity as a greenwashing proxy</p></div>
+      <div class="box"><div class="bn">Indonesian ESG context</div><p>OJK POJK 51/2017 effects; PROPER program impact on reporting language; BUMN vs private disclosure differences</p></div>
+    </div>
+    <div class="stitle">Key papers to anchor</div>
+    <ul>
+      <li>Luo et al. — greenwashing detection using NLP in sustainability reports</li>
+      <li>Baier et al. — ESG disclosure quality and information asymmetry</li>
+      <li>Blondel et al. — Louvain community detection algorithm (original paper)</li>
+      <li>Devlin et al. — BERT; contextualize against ClimateBERT (Webersinke et al.)</li>
+      <li>DiMaggio & Powell — institutional isomorphism (theoretical grounding for mimicry simulation)</li>
+    </ul>
+    <div class="stitle">Discussion points</div>
+    <ul>
+      <li>Why graph methods complement ABSA: ABSA captures local (sentence-level) sentiment; graphs capture relational structure across the full corpus</li>
+      <li>Limitations of entity-based edges: entity co-occurrence ≠ semantic similarity; discuss alongside Task 6 SBERT similarity results</li>
+      <li>Future direction: temporal dynamic graphs to track ESG network evolution year-over-year</li>
+    </ul>
+    <button class="sbtn" onclick="sendPrompt('What are the key papers I should cite for graph-based ESG analysis and entity co-occurrence networks in sustainability reporting?')">Find key literature ↗</button>
+  </div>
+</div>
+
+<div style="height:2rem"></div>
+<script>
+function tog(id){document.getElementById(id).classList.toggle('open')}
+document.getElementById('t1').classList.add('open')
+</script>

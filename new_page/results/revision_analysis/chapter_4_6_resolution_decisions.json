@@ -1,0 +1,7 @@
+{
+  "missing_tone_policy": "exclude_from_agreement",
+  "data_md_policy": "retain_as_failed_experiment",
+  "greenwashing_policy": "median_primary_log1p_sensitivity",
+  "ontology_top_n": 15,
+  "updated_at": "2026-05-23T04:59:10Z"
+}

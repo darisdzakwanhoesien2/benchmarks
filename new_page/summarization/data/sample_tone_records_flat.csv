@@ -1,0 +1,7 @@
+record_id,company,source_doc,aspect,esg,tone,sentiment,reasoning
+1,Company A,report_a_2024.pdf,Emissions,E,Commitment,Positive,Company commits to reducing Scope 1 emissions.
+2,Company A,report_a_2024.pdf,Energy Efficiency,E,Action,Positive,Installed efficient boilers and reduced power intensity.
+3,Company B,report_b_2024.pdf,Community Development,S,Outcome,Positive,Reached 1200 households via CSR education program.
+4,Company C,report_c_2024.pdf,Board Independence,G,Commitment,Neutral,Planned governance update with independent commissioners.
+5,Company D,report_d_2024.pdf,Waste Management,E,Action,Neutral,Expanded waste sorting and recycling facilities.
+6,Company E,report_e_2024.pdf,Workplace Safety,S,Outcome,Negative,Increase in lost-time injury frequency this year.

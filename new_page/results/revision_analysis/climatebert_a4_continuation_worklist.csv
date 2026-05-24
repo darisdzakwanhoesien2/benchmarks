@@ -1,0 +1,6 @@
+work item,current evidence,next action,status
+Explain A.4 denominator,797 exploded label assignments from 5 tone rows and 16 label columns,"Treat legacy A.4 as the compact 332-record visualization, not the full Action Plan corpus.",done
+Build full-corpus ClimateBERT x tone table,"5,444 imported rows; 5,444/5,444 rows have commitment predictions",Use the full imported table to continue A.4 analysis for all silver/action-plan records.,done
+Verify ClimateBERT model family,4 model/job group(s); label column = climatebert_label,Confirm whether outputs came from the commitment model or from another ClimateBERT classifier before interpreting labels.,review
+Separate binary commitment from multiclass labels,Imported file contains both `climatebert_commitment_pred` and model labels when available.,Report commitment agreement separately from multiclass/controversy label distribution.,needed
+Regenerate thesis figure/table after review,Legacy A.4 PNG/CSV still lives in results/visualizations.,"After model verification, promote the full-corpus continuation table into the Chapter 4-6 graph attachments.",needed

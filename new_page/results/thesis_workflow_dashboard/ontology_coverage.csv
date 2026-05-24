@@ -1,53 +1,53 @@
 aspect,records,mapped_to_ontology,suggested_path
 climate-detection,79,True,ClimateBERT -> climate-detection
 governance,66,True,Governance -> General
-missing,60,False,
-none,23,False,
+missing,60,True,missing
+none,23,True,none
 climate-action,19,True,ClimateBERT -> climate-action
 climate-commitment,15,True,ClimateBERT -> climate-commitment
 environmental-claims,11,True,ClimateBERT -> environmental-claims
-climate-d,8,False,ClimateBERT -> climate-d
-climate-d-s,4,False,ClimateBERT -> climate-d-s
+climate-d,8,True,ClimateBERT -> climate-d
+climate-d-s,4,True,ClimateBERT -> climate-d-s
 netzero-reduction,4,True,ClimateBERT -> netzero-reduction
-climate,2,False,ClimateBERT -> climate
-pelatihan antikorupsi,1,False,
-roadmap karbon,1,False,
-pelatihan antikorupsi untuk karyawan,1,False,
-pelatihan antikorupsi untuk komisaris dan direksi,1,False,
-pemetaan risiko korupsi,1,False,
-pendekatan karbon,1,False,
-pendekatan manajemen karbon,1,False,
-penolakan korupsi,1,False,
-antikorupsi,1,False,
-roadmap manajemen karbon 2050,1,False,
-sertifikasi smap,1,False,
-sinergi pengembangan energi bersih,1,False,
-pedoman smap,1,False,
-sosialisasi antikorupsi untuk komisaris dan direksi,1,False,
-sosialisasi antikorupsi untuk vendor,1,False,
-sosialisasi kebijakan antikorupsi,1,False,
-strategic adaptation,1,False,
-strategy,1,False,
-sustainable expansion,1,False,
-sosialisasi antikorupsi untuk karyawan,1,False,
-konflik kepentingan,1,False,
-optimasi lingkungan,1,False,
-mitigasi korupsi,1,False,
-climate-strategy,1,False,ClimateBERT -> climate-strategy
-definisi hukum korupsi,1,False,
-definisi konflik kepentingan,1,False,
-economic growth,1,False,
-economic resilience,1,False,
-identifikasi risiko korupsi,1,False,
-implementasi antikorupsi,1,False,
-implementasi eco-mechanized mining,1,False,
-kebijakan antigratifikasi,1,False,
-kebijakan antikorupsi,1,False,
-kebijakan konflik kepentingan,1,False,
-kerja sama energi bersih,1,False,
-komitmen bisnis berkelanjutan,1,False,
-komitmen esg,1,False,
-komitmen net zero,1,False,
-komitmen net zero emission,1,False,
-komitmen net zero emission 2060,1,False,
-teknologi ramah lingkungan,1,False,
+climate,2,True,ClimateBERT -> climate
+pelatihan antikorupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> pelatihan antikorupsi
+roadmap karbon,1,True,GRI 305 Emissions / TCFD Climate -> roadmap karbon
+pelatihan antikorupsi untuk karyawan,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> pelatihan antikorupsi untuk karyawan
+pelatihan antikorupsi untuk komisaris dan direksi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> pelatihan antikorupsi untuk komisaris dan direksi
+pemetaan risiko korupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> pemetaan risiko korupsi
+pendekatan karbon,1,True,GRI 305 Emissions / TCFD Climate -> pendekatan karbon
+pendekatan manajemen karbon,1,True,GRI 305 Emissions / TCFD Climate -> pendekatan manajemen karbon
+penolakan korupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> penolakan korupsi
+antikorupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> antikorupsi
+roadmap manajemen karbon 2050,1,True,GRI 305 Emissions / TCFD Climate -> roadmap manajemen karbon 2050
+sertifikasi smap,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> sertifikasi smap
+sinergi pengembangan energi bersih,1,True,GRI 305 Emissions / TCFD Climate -> sinergi pengembangan energi bersih
+pedoman smap,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> pedoman smap
+sosialisasi antikorupsi untuk komisaris dan direksi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> sosialisasi antikorupsi untuk komisaris dan direksi
+sosialisasi antikorupsi untuk vendor,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> sosialisasi antikorupsi untuk vendor
+sosialisasi kebijakan antikorupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> sosialisasi kebijakan antikorupsi
+strategic adaptation,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> strategic adaptation
+strategy,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> strategy
+sustainable expansion,1,True,GRI 305 Emissions / TCFD Climate -> sustainable expansion
+sosialisasi antikorupsi untuk karyawan,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> sosialisasi antikorupsi untuk karyawan
+konflik kepentingan,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> konflik kepentingan
+optimasi lingkungan,1,True,GRI 305 Emissions / TCFD Climate -> optimasi lingkungan
+mitigasi korupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> mitigasi korupsi
+climate-strategy,1,True,ClimateBERT -> climate-strategy
+definisi hukum korupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> definisi hukum korupsi
+definisi konflik kepentingan,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> definisi konflik kepentingan
+economic growth,1,True,GRI 201 Economic Performance -> economic growth
+economic resilience,1,True,GRI 201 Economic Performance -> economic resilience
+identifikasi risiko korupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> identifikasi risiko korupsi
+implementasi antikorupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> implementasi antikorupsi
+implementasi eco-mechanized mining,1,True,GRI 305 Emissions / TCFD Climate -> implementasi eco-mechanized mining
+kebijakan antigratifikasi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> kebijakan antigratifikasi
+kebijakan antikorupsi,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> kebijakan antikorupsi
+kebijakan konflik kepentingan,1,True,GRI 205 Anti-corruption / GRI 2 Governance -> kebijakan konflik kepentingan
+kerja sama energi bersih,1,True,GRI 305 Emissions / TCFD Climate -> kerja sama energi bersih
+komitmen bisnis berkelanjutan,1,True,GRI 305 Emissions / TCFD Climate -> komitmen bisnis berkelanjutan
+komitmen esg,1,True,GRI 305 Emissions / TCFD Climate -> komitmen esg
+komitmen net zero,1,True,GRI 305 Emissions / TCFD Climate -> komitmen net zero
+komitmen net zero emission,1,True,GRI 305 Emissions / TCFD Climate -> komitmen net zero emission
+komitmen net zero emission 2060,1,True,GRI 305 Emissions / TCFD Climate -> komitmen net zero emission 2060
+teknologi ramah lingkungan,1,True,Governance / Data and Technology -> teknologi ramah lingkungan

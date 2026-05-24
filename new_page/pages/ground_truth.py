@@ -102,6 +102,28 @@ class JSONLWriter:
         self.f.close()
 
 
+def has_usable_t1_label(result: Any) -> bool:
+    if isinstance(result, list) and result:
+        first = result[0] if isinstance(result[0], dict) else {}
+        label = str(first.get("label", "")).strip().lower()
+        return label not in {"", "missing", "none", "nan", "null", "error"}
+    if isinstance(result, dict):
+        if str(result.get("error", "")).strip():
+            return False
+        label = str(result.get("prediction") or result.get("label") or "").strip().lower()
+        return label not in {"", "missing", "none", "nan", "null", "error"}
+    label = str(result or "").strip().lower()
+    return label not in {"", "missing", "none", "nan", "null", "error"}
+
+
+def is_complete_t1_record(row: Dict[str, Any]) -> bool:
+    if str(row.get("error") or "").strip():
+        return False
+    if row.get("success") is False:
+        return False
+    return has_usable_t1_label(row.get("result"))
+
+
 # 🔥 LOAD PROCESSED KEYS (RESUME CORE)
 def load_processed_t1(path: Path) -> Set[Tuple[str, str]]:
     done = set()
@@ -110,7 +132,8 @@ def load_processed_t1(path: Path) -> Set[Tuple[str, str]]:
             for line in f:
                 try:
                     d = json.loads(line)
-                    done.add((d.get("label"), d.get("model")))
+                    if isinstance(d, dict) and is_complete_t1_record(d):
+                        done.add((d.get("label"), d.get("model")))
                 except:
                     pass
     return done
@@ -384,7 +407,7 @@ if st.button("🚀 Run Pipeline"):
                 for m in target_models:
                     key = (item["label"], m)
 
-                    if t1_backend == "ClimateBERT API" and key in done_t1:
+                    if key in done_t1:
                         step += 1
                         progress.progress(step / total_tasks)
                         continue

@@ -3,12 +3,12 @@ llm_bg_20260511T152142Z_b64670,completed,3,3,0,0,100.0,20250526113828-2025-05-26
 llm_bg_action_20260519T075103Z_caf49b,completed,100,100,3,0,100.0,ABM_2025_ABMM_SR_2025_pdf,2026-05-19T08:22:35Z
 llm_bg_action_20260519T075211Z_c61518,completed,5,5,0,0,100.0,AR SR GTRA 2024___pdf,2026-05-19T07:53:42Z
 llm_bg_action_20260519T075240Z_95ec2e,completed,40,40,3,0,100.0,BEST-SR_2024_pdf,2026-05-19T08:11:56Z
-llm_bg_action_20260519T205042Z_ed0875,running,112,120,45,0,93.3,wika_beton_SR-WTON-2025_pdf,2026-05-20T02:32:58Z
+llm_bg_action_20260519T205042Z_ed0875,completed,120,120,50,0,100.0,wika_beton_SR-WTON-2025_pdf,2026-05-20T02:42:07Z
 llm_bg_action_20260519T205831Z_cb9d9f,completed,60,60,30,0,100.0,ARCI-SR-2025-E-reporting_pdf,2026-05-20T01:05:43Z
-llm_bg_action_20260519T205901Z_9fc259,running,94,100,32,0,94.0,SR-Bank-Aladin-Syariah-2025_pdf,2026-05-20T02:34:31Z
-llm_bg_action_20260519T205923Z_6eca10,running,144,150,64,0,96.0,alfamart_sustainability_2025_pdf,2026-05-20T02:33:39Z
-llm_bg_action_20260519T210244Z_c9669e,running,134,150,52,0,89.3,alfamart_sustainability_2025_pdf,2026-05-20T02:22:24Z
-llm_bg_action_20260519T210251Z_28b6e3,running,68,150,31,0,45.3,alfamart_sustainability_2025_pdf,2026-05-20T00:17:52Z
+llm_bg_action_20260519T205901Z_9fc259,completed,100,100,34,0,100.0,SR-Bank-Aladin-Syariah-2025_pdf,2026-05-20T02:45:08Z
+llm_bg_action_20260519T205923Z_6eca10,completed,150,150,68,0,100.0,alfamart_sustainability_2025_pdf,2026-05-20T03:00:18Z
+llm_bg_action_20260519T210244Z_c9669e,completed,150,150,56,0,100.0,alfamart_sustainability_2025_pdf,2026-05-20T02:59:31Z
+llm_bg_action_20260519T210251Z_28b6e3,completed,150,150,74,0,100.0,alfamart_sustainability_2025_pdf,2026-05-20T05:01:29Z
 llm_bg_action_20260520T130315Z_fd76bd,completed,50,50,28,0,100.0,alfamart_sustainability_2025_pdf,2026-05-20T14:36:25Z
 llm_bg_smoke_20260511T132812Z_218cf5,completed,1,1,0,0,100.0,20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf,2026-05-11T13:28:14Z
 llm_processing_bg_20260511T233421Z_b3baf2,completed,4,4,0,0,100.0,SCM_2024_090425-sr24-scma-pdf-final_pdf,2026-05-11T23:36:07Z

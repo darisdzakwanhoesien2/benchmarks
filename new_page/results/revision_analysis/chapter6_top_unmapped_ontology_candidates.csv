@@ -1,0 +1,16 @@
+aspect,records,suggested_gri_sasb_tcfd_node,reviewed_ontology_path
+praktik bisnis ramah lingkungan,140,GRI 306 Waste / GRI 303 Water / GRI 3 Material Topics -> praktik bisnis ramah lingkungan,GRI 3 Material Topics 2021 -> praktik bisnis ramah lingkungan
+tata kelola perusahaan,73,GRI 205 Anti-corruption / GRI 2 Governance -> tata kelola perusahaan,GRI 205 Anti-corruption / GRI 2 Governance -> governance
+komitmen keberlanjutan,72,GRI 2 General Disclosures / GRI 3 Material Topics -> komitmen keberlanjutan,GRI 305 Emissions / TCFD Climate -> climate-detection
+kinerja esg,66,Manual review -> kinerja esg,GRI 2 General Disclosures 2021 -> tata kelola perusahaan
+manajemen risiko,65,GRI 205 Anti-corruption / GRI 2 Governance -> manajemen risiko,GRI 3 Material Topics 2021 -> komitmen keberlanjutan
+pengelolaan risiko,64,GRI 205 Anti-corruption / GRI 2 Governance -> pengelolaan risiko,GRI 3 Material Topics 2021 -> kinerja esg
+kontribusi keberlanjutan,63,GRI 2 General Disclosures / GRI 3 Material Topics -> kontribusi keberlanjutan,GRI 2 General Disclosures 2021 -> pengelolaan risiko
+environmental,55,Manual review -> environmental,GRI 3 Material Topics 2021 -> kontribusi keberlanjutan
+pernyataan prospektif,54,GRI 2 General Disclosures / GRI 3 Material Topics -> pernyataan prospektif,GRI 413 Local Communities -> keberlanjutan sosial dan lingkungan
+material ramah lingkungan,45,GRI 306 Waste / GRI 303 Water / GRI 3 Material Topics -> material ramah lingkungan,GRI 205 Anti-corruption / GRI 2 Governance -> kepatuhan lingkungan
+risiko hak asasi manusia,41,GRI 401-404 Employment and Training -> risiko hak asasi manusia,GRI 306 Waste / GRI 303 Water -> pengelolaan limbah
+pengungkapan keberlanjutan,37,GRI 2 General Disclosures / GRI 3 Material Topics -> pengungkapan keberlanjutan,Manual review -> none
+g,36,Manual review -> g,GRI 3 Material Topics 2021 -> environmental
+e,36,Manual review -> e,Manual review -> pernyataan prospektif
+dampak lingkungan operasional,32,GRI 306 Waste / GRI 303 Water / GRI 3 Material Topics -> dampak lingkungan operasional,GRI 401-404 Employment and Training -> keselamatan kerja

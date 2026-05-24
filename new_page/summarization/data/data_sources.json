@@ -1,0 +1,8 @@
+{
+  "tone_records_flat": "results/thesis_workflow_dashboard/tone_records_flat.csv",
+  "t2_flat_outputs": "results/thesis_workflow_dashboard/t2_flat_outputs.csv",
+  "climatebert_proxy_agreement_summary": "results/thesis_workflow_dashboard/climatebert_proxy_agreement_summary.csv",
+  "model_stability_summary": "results/thesis_workflow_dashboard/model_stability_summary.csv",
+  "prompt_stability_summary": "results/thesis_workflow_dashboard/prompt_stability_summary.csv",
+  "ontology_coverage": "results/thesis_workflow_dashboard/ontology_coverage.csv"
+}
