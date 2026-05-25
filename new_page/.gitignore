@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+.venv/
+venv/
+
+# Runtime logs/temp
+logs/
+*.log
+
+# Large/generated outputs (kept out of git)
+outputs/*
+!outputs/.keep/
+reports/*
+!reports/.keep/
+
+# Optional local scratch
+.tmp/

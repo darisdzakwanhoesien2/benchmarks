@@ -1,0 +1,9 @@
+# Ignore Python caches
+**/__pycache__/
+**/*.pyc
+
+# Ignore runtime logs
+logs/
+
+# Ignore scratch temp files
+.tmp/
