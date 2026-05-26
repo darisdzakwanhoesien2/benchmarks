@@ -14,6 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))
 NARRATIVE_PATH = ROOT / "pages" / "Thesis_Complete_Narrative.docx"
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+REVISION = ROOT / "results" / "revision_analysis"
+CH46_INTEGRATION_ARTIFACTS = {
+    "Chapter 4-6 resolution board": REVISION / "chapter_4_6_resolution_board.csv",
+    "Tone denominator audit": REVISION / "chapter4_tone_denominator_audit.csv",
+    "Top unmapped ontology candidates": REVISION / "chapter6_top_unmapped_ontology_candidates.csv",
+    "Benchmark gap positioning": REVISION / "chapter6_benchmark_gap_positioning.csv",
+}
 
 from thesis_chapter_streamlit import (  # noqa: E402
     DOCX_PATH,
@@ -781,7 +788,22 @@ def filter_df(df: pd.DataFrame, chapter_filter: str, rq_filter: str, layer_filte
         mask = out.astype(str).apply(lambda col: col.str.contains(rq_filter, case=False, regex=False)).any(axis=1)
         out = out[mask]
     if layer_filter != "All":
-        mask = out.astype(str).apply(lambda col: col.str.contains(layer_filter, case=False, regex=False)).any(axis=1)
+        layer_aliases = {
+            "Source": ["source", "pdf", "docx", "corpus", "document"],
+            "OCR": ["ocr", "page", "markdown", "processing_summary"],
+            "Pipeline": ["pipeline", "job", "run", "esg_records", "workflow", "provenance"],
+            "ABSA": ["absa", "aspect", "tone", "sentiment", "pillar"],
+            "ClimateBERT": ["climatebert", "agreement", "kappa", "climate"],
+            "Ontology": ["ontology", "mapped", "unmapped", "gri", "sasb", "aspect"],
+            "Failure": ["failure", "missing", "drift", "error", "audit"],
+            "Benchmark": ["benchmark", "baseline", "stability", "parse success", "missing-tone", "positioning"],
+            "Reproducibility": ["reproducibility", "artifact", "rerun", "config", "inventory", "traceability"],
+            "Streamlit": ["streamlit", "page", "dashboard", "6_0", "6_1", "6_2", "6_3", "3_0"],
+        }
+        needles = layer_aliases.get(layer_filter, [layer_filter])
+        mask = out.astype(str).apply(
+            lambda col: col.str.contains("|".join(re.escape(n) for n in needles), case=False, regex=True)
+        ).any(axis=1)
         out = out[mask]
     return out
 
@@ -1064,7 +1086,37 @@ with tab_integrated:
         height=260,
     )
 
-    st.subheader("5. Citation-Ready Live Evidence")
+    st.subheader("5. Chapter 4-6 Integration Artifacts")
+    ch46_rows = []
+    for label, path in CH46_INTEGRATION_ARTIFACTS.items():
+        exists = path.exists()
+        size = path.stat().st_size if exists else 0
+        ch46_rows.append(
+            {
+                "artifact": label,
+                "file": path.name,
+                "status": "available" if exists else "missing",
+                "size bytes": size,
+                "used by": "3_0 Thesis Action Plan and 6_4 ch4-6",
+                "integration meaning": "Carries resolution logic and benchmark evidence into integrated thesis navigation.",
+            }
+        )
+    ch46_df = pd.DataFrame(ch46_rows)
+    st.dataframe(
+        filter_df(ch46_df, chapter_filter, rq_filter, layer_filter),
+        use_container_width=True,
+        hide_index=True,
+        height=210,
+    )
+    st.download_button(
+        "Download Chapter 4-6 integration artifact inventory CSV",
+        ch46_df.to_csv(index=False).encode("utf-8"),
+        "chapter_4_6_integration_artifact_inventory.csv",
+        "text/csv",
+        use_container_width=True,
+    )
+
+    st.subheader("6. Citation-Ready Live Evidence")
     st.dataframe(citation_table(bundle), use_container_width=True, hide_index=True, height=260)
 
 with tab_map:

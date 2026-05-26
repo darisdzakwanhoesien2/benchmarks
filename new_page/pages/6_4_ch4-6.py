@@ -253,9 +253,12 @@ def human_annotation_agreement_rows() -> pd.DataFrame:
         {"metric": "pilot seed rows", "records": len(seed), "source": "pilot_ground_truth_seed.csv"},
         {"metric": "silver dataset rows", "records": len(silver), "source": "silver_tone_ground_truth.csv"},
     ]
-    for field in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect"]:
+    for field in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect", "annotator", "review_notes"]:
         completed = int(df[field].astype(str).str.strip().ne("").sum()) if not df.empty and field in df.columns else 0
         rows.append({"metric": f"{field} completed", "records": completed, "source": source})
+    if not df.empty and "ground_truth_tone" in df.columns:
+        missing_tone = int(df["ground_truth_tone"].astype(str).str.strip().eq("").sum())
+        rows.append({"metric": "ground_truth_tone missing", "records": missing_tone, "source": source})
     if not df.empty and "review_status" in df.columns:
         status_values = df["review_status"].astype(str).str.strip().replace("", "missing")
         for status, count in status_values.value_counts().items():
@@ -375,6 +378,9 @@ def benchmark_gap_positioning_rows() -> pd.DataFrame:
             {"benchmark": "FinBERT", "reported metric": "F1=97.3%", "Indonesian": "no", "multi-aspect": "no", "tone-labeled disclosure maturity": "no"},
             {"benchmark": "ESG-BERT", "reported metric": "F1=88%", "Indonesian": "no", "multi-aspect": "limited", "tone-labeled disclosure maturity": "no"},
             {"benchmark": "ClimateBERT", "reported metric": "F1=1.16", "Indonesian": "no", "multi-aspect": "no", "tone-labeled disclosure maturity": "no"},
+            {"benchmark": "OCR quality audit", "reported metric": "CER/WER missing", "Indonesian": "pending", "multi-aspect": "n/a", "tone-labeled disclosure maturity": "n/a"},
+            {"benchmark": "Repeated LLM runs", "reported metric": "partial coverage", "Indonesian": "partial", "multi-aspect": "partial", "tone-labeled disclosure maturity": "partial"},
+            {"benchmark": "ClimateBERT formal label-match F1", "reported metric": "not computed (proxy kappa=0.645)", "Indonesian": "no", "multi-aspect": "no", "tone-labeled disclosure maturity": "no"},
             {"benchmark": "This thesis", "reported metric": "prototype system", "Indonesian": "yes", "multi-aspect": "yes", "tone-labeled disclosure maturity": "yes"},
         ]
     )
