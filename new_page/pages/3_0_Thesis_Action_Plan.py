@@ -1861,6 +1861,33 @@ def climatebert_label_column(df):
     return ""
 
 
+def normalize_climatebert_label(value):
+    text = str(value or "").strip()
+    if not text:
+        return "missing"
+    low = text.lower()
+    if low in {"nan", "none", "null", "n/a", "na", "undefined"}:
+        return "missing"
+    return text
+
+
+def normalize_tone_value(value):
+    text = str(value or "").strip().lower()
+    if not text or text in {"nan", "none", "null", "n/a", "na", "undefined"}:
+        return "missing"
+    if text in {"commitment", "action", "outcome", "none", "unknown", "missing"}:
+        return text
+    if "," in text:
+        parts = [p.strip() for p in text.split(",") if p.strip()]
+        if "commitment" in parts:
+            return "commitment"
+        if "action" in parts:
+            return "action"
+        if "outcome" in parts:
+            return "outcome"
+    return text
+
+
 def climatebert_tone_crosstab(df):
     if df.empty or "tone_pred" not in df.columns:
         return pd.DataFrame()
@@ -1868,9 +1895,14 @@ def climatebert_tone_crosstab(df):
     if not label_col:
         return pd.DataFrame()
     view = df.copy()
-    view["tone"] = column_series(view, "tone_pred").astype(str).str.strip().replace("", "missing")
-    view["climatebert_label"] = column_series(view, label_col).astype(str).str.strip().replace("", "missing")
+    view["tone"] = column_series(view, "tone_pred").map(normalize_tone_value)
+    view["climatebert_label"] = column_series(view, label_col).map(normalize_climatebert_label)
     pivot = pd.crosstab(view["tone"], view["climatebert_label"])
+    tone_order = ["commitment", "action", "outcome", "none", "unknown", "missing"]
+    existing_tones = [t for t in tone_order if t in pivot.index]
+    extra_tones = [t for t in pivot.index.tolist() if t not in existing_tones]
+    if existing_tones:
+        pivot = pivot.reindex(existing_tones + extra_tones, fill_value=0)
     pivot.index.name = "tone"
     pivot.columns.name = None
     return pivot.reset_index()
@@ -1900,6 +1932,43 @@ def climatebert_model_summary(df):
     group_cols = [col for col in ["climatebert_model", "climatebert_model_backend", "climatebert_job_id"] if col in df.columns]
     summary = df.groupby(group_cols, dropna=False).size().reset_index(name="records")
     return summary.sort_values("records", ascending=False)
+
+
+def save_a4_primary_artifacts(full_a4: pd.DataFrame) -> list[str]:
+    saved: list[str] = []
+    if full_a4.empty:
+        return saved
+    VIS.mkdir(parents=True, exist_ok=True)
+    full_csv = VIS / "tone_climatebert_label_crosstab_full.csv"
+    full_a4.to_csv(full_csv, index=False)
+    saved.append(full_csv.name)
+
+    primary_csv = VIS / "tone_climatebert_label_crosstab.csv"
+    full_a4.to_csv(primary_csv, index=False)
+    saved.append(primary_csv.name)
+
+    try:
+        import matplotlib.pyplot as plt
+
+        table = full_a4.set_index("tone")
+        fig_w = max(9, min(16, 1.2 + 0.55 * len(table.columns)))
+        fig_h = max(4.6, min(11.0, 2.4 + 0.5 * len(table.index)))
+        fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+        table.plot(kind="bar", stacked=True, ax=ax, colormap="tab20")
+        ax.set_title("Tone by ClimateBERT Label (A.4 regenerated)", fontsize=13, pad=10)
+        ax.set_xlabel("Tone")
+        ax.set_ylabel("Record count")
+        ax.grid(axis="y", alpha=0.25)
+        ax.legend(title="ClimateBERT label", bbox_to_anchor=(1.02, 1), loc="upper left")
+        fig.tight_layout()
+        png_path = VIS / "climatebert_label_by_tone.png"
+        fig.savefig(png_path, dpi=180)
+        plt.close(fig)
+        saved.append(png_path.name)
+    except Exception:
+        pass
+
+    return saved
 
 
 def climatebert_label_definitions(labels=None):
@@ -3372,16 +3441,16 @@ with st.expander("A.4 continuation — Tone by ClimateBERT label", expanded=lega
 
     save_cols = st.columns(3)
     if save_cols[0].button("Save A.4 continuation tables", type="primary", use_container_width=True, key="save_a4_continuation"):
-        if not full_a4.empty:
-            full_a4.to_csv(VIS / "tone_climatebert_label_crosstab_full.csv", index=False)
+        saved_primary = save_a4_primary_artifacts(full_a4)
         if not binary_a4.empty:
             binary_a4.to_csv(VIS / "tone_climatebert_commitment_crosstab_full.csv", index=False)
         a4_work.to_csv(ARTIFACTS / "climatebert_a4_continuation_worklist.csv", index=False)
         if not a4_model_label_inventory.empty:
             a4_model_label_inventory.to_csv(ARTIFACTS / "climatebert_model_download_label_inventory.csv", index=False)
+        saved_text = ", ".join(f"`{name}`" for name in saved_primary) if saved_primary else "(no A.4 label table saved)"
         st.success(
-            "Saved full A.4 continuation artifacts: "
-            "`tone_climatebert_label_crosstab_full.csv`, "
+            "Saved A.4 continuation artifacts: "
+            f"{saved_text}, "
             "`tone_climatebert_commitment_crosstab_full.csv`, and "
             "`climatebert_a4_continuation_worklist.csv`. "
             "The local model label inventory is saved as `climatebert_model_download_label_inventory.csv` when labels are found."
