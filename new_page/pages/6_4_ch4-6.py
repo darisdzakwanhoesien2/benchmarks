@@ -1688,10 +1688,11 @@ def chapter_mapping_rows() -> pd.DataFrame:
 def benchmark_checklist_rows() -> pd.DataFrame:
     return pd.DataFrame(
         [
-            {"benchmark": "OCR quality", "why needed": "CER/WER is not yet measured.", "target artifact": "ocr_quality_by_page.csv", "redirect page": "pages/1_2_OCR_Quality_Workbench.py"},
-            {"benchmark": "Human annotation agreement", "why needed": "Single-annotator labels need reliability evidence.", "target artifact": "human_agreement_summary.csv", "redirect page": "pages/1_1_Ground_Truth_Workbench.py"},
-            {"benchmark": "Repeated LLM runs", "why needed": "Model/prompt stability needs confidence intervals.", "target artifact": "model_prompt_repeated_run_ci.csv", "redirect page": "pages/2_3_LLM_Background_Run_Monitor.py"},
-            {"benchmark": "ClimateBERT baseline", "why needed": "Compare tone-vs-ClimateBERT to majority and human-labelled baselines.", "target artifact": "climatebert_baseline_comparison.csv", "redirect page": "pages/1_4_ClimateBERT_Record_Batch.py"},
+            {"benchmark": "OCR quality", "why needed": "CER/WER is not yet measured (A.8 gap).", "target artifact": "ocr_quality_by_page.csv", "redirect page": "pages/1_2_OCR_Quality_Workbench.py"},
+            {"benchmark": "Human annotation agreement", "why needed": "A.18 shows 591/5,444 missing ground_truth_tone and 0/5,444 for annotator + review_notes; tone denominator is 4,853 (A.37 audit).", "target artifact": "human_agreement_summary.csv + tone_denominator_audit.csv", "redirect page": "pages/1_1_Ground_Truth_Workbench.py"},
+            {"benchmark": "Repeated LLM runs", "why needed": "Runs are still sparse for most models; only arcee-ai/trinity-large-preview and openai/gpt-oss-120b show meaningful repeats (A.14 gap).", "target artifact": "model_prompt_repeated_run_ci.csv", "redirect page": "pages/2_3_LLM_Background_Run_Monitor.py"},
+            {"benchmark": "ClimateBERT baseline", "why needed": "Current comparison is proxy-only (κ=0.645), not a formal label-match F1 against human labels (A.8 gap).", "target artifact": "climatebert_baseline_comparison.csv", "redirect page": "pages/1_4_ClimateBERT_Record_Batch.py"},
+            {"benchmark": "A.4 scope chart fix", "why needed": "Tone-by-ClimateBERT bar chart collapsed to a single 'undefined' bar; fix grouping/rendering so all ClimateBERT labels are visible.", "target artifact": "tone_climatebert_label_crosstab.csv + regenerated A.4 chart", "redirect page": "pages/6_2_Chapter_5_Discussion.py"},
             {"benchmark": "Ontology extension", "why needed": "Formalise unmapped Indonesian ESG aspects.", "target artifact": "indonesian_esg_ontology_extension.csv", "redirect page": "pages/1_6_Ontology_Path_Viewer.py"},
         ]
     )
@@ -2152,6 +2153,16 @@ with tab_graphs:
         path = Path(row["path"])
         st.divider()
         st.subheader(f"{row['figure']} - {row['title']}")
+        if str(row["figure"]) == "A.4":
+            st.warning(
+                "Scope issue noted: this chart currently collapses to a single 'undefined' bar in some exports. "
+                "Treat as rendering/grouping bug pending regeneration from the full ClimateBERT label crosstab."
+            )
+        if str(row["figure"]) == "A.18":
+            st.info(
+                "Annotation gap note: 591/5,444 rows still miss `ground_truth_tone`; usable tone denominator is 4,853 "
+                "(see A.37 denominator audit). `annotator` and `review_notes` are 0/5,444."
+            )
         meta_cols = st.columns([2, 2, 2, 1])
         meta_cols[0].caption(f"{row['chapter']} | {row['rq']}")
         meta_cols[1].caption(f"Graph: `{path}`")

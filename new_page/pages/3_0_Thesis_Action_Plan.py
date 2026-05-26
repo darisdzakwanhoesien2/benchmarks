@@ -2313,6 +2313,10 @@ fail_cnt    = load(FAIL_CNT_PATH)
 tone_done    = ann_n(annot, "ground_truth_tone")
 esg_done     = ann_n(annot, "ground_truth_esg")
 aspect_done  = ann_n(annot, "ground_truth_aspect")
+annotator_done = ann_n(annot, "annotator")
+review_notes_done = ann_n(annot, "review_notes")
+tone_missing = max(len(annot) - tone_done, 0)
+tone_usable_denominator = tone_done
 cb_real      = nonempty_count(imported, "climatebert_commitment_pred") if not imported.empty else 0
 n_models     = model_stab["model"].astype(str).nunique() if not model_stab.empty and "model" in model_stab.columns else 0
 cb_target_total = len(silver) if not silver.empty else 332
@@ -2416,7 +2420,7 @@ with st.expander("Create Streamlit workflow dashboard page", expanded=False):
 
 for col, (label, val, ok) in zip(st.columns(6), [
     ("ClimateBERT real",  f"{cb_real}/{cb_target_total}",    cb_real >= cb_target_total),
-    ("Tone labels",       f"{tone_done}/{ANNOTATION_TARGET}",   tone_done >= ANNOTATION_TARGET),
+    ("Tone labels",       f"{tone_done}/{len(annot) if len(annot) else ANNOTATION_TARGET}",   tone_done >= ANNOTATION_TARGET),
     ("ESG labels",        f"{esg_done}/{ANNOTATION_TARGET}",    esg_done >= ANNOTATION_TARGET),
     ("Aspect labels",     f"{aspect_done}/{ANNOTATION_TARGET}", aspect_done >= ANNOTATION_TARGET),
     ("OCR pages sampled", "0/100",              False),
@@ -2424,6 +2428,21 @@ for col, (label, val, ok) in zip(st.columns(6), [
 ]):
     col.metric(label, val, delta="✓ Done" if ok else "Needed",
                delta_color="normal" if ok else "inverse")
+
+with st.expander("A.18 / A.8 gap audit snapshot", expanded=True):
+    g1, g2, g3, g4 = st.columns(4)
+    g1.metric("Missing ground_truth_tone", f"{tone_missing:,}/{len(annot):,}" if len(annot) else "n/a")
+    g2.metric("Usable tone denominator", f"{tone_usable_denominator:,}")
+    g3.metric("annotator completed", f"{annotator_done:,}/{len(annot):,}" if len(annot) else "n/a")
+    g4.metric("review_notes completed", f"{review_notes_done:,}/{len(annot):,}" if len(annot) else "n/a")
+    st.caption(
+        "Reviewer note: if total rows are 5,444, then 591 missing tone means usable tone denominator is 4,853 (A.37 split). "
+        "Current κ claims should be presented together with annotator provenance and completion coverage."
+    )
+    st.markdown(
+        "- A.8 benchmark gaps: OCR CER/WER not measured; repeated LLM runs are still concentrated in only a few models; ClimateBERT baseline is proxy-only (κ=0.645) without formal label-match F1.\n"
+        "- A.4 scope issue: tone-by-ClimateBERT visual may collapse to one `undefined` bar due to grouping/render bug; verify crosstab categories before using the chart in thesis text."
+    )
 
 chapter_decisions = read_json(
     CHAPTER_RESOLUTION_PATH,
