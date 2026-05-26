@@ -45,6 +45,7 @@ MODEL_STAB_PATH   = ARTIFACTS / "model_stability_summary.csv"
 OCR_PATH          = ARTIFACTS / "ocr_processing_summary.csv"
 FAILURE_PATH      = ARTIFACTS / "failure_modes.csv"
 FAIL_CNT_PATH     = ARTIFACTS / "failure_mode_counts.csv"
+GAP_AUDIT_PATH    = ARTIFACTS / "gap_audit_snapshot.csv"
 CLUSTER_PATH           = ARTIFACTS / "aspect_clusters.csv"
 ONTOLOGY_MISSING_LABELS_PATH = ARTIFACTS / "ontology_missing_aspect_labels.csv"
 NOVEL_ASPECT_REVIEW_PATH = ARTIFACTS / "ontology_novel_aspect_review.csv"
@@ -167,6 +168,27 @@ print("Done — upload climatebert_output.csv back to this page.")
 def load(p):
     p = Path(p)
     return pd.read_csv(p).fillna("") if p.exists() else pd.DataFrame()
+
+
+def load_gap_audit(default_rows):
+    saved = load(GAP_AUDIT_PATH)
+    if saved.empty:
+        return default_rows.copy()
+    base = default_rows.copy()
+    if "gap_id" not in saved.columns or "gap_id" not in base.columns:
+        return saved
+    base = base.set_index("gap_id", drop=False)
+    saved = saved.set_index("gap_id", drop=False)
+    shared = base.index.intersection(saved.index)
+    for col in saved.columns:
+        if col in base.columns:
+            incoming = saved.loc[shared, col].astype(str).fillna("")
+            use_mask = incoming.str.strip().ne("")
+            if use_mask.any():
+                base.loc[shared[use_mask], col] = incoming[use_mask]
+    missing = saved.loc[~saved.index.isin(base.index)].copy()
+    out = pd.concat([base, missing], axis=0, ignore_index=True)
+    return out.fillna("")
 
 
 def utc_now_id():
@@ -2443,6 +2465,48 @@ with st.expander("A.18 / A.8 gap audit snapshot", expanded=True):
         "- A.8 benchmark gaps: OCR CER/WER not measured; repeated LLM runs are still concentrated in only a few models; ClimateBERT baseline is proxy-only (κ=0.645) without formal label-match F1.\n"
         "- A.4 scope issue: tone-by-ClimateBERT visual may collapse to one `undefined` bar due to grouping/render bug; verify crosstab categories before using the chart in thesis text."
     )
+    st.markdown("#### Editable gap tracker")
+    default_gap_rows = pd.DataFrame([
+        {"gap_id": "A18_TONE_MISSING", "gap_area": "A.18 annotation coverage", "metric": "Missing ground_truth_tone", "current_value": str(tone_missing), "target_value": "0", "status": "open", "owner": "", "due_date": "", "evidence_path": str(ANNOTATION_PATH), "notes": "Base expectation: 591 missing out of 5,444; usable denominator 4,853 (A.37)."},
+        {"gap_id": "A18_ANNOTATOR", "gap_area": "A.18 annotation provenance", "metric": "annotator completed", "current_value": str(annotator_done), "target_value": str(len(annot)), "status": "open", "owner": "", "due_date": "", "evidence_path": str(ANNOTATION_PATH), "notes": "Backfill who annotated each row to support reliability claims."},
+        {"gap_id": "A18_REVIEW_NOTES", "gap_area": "A.18 qualitative review", "metric": "review_notes completed", "current_value": str(review_notes_done), "target_value": str(len(annot)), "status": "open", "owner": "", "due_date": "", "evidence_path": str(ANNOTATION_PATH), "notes": "Backfill qualitative notes for disagreement and QA traceability."},
+        {"gap_id": "A8_OCR_CER_WER", "gap_area": "A.8 benchmark", "metric": "OCR quality measured (CER/WER)", "current_value": "not_measured", "target_value": "measured", "status": "open", "owner": "", "due_date": "", "evidence_path": str(OCR_PATH), "notes": "Run Step 3 and produce page-level CER/WER outputs."},
+        {"gap_id": "A8_REPEATED_RUNS", "gap_area": "A.8 benchmark", "metric": "Repeated LLM runs coverage", "current_value": "partial", "target_value": "all core models/prompts with CI", "status": "open", "owner": "", "due_date": "", "evidence_path": str(MODEL_STAB_PATH), "notes": "Currently concentrated in arcee-ai/trinity-large-preview and openai/gpt-oss-120b."},
+        {"gap_id": "A8_CLIMATEBERT_F1", "gap_area": "A.8 benchmark", "metric": "ClimateBERT formal label-match F1", "current_value": "proxy_kappa_0.645", "target_value": "real_label_match_f1", "status": "open", "owner": "", "due_date": "", "evidence_path": str(IMPORTED_PATH), "notes": "Replace proxy-only baseline with formal F1 against human labels."},
+        {"gap_id": "A4_SCOPE_CHART", "gap_area": "A.4 scope chart", "metric": "Tone-by-ClimateBERT label chart integrity", "current_value": "collapsed_to_undefined", "target_value": "all_labels_visible", "status": "open", "owner": "", "due_date": "", "evidence_path": str(ARTIFACTS / 'tone_climatebert_label_crosstab.csv'), "notes": "Fix rendering/grouping bug before final chapter export."},
+    ])
+    gap_df = load_gap_audit(default_gap_rows)
+    editable_cols = ["gap_id", "gap_area", "metric", "current_value", "target_value", "status", "owner", "due_date", "evidence_path", "notes"]
+    edited_gap_df = st.data_editor(
+        gap_df[editable_cols],
+        use_container_width=True,
+        hide_index=True,
+        num_rows="dynamic",
+        disabled=["gap_id", "gap_area", "metric"],
+        key="gap_audit_editor",
+        height=320,
+        column_config={
+            "status": st.column_config.SelectboxColumn("status", options=["open", "in_progress", "blocked", "done"], required=True),
+            "notes": st.column_config.TextColumn("notes", width="large"),
+            "evidence_path": st.column_config.TextColumn("evidence_path", width="large"),
+        },
+    )
+    c1, c2 = st.columns(2)
+    if c1.button("Save gap tracker", type="primary", use_container_width=True, key="save_gap_tracker"):
+        out = edited_gap_df.fillna("").copy()
+        GAP_AUDIT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        out.to_csv(GAP_AUDIT_PATH, index=False)
+        st.success(f"Saved gap tracker -> {GAP_AUDIT_PATH.name}")
+        st.rerun()
+    c2.download_button(
+        "Download gap tracker CSV",
+        edited_gap_df.fillna("").to_csv(index=False).encode("utf-8"),
+        file_name="gap_audit_snapshot.csv",
+        mime="text/csv",
+        use_container_width=True,
+    )
+    done_rows = edited_gap_df[edited_gap_df["status"].astype(str).str.lower().eq("done")]
+    st.caption(f"Resolved gaps: {len(done_rows)}/{len(edited_gap_df)}")
 
 chapter_decisions = read_json(
     CHAPTER_RESOLUTION_PATH,
