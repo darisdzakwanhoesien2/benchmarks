@@ -1442,6 +1442,38 @@ def tone_denominator_summary(total=THESIS_TONE_TOTAL_RECORDS, completed=THESIS_T
     }
 
 
+def _count_non_empty_csv_column(path: Path, column: str) -> tuple[int, int]:
+    """Return (total_rows, non_empty_rows) for a CSV column, streaming rows to avoid pandas dependency at runtime."""
+    import csv
+
+    path = Path(path)
+    if not path.exists():
+        return (0, 0)
+    total = 0
+    non_empty = 0
+    with path.open(newline="", encoding="utf-8", errors="ignore") as handle:
+        reader = csv.DictReader(handle)
+        if not reader.fieldnames or column not in set(reader.fieldnames):
+            return (0, 0)
+        for row in reader:
+            total += 1
+            value = (row.get(column) or "").strip()
+            if value:
+                non_empty += 1
+    return (total, non_empty)
+
+
+def live_tone_denominator_summary() -> dict:
+    """
+    Prefer live counts from `pilot_ground_truth_annotations.csv` when available.
+    Falls back to the thesis constants when the file is missing or schema changed.
+    """
+    total, completed = _count_non_empty_csv_column(ANNOTATION_PATH, "ground_truth_tone")
+    if total:
+        return tone_denominator_summary(total=total, completed=completed)
+    return tone_denominator_summary()
+
+
 def tone_denominator_policy_options(total=THESIS_TONE_TOTAL_RECORDS, completed=THESIS_TONE_COMPLETED_RECORDS):
     summary = tone_denominator_summary(total, completed)
     return pd.DataFrame(
@@ -1472,7 +1504,7 @@ def tone_denominator_policy_options(total=THESIS_TONE_TOTAL_RECORDS, completed=T
 
 
 def methodology_paragraph_for_missing_tone(policy, total=THESIS_TONE_TOTAL_RECORDS, completed=THESIS_TONE_COMPLETED_RECORDS):
-    summary = tone_denominator_summary(total, completed)
+    summary = live_tone_denominator_summary() if (total == THESIS_TONE_TOTAL_RECORDS and completed == THESIS_TONE_COMPLETED_RECORDS) else tone_denominator_summary(total, completed)
     if policy == "recode_as_none":
         return (
             f"Tone analysis used all {summary['total']:,} extracted records after recoding the "
@@ -1491,13 +1523,14 @@ def methodology_paragraph_for_missing_tone(policy, total=THESIS_TONE_TOTAL_RECOR
         f"Tone agreement and tone-distribution statistics were computed on the {summary['completed']:,} records with a valid tone label, "
         f"excluding the {summary['missing']:,} records ({summary['missing_rate']:.1%}) where the pipeline returned no tone value. "
         "The excluded records are reported as a data-quality outcome rather than recoded as `none`, because absence of a model output is not "
-        "equivalent to a substantive no-tone disclosure. Therefore, Chapter 4 tables and figures that analyze tone use 4,853 as the effective "
-        "tone-analysis denominator, while corpus coverage tables retain 5,444 as the extraction denominator."
+        "equivalent to a substantive no-tone disclosure. Therefore, Chapter 4 tables and figures that analyze tone use "
+        f"{summary['completed']:,} as the effective tone-analysis denominator, while corpus coverage tables retain "
+        f"{summary['total']:,} as the extraction denominator."
     )
 
 
 def build_tone_denominator_audit(policy):
-    summary = tone_denominator_summary()
+    summary = live_tone_denominator_summary()
     denominator = summary["completed"] if policy == "exclude_from_agreement" else summary["total"]
     return pd.DataFrame(
         [
@@ -2527,7 +2560,7 @@ with st.expander("A.18 / A.8 gap audit snapshot", expanded=True):
     g3.metric("annotator completed", f"{annotator_done:,}/{len(annot):,}" if len(annot) else "n/a")
     g4.metric("review_notes completed", f"{review_notes_done:,}/{len(annot):,}" if len(annot) else "n/a")
     st.caption(
-        "Reviewer note: if total rows are 5,444, then 591 missing tone means usable tone denominator is 4,853 (A.37 split). "
+        f"Reviewer note: if total rows are {len(annot):,}, then {tone_missing:,} missing tone means usable tone denominator is {tone_usable_denominator:,} (A.37 split). "
         "Current κ claims should be presented together with annotator provenance and completion coverage."
     )
     st.markdown(
@@ -4256,17 +4289,25 @@ if show[2]:
                                         column_config=col_cfg,
                                         disabled=["record_id", "text", "tone_pred"], key="annot_editor")
                 if st.button("Save direct edits", key="save_direct"):
-                    base = annot.set_index("record_id")
-                    upd  = normalise_annotation_values(edited).set_index("record_id")
-                    for col in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect",
-                                "review_status", "annotator", "review_notes"]:
-                        if col in upd.columns:
-                            base.loc[upd.index, col] = upd[col]
-                    if "ground_truth_esg" in base.columns:
-                        base["ground_truth_esg"] = base["ground_truth_esg"].map(normalise_esg_value)
-                    base.reset_index().to_csv(ANNOTATION_PATH, index=False)
-                    st.success(f"Saved → {ANNOTATION_PATH.name}")
-                    st.rerun()
+                    try:
+                        base = annot.set_index("record_id", drop=False)
+                        upd = normalise_annotation_values(edited).set_index("record_id", drop=False)
+                        shared = base.index.intersection(upd.index)
+                        if shared.empty:
+                            st.warning("No matching record_id values found to save.")
+                        else:
+                            for col in ["ground_truth_tone", "ground_truth_esg", "ground_truth_aspect",
+                                        "review_status", "annotator", "review_notes"]:
+                                if col in upd.columns and col in base.columns:
+                                    base.loc[shared, col] = upd.loc[shared, col]
+                            if "ground_truth_esg" in base.columns:
+                                base["ground_truth_esg"] = base["ground_truth_esg"].map(normalise_esg_value)
+                            base.reset_index(drop=True).to_csv(ANNOTATION_PATH, index=False)
+                            st.success(f"Saved → {ANNOTATION_PATH.name} ({len(shared):,} row(s) updated)")
+                            st.rerun()
+                    except Exception as exc:
+                        st.error(f"Save failed: {exc}")
+                        st.stop()
 
         with right:
             st.markdown("#### Annotation progress")

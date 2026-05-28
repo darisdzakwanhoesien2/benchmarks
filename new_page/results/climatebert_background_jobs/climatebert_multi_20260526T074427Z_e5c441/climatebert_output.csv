@@ -1,0 +1,5 @@
+record_id,label,score,climate_commitment,climatebert_model,climatebert_model_backend,climatebert_job_id
+r000_000,LABEL_0,0.999684,False,renewable,Local model,climatebert_multi_20260526T074427Z_e5c441
+r000_001,LABEL_0,0.999684,False,renewable,Local model,climatebert_multi_20260526T074427Z_e5c441
+r000_002,LABEL_0,0.999684,False,renewable,Local model,climatebert_multi_20260526T074427Z_e5c441
+r006_000,LABEL_0,0.999684,False,renewable,Local model,climatebert_multi_20260526T074427Z_e5c441

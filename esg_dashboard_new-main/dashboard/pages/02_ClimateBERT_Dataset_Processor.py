@@ -301,6 +301,25 @@ def read_saved_results(output_dir: str) -> pd.DataFrame:
     return pd.concat(frames, ignore_index=True)
 
 
+@st.cache_data(show_spinner=False)
+def list_saved_result_files(output_dir: str) -> list[dict]:
+    root = Path(output_dir).expanduser()
+    if not root.exists():
+        return []
+    rows = []
+    for path in sorted(root.glob("*.csv")):
+        try:
+            stat = path.stat()
+            rows.append({
+                "file": path.name,
+                "size_mb": round(stat.st_size / (1024 * 1024), 2),
+                "modified": pd.Timestamp(stat.st_mtime, unit="s"),
+            })
+        except Exception:
+            continue
+    return rows
+
+
 def processed_sentence_set(saved_df: pd.DataFrame, model_dir: Path) -> set[str]:
     if saved_df.empty or "sentence" not in saved_df.columns:
         return set()
@@ -466,6 +485,28 @@ with st.sidebar:
         value=True,
         help="Skip sentences already found in saved CSV outputs for each selected model.",
     )
+    st.markdown("**Saved data snapshot**")
+    freeze_saved_view = st.checkbox(
+        "Freeze current saved-data view",
+        value=bool(st.session_state.get("cb_saved_freeze", False)),
+        help="When enabled, coverage and leftover checks use a frozen snapshot of current saved CSV data.",
+    )
+    st.session_state["cb_saved_freeze"] = bool(freeze_saved_view)
+    snapshot_cols = st.columns(2)
+    with snapshot_cols[0]:
+        if st.button("Capture Snapshot", use_container_width=True):
+            snapshot_df = read_saved_results(output_dir_input).copy()
+            st.session_state["cb_saved_snapshot_df"] = snapshot_df
+            st.session_state["cb_saved_snapshot_at"] = pd.Timestamp.utcnow().isoformat()
+            st.success(f"Snapshot captured ({len(snapshot_df):,} rows).")
+    with snapshot_cols[1]:
+        if st.button("Refresh Saved Data", use_container_width=True):
+            read_saved_results.clear()
+            list_saved_result_files.clear()
+            st.session_state.pop("cb_saved_snapshot_df", None)
+            st.session_state.pop("cb_saved_snapshot_at", None)
+            st.success("Live saved-data view refreshed.")
+            st.rerun()
 
     st.header("Filters")
     selected = {}
@@ -486,7 +527,12 @@ if dedupe:
 filtered = filtered.head(int(max_rows)).reset_index(drop=True)
 worker_df = shard_dataframe(filtered, int(worker_count), int(worker_index))
 output_dir = Path(output_dir_input).expanduser()
-saved_before_run = read_saved_results(str(output_dir))
+live_saved_before_run = read_saved_results(str(output_dir))
+snapshot_df = st.session_state.get("cb_saved_snapshot_df")
+use_snapshot = bool(st.session_state.get("cb_saved_freeze", False)) and isinstance(snapshot_df, pd.DataFrame)
+saved_before_run = snapshot_df.copy() if use_snapshot else live_saved_before_run
+saved_snapshot_at = st.session_state.get("cb_saved_snapshot_at", "")
+saved_files = list_saved_result_files(str(output_dir))
 preview_output_paths = [
     make_output_path(output_dir, model_dir, int(worker_count), int(worker_index))
     for model_dir in model_dirs
@@ -500,6 +546,13 @@ metric_cols[1].metric("This worker rows", f"{len(worker_df):,}")
 metric_cols[2].metric("Unique sentences", f"{filtered['sentence'].nunique():,}")
 metric_cols[3].metric("Workers", int(worker_count))
 metric_cols[4].metric("Batch size", int(batch_size))
+if use_snapshot:
+    st.warning(
+        f"Using frozen saved-data snapshot ({len(saved_before_run):,} rows)"
+        + (f" captured at `{saved_snapshot_at}`." if saved_snapshot_at else ".")
+    )
+else:
+    st.caption("Using live saved-data view (updates when new CSV files are written).")
 
 st.info(
     f"This window is worker **{int(worker_index)} of {int(worker_count)}**. "
@@ -714,6 +767,8 @@ if isinstance(result, pd.DataFrame) and not result.empty:
 st.divider()
 st.subheader("Saved Result Visualizer")
 saved = read_saved_results(str(output_dir))
+if use_snapshot:
+    saved = saved_before_run.copy()
 
 if saved.empty:
     st.caption(f"No saved CSV files found in `{output_dir}` yet.")
@@ -752,3 +807,6 @@ else:
         if "result_file" in saved.columns:
             file_counts = saved["result_file"].value_counts().rename_axis("result_file").reset_index(name="rows")
             st.dataframe(file_counts, use_container_width=True)
+        if saved_files:
+            st.markdown("**Detected CSV files on disk**")
+            st.dataframe(pd.DataFrame(saved_files), use_container_width=True, hide_index=True)

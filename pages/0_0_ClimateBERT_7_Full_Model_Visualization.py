@@ -2,12 +2,15 @@ import streamlit as st
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+PAGE_DIR = Path(__file__).resolve().parent
+ROOT = PAGE_DIR.parent
+sys.path.insert(0, str(PAGE_DIR))
+sys.path.insert(0, str(ROOT / "utils"))
 from _page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 import plotly.express as px
 
-from utils.climatebert_analysis import merge_ground_truth
+from climatebert_analysis import merge_ground_truth
 
 
 # =========================================================

@@ -1,0 +1,17 @@
+{
+  "job_id": "climatebert_multi_20260526T114232Z_5d56af",
+  "pid": 31593,
+  "status": "completed",
+  "model_backend": "Local model",
+  "model_id": "GovernanceBERT-governance",
+  "total": 5426,
+  "completed": 5426,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Finished",
+  "started_at": "2026-05-26T11:43:12Z",
+  "updated_at": "2026-05-26T17:34:11Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T114232Z_5d56af/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T114232Z_5d56af/climatebert_record_batch_import.csv",
+  "finished_at": "2026-05-26T17:34:11Z"
+}

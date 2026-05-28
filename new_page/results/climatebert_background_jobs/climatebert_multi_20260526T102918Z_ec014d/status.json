@@ -1,0 +1,17 @@
+{
+  "job_id": "climatebert_multi_20260526T102918Z_ec014d",
+  "pid": 5032,
+  "status": "completed",
+  "model_backend": "Local model",
+  "model_id": "SocRoBERTa-base",
+  "total": 5444,
+  "completed": 5444,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Finished",
+  "started_at": "2026-05-26T10:29:19Z",
+  "updated_at": "2026-05-26T18:10:43Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T102918Z_ec014d/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T102918Z_ec014d/climatebert_record_batch_import.csv",
+  "finished_at": "2026-05-26T18:10:43Z"
+}

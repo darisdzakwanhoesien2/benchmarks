@@ -322,14 +322,18 @@ def chapter_resolution_rows() -> pd.DataFrame:
     rows = load_csv(CHAPTER_RESOLUTION_PATH)
     if not rows.empty:
         return rows
+    audit = tone_denominator_audit_rows()
+    total = int(pd.to_numeric(audit.loc[audit["chapter element"] == "Corpus extraction coverage", "denominator"], errors="coerce").fillna(0).max()) if not audit.empty and "chapter element" in audit.columns else 5444
+    usable = int(pd.to_numeric(audit.loc[audit["chapter element"] == "Tone distribution", "denominator"], errors="coerce").fillna(0).max()) if not audit.empty and "chapter element" in audit.columns else 4853
+    missing = max(total - usable, 0)
     return pd.DataFrame(
         [
             {
                 "chapter": "4",
-                "issue": "591 missing tone records",
+                "issue": f"{missing:,} missing tone records",
                 "decision": "exclude_from_agreement",
-                "evidence": "4,853/5,444 usable tone records",
-                "writeup": "Tone agreement and tone-distribution statistics use 4,853 as the effective denominator; the 591 missing tone outputs are reported as data-quality missingness.",
+                "evidence": f"{usable:,}/{total:,} usable tone records",
+                "writeup": f"Tone agreement and tone-distribution statistics use {usable:,} as the effective denominator; the {missing:,} missing tone outputs are reported as data-quality missingness.",
             },
             {
                 "chapter": "5",
@@ -353,11 +357,36 @@ def tone_denominator_audit_rows() -> pd.DataFrame:
     rows = load_csv(TONE_DENOMINATOR_AUDIT_PATH)
     if not rows.empty:
         return rows
+    try:
+        from action_plan_status import ANNOTATION_PATH as _ANN  # local import to keep module load fast
+    except Exception:
+        _ANN = None
+
+    total = 5444
+    completed = 4853
+    missing = 591
+    if _ANN and Path(_ANN).exists():
+        import csv
+
+        t = 0
+        c = 0
+        with Path(_ANN).open(newline="", encoding="utf-8", errors="ignore") as handle:
+            reader = csv.DictReader(handle)
+            if reader.fieldnames and "ground_truth_tone" in set(reader.fieldnames):
+                for row in reader:
+                    t += 1
+                    if (row.get("ground_truth_tone") or "").strip():
+                        c += 1
+        if t:
+            total = t
+            completed = c
+            missing = max(total - completed, 0)
+
     return pd.DataFrame(
         [
-            {"chapter element": "Corpus extraction coverage", "denominator": 5444, "included": 5444, "excluded": 0, "note": "Use for total extracted-record coverage."},
-            {"chapter element": "Tone distribution", "denominator": 4853, "included": 4853, "excluded": 591, "note": "Use this denominator in Chapter 4 tone tables and figures."},
-            {"chapter element": "Tone agreement / kappa", "denominator": 4853, "included": 4853, "excluded": 591, "note": "Do not compute agreement over missing tone outputs."},
+            {"chapter element": "Corpus extraction coverage", "denominator": total, "included": total, "excluded": 0, "note": "Use for total extracted-record coverage."},
+            {"chapter element": "Tone distribution", "denominator": completed, "included": completed, "excluded": missing, "note": "Use this denominator in Chapter 4 tone tables and figures."},
+            {"chapter element": "Tone agreement / kappa", "denominator": completed, "included": completed, "excluded": missing, "note": "Do not compute agreement over missing tone outputs."},
         ]
     )
 
@@ -1294,6 +1323,9 @@ def graph_manifest() -> pd.DataFrame:
 def describe_source_table(source_table: object) -> str:
     text = str(source_table or "").strip()
     normalized = text.lower()
+    tone_audit = tone_denominator_audit_rows()
+    total = int(pd.to_numeric(tone_audit.loc[tone_audit["chapter element"] == "Corpus extraction coverage", "denominator"], errors="coerce").fillna(0).max()) if not tone_audit.empty and "chapter element" in tone_audit.columns else 5444
+    usable = int(pd.to_numeric(tone_audit.loc[tone_audit["chapter element"] == "Tone distribution", "denominator"], errors="coerce").fillna(0).max()) if not tone_audit.empty and "chapter element" in tone_audit.columns else 4853
     descriptions = {
         "silver_tone_ground_truth.csv + pilot_ground_truth_annotations.csv": (
             "Merged full evidence table combining silver tone labels with any saved pilot human annotations; "
@@ -1335,7 +1367,7 @@ def describe_source_table(source_table: object) -> str:
             "Action Plan resolution board that records the Chapter 4-6 decisions, evidence, and ready-to-use thesis write-up text."
         ),
         "chapter4_tone_denominator_audit.csv": (
-            "Action Plan denominator audit showing where to use 5,444 extraction records versus 4,853 usable tone records."
+            f"Action Plan denominator audit showing where to use {total:,} extraction records versus {usable:,} usable tone records."
         ),
         "chapter6_top_unmapped_ontology_candidates.csv": (
             "Action Plan A.16/Chapter 6 backing table for high-frequency unmapped aspects and suggested GRI/SASB/TCFD placement."
@@ -1594,6 +1626,9 @@ def docx_snapshot_rows(bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
     mapped = int(ontology.get("mapped_to_ontology", pd.Series(dtype=bool)).astype(bool).sum()) if not ontology.empty and "mapped_to_ontology" in ontology.columns else 0
     kappa = pd.to_numeric(agreement.get("cohen_kappa", pd.Series(dtype=float)), errors="coerce")
     pct = pd.to_numeric(agreement.get("percent_agreement", pd.Series(dtype=float)), errors="coerce")
+    tone_audit = tone_denominator_audit_rows()
+    extraction_total = int(pd.to_numeric(tone_audit.loc[tone_audit["chapter element"] == "Corpus extraction coverage", "denominator"], errors="coerce").fillna(0).max()) if not tone_audit.empty and "chapter element" in tone_audit.columns else 5444
+    usable_total = int(pd.to_numeric(tone_audit.loc[tone_audit["chapter element"] == "Tone distribution", "denominator"], errors="coerce").fillna(0).max()) if not tone_audit.empty and "chapter element" in tone_audit.columns else 4853
     return pd.DataFrame(
         [
             {
@@ -1646,7 +1681,7 @@ def docx_snapshot_rows(bundle: dict[str, pd.DataFrame]) -> pd.DataFrame:
             },
             {
                 "metric": "Tone denominator decision",
-                "value": "4,853 / 5,444",
+                "value": f"{usable_total:,} / {extraction_total:,}",
                 "existing data": "chapter4_tone_denominator_audit.csv",
                 "redirect page": "pages/3_0_Thesis_Action_Plan.py",
             },
@@ -1689,13 +1724,102 @@ def benchmark_checklist_rows() -> pd.DataFrame:
     return pd.DataFrame(
         [
             {"benchmark": "OCR quality", "why needed": "CER/WER is not yet measured (A.8 gap).", "target artifact": "ocr_quality_by_page.csv", "redirect page": "pages/1_2_OCR_Quality_Workbench.py"},
-            {"benchmark": "Human annotation agreement", "why needed": "A.18 shows 591/5,444 missing ground_truth_tone and 0/5,444 for annotator + review_notes; tone denominator is 4,853 (A.37 audit).", "target artifact": "human_agreement_summary.csv + tone_denominator_audit.csv", "redirect page": "pages/1_1_Ground_Truth_Workbench.py"},
+            {"benchmark": "Human annotation agreement", "why needed": "A.18 reports missing ground_truth_tone rows and annotator/review_notes completion; use the live A.37 tone denominator audit for the current counts.", "target artifact": "human_agreement_summary.csv + tone_denominator_audit.csv", "redirect page": "pages/1_1_Ground_Truth_Workbench.py"},
             {"benchmark": "Repeated LLM runs", "why needed": "Runs are still sparse for most models; only arcee-ai/trinity-large-preview and openai/gpt-oss-120b show meaningful repeats (A.14 gap).", "target artifact": "model_prompt_repeated_run_ci.csv", "redirect page": "pages/2_3_LLM_Background_Run_Monitor.py"},
             {"benchmark": "ClimateBERT baseline", "why needed": "Current comparison is proxy-only (κ=0.645), not a formal label-match F1 against human labels (A.8 gap).", "target artifact": "climatebert_baseline_comparison.csv", "redirect page": "pages/1_4_ClimateBERT_Record_Batch.py"},
             {"benchmark": "A.4 scope chart fix", "why needed": "Tone-by-ClimateBERT bar chart collapsed to a single 'undefined' bar; fix grouping/rendering so all ClimateBERT labels are visible.", "target artifact": "tone_climatebert_label_crosstab.csv + regenerated A.4 chart", "redirect page": "pages/6_2_Chapter_5_Discussion.py"},
             {"benchmark": "Ontology extension", "why needed": "Formalise unmapped Indonesian ESG aspects.", "target artifact": "indonesian_esg_ontology_extension.csv", "redirect page": "pages/1_6_Ontology_Path_Viewer.py"},
         ]
     )
+
+
+def complete_documentation_status_rows() -> pd.DataFrame:
+    tone_audit = tone_denominator_audit_rows()
+    extraction_total = int(
+        pd.to_numeric(
+            tone_audit.loc[tone_audit["chapter element"] == "Corpus extraction coverage", "denominator"],
+            errors="coerce",
+        )
+        .fillna(0)
+        .max()
+    ) if not tone_audit.empty and "chapter element" in tone_audit.columns else 5444
+    usable_total = int(
+        pd.to_numeric(
+            tone_audit.loc[tone_audit["chapter element"] == "Tone distribution", "denominator"],
+            errors="coerce",
+        )
+        .fillna(0)
+        .max()
+    ) if not tone_audit.empty and "chapter element" in tone_audit.columns else 4853
+    missing_total = max(extraction_total - usable_total, 0)
+
+    agreement = load_csv(REV / "climatebert_proxy_agreement_summary.csv")
+    kappa = pd.to_numeric(agreement.get("cohen_kappa", pd.Series(dtype=float)), errors="coerce")
+    kappa_text = f"{kappa.iloc[0]:.3f}" if not kappa.empty and pd.notna(kappa.iloc[0]) else "n/a"
+
+    chapter_resolution_exists = CHAPTER_RESOLUTION_PATH.exists()
+    benchmark_gap_exists = BENCHMARK_GAP_PATH.exists()
+    ocr_audit = load_csv(REV / "ocr_processing_summary.csv")
+    ocr_quality_page = ROOT / "pages" / "1_2_OCR_Quality_Workbench.py"
+    greenwashing_exists = (REV / "greenwashing_index_by_company.csv").exists()
+
+    rows = [
+        {
+            "requirement from complete_documentation.md": "Strong ground-truth validation and human annotation protocol",
+            "status": "Partial",
+            "evidence in repo": "pilot_ground_truth_seed.csv / pilot_ground_truth_annotations.csv exist and are tracked in A.13/A.18, but no explicit standalone annotation protocol artifact is registered on this page.",
+            "evidence path": "results/revision_analysis/pilot_ground_truth_seed.csv",
+        },
+        {
+            "requirement from complete_documentation.md": "Inter-annotator agreement reporting",
+            "status": "Partial",
+            "evidence in repo": f"Agreement metrics are present (e.g., kappa={kappa_text}) and surfaced in A.15, but this is ClimateBERT/proxy agreement rather than a clearly separated human-vs-human IAA table.",
+            "evidence path": "results/revision_analysis/climatebert_proxy_agreement_summary.csv",
+        },
+        {
+            "requirement from complete_documentation.md": "Gold vs silver dataset clarification",
+            "status": "Implemented",
+            "evidence in repo": f"Chapter 4 denominator audit is explicitly saved ({usable_total:,}/{extraction_total:,} usable; {missing_total:,} missing) and resolved via Chapter 4-6 resolution artifacts.",
+            "evidence path": "results/revision_analysis/chapter4_tone_denominator_audit.csv",
+        },
+        {
+            "requirement from complete_documentation.md": "Clear quantitative benchmark summary tables per RQ",
+            "status": "Implemented" if chapter_resolution_exists else "Partial",
+            "evidence in repo": "Chapter mapping, benchmark checklist, and frozen graph/source tables are rendered in this page and linked to chapter-level evidence.",
+            "evidence path": "results/revision_analysis/chapter_4_6_resolution_board.csv",
+        },
+        {
+            "requirement from complete_documentation.md": "Explicit RQ-to-evidence mapping",
+            "status": "Implemented",
+            "evidence in repo": "Graph manifest includes figure->chapter->RQ->source table->source page mapping plus 5-cluster Mermaid map.",
+            "evidence path": "pages/6_4_ch4-6.py",
+        },
+        {
+            "requirement from complete_documentation.md": "Formalized greenwashing definition/score",
+            "status": "Partial" if greenwashing_exists else "Not yet",
+            "evidence in repo": "Greenwashing index artifact exists, but complete_documentation asks for stronger formal thresholding and explicit operational definition in thesis narrative.",
+            "evidence path": "results/revision_analysis/greenwashing_index_by_company.csv",
+        },
+        {
+            "requirement from complete_documentation.md": "OCR validation completion",
+            "status": "Partial" if not ocr_audit.empty else "Not yet",
+            "evidence in repo": "OCR audit page and summary artifact exist, while benchmark checklist still flags OCR quality (CER/WER) as pending.",
+            "evidence path": "results/revision_analysis/ocr_processing_summary.csv",
+        },
+        {
+            "requirement from complete_documentation.md": "Reproducibility packaging",
+            "status": "Implemented",
+            "evidence in repo": "Frozen snapshot pipeline is active in this page (analysis pickle + fingerprinted sources + frozen graph copies).",
+            "evidence path": "results/ch4_6_frozen_analysis/analysis_snapshot.pkl",
+        },
+        {
+            "requirement from complete_documentation.md": "Conclusion with explicit RQ answers and benchmark gap framing",
+            "status": "Implemented" if benchmark_gap_exists else "Partial",
+            "evidence in repo": "Chapter 6 benchmark gap table is integrated (A.38) and mapped to the Chapter 6 page.",
+            "evidence path": "results/revision_analysis/chapter6_benchmark_gap_positioning.csv",
+        },
+    ]
+    return pd.DataFrame(rows)
 
 
 def page_slug(page: str) -> str:
@@ -1942,7 +2066,9 @@ st.subheader("A.4 Denominator Clarification")
 a4_cols = st.columns(4)
 a4_cols[0].metric("Legacy A.4 exploded label-cell count", f"{legacy_a4_label_assignments:,}")
 a4_cols[1].metric("Legacy compact tone rows", f"{legacy_a4_rows:,}")
-a4_cols[2].metric("Full corpus rows (Action Plan)", "5,444")
+tone_audit = tone_denominator_audit_rows()
+full_corpus_rows = int(pd.to_numeric(tone_audit.loc[tone_audit["chapter element"] == "Corpus extraction coverage", "denominator"], errors="coerce").fillna(0).max()) if not tone_audit.empty and "chapter element" in tone_audit.columns else 5444
+a4_cols[2].metric("Full corpus rows (Action Plan)", f"{full_corpus_rows:,}")
 a4_cols[3].metric(
     "Full A.4 exploded label-cell count",
     f"{full_a4_label_assignments:,}" if full_a4_label_assignments else "not generated",
@@ -1955,7 +2081,7 @@ viz_df = pd.DataFrame(
     [
         {"A.4 scope": "Legacy compact tone rows", "count": legacy_a4_rows, "unit": "rows"},
         {"A.4 scope": "Legacy exploded label-cell count", "count": legacy_a4_label_assignments, "unit": "label-cell assignments"},
-        {"A.4 scope": "Full corpus rows (Action Plan)", "count": 5444, "unit": "rows"},
+        {"A.4 scope": "Full corpus rows (Action Plan)", "count": full_corpus_rows, "unit": "rows"},
         {
             "A.4 scope": "Full exploded label-cell count",
             "count": full_a4_label_assignments if full_a4_label_assignments else 0,
@@ -2159,9 +2285,13 @@ with tab_graphs:
                 "Treat as rendering/grouping bug pending regeneration from the full ClimateBERT label crosstab."
             )
         if str(row["figure"]) == "A.18":
+            audit = tone_denominator_audit_rows()
+            total_rows = int(pd.to_numeric(audit.loc[audit["chapter element"] == "Corpus extraction coverage", "denominator"], errors="coerce").fillna(0).max()) if not audit.empty and "chapter element" in audit.columns else 5444
+            usable = int(pd.to_numeric(audit.loc[audit["chapter element"] == "Tone distribution", "denominator"], errors="coerce").fillna(0).max()) if not audit.empty and "chapter element" in audit.columns else 4853
+            missing = max(total_rows - usable, 0)
             st.info(
-                "Annotation gap note: 591/5,444 rows still miss `ground_truth_tone`; usable tone denominator is 4,853 "
-                "(see A.37 denominator audit). `annotator` and `review_notes` are 0/5,444."
+                f"Annotation gap note: {missing:,}/{total_rows:,} rows still miss `ground_truth_tone`; usable tone denominator is {usable:,} "
+                "(see A.37 denominator audit). `annotator` and `review_notes` are 0/{total_rows:,}."
             )
         meta_cols = st.columns([2, 2, 2, 1])
         meta_cols[0].caption(f"{row['chapter']} | {row['rq']}")
@@ -2235,6 +2365,21 @@ with tab_chapters:
     st.subheader("Benchmark checklist still needed")
     checklist = benchmark_checklist_rows()
     st.dataframe(checklist, use_container_width=True, hide_index=True, height=240)
+
+    st.subheader("Complete Documentation Implementation Status")
+    st.caption(
+        "Audit against `complete_documentation.md`: whether each high-priority item is already implemented in this repo/page stack."
+    )
+    doc_status = complete_documentation_status_rows()
+    st.dataframe(doc_status, use_container_width=True, hide_index=True, height=360)
+    status_counts = (
+        doc_status["status"]
+        .astype(str)
+        .value_counts()
+        .rename_axis("status")
+        .reset_index(name="items")
+    )
+    st.bar_chart(status_counts.set_index("status")["items"])
 
     st.subheader("Resolved Action Plan items now integrated")
     resolution = snapshot.get("source_tables", {}).get("chapter_resolution")

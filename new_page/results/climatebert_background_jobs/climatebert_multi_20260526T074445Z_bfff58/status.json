@@ -1,0 +1,14 @@
+{
+  "job_id": "climatebert_multi_20260526T074445Z_bfff58",
+  "pid": 2701999,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "netzero-reduction",
+  "total": 5444,
+  "completed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Loading model",
+  "started_at": "2026-05-26T07:44:49Z",
+  "updated_at": "2026-05-26T07:44:49Z"
+}

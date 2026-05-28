@@ -1,0 +1,14 @@
+{
+  "job_id": "climatebert_multi_20260526T074510Z_2c5be7",
+  "pid": 2702200,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "environmental-claims",
+  "total": 5444,
+  "completed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Loading model",
+  "started_at": "2026-05-26T08:32:45Z",
+  "updated_at": "2026-05-26T08:32:45Z"
+}

@@ -1,0 +1,15 @@
+{
+  "job_id": "climatebert_multi_20260526T103245Z_148217",
+  "pid": 6438,
+  "status": "failed",
+  "model_backend": "Local model",
+  "model_id": "ClimateControversyBert",
+  "total": 5444,
+  "completed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "current": "local model load failed",
+  "started_at": "2026-05-26T10:32:48Z",
+  "updated_at": "2026-05-26T10:33:12Z",
+  "error": "Unrecognized model in /home/ubuntu/apps/benchmarks/model_download/models/ClimateControversyBert. Should have a `model_type` key in its config.json."
+}

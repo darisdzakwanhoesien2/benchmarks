@@ -1,0 +1,16 @@
+{
+  "job_id": "climatebert_multi_20260526T074105Z_a56138",
+  "pid": 2700528,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "environmental-claims",
+  "total": 5444,
+  "completed": 582,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Running llm_bf98f267a1b1",
+  "started_at": "2026-05-26T07:41:06Z",
+  "updated_at": "2026-05-26T09:07:09Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T074105Z_a56138/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T074105Z_a56138/climatebert_record_batch_import.csv"
+}

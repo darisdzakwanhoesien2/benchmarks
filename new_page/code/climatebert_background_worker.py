@@ -134,7 +134,9 @@ def main(job_id: str) -> int:
         },
     )
 
+    skip_existing_global = bool(config.get("skip_existing_global", True))
     classifier = None
+    resolved = Path(model_id)
     if not dry_run:
         if model_backend == "Local model":
             resolved = Path(local_model_path or model_id)
@@ -145,7 +147,6 @@ def main(job_id: str) -> int:
                 update_status(status_path, status="failed", current="local model load failed", error=load_error)
                 append_jsonl(events_path, {"time": utc_now(), "event": "failed", "error": load_error, "local_model_path": str(resolved)})
                 return 1
-            model_id = str(resolved)
         else:
             try:
                 from transformers import pipeline
@@ -155,12 +156,27 @@ def main(job_id: str) -> int:
                 return 1
             classifier = pipeline("text-classification", model=model_id)
 
-    existing = load_existing_outputs(IMPORTED_PATH)
-    existing_ids = set(existing[record_col].astype(str)) if skip_existing and record_col in existing.columns else set()
-    script_existing = load_existing_outputs(SCRIPT_OUTPUT_PATH)
+    # IMPORTANT: multiple background jobs can run in parallel. To avoid output-file races,
+    # each job writes its own output files by default, then the UI can merge them.
+    job_script_output_path = Path(config.get("script_output_path") or (job_dir / "climatebert_output.csv"))
+    job_imported_output_path = Path(config.get("imported_output_path") or (job_dir / "climatebert_record_batch_import.csv"))
+    imported_existing = load_existing_outputs(job_imported_output_path)
+    script_existing = load_existing_outputs(job_script_output_path)
+
+    existing_ids: set[str] = set()
+    if skip_existing and record_col in imported_existing.columns:
+        existing_ids.update(imported_existing[record_col].astype(str))
+
+    if skip_existing and skip_existing_global:
+        global_existing = load_existing_outputs(IMPORTED_PATH)
+        # Default: only skip records already processed for the SAME model_id.
+        if not global_existing.empty and {"record_id", "climatebert_model"}.issubset(global_existing.columns):
+            same_model = global_existing[global_existing["climatebert_model"].astype(str).eq(model_id)]
+            existing_ids.update(same_model["record_id"].astype(str))
     if skip_existing and record_col in script_existing.columns:
         existing_ids.update(script_existing[record_col].astype(str))
-    output_rows: list[dict[str, Any]] = existing.to_dict("records") if not existing.empty else []
+
+    output_rows: list[dict[str, Any]] = imported_existing.to_dict("records") if not imported_existing.empty else []
     script_rows = script_existing.to_dict("records") if not script_existing.empty else []
     completed = 0
     failed = 0
@@ -198,6 +214,7 @@ def main(job_id: str) -> int:
             out.update(
                 {
                     "climatebert_model": model_id,
+                    "climatebert_model_path": str(resolved) if model_backend == "Local model" else "",
                     "climatebert_model_backend": model_backend,
                     "climatebert_label": label,
                     "climatebert_score": round(float(score), 6),
@@ -238,19 +255,19 @@ def main(job_id: str) -> int:
             output_rows.append(out)
             append_jsonl(events_path, {"time": utc_now(), "event": "record_failed", "record_id": record_id, "error": str(exc)[:1200]})
 
-        pd.DataFrame(script_rows).to_csv(SCRIPT_OUTPUT_PATH, index=False)
-        pd.DataFrame(output_rows).to_csv(IMPORTED_PATH, index=False)
+        pd.DataFrame(script_rows).to_csv(job_script_output_path, index=False)
+        pd.DataFrame(output_rows).to_csv(job_imported_output_path, index=False)
         update_status(
             status_path,
             completed=completed,
             failed=failed,
             skipped=skipped,
-            script_output_path=str(SCRIPT_OUTPUT_PATH),
-            imported_output_path=str(IMPORTED_PATH),
+            script_output_path=str(job_script_output_path),
+            imported_output_path=str(job_imported_output_path),
         )
 
-    pd.DataFrame(script_rows).to_csv(SCRIPT_OUTPUT_PATH, index=False)
-    pd.DataFrame(output_rows).to_csv(IMPORTED_PATH, index=False)
+    pd.DataFrame(script_rows).to_csv(job_script_output_path, index=False)
+    pd.DataFrame(output_rows).to_csv(job_imported_output_path, index=False)
     final_status = "completed_with_errors" if failed else "completed"
     update_status(
         status_path,
@@ -260,8 +277,8 @@ def main(job_id: str) -> int:
         skipped=skipped,
         current="Finished",
         finished_at=utc_now(),
-        script_output_path=str(SCRIPT_OUTPUT_PATH),
-        imported_output_path=str(IMPORTED_PATH),
+        script_output_path=str(job_script_output_path),
+        imported_output_path=str(job_imported_output_path),
     )
     append_jsonl(events_path, {"time": utc_now(), "event": final_status, "completed": completed, "failed": failed, "skipped": skipped})
     return 0 if not failed else 1

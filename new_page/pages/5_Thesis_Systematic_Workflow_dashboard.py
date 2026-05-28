@@ -218,6 +218,32 @@ def t2_flat_frame() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def tone_denominator_summary(annotation_df: pd.DataFrame) -> dict[str, Any]:
+    """
+    Live tone-denominator counts for thesis narrative + dashboard metrics.
+    Uses the ground-truth annotation file because it carries the pipeline "no tone output" outcome.
+    """
+    total = int(len(annotation_df))
+    completed = 0
+    if not annotation_df.empty and "ground_truth_tone" in annotation_df.columns:
+        completed = int(annotation_df["ground_truth_tone"].astype(str).str.strip().ne("").sum())
+    missing = max(total - completed, 0)
+    return {
+        "total": total,
+        "completed": completed,
+        "missing": missing,
+        "missing_rate": (missing / total) if total else 0.0,
+    }
+
+
+def tone_denominator_sentence(summary: dict[str, Any]) -> str:
+    return (
+        "Tone agreement and tone-distribution statistics were computed on the "
+        f"{summary['completed']:,} records with a valid tone label, excluding the "
+        f"{summary['missing']:,} records ({summary['missing_rate']:.1%}) where the pipeline returned no tone value."
+    )
+
+
 def count_df(df: pd.DataFrame, col: str, top_n: int | None = None) -> pd.DataFrame:
     if df.empty or col not in df.columns:
         return pd.DataFrame(columns=[col, "count"])
@@ -542,6 +568,9 @@ ontology_coverage = load_csv(str(REVISION / "ontology_coverage.csv"))
 greenwashing = load_csv(str(REVISION / "greenwashing_index_by_company.csv"))
 agreement = load_csv(str(REVISION / "climatebert_proxy_agreement_summary.csv"))
 seed = load_csv(str(REVISION / "pilot_ground_truth_seed.csv"))
+tone_annotation = load_csv(str(REVISION / "pilot_ground_truth_annotations.csv"))
+tone_denoms = tone_denominator_summary(tone_annotation)
+tone_audit = load_csv(str(REVISION / "chapter4_tone_denominator_audit.csv"))
 t2_flat = t2_flat_frame()
 inventory = artifact_inventory()
 llm_jobs = job_status_frame(RESULTS / "background_llm_jobs")
@@ -617,6 +646,26 @@ metrics[4].metric("OCR docs", f"{len(ocr_summary):,}")
 metrics[5].metric("Artifacts", f"{len(inventory):,}")
 metrics[6].metric("LLM jobs", f"{len(llm_jobs):,}")
 metrics[7].metric("GT jobs", f"{len(gt_jobs):,}")
+st.info(tone_denominator_sentence(tone_denoms))
+if not tone_audit.empty and {"chapter element", "denominator"}.issubset(tone_audit.columns):
+    audit_total = pd.to_numeric(
+        tone_audit.loc[tone_audit["chapter element"].astype(str).eq("Corpus extraction coverage"), "denominator"],
+        errors="coerce",
+    ).max()
+    audit_usable = pd.to_numeric(
+        tone_audit.loc[tone_audit["chapter element"].astype(str).eq("Tone distribution"), "denominator"],
+        errors="coerce",
+    ).max()
+    if pd.notna(audit_total) and int(audit_total) != int(tone_denoms["total"]):
+        st.warning(
+            "Tone denominator mismatch: dashboard computed total "
+            f"{tone_denoms['total']:,} but `chapter4_tone_denominator_audit.csv` reports {int(audit_total):,}."
+        )
+    if pd.notna(audit_usable) and int(audit_usable) != int(tone_denoms["completed"]):
+        st.warning(
+            "Tone denominator mismatch: dashboard computed usable "
+            f"{tone_denoms['completed']:,} but `chapter4_tone_denominator_audit.csv` reports {int(audit_usable):,}."
+        )
 
 tabs = st.tabs(
     [

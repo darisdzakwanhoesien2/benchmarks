@@ -19,6 +19,54 @@ BENCHMARK_ROOT = PAGE_DIR.parent
 gt_path = BENCHMARK_ROOT / "data" / "ground_truth_windows" / "absa_mapping.csv"
 baseline_path = BENCHMARK_ROOT / "data" / "ground_truth_windows" / "absa_mapping_baseline.csv"
 
+source_rows = [
+    {
+        "source_type": "Ground truth input",
+        "path": str(gt_path),
+        "used_by": "pd.read_csv(gt_path)",
+        "notes": "Primary ABSA labels for windows variant.",
+    },
+    {
+        "source_type": "Baseline input",
+        "path": str(baseline_path),
+        "used_by": "pd.read_csv(baseline_path)",
+        "notes": "Predicted/baseline labels compared against ground truth.",
+    },
+    {
+        "source_type": "Category mapping",
+        "path": str(BENCHMARK_ROOT / 'data' / 'mapping_category.json'),
+        "used_by": "map_to_cluster for majority_category",
+        "notes": "Maps raw categories to clustered categories.",
+    },
+    {
+        "source_type": "Sentiment mapping",
+        "path": str(BENCHMARK_ROOT / 'data' / 'sentiment_category.json'),
+        "used_by": "map_sentiment_cluster for sentiments",
+        "notes": "Used only when sentiments columns exist.",
+    },
+    {
+        "source_type": "Tone mapping",
+        "path": str(BENCHMARK_ROOT / 'data' / 'tone_category.json'),
+        "used_by": "map_tone_cluster for tones",
+        "notes": "Used only when tones columns exist.",
+    },
+    {
+        "source_type": "Upstream generator page",
+        "path": str(PAGE_DIR / '0_0_ClimateBERT_12_ClimateBERT_Batch_GroundTruth_Windows.py'),
+        "used_by": "Reference only",
+        "notes": "Runs batch_process_csv_windows on ground_truth_windows dataset.",
+    },
+]
+
+st.subheader("Data Sources")
+st.caption("Editable provenance table for this page inputs and supporting mappings.")
+st.data_editor(
+    pd.DataFrame(source_rows),
+    num_rows="dynamic",
+    use_container_width=True,
+    key="absa_metrics_sources_windows_editor",
+)
+
 # Load data
 gt = pd.read_csv(gt_path)
 baseline = pd.read_csv(baseline_path)

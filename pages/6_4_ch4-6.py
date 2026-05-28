@@ -16,7 +16,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 BENCHMARKS_ROOT = Path(__file__).resolve().parents[1]
-ROOT = BENCHMARKS_ROOT / "new_page"
+PRIMARY_ROOT = BENCHMARKS_ROOT
+LEGACY_ROOT = BENCHMARKS_ROOT / "new_page"
+ROOT = PRIMARY_ROOT if (PRIMARY_ROOT / "results").exists() else LEGACY_ROOT
+ALT_ROOT = LEGACY_ROOT if ROOT == PRIMARY_ROOT else PRIMARY_ROOT
 DASHBOARD_DIR = BENCHMARKS_ROOT / "esg_dashboard_new-main" / "dashboard"
 DASHBOARD_DATA_DIR = DASHBOARD_DIR / "data" / "data"
 DASHBOARD_ONTOLOGY_DIR = DASHBOARD_DIR / "data"
@@ -29,7 +32,8 @@ W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 REV = ROOT / "results" / "revision_analysis"
 WORKFLOW = ROOT / "results" / "thesis_workflow_dashboard"
 
-sys.path.insert(0, str(ROOT / "code"))
+sys.path.insert(0, str(PRIMARY_ROOT / "code"))
+sys.path.insert(0, str(LEGACY_ROOT / "code"))
 sys.path.insert(0, str(TOOLS))
 
 from thesis_chapter_streamlit import (  # noqa: E402
@@ -691,10 +695,20 @@ def graph_manifest() -> pd.DataFrame:
 
 
 def load_csv(path: Path) -> pd.DataFrame:
-    if not path.exists():
+    candidate = path
+    if not candidate.exists():
+        # Keep `6_4` runnable in both root and `new_page` layouts by mirroring paths.
+        try:
+            rel = candidate.relative_to(ROOT)
+            alt = ALT_ROOT / rel
+            if alt.exists():
+                candidate = alt
+        except Exception:
+            pass
+    if not candidate.exists():
         return pd.DataFrame()
     try:
-        return pd.read_csv(path).fillna("")
+        return pd.read_csv(candidate).fillna("")
     except Exception:
         return pd.DataFrame()
 

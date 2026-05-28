@@ -1,0 +1,16 @@
+{
+  "job_id": "climatebert_multi_20260526T102945Z_ad4777",
+  "pid": 5221,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "SocialBERT-social",
+  "total": 5444,
+  "completed": 5152,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Running llm_637f204acc69",
+  "started_at": "2026-05-26T10:29:46Z",
+  "updated_at": "2026-05-26T15:22:29Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T102945Z_ad4777/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T102945Z_ad4777/climatebert_record_batch_import.csv"
+}

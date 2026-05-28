@@ -1,0 +1,16 @@
+{
+  "job_id": "climatebert_multi_20260526T094302Z_3e9dfd",
+  "pid": 7123,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "transition-physical",
+  "total": 5316,
+  "completed": 2998,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Running llm_77f82b7672d2",
+  "started_at": "2026-05-26T09:43:03Z",
+  "updated_at": "2026-05-26T10:06:27Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T094302Z_3e9dfd/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T094302Z_3e9dfd/climatebert_record_batch_import.csv"
+}

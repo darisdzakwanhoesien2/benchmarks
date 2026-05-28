@@ -1,0 +1,16 @@
+{
+  "job_id": "climatebert_multi_20260526T094755Z_a12833",
+  "pid": 9088,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "EnvRoBERTa-base",
+  "total": 5444,
+  "completed": 284,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Running r096_000",
+  "started_at": "2026-05-26T09:47:58Z",
+  "updated_at": "2026-05-26T10:04:38Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T094755Z_a12833/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T094755Z_a12833/climatebert_record_batch_import.csv"
+}

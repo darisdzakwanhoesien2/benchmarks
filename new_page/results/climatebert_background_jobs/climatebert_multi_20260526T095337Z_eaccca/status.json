@@ -1,0 +1,16 @@
+{
+  "job_id": "climatebert_multi_20260526T095337Z_eaccca",
+  "pid": 11249,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "GovRoBERTa-governance",
+  "total": 5444,
+  "completed": 33,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Running r007_018",
+  "started_at": "2026-05-26T09:53:43Z",
+  "updated_at": "2026-05-26T10:04:38Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T095337Z_eaccca/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T095337Z_eaccca/climatebert_record_batch_import.csv"
+}

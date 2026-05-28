@@ -1,0 +1,16 @@
+{
+  "job_id": "climatebert_multi_20260526T094423Z_d0fb71",
+  "pid": 7663,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "netzero-reduction",
+  "total": 5444,
+  "completed": 881,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Running llm_5c0a1c12c74e",
+  "started_at": "2026-05-26T09:44:24Z",
+  "updated_at": "2026-05-26T10:09:11Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T094423Z_d0fb71/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T094423Z_d0fb71/climatebert_record_batch_import.csv"
+}

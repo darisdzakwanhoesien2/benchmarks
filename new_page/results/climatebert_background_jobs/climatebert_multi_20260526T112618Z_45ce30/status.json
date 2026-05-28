@@ -1,0 +1,17 @@
+{
+  "job_id": "climatebert_multi_20260526T112618Z_45ce30",
+  "pid": 26558,
+  "status": "completed",
+  "model_backend": "Local model",
+  "model_id": "distilroberta-base-climate-d-s",
+  "total": 5221,
+  "completed": 5221,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Finished",
+  "started_at": "2026-05-26T11:26:38Z",
+  "updated_at": "2026-05-26T16:50:45Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T112618Z_45ce30/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T112618Z_45ce30/climatebert_record_batch_import.csv",
+  "finished_at": "2026-05-26T16:50:45Z"
+}

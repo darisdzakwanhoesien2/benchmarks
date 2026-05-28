@@ -1,0 +1,16 @@
+{
+  "job_id": "climatebert_multi_20260526T074427Z_e5c441",
+  "pid": 2701881,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "renewable",
+  "total": 5444,
+  "completed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Running r006_001",
+  "started_at": "2026-05-26T07:44:31Z",
+  "updated_at": "2026-05-26T09:07:14Z",
+  "script_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T074427Z_e5c441/climatebert_output.csv",
+  "imported_output_path": "/home/ubuntu/apps/benchmarks/new_page/results/climatebert_background_jobs/climatebert_multi_20260526T074427Z_e5c441/climatebert_record_batch_import.csv"
+}

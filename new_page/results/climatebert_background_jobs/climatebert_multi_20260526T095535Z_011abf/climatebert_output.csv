@@ -1,0 +1,19 @@
+record_id,label,score,climate_commitment,climatebert_model,climatebert_model_backend,climatebert_job_id
+r000_000,none,0.980928,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r000_001,governance,0.613244,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r000_002,none,0.987401,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_000,none,0.989804,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_001,none,0.991177,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_002,none,0.99224,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_003,none,0.988868,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_004,none,0.992413,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_005,none,0.993404,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_006,none,0.992468,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_007,none,0.993202,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_008,none,0.994103,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_009,none,0.992272,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_010,none,0.99346,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r006_011,none,0.995101,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r007_000,none,0.996156,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r007_001,none,0.97632,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf
+r007_002,none,0.993216,False,GovernanceBERT-governance,Local model,climatebert_multi_20260526T095535Z_011abf

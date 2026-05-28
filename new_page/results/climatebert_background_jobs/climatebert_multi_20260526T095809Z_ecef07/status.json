@@ -1,0 +1,14 @@
+{
+  "job_id": "climatebert_multi_20260526T095809Z_ecef07",
+  "pid": 12839,
+  "status": "running",
+  "model_backend": "Local model",
+  "model_id": "SocialBERT-base",
+  "total": 5444,
+  "completed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "current": "Loading model",
+  "started_at": "2026-05-26T09:58:39Z",
+  "updated_at": "2026-05-26T09:58:39Z"
+}
