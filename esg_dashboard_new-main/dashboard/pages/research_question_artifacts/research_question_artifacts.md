@@ -1,6 +1,6 @@
 # Research Question Artifact Export
 
-Generated: 2026-05-20T21:20:59
+Generated: 2026-05-29T04:15:59
 
 ## Sources
 

@@ -11,7 +11,9 @@ import streamlit as st
 
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "code"))
+for module_dir in [ROOT / "new_page" / "code", ROOT / "code"]:
+    if str(module_dir) not in sys.path:
+        sys.path.insert(0, str(module_dir))
 NARRATIVE_PATH = ROOT / "pages" / "Thesis_Complete_Narrative.docx"
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 REVISION = ROOT / "results" / "revision_analysis"

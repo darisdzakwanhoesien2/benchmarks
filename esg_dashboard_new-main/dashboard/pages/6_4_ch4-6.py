@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -11,6 +12,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+import streamlit.components.v1 as components
 
 from utils.data_loader import (
     format_display_value,
@@ -34,6 +36,11 @@ HEAVY_SOURCE_COLUMNS = {
     "original",
     "pa",
 }
+CLIMATEBERT_PREDICTIONS_DIR = DASHBOARD_DIR / "data" / "data" / "climatebert_predictions"
+EXTERNAL_SCREENSHOT_SOURCE = (
+    "/var/folders/nc/g1m7qlxd28nc60lgd8z9wncm0000gn/T/TemporaryItems/"
+    "NSIRD_screencaptureui_o9e7Lp/Screenshot 2026-05-29 at 02.22.32.png"
+)
 
 # Streamlit sometimes runs pages with `dashboard/` on sys.path but not `dashboard/pages/`.
 # Ensure sibling modules (like `_rq_thesis_content.py`) import reliably.
@@ -108,6 +115,115 @@ def _normalize_from_map(
     return mapping.get(text.lower(), text if keep_unmapped else fallback)
 
 
+def render_safe_mermaid(code: str, height: int = 520) -> None:
+    container_id = "ch46_mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
+    code_json = json.dumps(code)
+    html = f"""
+    <div id="{container_id}_wrapper" class="diagram-shell">
+      <div id="{container_id}"></div>
+      <div id="{container_id}_error" class="diagram-error"></div>
+    </div>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.5/dist/mermaid.esm.min.mjs";
+      const initMermaid = (flowchartOpts) => mermaid.initialize({{
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "base",
+        flowchart: flowchartOpts,
+        themeVariables: {{
+          background: "#ffffff",
+          mainBkg: "#f8fafc",
+          primaryColor: "#f8fafc",
+          primaryTextColor: "#111827",
+          primaryBorderColor: "#64748b",
+          lineColor: "#475569",
+          textColor: "#111827",
+          fontFamily: "Inter, Arial, sans-serif"
+        }}
+      }});
+      const code = {code_json};
+      const target = document.getElementById("{container_id}");
+      const errorTarget = document.getElementById("{container_id}_error");
+      try {{
+        initMermaid({{
+          htmlLabels: false,
+          curve: "basis",
+          padding: 18,
+          useMaxWidth: true
+        }});
+        const rendered = await mermaid.render("{container_id}_svg", code);
+        target.innerHTML = rendered.svg;
+        const svg = target.querySelector("svg");
+        if (svg) {{
+          svg.style.width = "100%";
+          svg.style.maxWidth = "100%";
+          svg.style.height = "auto";
+          svg.style.display = "block";
+          svg.style.margin = "0 auto";
+          svg.querySelectorAll("text").forEach((node) => {{
+            node.style.fill = "#111827";
+            node.style.fontWeight = "600";
+          }});
+        }}
+        if (rendered.bindFunctions) {{
+          rendered.bindFunctions(target);
+        }}
+      }} catch (err) {{
+        try {{
+          initMermaid({{
+            htmlLabels: false,
+            curve: "linear",
+            padding: 18,
+            useMaxWidth: true
+          }});
+          const renderedSafe = await mermaid.render("{container_id}_svg_safe", code);
+          target.innerHTML = renderedSafe.svg;
+          const svgSafe = target.querySelector("svg");
+          if (svgSafe) {{
+            svgSafe.style.width = "100%";
+            svgSafe.style.maxWidth = "100%";
+            svgSafe.style.height = "auto";
+            svgSafe.style.display = "block";
+            svgSafe.style.margin = "0 auto";
+          }}
+          if (renderedSafe.bindFunctions) {{
+            renderedSafe.bindFunctions(target);
+          }}
+        }} catch (retryErr) {{
+          errorTarget.style.display = "block";
+          errorTarget.textContent = "Mermaid render error: " + err.message + "\\nRetry error: " + retryErr.message;
+        }}
+      }}
+    </script>
+    <style>
+      #{container_id}_wrapper {{
+        background: #ffffff;
+        border: 1px solid #d4dbe5;
+        border-radius: 8px;
+        min-height: {height}px;
+        overflow: auto;
+        padding: 18px;
+      }}
+      #{container_id} svg {{
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+      }}
+      #{container_id}_error {{
+        color: #991b1b;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 6px;
+        display: none;
+        margin-top: 12px;
+        padding: 12px;
+        white-space: pre-wrap;
+      }}
+    </style>
+    """
+    components.html(html, height=height + 80, scrolling=True)
+
+
 # ── page config ───────────────────────────────────────────────────────────────
 
 st.set_page_config(page_title="Ch4-6 Thesis Overview", layout="wide")
@@ -116,6 +232,8 @@ st.caption(
     "Chapter 4 → 5 → 6 evidence bridge: live charts from the parsed ESG dataset, "
     "chapter structure, RQ mapping, and benchmark checklist."
 )
+st.caption(f"ClimateBERT predictions source directory: `{CLIMATEBERT_PREDICTIONS_DIR}`")
+st.caption(f"External screenshot source reference: `{EXTERNAL_SCREENSHOT_SOURCE}`")
 
 
 # ── load dataset ─────────────────────────────────────────────────────────────
@@ -163,6 +281,8 @@ except Exception as exc:
     st.error(f"Could not load dataset: {exc}")
     st.stop()
 
+st.caption(f"Primary parsed dataset source: `{data_path}` ({data_source_label})")
+
 if not df.empty:
     if "aspect_category" in df.columns:
         df["aspect_category_raw"] = df["aspect_category"]
@@ -190,6 +310,14 @@ if not df.empty:
 
 st.divider()
 
+with st.expander("Data Reconciliation Note: Saved Result Visualizer vs Global Imported Rows", expanded=False):
+    st.markdown(
+        "- `Saved Result Visualizer` in `02_ClimateBERT_Dataset_Processor.py` loads CSVs with a restricted `usecols` list (`SAVED_RESULT_COLUMNS`).\n"
+        "- `Global imported rows` in `1_14_ClimateBERT_Multi_Model_Runner.py` currently counts rows from full CSV concatenation in the predictions directory.\n"
+        "- Because the loaders are different, totals can differ (for example `141,904` vs `178,120`) even when both point to the same folder."
+    )
+    st.caption(f"Folder used by both flows: `{CLIMATEBERT_PREDICTIONS_DIR}`")
+
 
 # ── shared chart helpers ──────────────────────────────────────────────────────
 
@@ -197,6 +325,7 @@ def bar_v(col: pd.Series, title: str) -> None:
     counts = col.value_counts().reset_index()
     counts.columns = [col.name, "count"]
     fig = px.bar(counts, x=col.name, y="count", title=title, color=col.name)
+    fig.update_xaxes(categoryorder="total descending")
     fig.update_layout(showlegend=False, margin=dict(t=40, b=10))
     st.plotly_chart(fig, use_container_width=True)
 
@@ -449,6 +578,7 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         tbl.columns = ["tone", "records"]
         fig = px.bar(tbl, x="tone", y="records", color="tone",
                      title="Tone Distribution", labels={"records": "Records"})
+        fig.update_xaxes(categoryorder="total descending")
         fig.update_layout(showlegend=False)
         return fig, tbl
 
@@ -460,6 +590,7 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         fig = px.bar(tbl, x="tone", y="records", color="aspect_category",
                      barmode="stack", title="ESG by Tone",
                      labels={"records": "Record count", "aspect_category": "ESG"})
+        fig.update_xaxes(categoryorder="total descending")
         pivot = tbl.pivot(index="tone", columns="aspect_category", values="records").fillna(0).astype(int)
         pivot.columns.name = None
         return fig, pivot.reset_index()
@@ -484,6 +615,7 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         fig = px.bar(tbl, x="sentiment", y="records", color="sentiment",
                      color_discrete_map={"Positive": "#2f9e44", "Neutral": "#868e96", "Negative": "#e03131"},
                      title="Sentiment Distribution")
+        fig.update_xaxes(categoryorder="total descending")
         fig.update_layout(showlegend=False)
         return fig, tbl
 
@@ -587,6 +719,7 @@ def _fig_data(fig_id: str, data: pd.DataFrame) -> tuple[go.Figure | None, pd.Dat
         counts["evidence_items"] = [3, 4, 3, 3, 4, 3]   # representative static counts
         fig = px.bar(counts, x="rq", y="evidence_items", color="rq",
                      title="Evidence Items per Research Question")
+        fig.update_xaxes(categoryorder="total descending")
         fig.update_layout(showlegend=False)
         return fig, tbl
 
@@ -781,7 +914,7 @@ with tab_graphs:
 with tab_ch4:
     st.header("Chapter 4: Results")
     st.write("What was implemented, measured, and stored — presented without over-interpretation.")
-    render_mermaid(CHAPTER_FLOW_MERMAID, height=420)
+    render_safe_mermaid(CHAPTER_FLOW_MERMAID, height=420)
     mermaid_download_section(CHAPTER_FLOW_MERMAID, "chapter_4_to_6_flow")
 
     st.subheader("Chapter 4 Sections")
@@ -800,7 +933,7 @@ with tab_ch4:
 with tab_ch5:
     st.header("Chapter 5: Discussion")
     st.write("What the results mean — within the limits of available evidence.")
-    render_mermaid(RQ_TO_CHAPTER_MERMAID, height=680)
+    render_safe_mermaid(RQ_TO_CHAPTER_MERMAID, height=680)
     mermaid_download_section(RQ_TO_CHAPTER_MERMAID, "rq_to_discussion_flow")
 
     st.subheader("Chapter 5 Sections")

@@ -1,5 +1,5 @@
 from pathlib import Path
-import hashlib
+from html import escape
 import json
 import re
 
@@ -190,55 +190,59 @@ PAGE_ANALYSIS_INVENTORY = pd.DataFrame([
 
 
 def render_mermaid(code: str, height: int = 520) -> None:
-    container_id = "mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
-    code_json = json.dumps(code)
+    escaped_code = escape(code)
     html = f"""
-    <div id="{container_id}_wrapper">
-      <div id="{container_id}"></div>
-      <pre id="{container_id}_error" style="display:none;"></pre>
+    <div class="diagram-shell">
+      <pre class="mermaid">{escaped_code}</pre>
+      <div id="mermaid-error" class="diagram-error"></div>
     </div>
     <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.5/dist/mermaid.esm.min.mjs";
       mermaid.initialize({{
         startOnLoad: false,
-        securityLevel: 'loose',
-        theme: 'base',
-        flowchart: {{ curve: 'basis', htmlLabels: true }},
+        securityLevel: "loose",
+        theme: "base",
+        flowchart: {{
+          htmlLabels: false,
+          curve: "basis",
+          padding: 18,
+          useMaxWidth: true
+        }},
         themeVariables: {{
-          primaryColor: '#f8fafc',
-          primaryTextColor: '#111827',
-          primaryBorderColor: '#64748b',
-          lineColor: '#475569',
-          clusterBkg: '#eef6f4',
-          clusterBorder: '#0f766e',
-          edgeLabelBackground: '#ffffff'
+          background: "#ffffff",
+          mainBkg: "#f8fafc",
+          primaryColor: "#f8fafc",
+          primaryTextColor: "#111827",
+          primaryBorderColor: "#64748b",
+          lineColor: "#475569",
+          clusterBkg: "#eef6f4",
+          clusterBorder: "#0f766e",
+          edgeLabelBackground: "#ffffff",
+          textColor: "#111827",
+          fontFamily: "Inter, Arial, sans-serif"
         }}
       }});
-      const code = {code_json};
-      const target = document.getElementById("{container_id}");
-      const errorTarget = document.getElementById("{container_id}_error");
       try {{
-        const rendered = await mermaid.render("{container_id}_svg", code);
-        target.innerHTML = rendered.svg;
-        const svg = target.querySelector("svg");
-        if (svg) {{
-          svg.removeAttribute("height");
+        await mermaid.run({{ querySelector: ".mermaid" }});
+        document.querySelectorAll(".diagram-shell svg").forEach((svg) => {{
           svg.style.width = "100%";
           svg.style.maxWidth = "100%";
           svg.style.height = "auto";
           svg.style.display = "block";
           svg.style.margin = "0 auto";
-        }}
-        if (rendered.bindFunctions) {{
-          rendered.bindFunctions(target);
-        }}
+          svg.querySelectorAll("text").forEach((node) => {{
+            node.style.fill = "#111827";
+            node.style.fontWeight = "600";
+          }});
+        }});
       }} catch (err) {{
-        errorTarget.style.display = "block";
-        errorTarget.textContent = "Mermaid render error:\\n" + err.message + "\\n\\n" + code;
+        const target = document.getElementById("mermaid-error");
+        target.style.display = "block";
+        target.textContent = "Mermaid render error: " + err.message;
       }}
     </script>
     <style>
-      #{container_id}_wrapper {{
+      .diagram-shell {{
         background: #ffffff;
         border: 1px solid #d4dbe5;
         border-radius: 8px;
@@ -246,25 +250,32 @@ def render_mermaid(code: str, height: int = 520) -> None:
         overflow: auto;
         padding: 18px;
       }}
-      #{container_id} {{
-        width: 100%;
+      .diagram-shell .mermaid {{
+        background: #ffffff;
+        color: #111827;
+        display: block;
+        margin: 0;
+        text-align: center;
       }}
-      #{container_id} svg {{
+      .diagram-shell svg {{
+        background: #ffffff !important;
         width: 100% !important;
         max-width: 100% !important;
         height: auto;
       }}
-      #{container_id}_error {{
+      .diagram-error {{
         color: #991b1b;
         background: #fef2f2;
         border: 1px solid #fecaca;
         border-radius: 6px;
+        display: none;
+        margin-top: 12px;
         padding: 12px;
         white-space: pre-wrap;
       }}
     </style>
     """
-    components.html(html, height=height + 70, scrolling=True)
+    components.html(html, height=height + 80, scrolling=True)
 
 
 def mermaid_download_section(code: str, name: str = "mermaid_diagram") -> None:

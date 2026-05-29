@@ -314,7 +314,16 @@ for path in latest:
             "imported_output_path": status.get("imported_output_path", ""),
         }
     )
-jobs_df = pd.DataFrame(job_rows).fillna("")
+jobs_df_columns = [
+    "job_id",
+    "status",
+    "completed",
+    "total",
+    "model_id",
+    "updated_at",
+    "imported_output_path",
+]
+jobs_df = pd.DataFrame(job_rows, columns=jobs_df_columns).fillna("")
 st.dataframe(jobs_df, use_container_width=True, hide_index=True, height=320)
 
 st.divider()
@@ -461,7 +470,8 @@ else:
 
 merge_cols = st.columns([2, 1, 1])
 with merge_cols[0]:
-    merge_selected = st.multiselect("Jobs to merge into global imported file", jobs_df["job_id"].astype(str).tolist())
+    merge_options = jobs_df["job_id"].astype(str).tolist() if "job_id" in jobs_df.columns else []
+    merge_selected = st.multiselect("Jobs to merge into global imported file", merge_options)
 with merge_cols[1]:
     if st.button("Merge selected", use_container_width=True, disabled=not merge_selected):
         merged = merge_job_imports_into_global(merge_selected)

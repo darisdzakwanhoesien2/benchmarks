@@ -2,7 +2,17 @@ import streamlit as st
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+PAGES_DIR = Path(__file__).resolve().parent
+if str(PAGES_DIR) not in sys.path:
+    sys.path.insert(0, str(PAGES_DIR))
+
+loaded_utils = sys.modules.get("utils")
+if loaded_utils is not None and not hasattr(loaded_utils, "__path__"):
+    del sys.modules["utils"]
+
 from _page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 from datetime import datetime

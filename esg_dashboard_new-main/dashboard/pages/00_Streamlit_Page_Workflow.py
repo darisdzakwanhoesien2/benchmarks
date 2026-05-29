@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+import hashlib
 from html import escape
 from pathlib import Path
 import sys
@@ -92,24 +94,20 @@ flowchart TD
 
 
 def render_desktop_safe_mermaid(code: str, height: int = 560) -> None:
-    escaped_code = escape(code)
+    container_id = "workflow_mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
+    code_json = json.dumps(code)
     html = f"""
-    <div class="diagram-shell">
-      <pre class="mermaid">{escaped_code}</pre>
-      <div id="mermaid-error" class="diagram-error"></div>
+    <div id="{container_id}_wrapper" class="diagram-shell">
+      <div id="{container_id}"></div>
+      <div id="{container_id}_error" class="diagram-error"></div>
     </div>
     <script type="module">
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.5/dist/mermaid.esm.min.mjs";
-      mermaid.initialize({{
+      const initMermaid = (flowchartOpts) => mermaid.initialize({{
         startOnLoad: false,
         securityLevel: "loose",
         theme: "base",
-        flowchart: {{
-          htmlLabels: false,
-          curve: "basis",
-          padding: 18,
-          useMaxWidth: true
-        }},
+        flowchart: flowchartOpts,
         themeVariables: {{
           background: "#ffffff",
           mainBkg: "#f8fafc",
@@ -121,9 +119,20 @@ def render_desktop_safe_mermaid(code: str, height: int = 560) -> None:
           fontFamily: "Inter, Arial, sans-serif"
         }}
       }});
+      const code = {code_json};
+      const target = document.getElementById("{container_id}");
+      const errorTarget = document.getElementById("{container_id}_error");
       try {{
-        await mermaid.run({{ querySelector: ".mermaid" }});
-        document.querySelectorAll(".diagram-shell svg").forEach((svg) => {{
+        initMermaid({{
+          htmlLabels: false,
+          curve: "basis",
+          padding: 18,
+          useMaxWidth: true
+        }});
+        const rendered = await mermaid.render("{container_id}_svg", code);
+        target.innerHTML = rendered.svg;
+        const svg = target.querySelector("svg");
+        if (svg) {{
           svg.style.width = "100%";
           svg.style.maxWidth = "100%";
           svg.style.height = "auto";
@@ -133,11 +142,35 @@ def render_desktop_safe_mermaid(code: str, height: int = 560) -> None:
             node.style.fill = "#111827";
             node.style.fontWeight = "600";
           }});
-        }});
+        }}
+        if (rendered.bindFunctions) {{
+          rendered.bindFunctions(target);
+        }}
       }} catch (err) {{
-        const target = document.getElementById("mermaid-error");
-        target.style.display = "block";
-        target.textContent = "Mermaid render error: " + err.message;
+        try {{
+          initMermaid({{
+            htmlLabels: false,
+            curve: "linear",
+            padding: 18,
+            useMaxWidth: true
+          }});
+          const renderedSafe = await mermaid.render("{container_id}_svg_safe", code);
+          target.innerHTML = renderedSafe.svg;
+          const svgSafe = target.querySelector("svg");
+          if (svgSafe) {{
+            svgSafe.style.width = "100%";
+            svgSafe.style.maxWidth = "100%";
+            svgSafe.style.height = "auto";
+            svgSafe.style.display = "block";
+            svgSafe.style.margin = "0 auto";
+          }}
+          if (renderedSafe.bindFunctions) {{
+            renderedSafe.bindFunctions(target);
+          }}
+        }} catch (retryErr) {{
+          errorTarget.style.display = "block";
+          errorTarget.textContent = "Mermaid render error: " + err.message + "\\nRetry error: " + retryErr.message;
+        }}
       }}
     </script>
     <style>
@@ -365,6 +398,8 @@ def page_exists(file_name: str) -> bool:
 
 
 def render_page_button(file_name: str, label: str | None = None) -> None:
+    if not hasattr(render_page_button, "_missing_counter"):
+        render_page_button._missing_counter = 0
     label = label or file_name
     if page_exists(file_name):
         try:
@@ -372,7 +407,9 @@ def render_page_button(file_name: str, label: str | None = None) -> None:
         except Exception:
             st.code(file_name)
     else:
-        st.button(f"{label} (missing)", disabled=True, use_container_width=True)
+        render_page_button._missing_counter += 1
+        missing_key = f"missing_page_button::{file_name}::{label}::{render_page_button._missing_counter}"
+        st.button(f"{label} (missing)", key=missing_key, disabled=True, use_container_width=True)
 
 
 def page_catalog_df() -> pd.DataFrame:

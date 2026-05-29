@@ -320,6 +320,31 @@ def list_saved_result_files(output_dir: str) -> list[dict]:
     return rows
 
 
+def source_paths_by_dimension(saved_df: pd.DataFrame, output_dir: Path, dimension: str) -> pd.DataFrame:
+    if saved_df.empty or dimension not in saved_df.columns or "result_file" not in saved_df.columns:
+        return pd.DataFrame()
+
+    view = saved_df[[dimension, "result_file"]].copy()
+    view[dimension] = view[dimension].map(format_display_value).replace("", "missing")
+    view["result_file"] = view["result_file"].map(format_display_value)
+    view = view[view["result_file"] != ""]
+    if view.empty:
+        return pd.DataFrame()
+
+    rows = []
+    for value, part in view.groupby(dimension, dropna=False):
+        files = sorted(set(part["result_file"].tolist()))
+        abs_paths = [str((output_dir / name).resolve()) for name in files]
+        rows.append({
+            dimension: value,
+            "rows": int(len(part)),
+            "source_file_count": len(files),
+            "source_paths": "\n".join(abs_paths[:5]),
+        })
+    out = pd.DataFrame(rows)
+    return out.sort_values(["rows", "source_file_count"], ascending=[False, False]).reset_index(drop=True)
+
+
 def processed_sentence_set(saved_df: pd.DataFrame, model_dir: Path) -> set[str]:
     if saved_df.empty or "sentence" not in saved_df.columns:
         return set()
@@ -576,11 +601,12 @@ with dist_tab:
         if col in filtered.columns:
             with chart_cols[idx % 2]:
                 st.subheader(col.replace("_", " ").title())
-                st.bar_chart(filtered[col].map(format_display_value).value_counts().head(30))
+                counts = filtered[col].map(format_display_value).value_counts().sort_values(ascending=False).head(30)
+                st.bar_chart(counts)
 
     if "filename" in filtered.columns:
         st.subheader("Top Source Files")
-        file_counts = filtered["filename"].map(format_display_value).value_counts().head(30)
+        file_counts = filtered["filename"].map(format_display_value).value_counts().sort_values(ascending=False).head(30)
         st.bar_chart(file_counts)
 
 with coverage_tab:
@@ -704,7 +730,7 @@ if isinstance(result, pd.DataFrame) and not result.empty:
         left, right = st.columns(2)
         with left:
             st.subheader("Prediction Labels")
-            st.bar_chart(result["label"].value_counts())
+            st.bar_chart(result["label"].value_counts().sort_values(ascending=False))
         with right:
             st.subheader("Confidence Distribution")
             scores = pd.to_numeric(result["score"], errors="coerce").dropna()
@@ -790,7 +816,7 @@ else:
             left, right = st.columns(2)
             with left:
                 st.subheader("Combined Labels")
-                st.bar_chart(saved["label"].value_counts())
+                st.bar_chart(saved["label"].value_counts().sort_values(ascending=False))
             with right:
                 st.subheader("Rows by Worker")
                 if {"worker_count", "worker_index"}.issubset(saved.columns):
@@ -810,3 +836,18 @@ else:
         if saved_files:
             st.markdown("**Detected CSV files on disk**")
             st.dataframe(pd.DataFrame(saved_files), use_container_width=True, hide_index=True)
+
+    st.markdown("### Data Source Paths by Dimension")
+    st.caption(f"Base source directory: `{Path(output_dir).resolve()}`")
+    dims = [col for col in ["aspect_category", "sentiment", "tone", "model"] if col in saved.columns]
+    if not dims:
+        st.info("No dimension columns found in saved results for source-path mapping.")
+    else:
+        source_tabs = st.tabs([name.replace("_", " ").title() for name in dims])
+        for idx, dim in enumerate(dims):
+            with source_tabs[idx]:
+                mapping_df = source_paths_by_dimension(saved, Path(output_dir), dim)
+                if mapping_df.empty:
+                    st.info(f"No source path mapping available for `{dim}`.")
+                else:
+                    st.dataframe(mapping_df, use_container_width=True, height=360)

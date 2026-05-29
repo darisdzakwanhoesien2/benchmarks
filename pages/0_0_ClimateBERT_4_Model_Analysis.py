@@ -18,6 +18,43 @@ from climatebert_analysis import (
 )
 
 
+def build_text_model_wide_table(df: pd.DataFrame) -> pd.DataFrame:
+    base_cols = ["text"]
+    if "true_sentiment" in df.columns:
+        base_cols.append("true_sentiment")
+
+    base = (
+        df[base_cols]
+        .drop_duplicates(subset=["text"])
+        .copy()
+    )
+
+    pivot_frames = [base]
+    value_cols = [col for col in ["predicted_label", "confidence", "status"] if col in df.columns]
+
+    for value_col in value_cols:
+        pivot = (
+            df.pivot_table(
+                index="text",
+                columns="model",
+                values=value_col,
+                aggfunc="first"
+            )
+            .reset_index()
+        )
+        pivot.columns = [
+            "text" if col == "text" else f"{col}_{value_col}"
+            for col in pivot.columns
+        ]
+        pivot_frames.append(pivot)
+
+    wide_df = base
+    for frame in pivot_frames[1:]:
+        wide_df = wide_df.merge(frame, on="text", how="left")
+
+    return wide_df
+
+
 st.title("ClimateBERT Model Analysis")
 add_page_explanation(__file__)
 
@@ -180,8 +217,31 @@ else:
 st.header("Raw Data Explorer")
 add_section_explanation("Raw Data Explorer")
 
-st.dataframe(df)
+search_text = st.text_input("Filter texts", key="raw_data_text_filter")
 
+filtered_df = df.copy()
+if search_text:
+    filtered_df = filtered_df[
+        filtered_df["text"].astype(str).str.contains(search_text, case=False, na=False)
+    ]
+
+st.subheader("Long Format")
+add_section_explanation("Long Format")
+
+st.dataframe(filtered_df, use_container_width=True)
+
+st.subheader("One Text Across Models")
+add_section_explanation("One Text Across Models")
+
+wide_df = build_text_model_wide_table(filtered_df)
+
+st.dataframe(wide_df, use_container_width=True)
+
+st.download_button(
+    "Download Wide Explorer CSV",
+    wide_df.to_csv(index=False),
+    "climatebert_text_across_models.csv"
+)
 
 # ======================
 # Export

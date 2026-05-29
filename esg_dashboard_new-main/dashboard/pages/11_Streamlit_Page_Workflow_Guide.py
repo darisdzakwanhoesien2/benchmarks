@@ -1,8 +1,11 @@
+import hashlib
+import json
 from pathlib import Path
 import sys
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 PAGE_DIR = Path(__file__).resolve().parent
 if str(PAGE_DIR) not in sys.path:
@@ -25,6 +28,115 @@ st.caption("A practical guide for what every Streamlit page does, which RQ it su
 
 st.caption(f"Existing data: `{EXISTING_DATA_PATH}`")
 st.caption(f"Prediction outputs: `{PREDICTION_OUTPUT_DIR}`")
+
+
+def render_safe_mermaid(code: str, height: int = 520) -> None:
+    container_id = "workflow_guide_mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
+    code_json = json.dumps(code)
+    html = f"""
+    <div id="{container_id}_wrapper" class="diagram-shell">
+      <div id="{container_id}"></div>
+      <div id="{container_id}_error" class="diagram-error"></div>
+    </div>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.5/dist/mermaid.esm.min.mjs";
+      const initMermaid = (flowchartOpts) => mermaid.initialize({{
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "base",
+        flowchart: flowchartOpts,
+        themeVariables: {{
+          background: "#ffffff",
+          mainBkg: "#f8fafc",
+          primaryColor: "#f8fafc",
+          primaryTextColor: "#111827",
+          primaryBorderColor: "#64748b",
+          lineColor: "#475569",
+          textColor: "#111827",
+          fontFamily: "Inter, Arial, sans-serif"
+        }}
+      }});
+      const code = {code_json};
+      const target = document.getElementById("{container_id}");
+      const errorTarget = document.getElementById("{container_id}_error");
+      try {{
+        initMermaid({{
+          htmlLabels: false,
+          curve: "basis",
+          padding: 18,
+          useMaxWidth: true
+        }});
+        const rendered = await mermaid.render("{container_id}_svg", code);
+        target.innerHTML = rendered.svg;
+        const svg = target.querySelector("svg");
+        if (svg) {{
+          svg.style.width = "100%";
+          svg.style.maxWidth = "100%";
+          svg.style.height = "auto";
+          svg.style.display = "block";
+          svg.style.margin = "0 auto";
+          svg.querySelectorAll("text").forEach((node) => {{
+            node.style.fill = "#111827";
+            node.style.fontWeight = "600";
+          }});
+        }}
+        if (rendered.bindFunctions) {{
+          rendered.bindFunctions(target);
+        }}
+      }} catch (err) {{
+        try {{
+          initMermaid({{
+            htmlLabels: false,
+            curve: "linear",
+            padding: 18,
+            useMaxWidth: true
+          }});
+          const renderedSafe = await mermaid.render("{container_id}_svg_safe", code);
+          target.innerHTML = renderedSafe.svg;
+          const svgSafe = target.querySelector("svg");
+          if (svgSafe) {{
+            svgSafe.style.width = "100%";
+            svgSafe.style.maxWidth = "100%";
+            svgSafe.style.height = "auto";
+            svgSafe.style.display = "block";
+            svgSafe.style.margin = "0 auto";
+          }}
+          if (renderedSafe.bindFunctions) {{
+            renderedSafe.bindFunctions(target);
+          }}
+        }} catch (retryErr) {{
+          errorTarget.style.display = "block";
+          errorTarget.textContent = "Mermaid render error: " + err.message + "\\nRetry error: " + retryErr.message;
+        }}
+      }}
+    </script>
+    <style>
+      #{container_id}_wrapper {{
+        background: #ffffff;
+        border: 1px solid #d4dbe5;
+        border-radius: 8px;
+        min-height: {height}px;
+        overflow: auto;
+        padding: 18px;
+      }}
+      #{container_id} svg {{
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+      }}
+      #{container_id}_error {{
+        color: #991b1b;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 6px;
+        display: none;
+        margin-top: 12px;
+        padding: 12px;
+        white-space: pre-wrap;
+      }}
+    </style>
+    """
+    components.html(html, height=height + 80, scrolling=True)
 
 
 page_df = pd.DataFrame(STREAMLIT_PAGE_CATALOG)
@@ -118,7 +230,7 @@ with tab_complete:
         "This diagram shows the whole dashboard logic. Each RQ starts from a different operational path, but all paths "
         "return to the RQ evidence page and then flow into Chapters 4, 5, and 6."
     )
-    render_mermaid(COMPLETE_WORKFLOW_MERMAID, height=760)
+    render_safe_mermaid(COMPLETE_WORKFLOW_MERMAID, height=760)
     st.code(COMPLETE_WORKFLOW_MERMAID, language="mermaid")
 
     st.subheader("Complete Workflow Table")

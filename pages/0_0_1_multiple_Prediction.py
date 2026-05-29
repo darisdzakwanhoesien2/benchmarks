@@ -13,6 +13,13 @@ st.title("🔎 Multi-Model Prediction")
 add_page_explanation(__file__)
 
 api = ClimateBERTClient()
+if not api.is_connected():
+    st.error(
+        "ClimateBERT service is currently unavailable. "
+        "Please try again shortly.\n\n"
+        f"Details: {api.get_connection_error() or 'connection failed'}"
+    )
+    st.stop()
 
 # allow selecting multiple models
 models = api.available_models if hasattr(api, "available_models") else []

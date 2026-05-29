@@ -24,11 +24,20 @@ from climatebert_background_worker import read_json as _read_json  # noqa: E402
 
 DEFAULT_SILVER_PATH = RESULTS / "revision_analysis" / "silver_tone_ground_truth.csv"
 DEFAULT_GLOBAL_IMPORTED = RESULTS / "revision_analysis" / "climatebert_record_batch_import.csv"
+DEFAULT_PREDICTIONS_DIR = ROOT / "data" / "data" / "climatebert_predictions"
+DEFAULT_PREDICTIONS_IMPORT = DEFAULT_PREDICTIONS_DIR / "climatebert_record_batch_import.csv"
 FALLBACK_SILVER_PATH = ROOT / "data" / "data" / "data_output.txt"
 FALLBACK_GLOBAL_IMPORTED = ROOT / "data" / "data" / "climatebert_record_batch_import.csv"
 
 SILVER_PATH = DEFAULT_SILVER_PATH if DEFAULT_SILVER_PATH.exists() else FALLBACK_SILVER_PATH
-GLOBAL_IMPORTED = DEFAULT_GLOBAL_IMPORTED if DEFAULT_GLOBAL_IMPORTED.exists() else FALLBACK_GLOBAL_IMPORTED
+if DEFAULT_GLOBAL_IMPORTED.exists():
+    GLOBAL_IMPORTED = DEFAULT_GLOBAL_IMPORTED
+elif DEFAULT_PREDICTIONS_IMPORT.exists():
+    GLOBAL_IMPORTED = DEFAULT_PREDICTIONS_IMPORT
+elif DEFAULT_PREDICTIONS_DIR.exists():
+    GLOBAL_IMPORTED = DEFAULT_PREDICTIONS_DIR
+else:
+    GLOBAL_IMPORTED = FALLBACK_GLOBAL_IMPORTED
 
 
 def utc_now_id() -> str:
@@ -54,12 +63,30 @@ def list_local_model_dirs(root: Path) -> list[Path]:
 def load_csv(path: Path) -> pd.DataFrame:
     if not path.exists():
         return pd.DataFrame()
+    if path.is_dir():
+        frames: list[pd.DataFrame] = []
+        for csv_path in sorted(path.glob("*.csv")):
+            if csv_path.name.endswith(".tmp.csv"):
+                continue
+            try:
+                frames.append(pd.read_csv(csv_path).fillna(""))
+            except Exception:
+                continue
+        if not frames:
+            return pd.DataFrame()
+        return pd.concat(frames, ignore_index=True, sort=False).fillna("")
     try:
         if path.suffix.lower() == ".txt":
             return pd.read_csv(path, sep="\t", engine="python").fillna("")
         return pd.read_csv(path).fillna("")
     except Exception:
         return pd.DataFrame()
+
+
+def global_import_write_path(path: Path) -> Path:
+    if path.is_dir():
+        return path / "climatebert_record_batch_import.csv"
+    return path
 
 
 def processed_ids_for_model(imported_df: pd.DataFrame, model_id: str) -> set[str]:
@@ -161,7 +188,7 @@ def merge_job_imports_into_global(job_ids: list[str]) -> pd.DataFrame:
     if {"record_id", "climatebert_model"}.issubset(merged.columns):
         merged["_k"] = merged["record_id"].astype(str) + "||" + merged["climatebert_model"].astype(str)
         merged = merged.drop_duplicates("_k", keep="last").drop(columns=["_k"])
-    merged.to_csv(GLOBAL_IMPORTED, index=False)
+    merged.to_csv(global_import_write_path(GLOBAL_IMPORTED), index=False)
     return merged
 
 

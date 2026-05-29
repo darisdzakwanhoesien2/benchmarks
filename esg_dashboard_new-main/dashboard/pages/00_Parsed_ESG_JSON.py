@@ -231,10 +231,10 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11 = st.tabs([
 # -------------------------------------------------------
 with tab1:
     st.subheader("Sentiment Distribution")
-    st.bar_chart(filtered["sentiment"].value_counts())
+    st.bar_chart(filtered["sentiment"].value_counts().sort_values(ascending=False))
 
     st.subheader("Aspect Category Distribution")
-    st.bar_chart(filtered["aspect_category"].value_counts())
+    st.bar_chart(filtered["aspect_category"].value_counts().sort_values(ascending=False))
 
 # -------------------------------------------------------
 # TAB 2 — Aspects

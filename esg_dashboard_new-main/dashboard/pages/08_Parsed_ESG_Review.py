@@ -359,10 +359,10 @@ with tab1:
         "Use this section to understand tone, sentiment, and aspect-category balance before making categorization or stability claims.",
     )
     st.subheader("Sentiment Distribution")
-    st.bar_chart(filtered["sentiment"].value_counts())
+    st.bar_chart(filtered["sentiment"].value_counts().sort_values(ascending=False))
 
     st.subheader("Aspect Category Distribution")
-    st.bar_chart(filtered["aspect_category"].value_counts())
+    st.bar_chart(filtered["aspect_category"].value_counts().sort_values(ascending=False))
 
 # -------------------------------------------------------
 # TAB 2 — Aspects

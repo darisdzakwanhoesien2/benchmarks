@@ -263,12 +263,17 @@ with col1:
     st.subheader("Predicted Label Distribution")
     add_section_explanation("Predicted Label Distribution")
 
-    fig = px.bar(
+    pred_counts = (
         model_df["predicted_label"]
         .value_counts()
-        .reset_index(),
-        x="index",
-        y="predicted_label",
+        .rename_axis("predicted_label")
+        .reset_index(name="count")
+    )
+
+    fig = px.bar(
+        pred_counts,
+        x="predicted_label",
+        y="count",
         height=400
     )
 
@@ -280,12 +285,17 @@ with col2:
     st.subheader("True Label Distribution")
     add_section_explanation("True Label Distribution")
 
-    fig = px.bar(
+    true_counts = (
         model_df["true_sentiment"]
         .value_counts()
-        .reset_index(),
-        x="index",
-        y="true_sentiment",
+        .rename_axis("true_sentiment")
+        .reset_index(name="count")
+    )
+
+    fig = px.bar(
+        true_counts,
+        x="true_sentiment",
+        y="count",
         height=400
     )
 

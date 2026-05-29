@@ -10,6 +10,13 @@ st.title("🧠 Model Explorer")
 add_page_explanation(__file__)
 
 api = ClimateBERTClient()
+if not api.is_connected():
+    st.error(
+        "ClimateBERT service is currently unavailable. "
+        "Please try again shortly.\n\n"
+        f"Details: {api.get_connection_error() or 'connection failed'}"
+    )
+    st.stop()
 
 st.write("Available models:")
 

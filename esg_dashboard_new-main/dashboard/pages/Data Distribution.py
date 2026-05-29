@@ -184,7 +184,7 @@ fig1 = px.bar(
     title="Aspect Category Frequency",
 )
 
-fig1.update_layout(xaxis_tickangle=-30)
+fig1.update_layout(xaxis_tickangle=-30, xaxis={"categoryorder": "total descending"})
 st.plotly_chart(fig1, use_container_width=True)
 
 # =================================================
@@ -209,7 +209,7 @@ fig2 = px.bar(
     title="Top Ontology URI Frequency",
 )
 
-fig2.update_layout(xaxis_tickangle=-45)
+fig2.update_layout(xaxis_tickangle=-45, xaxis={"categoryorder": "total descending"})
 st.plotly_chart(fig2, use_container_width=True)
 
 # =================================================
@@ -235,7 +235,7 @@ fig3 = px.bar(
     title="Sentiment Distribution by Aspect Category",
 )
 
-fig3.update_layout(xaxis_tickangle=-30)
+fig3.update_layout(xaxis_tickangle=-30, xaxis={"categoryorder": "total descending"})
 st.plotly_chart(fig3, use_container_width=True)
 
 # =================================================
@@ -260,6 +260,7 @@ fig4 = px.bar(
     barmode="group",
     title="Tone Distribution by Aspect Category",
 )
+fig4.update_layout(xaxis_tickangle=-30, xaxis={"categoryorder": "total descending"})
 
 fig4.update_layout(xaxis_tickangle=-30)
 st.plotly_chart(fig4, use_container_width=True)

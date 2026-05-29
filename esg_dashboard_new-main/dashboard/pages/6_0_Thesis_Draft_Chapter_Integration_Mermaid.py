@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
 import re
 import sys
@@ -8,6 +10,7 @@ from zipfile import ZipFile
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,6 +59,115 @@ st.set_page_config(page_title="Thesis Draft + Chapters Mermaid Integration", lay
 
 bundle = data_bundle()
 metrics = evidence_metrics(bundle)
+
+
+def render_safe_mermaid(code: str, height: int = 520) -> None:
+    container_id = "thesis_integration_mermaid_" + hashlib.md5(code.encode("utf-8")).hexdigest()
+    code_json = json.dumps(code)
+    html = f"""
+    <div id="{container_id}_wrapper" class="diagram-shell">
+      <div id="{container_id}"></div>
+      <div id="{container_id}_error" class="diagram-error"></div>
+    </div>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.5/dist/mermaid.esm.min.mjs";
+      const initMermaid = (flowchartOpts) => mermaid.initialize({{
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "base",
+        flowchart: flowchartOpts,
+        themeVariables: {{
+          background: "#ffffff",
+          mainBkg: "#f8fafc",
+          primaryColor: "#f8fafc",
+          primaryTextColor: "#111827",
+          primaryBorderColor: "#64748b",
+          lineColor: "#475569",
+          textColor: "#111827",
+          fontFamily: "Inter, Arial, sans-serif"
+        }}
+      }});
+      const code = {code_json};
+      const target = document.getElementById("{container_id}");
+      const errorTarget = document.getElementById("{container_id}_error");
+      try {{
+        initMermaid({{
+          htmlLabels: false,
+          curve: "basis",
+          padding: 18,
+          useMaxWidth: true
+        }});
+        const rendered = await mermaid.render("{container_id}_svg", code);
+        target.innerHTML = rendered.svg;
+        const svg = target.querySelector("svg");
+        if (svg) {{
+          svg.style.width = "100%";
+          svg.style.maxWidth = "100%";
+          svg.style.height = "auto";
+          svg.style.display = "block";
+          svg.style.margin = "0 auto";
+          svg.querySelectorAll("text").forEach((node) => {{
+            node.style.fill = "#111827";
+            node.style.fontWeight = "600";
+          }});
+        }}
+        if (rendered.bindFunctions) {{
+          rendered.bindFunctions(target);
+        }}
+      }} catch (err) {{
+        try {{
+          initMermaid({{
+            htmlLabels: false,
+            curve: "linear",
+            padding: 18,
+            useMaxWidth: true
+          }});
+          const renderedSafe = await mermaid.render("{container_id}_svg_safe", code);
+          target.innerHTML = renderedSafe.svg;
+          const svgSafe = target.querySelector("svg");
+          if (svgSafe) {{
+            svgSafe.style.width = "100%";
+            svgSafe.style.maxWidth = "100%";
+            svgSafe.style.height = "auto";
+            svgSafe.style.display = "block";
+            svgSafe.style.margin = "0 auto";
+          }}
+          if (renderedSafe.bindFunctions) {{
+            renderedSafe.bindFunctions(target);
+          }}
+        }} catch (retryErr) {{
+          errorTarget.style.display = "block";
+          errorTarget.textContent = "Mermaid render error: " + err.message + "\\nRetry error: " + retryErr.message;
+        }}
+      }}
+    </script>
+    <style>
+      #{container_id}_wrapper {{
+        background: #ffffff;
+        border: 1px solid #d4dbe5;
+        border-radius: 8px;
+        min-height: {height}px;
+        overflow: auto;
+        padding: 18px;
+      }}
+      #{container_id} svg {{
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+      }}
+      #{container_id}_error {{
+        color: #991b1b;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 6px;
+        display: none;
+        margin-top: 12px;
+        padding: 12px;
+        white-space: pre-wrap;
+      }}
+    </style>
+    """
+    components.html(html, height=height + 80, scrolling=True)
 
 
 def chapter_breakdown_rows() -> list[dict[str, str]]:
@@ -906,9 +1018,9 @@ with tab_integrated:
     )
     if selected_edges:
         st.caption(f"Focused view: {len(selected_edges):,} selected connection(s). Clear the selector to return to the full integrated navigator.")
-        render_mermaid(focused_edge_mermaid(edge_df, selected_edges), height=720)
+        render_safe_mermaid(focused_edge_mermaid(edge_df, selected_edges), height=720)
     else:
-        render_mermaid(integrated_thesis_mermaid(), height=1600)
+        render_safe_mermaid(integrated_thesis_mermaid(), height=1600)
 
     st.subheader("0. Arrow / Connection Explanations")
     edge_filter = st.text_input(
@@ -1131,7 +1243,7 @@ with tab_map:
         "This diagram treats the PDF as the full thesis spine and the DOCX as the focused implementation, "
         "discussion, and conclusion package. The arrows show how the early chapters feed the evidence and claims."
     )
-    render_mermaid(thesis_spine_mermaid(), height=680)
+    render_safe_mermaid(thesis_spine_mermaid(), height=680)
 
 with tab_rq:
     st.header("Research Questions to Evidence, Interpretation, and Conclusion")
@@ -1139,7 +1251,7 @@ with tab_rq:
         "This map connects the draft's problem/literature/methodology chapters to Chapter IV evidence, "
         "Chapter V interpretation, and Chapter VI contribution closure."
     )
-    render_mermaid(rq_evidence_mermaid(), height=780)
+    render_safe_mermaid(rq_evidence_mermaid(), height=780)
 
 with tab_pipeline:
     st.header("Method-to-Result Pipeline")
@@ -1147,14 +1259,17 @@ with tab_pipeline:
         "This diagram turns the methodology and implementation chapters into a reproducible dataflow: "
         "PDF inputs, OCR pages, prompt templates, LLM extraction, ABSA dimensions, validation, diagnostics, and thesis graphs."
     )
-    render_mermaid(pipeline_mermaid(), height=980)
+    render_safe_mermaid(pipeline_mermaid(), height=980)
 
     st.subheader("Detailed Pipeline Breakdown")
     pipeline_rows = [
         {
             "layer": "A. Source",
             "thesis role": "Connects the draft methodology to the empirical corpus.",
-            "live evidence": f"{metrics['ocr_documents']:,} OCR documents; {metrics['ocr_pages']:.0f} OCR pages.",
+            "live evidence": (
+                f"{metrics.get('ocr_documents', 0):,} OCR documents; "
+                f"{metrics.get('ocr_pages', 0):,.0f} OCR pages."
+            ),
             "main artifact": "results/revision_analysis/ocr_processing_summary.csv",
             "chapter use": "Chapter 4 describes the data source and processing scope.",
         },
@@ -1168,28 +1283,37 @@ with tab_pipeline:
         {
             "layer": "C. Prompt and LLM",
             "thesis role": "Runs extraction prompts through selectable LLM backends.",
-            "live evidence": f"{metrics['live_runs']:,} run objects; {metrics['live_extracted_rows']:,} live extracted records.",
+            "live evidence": (
+                f"{metrics.get('live_runs', 0):,} run objects; "
+                f"{metrics.get('live_extracted_rows', 0):,} live extracted records."
+            ),
             "main artifact": "results/esg_records.json",
             "chapter use": "Chapter 4 results and Chapter 6 reproducibility contribution.",
         },
         {
             "layer": "D. ABSA evidence",
             "thesis role": "Creates record-level aspect, ESG, sentiment, and tone labels.",
-            "live evidence": f"{metrics['tone_records']:,} flattened records across {metrics['documents']:,} documents.",
+            "live evidence": (
+                f"{metrics.get('tone_records', 0):,} flattened records across "
+                f"{metrics.get('documents', 0):,} documents."
+            ),
             "main artifact": "results/visualizations/tone_records_flat.csv",
             "chapter use": "Chapter 4 core empirical table and visualizations.",
         },
         {
             "layer": "E. Validation",
             "thesis role": "Tests whether labels are stable, interpretable, and traceable.",
-            "live evidence": f"{metrics['models']:,} model configurations; kappa {metrics['kappa']:.3f}.",
+            "live evidence": (
+                f"{metrics.get('models', 0):,} model configurations; "
+                f"kappa {metrics.get('kappa', 0.0):.3f}."
+            ),
             "main artifact": "results/revision_analysis/*.csv",
             "chapter use": "Chapter 5 discussion and Chapter 6 future work.",
         },
         {
             "layer": "F. Thesis output",
             "thesis role": "Converts artifacts into figures, cited claims, and editable interpretation.",
-            "live evidence": f"{metrics['artifacts']:,} discoverable result artifacts.",
+            "live evidence": f"{metrics.get('artifacts', 0):,} discoverable result artifacts.",
             "main artifact": "Streamlit pages 6_0 to 6_3",
             "chapter use": "Defense-ready narrative and updateable thesis sections.",
         },
@@ -1210,7 +1334,7 @@ with tab_validation:
         "This map shows how the ground-truth workbench, ClimateBERT comparison, model/prompt stability, and failure audits "
         "support construct validity, reliability, limitations, and future work."
     )
-    render_mermaid(validation_mermaid(), height=980)
+    render_safe_mermaid(validation_mermaid(), height=980)
     st.subheader("Detailed Validation Breakdown")
     validation_rows = [
         {
@@ -1265,7 +1389,7 @@ with tab_artifacts:
         "This diagram connects the source thesis documents to generated chapter pages and result artifacts, "
         "so the Streamlit application becomes an evidence layer for the thesis narrative."
     )
-    render_mermaid(artifact_mermaid(), height=1020)
+    render_safe_mermaid(artifact_mermaid(), height=1020)
 
     st.subheader("Detailed Artifact Lineage")
     artifact_rows = [

@@ -1,8 +1,34 @@
 import streamlit as st
 from pathlib import Path
+import importlib.util
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+PAGES_DIR = Path(__file__).resolve().parent
+if str(PAGES_DIR) not in sys.path:
+    sys.path.insert(0, str(PAGES_DIR))
+
+# Force `utils` to resolve to the local package even if Streamlit cached a
+# third-party module with the same name.
+utils_init = ROOT_DIR / "utils" / "__init__.py"
+loaded_utils = sys.modules.get("utils")
+if (
+    loaded_utils is None
+    or not hasattr(loaded_utils, "__path__")
+    or str(ROOT_DIR / "utils") not in [str(Path(p).resolve()) for p in getattr(loaded_utils, "__path__", [])]
+):
+    spec = importlib.util.spec_from_file_location(
+        "utils",
+        utils_init,
+        submodule_search_locations=[str(ROOT_DIR / "utils")],
+    )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["utils"] = module
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+
 from _page_explanations import add_page_explanation, add_section_explanation
 import pandas as pd
 

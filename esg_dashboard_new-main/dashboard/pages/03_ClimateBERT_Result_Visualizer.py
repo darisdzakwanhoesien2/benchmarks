@@ -262,7 +262,7 @@ with tab_summary:
         left, right = st.columns(2)
         with left:
             st.subheader("Prediction Labels")
-            st.bar_chart(filtered_predictions["label"].value_counts())
+            st.bar_chart(filtered_predictions["label"].value_counts().sort_values(ascending=False))
         with right:
             st.subheader("Confidence Distribution")
             bins = confidence_bins(filtered_predictions.get("score", pd.Series(dtype=float)))
@@ -283,7 +283,8 @@ with tab_summary:
     for idx, col in enumerate(["aspect_category", "sentiment", "tone"]):
         if col in filtered_parsed.columns:
             with dist_cols[idx]:
-                st.bar_chart(filtered_parsed[col].map(format_display_value).value_counts().head(25))
+                counts = filtered_parsed[col].map(format_display_value).value_counts().sort_values(ascending=False).head(25)
+                st.bar_chart(counts)
 
 
 with tab_coverage:

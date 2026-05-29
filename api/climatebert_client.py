@@ -22,7 +22,8 @@ class ClimateBERTClient:
             )
         )
 
-        self.client = Client(self.space_url)
+        self.client = None
+        self.connection_error = None
 
         self.available_models = [
             "econbert",
@@ -43,7 +44,32 @@ class ClimateBERTClient:
             "climate-d"
         ]
 
+        self._connect()
+
+    def _connect(self):
+        try:
+            self.client = Client(self.space_url)
+            self.connection_error = None
+        except Exception as exc:
+            self.client = None
+            self.connection_error = exc
+
+    def is_connected(self) -> bool:
+        return self.client is not None
+
+    def get_connection_error(self) -> str | None:
+        if self.connection_error is None:
+            return None
+        return str(self.connection_error)
+
     def predict(self, text, model_key):
+        if self.client is None:
+            self._connect()
+        if self.client is None:
+            raise RuntimeError(
+                f"ClimateBERT backend unavailable at {self.space_url}. "
+                f"Details: {self.get_connection_error() or 'unknown connection error'}"
+            )
 
         result = self.client.predict(
             model_key=model_key,

@@ -13,6 +13,100 @@ import plotly.graph_objects as go
 
 from climatebert_analysis import merge_ground_truth
 
+REVISION_DIR = ROOT / "results" / "revision_analysis"
+CLIMATE_COMMITMENT_ANNOTATION_PATH = REVISION_DIR / "climate_commitment_manual_annotations.csv"
+
+
+def _norm_text(series: pd.Series) -> pd.Series:
+    return series.astype(str).str.strip()
+
+
+def load_climate_commitment_annotations() -> pd.DataFrame:
+    if not CLIMATE_COMMITMENT_ANNOTATION_PATH.exists():
+        return pd.DataFrame()
+    try:
+        df = pd.read_csv(CLIMATE_COMMITMENT_ANNOTATION_PATH).fillna("")
+    except Exception:
+        return pd.DataFrame()
+    required = {"text", "human_climate_commitment"}
+    if not required.issubset(df.columns):
+        return pd.DataFrame()
+    out = df.copy()
+    out["text"] = _norm_text(out["text"])
+    out["human_climate_commitment"] = (
+        out["human_climate_commitment"]
+        .astype(str)
+        .str.strip()
+        .str.lower()
+    )
+    return out
+
+
+def build_climate_commitment_seed(model_df: pd.DataFrame) -> pd.DataFrame:
+    seed = model_df[["text", "predicted_label", "confidence"]].copy()
+    seed["text"] = _norm_text(seed["text"])
+    seed = seed.drop_duplicates(subset=["text"]).sort_values("text")
+    seed["human_climate_commitment"] = ""
+    seed["review_notes"] = ""
+    return seed[["text", "predicted_label", "confidence", "human_climate_commitment", "review_notes"]]
+
+
+def compute_metric_context(model_df: pd.DataFrame, model: str) -> dict[str, object]:
+    metric = {
+        "label": "Accuracy",
+        "value": None,
+        "help": "Exact match between predicted label and true_sentiment.",
+        "usable_rows": len(model_df),
+    }
+    if model != "climate-commitment":
+        correct = (model_df["predicted_label"] == model_df["true_sentiment"]).sum()
+        metric["value"] = correct / len(model_df) if len(model_df) else 0.0
+        return metric
+
+    annotations = load_climate_commitment_annotations()
+    if not annotations.empty:
+        merged = model_df.copy()
+        merged["text"] = _norm_text(merged["text"])
+        merged["predicted_label_norm"] = merged["predicted_label"].astype(str).str.strip().str.lower()
+        merged = merged.merge(
+            annotations[["text", "human_climate_commitment"]],
+            on="text",
+            how="left",
+        )
+        usable = merged[
+            merged["human_climate_commitment"].isin(["yes", "no", "true", "false", "1", "0"])
+        ].copy()
+        if not usable.empty:
+            usable["human_climate_commitment"] = usable["human_climate_commitment"].replace(
+                {"true": "yes", "1": "yes", "false": "no", "0": "no"}
+            )
+            metric["label"] = "Manual Accuracy"
+            metric["value"] = (
+                usable["predicted_label_norm"] == usable["human_climate_commitment"]
+            ).mean()
+            metric["help"] = (
+                "Accuracy against manual binary climate-commitment annotations in "
+                f"{CLIMATE_COMMITMENT_ANNOTATION_PATH.name}."
+            )
+            metric["usable_rows"] = len(usable)
+            return metric
+
+    commitment_alignment = (
+        (model_df["true_sentiment"].astype(str).str.strip().str.lower() == "commitment")
+        & (model_df["predicted_label"].astype(str).str.strip().str.lower() == "yes")
+    ).sum()
+    commitment_total = (
+        model_df["true_sentiment"].astype(str).str.strip().str.lower() == "commitment"
+    ).sum()
+    metric["label"] = "Commitment Alignment"
+    metric["value"] = commitment_alignment / commitment_total if commitment_total else None
+    metric["help"] = (
+        "Proxy construct-alignment only: share of rows with true_sentiment='commitment' "
+        "that the climate-commitment model predicted as 'yes'. This is not human-label accuracy."
+    )
+    metric["usable_rows"] = int(commitment_total)
+    return metric
+
 
 st.title("ClimateBERT All Models Visualization")
 add_page_explanation(__file__)
@@ -91,7 +185,7 @@ fig_acc = px.bar(
     title="Accuracy by Model"
 )
 
-st.plotly_chart(fig_acc, use_container_width=True)
+st.plotly_chart(fig_acc, use_container_width=True, key="accuracy_comparison_chart")
 
 
 # =====================================================
@@ -108,7 +202,7 @@ fig_conf = px.box(
     title="Confidence Distribution Across Models"
 )
 
-st.plotly_chart(fig_conf, use_container_width=True)
+st.plotly_chart(fig_conf, use_container_width=True, key="confidence_distribution_all_models_chart")
 
 
 # =====================================================
@@ -133,7 +227,7 @@ fig_label = px.bar(
     title="Predicted Label Distribution per Model"
 )
 
-st.plotly_chart(fig_label, use_container_width=True)
+st.plotly_chart(fig_label, use_container_width=True, key="predicted_label_distribution_by_model_chart")
 
 st.header("Label Distribution by Sentiment")
 add_section_explanation("Label Distribution by Sentiment")
@@ -153,7 +247,7 @@ fig_label = px.bar(
     title="Predicted Label Distribution per Model"
 )
 
-st.plotly_chart(fig_label, use_container_width=True)
+st.plotly_chart(fig_label, use_container_width=True, key="true_sentiment_distribution_by_model_chart")
 
 
 
@@ -182,20 +276,40 @@ for i, model in enumerate(models):
         total = len(df[df.model == model])
         success = len(model_df)
 
-        correct = (
-            model_df.predicted_label ==
-            model_df.true_sentiment
-        ).sum()
-
-        accuracy = correct / success if success else 0
-
         avg_conf = model_df.confidence.mean()
+        metric_context = compute_metric_context(model_df, model)
 
         col1, col2, col3 = st.columns(3)
 
-        col1.metric("Accuracy", f"{accuracy:.2%}")
+        metric_value = metric_context["value"]
+        col1.metric(
+            metric_context["label"],
+            f"{metric_value:.2%}" if metric_value is not None else "N/A"
+        )
         col2.metric("Predictions", success)
         col3.metric("Avg Confidence", f"{avg_conf:.2f}")
+        st.caption(
+            f"{metric_context['help']} Usable rows: {metric_context['usable_rows']:,}."
+        )
+
+        if model == "climate-commitment":
+            st.info(
+                "The climate-commitment model uses a binary yes/no label space, so direct comparison "
+                "to tone labels like commitment/action/outcome is invalid. Use manual climate-commitment "
+                "annotations to measure real accuracy."
+            )
+            annotation_seed = build_climate_commitment_seed(model_df)
+            st.download_button(
+                "Download manual annotation seed",
+                annotation_seed.to_csv(index=False),
+                file_name="climate_commitment_manual_annotations_seed.csv",
+                mime="text/csv",
+            )
+            st.caption(
+                "To enable manual accuracy, save a reviewed CSV at "
+                f"`{CLIMATE_COMMITMENT_ANNOTATION_PATH}` with columns "
+                "`text` and `human_climate_commitment` using `yes` or `no`."
+            )
 
         # Raw data
         st.subheader("Predictions Table")
@@ -225,7 +339,7 @@ for i, model in enumerate(models):
             nbins=30
         )
 
-        st.plotly_chart(fig_hist, use_container_width=True)
+        st.plotly_chart(fig_hist, use_container_width=True, key=f"{model}_confidence_histogram_chart")
 
 
         # Confusion Matrix
@@ -243,7 +357,7 @@ for i, model in enumerate(models):
             color_continuous_scale="Blues"
         )
 
-        st.plotly_chart(fig_cm)
+        st.plotly_chart(fig_cm, use_container_width=True, key=f"{model}_confusion_matrix_chart")
 
 
         # Label Distribution
@@ -267,7 +381,7 @@ for i, model in enumerate(models):
             y="count"
         )
 
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, use_container_width=True, key=f"{model}_label_distribution_chart")
 
 
 
