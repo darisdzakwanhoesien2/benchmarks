@@ -4,10 +4,12 @@ import sys
 import altair as alt
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 import streamlit.components.v1 as components
 
 
 st.set_page_config(page_title="Research Questions Dashboard", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))

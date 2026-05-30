@@ -6,8 +6,10 @@ import subprocess
 
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 st.set_page_config(page_title="A.4 Per-Model Background Run", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_PATH = ROOT / "tools" / "climatebert_a4" / "generate_a4_per_model.py"

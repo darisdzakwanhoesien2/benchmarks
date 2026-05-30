@@ -10,9 +10,11 @@ from typing import Any
 import altair as alt
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 st.set_page_config(page_title="Thesis Systematic Workflow Dashboard", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"

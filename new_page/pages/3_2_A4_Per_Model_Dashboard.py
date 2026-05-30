@@ -4,8 +4,10 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 st.set_page_config(page_title="A.4 Per-Model Dashboard", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 VIS = ROOT / "results" / "visualizations"

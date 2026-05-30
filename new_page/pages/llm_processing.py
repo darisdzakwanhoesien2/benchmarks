@@ -17,6 +17,7 @@ import requests
 from requests.adapters import HTTPAdapter, Retry
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 # ── Fix temp directory BEFORE any gradio import ───────────────────────────────
 _LOCAL_TMP = Path(__file__).resolve().parents[2] / ".tmp"
@@ -103,6 +104,7 @@ st.set_page_config(
     page_icon="🌿",
     layout="wide",
 )
+apply_page_runtime_controls(__file__)
 st.title("🌿 ESG Combined Pipeline")
 st.caption(
     "Run ClimateBERT predictions (T1), ABSA analysis (T2), and "

@@ -3,9 +3,11 @@ from pathlib import Path
 import altair as alt
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 st.set_page_config(page_title="ClimateBERT Record Batch", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ROOT / "results" / "revision_analysis"

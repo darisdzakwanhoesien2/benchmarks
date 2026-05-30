@@ -4,10 +4,12 @@ import sys
 import altair as alt
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precision_score, recall_score
 
 
 st.set_page_config(page_title="Ground Truth Metrics", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))

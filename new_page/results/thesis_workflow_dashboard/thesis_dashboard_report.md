@@ -5,7 +5,7 @@
 - Tone records: 332
 - T2 rows: 2,074
 - Pilot labels: 70
-- Result artifacts: 1,142
+- Result artifacts: 1,789
 
 ## Saved Graph Attachments
 
@@ -73,7 +73,7 @@
 
 ## RQ5 Reproducibility, documentation, and visualization
 
-**RQ5 results.** The dashboard currently indexes 1,142 result artifacts, 157 LLM background jobs, and 0 ground-truth background jobs.
+**RQ5 results.** The dashboard currently indexes 1,789 result artifacts, 157 LLM background jobs, and 0 ground-truth background jobs.
 
 **RQ5 graph.** Artifact inventory, background job status, and exported dashboard report files
 

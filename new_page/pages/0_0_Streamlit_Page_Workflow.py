@@ -7,10 +7,12 @@ import sys
 import altair as alt
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 import streamlit.components.v1 as components
 
 
 st.set_page_config(page_title="Streamlit Page Workflow", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))
@@ -228,6 +230,58 @@ def build_workflow_funnel_df(
     return pd.DataFrame(rows)
 
 
+def extract_first_match(pattern: str, text: str) -> str:
+    match = re.search(pattern, text, re.S)
+    if not match:
+        return ""
+    return clean_text(match.group(1))
+
+
+def extract_tab_labels(text: str) -> list[str]:
+    labels: list[str] = []
+    for match in re.finditer(r"st\.tabs\((.*?)\)", text, re.S):
+        snippet = match.group(1)
+        labels.extend(re.findall(r'["\']([^"\']+)["\']', snippet))
+    return labels
+
+
+def count_cached_functions(text: str) -> int:
+    return len(re.findall(r"@st\.cache_(?:data|resource)\s*\(", text))
+
+
+def page_detail_rows() -> pd.DataFrame:
+    registry_df = page_df()
+    by_page = {str(row["page"]): row for _, row in registry_df.iterrows()}
+    rows: list[dict[str, object]] = []
+    for path in sorted(PAGES_DIR.glob("*.py")):
+        if path.name == "_page_runtime_controls.py":
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        title = extract_first_match(r"st\.title\((.*?)\)", text)
+        caption = extract_first_match(r"st\.caption\((.*?)\)", text)
+        tabs = extract_tab_labels(text)
+        reg = by_page.get(path.name, {})
+        rows.append(
+            {
+                "page": path.name,
+                "display name": reg.get("label", path.stem),
+                "stage": reg.get("stage", "Not mapped yet"),
+                "primary RQs": reg.get("primary RQs", "Not mapped yet"),
+                "purpose": reg.get("purpose", "Detailed purpose not yet mapped in PAGE_REGISTRY."),
+                "use when": reg.get("use when", "Open this page when the title/caption matches your current workflow step."),
+                "outputs": reg.get("outputs", "No explicit output mapping yet."),
+                "title": title,
+                "caption": caption,
+                "tab count": len(tabs),
+                "tabs": ", ".join(tabs),
+                "has runtime controls": "Yes" if "apply_page_runtime_controls(__file__)" in text else "No",
+                "cached functions": count_cached_functions(text),
+                "line count": len(text.splitlines()),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
 def render_workflow_funnel(funnel_df: pd.DataFrame):
     if funnel_df.empty or int(funnel_df["visible pages"].sum()) == 0:
         st.info("No funnel stages are visible for the current RQ filter.")
@@ -398,6 +452,15 @@ PAGE_REGISTRY = [
         "purpose": "Synthesize RQ evidence, sample-size reasoning, benchmarks, chapter plans, and thesis conclusions.",
         "use when": "You need the master evidence map for Chapter 4, 5, 6, or defense preparation.",
         "outputs": "RQ map, sample-size ladder, chapter 4-6 Mermaid flow, evidence matrix.",
+    },
+    {
+        "page": "1_15_Thesis_Gap_Closure_Dashboard.py",
+        "label": "Thesis Gap Closure Dashboard",
+        "stage": "Synthesis",
+        "primary RQs": "RQ2, RQ3, RQ4, RQ5, RQ6",
+        "purpose": "Close high-level thesis gaps: baseline hierarchy, significance layer, error taxonomy, greenwashing validation, ontology contribution, bilingual/temporal analysis, validity threats, and ablation plan.",
+        "use when": "You need a single thesis-facing page that turns strategic reviewer risks into concrete evidence and implementation steps.",
+        "outputs": "Gap-closure tables and metrics derived from results/revision_analysis.",
     },
     {
         "page": "1_8_Ground_Truth_Output_Visualizer.py",
@@ -645,6 +708,7 @@ with overview:
     fast_path = pd.DataFrame(
         [
             {"task": "Write Chapter 4 results", "start page": "1_7_Research_Questions_Dashboard.py", "then open": "0_9, 1_0, 1_9, 2_1"},
+            {"task": "Close thesis strategic gaps", "start page": "1_15_Thesis_Gap_Closure_Dashboard.py", "then open": "1_0, 1_7, 6_4"},
             {"task": "Answer RQ1", "start page": "Bulk_OCR.py", "then open": "llm_processing, 2_0, 1_9, 1_2"},
             {"task": "Answer RQ2", "start page": "0_9_Tone_ClimateBERT_Visualization.py", "then open": "1_6, 1_8, 1_1, 1_3"},
             {"task": "Answer RQ3", "start page": "1_4_ClimateBERT_Record_Batch.py", "then open": "0_9, 1_0"},
@@ -658,6 +722,47 @@ with overview:
 with pages_tab:
     st.subheader("Every Streamlit page and what it is for")
     st.dataframe(page_df(), use_container_width=True, hide_index=True)
+
+    st.subheader("Detailed Page Reference (Auto-generated from pages/*.py)")
+    st.write(
+        "This section reads every Python page file and combines code-level signals (title, caption, tabs, cache usage) "
+        "with the workflow mapping in `PAGE_REGISTRY`. Use it as the canonical reference for what each page does."
+    )
+    detail_df = page_detail_rows()
+    st.dataframe(
+        detail_df[
+            [
+                "page",
+                "display name",
+                "stage",
+                "primary RQs",
+                "title",
+                "tab count",
+                "cached functions",
+                "has runtime controls",
+            ]
+        ],
+        use_container_width=True,
+        hide_index=True,
+        height=520,
+    )
+
+    st.subheader("Per-page Detail Cards")
+    for _, row in detail_df.iterrows():
+        with st.expander(f"{row['page']} | {row['display name']}", expanded=False):
+            st.markdown(f"**Stage:** {row['stage']}")
+            st.markdown(f"**Primary RQs:** {row['primary RQs']}")
+            st.markdown(f"**Page title in code:** {row['title'] or 'n/a'}")
+            st.markdown(f"**Caption in code:** {row['caption'] or 'n/a'}")
+            st.markdown(f"**Purpose:** {row['purpose']}")
+            st.markdown(f"**Use when:** {row['use when']}")
+            st.markdown(f"**Outputs:** {row['outputs']}")
+            st.markdown(f"**Tabs:** {row['tabs'] or 'No tabs detected'}")
+            st.markdown(
+                f"**Tech notes:** runtime controls={row['has runtime controls']}, "
+                f"cache decorators={row['cached functions']}, lines={row['line count']}"
+            )
+            page_link(str(row["page"]), "Open this page")
 
     st.subheader("Open a page")
     grouped = page_df().groupby("stage", sort=False)

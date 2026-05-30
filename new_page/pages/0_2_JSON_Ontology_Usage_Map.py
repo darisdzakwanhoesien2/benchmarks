@@ -6,10 +6,12 @@ from typing import Any
 
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 import streamlit.components.v1 as components
 
 
 st.set_page_config(page_title="JSON Ontology Usage Map", layout="wide")
+apply_page_runtime_controls(__file__)
 
 BENCHMARKS_ROOT = Path("/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks")
 NEW_PAGE_ROOT = BENCHMARKS_ROOT / "new_page"

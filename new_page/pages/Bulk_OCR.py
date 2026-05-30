@@ -1,4 +1,5 @@
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 import os
 import requests
 from dotenv import load_dotenv
@@ -43,6 +44,7 @@ LOG_FILE = LOG_DIR / "bulk_ocr_log.json"
 # =====================================================
 
 st.set_page_config(page_title="📚 Bulk OCR — Mistral", layout="wide")
+apply_page_runtime_controls(__file__)
 st.title("📚 Bulk OCR Pipeline — Mistral OCR")
 
 st.markdown("""

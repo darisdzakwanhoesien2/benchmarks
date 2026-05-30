@@ -6,6 +6,7 @@ import sys
 
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +27,7 @@ from semantic_exporter import (  # noqa: E402
 
 
 st.set_page_config(page_title="Semantic Graph Exporter", layout="wide")
+apply_page_runtime_controls(__file__)
 
 st.title("Semantic Graph Exporter")
 st.caption("Export the ESG thesis evidence layer into RDF Turtle, OWL/RDF-XML, and Neo4j import files.")

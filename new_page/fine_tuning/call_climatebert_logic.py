@@ -80,6 +80,8 @@ def main() -> None:
     out_fields = [
         "record_id",
         "company",
+        "model",
+        "prompt",
         "ground_truth_aspect",
         "ground_truth_esg",
         "ground_truth_tone",
@@ -117,6 +119,8 @@ def main() -> None:
                 {
                     "record_id": row.get("record_id", ""),
                     "company": row.get("company", ""),
+                    "model": row.get("model", ""),
+                    "prompt": row.get("prompt", ""),
                     "ground_truth_aspect": row.get("ground_truth_aspect", ""),
                     "ground_truth_esg": row.get("ground_truth_esg", ""),
                     "ground_truth_tone": row.get("ground_truth_tone", ""),

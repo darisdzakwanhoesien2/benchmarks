@@ -8,6 +8,7 @@ import traceback
 import sys
 
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 # ───────────────────────────────────────────────────────────────
 # OPTIONAL: ClimateBERT
@@ -50,6 +51,7 @@ if MODELS_CACHE_PATH.exists():
 # STREAMLIT CONFIG
 # ───────────────────────────────────────────────────────────────
 st.set_page_config(page_title="ESG Pipeline", layout="wide")
+apply_page_runtime_controls(__file__)
 st.title("🌿 ESG Pipeline (Resumable)")
 st.caption("Now supports resume from cutoff 🚀")
 

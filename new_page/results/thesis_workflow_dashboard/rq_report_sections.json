@@ -43,7 +43,7 @@
     "rq": "RQ5",
     "title": "Reproducibility, documentation, and visualization",
     "graph": "Artifact inventory, background job status, and exported dashboard report files",
-    "results": "The dashboard currently indexes 1,142 result artifacts, 157 LLM background jobs, and 0 ground-truth background jobs.",
+    "results": "The dashboard currently indexes 1,789 result artifacts, 157 LLM background jobs, and 0 ground-truth background jobs.",
     "interpretation": "The workflow is no longer only an interactive Streamlit view; it now has saved report artifacts that can be attached to the thesis workflow page and regenerated as results change.",
     "baseline": "Needed baseline: a manifest of expected output files for each pipeline stage, checksums or timestamps, and a reproduce-from-clean-run checklist.",
     "discussion": "Reproducibility depends on stable file paths, cached API/model metadata, and background execution logs. The report should distinguish generated evidence from manually edited thesis interpretation.",

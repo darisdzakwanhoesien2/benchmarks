@@ -4,9 +4,11 @@ import sys
 import altair as alt
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 st.set_page_config(page_title="Ground Truth Workbench", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))
@@ -52,6 +54,29 @@ df = load_table()
 if df.empty:
     st.error(f"No pilot ground truth seed found at {SEED_PATH}")
     st.stop()
+
+# Backward-compatible schema fill: older seed/annotation files may miss some columns.
+EXPECTED_COLS = [
+    "record_id",
+    "company",
+    "language",
+    "prompt",
+    "model",
+    "tone_pred",
+    "suggested_tone",
+    "ground_truth_tone",
+    "esg",
+    "ground_truth_esg",
+    "aspect",
+    "ground_truth_aspect",
+    "review_status",
+    "annotator",
+    "review_notes",
+    "text",
+]
+for col in EXPECTED_COLS:
+    if col not in df.columns:
+        df[col] = ""
 
 with st.sidebar:
     st.header("Filters")
@@ -129,6 +154,23 @@ with annotate:
         "review_notes",
         "text",
     ]
+    editable_cols = [col for col in editable_cols if col in view.columns]
+    disabled_cols = [
+        col
+        for col in [
+            "record_id",
+            "company",
+            "language",
+            "prompt",
+            "model",
+            "tone_pred",
+            "suggested_tone",
+            "esg",
+            "aspect",
+            "text",
+        ]
+        if col in editable_cols
+    ]
     edited = st.data_editor(
         view[editable_cols],
         use_container_width=True,
@@ -139,7 +181,7 @@ with annotate:
             "review_status": st.column_config.SelectboxColumn("review_status", options=STATUS_OPTIONS),
             "text": st.column_config.TextColumn("text", width="large"),
         },
-        disabled=["record_id", "company", "language", "prompt", "model", "tone_pred", "suggested_tone", "esg", "aspect", "text"],
+        disabled=disabled_cols,
     )
 
     if st.button("Save annotations", type="primary"):

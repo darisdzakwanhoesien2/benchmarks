@@ -10,9 +10,11 @@ from zipfile import ZipFile
 import altair as alt
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 st.set_page_config(page_title="LLM Model Catalog Visualizer", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKBOOK_CANDIDATES = [

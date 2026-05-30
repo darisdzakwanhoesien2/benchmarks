@@ -9,9 +9,11 @@ import altair as alt
 import pandas as pd
 import requests
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 st.set_page_config(page_title="Sustainable Framework API Reader", layout="wide")
+apply_page_runtime_controls(__file__)
 
 DEFAULT_BASE_URL = "https://sustainable-framework-api.darisdzakwanhoesien.site"
 DEFAULT_TIMEOUT = 30

@@ -201,8 +201,10 @@ def mermaid_html(code: str, height: int = 620) -> str:
     escaped = code.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     element_id = f"mermaid-{uuid.uuid4().hex}"
     return f"""
-    <div id="{element_id}" class="mermaid">
-    {escaped}
+    <div id="{element_id}" class="mermaid-host">
+      <pre id="{element_id}-src" class="mermaid" style="display:none;">{escaped}</pre>
+      <div id="{element_id}-out"></div>
+      <pre id="{element_id}-err" style="display:none; color:#991b1b; background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:8px; white-space:pre-wrap;"></pre>
     </div>
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -226,10 +228,19 @@ def mermaid_html(code: str, height: int = 620) -> str:
           tertiaryColor: '#fff7ed'
         }}
       }});
-      await mermaid.run({{ nodes: [document.getElementById('{element_id}')] }});
+      const src = document.getElementById('{element_id}-src');
+      const out = document.getElementById('{element_id}-out');
+      const err = document.getElementById('{element_id}-err');
+      try {{
+        const {{ svg }} = await mermaid.render('{element_id}-svg', src.textContent || '');
+        out.innerHTML = svg;
+      }} catch (e) {{
+        err.style.display = 'block';
+        err.textContent = 'Mermaid render error: ' + (e && e.message ? e.message : String(e));
+      }}
     </script>
     <style>
-      .mermaid {{
+      .mermaid-host {{
         min-height: {height - 24}px;
         overflow: auto;
         border: 1px solid #e5e7eb;

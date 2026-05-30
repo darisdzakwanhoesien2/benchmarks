@@ -10,6 +10,7 @@ from zipfile import ZipFile
 
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -66,6 +67,7 @@ from ground_truth_graphs import (  # noqa: E402
 
 
 st.set_page_config(page_title="Ch4-6 Benchmarks + DOCX Graphs", layout="wide")
+apply_page_runtime_controls(__file__)
 
 
 def show_image(path: Path, caption: str | None = None) -> None:

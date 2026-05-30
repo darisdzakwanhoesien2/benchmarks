@@ -5,6 +5,7 @@ import sys
 
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,6 +29,7 @@ from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 st.set_page_config(page_title="Chapter 6 - Conclusion", layout="wide")
+apply_page_runtime_controls(__file__)
 
 bundle = data_bundle()
 

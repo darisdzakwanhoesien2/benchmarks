@@ -10,15 +10,18 @@ import uuid
 import altair as alt
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 st.set_page_config(page_title="ClimateBERT Multi-Model Runner", layout="wide")
+apply_page_runtime_controls(__file__)
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 REV = RESULTS / "revision_analysis"
 JOBS = RESULTS / "climatebert_background_jobs"
 ROOT_MODELS_DIR = ROOT.parent / "model_download" / "models"
+CLIMATEBERT_LOGIC_DIR = RESULTS / "fine_tuning"
 
 sys.path.insert(0, str(ROOT / "code"))
 from climatebert_background_worker import read_json as _read_json  # noqa: E402
@@ -632,3 +635,134 @@ with merge_cols[1]:
 with merge_cols[2]:
     if st.button("Refresh", use_container_width=True):
         st.rerun()
+
+st.divider()
+st.subheader("ClimateBERT Logic API by Source Model")
+st.caption("Integrates `fine_tuning/call_climatebert_logic.py` and visualizes API behavior across original extraction models.")
+
+CLIMATEBERT_LOGIC_DIR.mkdir(parents=True, exist_ok=True)
+
+api_cols = st.columns([1.1, 1, 1.2])
+with api_cols[0]:
+    logic_limit = st.number_input("API sample limit", min_value=1, max_value=5000, value=300, step=50, key="logic_limit")
+with api_cols[1]:
+    logic_sleep = st.number_input("API sleep (sec)", min_value=0.0, max_value=2.0, value=0.05, step=0.05, key="logic_sleep")
+with api_cols[2]:
+    logic_api_key = st.text_input("x-api-key (optional)", value="", type="password", key="logic_api_key")
+
+default_logic_out = f"climatebert_logic_{utc_now_id()}.csv"
+logic_out_name = st.text_input("Output file name", value=default_logic_out, key="logic_out_name")
+
+if st.button("Run ClimateBERT Logic from Ground Truth", key="run_climatebert_logic"):
+    out_path = CLIMATEBERT_LOGIC_DIR / logic_out_name
+    cmd = [
+        "python3",
+        str(ROOT / "fine_tuning" / "call_climatebert_logic.py"),
+        "--input",
+        str(REV / "pilot_ground_truth_annotations.csv"),
+        "--output",
+        str(out_path),
+        "--limit",
+        str(int(logic_limit)),
+        "--sleep",
+        str(float(logic_sleep)),
+    ]
+    if logic_api_key.strip():
+        cmd += ["--api-key", logic_api_key.strip()]
+
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, check=False)
+        if proc.returncode == 0:
+            st.success(f"Run complete: `{out_path}`")
+        else:
+            st.error("ClimateBERT logic run failed.")
+            st.code(proc.stderr or proc.stdout, language="text")
+    except Exception as exc:
+        st.error(f"Failed to run script: {exc}")
+    st.rerun()
+
+logic_files = sorted(CLIMATEBERT_LOGIC_DIR.glob("*climatebert_logic*.csv"))
+if not logic_files:
+    st.info("No logic outputs found yet. Run the API block above to generate one.")
+else:
+    rel_options = [str(p.relative_to(ROOT)) for p in logic_files]
+    selected_logic = st.selectbox("Logic output file", rel_options, index=len(rel_options) - 1, key="logic_file")
+    logic_df = load_csv(ROOT / selected_logic)
+
+    if logic_df.empty:
+        st.warning("Selected file is empty.")
+    else:
+        def _extract_from_api_response(raw: str) -> dict:
+            try:
+                return json.loads(str(raw)) if str(raw).strip() else {}
+            except Exception:
+                return {}
+
+        parsed = logic_df.get("api_response", pd.Series(dtype=str)).astype(str).apply(_extract_from_api_response)
+        logic_df = logic_df.copy()
+        logic_df["api_label"] = parsed.apply(
+            lambda d: d.get("label")
+            or d.get("prediction")
+            or d.get("predicted_label")
+            or d.get("class")
+            or d.get("result")
+            or ""
+        )
+        logic_df["api_climate_sentiment"] = parsed.apply(lambda d: str(d.get("climate_sentiment", "")).strip().lower())
+        logic_df["api_error_flag"] = logic_df.get("api_error", pd.Series(dtype=str)).astype(str).str.strip().ne("")
+        logic_df["source_model"] = logic_df.get("model", pd.Series(dtype=str)).astype(str).replace("", "missing_model")
+        logic_df["sentiment"] = logic_df.get("sentiment", pd.Series(dtype=str)).astype(str).str.strip().str.lower()
+        logic_df["sentiment_match"] = logic_df["api_climate_sentiment"].eq(logic_df["sentiment"]) & logic_df["api_climate_sentiment"].ne("")
+
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Rows", f"{len(logic_df):,}")
+        m2.metric("Source models", f"{logic_df['source_model'].nunique():,}")
+        m3.metric("API errors", f"{int(logic_df['api_error_flag'].sum()):,}")
+        m4.metric("Sentiment match", f"{logic_df['sentiment_match'].mean() * 100:.1f}%")
+
+        per_model = (
+            logic_df.groupby("source_model", dropna=False)
+            .agg(
+                rows=("record_id", "count"),
+                api_errors=("api_error_flag", "sum"),
+                sentiment_match_rate=("sentiment_match", "mean"),
+                distinct_api_labels=("api_label", lambda s: s.astype(str).replace("", "missing").nunique()),
+            )
+            .reset_index()
+        )
+        per_model["sentiment_match_rate"] = per_model["sentiment_match_rate"] * 100.0
+
+        st.markdown("**Per-source-model summary**")
+        st.dataframe(per_model.sort_values("rows", ascending=False), use_container_width=True, hide_index=True, height=280)
+
+        chart = (
+            alt.Chart(per_model)
+            .mark_bar(cornerRadiusTopRight=4, cornerRadiusBottomRight=4)
+            .encode(
+                x=alt.X("rows:Q", title="Rows"),
+                y=alt.Y("source_model:N", sort="-x", title=None),
+                tooltip=[
+                    alt.Tooltip("source_model:N", title="Source model"),
+                    alt.Tooltip("rows:Q"),
+                    alt.Tooltip("api_errors:Q"),
+                    alt.Tooltip("sentiment_match_rate:Q", format=".2f"),
+                ],
+                color=alt.value("#355070"),
+            )
+            .properties(height=min(420, max(220, 28 * len(per_model))))
+        )
+        st.altair_chart(chart, use_container_width=True)
+
+        label_dist = (
+            logic_df.assign(api_label=logic_df["api_label"].astype(str).replace("", "missing"))
+            .groupby(["source_model", "api_label"], dropna=False)
+            .size()
+            .reset_index(name="count")
+            .sort_values(["source_model", "count"], ascending=[True, False])
+        )
+        st.markdown("**API label distribution by source model**")
+        st.dataframe(label_dist, use_container_width=True, hide_index=True, height=320)
+
+        preview_cols = [c for c in ["record_id", "company", "source_model", "prompt", "sentiment", "api_climate_sentiment", "sentiment_match", "api_label", "api_error"] if c in logic_df.columns]
+        st.markdown("**Preview**")
+        st.dataframe(logic_df[preview_cols].head(500), use_container_width=True, hide_index=True, height=360)

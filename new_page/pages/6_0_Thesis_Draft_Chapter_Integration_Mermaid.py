@@ -8,6 +8,7 @@ from zipfile import ZipFile
 
 import pandas as pd
 import streamlit as st
+from _page_runtime_controls import apply_page_runtime_controls
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,6 +48,7 @@ from graph_attachment_gallery import render_attachment_cards  # noqa: E402
 
 
 st.set_page_config(page_title="Thesis Draft + Chapters Mermaid Integration", layout="wide")
+apply_page_runtime_controls(__file__)
 
 bundle = data_bundle()
 metrics = evidence_metrics(bundle)
@@ -330,7 +332,8 @@ def label_mermaid_edges(mermaid: str) -> str:
             labelled_lines.append(line)
             continue
         indent, source, target, trailing = match.groups()
-        labelled_lines.append(f"{indent}{source} -- ({edge_id:03d}) --> {target}{trailing}")
+        # Use Mermaid edge-label syntax to avoid parser issues with inline text forms.
+        labelled_lines.append(f"{indent}{source} -->|{edge_id:03d}| {target}{trailing}")
         edge_id += 1
     return "\n".join(labelled_lines)
 
@@ -373,8 +376,9 @@ def focused_edge_mermaid(edge_df: pd.DataFrame, selected_edges: list[str]) -> st
         clean_label = label.replace('"', "'")
         lines.append(f'    {node_id}["{clean_label}"]')
     for _, row in selected.iterrows():
+        edge_num = str(row["edge"]).strip().strip("()")
         lines.append(
-            f'    {row["source node"]} -- {row["edge"]} --> {row["target node"]}'
+            f'    {row["source node"]} -->|{edge_num}| {row["target node"]}'
         )
     for node_id in sorted(node_labels):
         lines.append(f"    SELECTED -. includes .-> {node_id}")
@@ -779,6 +783,64 @@ def integrated_thesis_mermaid_raw() -> str:
     """
 
 
+def integrated_navigator_compact_mermaid() -> str:
+    return """flowchart LR
+    subgraph FOUNDATION["A. Thesis Foundation"]
+      F1["Chapter 1 to 3 spine"]
+      F2["thesis_draft_1.pdf"]
+      F3["thesis_chapters_4_5_6.docx"]
+      F2 --> F1
+      F3 --> F1
+    end
+
+    subgraph EXECUTION["B. Data to Evidence Pipeline"]
+      E1["Source PDFs and OCR"]
+      E2["Prompt and LLM runs"]
+      E3["Flattened ABSA records"]
+      E4["Validation and diagnostics"]
+      E1 --> E2 --> E3 --> E4
+    end
+
+    subgraph RQ["C. Research Questions"]
+      R1["RQ1 and RQ2"]
+      R2["RQ3 and RQ4"]
+      R3["RQ5 and RQ6"]
+    end
+
+    subgraph CHAPTERS["D. Chapter Outputs"]
+      C4["Chapter 4 implementation"]
+      C5["Chapter 5 discussion"]
+      C6["Chapter 6 conclusion"]
+      C4 --> C5 --> C6
+    end
+
+    subgraph PAGES["E. Streamlit Evidence Layer"]
+      P0["6_0 Integration"]
+      P1["6_1 Chapter 4"]
+      P2["6_2 Chapter 5"]
+      P3["6_3 Chapter 6"]
+      P4["3_0 Action Plan"]
+    end
+
+    F1 --> E1
+    E3 --> R1
+    E4 --> R2
+    E4 --> R3
+    R1 --> C4
+    R2 --> C5
+    R3 --> C6
+    C4 --> P1
+    C5 --> P2
+    C6 --> P3
+    P0 --> P1
+    P0 --> P2
+    P0 --> P3
+    P4 --> P1
+    P4 --> P2
+    P4 --> P3
+"""
+
+
 def filter_df(df: pd.DataFrame, chapter_filter: str, rq_filter: str, layer_filter: str) -> pd.DataFrame:
     out = df.copy()
     if chapter_filter != "All":
@@ -847,6 +909,9 @@ with tab_integrated:
         "The integrated Mermaid canvas is intentionally large: it combines Thesis Spine, RQ Evidence, Pipeline, "
         "Validation, and Artifact Lineage in one graph. Use the diagram toolbar or scroll inside the frame to inspect details."
     )
+    with st.expander("Show compact integrated navigator diagram (new)", expanded=False):
+        st.caption("Compact high-level map for quick chapter-to-evidence navigation.")
+        render_mermaid(integrated_navigator_compact_mermaid(), height=520)
 
     edge_df = integrated_edge_explanation_rows()
 
