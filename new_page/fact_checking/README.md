@@ -1,3 +1,4 @@
+codex resume 019e7863-7ad1-7302-98bc-bbb0a4fb8fab
 # Fact-Checking Research Plan App
 
 This Streamlit app builds a full multimodal fact-checking research plan from `documentation_fact_checking.md` and grounds it with current datasets under `results/revision_analysis/`.
@@ -19,6 +20,10 @@ streamlit run fact_checking/app.py
 - Results interpretation
 - Discussion
 - Conclusion
+
+## Outputs
+
+- Full thesis-style write-up: `documentation_fact_checking_research.md`
 
 ## Grounding datasets
 

@@ -104,6 +104,11 @@ def render_research_plan(data: dict) -> None:
 
     st.subheader("Research Plan for Indonesian ESG ABSA Chatbot")
 
+    st.info(
+        "This page renders a repo-grounded research plan. For a thesis-style write-up, see "
+        "`documentation_chatbot.md` (feasibility) and `documentation_chatbot_research.md` (full track)."
+    )
+
     st.markdown("### 1) Research Gap")
     st.markdown(
         """
@@ -200,6 +205,15 @@ def render_research_plan(data: dict) -> None:
     st.markdown(
         """
 An Indonesian ESG ABSA chatbot is feasible with the current repository assets. The core requirement is a grounding-first architecture plus rigorous evaluation so chat responses remain auditable, semantically consistent, and thesis-grade.
+"""
+    )
+
+    st.markdown("### 10) Where to Continue in This Repo")
+    st.markdown(
+        """
+- Full research write-up: `documentation_chatbot_research.md`
+- Feasibility notes: `documentation_chatbot.md`
+- Add implementation artifacts under: `results/chatbot/` (recommended)
 """
     )
 

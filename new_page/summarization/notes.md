@@ -1,3 +1,4 @@
+codex resume 019e785d-b5b7-79e3-82a1-f8d76b89d25b
 # Adapted Research Notes (ESG ABSA Project)
 
 ## 1) Project Focus (Adapted From Generic Summarization Notes)

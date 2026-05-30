@@ -1,3 +1,4 @@
+codex resume 019e7854-15b0-7d80-a585-f7c45bf8ed81
 https://claude.ai/chat/36bf253c-dac5-43b8-af33-2592202d4df5
 
 **Why this research matters** comes down to a simple but urgent problem: ESG reporting in Indonesia is growing rapidly under POJK 51/2017 regulation, yet there is almost no way to verify whether what firms write actually reflects what they do. Most existing tools just measure sentiment — positive or negative language. But a firm can write glowing, high-sentiment prose with zero measurable commitments and no auditable data. That gap between narrative warmth and substantive accountability is exactly where greenwashing lives, and it currently goes largely undetected.

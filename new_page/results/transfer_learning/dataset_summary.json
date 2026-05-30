@@ -1,0 +1,102 @@
+{
+  "n": 5109,
+  "unique_aspects": 1938,
+  "top_aspects": [
+    [
+      "praktik bisnis ramah lingkungan",
+      139
+    ],
+    [
+      "tata kelola perusahaan",
+      72
+    ],
+    [
+      "komitmen keberlanjutan",
+      71
+    ],
+    [
+      "kinerja ESG",
+      66
+    ],
+    [
+      "manajemen risiko",
+      64
+    ],
+    [
+      "pengelolaan risiko",
+      63
+    ],
+    [
+      "kontribusi keberlanjutan",
+      63
+    ],
+    [
+      "keberlanjutan sosial dan lingkungan",
+      59
+    ],
+    [
+      "kepatuhan lingkungan",
+      58
+    ],
+    [
+      "pengelolaan limbah",
+      56
+    ],
+    [
+      "environmental",
+      54
+    ],
+    [
+      "pernyataan prospektif",
+      54
+    ],
+    [
+      "keselamatan kerja",
+      48
+    ],
+    [
+      "governance",
+      46
+    ],
+    [
+      "material ramah lingkungan",
+      45
+    ],
+    [
+      "risiko hak asasi manusia",
+      41
+    ],
+    [
+      "inklusi dan literasi keuangan",
+      41
+    ],
+    [
+      "pengurangan emisi dan energi",
+      38
+    ],
+    [
+      "G",
+      36
+    ],
+    [
+      "E",
+      36
+    ]
+  ],
+  "sentiments": {
+    "Neutral": 2871,
+    "Positive": 2152,
+    "Negative": 86
+  },
+  "tones": {
+    "Outcome": 973,
+    "Commitment": 878,
+    "Action": 1452,
+    "Unknown": 1806
+  },
+  "esg": {
+    "E": 2409,
+    "G": 1230,
+    "S": 828
+  }
+}

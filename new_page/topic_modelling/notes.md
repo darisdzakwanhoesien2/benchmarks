@@ -1,3 +1,4 @@
+codex resume 019e7865-f984-7d90-9e36-820c899a107b
 https://claude.ai/chat/a107b237-7ddd-4c57-929e-775264bbd9e1
 
 ## Why this research matters

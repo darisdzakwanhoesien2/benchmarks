@@ -1,6 +1,13 @@
+codex resume 019e7867-63cf-7a61-9ff6-8e76e47745df
+
 # Fine-Tuning Research Plan App
 
 This Streamlit app converts `documentation_fine_tuning.md` into a structured research plan and grounds it with live evidence from existing datasets under `results/revision_analysis/`.
+
+For the complete thesis-style fine-tuning research write-up, see `documentation_fine_tuning_research.md` (repo root). For execution tracking, see:
+
+- Track-local: `fine_tuning/progress_notes.md`
+- Global cross-track: `progress_notes.md` (repo root)
 
 ## Run
 

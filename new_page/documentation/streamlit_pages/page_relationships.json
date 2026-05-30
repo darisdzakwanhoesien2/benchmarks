@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-30",
+  "notes": "This file externalizes the Streamlit page workflow mapping that was previously hard-coded inside pages/0_0_Streamlit_Page_Workflow.py. It is intentionally human-editable and serves as the canonical registry for page->RQ->artifact relationships.",
+  "pages": [
+    {
+      "page": "Bulk_OCR.py",
+      "label": "Bulk OCR",
+      "stage": "Data ingestion",
+      "primary_rqs": ["RQ1", "RQ5"],
+      "purpose": "Upload or select sustainability reports and convert them into OCR markdown, page artifacts, images, and source JSON.",
+      "use_when": "You need source text, OCR outputs, provenance, or evidence that report PDFs were converted into usable text.",
+      "outputs": [
+        "data/thesis_dataset/*",
+        "OCR markdown",
+        "OCR JSON",
+        "extracted page images"
+      ]
+    },
+    {
+      "page": "0_3_OCR_Company_Metadata_Labeler.py",
+      "label": "OCR Company Metadata Labeler",
+      "stage": "Metadata labeling",
+      "primary_rqs": ["RQ1", "RQ5"],
+      "purpose": "Assign company names and sector/subsector/industry/subindustry metadata to OCR document folders.",
+      "use_when": "You need document-to-company provenance before extraction, visualization, or company-level analysis.",
+      "outputs": [
+        "data/ocr_company_metadata.json"
+      ]
+    },
+    {
+      "page": "llm_processing.py",
+      "label": "LLM Processing",
+      "stage": "Extraction",
+      "primary_rqs": ["RQ1", "RQ2", "RQ6"],
+      "purpose": "Run prompt/model extraction over OCR text to produce ESG ABSA records.",
+      "use_when": "You need to generate or expand records, rebalance prompts, rerun social-pillar pages, or add matched model runs.",
+      "outputs": [
+        "results/esg_records.json",
+        "results/background_llm_jobs/* (raw outputs, status, events)"
+      ]
+    },
+    {
+      "page": "ground_truth.py",
+      "label": "Ground Truth",
+      "stage": "Annotation",
+      "primary_rqs": ["RQ2", "RQ4"],
+      "purpose": "Manage or create human-labeled ground-truth data for validation.",
+      "use_when": "You need expert labels, annotation samples, or data for precision/recall/F1.",
+      "outputs": [
+        "results/ground_truth.json",
+        "results/absa_results_ground_truth.json"
+      ]
+    },
+    {
+      "page": "0_0_Streamlit_Page_Workflow.py",
+      "label": "Streamlit Page Workflow",
+      "stage": "Navigation / audit map",
+      "primary_rqs": ["RQ1", "RQ2", "RQ3", "RQ4", "RQ5", "RQ6"],
+      "purpose": "Navigation hub that maps every Streamlit page to research questions (RQs), artifacts, and thesis chapters.",
+      "use_when": "Start here when writing, validating, or defending the thesis; use it to decide which page proves what.",
+      "outputs": [
+        "documentation/streamlit_pages/*",
+        "workflow Mermaid maps (in-page)"
+      ]
+    },
+    {
+      "page": "1_7_Research_Questions_Dashboard.py",
+      "label": "Research Questions Dashboard",
+      "stage": "Synthesis",
+      "primary_rqs": ["RQ1", "RQ2", "RQ3", "RQ4", "RQ5", "RQ6"],
+      "purpose": "Thesis-facing evidence matrix and narrative scaffolding that connects results to Chapters 4–6.",
+      "use_when": "You need chapter-ready tables/figures and a single place to justify claims and limitations.",
+      "outputs": [
+        "results/revision_analysis/*.csv",
+        "documentation/streamlit_pages/1_7_Research_Questions_Dashboard_outputs.md"
+      ]
+    }
+  ],
+  "rq_workflows": {
+    "RQ1": {
+      "question": "How can sustainability reports be transformed into structured ESG evidence?",
+      "goal": "Prove the PDF/OCR-to-structured-record pipeline works and is traceable.",
+      "steps": [
+        {
+          "page": "Bulk_OCR.py",
+          "why": "Convert PDFs into OCR markdown/images and preserve provenance."
+        },
+        {
+          "page": "llm_processing.py",
+          "why": "Extract structured ESG ABSA records from OCR text."
+        },
+        {
+          "page": "2_0_LLM_Processing_Result_Visualizer.py",
+          "why": "Inspect parsed outputs and confirm record fields exist."
+        },
+        {
+          "page": "2_2_LLM_Statement_Page_Verifier.py",
+          "why": "Ground extracted statements back to source pages."
+        },
+        {
+          "page": "1_9_Ground_Truth_Pipeline_Output_Visualizer.py",
+          "why": "Present traceability evidence for the thesis."
+        },
+        {
+          "page": "1_7_Research_Questions_Dashboard.py",
+          "why": "Write Chapter 4.1 results and cite artifacts."
+        }
+      ]
+    },
+    "RQ2": {
+      "question": "How should ESG be categorized by aspect, pillar, sentiment, and tone?",
+      "goal": "Show taxonomy + distributions, then validate with expert labels.",
+      "steps": [
+        {
+          "page": "0_9_Tone_ClimateBERT_Visualization.py",
+          "why": "Expose tone/pillar/aspect distributions and proxy checks."
+        },
+        {
+          "page": "1_6_Ontology_Path_Viewer.py",
+          "why": "Trace aspects into ontology paths and quantify coverage."
+        },
+        {
+          "page": "1_1_Ground_Truth_Workbench.py",
+          "why": "Create expert labels for downstream metrics."
+        },
+        {
+          "page": "1_3_Ground_Truth_Metrics.py",
+          "why": "Compute kappa/precision/recall/F1 once labels exist."
+        },
+        {
+          "page": "1_7_Research_Questions_Dashboard.py",
+          "why": "Write Chapter 4.2 results + Chapter 5 limitations."
+        }
+      ]
+    }
+  },
+  "relationships": {
+    "edge_types": [
+      "generates",
+      "consumes",
+      "validates",
+      "audits",
+      "synthesizes"
+    ],
+    "key_artifacts": [
+      {
+        "id": "revision_analysis_bundle",
+        "path_prefix": "results/revision_analysis/",
+        "used_by_pages": [
+          "1_7_Research_Questions_Dashboard.py",
+          "1_6_Ontology_Path_Viewer.py",
+          "3_0_Thesis_Action_Plan.py",
+          "6_0_Thesis_Draft_Chapter_Integration_Mermaid.py",
+          "6_4_ch4-6.py"
+        ],
+        "meaning": "Thesis-ready tables/CSVs and ontology artifacts used across analysis and chapter integration."
+      },
+      {
+        "id": "llm_background_jobs",
+        "path_prefix": "results/background_llm_jobs/",
+        "used_by_pages": [
+          "2_3_LLM_Background_Run_Monitor.py"
+        ],
+        "meaning": "Long-running extraction jobs: config/status/control/events.jsonl."
+      }
+    ]
+  }
+}
+
