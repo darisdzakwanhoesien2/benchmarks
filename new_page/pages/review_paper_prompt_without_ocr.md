@@ -1,4 +1,6 @@
 https://scite.ai/assistant/llm-assisted-esg-disclosure-analytics-pipelines-ngp0rd
+
+
 # Review Paper Section Prompts (Without OCR)
 
 Use the prompts below to generate or refine each section of a review paper on **LLM-assisted ESG & climate-disclosure analytics pipelines**, explicitly *excluding OCR and scanned-document processing*. These prompts are meant to be sent independently to an LLM.

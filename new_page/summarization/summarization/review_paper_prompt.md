@@ -1,4 +1,6 @@
 https://scite.ai/assistant/absa-aware-evidence-grounded-esg-summarization-in-indonesian-dis-ePY1a6
+https://app.litmaps.com/tag/14075046-28c7-4ed7-9d50-10ee85fd58df
+
 # Prompts for Generating Each Section of `review_paper.md`
 
 Date: 2026-05-30

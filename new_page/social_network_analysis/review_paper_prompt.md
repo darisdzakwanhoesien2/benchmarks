@@ -1,4 +1,6 @@
 https://scite.ai/assistant/indonesian-esg-reporting-sna-based-insight-QyjYwQ
+https://app.litmaps.com/tag/837d90b2-7318-4863-ac19-f971a3ae8844
+
 # Prompts for Generating Each Section of `review_paper.md`
 
 Use the prompts below to (re)generate each section of the review paper. Each prompt is designed to produce content that matches the scope and style of `review_paper.md` and stays aligned with an Indonesian ESG disclosure-network context (OCR-based corpora, ABSA/ontology compatibility, and an audit-prioritization framing).
@@ -245,7 +247,8 @@ Write Section 6 as a method-family review with subheadings:
 - Embedding similarity graphs
 - Dynamic disclosure networks
 
-For each family:
+For each family: escribing the approach, listing strengths/weaknesses and suitability for Indonesian ESG OCR corpora
+
 
 - 1 paragraph describing the approach
 - 1 paragraph listing strengths/weaknesses
