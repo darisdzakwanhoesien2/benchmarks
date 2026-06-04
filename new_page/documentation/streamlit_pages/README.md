@@ -2,6 +2,8 @@
 
 This folder explains the active Streamlit pages in `new_page/pages`. Each markdown file describes the purpose of the page, the data it uses, the workflow steps, the outputs, and how to interpret the results for the thesis.
 
+Mermaid sequence diagrams for each page live in `documentation/streamlit_pages/mermaid_sequence_diagram/`.
+
 ## Core Research Pages
 
 - [`0_0_Streamlit_Page_Workflow.md`](./0_0_Streamlit_Page_Workflow.md)

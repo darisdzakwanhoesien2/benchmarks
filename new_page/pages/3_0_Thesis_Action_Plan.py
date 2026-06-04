@@ -48,6 +48,7 @@ OCR_PATH          = ARTIFACTS / "ocr_processing_summary.csv"
 FAILURE_PATH      = ARTIFACTS / "failure_modes.csv"
 FAIL_CNT_PATH     = ARTIFACTS / "failure_mode_counts.csv"
 GAP_AUDIT_PATH    = ARTIFACTS / "gap_audit_snapshot.csv"
+PHASE_REGISTRY_PATH = ARTIFACTS / "dataset_phase_registry.csv"
 CLUSTER_PATH           = ARTIFACTS / "aspect_clusters.csv"
 ONTOLOGY_MISSING_LABELS_PATH = ARTIFACTS / "ontology_missing_aspect_labels.csv"
 NOVEL_ASPECT_REVIEW_PATH = ARTIFACTS / "ontology_novel_aspect_review.csv"
@@ -2435,6 +2436,7 @@ model_stab  = combine_model_stability(model_stab_static, model_stab_live)
 ocr_df      = load(OCR_PATH)
 fail_df     = load(FAILURE_PATH)
 fail_cnt    = load(FAIL_CNT_PATH)
+phase_registry = load(PHASE_REGISTRY_PATH)
 
 tone_done    = ann_n(annot, "ground_truth_tone")
 esg_done     = ann_n(annot, "ground_truth_esg")
@@ -2454,6 +2456,29 @@ if not silver.empty and "record_id" in silver.columns:
         for record_id in silver["record_id"].astype(str).tolist()
         if str(record_id) not in cb_processed_ids
     ]
+ground_truth_missing_mask = missing_annotation_mask(annot) if not annot.empty else pd.Series(dtype=bool)
+ground_truth_complete_rows = int((~ground_truth_missing_mask).sum()) if not annot.empty else 0
+ground_truth_missing_rows = int(ground_truth_missing_mask.sum()) if not annot.empty else 0
+phase2_missing_status_rows = (
+    int(column_series(annot, "review_status").astype(str).str.strip().eq("").sum())
+    if not annot.empty and "review_status" in annot.columns
+    else len(annot)
+)
+phase2_missing_annotator_rows = (
+    int(column_series(annot, "annotator").astype(str).str.strip().eq("").sum())
+    if not annot.empty and "annotator" in annot.columns
+    else len(annot)
+)
+ocr_done_rows = (
+    int(ocr_df["status"].astype(str).str.lower().eq("done").sum())
+    if not ocr_df.empty and "status" in ocr_df.columns
+    else len(ocr_df)
+)
+phase3_registry_rows = (
+    int(phase_registry["phase"].astype(str).eq("Phase 3").sum())
+    if not phase_registry.empty and "phase" in phase_registry.columns
+    else 0
+)
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -2554,6 +2579,66 @@ for col, (label, val, ok) in zip(st.columns(6), [
 ]):
     col.metric(label, val, delta="✓ Done" if ok else "Needed",
                delta_color="normal" if ok else "inverse")
+
+with st.expander("Phase split — completed, editing, and new intake pools", expanded=True):
+    st.caption(
+        "Phase 1 is the completed dataset pool. Phase 2 is the editing/backfill pool. "
+        "Phase 3 is the intake pool for data added from now onward."
+    )
+    phase_rows = pd.DataFrame(
+        [
+            {
+                "phase": "Phase 1",
+                "scope": "Completed dataset pool",
+                "current evidence": f"{ground_truth_complete_rows:,}/{len(annot):,} rows have tone, ESG, and aspect ground truth"
+                if len(annot)
+                else "No annotation table loaded",
+                "complete means": (
+                    "Included rows have stable record_id, non-empty ground_truth_tone/esg/aspect "
+                    "or an explicit exclusion, review_status set, denominators documented, and dependent artifacts refreshed."
+                ),
+                "status": "complete" if len(annot) and ground_truth_missing_rows == 0 and phase2_missing_status_rows == 0 else "usable with QA/backfill remaining",
+            },
+            {
+                "phase": "Phase 2",
+                "scope": "Editing and backfill pool",
+                "current evidence": (
+                    f"{ground_truth_missing_rows:,} rows missing one or more core ground-truth fields; "
+                    f"{phase2_missing_status_rows:,} rows missing review_status; "
+                    f"{phase2_missing_annotator_rows:,} rows missing annotator; "
+                    f"{max(cb_target_total - cb_real, 0):,} ClimateBERT records remaining; "
+                    f"{ocr_done_rows:,}/{len(ocr_df):,} OCR summary rows marked done; "
+                    f"{len(fail_df):,} failure-mode rows"
+                ),
+                "complete means": (
+                    "Each gap has a saved artifact, a documented exclusion decision, or a limitation/future-work statement "
+                    "that names the affected claim and denominator."
+                ),
+                "status": "open",
+            },
+            {
+                "phase": "Phase 3",
+                "scope": "New data from now onward",
+                "current evidence": (
+                    f"{phase3_registry_rows:,} row(s) currently in Phase 3"
+                    if PHASE_REGISTRY_PATH.exists()
+                    else "Open `1_16_Dataset_Phase_Manager.py` to initialize the phase registry"
+                ),
+                "complete means": (
+                    "Every new record has been triaged: complete rows move to Phase 1, incomplete rows move to Phase 2."
+                ),
+                "status": "intake",
+            },
+        ]
+    )
+    st.dataframe(phase_rows, use_container_width=True, hide_index=True)
+    st.markdown(
+        "- Use **Phase 1** for completed dataset claims.\n"
+        "- Use **Phase 2** for rows that need editing/backfill before they can become complete.\n"
+        "- Use **Phase 3** for new incoming data until it is triaged into Phase 1 or Phase 2.\n"
+        "- Manage movement between phases in `1_16_Dataset_Phase_Manager.py`.\n"
+        f"- Current Phase 1-ready denominator for all three core ground-truth fields is **{ground_truth_complete_rows:,}** row(s)."
+    )
 
 with st.expander("A.18 / A.8 gap audit snapshot", expanded=True):
     g1, g2, g3, g4 = st.columns(4)

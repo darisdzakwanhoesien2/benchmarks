@@ -1,78 +1,115 @@
-Based on the annotation readiness across all 6 RQs, here is a prioritized action plan ordered by what unblocks the most:
+# Thesis Work Split
 
----
+This plan separates work by evidence readiness.
 
-## Step 1 — Run ClimateBERT on all 332 records (RQ3) `~2 hours`
-**This is the highest ROI single action.** RQ3 is already at κ=0.645 with proxy labels. One batch job gives you real ClimateBERT outputs and converts RQ3 from "defensible" to "publication-ready."
-- Open `1_4_ClimateBERT_Record_Batch.py` — it's already built for this
-- Run inference on the full 332 records
-- Compute majority-class and keyword baselines for comparison
-- After: code 20–30 disagreement cases qualitatively in `0_9_Tone_ClimateBERT_Visualization.py`
+- **Phase 1** is for data that already has usable ground-truth labels or equivalent thesis evidence.
+- **Phase 2** is for data or evidence that is still missing, incomplete, or not yet defensible for claims.
+- **Phase 3** is for new records/data from now onward before they are reviewed into Phase 1 or Phase 2.
 
----
+## Phase 1 — Ground-Truth-Ready Data
 
-## Step 2 — Complete pilot annotation to 150 records + recruit 2nd annotator (RQ2) `~1 week`
-**This is the most consequential gap.** Without it, RQ2 can only make descriptive claims, not validity claims. Currently 70/150 done.
-- Use `1_1_Ground_Truth_Workbench.py` to finish your own labels to 150
-- Recruit a second annotator (supervisor, colleague, or paid annotator) for the same 150 records
-- Compute Cohen's κ in `1_3_Ground_Truth_Metrics.py` — target ≥ 0.60
-- If κ < 0.60: adjudicate disagreements, refine tone definitions, re-annotate
+Phase 1 uses the records that already have ground-truth fields available for analysis. These are the rows where the thesis can already run label distributions, agreement checks, ontology summaries, and comparison tables without waiting for new annotation.
 
----
+### Included data
 
-## Step 3 — Manually transcribe 50–100 pages for OCR ground truth (RQ1) `~3–5 hours`
-**Unblocks all CER/WER claims.** Right now you have zero quality evidence for RQ1.
-- Pick 50–100 pages that represent the range: clean digital, scanned, bilingual, tabular
-- Manually type or verify the true text for each page
-- Load into `1_2_OCR_Quality_Workbench.py` to compute CER/WER automatically
-- While doing this: tag each page with a failure mode category (scanned/table/diacritics/header) — this simultaneously fills the RQ4 failure rate gap
+- `results/revision_analysis/pilot_ground_truth_annotations.csv`
+  - Main labelled dataset.
+  - Current inspected state: 5,444 rows.
+  - `ground_truth_tone`: populated for 5,444 rows.
+  - `ground_truth_esg`: populated for 5,444 rows.
+  - `ground_truth_aspect`: populated for 5,441 rows; 3 rows still need aspect backfill.
+- `results/revision_analysis/pilot_ground_truth_seed.csv`
+  - Original pilot seed.
+  - Current inspected state: 70 rows with tone, ESG, aspect, review status, annotator, and review notes populated.
+- Existing thesis-ready analysis artifacts under `results/revision_analysis/` and `results/thesis_workflow_dashboard/` that are derived from the labelled data.
 
----
+### Phase 1 work
 
-## Step 4 — Add a 3rd model and run 3× repeated runs at temperature=0 (RQ6) `~3 hours`
-**Without this, RQ6 cross-model claims are not credible with only 2 models.**
-- Add one smaller open-weight model as a lower bound (e.g. a 7B model)
-- For each of the 7 prompts × 3 models: run 3× at temp=0
-- This gives you mean ± SD parse success and field completion — the core RQ6 table
-- `2_0_LLM_Processing_Result_Visualizer.py` and `2_1_LLM_Error_Parse_Audit.py` already handle the visualization
+1. Lock the labelled analysis subset.
+2. Use the labelled rows for tone, ESG-pillar, aspect, ontology, and human-vs-model analyses.
+3. Refresh all figures/tables that depend only on already-labelled rows.
+4. Write Chapter 4/5 claims using the Phase 1 denominator explicitly.
+5. Keep missingness visible instead of silently dropping rows.
 
----
+### What "complete" means for Phase 1
 
-## Step 5 — Quantify failure rates per mode on a 100-record sample (RQ4) `~2 hours`
-**The taxonomy is done (10 modes identified) — you just need counts.**
-- Pick a fixed 100-record held-out sample
-- For each record: tag which failure mode(s) apply (bilingual code-switch, hedged modal, table loss, etc.)
-- This directly produces the "failure rates per 100 records" table for Section 4.4.2
-- Code 3–5 text examples per mode for the qualitative section (Section 4.4.4)
+Phase 1 is complete when:
 
----
+- Every included row has a stable `record_id`.
+- Every included row has non-empty `ground_truth_tone`, `ground_truth_esg`, and `ground_truth_aspect`, or is explicitly marked `discard` / `insufficient_context`.
+- The final denominator is written down for each claim, for example `n = 5,441` for rows with all three ground-truth fields if the 3 missing-aspect rows remain unresolved.
+- `review_status` is set for rows used in final evaluation, at minimum `reviewed`, `uncertain`, or `discard`.
+- Any agreement metric states exactly which labels are compared and excludes missing/unclassifiable rows unless those are intentionally modelled as a class.
+- All derived artifacts are refreshed after the final Phase 1 dataset is locked.
 
-## Step 6 — Map the 46 unmapped aspects to semantic clusters (RQ4 + RQ2) `~2 hours`
-**Reframes a gap as a contribution.** The 46 novel aspects are not a failure — they're a discovery.
-- Open `1_6_Ontology_Path_Viewer.py` — the 46 unmapped aspects are already surfaced
-- Group them into 5–8 semantic clusters (e.g. "Community Relations", "Regulatory Compliance", "Supply Chain")
-- Frame in the thesis as: *novel Indonesian ESG aspect vocabulary not covered by GRI/SASB*
+Phase 1 does not require waiting for missing OCR ground truth, missing model runs, or second-annotator coverage. Those are Phase 2 unless they are needed for the specific claim being made.
 
----
+## Phase 2 — Missing Or Incomplete Data
 
-## Step 7 — Create a clean-run manifest and provenance links (RQ5) `~1–2 hours`
-**The last remaining gap for RQ5.** You have 967 artifacts and 147 job logs — you just need to formally document the chain.
-- Create a simple markdown or CSV manifest: `input file → pipeline stage → output file → job ID`
-- Even 30–40% coverage (the stages you know) is reportable with honest limitations
-- Note that `0_5_Thesis_Systematic_Workflow.py` and `1_7_Research_Questions_Dashboard.py` already serve as the "dashboard-as-documentation" argument
+Phase 2 covers anything that cannot yet support a final thesis claim because required evidence is missing, partial, or not traceable enough.
 
----
+### Included gaps
 
-## Priority order at a glance
+- Missing `ground_truth_aspect` rows in `pilot_ground_truth_annotations.csv`.
+- Missing `review_status`, `annotator`, and `review_notes` coverage for the expanded 5,444-row annotation table.
+- Missing second-annotator labels for reliability claims.
+- Missing or partial real ClimateBERT output coverage.
+- Missing OCR page-level ground truth for CER/WER claims.
+- Partial failure-mode quantification.
+- Partial model-stability coverage across models/prompts/repeated runs.
+- Unmapped or placeholder ontology aspects that still need review.
+- Clean-run manifest/provenance gaps.
 
-| Step | RQ | Effort | Unblocks |
-|---|---|---|---|
-| 1 | RQ3 | ~2h | Real ClimateBERT results, disagreement analysis |
-| 2 | RQ2 | ~1 week | Validity claims, Cohen's κ, accuracy reporting |
-| 3 | RQ1 | ~4h | All CER/WER claims + partially fills RQ4 failure modes |
-| 4 | RQ6 | ~3h | Cross-model stability claims |
-| 5 | RQ4 | ~2h | Quantitative failure rate table |
-| 6 | RQ4+RQ2 | ~2h | Novel aspect contribution framing |
-| 7 | RQ5 | ~1h | Reproducibility manifest |
+### Phase 2 work
 
-**Start with Step 1 today** — it's a single pipeline run that immediately makes your strongest RQ publication-ready.
+1. Backfill the 3 missing aspect labels or mark them as `discard` / `insufficient_context`.
+2. Decide whether final evaluation needs annotator provenance on all 5,444 rows or only on the locked evaluation subset.
+3. Add second-annotator labels for the selected reliability subset and compute Cohen's kappa.
+4. Complete real ClimateBERT outputs for all required labelled records.
+5. Create 50-100 OCR ground-truth pages and compute CER/WER.
+6. Finish failure-mode counts on a fixed held-out sample.
+7. Run missing model-stability experiments and update prompt/model stability summaries.
+8. Review unmapped aspects and separate real novel ESG concepts from placeholders.
+9. Build the clean-run manifest linking input files, pipeline stages, outputs, and job IDs.
+
+### What "complete" means for Phase 2
+
+Phase 2 is complete when every open gap has either:
+
+- a saved artifact with the required data,
+- a documented exclusion decision,
+- or a clearly written limitation that prevents the thesis from overclaiming.
+
+No Phase 2 item should remain as an implicit gap. If it is not finished, it must be named in the limitation/future-work text with the affected claim and denominator.
+
+## Phase 3 — New Data From Now Onward
+
+Phase 3 is the intake pool for any new record that appears after the phase registry is created. New data should not automatically affect final thesis denominators until it has been reviewed.
+
+### Phase 3 movement rules
+
+- Move Phase 3 -> Phase 1 when the row is already complete enough for the final completed dataset pool.
+- Move Phase 3 -> Phase 2 when the row needs editing, annotation, provenance, OCR truth, model output, or review notes.
+- Keep Phase 3 rows out of final thesis denominators until they are promoted.
+
+### What "complete" means for Phase 3
+
+Phase 3 is complete when every new row has been triaged into either:
+
+- Phase 1, because it is ready for the completed dataset pool,
+- or Phase 2, because it needs editing/backfill.
+
+## Priority Order
+
+| Priority | Phase | Work item | Completion target |
+|---|---:|---|---|
+| 1 | Phase 1 | Lock ground-truth-ready dataset | All included rows have tone, ESG, aspect, status, and denominator notes |
+| 2 | Phase 1 | Refresh labelled-data analyses | Figures/tables regenerated from the locked dataset |
+| 3 | Phase 3 | Triage new incoming rows | New complete rows go to Phase 1; incomplete rows go to Phase 2 |
+| 4 | Phase 2 | Backfill missing aspect rows | 0 blank `ground_truth_aspect` rows, or documented exclusions |
+| 5 | Phase 2 | Complete ClimateBERT coverage | Real output exists for every required labelled record |
+| 6 | Phase 2 | Add second annotator | Same reliability subset labelled independently; kappa reported |
+| 7 | Phase 2 | OCR ground truth | 50-100 manually verified pages with CER/WER |
+| 8 | Phase 2 | Failure modes | Fixed sample counted and examples selected |
+| 9 | Phase 2 | Model stability | Repeated runs summarized across required models/prompts |
+| 10 | Phase 2 | Provenance manifest | Input -> stage -> output -> job ID links saved |

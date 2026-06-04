@@ -19,3 +19,6 @@ reports/*
 
 # Optional local scratch
 .tmp/
+
+# Generated LLM background job outputs; may contain API keys/config snapshots
+new_page/results/background_llm_jobs/
