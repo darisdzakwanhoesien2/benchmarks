@@ -2,6 +2,8 @@
 
 One file per active Streamlit page.
 
+- [`Combined_Streamlit_Workflow.md`](./Combined_Streamlit_Workflow.md) - Combined overview across ingestion, analysis, ground-truth, LLM, and thesis pages
+
 - [`0_0_Streamlit_Page_Workflow.md`](./0_0_Streamlit_Page_Workflow.md) - Streamlit Page Workflow
 - [`0_10_Live_Numbers_Lineage.md`](./0_10_Live_Numbers_Lineage.md) - Live Numbers + Lineage
 - [`0_11_Source_Data_Catalog.md`](./0_11_Source_Data_Catalog.md) - Source Data Catalog

@@ -75,6 +75,126 @@ def primary_outputs_for(category: str) -> str:
     return mapping[category]
 
 
+def input_filename_examples_for(category: str) -> list[str]:
+    mapping = {
+        "ingestion": [
+            "`<source_report>.pdf`",
+            "`<page_image>.png`",
+            "`<ocr_request>.json`",
+            "`<document_manifest>.csv`",
+        ],
+        "ground_truth": [
+            "`<ground_truth_seed>.csv`",
+            "`<annotation_export>.csv`",
+            "`<record_audit>.json`",
+            "`<benchmark_rows>.jsonl`",
+        ],
+        "llm": [
+            "`<ocr_text>.md`",
+            "`<llm_result>.json`",
+            "`<background_run>.jsonl`",
+            "`<parsed_records>.csv`",
+        ],
+        "thesis": [
+            "`<chapter_notes>.md`",
+            "`<evidence_table>.csv`",
+            "`<workflow_map>.json`",
+            "`<results_snapshot>.xlsx`",
+        ],
+        "analysis": [
+            "`<dataset>.csv`",
+            "`<mapping>.json`",
+            "`<events>.jsonl`",
+            "`<summary_table>.xlsx`",
+        ],
+    }
+    return mapping[category]
+
+
+def output_filename_examples_for(category: str) -> list[str]:
+    mapping = {
+        "ingestion": [
+            "`<ocr_output>.md`",
+            "`<ocr_output>.json`",
+            "`<page_preview>.png`",
+            "`<catalog_export>.csv`",
+        ],
+        "ground_truth": [
+            "`<coverage_report>.csv`",
+            "`<metrics_summary>.json`",
+            "`<audit_queue>.csv`",
+            "`<annotation_backup>.jsonl`",
+        ],
+        "llm": [
+            "`<parsed_output>.json`",
+            "`<diagnostics>.csv`",
+            "`<run_status>.jsonl`",
+            "`<comparison_export>.xlsx`",
+        ],
+        "thesis": [
+            "`<chapter_summary>.md`",
+            "`<figure_export>.png`",
+            "`<evidence_matrix>.csv`",
+            "`<chapter_bundle>.json`",
+        ],
+        "analysis": [
+            "`<filtered_output>.csv`",
+            "`<chart_spec>.json`",
+            "`<dashboard_export>.png`",
+            "`<summary_export>.xlsx`",
+        ],
+    }
+    return mapping[category]
+
+
+def filename_guidance_for(category: str) -> list[str]:
+    mapping = {
+        "ingestion": [
+            "Use the original document stem when possible so OCR outputs stay traceable back to the PDF.",
+            "Keep page or batch numbers in the filename when one source document produces multiple artifacts.",
+        ],
+        "ground_truth": [
+            "Use filenames that distinguish seed data, human labels, and audit exports so evaluation stages do not get mixed.",
+            "Prefer stable suffixes such as `_ground_truth`, `_review_queue`, or `_metrics` for downstream joins.",
+        ],
+        "llm": [
+            "Include model, prompt, or run identifiers when one text source can produce multiple LLM outputs.",
+            "Separate raw outputs from parsed outputs in the filename to avoid schema-confusion during audits.",
+        ],
+        "thesis": [
+            "Use filenames that encode chapter or section ownership so exported artifacts stay citation-ready.",
+            "Keep evidence snapshots and narrative drafts separate to avoid mixing analytical data with prose outputs.",
+        ],
+        "analysis": [
+            "Prefer filenames that describe both content and grain, for example `record_level`, `page_level`, or `summary`.",
+            "If the page accepts multiple formats, reuse the same stem across `CSV`, `JSON`, and `XLSX` variants when they describe the same dataset.",
+        ],
+    }
+    return mapping[category]
+
+
+def family_heading(category: str) -> str:
+    mapping = {
+        "ingestion": "Ingestion Pages",
+        "ground_truth": "Ground-Truth Pages",
+        "llm": "LLM Pages",
+        "thesis": "Thesis Pages",
+        "analysis": "Analysis Pages",
+    }
+    return mapping[category]
+
+
+def family_description(category: str) -> str:
+    mapping = {
+        "ingestion": "These pages create source-side artifacts such as OCR text, metadata, images, and catalog records.",
+        "ground_truth": "These pages validate labeled records, benchmark coverage, disagreements, and audit status.",
+        "llm": "These pages run, parse, compare, and monitor model-driven extraction workflows.",
+        "thesis": "These pages assemble evidence, narrative structure, and chapter-ready research outputs.",
+        "analysis": "These pages inspect prepared datasets, lineage, mappings, dashboards, and analytical summaries.",
+    }
+    return mapping[category]
+
+
 def diagram_for(page_path: Path, title: str, category: str) -> tuple[str, str]:
     user_node = "User"
     page_node = "page"
@@ -191,22 +311,132 @@ def diagram_for(page_path: Path, title: str, category: str) -> tuple[str, str]:
     return "\n".join(lines), summary
 
 
+def combined_diagram() -> str:
+    lines = [
+        "sequenceDiagram",
+        "    actor User as Researcher / Analyst",
+        "    participant ingest as Ingestion Pages",
+        "    participant analysis as Analysis Pages",
+        "    participant gt as Ground-Truth Pages",
+        "    participant llm as LLM Pages",
+        "    participant thesis as Thesis Pages",
+        "    participant artifacts as Shared Artifacts",
+        "    Note over ingest,thesis: Combined overview of the active Streamlit page families",
+        "    User->>ingest: upload PDFs, metadata, OCR options, and source catalogs",
+        "    ingest->>artifacts: create OCR markdown, JSON, images, and catalog entries",
+        "    User->>analysis: inspect mappings, lineage, dashboards, and filtered views",
+        "    analysis->>artifacts: read CSV / JSON / JSONL / XLSX artifacts",
+        "    analysis->>User: show charts, tables, Sankey flows, and export summaries",
+        "    User->>gt: review labels, coverage, audits, and record-level validation",
+        "    gt->>artifacts: load annotations, benchmark rows, and audit datasets",
+        "    gt->>User: return metrics, disagreements, review queues, and record views",
+        "    User->>llm: run models, parse outputs, compare prompts, and monitor jobs",
+        "    llm->>artifacts: consume OCR text and write parsed outputs plus diagnostics",
+        "    llm->>User: expose failures, comparisons, run status, and benchmark results",
+        "    User->>thesis: assemble evidence into chapter views and workflow narratives",
+        "    thesis->>artifacts: gather charts, notes, metrics, exports, and evidence tables",
+        "    thesis->>User: produce chapter-ready summaries, Mermaid maps, and writing guidance",
+    ]
+    return "\n".join(lines)
+
+
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     pages = [p for p in sorted(PAGES_DIR.glob("*.py")) if not p.name.startswith("_")]
+    page_metadata: list[tuple[Path, str, str]] = [
+        (page_path, extract_title(page_path), category_for(page_path.name))
+        for page_path in pages
+    ]
     index_lines = [
         "# Mermaid Sequence Diagrams",
         "",
         "One file per active Streamlit page.",
         "",
+        "- [`Combined_Streamlit_Workflow.md`](./Combined_Streamlit_Workflow.md) - Combined overview across ingestion, analysis, ground-truth, LLM, and thesis pages",
+        "",
     ]
 
-    for page_path in pages:
-        title = extract_title(page_path)
-        category = category_for(page_path.name)
+    family_order = ["ingestion", "analysis", "ground_truth", "llm", "thesis"]
+    family_sections: list[str] = []
+    for category in family_order:
+        family_sections.extend(
+            [
+                f"### {family_heading(category)}",
+                "",
+                family_description(category),
+                "",
+            ]
+        )
+        members = [(page_path, title) for page_path, title, page_category in page_metadata if page_category == category]
+        for page_path, title in members:
+            family_sections.append(f"- [`{page_path.stem}.md`](./{page_path.stem}.md) - {title}")
+        family_sections.append("")
+
+    combined_path = OUT_DIR / "Combined_Streamlit_Workflow.md"
+    combined_path.write_text(
+        "\n".join(
+            [
+                "# Combined Streamlit Workflow",
+                "",
+                "- Scope: All active Streamlit page families",
+                "- Diagram file: `documentation/streamlit_pages/mermaid_sequence_diagram/Combined_Streamlit_Workflow.md`",
+                "- Purpose: Show the end-to-end relationship between ingestion, analysis, ground-truth, LLM, and thesis pages.",
+                "- Shared artifacts: CSV, JSON, JSONL, XLSX, MD, PNG, PDF",
+                "",
+                "## What This Diagram Shows",
+                "",
+                "This combined sequence diagram summarizes how the Streamlit pages work together around shared research artifacts.",
+                "It is the high-level entry point for the whole folder: use it first, then drill down into the page-level markdown files for the detailed Mermaid sequence of each Streamlit page.",
+                "",
+                "## Workflow Explanation",
+                "",
+                "The workflow starts with ingestion pages, which create the source artifacts that the rest of the application depends on.",
+                "Those artifacts are then reused by analysis pages, ground-truth pages, and LLM pages depending on whether the researcher is exploring data, validating labels, or running extraction jobs.",
+                "The final stage is the thesis layer, where validated outputs, figures, notes, and metrics are assembled into chapter-ready explanations and research evidence.",
+                "",
+                "In short, the overall flow is:",
+                "",
+                "`PDF or source document -> OCR or metadata capture -> analytical inspection -> validation or LLM processing -> thesis synthesis`",
+                "",
+                "## Page Families",
+                "",
+                *family_sections,
+                "",
+                "## How To Use It",
+                "",
+                "1. Start at `Ingestion Pages` if you are documenting document intake, OCR, or source registration.",
+                "2. Move to `Analysis Pages`, `Ground-Truth Pages`, or `LLM Pages` depending on the workflow branch you want to explain.",
+                "3. End at `Thesis Pages` when you need chapter-ready outputs, evidence synthesis, or narrative summaries.",
+                "4. Replace artifact examples with your actual filenames, such as `esg_records.csv`, `ontology_map.json`, or `background_runs.jsonl`.",
+                "",
+                "## Shared Artifact Types",
+                "",
+                "- `CSV`: tabular exports such as record tables, metrics, review queues, and summaries",
+                "- `JSON`: structured mappings, metadata, parsed records, and configuration-like files",
+                "- `JSONL`: run logs, benchmark rows, event streams, and parser diagnostics",
+                "- `XLSX`: review workbooks, spreadsheet deliverables, and manually curated tables",
+                "- `MD`: OCR text, notes, chapter drafts, and markdown summaries",
+                "- `PNG`: charts, screenshots, figure exports, and page previews",
+                "- `PDF`: raw reports, source documents, and exported document outputs",
+                "",
+                "## Combined Sequence",
+                "",
+                "```mermaid",
+                combined_diagram(),
+                "```",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    for page_path, title, category in page_metadata:
         diagram, summary = diagram_for(page_path, title, category)
         out_path = OUT_DIR / f"{page_path.stem}.md"
+        input_examples = input_filename_examples_for(category)
+        output_examples = output_filename_examples_for(category)
+        filename_guidance = filename_guidance_for(category)
         out_path.write_text(
             "\n".join(
                 [
@@ -221,6 +451,39 @@ def main() -> None:
                     f"- Primary inputs: {primary_inputs_for(category)}",
                     f"- Primary outputs: {primary_outputs_for(category)}",
                     f"- Summary: {summary}",
+                    "",
+                    "## What This Page Documents",
+                    "",
+                    f"This file documents the interaction flow for `{page_path.name}` and gives a reusable filename pattern for the artifacts that this page reads or writes.",
+                    "",
+                    "## Filename Placeholders",
+                    "",
+                    "Use these placeholders when you want to substitute your own files such as `CSV`, `JSON`, `JSONL`, `XLSX`, `PNG`, or `PDF` assets.",
+                    "",
+                    f"- Input examples: {', '.join(input_examples)}",
+                    f"- Output examples: {', '.join(output_examples)}",
+                    "",
+                    "Recommended placeholder format:",
+                    "",
+                    "- `<name>.csv` for tabular inputs or exports",
+                    "- `<name>.json` for structured objects or config-like artifacts",
+                    "- `<name>.jsonl` for line-by-line run logs or benchmark rows",
+                    "- `<name>.xlsx` for spreadsheet deliverables",
+                    "- `<name>.md` for OCR text or narrative output",
+                    "- `<name>.png` for figure snapshots or image intermediates",
+                    "- `<name>.pdf` for source documents",
+                    "",
+                    "## Naming Guidance",
+                    "",
+                    f"- {filename_guidance[0]}",
+                    f"- {filename_guidance[1]}",
+                    "",
+                    "## Customization Steps",
+                    "",
+                    "1. Choose the file stem that matches your dataset or experiment, for example `esg_records`, `ontology_map`, or `ground_truth_seed`.",
+                    "2. Keep the extension aligned with the artifact type, for example `CSV` for tables and `JSON` for nested structures.",
+                    "3. If multiple runs exist, append a stable suffix such as `_v2`, `_2026_06`, `_prompt_3`, or `_model_a`.",
+                    "4. Update this page documentation if the real source path, output path, or artifact role changes.",
                     "",
                     "## Detailed Sequence",
                     "",
