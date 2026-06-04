@@ -1,19 +1,32 @@
 # Chapter 5 - Discussion
 
-- Source page: `6_2_Chapter_5_Discussion.py`
+- Filename: `6_2_Chapter_5_Discussion.py`
+- Source path: `pages/6_2_Chapter_5_Discussion.py`
+- Diagram file: `documentation/streamlit_pages/mermaid_sequence_diagram/6_2_Chapter_5_Discussion.md`
+- Page slug: `6_2_Chapter_5_Discussion`
 - Category: `thesis`
+- Purpose: Aggregate evidence into workflow, dashboard, and chapter-ready thesis views.
+- Primary inputs: research artifacts, charts, notes, chapter evidence tables
+- Primary outputs: chapter summaries, Mermaid maps, narrative guidance, evidence matrices
 - Summary: Thesis synthesis and navigation.
+
+## Detailed Sequence
 
 ```mermaid
 sequenceDiagram
     actor User as Thesis author
-    participant page as Streamlit page
+    participant page as 6_2_Chapter_5_Discussion.py
+    participant runtime as Streamlit runtime
     participant data as Research artifacts
     participant compute as Synthesis / chapter logic
     participant output as Chapter-ready output
-    User->>page: open workflow, dashboard, or chapter page
-    page->>data: gather evidence, charts, and notes
-    page->>compute: map results to claims or chapter structure
-    compute->>output: render summaries, Mermaid maps, or narrative aids
-    page->>User: show thesis-facing guidance
+    Note over page: pages/6_2_Chapter_5_Discussion.py
+    User->>page: open workflow, dashboard, or chapter assembly view
+    page->>runtime: initialize layout, tabs, and filters
+    page->>data: gather evidence tables, charts, notes, and artifacts
+    page->>compute: map findings to claims, sections, or chapter structure
+    compute->>compute: consolidate narrative logic and evidence links
+    compute->>output: render summaries, Mermaid maps, and chapter-ready guidance
+    output-->>page: return composed thesis-facing views
+    page->>User: display evidence paths and writing guidance
 ```
