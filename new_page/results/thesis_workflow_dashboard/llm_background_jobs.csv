@@ -1,158 +1,185 @@
 job_id,status,completed,total,failed,skipped,progress_pct,document,updated_at
-llm_bg_20260511T152142Z_b64670,completed,3,3,0,0,100.0,20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf,2026-05-11T15:21:43Z
-llm_bg_action_20260519T075103Z_caf49b,completed,100,100,3,0,100.0,ABM_2025_ABMM_SR_2025_pdf,2026-05-19T08:22:35Z
-llm_bg_action_20260519T075211Z_c61518,completed,5,5,0,0,100.0,AR SR GTRA 2024___pdf,2026-05-19T07:53:42Z
-llm_bg_action_20260519T075240Z_95ec2e,completed,40,40,3,0,100.0,BEST-SR_2024_pdf,2026-05-19T08:11:56Z
-llm_bg_action_20260519T205042Z_ed0875,completed,120,120,50,0,100.0,wika_beton_SR-WTON-2025_pdf,2026-05-20T02:42:07Z
-llm_bg_action_20260519T205831Z_cb9d9f,completed,60,60,30,0,100.0,ARCI-SR-2025-E-reporting_pdf,2026-05-20T01:05:43Z
-llm_bg_action_20260519T205901Z_9fc259,completed,100,100,34,0,100.0,SR-Bank-Aladin-Syariah-2025_pdf,2026-05-20T02:45:08Z
-llm_bg_action_20260519T205923Z_6eca10,completed,150,150,68,0,100.0,alfamart_sustainability_2025_pdf,2026-05-20T03:00:18Z
-llm_bg_action_20260519T210244Z_c9669e,completed,150,150,56,0,100.0,alfamart_sustainability_2025_pdf,2026-05-20T02:59:31Z
-llm_bg_action_20260519T210251Z_28b6e3,completed,150,150,74,0,100.0,alfamart_sustainability_2025_pdf,2026-05-20T05:01:29Z
-llm_bg_action_20260520T130315Z_fd76bd,completed,50,50,28,0,100.0,alfamart_sustainability_2025_pdf,2026-05-20T14:36:25Z
-llm_bg_smoke_20260511T132812Z_218cf5,completed,1,1,0,0,100.0,20250526113828-2025-05-26ptba_laporan_berkelanjutan113825_pdf,2026-05-11T13:28:14Z
-llm_processing_bg_20260511T233421Z_b3baf2,completed,4,4,0,0,100.0,SCM_2024_090425-sr24-scma-pdf-final_pdf,2026-05-11T23:36:07Z
-llm_processing_bg_20260512T045837Z_84d3c0,completed,13,13,0,0,100.0,icr-sustainability-23-24_pdf,2026-05-12T05:07:25Z
-llm_processing_bg_20260512T045954Z_307759,completed,13,13,4,0,100.0,icr-sustainability-23-24_pdf,2026-05-12T05:07:16Z
-llm_processing_bg_20260512T050110Z_4be430,completed,13,13,3,0,100.0,icr-sustainability-23-24_pdf,2026-05-12T05:20:44Z
-llm_processing_bg_20260512T051154Z_4b550e,completed,50,50,1,0,100.0,GoTo_s 2021 Sustainability Report_pdf,2026-05-12T05:45:33Z
-llm_processing_bg_20260512T051424Z_d40541,completed,50,50,50,0,100.0,GoTo_s 2021 Sustainability Report_pdf,2026-05-12T05:14:32Z
-llm_processing_bg_20260512T051518Z_d9b811,failed,39,50,39,0,78.0,GoTo_s 2021 Sustainability Report_pdf,2026-05-12T08:42:41Z
-llm_processing_bg_20260512T051530Z_2ab81e,failed,33,50,33,0,66.0,GoTo_s 2021 Sustainability Report_pdf,2026-05-12T08:34:10Z
-llm_processing_bg_20260512T051551Z_c3b12a,failed,24,50,24,0,48.0,GoTo_s 2021 Sustainability Report_pdf,2026-05-12T08:33:24Z
-llm_processing_bg_20260512T051607Z_585f1e,failed,13,50,13,0,26.0,GoTo_s 2021 Sustainability Report_pdf,2026-05-12T08:32:31Z
-llm_processing_bg_20260512T051616Z_537e84,completed,50,50,50,0,100.0,GoTo_s 2021 Sustainability Report_pdf,2026-05-12T08:44:10Z
-llm_processing_bg_20260512T051624Z_b57d0f,completed,50,50,50,0,100.0,GoTo_s 2021 Sustainability Report_pdf,2026-05-12T08:44:25Z
-llm_processing_bg_20260512T060436Z_bd8b10,failed,62,69,62,0,89.9,arci-sustainability-report-2021_pdf,2026-05-12T08:46:24Z
-llm_processing_bg_20260512T060457Z_d01c31,completed,69,69,69,0,100.0,arci-sustainability-report-2021_pdf,2026-05-12T08:47:31Z
-llm_processing_bg_20260512T060513Z_27f7cd,completed,69,69,69,0,100.0,arci-sustainability-report-2021_pdf,2026-05-12T08:47:36Z
-llm_processing_bg_20260512T060524Z_3727fe,completed,69,69,69,0,100.0,arci-sustainability-report-2021_pdf,2026-05-12T08:50:06Z
-llm_processing_bg_20260512T074120Z_31ed7d,completed,87,87,87,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T08:46:55Z
-llm_processing_bg_20260512T074348Z_2095f5,completed,87,87,87,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T07:44:06Z
-llm_processing_bg_20260512T074353Z_82fa90,failed,2,87,2,0,2.3,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T08:34:10Z
-llm_processing_bg_20260512T074404Z_7f9922,completed,87,87,87,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T08:51:54Z
-llm_processing_bg_20260512T074419Z_6f8f3a,completed,87,87,87,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T08:51:55Z
-llm_processing_bg_20260512T074437Z_fa14f0,completed,87,87,87,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T08:51:59Z
-llm_processing_bg_20260512T074447Z_88c618,completed,87,87,87,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T07:45:06Z
-llm_processing_bg_20260512T074520Z_60a6d7,completed,87,87,2,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T08:41:04Z
-llm_processing_bg_20260512T074529Z_0f1032,completed,87,87,5,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T09:55:31Z
-llm_processing_bg_20260512T074542Z_f7cbae,completed,87,87,18,0,100.0,GoTo_s 2022 Sustainability Report_pdf,2026-05-12T08:42:57Z
-llm_processing_bg_20260512T074558Z_d92aae,completed,66,66,5,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T08:36:33Z
-llm_processing_bg_20260512T074603Z_379460,completed,66,66,5,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T09:34:05Z
-llm_processing_bg_20260512T074611Z_1ced2d,completed,66,66,2,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T08:35:51Z
-llm_processing_bg_20260512T074617Z_4bc5f1,completed,66,66,66,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T08:48:16Z
-llm_processing_bg_20260512T074623Z_f5a620,completed,66,66,66,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T08:48:20Z
-llm_processing_bg_20260512T074632Z_967f95,completed,66,66,66,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T08:48:28Z
-llm_processing_bg_20260512T074643Z_6ff8ff,failed,8,66,8,0,12.1,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T08:32:51Z
-llm_processing_bg_20260512T074648Z_5233e9,failed,29,66,29,0,43.9,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T08:36:33Z
-llm_processing_bg_20260512T074652Z_3c3ba0,completed,66,66,66,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-12T08:44:32Z
-llm_processing_bg_20260512T074759Z_5c716e,completed,46,46,46,0,100.0,GoTo_s 2023 Sustainability Report_pdf,2026-05-12T08:42:05Z
-llm_processing_bg_20260512T074803Z_5a2324,completed,46,46,46,0,100.0,GoTo_s 2023 Sustainability Report_pdf,2026-05-12T08:46:41Z
-llm_processing_bg_20260512T074819Z_afff1f,completed,46,46,46,0,100.0,GoTo_s 2023 Sustainability Report_pdf,2026-05-12T08:42:34Z
-llm_processing_bg_20260512T074823Z_9cc436,completed,46,46,46,0,100.0,GoTo_s 2023 Sustainability Report_pdf,2026-05-12T08:47:07Z
-llm_processing_bg_20260512T074835Z_c8cd31,completed,46,46,46,0,100.0,GoTo_s 2023 Sustainability Report_pdf,2026-05-12T08:43:06Z
-llm_processing_bg_20260512T074841Z_8976cd,completed,46,46,46,0,100.0,GoTo_s 2023 Sustainability Report_pdf,2026-05-12T08:47:22Z
-llm_processing_bg_20260512T122206Z_a2c3f8,completed,46,46,3,0,100.0,GoTo_s 2023 Sustainability Report_pdf,2026-05-12T13:39:47Z
-llm_processing_bg_20260512T122309Z_ce1d9b,completed,32,32,2,0,100.0,Annual_Report_2024_pdf,2026-05-12T12:42:53Z
-llm_processing_bg_20260512T122317Z_7d4ae6,completed,32,32,4,0,100.0,Annual_Report_2024_pdf,2026-05-12T12:33:53Z
-llm_processing_bg_20260512T122324Z_216054,completed,32,32,1,0,100.0,Annual_Report_2024_pdf,2026-05-12T12:37:11Z
-llm_processing_bg_20260512T122538Z_cff19e,completed,210,210,210,0,100.0,Annual_Report_PT_Soho_Global_Health_Tbk_FY_2023_pdf,2026-05-12T12:42:51Z
-llm_processing_bg_20260512T123010Z_d98fc5,completed,250,250,250,0,100.0,Annual_Report_PT_Soho_Global_Health_Tbk_website_pdf,2026-05-12T12:50:26Z
-llm_processing_bg_20260512T123016Z_b81190,failed,69,250,69,0,27.6,Annual_Report_PT_Soho_Global_Health_Tbk_website_pdf,2026-05-12T12:37:17Z
-llm_processing_bg_20260512T123228Z_2c1da6,completed,210,210,210,0,100.0,Annual_Report_PT_Soho_Global_Health_Tbk_FY_2023_pdf,2026-05-12T12:52:10Z
-llm_processing_bg_20260512T123232Z_b28e38,failed,96,210,96,0,45.7,Annual_Report_PT_Soho_Global_Health_Tbk_FY_2023_pdf,2026-05-12T12:40:50Z
-llm_processing_bg_20260513T010812Z_a41f6b,failed,59,135,59,0,43.7,waskita_precast_SR-2025_pdf,2026-05-13T01:14:17Z
-llm_processing_bg_20260513T010816Z_b08ced,failed,60,135,60,0,44.4,waskita_precast_SR-2025_pdf,2026-05-13T01:14:27Z
-llm_processing_bg_20260513T010819Z_04fe26,failed,11,135,11,0,8.1,waskita_precast_SR-2025_pdf,2026-05-13T01:09:30Z
-llm_processing_bg_20260513T010832Z_3009dd,failed,43,135,43,0,31.9,waskita_precast_SR-2025_pdf,2026-05-13T01:14:05Z
-llm_processing_bg_20260513T010840Z_c3c4da,completed,135,135,135,0,100.0,waskita_precast_SR-2025_pdf,2026-05-13T01:25:32Z
-llm_processing_bg_20260513T010845Z_308d49,failed,22,135,22,0,16.3,waskita_precast_SR-2025_pdf,2026-05-13T01:11:51Z
-llm_processing_bg_20260513T010924Z_843fe7,completed,135,135,3,0,100.0,waskita_precast_SR-2025_pdf,2026-05-13T03:16:20Z
-llm_processing_bg_20260513T010938Z_f1150f,completed,135,135,5,0,100.0,waskita_precast_SR-2025_pdf,2026-05-13T03:58:15Z
-llm_processing_bg_20260513T011204Z_140a08,completed,28,28,2,0,100.0,waskita_precast_SR-2025_pdf,2026-05-13T01:36:43Z
-llm_processing_bg_20260513T011248Z_3222fa,failed,4,101,4,0,4.0,waskita_precast_SR2022_pdf,2026-05-13T01:13:31Z
-llm_processing_bg_20260513T011252Z_eb137f,completed,101,101,101,0,100.0,waskita_precast_SR2022_pdf,2026-05-13T01:22:16Z
-llm_processing_bg_20260513T011337Z_cf3ba7,completed,101,101,101,0,100.0,waskita_precast_SR2022_pdf,2026-05-13T01:26:34Z
-llm_processing_bg_20260513T011343Z_4221c4,failed,38,101,38,0,37.6,waskita_precast_SR2022_pdf,2026-05-13T01:17:38Z
-llm_processing_bg_20260513T011415Z_6e56b1,failed,27,101,27,0,26.7,waskita_precast_SR2022_pdf,2026-05-13T01:17:45Z
-llm_processing_bg_20260513T011419Z_498010,completed,101,101,101,0,100.0,waskita_precast_SR2022_pdf,2026-05-13T01:23:23Z
-llm_processing_bg_20260513T012019Z_f98e31,failed,97,135,97,0,71.9,waskita_precast_SR-2024_pdf,2026-05-13T01:32:16Z
-llm_processing_bg_20260513T012022Z_5d4c8f,failed,128,135,128,0,94.8,waskita_precast_SR-2024_pdf,2026-05-13T01:42:32Z
-llm_processing_bg_20260513T012300Z_61d2c6,failed,115,135,115,0,85.2,waskita_precast_SR-2024_pdf,2026-05-13T01:43:44Z
-llm_processing_bg_20260513T012303Z_5c8f41,completed,135,135,135,0,100.0,waskita_precast_SR-2024_pdf,2026-05-13T01:41:04Z
-llm_processing_bg_20260513T012324Z_c27f18,completed,135,135,135,0,100.0,waskita_precast_SR-2024_pdf,2026-05-13T01:41:31Z
-llm_processing_bg_20260513T012327Z_d59d8f,completed,135,135,135,0,100.0,waskita_precast_SR-2024_pdf,2026-05-13T01:45:53Z
-llm_processing_bg_20260513T012340Z_208187,completed,135,135,135,0,100.0,waskita_precast_SR-2024_pdf,2026-05-13T01:41:44Z
-llm_processing_bg_20260513T012344Z_ef8803,completed,135,135,135,0,100.0,waskita_precast_SR-2024_pdf,2026-05-13T01:46:08Z
-llm_processing_bg_20260513T012358Z_5cbb31,completed,101,101,96,0,100.0,waskita_precast_SR-2023_pdf,2026-05-17T05:05:32Z
-llm_processing_bg_20260513T012408Z_2f6b39,running,99,101,99,0,98.0,waskita_precast_SR-2023_pdf,2026-05-17T06:31:52Z
-llm_processing_bg_20260513T012456Z_8b96ce,running,99,101,99,0,98.0,waskita_precast_SR-2023_pdf,2026-05-17T06:31:51Z
-llm_processing_bg_20260513T012509Z_ecc17c,running,100,101,99,0,99.0,waskita_precast_SR-2023_pdf,2026-05-17T06:26:40Z
-llm_processing_bg_20260513T012512Z_2912fb,completed,101,101,89,0,100.0,waskita_precast_SR-2023_pdf,2026-05-15T09:12:31Z
-llm_processing_bg_20260516T084845Z_c59a57,completed,66,66,66,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-16T08:49:06Z
-llm_processing_bg_20260516T084910Z_f010e3,completed,66,66,66,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-16T08:49:32Z
-llm_processing_bg_20260516T085020Z_77cb2d,completed,66,66,66,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-16T08:50:41Z
-llm_processing_bg_20260516T085301Z_2e4d7e,completed,66,66,0,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-16T09:38:55Z
-llm_processing_bg_20260516T085308Z_40515f,completed,66,66,7,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-16T10:50:01Z
-llm_processing_bg_20260516T085317Z_2fae5e,completed,66,66,7,0,100.0,GoTo_s 2024 Sustainability Report_pdf,2026-05-16T09:45:51Z
-llm_processing_bg_20260516T151107Z_fc064f,stopped,2,101,0,0,2.0,AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium_pdf,2026-05-16T15:13:50Z
-llm_processing_bg_20260516T151217Z_2ab723,completed,101,101,8,0,100.0,AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium_pdf,2026-05-16T16:12:16Z
-llm_processing_bg_20260516T151445Z_a20a96,completed,101,101,101,0,100.0,AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium_pdf,2026-05-16T15:15:33Z
-llm_processing_bg_20260516T151537Z_09cb22,completed,101,101,101,0,100.0,AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium_pdf,2026-05-16T15:16:08Z
-llm_processing_bg_20260516T151547Z_199f55,failed,17,101,17,0,16.8,AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium_pdf,2026-05-16T15:16:01Z
-llm_processing_bg_20260516T152552Z_ed8476,failed,31,101,3,0,30.7,AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium_pdf,2026-05-16T16:06:34Z
-llm_processing_bg_20260516T152601Z_0ffea3,completed,101,101,21,0,100.0,AR Bank Danamon 2024 INA 25 Feb Malam2_web Medium_pdf,2026-05-16T16:31:33Z
-llm_processing_bg_20260516T152702Z_83ac63,failed,26,31,5,0,83.9,SR_Bundamedik_2024_pdf,2026-05-16T15:47:51Z
-llm_processing_bg_20260516T152718Z_ee9179,completed,31,31,5,0,100.0,SR_Bundamedik_2024_pdf,2026-05-16T15:59:09Z
-llm_processing_bg_20260516T152734Z_362cdb,completed,31,31,6,0,100.0,SR_Bundamedik_2024_pdf,2026-05-16T15:55:58Z
-llm_processing_bg_20260516T152945Z_24f579,completed,58,58,7,0,100.0,Solusi_Sinergi_Digital_Annual_Report_2024_pdf,2026-05-16T15:56:50Z
-llm_processing_bg_20260516T153003Z_02486a,completed,58,58,9,0,100.0,Solusi_Sinergi_Digital_Annual_Report_2024_pdf,2026-05-16T16:18:52Z
-llm_processing_bg_20260516T153232Z_9206a8,completed,58,58,7,0,100.0,Solusi_Sinergi_Digital_Annual_Report_2024_pdf,2026-05-16T16:06:53Z
-llm_processing_bg_20260516T153557Z_1b3da4,completed,70,70,16,0,100.0,alfamart_sustainability_2025_pdf,2026-05-16T16:19:02Z
-llm_processing_bg_20260516T153631Z_eb0fb3,completed,70,70,32,0,100.0,alfamart_sustainability_2025_pdf,2026-05-16T16:32:08Z
-llm_processing_bg_20260516T153722Z_31cc81,completed,70,70,6,0,100.0,alfamart_sustainability_2025_pdf,2026-05-16T16:14:18Z
-llm_processing_bg_20260516T153820Z_cf2e9d,completed,45,45,4,0,100.0,amman_2024 Sustainability Report_pdf,2026-05-16T16:18:14Z
-llm_processing_bg_20260516T153839Z_63dc2d,failed,44,45,3,0,97.8,amman_2024 Sustainability Report_pdf,2026-05-16T16:28:37Z
-llm_processing_bg_20260516T153853Z_239026,completed,45,45,15,0,100.0,amman_2024 Sustainability Report_pdf,2026-05-16T16:02:09Z
-llm_processing_bg_20260516T154037Z_ce6bdf,completed,100,100,31,0,100.0,Laporan Tahunan PT Bank Danamon Indonesia Tbk Tahun 2025 - Hires_pdf,2026-05-16T16:32:09Z
-llm_processing_bg_20260516T154347Z_e316fc,failed,7,100,2,0,7.0,Laporan Tahunan PT Bank Danamon Indonesia Tbk Tahun 2025 - Hires_pdf,2026-05-16T15:55:27Z
-llm_processing_bg_20260516T154405Z_bebf8e,completed,100,100,37,0,100.0,Laporan Tahunan PT Bank Danamon Indonesia Tbk Tahun 2025 - Hires_pdf,2026-05-16T16:34:34Z
-llm_processing_bg_20260516T155243Z_46b02d,completed,45,45,7,0,100.0,apollo-2024-sustainability-report-june-2025_pdf,2026-05-16T16:21:10Z
-llm_processing_bg_20260516T155321Z_752063,completed,45,45,8,0,100.0,apollo-2024-sustainability-report-june-2025_pdf,2026-05-16T16:57:44Z
-llm_processing_bg_20260516T155407Z_8b90e5,completed,45,45,7,0,100.0,apollo-2024-sustainability-report-june-2025_pdf,2026-05-16T16:27:18Z
-llm_processing_bg_20260516T155454Z_27c0b5,completed,50,50,3,0,100.0,arci-sustainability-report-2024_pdf,2026-05-16T16:28:16Z
-llm_processing_bg_20260516T155507Z_409f0a,completed,50,50,1,0,100.0,arci-sustainability-report-2024_pdf,2026-05-16T17:02:09Z
-llm_processing_bg_20260516T155527Z_5dbbd3,completed,50,50,5,0,100.0,arci-sustainability-report-2024_pdf,2026-05-16T16:28:28Z
-llm_processing_bg_20260516T155845Z_0d0411,failed,26,40,1,0,65.0,Blibli_Tiket_Sustainbility_Report-2024_pdf,2026-05-16T16:26:48Z
-llm_processing_bg_20260516T155857Z_afe8a8,completed,40,40,5,0,100.0,Blibli_Tiket_Sustainbility_Report-2024_pdf,2026-05-16T17:03:49Z
-llm_processing_bg_20260516T155919Z_a4f165,completed,40,40,1,0,100.0,Blibli_Tiket_Sustainbility_Report-2024_pdf,2026-05-16T16:37:11Z
-llm_processing_bg_20260516T162906Z_ee2eb9,failed,23,65,2,0,35.4,SR-Bank-Aladin-Syariah-2025_pdf,2026-05-16T16:47:57Z
-llm_processing_bg_20260516T162907Z_304d69,completed,65,65,3,0,100.0,SR-Bank-Aladin-Syariah-2025_pdf,2026-05-16T17:20:26Z
-llm_processing_bg_20260516T162944Z_1e7f5e,completed,65,65,3,0,100.0,SR-Bank-Aladin-Syariah-2025_pdf,2026-05-16T18:10:58Z
-llm_processing_bg_20260516T163025Z_748808,completed,65,65,3,0,100.0,SR-Bank-Aladin-Syariah-2025_pdf,2026-05-16T17:25:21Z
-llm_processing_bg_20260516T163107Z_6414ce,completed,70,70,2,0,100.0,69b974897d9c0c212f16304d_AR SR ARKO 2025_pdf,2026-05-16T17:14:45Z
-llm_processing_bg_20260516T163135Z_e40e78,completed,70,70,2,0,100.0,69b974897d9c0c212f16304d_AR SR ARKO 2025_pdf,2026-05-16T17:36:17Z
-llm_processing_bg_20260517T010606Z_66ca1a,completed,5,5,5,0,100.0,superbank_laporan-keberlanjutan-2025_pdf,2026-05-17T01:06:08Z
-llm_processing_bg_20260517T010621Z_d9fa4e,completed,10,10,10,0,100.0,superbank_laporan-keberlanjutan-2025_pdf,2026-05-17T01:06:24Z
-llm_processing_bg_20260517T010648Z_371547,completed,15,15,15,0,100.0,superbank_laporan-keberlanjutan-2025_pdf,2026-05-17T01:06:53Z
-llm_processing_bg_20260517T010701Z_814d46,completed,15,15,15,0,100.0,superbank_laporan-keberlanjutan-2025_pdf,2026-05-17T01:07:07Z
-llm_processing_bg_20260517T010848Z_604700,completed,45,45,45,0,100.0,Selamat_Sempurna_Sustainability Report SMSM 2025_pdf,2026-05-17T01:09:03Z
-llm_processing_bg_20260517T010903Z_f4661f,completed,45,45,45,0,100.0,Selamat_Sempurna_Sustainability Report SMSM 2025_pdf,2026-05-17T01:09:22Z
-llm_processing_bg_20260517T010916Z_7110ff,completed,45,45,45,0,100.0,Selamat_Sempurna_Sustainability Report SMSM 2025_pdf,2026-05-17T01:09:33Z
-llm_processing_bg_20260517T011231Z_2db68a,completed,55,55,55,0,100.0,ABM_2025_ABMM_SR_2025_pdf,2026-05-17T01:13:00Z
-llm_processing_bg_20260517T011306Z_cf4c84,completed,55,55,55,0,100.0,ABM_2025_ABMM_SR_2025_pdf,2026-05-17T01:13:42Z
-llm_processing_bg_20260517T011321Z_5424a6,failed,20,55,20,0,36.4,ABM_2025_ABMM_SR_2025_pdf,2026-05-17T01:13:41Z
-llm_processing_bg_20260517T011412Z_6700d3,completed,55,55,55,0,100.0,waskita_karya_SR2025_pdf,2026-05-17T01:14:20Z
-llm_processing_bg_20260517T011433Z_bebdc4,completed,55,55,55,0,100.0,waskita_karya_SR2025_pdf,2026-05-17T01:14:40Z
-llm_processing_bg_20260517T011448Z_ec53cc,completed,55,55,55,0,100.0,waskita_karya_SR2025_pdf,2026-05-17T01:14:56Z
-llm_processing_bg_20260517T055040Z_a2f70f,running,52,55,2,0,94.5,waskita_karya_SR2025_pdf,2026-05-17T06:48:35Z
-llm_processing_bg_20260517T055208Z_2b16c3,completed,55,55,55,0,100.0,waskita_karya_SR2025_pdf,2026-05-17T05:52:15Z
-llm_processing_bg_20260517T055230Z_2f49b9,running,29,55,4,0,52.7,waskita_karya_SR2025_pdf,2026-05-17T06:48:36Z
-llm_processing_bg_20260517T055346Z_882873,completed,55,55,55,0,100.0,waskita_karya_SR2025_pdf,2026-05-17T05:53:53Z
-llm_processing_bg_20260517T055430Z_a3bfa6,failed,41,55,3,0,74.5,waskita_karya_SR2025_pdf,2026-05-17T06:48:36Z
-llm_processing_bg_20260517T055913Z_fec288,running,51,55,2,0,92.7,ABM_2025_ABMM_SR_2025_pdf,2026-05-17T06:48:36Z
-llm_processing_bg_20260517T055935Z_952657,running,46,55,4,0,83.6,ABM_2025_ABMM_SR_2025_pdf,2026-05-17T06:48:35Z
-llm_processing_bg_20260517T055949Z_be56e2,running,44,55,2,0,80.0,ABM_2025_ABMM_SR_2025_pdf,2026-05-17T06:48:36Z
-llm_processing_bg_20260517T060352Z_4430ca,completed,15,15,3,0,100.0,superbank_laporan-keberlanjutan-2025_pdf,2026-05-17T06:16:17Z
-llm_processing_bg_20260517T060429Z_fe6718,completed,15,15,1,0,100.0,superbank_laporan-keberlanjutan-2025_pdf,2026-05-17T06:43:07Z
-llm_processing_bg_20260517T060444Z_2c06d2,completed,15,15,1,0,100.0,superbank_laporan-keberlanjutan-2025_pdf,2026-05-17T06:16:18Z
+llm_bg_20260511T152142Z_b64670,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T075103Z_caf49b,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T075211Z_c61518,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T075240Z_95ec2e,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T205042Z_ed0875,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T205831Z_cb9d9f,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T205901Z_9fc259,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T205923Z_6eca10,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T210244Z_c9669e,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260519T210251Z_28b6e3,unknown,0,0,0,0,0.0,,
+llm_bg_action_20260520T130315Z_fd76bd,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260511T233421Z_b3baf2,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T045837Z_84d3c0,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T045954Z_307759,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T050110Z_4be430,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T051154Z_4b550e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T051424Z_d40541,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T051518Z_d9b811,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T051530Z_2ab81e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T051551Z_c3b12a,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T051607Z_585f1e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T051616Z_537e84,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T051624Z_b57d0f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T060436Z_bd8b10,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T060457Z_d01c31,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T060513Z_27f7cd,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T060524Z_3727fe,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074120Z_31ed7d,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074348Z_2095f5,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074353Z_82fa90,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074404Z_7f9922,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074419Z_6f8f3a,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074437Z_fa14f0,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074447Z_88c618,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074520Z_60a6d7,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074529Z_0f1032,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074542Z_f7cbae,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074558Z_d92aae,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074603Z_379460,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074611Z_1ced2d,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074617Z_4bc5f1,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074623Z_f5a620,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074632Z_967f95,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074643Z_6ff8ff,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074648Z_5233e9,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074652Z_3c3ba0,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074759Z_5c716e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074803Z_5a2324,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074819Z_afff1f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074823Z_9cc436,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074835Z_c8cd31,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T074841Z_8976cd,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T122206Z_a2c3f8,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T122309Z_ce1d9b,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T122317Z_7d4ae6,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T122324Z_216054,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T122538Z_cff19e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T123010Z_d98fc5,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T123016Z_b81190,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T123228Z_2c1da6,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260512T123232Z_b28e38,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T010812Z_a41f6b,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T010816Z_b08ced,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T010819Z_04fe26,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T010832Z_3009dd,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T010840Z_c3c4da,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T010845Z_308d49,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T010924Z_843fe7,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T010938Z_f1150f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T011204Z_140a08,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T011248Z_3222fa,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T011252Z_eb137f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T011337Z_cf3ba7,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T011343Z_4221c4,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T011415Z_6e56b1,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T011419Z_498010,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012019Z_f98e31,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012022Z_5d4c8f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012300Z_61d2c6,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012303Z_5c8f41,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012324Z_c27f18,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012327Z_d59d8f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012340Z_208187,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012344Z_ef8803,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012358Z_5cbb31,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012408Z_2f6b39,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012456Z_8b96ce,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012509Z_ecc17c,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260513T012512Z_2912fb,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T084845Z_c59a57,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T084910Z_f010e3,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T085020Z_77cb2d,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T085301Z_2e4d7e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T085308Z_40515f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T085317Z_2fae5e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T151107Z_fc064f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T151217Z_2ab723,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T151445Z_a20a96,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T151537Z_09cb22,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T151547Z_199f55,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T152552Z_ed8476,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T152601Z_0ffea3,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T152702Z_83ac63,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T152718Z_ee9179,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T152734Z_362cdb,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T152945Z_24f579,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T153003Z_02486a,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T153232Z_9206a8,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T153557Z_1b3da4,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T153631Z_eb0fb3,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T153722Z_31cc81,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T153820Z_cf2e9d,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T153839Z_63dc2d,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T153853Z_239026,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T154037Z_ce6bdf,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T154347Z_e316fc,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T154405Z_bebf8e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155243Z_46b02d,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155321Z_752063,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155407Z_8b90e5,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155454Z_27c0b5,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155507Z_409f0a,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155527Z_5dbbd3,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155845Z_0d0411,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155857Z_afe8a8,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T155919Z_a4f165,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T162906Z_ee2eb9,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T162907Z_304d69,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T162944Z_1e7f5e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T163025Z_748808,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T163107Z_6414ce,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260516T163135Z_e40e78,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T010606Z_66ca1a,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T010621Z_d9fa4e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T010648Z_371547,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T010701Z_814d46,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T010848Z_604700,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T010903Z_f4661f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T010916Z_7110ff,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T011231Z_2db68a,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T011306Z_cf4c84,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T011321Z_5424a6,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T011412Z_6700d3,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T011433Z_bebdc4,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T011448Z_ec53cc,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T055040Z_a2f70f,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T055208Z_2b16c3,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T055230Z_2f49b9,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T055346Z_882873,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T055430Z_a3bfa6,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T055913Z_fec288,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T055935Z_952657,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T055949Z_be56e2,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T060352Z_4430ca,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T060429Z_fe6718,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260517T060444Z_2c06d2,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T084929Z_42497c,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T084934Z_38ed85,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T084938Z_3cb606,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T092411Z_976254,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T092455Z_cd9727,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T095547Z_e2299e,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T095644Z_065fec,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T095708Z_ecff61,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T095741Z_d40911,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T170635Z_cb5be6,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T170916Z_ba9aed,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T171041Z_63bd5c,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T171548Z_c05815,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T171649Z_2b81b8,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T171725Z_9f6a77,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T171758Z_759293,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T171821Z_874d49,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T172716Z_5a0fb1,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T172746Z_6309f6,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T172812Z_c76ce5,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T172832Z_ca9c69,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T172931Z_add052,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T182953Z_ca35bb,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T183145Z_dc6914,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T183540Z_b887c4,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T183612Z_7ed063,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T183739Z_855dc4,unknown,0,0,0,0,0.0,,
+llm_processing_bg_20260603T183758Z_e1dbe3,unknown,0,0,0,0,0.0,,

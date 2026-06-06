@@ -54,6 +54,7 @@ packaging==26.1
 pandas==3.0.2
 pillow==12.2.0
 protobuf==7.34.1
+python-docx==1.2.0
 pyarrow==23.0.1
 pydeck==0.9.2
 Pygments==2.20.0
