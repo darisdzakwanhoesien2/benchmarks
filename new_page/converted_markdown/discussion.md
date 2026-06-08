@@ -1,6 +1,8 @@
-## Key Findings and Synthesis
+# Chapter 5 Discussion
 
-### Main Findings and Their Meaning
+## 5.1 Key Findings and Synthesis
+
+### 5.1.1 Main Findings and Their Meaning
 
 The central argument of this thesis is that ESG disclosure analysis for Indonesian sustainability reports becomes more informative when it is treated not only as a topic-detection problem, but as a tone-aware, provenance-preserving, ontology-aligned evidence extraction problem. The Chapter 4 results support this argument. The implemented workflow successfully transformed 23 sustainability-report PDFs into an auditable OCR-expanded corpus covering approximately 5,512 pages, generated 332 tone-bearing ESG records and 2,074 T2 rows, mapped 52 aspects to ontology paths, and achieved 83.7% agreement with ClimateBERT-style commitment labels at Cohen’s kappa of 0.645.
 
@@ -10,7 +12,7 @@ The strongest overall implementation configuration in the thesis-facing subset i
 
 The most important technical insight from Chapter 4 is therefore not that a specific model “won,” but that the decisive factor is the interaction between prompt design and model behavior. The thesis methodology assumed that prompt sensitivity and structured-output fragility would be major determinants of quality. The Chapter 4 results confirm that assumption. They also show that ontology coverage is comparatively robust, while tone assignment remains the most fragile part of the system. This partly confirms and partly sharpens Chapter 3. Chapter 3 anticipated modular weakness; Chapter 4 demonstrates that the main bottleneck is concentrated in tone stability rather than in OCR completion or ontology mapping alone.
 
-### Deeper Patterns and Research Question Mapping
+### 5.1.2 Deeper Patterns and Research Question Mapping
 
 The deeper pattern behind the results is that different components of the system rely on different kinds of information. The OCR layer depends on document completeness and page-level traceability. The extraction layer depends on prompt framing, model obedience, and output schema stability. The comparison layer depends on construct overlap between tone and climate-topic signals. The ontology layer depends on semantic coverage of ESG vocabulary. These components do not fail for the same reason, and that is why the modular design matters.
 
@@ -20,42 +22,25 @@ Different methods also rely on different information types. The rule-based model
 
 The following matrix summarizes how the main research questions map to evidence.
 
-*Caption: Research-question evidence summary*
-
-{4pt}
-{1.2}
-
->{}p{0.28}
-    >{}X
-    >{}p{0.24}
-
-**Research Question** & **Core Evidence** & **Verdict**
-
-RQ1: Can PDFs be transformed into structured ESG evidence? & 23/23 OCR documents completed, about 5,512 pages processed, stable result artifacts & Answered positively
-
-RQ2: Can ESG pillar, aspect, sentiment, and tone be jointly represented? & 332 extracted records, 2,074 T2 rows, tone and ESG distributions, ontology mapping & Answered positively, with annotation caveats
-
-RQ3: How does tone compare with ClimateBERT-style labels? & 83.7% agreement, kappa 0.645, overlapping but non-identical label behavior & Answered positively, with construct-validity nuance
-
-RQ4: What weaknesses and instability patterns are present? & 61 missing-tone cases, schema drift, hedged-language failures, prompt/model sensitivity & Answered positively and diagnostically
+*Table: Research-question evidence summary*
 
 All four research questions are therefore answered in the current thesis scope, although not all answers are equally mature. RQ1 and RQ5-style reproducibility evidence are strongest operationally. RQ2 and RQ3 are strong but still depend on pilot-level validation rather than full gold-standard benchmarking. RQ4 is strong as a diagnostic contribution because the repository preserves and surfaces failure cases rather than hiding them.
 
-## Research Question Resolution
+## 5.2 Research Question Resolution
 
-### Resolution of RQ1 and RQ2
+### 5.2.1 Resolution of RQ1 and RQ2
 
 RQ1 asks whether sustainability-report PDFs can be transformed into structured ESG evidence through the implemented pipeline. The answer is yes. The OCR and preprocessing workflow processed 23 tracked documents and approximately 5,512 pages, and the downstream extraction pipeline produced a stable evidence store with 332 tone-bearing records and 2,074 T2 outputs. In practical terms, this means the thesis has demonstrated the feasibility of moving from raw report files to page-linked, machine-readable ESG evidence at nontrivial corpus scale.
 
 RQ2 asks whether the system can represent ESG disclosure beyond coarse topic detection by separating pillar, aspect, sentiment, and disclosure tone. The answer is also yes, but with an important qualification. The active result set shows meaningful distributions across tone and ESG pillar, with commitment as the dominant tone and environmental disclosure as the dominant pillar. This confirms that the schema can capture multiple dimensions of disclosure behavior. However, the pilot annotation evidence and the missing-tone cases show that this representation is not yet equally reliable across all text types. The contribution of RQ2 is therefore not only that the schema exists, but that the thesis demonstrates where it is robust and where it needs stronger human calibration.
 
-### Resolution of RQ3 and RQ4
+### 5.2.2 Resolution of RQ3 and RQ4
 
 RQ3 asks how the tone-aware pipeline compares with ClimateBERT-style climate classification. The answer is that the two are strongly related but not interchangeable. The agreement table shows 83.7% percent agreement and Cohen’s kappa of 0.645 between tone commitment and climate-commitment labels across 332 records. This is significant because it validates the relevance of the tone taxonomy while also preserving its distinctiveness. In practical terms, ClimateBERT-style labels can tell us that a disclosure is climate-related, but tone labels can additionally tell us whether the disclosure reports a promise, an action, or a realized outcome.
 
 RQ4 asks what weaknesses remain in the current evaluation and extraction strategy. The answer is that the major weaknesses are concentrated in tone omission, schema drift, and ambiguity-rich text. The strongest evidence is the 61 missing-tone cases, the 19 schema-drift cases in missing predictions, the hedged-or-modal-language failures, and the sensitivity of results to prompt and model choice. The proposed evaluation strategy is sufficient to reveal these weaknesses because it combines OCR completion, parse success, stability summaries, disagreement tables, ontology coverage, and review-oriented pilot files. However, it is not yet sufficient to claim final benchmark superiority because the gold-standard annotation layer remains limited. Taken together, the four RQs show that the thesis objective has been achieved at the level of an executable, interpretable, and diagnostically rich ESG disclosure-analysis framework.
 
-## 3 Limitations
+## 5.3 3 Limitations
 
 The first major limitation is the reference-data limitation. The thesis does not yet rely on a complete expert-labeled benchmark. Instead, it uses a layered reference system built from extracted records, ClimateBERT-style comparison labels, heuristic suggestions, and pilot human annotation files. This is sufficient for exploratory evaluation and disagreement analysis, but it limits the strength of claims about absolute model performance.
 
@@ -67,9 +52,9 @@ The fourth limitation is the existence of technical failure cases that affect in
 
 The fifth limitation is that the greenwashing index remains heuristic. Company-level ratios such as 73.0 for BEST-SR_2024 or 4.778 for vktr_ar_sr_2024 are analytically interesting, but they are not yet validated against external ESG ratings, enforcement cases, or human expert judgment. For that reason, the index should currently be interpreted as a screening or discussion aid, not as a final adjudication tool.
 
-## 4 Future Work
+## 5.4 4 Future Work
 
-### Immediate Technical Extensions
+### 5.4.1 Immediate Technical Extensions
 
 The most immediate improvement is to expand and formalize the human annotation layer. The current pilot annotation files should be extended into a stratified gold-standard benchmark with inter-annotator agreement, especially for commitment versus action boundary cases, governance-heavy disclosures, and records currently marked needs_review. This directly addresses the weakest part of the evaluation design.
 
@@ -81,7 +66,7 @@ The fourth immediate improvement is one-to-one ClimateBERT benchmarking over the
 
 The fifth immediate improvement is better filtering of non-ESG and accounting-policy text. The pilot annotation files show examples where financial or accounting statements are correctly treated as none, but more explicit front-end filtering could reduce wasted extraction capacity and improve downstream quality.
 
-### Long-Term Research Roadmap
+### 5.4.2 Long-Term Research Roadmap
 
 In the longer term, this research can grow into a broader program on computational sustainability disclosure analysis for low-resource and bilingual settings. One direction is model training: the hybrid contextual architecture could be extended through supervised fine-tuning on a larger Indonesian ESG tone corpus, allowing the system to learn tone distinctions more directly rather than depending so heavily on prompt-driven extraction.
 
@@ -93,9 +78,9 @@ A fourth direction is graph and knowledge-integration research. The ontology and
 
 Taken together, these future directions form a coherent roadmap: first stabilize annotation and benchmarking, then improve model robustness and OCR quality, then extend across domains and deployment contexts, and finally integrate the workflow into broader evidence-centric research infrastructure.
 
-## 5 Broader Impact
+## 5.5 5 Broader Impact
 
-### Practical and Societal Benefits
+### 5.5.1 Practical and Societal Benefits
 
 The most direct beneficiaries of this research are ESG analysts, sustainability-report authors, regulators, investors, and research teams working on corporate accountability. For ESG analysts, the system reduces the cost of moving from hundreds of PDF pages to a smaller set of structured, reviewable disclosure records. For sustainability-report authors, the tone framework provides feedback about whether a report is dominated by commitments, operational actions, or realized outcomes. For regulators and oversight bodies, the provenance-preserving design offers a way to inspect disclosure claims without losing the link to the source page. For investors, the greenwashing-oriented ratios and tone distributions can serve as a supplementary signal when reading large volumes of narrative disclosure.
 
@@ -103,7 +88,7 @@ The broader practical value of the thesis is that it improves on existing ESG au
 
 At societal level, the work supports stronger information transparency in sustainability communication. If deployed responsibly, a system like this can help identify when corporations communicate mostly aspiration, when they report concrete action, and when they document measurable outcomes. That distinction is valuable for accountability, sustainability governance, and public understanding of corporate climate and ESG claims.
 
-### Ethical Risks, Bias, and Responsible Use
+### 5.5.2 Ethical Risks, Bias, and Responsible Use
 
 The main ethical risk is over-automation. If users treat the extracted tone labels or greenwashing ratios as definitive truth rather than as decision-support signals, the system could mischaracterize organizations or obscure nuance in legally or strategically sensitive disclosures. This risk is especially important because the current evaluation layer is still partly weakly supervised.
 
