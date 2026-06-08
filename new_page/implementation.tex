@@ -1,5 +1,28 @@
 \section{Research Design and Methodological Overview}
 
+\begin{figure}[ht]
+\begin{center}
+\fbox{\parbox{0.94\textwidth}{
+\small
+\textbf{Mermaid-derived overview flow}\par
+\medskip
+\texttt{PDF reports}
+ $\rightarrow$
+\texttt{OCR pages \& metadata}
+ $\rightarrow$
+\texttt{LLM ESG extraction}
+ $\rightarrow$
+\texttt{Structured ESG records}
+ $\rightarrow$
+\texttt{Benchmarking \& ontology alignment}
+ $\rightarrow$
+\texttt{Diagnostics, stability, thesis outputs}
+}}
+\end{center}
+\caption{High-level methodological flow adapted from the existing thesis workflow Mermaid diagrams in the repository.}
+\label{fig:implementation-research-design}
+\end{figure}
+
 This study adopts an executable mixed-method research design for automated ESG disclosure analysis over Indonesian sustainability and annual reports. The methodology is computational because the core workflow converts report PDFs into machine-readable evidence, extracts structured ESG records, classifies aspect-sentiment-tone signals, aligns outputs to an ontology, and evaluates stability across models and prompts. At the same time, it remains interpretive because the workflow preserves page-level provenance, supports manual review through Streamlit audit pages, and treats annotation, disagreement analysis, and failure inspection as part of the research method rather than only a post-processing step.
 
 The central methodological strategy is a staged pipeline implemented in this repository. The pipeline begins with PDF ingestion and OCR, continues with page-aware LLM extraction, adds validation and representation layers through ClimateBERT-style comparison and ABSA-style processing, then produces thesis-ready evidence artifacts such as CSV summaries, JSONL benchmark files, visualizations, and audit tables. In this design, the main inputs are sustainability and annual report PDFs together with associated page markdown, OCR metadata, prompts, and ontology resources. The main outputs are structured ESG records in results/esg\_records.json, stage-specific benchmark outputs such as results/t1\_results.jsonl and results/t2\_results.jsonl, ontology coverage tables, stability summaries, and dashboard exports under results/thesis\_workflow\_dashboard/ and results/revision\_analysis/.
@@ -18,17 +41,28 @@ The repository documentation defines the workflow as an end-to-end research-data
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_01_01_system_architecture}
+\fbox{\parbox{0.95\textwidth}{
+\small
+\textbf{System architecture adapted from Mermaid workflow sources}\par
+\medskip
+\begin{tabular}{c}
+\texttt{data/thesis\_pdf/} \\
+$\downarrow$ \\
+\texttt{data/thesis\_dataset/<document>/} \\
+\texttt{ocr\_result.json + pages/*.md + images/} \\
+$\downarrow$ \\
+\texttt{pages/llm\_processing.py} + \texttt{code/llm\_background\_worker.py} \\
+$\downarrow$ \\
+\texttt{results/esg\_records.json} + \texttt{background\_llm\_jobs/} \\
+$\downarrow$ \\
+\texttt{results/t1\_results.jsonl} + \texttt{results/t2\_results.jsonl} \\
+$\downarrow$ \\
+\texttt{results/revision\_analysis/} + \texttt{results/thesis\_workflow\_dashboard/}
+\end{tabular}
+}}
 \end{center}
-\caption{Connections between work packages (WP).
-  \copyrightstring\ \href{https://creativecommons.org/licenses/by/4.0/}{CC
-BY 4.0}.}
-\alt{Diagram showing interactions between work packages WP1 to WP5,
-  all inside WP6, which is itself inside WP7. WP3 (left) sends
-  outputs to WP1, WP2, and WP4. WP1 and WP2 are bidirectionally
-  linked. WP1, WP2, and WP4 send outputs to WP5 (right). A curved
-arrow shows WP3 also directly feeding into WP5.}
-\label{fig:work_packages}
+\caption{Executable system architecture of the repository, rewritten from the repository's Mermaid workflow documentation into a LaTeX-safe diagram.}
+\label{fig:implementation-system-architecture}
 \end{figure}
 
 
@@ -53,6 +87,25 @@ Fifth, the workflow is reproducibility-oriented. Background jobs store status fi
 These principles lead directly to later technical decisions: page batching instead of isolated page inference, JSONL resumability for benchmark runs, ontology alignment after extraction, and separate treatment of topic labels, tone labels, and sentiment polarity.
 
 \section{Data Sources}
+
+\begin{figure}[ht]
+\begin{center}
+\fbox{\parbox{0.94\textwidth}{
+\small
+\textbf{Data source layering}\par
+\medskip
+\texttt{Raw PDFs in data/thesis\_pdf/}
+ $\Rightarrow$
+\texttt{OCR-expanded folders in data/thesis\_dataset/}
+ $\Rightarrow$
+\texttt{Support data: idx, stock info, ESG score files}
+ $\Rightarrow$
+\texttt{Derived analysis resources in results/revision\_analysis/}
+}}
+\end{center}
+\caption{Section-level diagram for the data-source stack used by the workflow.}
+\label{fig:implementation-data-sources}
+\end{figure}
 
 The primary data source is a corpus of sustainability and annual report PDFs stored in data/thesis\_pdf/. According to the repository-wide inspection documented in code\_documentation.md, this directory contained 193 PDF files at the time of inspection. These files form the raw document-level source for the thesis workflow. They are complemented by a machine-expanded corpus in data/thesis\_dataset/, which contained 189 OCR-processed document folders at inspection time. Each processed folder typically includes ocr\_result.json, a pages/ directory with page-level markdown such as page\_0001.md, and an images/ directory with extracted image crops.
 
@@ -79,6 +132,31 @@ Several biases remain. First, the corpus is biased toward firms that produce mac
 Data quality limitations are explicitly acknowledged in the repository. OCR noise, inconsistent formatting, page duplication, table fragmentation, and missing or unstable JSON fields can all affect downstream outputs. The thesis dashboard also notes a current need for stronger OCR baselines and formal manual validation. These limitations do not invalidate the workflow, but they do affect generalizability and motivate the use of diagnostics, review queues, and pilot annotation rather than overclaiming final benchmark performance.
 
 \section{Data Collection and Preprocessing Pipeline}
+
+\begin{figure}[ht]
+\begin{center}
+\fbox{\parbox{0.95\textwidth}{
+\small
+\textbf{Preprocessing pipeline}\par
+\medskip
+\begin{tabular}{c}
+\texttt{PDF collection} \\
+$\downarrow$ \\
+\texttt{Bulk\_OCR.py} \\
+$\downarrow$ \\
+\texttt{ocr\_result.json + pages/page\_XXXX.md} \\
+$\downarrow$ \\
+\texttt{Page batching and contextual text preparation} \\
+$\downarrow$ \\
+\texttt{Structured ESG record extraction} \\
+$\downarrow$ \\
+\texttt{Alignment, synchronization, and quality audit}
+\end{tabular}
+}}
+\end{center}
+\caption{Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units.}
+\label{fig:implementation-preprocessing}
+\end{figure}
 
 The preprocessing pipeline converts raw PDFs into analyzable page units and then into extraction-ready text batches. This stage is methodologically important because every later classifier or ontology mapper depends on the quality and structure of these intermediate artifacts.
 
@@ -113,6 +191,29 @@ The repository includes both manual and automated quality checks. Automated chec
 The dashboard report indicates that OCR ingestion is operationally complete for the active subset, but it also notes the need for stronger semantic baselines such as page-count parity checks and small manually reviewed OCR samples. This is methodologically important: preprocessing quality is treated as a measured risk rather than an invisible assumption. The final preprocessed dataset is therefore not just the collection of OCR files, but the subset that passes through enough audit steps to be usable for extraction and benchmarking.
 
 \section{4 Feature Extraction and Representation Learning}
+
+\begin{figure}[ht]
+\begin{center}
+\fbox{\parbox{0.95\textwidth}{
+\small
+\textbf{Feature representation stack}\par
+\medskip
+\texttt{Disclosure text}
+ $\rightarrow$
+\texttt{Lexical rules \& aspect cues}
+ $\rightarrow$
+\texttt{TF-IDF word/char features}
+ $\rightarrow$
+\texttt{Multilingual transformer embeddings}
+ $\rightarrow$
+\texttt{Ontology vectors \& metadata}
+ $\rightarrow$
+\texttt{Hybrid fused representation}
+}}
+\end{center}
+\caption{Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined.}
+\label{fig:implementation-features}
+\end{figure}
 
 Feature extraction in this study is multi-layered. Some features are explicit and interpretable, such as lexical triggers, aspect keywords, and ontology paths. Others are learned or semi-learned, such as TF-IDF vectors, transformer embeddings, and hybrid fused representations. The repository does not rely on one single feature philosophy; instead, it combines surface features and contextual features because ESG report language contains both formulaic disclosure patterns and semantically nuanced claims.
 
@@ -164,6 +265,25 @@ This enhancement improves the representation in two ways. First, it regularizes 
 
 \section{5 Proposed Framework}
 
+\begin{figure}[ht]
+\begin{center}
+\fbox{\parbox{0.95\textwidth}{
+\small
+\textbf{Two-framework view}\par
+\medskip
+\begin{tabular}{ccccc}
+\texttt{OCR pages} & $\rightarrow$ & \texttt{Framework 1} & $\rightarrow$ & \texttt{ESG records} \\
+ &  & \texttt{LLM extraction} &  &  \\
+\\
+\texttt{ESG records} & $\rightarrow$ & \texttt{Framework 2} & $\rightarrow$ & \texttt{Benchmarks, scores, diagnostics} \\
+ &  & \texttt{validation \& comparison} &  &
+\end{tabular}
+}}
+\end{center}
+\caption{Conceptual split between record generation and validation-comparison within the proposed framework.}
+\label{fig:implementation-framework}
+\end{figure}
+
 The proposed framework is not a single standalone classifier but a composite methodological system centered on a structured ESG evidence store. The extracted features described above are used in two main ways: first, to generate structured records from report text; second, to evaluate and refine those records through comparison, benchmarking, and ontology-aware analysis.
 
 \subsection{Framework 1: LLM-Centered ESG Record Generation}
@@ -198,6 +318,27 @@ This mapping step is essential because the thesis aims to produce usable disclos
 
 \section{6 Ground Truth, Weak Labels, and Evaluation Reference}
 
+\begin{figure}[ht]
+\begin{center}
+\fbox{\parbox{0.95\textwidth}{
+\small
+\textbf{Reference construction flow}\par
+\medskip
+\texttt{results/esg\_records.json}
+ $\rightarrow$
+\texttt{benchmark text units}
+ $\rightarrow$
+\texttt{T1 JSONL + T2 JSONL}
+ $\rightarrow$
+\texttt{pilot human annotation}
+ $\rightarrow$
+\texttt{agreement, audit, and evaluation reference}
+}}
+\end{center}
+\caption{Layered evaluation-reference construction used when a full expert gold corpus is not yet available.}
+\label{fig:implementation-ground-truth}
+\end{figure}
+
 True expert-labeled ground truth does not yet exist for the full corpus. This is one of the central methodological constraints of the study, and the repository is designed around that constraint rather than ignoring it. The workflow therefore uses a layered reference strategy: weak labels from extraction outputs, benchmark outputs in JSONL form, pilot human annotation files, and comparison labels from ClimateBERT-style runs.
 
 \subsection{Why a Special Reference Construction Process Is Needed}
@@ -221,6 +362,27 @@ Generated references are validated through a combination of structural and seman
 The current reference layer nevertheless has important limitations. Weak labels remain model-dependent. Prompt sensitivity affects which records are extracted in the first place. OCR quality is operationally tracked but not yet fully benchmarked with formal CER or WER across the active subset. Ontology coverage, while strong in the current dashboard snapshot, still depends on the scope of the existing ontology resources. For these reasons, the study does not claim a finalized gold-standard benchmark. Instead, it claims an auditable and extensible reference-construction process suitable for iterative thesis research.
 
 \section{7 Chapter Summary}
+
+\begin{figure}[ht]
+\begin{center}
+\fbox{\parbox{0.94\textwidth}{
+\small
+\textbf{Chapter synthesis diagram}\par
+\medskip
+\texttt{Reports}
+ $\rightarrow$
+\texttt{OCR evidence}
+ $\rightarrow$
+\texttt{ESG records}
+ $\rightarrow$
+\texttt{Features + ontology + benchmarks}
+ $\rightarrow$
+\texttt{Auditable thesis evidence}
+}}
+\end{center}
+\caption{Summary diagram of the chapter's end-to-end methodological contribution.}
+\label{fig:implementation-summary}
+\end{figure}
 
 This chapter has described an executable methodology for Indonesian ESG disclosure analysis. The workflow begins with PDF reports, expands them into OCR-based page artifacts, transforms those artifacts into structured ESG records through comparative LLM prompting, enriches the records through rule-based, classical ML, and hybrid contextual representations, aligns them to ontology paths and ClimateBERT-style comparison labels, and preserves the full process in reproducible result stores and dashboard artifacts.
 
