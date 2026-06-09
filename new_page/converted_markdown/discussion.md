@@ -23,6 +23,10 @@ Figure 5.1 should be inserted near the end of this subsection because the discus
 \label{fig:discussion_tone_distribution}
 \end{figure}
 
+![Tone distribution across extracted records](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/tone_distribution.png)
+
+*Figure 5.1: Tone distribution in the active thesis-facing subset. Reused here because the discussion interprets commitment dominance as a substantive disclosure pattern rather than only as a Chapter 4 descriptive count.*
+
 ### 5.1.2 Deeper Patterns and Research Question Mapping
 
 The deeper pattern behind the results is that different components of the system rely on different kinds of information. The OCR layer depends on document completeness and page-level traceability. The extraction layer depends on prompt framing, model obedience, and output schema stability. The comparison layer depends on construct overlap between tone and climate-topic signals. The ontology layer depends on semantic coverage of ESG vocabulary. These components do not fail for the same reason, and that is why the modular design matters.
@@ -64,6 +68,10 @@ Figure 5.2 should be inserted here because it visualizes the construct-overlap a
 \label{fig:discussion_climatebert_by_tone}
 \end{figure}
 
+![Tone by ClimateBERT label](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/climatebert_label_by_tone.png)
+
+*Figure 5.2: Relationship between LLM tone labels and ClimateBERT-style labels. Reused here because the discussion interprets this cross-distribution as evidence of partial construct overlap rather than full label equivalence.*
+
 RQ4 asks what weaknesses remain in the current evaluation and extraction strategy. The answer is that the major weaknesses are concentrated in tone omission, schema drift, and ambiguity-rich text. The strongest evidence is the 61 missing-tone cases, the 19 schema-drift cases in missing predictions, the hedged-or-modal-language failures, and the sensitivity of results to prompt and model choice. The proposed evaluation strategy is sufficient to reveal these weaknesses because it combines OCR completion, parse success, stability summaries, disagreement tables, ontology coverage, and review-oriented pilot files. However, it is not yet sufficient to claim final benchmark superiority because the gold-standard annotation layer remains limited. Taken together, the four RQs show that the thesis objective has been achieved at the level of an executable, interpretable, and diagnostically rich ESG disclosure-analysis framework.
 
 ## 5.3 Limitations and Threats to Validity
@@ -89,6 +97,10 @@ Two figures fit well in this limitations section because they help the reader se
 \label{fig:greenwashing_gap_scatter}
 \end{figure}
 
+![Greenwashing-gap scatter plot](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/greenwashing_gap_scatter.png)
+
+*Figure 5.3: Commitment-outcome gap by company. This figure visualizes the relationship between commitment count, outcome count, and the company-level screening ratio, while the surrounding text keeps clear that the score remains heuristic.*
+
 \begin{figure}[ht]
 \begin{center}
   \includegraphics*[width=\textwidth]{results/visualizations/commitment_outcome_ratio}
@@ -97,6 +109,10 @@ Two figures fit well in this limitations section because they help the reader se
 \alt{Bar chart showing the share of extracted records across tone categories, highlighting the higher share of commitment records relative to outcome records.}
 \label{fig:commitment_outcome_ratio}
 \end{figure}
+
+![Commitment-outcome ratio chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/commitment_outcome_ratio.png)
+
+*Figure 5.4: Tone-share ratio chart for the active extracted-record layer. This figure supports the discussion claim that commitment-heavy evidence remains much more common than outcome-heavy evidence in the current subset.*
 
 ## 5.4 Future Work
 

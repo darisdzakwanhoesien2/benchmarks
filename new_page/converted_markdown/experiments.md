@@ -81,6 +81,10 @@ Figure 4.1 and Figure 4.2 should be inserted here because they make the basic re
 \label{fig:tone_distribution}
 \end{figure}
 
+![Tone distribution across extracted records](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/tone_distribution.png)
+
+*Figure 4.1: Tone distribution across the active extracted-record layer. This figure supports RQ2 by showing that commitment is the dominant disclosure tone in the current thesis-facing subset.*
+
 \begin{figure}[ht]
 \begin{center}
   \includegraphics*[width=\textwidth]{results/visualizations/esg_by_tone}
@@ -89,6 +93,10 @@ Figure 4.1 and Figure 4.2 should be inserted here because they make the basic re
 \alt{Stacked bar chart showing ESG pillar counts within each tone category, with environmental and governance records dominating the distribution.}
 \label{fig:esg_by_tone}
 \end{figure}
+
+![ESG pillar distribution by tone](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/esg_by_tone.png)
+
+*Figure 4.2: ESG pillar distribution by tone. This figure shows that environmental and governance disclosures dominate the active evidence layer and helps explain why social-pillar findings remain comparatively weak.*
 
 Prompt-level extraction behavior is shown in Table 4.1.
 
@@ -108,6 +116,10 @@ Figure 4.3 should be inserted after Table 4.1 because it complements the aggrega
 \alt{Heatmap showing how extracted ESG aspects are distributed across commitment, action, outcome, and other tone categories.}
 \label{fig:aspect_by_tone_heatmap}
 \end{figure}
+
+![Aspect-by-tone heatmap](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/aspect_by_tone_heatmap.png)
+
+*Figure 4.3: Aspect-by-tone heatmap for the active extracted-record layer. This figure supports RQ2 by showing which aspects are concentrated in commitment, action, or outcome language rather than only reporting overall counts.*
 
 The ontology layer strengthens the schema interpretation further. The current ontology table shows 52 aspects tracked and 52 mapped to ontology paths. This does not prove perfect semantic correctness, but it shows that the record-level schema is not only syntactically structured; it is also semantically linkable to a broader ESG concept layer. In practical terms, the schema supports page-linked extraction, multi-field labeling, and ontology-aligned interpretation in a single evidence structure.
 
@@ -131,6 +143,10 @@ Figure 4.4 should be inserted with Table 4.2 because the crosstab structure is e
 \alt{Stacked chart comparing tone categories against ClimateBERT-style labels to show areas of overlap and divergence.}
 \label{fig:climatebert_label_by_tone}
 \end{figure}
+
+![Tone by ClimateBERT label](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/climatebert_label_by_tone.png)
+
+*Figure 4.4: Cross-distribution of LLM tone labels and ClimateBERT-style labels. This figure supports RQ3 by showing where commitment aligns strongly and where action or outcome labels diverge from climate-topic categorization.*
 
 The saved tone-by-ClimateBERT crosstab provides a more detailed view:
 
@@ -161,6 +177,10 @@ Two additional graphs support the failure-analysis argument directly by separati
 \label{fig:failure_mode_pareto}
 \end{figure}
 
+![Failure-mode Pareto chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/failure_mode_pareto.png)
+
+*Figure 4.5: Failure-mode Pareto chart. This figure shows which small number of failure categories account for most observed extraction weakness in the current thesis-facing subset.*
+
 \begin{figure}[ht]
 \begin{center}
   \includegraphics*[width=\textwidth]{results/visualizations/failure_mode_pie}
@@ -169,6 +189,10 @@ Two additional graphs support the failure-analysis argument directly by separati
 \alt{Pie chart showing the proportional composition of recorded failure categories such as missing tone, schema drift, and language ambiguity.}
 \label{fig:failure_mode_pie}
 \end{figure}
+
+![Failure-mode composition pie chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/failure_mode_pie.png)
+
+*Figure 4.6: Failure-mode composition. This figure shows the relative share of missing tone, schema drift, language ambiguity, layout-related issues, and other recorded failure categories.*
 
 Ontology coverage provides a positive counterweight. The current ontology table shows 52 aspects tracked and 52 mapped to ontology paths. The highest-frequency mapped aspects are climate-detection with 79 records, governance with 66, missing with 60, and none with 23. Below these, domain-specific concepts such as roadmap karbon, pelatihan antikorupsi, komitmen net zero, and implementasi eco-mechanized mining are mapped to structured paths anchored to GRI-, governance-, or climate-oriented categories. This indicates that the ontology layer is currently stronger in coverage than the tone layer is in stability.
 
@@ -203,6 +227,10 @@ Figure 4.7 complements Table 4.4 because it makes the trade-off between formal s
 \label{fig:model_tradeoff_scatter}
 \end{figure}
 
+![Model trade-off scatter plot](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/model_tradeoff_scatter.png)
+
+*Figure 4.7: Model trade-off scatter plot with parse success on the x-axis and average extracted records on the y-axis. This figure helps separate models that are formally stable from those that are practically useful.*
+
 Prompt-level stability shows a similar pattern. Chain-of-thought prompts, especially in English, produce the highest average records per run, while data.md produces formally parseable but functionally unusable tone outputs. Few-shot prompts appear inconsistent: the English few-shot prompt yields no average extracted records in the current summary, while the Indonesian few-shot prompt yields very low completion. This suggests that examples alone do not guarantee better extraction. In this repository, explicit tone framing and schema-constrained instruction style appear more important.
 
 Figure 4.8 should be read together with the prompt-level results table because prompt-family trends are central to the argument that prompt design matters more than nominal prompting style labels.
@@ -215,6 +243,10 @@ Figure 4.8 should be read together with the prompt-level results table because p
 \alt{Three-panel comparison chart showing prompt templates across average extracted records, parse success, and field completion.}
 \label{fig:prompt_strategy_comparison}
 \end{figure}
+
+![Prompt-strategy comparison chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/prompt_strategy_comparison.png)
+
+*Figure 4.8: Prompt-strategy comparison across average records, parse success, and field completion. The figure shows that chain-of-thought and tone-specific framing matter more than generic prompt validity alone.*
 
 These results reveal a practical trade-off. Some settings maximize extraction volume, while others maximize structural cleanliness. The best-performing configuration for this thesis is therefore not the one with the highest nominal complexity, but the one that balances parse success, tone completion, and manageable drift. This is exactly the type of engineering validity condition the chapter needs to report.
 
@@ -237,6 +269,10 @@ Two additional figures fit especially well in this subsection because they exten
 \label{fig:information_density_by_tone}
 \end{figure}
 
+![Information-density boxplot by tone](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/information_density_by_tone.png)
+
+*Figure 4.9: Information-density by tone. This figure shows whether commitment, action, outcome, and none records differ systematically in word count and therefore in extraction complexity.*
+
 \begin{figure}[ht]
 \begin{center}
   \includegraphics*[width=\textwidth]{results/visualizations/soft_language_ratio_by_tone}
@@ -245,6 +281,10 @@ Two additional figures fit especially well in this subsection because they exten
 \alt{Boxplot comparing the ratio of soft or future-oriented verbs across commitment, action, and outcome tone categories.}
 \label{fig:soft_language_ratio_by_tone}
 \end{figure}
+
+![Soft-language ratio by tone](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/soft_language_ratio_by_tone.png)
+
+*Figure 4.10: Soft-language ratio by tone. This figure shows whether commitment records contain a higher proportion of soft or future-oriented verbs than action and outcome records, thereby giving a linguistic explanation for some tone-boundary failures.*
 
 Ontology-path evidence is also interpretable. Environmental and climate-oriented examples include roadmap karbon, komitmen net zero, kerja sama energi bersih, and teknologi ramah lingkungan. Governance examples include pelatihan antikorupsi, kebijakan konflik kepentingan, and sertifikasi smap. These mappings show that the system can convert raw disclosure terms into structured thematic paths that are suitable for later chapter interpretation.
 
