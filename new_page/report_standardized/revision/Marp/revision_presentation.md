@@ -58,10 +58,16 @@ University of Oulu
 
 - The pipeline moves from raw PDF reports to OCR-expanded pages, structured ESG records, benchmark layers, and thesis-ready analytics.
 - The design is mixed-method and executable: automated extraction is paired with provenance and review surfaces.
+- Each stage produces reusable artifacts rather than one final score, which makes later auditing and reruns possible.
+- The methodology is designed to preserve links between source documents, extracted statements, and evaluation outputs.
 ---
 ## System Architecture
 
 ![bg right:42% contain](../../Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_01_01_system_architecture.png)
+
+- The architecture separates OCR storage, extraction logic, benchmark generation, and revision analytics into explicit layers.
+- This separation reduces hidden dependencies and allows each stage to be inspected independently.
+- The Streamlit interface is not only a demo surface; it is part of the actual research workflow.
 ---
 ## Data Sources and Corpus Shape
 
@@ -78,12 +84,16 @@ University of Oulu
 
 - Page-level OCR artifacts are the core provenance unit.
 - Later extraction and validation stages preserve links back to document folders and page markdown.
+- This design makes it possible to trace one ESG record back to the exact OCR-expanded page context that produced it.
+- Provenance is treated as a methodological requirement, not just an engineering convenience.
 ---
 ## Feature and Representation Strategy
 
 ![bg right:42% contain](../../Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_04.png)
 
 - The workflow combines rule-based lexical cues, TF-IDF baselines, contextual hybrid embeddings, and ontology-aware representations.
+- Rule-based and sparse features provide interpretability, while contextual features capture bilingual and semantically soft disclosure language.
+- Ontology-aware features help align free-text disclosures to stable ESG concepts for later comparison and reporting.
 ---
 ## Framework Split
 
@@ -100,10 +110,14 @@ University of Oulu
 - No full expert gold corpus exists yet.
 - The thesis uses a layered reference design: extracted ESG records, ClimateBERT-style comparison labels, T1 and T2 JSONL artifacts, and pilot human annotations.
 - This supports exploratory evaluation while keeping weak points visible.
+- The main idea is to avoid pretending that weak labels are gold truth while still building a usable evaluation scaffold.
 ---
 ## Methodology Summary
 
 ![bg right:42% contain](../../Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_07_summary.png)
+
+- The chapter contribution is an end-to-end methodological system rather than a single classifier result.
+- The summary figure highlights how OCR, extraction, comparison, ontology mapping, and review are integrated into one executable pipeline.
 ---
 <!-- _header: Experiments -->
 
@@ -132,19 +146,32 @@ University of Oulu
 ## Tone Distribution
 
 ![bg right:42% contain](../../../results/visualizations/tone_distribution.png)
+
+- Commitment is the dominant tone in the current thesis-facing subset.
+- This matters because the extracted evidence layer is more future-oriented and promise-heavy than outcome-heavy.
+- The result supports the claim that disclosure tone adds information beyond generic positive or negative sentiment.
 ---
 ## ESG Distribution by Tone
 
 ![bg right:42% contain](../../../results/visualizations/esg_by_tone.png)
+
+- Environmental and governance records dominate the active evidence layer.
+- Social disclosure remains sparse, which limits how strongly the thesis can generalize across all ESG pillars.
+- The figure also shows that commitment-heavy reporting is concentrated in specific pillar patterns rather than evenly distributed.
 ---
 ## Aspect-by-Tone Structure
 
 ![bg right:42% contain](../../../results/visualizations/aspect_by_tone_heatmap.png)
+
+- The heatmap shows that aspects do not distribute uniformly across tones.
+- Some aspects cluster around commitment language, while others appear more often in action or outcome statements.
+- This supports the usefulness of keeping aspect and tone as separate but linked fields in the schema.
 ---
 ## Prompt-Level Extraction Results
 
 - Parse validity is insufficient as a sole metric.
 - Tone-aware chain-of-thought prompting is the strongest thesis-facing family.
+- The key contrast is between formally valid JSON generation and semantically usable extraction.
 
 | Prompt | Parse success | Avg. records | Missing tone |
 | --- | --- | --- | --- |
@@ -166,6 +193,10 @@ University of Oulu
 ## Tone and ClimateBERT Cross-Distribution
 
 ![bg right:42% contain](../../../results/visualizations/climatebert_label_by_tone.png)
+
+- Commitment shows the strongest overlap with ClimateBERT-style commitment labeling.
+- Action and outcome diverge more, which indicates that the two label systems are related but not interchangeable.
+- This is the main evidence for partial construct overlap rather than exact semantic equivalence.
 ---
 ## RQ3: Failure-Mode Diagnostics
 
@@ -178,14 +209,22 @@ University of Oulu
 | Table or numeric layout | 3 | Tabular formatting disrupts semantic extraction |
 | Passive voice | 3 | Outcome versus action distinction becomes unstable |
 | Bilingual or code-switched | 1 | Mixed language complicates interpretation |
+
+- The main lesson is that most failures are concentrated in a small number of recurring categories rather than randomly distributed noise.
 ---
 ## Failure-Mode Pareto
 
 ![bg right:42% contain](../../../results/visualizations/failure_mode_pareto.png)
+
+- Missing tone and schema drift account for most of the observed extraction weakness.
+- This means the major bottleneck is not OCR completion alone, but stable tone assignment under structured output constraints.
 ---
 ## Failure-Mode Composition
 
 ![bg right:42% contain](../../../results/visualizations/failure_mode_pie.png)
+
+- The composition view makes the dominance of tone-related failures easy to compare visually.
+- Lower-frequency categories still matter, but they are secondary relative to the core omission and drift problems.
 ---
 ## RQ4: Model Stability Trade-Off
 
@@ -202,10 +241,16 @@ The decisive factor is schema-following behavior, not nominal model scale.
 ## Model Trade-Off Scatter
 
 ![bg right:42% contain](../../../results/visualizations/model_tradeoff_scatter.png)
+
+- Models in the upper-right region are both stable and productive, which is the practical target for this workflow.
+- The scatter plot makes clear that perfect parse success alone does not guarantee usable tone-aware extraction.
 ---
 ## Prompt Strategy Comparison
 
 ![bg right:42% contain](../../../results/visualizations/prompt_strategy_comparison.png)
+
+- Prompt family affects extraction quality more strongly than generic prompting labels might suggest.
+- Tone-specific chain-of-thought prompting gives the strongest balance between structural validity and usable output.
 ---
 ## Explainability-Oriented Graphs
 
@@ -215,6 +260,7 @@ The decisive factor is schema-following behavior, not nominal model scale.
 </div>
 
 - These charts help explain why commitment-heavy and soft-language segments create boundary failures.
+- Longer records and higher soft-language ratios make it harder to separate promise-like language from concrete action or outcome.
 ---
 <!-- _header: Discussion -->
 
@@ -237,10 +283,17 @@ The decisive factor is schema-following behavior, not nominal model scale.
 ## Commitment-Outcome Screening Gap
 
 ![bg right:42% contain](../../../results/visualizations/greenwashing_gap_scatter.png)
+
+- This figure is a heuristic screening view, not a final accusation or ranking device.
+- It highlights companies where commitment volume substantially exceeds outcome volume in the current extracted subset.
+- The main value is diagnostic: it suggests where closer human review may be warranted.
 ---
 ## Tone Share Ratio
 
 ![bg right:42% contain](../../../results/visualizations/commitment_outcome_ratio.png)
+
+- The ratio view compresses the same commitment-versus-outcome imbalance into an easier comparison format.
+- It reinforces the broader finding that promise-heavy disclosure is more common than outcome-heavy disclosure in the current data.
 ---
 ## Limitations
 
@@ -271,6 +324,7 @@ The decisive factor is schema-following behavior, not nominal model scale.
 ![bg right:42% contain](../../Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_01_overview.png)
 
 - The appendix adds procedural detail on page-range processing, provider choice, and downstream comparison artifacts.
+- This matters for reproducibility because many apparent result differences come from configuration choices, not only model choice.
 ---
 ## Repository JSON Artifact Families
 
