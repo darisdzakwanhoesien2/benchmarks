@@ -21,7 +21,6 @@
 % \begin{table}[htbp]
 % \centering
 % \caption{Research-question evidence summary}
-% \label{tab:research-question-evidence-summary}
 
 % \footnotesize
 % \setlength{\tabcolsep}{4pt}
@@ -93,8 +92,8 @@ All four research questions are therefore answered in the current thesis scope, 
 \begin{tabularx}{\linewidth}{|p{2cm}|X|p{2cm}|p{2cm}|X|}
 \hline
 \textbf{Research question} & \textbf{Main Chapter 4 evidence} & \textbf{Figure or Table} & \textbf{Current confidence level} & \textbf{Remaining limitation} \\ \hline
-\texttt{RQ1. ESG ABSA Schema} & 23 processed OCR documents, about 5,512 pages, 332 tone-bearing records, 2,074 T2 rows, and 52 mapped ontology aspects & Figure~\ref{fig:tone_distribution}, Figure~\ref{fig:esg_by_tone}, Figure~\ref{fig:aspect_by_tone_heatmap} & Moderate to high & Evidence is operationally strong, but class balance remains uneven and social coverage is weak \\ \hline
-\texttt{RQ2. Tone vs. Climate-Specific Models} & 83.7\% agreement and Cohen's kappa of 0.645 between tone commitment and climate-commitment proxy labels across 332 records & Table~\ref{tab:tone-commitment-versus-climatebert-style-commitment-comparison} and Figure~\ref{fig:climatebert_label_by_tone} & Moderate & ClimateBERT comparison is still proxy-based rather than a complete one-to-one external benchmark \\ \hline
+\texttt{RQ1. ESG ABSA Schema} & 23 processed OCR documents, about 5,512 pages, 332 tone-bearing records, 2,074 T2 rows, and 52 mapped ontology aspects & Figure~\ref{fig:discussion_tone_distribution}, Figure~\ref{fig:esg_by_tone}, Figure~\ref{fig:aspect_by_tone_heatmap} & Moderate to high & Evidence is operationally strong, but class balance remains uneven and social coverage is weak \\ \hline
+\texttt{RQ2. Tone vs. Climate-Specific Models} & 83.7\% agreement and Cohen's kappa of 0.645 between tone commitment and climate-commitment proxy labels across 332 records & Table~\ref{tab:tone-commitment-versus-climatebert-style-commitment-comparison} and Figure~\ref{fig:discussion_climatebert_by_tone} & Moderate & ClimateBERT comparison is still proxy-based rather than a complete one-to-one external benchmark \\ \hline
 \texttt{RQ3. Pipeline Diagnostics} & 61 missing-tone failures, 20 schema-drift cases, and a concentrated failure distribution dominated by a small set of recurring weaknesses & Table~\ref{tab:failure-mode-count-table}, Figure~\ref{fig:failure_mode_pareto}, Figure~\ref{fig:failure_mode_pie} & High for diagnostic claims & Failure analysis is strong, but some categories still need more manually curated case examples \\ \hline
 \texttt{RQ4. Stability and Reproducibility} & 1,220 stored result artifacts, 184 background jobs, prompt-level summaries, and clear model-level trade-offs between parse stability and usable extraction & Table~\ref{tab:prompt-level-extraction-performance-across-the-thesis-facing-subset}, Table~\ref{tab:model-level-extraction-performance}, Figure~\ref{fig:model_tradeoff_scatter}, Figure~\ref{fig:prompt_strategy_comparison} & Moderate to high & Workflow reproducibility is strong, but semantic outputs remain sensitive to prompt/model/provider changes \\ \hline
 \end{tabularx}
