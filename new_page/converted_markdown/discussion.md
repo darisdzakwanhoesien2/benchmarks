@@ -14,9 +14,14 @@ The most important technical insight from Chapter 4 is therefore not that a spec
 
 Figure 5.1 should be inserted near the end of this subsection because the discussion repeatedly returns to the commitment-heavy profile of the evidence layer.
 
-![Tone distribution across extracted records](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/tone_distribution.png)
-
-*Figure 5.1: Tone distribution in the active thesis-facing subset. Reused here because the discussion interprets commitment dominance as a substantive disclosure pattern rather than only as a Chapter 4 descriptive count.*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{results/visualizations/tone_distribution}
+\end{center}
+\caption{Tone distribution in the active thesis-facing subset. Reused here because the discussion interprets commitment dominance as a substantive disclosure pattern rather than only as a Chapter 4 descriptive count.}
+\alt{Bar chart showing the tone distribution of extracted records in the thesis-facing subset, with commitment as the largest category.}
+\label{fig:discussion_tone_distribution}
+\end{figure}
 
 ### 5.1.2 Deeper Patterns and Research Question Mapping
 
@@ -50,9 +55,14 @@ RQ3 asks how the tone-aware pipeline compares with ClimateBERT-style climate cla
 
 Figure 5.2 should be inserted here because it visualizes the construct-overlap argument more directly than prose alone.
 
-![Tone by ClimateBERT label](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/climatebert_label_by_tone.png)
-
-*Figure 5.2: Relationship between LLM tone labels and ClimateBERT-style labels. Reused here because the discussion interprets this cross-distribution as evidence of partial construct overlap rather than full label equivalence.*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{results/visualizations/climatebert_label_by_tone}
+\end{center}
+\caption{Relationship between LLM tone labels and ClimateBERT-style labels. Reused here because the discussion interprets this cross-distribution as evidence of partial construct overlap rather than full label equivalence.}
+\alt{Chart showing the relationship between tone categories and ClimateBERT-style labels to illustrate partial construct overlap.}
+\label{fig:discussion_climatebert_by_tone}
+\end{figure}
 
 RQ4 asks what weaknesses remain in the current evaluation and extraction strategy. The answer is that the major weaknesses are concentrated in tone omission, schema drift, and ambiguity-rich text. The strongest evidence is the 61 missing-tone cases, the 19 schema-drift cases in missing predictions, the hedged-or-modal-language failures, and the sensitivity of results to prompt and model choice. The proposed evaluation strategy is sufficient to reveal these weaknesses because it combines OCR completion, parse success, stability summaries, disagreement tables, ontology coverage, and review-oriented pilot files. However, it is not yet sufficient to claim final benchmark superiority because the gold-standard annotation layer remains limited. Taken together, the four RQs show that the thesis objective has been achieved at the level of an executable, interpretable, and diagnostically rich ESG disclosure-analysis framework.
 
@@ -70,13 +80,23 @@ The fifth limitation is that the greenwashing index remains heuristic. Company-l
 
 Two figures fit well in this limitations section because they help the reader see where the evidence is uneven rather than only being told so.
 
-![Greenwashing-gap scatter plot](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/greenwashing_gap_scatter.png)
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{results/visualizations/greenwashing_gap_scatter}
+\end{center}
+\caption{Commitment-outcome gap by company. This figure visualizes the relationship between commitment count, outcome count, and the company-level screening ratio, while the surrounding text keeps clear that the score remains heuristic.}
+\alt{Scatter plot showing company-level commitment counts versus outcome counts, with point size or color indicating the screening ratio.}
+\label{fig:greenwashing_gap_scatter}
+\end{figure}
 
-*Figure 5.3: Commitment-outcome gap by company. This figure visualizes the relationship between commitment count, outcome count, and the company-level screening ratio, while the surrounding text keeps clear that the score remains heuristic.*
-
-![Commitment-outcome ratio chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/commitment_outcome_ratio.png)
-
-*Figure 5.4: Tone-share ratio chart for the active extracted-record layer. This figure supports the discussion claim that commitment-heavy evidence remains much more common than outcome-heavy evidence in the current subset.*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{results/visualizations/commitment_outcome_ratio}
+\end{center}
+\caption{Tone-share ratio chart for the active extracted-record layer. This figure supports the discussion claim that commitment-heavy evidence remains much more common than outcome-heavy evidence in the current subset.}
+\alt{Bar chart showing the share of extracted records across tone categories, highlighting the higher share of commitment records relative to outcome records.}
+\label{fig:commitment_outcome_ratio}
+\end{figure}
 
 ## 5.4 Future Work
 

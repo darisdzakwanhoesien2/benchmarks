@@ -2,9 +2,14 @@
 
 ## 3.1 Research Design and Methodological Overview
 
-![High-level methodological flow adapted from the existing thesis workflow Mermaid diagrams in the repository](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_01_overview.png)
-
-*Figure: High-level methodological flow adapted from the existing thesis workflow Mermaid diagrams in the repository*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_01_overview}
+\end{center}
+\caption{High-level methodological flow adapted from the existing thesis workflow Mermaid diagrams in the repository.}
+\alt{High-level workflow diagram showing the thesis methodology from source reports through OCR, extraction, validation, and thesis-ready evidence outputs.}
+\label{fig:methodological_overview}
+\end{figure}
 
 This study adopts an executable mixed-method research design for automated ESG disclosure analysis over Indonesian sustainability and annual reports. The methodology is computational because the core workflow converts report PDFs into machine-readable evidence, extracts structured ESG records, classifies aspect-sentiment-tone signals, aligns outputs to an ontology, and evaluates stability across models and prompts. At the same time, it remains interpretive because the workflow preserves page-level provenance, supports manual review through Streamlit audit pages, and treats annotation, disagreement analysis, and failure inspection as part of the research method rather than only a post-processing step.
 
@@ -22,9 +27,15 @@ At the level of research questions, the methodology addresses four linked goals:
 
 The repository documentation defines the workflow as an end-to-end research-data pipeline. Its operational architecture can be summarized as follows.
 
-![Executable system architecture of the repository, rewritten from the repository's Mermaid workflow documentation into a LaTeX-safe diagram. CC BY 4.0](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_01_01_system_architecture.png)
-
-*Figure: Executable system architecture of the repository, rewritten from the repository's Mermaid workflow documentation into a LaTeX-safe diagram. CC BY 4.0*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_01_01_system_architecture}
+\end{center}
+\caption{Executable system architecture of the repository, rewritten from the repository's Mermaid workflow documentation into a LaTeX-safe diagram.
+  \copyrightstring\ \href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\alt{System architecture diagram showing the OCR layer, extraction layer, benchmarking layer, and analysis layer connected through repository artifacts and Streamlit pages.}
+\label{fig:system_architecture}
+\end{figure}
 
 The OCR layer creates page-level markdown and OCR JSON under data/thesis_dataset/<document>/. The extraction layer uses prompts stored in prompt/ and writes structured outputs and raw responses into results/esg_records.json and results/background_llm_jobs/. The ground-truth and benchmark layer writes resumable JSONL outputs to results/t1_results.jsonl and results/t2_results.jsonl. The analysis layer then produces ontology coverage, failure modes, prompt stability, model stability, and greenwashing-oriented summaries in results/revision_analysis/ and results/thesis_workflow_dashboard/.
 
@@ -48,9 +59,14 @@ These principles lead directly to later technical decisions: page batching inste
 
 ## 3.2 Data Sources
 
-![Section-level diagram for the data-source stack used by the workflow](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_02_data_sources.png)
-
-*Figure: Section-level diagram for the data-source stack used by the workflow*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_02_data_sources}
+\end{center}
+\caption{Section-level diagram for the data-source stack used by the workflow.}
+\alt{Data-source diagram showing raw PDF reports, OCR-expanded folders, metadata tables, ontology resources, and downstream analytical artifacts used by the workflow.}
+\label{fig:data_source_stack}
+\end{figure}
 
 The primary data source is a corpus of sustainability and annual report PDFs stored in data/thesis_pdf/. According to the repository-wide inspection documented in code_documentation.md, this directory contained 193 PDF files at the time of inspection. These files form the raw document-level source for the thesis workflow. They are complemented by a machine-expanded corpus in data/thesis_dataset/, which contained 189 OCR-processed document folders at inspection time. Each processed folder typically includes ocr_result.json, a pages/ directory with page-level markdown such as page_0001.md, and an images/ directory with extracted image crops.
 
@@ -86,9 +102,14 @@ Data quality limitations are explicitly acknowledged in the repository. OCR nois
 
 ## 3.3 Data Collection and Preprocessing Pipeline
 
-![Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_02_02.png)
-
-*Figure: Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_02_02}
+\end{center}
+\caption{Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units.}
+\alt{Preprocessing sequence diagram showing PDF ingestion, OCR expansion, page-level markdown generation, storage, and conversion into extraction-ready text units.}
+\label{fig:preprocessing_sequence}
+\end{figure}
 
 The preprocessing pipeline converts raw PDFs into analyzable page units and then into extraction-ready text batches. This stage is methodologically important because every later classifier or ontology mapper depends on the quality and structure of these intermediate artifacts.
 
@@ -124,9 +145,14 @@ The dashboard report indicates that OCR ingestion is operationally complete for 
 
 ## 3.4 Feature Extraction and Representation Learning
 
-![Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_04.png)
-
-*Figure: Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_04}
+\end{center}
+\caption{Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined.}
+\alt{Feature-extraction diagram showing lexical rules, TF-IDF features, contextual embeddings, and ontology-aware representations feeding into the ESG analysis workflow.}
+\label{fig:feature_strategy}
+\end{figure}
 
 Feature extraction in this study is multi-layered. Some features are explicit and interpretable, such as lexical triggers, aspect keywords, and ontology paths. Others are learned or semi-learned, such as TF-IDF vectors, transformer embeddings, and hybrid fused representations. The repository does not rely on one single feature philosophy; instead, it combines surface features and contextual features because ESG report language contains both formulaic disclosure patterns and semantically nuanced claims.
 
@@ -185,9 +211,14 @@ This enhancement improves the representation in two ways. First, it regularizes 
 
 ## 3.5 Proposed Framework
 
-![Conceptual split between record generation and validation-comparison within the proposed framework](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_05.png)
-
-*Figure: Conceptual split between record generation and validation-comparison within the proposed framework*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_05}
+\end{center}
+\caption{Conceptual split between record generation and validation-comparison within the proposed framework.}
+\alt{Framework diagram separating LLM-centered ESG record generation from the downstream validation, benchmarking, and comparison layers.}
+\label{fig:framework_split}
+\end{figure}
 
 The proposed framework is not a single standalone classifier but a composite methodological system centered on a structured ESG evidence store. The extracted features described above are used in two main ways: first, to generate structured records from report text; second, to evaluate and refine those records through comparison, benchmarking, and ontology-aware analysis.
 
@@ -226,9 +257,14 @@ This mapping step is essential because the thesis aims to produce usable disclos
 
 ## 3.6 Ground Truth, Weak Labels, and Evaluation Reference
 
-![Layered evaluation-reference construction used when a full expert gold corpus is not yet available](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_06.png)
-
-*Figure: Layered evaluation-reference construction used when a full expert gold corpus is not yet available*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_06}
+\end{center}
+\caption{Layered evaluation-reference construction used when a full expert gold corpus is not yet available.}
+\alt{Reference-construction diagram showing extracted records, weak labels, pilot human annotations, and ClimateBERT-style comparison signals combined into a layered evaluation framework.}
+\label{fig:reference_construction}
+\end{figure}
 
 True expert-labeled reference data does not yet exist for the full corpus. This is one of the central methodological constraints of the study, and the repository is designed around that constraint rather than ignoring it. The workflow therefore uses a layered reference strategy: weak labels from extraction outputs, benchmark outputs in JSONL form, pilot human annotation files, and comparison labels from ClimateBERT-style runs.
 
@@ -264,9 +300,14 @@ Reproducibility is strong at the level of stored artifacts, prompts, logs, and r
 
 ## 3.8 Chapter Summary
 
-![Summary diagram of the chapter's end-to-end methodological contribution](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_07_summary.png)
-
-*Figure: Summary diagram of the chapter's end-to-end methodological contribution*
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_07_summary}
+\end{center}
+\caption{Summary diagram of the chapter's end-to-end methodological contribution.}
+\alt{Summary diagram showing the end-to-end methodological contribution from report ingestion through structured ESG evidence generation, validation, and thesis reporting.}
+\label{fig:methodology_summary}
+\end{figure}
 
 This chapter has described an executable methodology for Indonesian ESG disclosure analysis. The workflow begins with PDF reports, expands them into OCR-based page artifacts, transforms those artifacts into structured ESG records through comparative LLM prompting, enriches the records through rule-based, classical ML, and hybrid contextual representations, aligns them to ontology paths and ClimateBERT-style comparison labels, and preserves the full process in reproducible result stores and dashboard artifacts.
 
