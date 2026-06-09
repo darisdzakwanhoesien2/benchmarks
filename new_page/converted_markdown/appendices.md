@@ -113,6 +113,18 @@ sequenceDiagram
     L->>T: Save predictions.json or t1_results.jsonl
 ```
 
+Sequence explanation:
+
+1. The user starts in **Bulk OCR**, either by uploading files through the browser or by selecting server-side PDFs already copied into the working directory.
+2. The OCR page sends the selected files to the OCR service and stores the returned artifacts as document folders containing `ocr_result.json`, page markdown files, and image crops.
+3. The user then moves to **LLM Processing**, which loads one OCR-expanded document at a time.
+4. Inside **LLM Processing**, the user selects a page range rather than always processing the full report. This is important because the extraction workflow is designed around page batches.
+5. The user chooses one provider family for the extraction stage: **OpenRouter**, **LM Studio / OpenAI-compatible**, or **Ollama**.
+6. The selected page batch is sent to the chosen LLM provider, and the returned output is parsed into the ESG record schema.
+7. Structured records are appended into `results/esg_records.json`, which becomes the main evidence layer for later analysis.
+8. The extracted text layer is then passed into the **ClimateBERT** T1 stage, which acts as a downstream comparison or benchmark layer rather than as the first ingestion step.
+9. ClimateBERT-style predictions are saved into `results/predictions.json` or resumable T1 artifacts such as `results/t1_results.jsonl`.
+
 ### 7.4.4 LaTeX Figure Version
 
 The same operational workflow can also be represented in a LaTeX-ready figure block for the final thesis.
@@ -187,7 +199,32 @@ Purpose:
 - preserves prompt, model, page target, records, and failure state
 - acts as the main structured ESG evidence store
 
-Example:
+Success example:
+
+```json
+{
+  "timestamp": "2026-06-03T18:38:40Z",
+  "model": "nvidia/nemotron-3-nano-30b-a3b:free",
+  "target": "Sustainability_Report_PT_Sentul_City_Tbk_2025_pdf/batch_7",
+  "target_pages": "page_0012.md, page_0013.md",
+  "prompt": "tone_chain_of_thought_indonesian.md",
+  "ok": true,
+  "records": [
+    {
+      "text": "Elevating Lives, Building Sustainable Growth",
+      "aspect": "strategic vision",
+      "labels": ["climate-d", "climate-commitment"],
+      "esg": "E",
+      "tone": "commitment",
+      "sentiment": "positive",
+      "sentiment_score": 1,
+      "reasoning": "The phrase expresses a forward-looking sustainability ambition and explicitly states a commitment to sustainable growth."
+    }
+  ]
+}
+```
+
+Error example:
 
 ```json
 {
@@ -231,162 +268,68 @@ Example:
 }
 ```
 
-### 7.5.4 Workflow Decision JSON
-
-Path example:
-
-- `results/revision_analysis/chapter_4_6_resolution_decisions.json`
-
-Purpose:
-
-- stores explicit analytic-policy decisions used in thesis reporting
-- keeps chapter-resolution logic auditable
-
-Example:
-
-```json
-{
-  "missing_tone_policy": "exclude_from_agreement",
-  "data_md_policy": "retain_as_failed_experiment",
-  "greenwashing_policy": "median_primary_log1p_sensitivity",
-  "ontology_top_n": 15,
-  "updated_at": "2026-05-23T04:59:10Z"
-}
-```
-
-### 7.5.5 Dashboard Metrics JSON
-
-Path example:
-
-- `results/thesis_workflow_dashboard/dashboard_metrics.json`
-
-Purpose:
-
-- stores compact dashboard metrics
-- supports reproducibility summaries in the thesis and Streamlit pages
-
-Example:
-
-```json
-{
-  "workflow_rqs": 6,
-  "tone_records": 332,
-  "t2_rows": 2074,
-  "pilot_labels": 70,
-  "ocr_docs": 23,
-  "artifacts": 1220,
-  "llm_jobs": 184,
-  "ground_truth_jobs": 0,
-  "climatebert_percent_agreement": 0.8373493975903614,
-  "climatebert_cohen_kappa": 0.6451446894422231
-}
-```
-
-### 7.5.6 Dashboard Image Manifest JSON
-
-Path example:
-
-- `results/thesis_workflow_dashboard/dashboard_image_manifest.json`
-
-Purpose:
-
-- maps generated figure names to saved dashboard copies
-- supports figure reuse and artifact inventory
-
-Example:
-
-```json
-{
-  "name": "tone_distribution.png",
-  "source": "results/visualizations/tone_distribution.png",
-  "saved_to": "results/thesis_workflow_dashboard/tone_distribution.png"
-}
-```
-
-### 7.5.7 Model Cache JSON
-
-Path example:
-
-- `pages/models_cache.json`
-
-Purpose:
-
-- stores cached model identifiers for provider-backed model selection
-- supports UI dropdowns and backend refresh logic
-
-Example:
-
-```json
-[
-  "stepfun/step-3.7-flash",
-  "arcee-ai/trinity-large-preview:free",
-  "openai/gpt-oss-120b:free"
-]
-```
-
-### 7.5.8 OCR Log JSON
-
-Path example:
-
-- `logs/bulk_ocr_log.json`
-
-Purpose:
-
-- keeps resume-safe OCR processing status
-- prevents already completed files from being reprocessed accidentally
-
-Representative structure:
-
-```json
-{
-  "example_document.pdf": {
-    "status": "done",
-    "file_id": "ocr_file_id",
-    "saved_to": "data/thesis_dataset/example_document_pdf"
-  }
-}
-```
-
-### 7.5.9 Background Job JSON
-
-Path examples:
-
-- `results/climatebert_background_jobs/.../config.json`
-- `results/climatebert_background_jobs/.../control.json`
-- `results/climatebert_background_jobs/.../status.json`
-
-Purpose:
-
-- stores asynchronous job configuration
-- records runtime control state
-- records job progress and completion status
-
-Representative structure:
-
-```json
-{
-  "job_id": "climatebert_multi_20260526T063741Z_3a2e94",
-  "status": "running",
-  "created_at": "2026-05-26T06:37:41Z",
-  "models": ["model_a", "model_b"],
-  "rows_total": 332,
-  "rows_done": 128
-}
-```
-
 ### 7.5.10 Other JSON Families Used by the Repository
 
-Additional JSON artifact families in the repository include:
+Additional JSON artifact families in the repository include the following. These are not all equally central to the thesis argument, but each one supports a specific part of the executable research workflow.
+
+- `results/data/mapping.json`
+  Purpose:
+  stores label-normalization mappings used to standardize ESG and sentiment terminology.
+  Example content includes mappings such as `"environmental": "E"`, `"governance": "G"`, and `"lingkungan": "E"`. This file acts as a normalization bridge between raw extracted labels and the thesis-facing schema.
 
 - `results/ground_truth.json`
-- `results/predictions.json`
-- `results/t1_results.json`
-- `results/t2_results.json`
-- `results/data/mapping.json`
-- `results/revision_analysis/ontology.json`
-- `results/thesis_workflow_dashboard/rq_report_sections.json`
-- `documentation/streamlit_pages/page_relationships.json`
-- `summarization/data/data_sources.json`
-- `chat_history.json`
+  Purpose:
+  stores manually entered or review-oriented ground-truth style records.
+  The sampled structure includes a timestamp, model name, source, input text, and a nested `result` object. In the current repository state, some entries still preserve model-side errors, which is useful because it shows that the reference-building layer keeps incomplete or failed cases visible rather than silently discarding them.
 
-These files support benchmark generation, ontology mapping, workflow documentation, summarization inputs, and interactive tooling. They are not all equally central to the thesis narrative, but they are part of the repository’s reproducibility layer.
+- `results/predictions.json`
+  Purpose:
+  stores prediction outputs, especially from ClimateBERT-style or T1 comparison runs.
+  The current file contains long source text segments together with model identifiers and prediction payloads. In practice, this file acts as a raw comparison layer before more compact summary tables are derived.
+
+- `results/t1_results.json`
+  Purpose:
+  stores serialized T1-stage prediction results in JSON form.
+  These records are similar to `predictions.json`, but they are part of the more formal T1 artifact family used by the benchmark side of the workflow. The sampled entries show model names, original text, and nested result objects.
+
+- `results/t2_results.json`
+  Purpose:
+  stores T2-stage ABSA-style outputs.
+  The sampled entries contain both a `rule_based` block and a `hybrid` block. This is important because it shows that T2 is not one monolithic classifier. It compares rule-based aspect/polarity/tone output against a hybrid contextual model that also records ontology alignment and summary metrics.
+
+- `results/revision_analysis/ontology.json`
+  Purpose:
+  stores the ontology backbone used for aspect-to-path mapping.
+  The sampled structure contains ontology nodes with `aspect`, `path`, `path_text`, and `keywords`. This file is central for demonstrating that the extraction layer is not only structurally parseable but also semantically mappable into ESG concept paths.
+
+- `results/thesis_workflow_dashboard/rq_report_sections.json`
+  Purpose:
+  stores structured narrative sections for each research question in the dashboard layer.
+  Each entry includes fields such as `rq`, `title`, `graph`, `results`, `interpretation`, `baseline`, `discussion`, and `conclusion`. This file is effectively a JSON-backed narrative scaffold for the thesis-facing workflow dashboard.
+
+- `results/transfer_learning/dataset_summary.json`
+  Purpose:
+  stores high-level summary statistics for the transfer-learning dataset.
+  The sampled structure includes total row count, number of unique aspects, top aspects, sentiment distribution, tone distribution, and ESG-pillar distribution. This file is useful for reporting corpus scale and distributional properties without loading the full dataset every time.
+
+- `documentation/streamlit_pages/page_relationships.json`
+  Purpose:
+  stores the canonical workflow registry for Streamlit pages.
+  The sampled structure includes `pages`, `rq_workflows`, and `relationships`, with each page entry describing stage, purpose, research-question relevance, and outputs. This file is important for the appendix because it documents how the repository’s interactive tools map to the thesis workflow.
+
+- `summarization/data/data_sources.json`
+  Purpose:
+  stores a compact registry of CSV inputs used by the summarization layer.
+  Instead of holding analytic results directly, this file maps logical names such as `tone_records_flat`, `model_stability_summary`, and `ontology_coverage` to their corresponding artifact paths.
+
+- `chat_history.json`
+  Purpose:
+  stores interactive conversation history metadata.
+  The sampled structure contains an `id`, timestamp, role, content, and model name. This file is not central to the thesis analysis itself, but it belongs to the broader reproducibility environment of the workspace.
+
+- `pages/data_001_001.json`
+  Purpose:
+  appears to be an auxiliary page-side JSON artifact, but the current file could not be parsed because it contains malformed JSON.
+  This is worth noting explicitly in the appendix because it shows that not every repository-side JSON file is a validated analytical artifact. Some are experimental or incomplete support files.
+
+Together, these JSON families support benchmark generation, ontology mapping, workflow documentation, summarization inputs, transfer-learning dataset reporting, and interactive tooling. They form an important part of the repository’s reproducibility and audit layer even when they are not all directly cited in the main thesis chapters.
