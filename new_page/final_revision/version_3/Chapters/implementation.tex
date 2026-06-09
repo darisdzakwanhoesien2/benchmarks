@@ -2,7 +2,7 @@
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_01_overview}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_01_overview}
 \end{center}
 \caption{High-level methodological flow}
 \alt{High-level workflow diagram showing the thesis methodology from source reports through OCR, extraction, validation, and thesis-ready evidence outputs.}
@@ -27,7 +27,7 @@ The repository documentation defines the workflow as an end-to-end research-data
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_01_01_system_architecture}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_01_01_system_architecture}
 \end{center}
 \caption{Executable system architecture of the repository}
 \alt{System architecture diagram showing the OCR layer, extraction layer, benchmarking layer, and analysis layer connected through repository artifacts and Streamlit pages.}
@@ -58,7 +58,7 @@ These principles lead directly to later technical decisions: page batching inste
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_02_data_sources}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_02_data_sources}
 \end{center}
 \caption{Section-level diagram for the data-source stack used by the workflow.}
 \alt{Data-source diagram showing raw PDF reports, OCR-expanded folders, metadata tables, ontology resources, and downstream analytical artifacts used by the workflow.}
@@ -101,7 +101,7 @@ Data quality limitations are explicitly acknowledged in the repository. OCR nois
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_02_02}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_02_02}
 \end{center}
 \caption{Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units.}
 \alt{Preprocessing sequence diagram showing PDF ingestion, OCR expansion, page-level markdown generation, storage, and conversion into extraction-ready text units.}
@@ -144,7 +144,7 @@ The dashboard report indicates that OCR ingestion is operationally complete for 
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_04}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_04}
 \end{center}
 \caption{Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined.}
 \alt{Feature-extraction diagram showing lexical rules, TF-IDF features, contextual embeddings, and ontology-aware representations feeding into the ESG analysis workflow.}
@@ -212,7 +212,7 @@ This enhancement improves the representation in two ways. First, it regularizes 
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_05}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_05}
 \end{center}
 \caption{Conceptual split between record generation and validation-comparison within the proposed framework.}
 \alt{Framework diagram separating LLM-centered ESG record generation from the downstream validation, benchmarking, and comparison layers.}
@@ -258,7 +258,7 @@ This mapping step is essential because the thesis aims to produce usable disclos
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_06}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_06}
 \end{center}
 \caption{Layered evaluation-reference construction used when a full expert gold corpus is not yet available.}
 \alt{Reference-construction diagram showing extracted records, weak labels, pilot human annotations, and ClimateBERT-style comparison signals combined into a layered evaluation framework.}
@@ -301,7 +301,7 @@ Reproducibility is strong at the level of stored artifacts, prompts, logs, and r
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_07_summary}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_07_summary}
 \end{center}
 \caption{Summary diagram of the chapter's end-to-end methodological contribution.}
 \alt{Summary diagram showing the end-to-end methodological contribution from report ingestion through structured ESG evidence generation, validation, and thesis reporting.}

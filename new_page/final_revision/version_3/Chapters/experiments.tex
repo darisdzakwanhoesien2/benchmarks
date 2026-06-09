@@ -170,9 +170,7 @@ RQ2 asks how LLM-generated tone labels compare with specialized outputs from mod
 \begin{tabularx}{\linewidth}{|X|p{1.3cm}|p{1.5cm}|p{1.3cm}|p{1.8cm}|p{1.8cm}|X|}
 \hline
 \textbf{Compared labels} & \textbf{Records} & \textbf{Percent agreement} & \textbf{Cohen's kappa} & \textbf{Tone commitment rate} & \textbf{Climate-commitment label rate} & \textbf{Interpretation boundary} \\ \hline
-\texttt{tone\_
-commitment} vs \texttt{climate\_commitment
-\_label} & 332 & 83.7\% & 0.645 & 34.6\% & 36.4\% & Strong overlap, but not label equivalence \\ \hline
+\texttt{tone\_commitment} vs \texttt{climate\_commitment\_label} & 332 & 83.7\% & 0.645 & 34.6\% & 36.4\% & Strong overlap, but not label equivalence \\ \hline
 \end{tabularx}
 \end{table}
 
@@ -204,8 +202,8 @@ The failure-mode count table is shown below.
 \begin{landscape}
 \begin{table}[p]
 \centering
-\caption{List of Prompts}
-\label{tab:nlp-evolution-sustainability-1}
+\caption{Failure-mode counts in the reviewed thesis-facing subset.}
+\label{tab:failure-mode-counts}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|X|p{1.8cm}|p{1.8cm}|X|X|}
@@ -215,8 +213,7 @@ The failure-mode count table is shown below.
 \texttt{missing\_tone} & 61 & 61.0\% & Output omitted the central tone field despite otherwise parseable extraction & Record with populated text/aspect fields but empty tone \\ \hline
 \texttt{schema\_drift} & 20 & 20.0\% & Model produced values in the wrong field or changed schema semantics & Tone-like content placed in sentiment or free-text slots \\ \hline
 \texttt{hedged\_or\_modal\_language} & 10 & 10.0\% & Commitment/action boundary blurred by future-oriented or hedged phrasing & “will”, “target”, “intend”, “berkomitmen” mixed with current actions \\ \hline
-\texttt{regulatory\_or
-\_indonesian\_domain\_terms} & 3 & 3.0\% & Domain-specific Indonesian ESG terminology not handled consistently & Governance/regulatory phrasing with weak tone cues \\ \hline
+\texttt{regulatory\_or\_indonesian\_domain\_terms} & 3 & 3.0\% & Domain-specific Indonesian ESG terminology not handled consistently & Governance/regulatory phrasing with weak tone cues \\ \hline
 \texttt{table\_or\_numeric\_layout} & 3 & 3.0\% & Table-heavy or numeric formatting disrupted semantic extraction & KPI/table rows detached from narrative context \\ \hline
 \texttt{passive\_voice} & 3 & 3.0\% & Passive construction weakened action/outcome detection & Statement describes achievement without explicit actor \\ \hline
 \texttt{bilingual\_or\_code\_switched} & 1 & 1.0\% & Language switching complicated cue interpretation & Mixed Indonesian-English ESG statement \\ \hline
@@ -271,24 +268,19 @@ The strongest stability results appear in the model- and prompt-level summaries.
 \begin{landscape}
 \begin{table}[p]
 \centering
-\caption{List of Prompts}
-\label{tab:nlp-evolution-sustainability-1}
+\caption{Model-level extraction stability across the thesis-facing subset.}
+\label{tab:model-level-extraction-stability}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|X|p{1.8cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|X|}
 \hline
 \textbf{Model} & \textbf{Runs} & \textbf{Parse success rate} & \textbf{Avg. records} & \textbf{Missing-tone rate} & \textbf{Schema-drift rate} & \textbf{Short interpretation} \\ \hline
 
-\texttt{arcee-ai/
-trinity-large-preview:free} & 90 & 100.0\% & 3.02 & 0.05\% & 0.11\%  & Best stable thesis-facing baseline: high schema obedience and near-zero tone omission \\ \hline
-\texttt{openai/
-gpt-oss-120b:free} & 20 & 100.0\% & 3.00 & 100.0\% & 42.5\%  & Formally parseable but practically unusable for tone analysis \\ \hline
-\texttt{arcee-ai/
-trinity-large-thinking:free} & 89 & 89.9\% & 12.52 & 0.0\% & 0.0\%  & Very high extraction yield, but lower formal stability than the preview model \\ \hline
-\texttt{minimax/
-minimax-m2.5:free} & 776 & 56.6\% & 4.94 & 0.05\% & 0.26\%  & High-volume live usage with weak parse reliability \\ \hline
-\texttt{openai/
-gpt-oss-20b:free} & 145 & 95.9\% & 1.13 & 0.0\% & 0.0\%  & Structurally stable but low extraction yield \\ \hline
+\texttt{arcee-ai/trinity-large-preview:free} & 90 & 100.0\% & 3.02 & 0.05\% & 0.11\%  & Best stable thesis-facing baseline: high schema obedience and near-zero tone omission \\ \hline
+\texttt{openai/gpt-oss-120b:free} & 20 & 100.0\% & 3.00 & 100.0\% & 42.5\%  & Formally parseable but practically unusable for tone analysis \\ \hline
+\texttt{arcee-ai/trinity-large-thinking:free} & 89 & 89.9\% & 12.52 & 0.0\% & 0.0\%  & Very high extraction yield, but lower formal stability than the preview model \\ \hline
+\texttt{minimax/minimax-m2.5:free} & 776 & 56.6\% & 4.94 & 0.05\% & 0.26\%  & High-volume live usage with weak parse reliability \\ \hline
+\texttt{openai/gpt-oss-20b:free} & 145 & 95.9\% & 1.13 & 0.0\% & 0.0\%  & Structurally stable but low extraction yield \\ \hline
 \texttt{qwen3.5:0.8b} & 2 & 0.0\% & 0.00 & 0.0\% & 0.0\%  & No usable extraction in the current slice \\ \hline
 \end{tabularx}
 \end{table}
@@ -303,7 +295,7 @@ Figure 4.7 complements Table 4.4 because it makes the trade-off between formal s
 
 \begin{figure}[H]
 \begin{center}
-  \includegraphics*[width=\textwidth]{model_tradeoff_scatter}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{model_tradeoff_scatter}
 \end{center}
 \caption{Model trade-off scatter plot with parse success on the x-axis and average extracted records on the y-axis. This figure helps separate models that are formally stable from those that are practically useful.}
 \alt{Scatter plot comparing models by parse success and average extracted records, showing the trade-off between formal stability and practical extraction yield.}
@@ -316,7 +308,7 @@ Figure 4.8 should be read together with the prompt-level results table because p
 
 \begin{figure}[H]
 \begin{center}
-  \includegraphics*[width=\textwidth]{prompt_strategy_comparison}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{prompt_strategy_comparison}
 \end{center}
 \caption{Prompt-strategy comparison across average records, parse success, and field completion. The figure shows that chain-of-thought and tone-specific framing matter more than generic prompt validity alone.}
 \alt{Three-panel comparison chart showing prompt templates across average extracted records, parse success, and field completion.}

@@ -146,11 +146,11 @@ The implemented user flow is:
 
 \begin{figure}[H]
 \begin{center}
-  \includegraphics*[width=\textwidth]{mermaid_flow_diagram_01}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{mermaid_flow_diagram_01}
 \end{center}
 \caption{Bulk OCR to LLM-processing flow diagram. This figure visualizes the operational path from file intake, OCR expansion, and page storage to provider-specific ESG extraction and downstream ClimateBERT comparison outputs.}
 \alt{Flowchart showing user entry through Bulk OCR, OCR output storage, document selection in LLM Processing, provider choice among OpenRouter, LM Studio, and Ollama, ESG record storage, and downstream ClimateBERT output generation.}
-\label{fig:commitment_outcome_ratio}
+\label{fig:appendix_bulkocr_llm_climatebert_flow}
 \end{figure}
 
 \subsection{Mermaid Sequence Diagram}\label{mermaid-sequence-diagram}
@@ -249,8 +249,8 @@ This prompt family should be read as a controlled prompt-engineering ladder rath
 \begin{landscape}
 \begin{table}[p]
 \centering
-\caption{List of Prompts}
-\label{tab:nlp-evolution-sustainability-1}
+\caption{Tone-prompt family overview used in the thesis-facing extraction experiments.}
+\label{tab:tone-prompt-family-overview}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|X|p{2.5cm}|X|X|X|}
