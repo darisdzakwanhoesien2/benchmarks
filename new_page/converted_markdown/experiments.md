@@ -100,7 +100,17 @@ Figure 4.1 and Figure 4.2 should be inserted here because they make the basic re
 
 Prompt-level extraction behavior is shown in Table 4.1.
 
-*Table 4.1: Prompt-level extraction performance across the thesis-facing subset. Recommended columns: prompt template, runs, parse success rate, average records, field completion rate, missing-tone rate, and schema-drift rate.*
+Table 4.1. Prompt-level extraction performance across the thesis-facing subset.
+
+| Prompt template | Runs | Parse success rate | Avg. records | Field completion rate | Missing-tone rate | Schema-drift rate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `data.md` | 20 | 100.0% | 3.00 | 66.7% | 100.0% | 42.5% |
+| `tone_chain_of_thought_english.md` | 16 | 100.0% | 6.25 | 37.4% | 0.0% | 0.4% |
+| `tone_chain_of_thought_indonesian.md` | 15 | 100.0% | 4.07 | 33.1% | 0.3% | 0.3% |
+| `tone_few_shot_english.md` | 15 | 100.0% | 0.00 | 0.0% | 0.0% | 0.0% |
+| `tone_few_shot_indonesian.md` | 14 | 100.0% | 1.00 | 7.1% | 0.0% | 0.0% |
+| `tone_zero_shot_english.md` | 14 | 100.0% | 3.93 | 35.7% | 0.0% | 0.0% |
+| `tone_zero_shot_indonesian.md` | 16 | 100.0% | 2.62 | 12.5% | 0.0% | 0.0% |
 
 These results show that parse success alone is not an adequate quality metric. Every prompt listed above reaches 100% parse success, yet their practical usefulness differs sharply. tone_chain_of_thought_english.md yields the highest average record count. In other words, a prompt can be syntactically valid and still be unsuitable for the core thesis task.
 
@@ -129,7 +139,11 @@ Overall, RQ1 is answered positively within the current thesis scope. ESG disclos
 
 RQ2 asks how LLM-generated tone labels compare with specialized outputs from models like ClimateBERT, and what that comparison reveals about the validity of automated ESG assessment. The most important quantitative result for this question is the alignment between disclosure tone and ClimateBERT-style commitment labels. Table 4.2 summarizes the main agreement result.
 
-*Table 4.2: Tone-commitment versus ClimateBERT-style commitment comparison. Recommended columns: compared labels, number of records, percent agreement, Cohen's kappa, denominator note, and interpretation boundary.*
+Table 4.2. Tone-commitment versus ClimateBERT-style commitment comparison.
+
+| Compared labels | Records | Percent agreement | Cohen's kappa | Tone commitment rate | Climate-commitment label rate | Interpretation boundary |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `tone_commitment` vs `climate_commitment_label` | 332 | 83.7% | 0.645 | 34.6% | 36.4% | Strong overlap, but not label equivalence |
 
 This is a strong but not perfect alignment. The result suggests that the repository’s tone taxonomy captures a signal that overlaps substantially with climate-commitment detection, but the two constructs are not identical. This is theoretically useful because it supports the claim that tone adds a maturity or disclosure-function layer beyond climate-topic recognition.
 
@@ -162,7 +176,20 @@ RQ3 asks what specific failure modes characterize the automated extraction of ES
 
 The failure-mode count table is shown below.
 
-*Table 4.3: Failure-mode count table. Recommended columns: failure mode, count, share of reviewed failures, likely cause, and representative example.*
+Table 4.3. Failure-mode count table.
+
+| Failure mode | Count | Share of reviewed failures | Likely cause | Representative example type |
+| --- | ---: | ---: | --- | --- |
+| `missing_tone` | 61 | 61.0% | Output omitted the central tone field despite otherwise parseable extraction | Record with populated text/aspect fields but empty tone |
+| `schema_drift` | 20 | 20.0% | Model produced values in the wrong field or changed schema semantics | Tone-like content placed in sentiment or free-text slots |
+| `hedged_or_modal_language` | 10 | 10.0% | Commitment/action boundary blurred by future-oriented or hedged phrasing | “will”, “target”, “intend”, “berkomitmen” mixed with current actions |
+| `regulatory_or_indonesian_domain_terms` | 3 | 3.0% | Domain-specific Indonesian ESG terminology not handled consistently | Governance/regulatory phrasing with weak tone cues |
+| `table_or_numeric_layout` | 3 | 3.0% | Table-heavy or numeric formatting disrupted semantic extraction | KPI/table rows detached from narrative context |
+| `passive_voice` | 3 | 3.0% | Passive construction weakened action/outcome detection | Statement describes achievement without explicit actor |
+| `bilingual_or_code_switched` | 1 | 1.0% | Language switching complicated cue interpretation | Mixed Indonesian-English ESG statement |
+| `schema_drift` with `action` prediction | 1 | 1.0% | Structural mismatch in otherwise action-like output | Action record with malformed output fields |
+| `hedged_or_modal_language` with `action` prediction | 1 | 1.0% | Action phrasing mixed with promise language | Agreement/plan statement straddling action and commitment |
+| `passive_voice` with `action` prediction | 1 | 1.0% | Passive form weakened event interpretation | Passive wording treated as action rather than outcome |
 
 The dominant weakness is clear: 61 missing-tone cases. Beyond that, schema drift and hedged language are the next most important failure patterns. This means that the pipeline is more vulnerable to discursive ambiguity and formatting irregularity than to simple parser breakdown. The problem is therefore partly linguistic, not only technical.
 
@@ -212,7 +239,16 @@ This reproducibility evidence matters because it shows that the research output 
 
 The strongest stability results appear in the model- and prompt-level summaries. Table 4.3 shows the current model comparison.
 
-*Table 4.4: Model-level extraction performance. Recommended columns: model, runs, parse success rate, average records, missing-tone rate, schema-drift rate, and short interpretation.*
+Table 4.4. Model-level extraction performance.
+
+| Model | Runs | Parse success rate | Avg. records | Missing-tone rate | Schema-drift rate | Source | Short interpretation |
+| --- | ---: | ---: | ---: | ---: | ---: | --- | --- |
+| `arcee-ai/trinity-large-preview:free` | 90 | 100.0% | 3.02 | 0.05% | 0.11% | `revision_analysis` | Best stable thesis-facing baseline: high schema obedience and near-zero tone omission |
+| `openai/gpt-oss-120b:free` | 20 | 100.0% | 3.00 | 100.0% | 42.5% | `revision_analysis` | Formally parseable but practically unusable for tone analysis |
+| `arcee-ai/trinity-large-thinking:free` | 89 | 89.9% | 12.52 | 0.0% | 0.0% | `live_reprocess` | Very high extraction yield, but lower formal stability than the preview model |
+| `minimax/minimax-m2.5:free` | 776 | 56.6% | 4.94 | 0.05% | 0.26% | `live_reprocess` | High-volume live usage with weak parse reliability |
+| `openai/gpt-oss-20b:free` | 145 | 95.9% | 1.13 | 0.0% | 0.0% | `live_reprocess` | Structurally stable but low extraction yield |
+| `qwen3.5:0.8b` | 2 | 0.0% | 0.00 | 0.0% | 0.0% | `live_reprocess` | No usable extraction in the current slice |
 
 The most important comparison for the thesis-facing stable subset is between arcee-ai/trinity-large-preview:free and openai/gpt-oss-120b:free. Both achieved perfect parse success in the summarized slice, but gpt-oss-120b exhibited a 100% missing-tone rate and a 42.5% schema-drift rate in the corresponding prompt-model grouping. This is a strong warning against treating model size or brand reputation as a proxy for task suitability. In this workflow, schema obedience and tone completion matter more than raw generative capability.
 

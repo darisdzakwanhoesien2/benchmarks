@@ -37,13 +37,18 @@ Different methods also rely on different information types. The rule-based model
 
 The following matrix summarizes how the main research questions map to evidence.
 
-*Table: Research-question evidence summary*
-
 All four research questions are therefore answered in the current thesis scope, although not all answers are equally mature. RQ1 and RQ4 are strongest at operational and diagnostic level because the repository preserves provenance, artifacts, and visible failure cases rather than hiding them. RQ2 and RQ3 are also supported, but they still depend on pilot-level validation and proxy comparison rather than full gold-standard benchmarking.
 
 The research-question evidence summary table should be made explicit rather than left as a placeholder.
 
-*Table 5.1: Research-question evidence summary. Recommended columns: research question, main Chapter 4 evidence, strongest supporting figure or table, current confidence level, and remaining limitation.*
+Table 5.1. Research-question evidence summary.
+
+| Research question | Main Chapter 4 evidence | Strongest supporting figure or table | Current confidence level | Remaining limitation |
+| --- | --- | --- | --- | --- |
+| `RQ1. ESG ABSA Schema` | 23 processed OCR documents, about 5,512 pages, 332 tone-bearing records, 2,074 T2 rows, and 52 mapped ontology aspects | Figure 4.1, Figure 4.2, Figure 4.3 | Moderate to high | Evidence is operationally strong, but class balance remains uneven and social coverage is weak |
+| `RQ2. Tone vs. Climate-Specific Models` | 83.7% agreement and Cohen's kappa of 0.645 between tone commitment and climate-commitment proxy labels across 332 records | Table 4.2 and Figure 4.4 | Moderate | ClimateBERT comparison is still proxy-based rather than a complete one-to-one external benchmark |
+| `RQ3. Pipeline Diagnostics` | 61 missing-tone failures, 20 schema-drift cases, and a concentrated failure distribution dominated by a small set of recurring weaknesses | Table 4.3, Figure 4.5, Figure 4.6 | High for diagnostic claims | Failure analysis is strong, but some categories still need more manually curated case examples |
+| `RQ4. Stability and Reproducibility` | 1,220 stored result artifacts, 184 background jobs, prompt-level summaries, and clear model-level trade-offs between parse stability and usable extraction | Table 4.1, Table 4.4, Figure 4.7, Figure 4.8 | Moderate to high | Workflow reproducibility is strong, but semantic outputs remain sensitive to prompt/model/provider changes |
 
 ## 5.2 Research Question Resolution
 
