@@ -1,0 +1,321 @@
+\section{ Corporate Sustainability Reporting and the Greenwashing Challenge}
+\subsection{ The Technical Complexity of ESG Disclosures}
+
+Sustainability reports are inherently difficult to process because they are typically semi-structured PDF documents containing a mix of qualitative narratives, quantitative tables, and visual imagery. Technically, the challenge begins with \textbf{high-fidelity data extraction}; many reports utilize complex layouts that require robust OCR and parsing pipelines to ensure that textual data is not lost or corrupted during the ingestion phase  \parencite[]{marco_bronzini_bf94d949, jacob_beck_9548a833}. Research indicates that data gaps in reporting often stem from these extraction failures rather than a lack of information, making the preprocessing pipeline a critical precursor to greenwashing detection  \parencite{jacob_beck_9548a833}.
+\subsection{ NLP Frameworks for Greenwashing Detection}
+
+Recent literature has moved toward a \textbf{multi-dimensional textual framework} to identify greenwashing. This involves analyzing specific technical features:
+\begin{itemize}
+\item 
+
+\textbf{Thematic and Sentiment Features:} Studies have shown that greenwashing is often characterized by a high frequency of "positive-sentiment" words paired with a lack of concrete, thematic "action" words  \parencite{xiaojia_wang_02351a60}. High-risk reports typically exhibit a "sentimental mask," where optimistic language is used to hide a lack of specific environmental targets  \parencite{xiaojia_wang_02351a60}.\item 
+
+\textbf{"Cheap Talk" and Cherry-Picking:} Advanced models like \textbf{ClimateBERT} have been used to identify "cheap talk"—vague, non-committal disclosures—and "cherry-picking," where firms only report on positive climate-related risks while omitting material negative ones  \parencite{julia_bingler_268445e3}. Technically, this is achieved by comparing a firm's disclosure patterns against industry-wide benchmarks or historical data to find significant deviations  \parencite{julia_bingler_268445e3}.
+\end{itemize}
+\subsection{ Aspect-Action Analysis and Semantic Inconsistency}
+
+A significant technical advancement in this field is \textbf{Aspect-Action Analysis}. This method goes beyond simple sentiment analysis by extracting specific "aspects" (e.g., carbon emissions reduction) and linking them to "actions" (e.g., "invested \$50M in carbon capture")  \parencite{keane_ong_369a0b63}. Greenwashing is technically identified when there is a \textbf{semantic inconsistency} or a cross-category generalization—such as when a company makes broad environmental claims based on a single, minor action  \parencite{keane_ong_369a0b63}. This requires models with high "cross-category generalization" capabilities to detect if a company's "green" claims in one sector are being used to offset "brown" activities in another  \parencite{keane_ong_369a0b63}.
+\subsection{ Monitoring Systems and Empirical Testing}
+
+Newer systems, such as \textbf{DeepGreen}, utilize Large Language Models to create monitoring systems designed for empirical testing  \parencite{chong_xu_bff21576}. These systems are technically designed to:
+\begin{enumerate}
+\item 
+
+\textbf{Extract structured evidence} from unstructured reports to verify if specific ESG metrics (like Scope 1 or 2 emissions) are reported with sufficient detail  \parencite{chong_xu_bff21576}.\item 
+
+\textbf{Compare internal reporting with external news}, using LLMs to check for discrepancies between what a company says in its ESG report and what is reported in the media  \parencite[]{mariya_pavlova_259be499, fabian_billert_a5fbb687}\item 
+
+\textbf{Score "Greenwashing Tendency"} by applying weighted metrics to the extracted data, identifying when a firm’s rhetoric significantly outpaces its data-backed performance  \parencite{chong_xu_bff21576}.
+\end{enumerate}
+\subsection{Technical Limitations: The "Soft Language" Problem}
+
+A major hurdle remains the "soft" nature of ESG language. LLMs must be sensitive enough to distinguish between \textbf{substantive disclosures} and \textbf{boilerplate language} that satisfies regulatory checklists without providing material insight  \parencite{frederik_maibaum_b8629037}. This provides the technical justification for \textbf{Section 3.4.4}, as standard machine learning baselines often fail to capture the subtle linguistic nuances that separate genuine commitment from strategic ambiguity  \parencite[]{marco_bronzini_bf94d949, arash_hajikhani_cbb2528f}
+\subsection{Table: State-of-the-Art in NLP-Driven ESG and Greenwashing Analysis}
+
+Below is a comprehensive table of state-of-the-art research relevant to Chapter 2.1, focusing on the technical and NLP methodologies used to address greenwashing and ESG extraction. This synthesis highlights how current frameworks transition from simple keyword counting toward complex, intent-aware architectures that verify sustainability claims against verifiable operational evidence  \parencite{keane_ong_0a5de439}. On top of that, there next table focus on the technical nuances of goal alignment, model sensitivity, and sector-specific extraction, complementing the previous literature by addressing the "soft language" and benchmarking challenges in ESG.
+
+
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\caption{State-of-the-Art in the Evolution of NLP for Sustainability}
+\label{label}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{|p{1.8cm}|X|X|p{1.8cm}|X|X|}
+\hline
+Authors & Method / Approach & Datasets & Modalities Involved & Key Contributions & Limitations \\ \hline
+\textbf{Xu et al.}  \parencite{chong_xu_bff21576} & \textbf{DeepGreen System}: LLM-driven monitoring for empirical testing of greenwashing. & Corporate ESG reports and external news articles. & Text & Developed a monitoring system to cross-verify internal reports with external media for discrepancies. & Potential focus on regional reporting standards may limit global generalization. \\ \hline
+\textbf{Bingler et al.}  \parencite{julia_bingler_268445e3} & \textbf{ClimateBERT}: Transformer-based model fine-tuned on climate-related data. & Large-scale corporate climate risk disclosures. & Text & Identified "cheap talk" and "cherry-picking" in risk disclosures by detecting vague, non-committal language. & Primarily focused on climate/risk; may overlook social (S) and governance (G) specific greenwashing. \\ \hline
+\textbf{Ong et al.}  \parencite{keane_ong_369a0b63} & \textbf{Aspect-Action Analysis}: Cross-category generalization for robust ESG analysis. & ESG reports categorized by specific environmental actions. & Text & Links specific "aspects" to concrete "actions" to identify inconsistencies between rhetoric and investment. & Requires high-quality labeled data for different action categories to maintain accuracy. \\ \hline
+\textbf{Wang et al.}  \parencite{xiaojia_wang_02351a60} & \textbf{Thematic \& Sentiment Analysis}: Predicting greenwashing degrees via linguistic features. & Corporate ESG reports. & Text (Sentiment/ Theme) & Quantified how high positive sentiment correlates with a lack of specific, data-backed environmental themes. & Purely linguistic focus may miss technical data discrepancies (e.g., mismatched emission numbers). \\ \hline
+\textbf{Bronzini et al.}  \parencite{marco_bronzini_bf94d949} & \textbf{LLM-Structured Extraction}: Deriving structured insights from sustainability reports. & Diverse set of corporate sustainability reports. & Text \& Semi-structured & Demonstrated the superiority of LLMs in extracting structured data from unstructured narrative text. & High computational cost and "hallucination" risks in extracting specific numerical metrics. \\ \hline
+\textbf{Beck et al.}  \parencite{jacob_beck_9548a833} & \textbf{Benchmark Dataset}: GHG emission extraction and data gap analysis. & Global dataset of PDF reports for Greenhouse Gas monitoring. & Text \& PDF Metadata & Created a specialized benchmark for extracting Scope 1, 2, and 3 emissions to address reporting data gaps. & Focus is narrow, not covering broader qualitative greenwashing narratives. \\ \hline
+\textbf{Schimanski et al.}  \parencite{tobias_schimanski_3549ff9f} & \textbf{Nature-Related Analysis}: Datasets and models for biodiversity and nature disclosures. & Nature-related corporate disclosures. & Text & Expanded the scope of NLP moving beyond simple climate metrics. & Nature-related reporting is still in its infancy, leading to sparse and inconsistent ground-truth data. \\ \hline
+% \textbf{Pavlova et al.}  \parencite{mariya_pavlova_259be499} & \textbf{ESG-FTSE Corpus}: News articles with ESG relevance labels. & FTSE-indexed news articles and corporate press releases. & Text & Provided a corpus for monitoring "outside-in" ESG performance via public sentiment and news reporting. & News data can be noisy and may reflect media bias rather than actual corporate performance. \\ \hline
+\end{tabularx}
+\end{table}
+\end{landscape}
+
+
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\caption{NLP-Driven ESG and Greenwashing Analysis}
+\label{label}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{|p{1.8cm}|X|X|p{1.8cm}|X|X|}
+\hline
+Authors & Method / Approach & Datasets & Modalities Involved & Key Contributions & Limitations \\ \hline
+\textbf{Kılınç et al.}  \parencite{yavuz_k_l_n__64e32f80} & \textbf{Multi-dimensional Textual Framework}: Specifically designed for greenwashing detection. & Multi-sector corporate sustainability reports. & Textual narratives & Developed a framework that integrates linguistic indicators of deception with sustainability metrics. & Framework performance is highly dependent on the quality of the underlying sentiment and thematic lexicons. \\ \hline
+\textbf{Schimanski et al.}  \parencite{tobias_schimanski_241ada20} & \textbf{ClimateBERT-NetZero}: Specialized model for detecting and assessing Net Zero targets. & Corporate Net Zero pledge documents and reports. & Text (Targets/ Claims) & Created a pipeline to distinguish between "vague" commitments and "verifiable" reduction targets, essential for flagging target-based greenwashing. & Difficulty in handling "future-looking" statements that lack immediate material evidence. \\ \hline
+\textbf{Maibaum et al.}  \parencite{frederik_maibaum_b8629037} & \textbf{Tool Selection Framework}: Systematic classification of sustainability information. & Standardized corporate reporting datasets. & Text & Established a decision-matrix for choosing between classical NLP and Deep Learning based on data complexity. & Identifies that traditional tools often fail at capturing the semantic nuance required for complex ESG themes. \\ \hline
+\textbf{Chung \& Latifi}  \parencite{tae_sun_chung_e16a4c18} & \textbf{ESG Domain-Specific Evaluation}: Benchmarking domain-specific LLMs against traditional ML. & ESG-specific text classification benchmarks. & Text & Demonstrated that domain-pretraining (e.g., ESG-BERT) significantly outperforms general models in identifying material ESG risks. & Domain-specific models can exhibit high sensitivity to the specific training corpus, leading to potential bias. \\ \hline
+\textbf{Yu et al.}  \parencite{yinan_yu_e282fd98} & \textbf{climateBUG}: Data-driven framework for analyzing bank reporting through a climate lens. & Financial sector climate risk reports. & Text \& Financial Data & Developed a sector-specific lens for climate reporting, highlighting the "transparency gap" in banking disclosures. & Sector-specific focus (banking) may not directly transfer to heavy-industry or retail ESG reporting. \\ \hline
+\textbf{Hajikhani \& Cole}  \parencite{arash_hajikhani_cbb2528f} & \textbf{Sensitivity and Bias Review}: Critical analysis of LLMs in specialized AI domains. & General and specialized LLM outputs. & Textual outputs & Highlighted the risks of "hallucination" and bias when LLMs are used for specialized tasks like ESG auditing. & Focuses on the "path toward specialized AI" rather than providing a standalone extraction tool. \\ \hline
+\end{tabularx}
+\end{table}
+\end{landscape}
+\section{ Evolution of NLP in Sustainability Analysis}
+
+The methodology for analyzing corporate sustainability has undergone a significant transformation, evolving from simple keyword counting to sophisticated semantic understanding. This progression reflects the increasing complexity of ESG disclosures and the need for tools that can detect nuanced linguistic patterns like greenwashing.
+\subsection{Dictionary-Based and Statistical Foundations}
+
+Early NLP applications in sustainability relied heavily on \textbf{dictionary-based techniques} and \textbf{lexicons}. These methods used predefined lists of "green" or "socially responsible" keywords to quantify the volume of ESG communication  \parencite{frederik_maibaum_b8629037}. While foundational, research has shown that dictionaries exhibit a large variation in quality and fail to capture the context in which words are used  \parencite{frederik_maibaum_b8629037}. For instance, a dictionary might flag the word "carbon" as a positive environmental indicator, even if the text discusses a "failure to reduce carbon emissions"  \parencite{julia_bingler_268445e3}. Subsequent statistical methods, such as \textbf{Latent Dirichlet Allocation} for topic modeling, offered improved performance over dictionaries by identifying latent themes across reports, yet they remained limited by their inability to handle complex semantic relationships  \parencite{frederik_maibaum_b8629037}.
+\subsection{The Transformer Revolution and Contextual Embeddings}
+
+The introduction of the \textbf{Transformer architecture} and models like \textbf{BERT} marked a paradigm shift. Unlike previous word embedding techniques (e.g., Word2Vec) that assigned a single vector to a word regardless of context, Transformers use attention mechanisms to derive context-dependent meanings  \parencite{frederik_maibaum_b8629037}. This capability is crucial for ESG analysis, where the same term can have vastly different implications depending on the surrounding text  \parencite{natraj_raman_009776f2}. Studies demonstrate that fine-tuned Transformer models significantly outperform classical machine learning baselines in classifying material ESG risks and identifying sustainability trends in corporate earnings calls  \parencite[]{tae_sun_chung_e16a4c18, natraj_raman_009776f2}.
+\subsection{ Domain-Specific Specialization: The Rise of ClimateBERT}
+
+As the limitations of general-purpose language models became apparent, the field shifted toward \textbf{domain-specific fine-tuning}. A prominent example is \textbf{ClimateBERT}, a model pretrained on millions of climate-related sentences from corporate reports and news  \parencite[]{tobias_schimanski_4e192ec5, julia_bingler_268445e3}.
+\begin{itemize}
+\item 
+
+\textbf{Precision in "Cheap Talk" Detection:} ClimateBERT has proven highly effective at identifying "cheap talk"—vague, non-committal climate disclosures that satisfy regulatory requirements without committing to material action  \parencite{julia_bingler_268445e3}.\item 
+
+\textbf{Enhanced Performance:} By training on domain-specific corpora, these models achieve much higher accuracy in detecting climate-related risks compared to general models like BERT-base  \parencite[]{tae_sun_chung_e16a4c18, julia_bingler_268445e3}.This specialization has extended to specific sub-domains, with researchers developing distinct models for the "E," "S," and "G" components to capture the unique linguistic styles of each pillar  \parencite{tobias_schimanski_4e192ec5}.
+\end{itemize}
+\subsection{ Large Language Models and Generative Extraction}
+
+The current frontier in the evolution of ESG NLP is the adoption of \textbf{Large Language Models} such as GPT-4 and Llama. These models represent a move from simple text classification to \textbf{structured semantic extraction}  \parencite{seyed_alireza_mousavian_anaraki_b56a1c0f}.
+\begin{itemize}
+\item 
+
+\textbf{One-Shot and Few-Shot Capabilities:} Recent evaluations show that LLMs, when paired with well-designed prompts, can surpass earlier fine-tuned models in extracting structured data from unstructured reports  \parencite{frederik_maibaum_b8629037}.\item 
+
+\textbf{Multi-Dimensional Analysis:} LLMs enable more complex tasks, such as \textbf{Aspect-Action Analysis}, which links specific environmental aspects to concrete corporate actions to identify inconsistencies  \parencite{keane_ong_369a0b63}.\item 
+
+\textbf{Expansion to Nature and Biodiversity:} New datasets and models are now emerging to tackle "nature-related" disclosures, moving beyond carbon-centric analysis to evaluate how companies report on biodiversity and ecosystem services  \parencite{tobias_schimanski_3549ff9f}.
+\end{itemize}
+\subsection{Table: State-of-the-Art in the Evolution of NLP for Sustainability}
+
+The table below summarizes the key milestones in the technical evolution of NLP within sustainability analysis, tracking the shift from lexicon-based systems to domain-specific Transformers and eventually to generative Large Language Models, also the table introduced specialized frameworks and models that represent the transition from general climate classification to more granular, sector-specific, and target-oriented analysis
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\caption{State-of-the-Art in the Evolution of NLP for Sustainability}
+\label{label}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{|p{1.8cm}|p{3.5cm}|p{3cm}|p{1.8cm}|X|X|}
+\hline
+Authors & Method / Approach & Datasets & Modalities Involved & Key Contributions & Limitations \\ \hline
+\textbf{Maibaum et al.}  \parencite{frederik_maibaum_b8629037} & \textbf{Tool Selection Framework}: Comparing Dictionaries, BERT, and LLMs. & Standardized corporate reporting datasets. & Text & Established a decision-matrix showing that while dictionaries provide transparency, Transformers are required for semantic nuance. & Does not propose a new architecture, but rather a methodology for tool selection. \\ \hline
+\textbf{Raman et al.}  \parencite{natraj_raman_009776f2} & \textbf{Distant Supervision}: Neural Language Models for trend mapping. & Corporate earnings call transcripts and ESG news. & Text & One of the first applications of neural embeddings to map long-term ESG trends via distant supervision. & Reliance on weak labels (distant supervision) can introduce noise into trend analysis. \\ \hline
+\textbf{Bingler et al.}  \parencite{julia_bingler_268445e3} & \textbf{ClimateBERT}: Domain-specific pre-training. & 1.6M paragraphs of climate-related disclosures. & Text & Proven that general-purpose models fail to detect "cheap talk" and that domain-pretraining is essential for climate precision. & Narrow focus on climate-related text; less effective for social or governance specificities. \\ \hline
+\textbf{Schimanski et al.}  \parencite{tobias_schimanski_4e192ec5} & \textbf{BERT-Based Measurement}: Quantifying multi-dimensional ESG communication. & Large-scale sustainability reports across multiple industries. & Text & Bridged the gap between manual content analysis and automated measurement using contextual embeddings. & The model is a "black box" compared to dictionary methods, making it harder for auditors to interpret specific flags. \\ \hline
+\textbf{Chung \& Latifi}  \parencite{tae_sun_chung_e16a4c18} & \textbf{Domain-Specific LLM Evaluation}: Benchmarking ESG-specific LLMs. & Specialized ESG text classification benchmarks. & Text & Quantified the performance leap when using models pre-trained specifically on financial and ESG corpora. & Primarily addresses classification tasks rather than complex structured data extraction. \\ \hline
+\textbf{Bronzini et al.}  \parencite{marco_bronzini_bf94d949} & \textbf{Generative Extraction}: Transition from classification to structured insights via LLMs. & 100+ high-complexity corporate sustainability reports. & Text \& Semi-structured data & Demonstrated that LLMs (e.g., GPT-4) can derive structured tables and insights that previously required manual entry. & High computational cost and the inherent risk of numerical "hallucinations" in extracted data. \\ \hline
+\textbf{Anaraki et al.}  \parencite{seyed_alireza_mousavian_anaraki_b56a1c0f} & \textbf{Systematic Review}: Mapping the research agenda for LLMs in sustainability. & Literature corpus on LLM applications in ESG. & Meta-analysis & Provided a comprehensive taxonomy of how LLMs are currently being used to automate regulatory reporting (GRI/SASB). & As a review paper, it does not provide an empirical benchmark for specific extraction tasks. \\ \hline
+\end{tabularx}
+\end{table}
+\end{landscape}
+
+
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{|p{1.8cm}|p{3.5cm}|p{3cm}|p{1.8cm}|X|X|}
+\hline
+Authors & Method / Approach & Datasets & Modalities Involved & Key Contributions & Limitations \\ \hline
+\textbf{Ong et al.}  \parencite{keane_ong_369a0b63} & \textbf{Aspect-Action Analysis}: Cross-category generalization for robust analysis. & ESG reports with labeled environmental actions. & Text & Developed a technical logic to link broad environmental claims ("Aspects") to verifiable investments ("Actions") to detect narrative inconsistencies  \parencite{keane_ong_369a0b63}. & High performance dependency on the availability of explicit action-oriented language in reports. \\ \hline
+\textbf{Schimanski et al.}  \parencite{tobias_schimanski_3549ff9f} & \textbf{Nature-Related NLP}: Domain-specific datasets/models for biodiversity. & TNFD-aligned corporate nature disclosures. & Text & Technically expanded the evolution of ESG NLP from carbon-centric to nature/biodiversity-centric  \parencite{tobias_schimanski_3549ff9f}. & Biodiversity reporting is currently sparse, leading to "small data" challenges for model training. \\ \hline
+\textbf{Billert \& Conrad}  \parencite{fabian_billert_a5fbb687} & \textbf{Nano-ESG Extraction}: Information extraction from external news. & Large corpus of corporate news articles. & Text & Shifted from "Internal-Only" to "External-Monitoring" by extracting ESG performance indicators from media to verify company claims  \parencite{fabian_billert_a5fbb687}. & News data is significantly noisier than formal reports, requiring complex cleaning and deduplication pipelines. \\ \hline
+\textbf{Schimanski et al.}  \parencite{tobias_schimanski_241ada20} & \textbf{ClimateBERT-NetZero}: Specialized target assessment pipeline. & Net Zero pledge documents and corporate targets. & Text (Targets/ Claims) & Introduced a methodology to technically differentiate between "vague" pledges and "verifiable" science-based targets  \parencite{tobias_schimanski_241ada20}. & Struggles to validate future-looking claims that lack current-year material evidence or milestones. \\ \hline
+\textbf{Wang et al.}  \parencite{xiaojia_wang_02351a60} & \textbf{Multi-Feature Prediction}: Sentiment and thematic feature integration. & Standard corporate ESG reports. & Text & Quantified the "Greenwashing Degree" by using the disparity between positive sentiment and specific thematic density as a technical predictor  \parencite{xiaojia_wang_02351a60}. & Focused on linguistic features; may miss numerical discrepancies found in financial tables. \\ \hline
+\textbf{Yu et al.}  \parencite{yinan_yu_e282fd98} & \textbf{climateBUG}: Sector-specific framework for financial institutions. & Bank-specific climate risk and TCFD reports. & Text \& Metadata & Developed a data-driven framework specifically for the banking sector to identify "transparency gaps" in carbon-intensive lending  \parencite{yinan_yu_e282fd98}. & The banking-specific ontology lacks generalization to other sectors like heavy manufacturing or retail. \\ \hline
+\end{tabularx}
+\end{table}
+\end{landscape}
+
+
+
+\section{Large Language Models for Structured ESG Extraction}
+
+The shift toward Large Language Models represents a fundamental technical pivot from \textbf{text classification}—where models simply categorize a paragraph as "Environmental"—to \textbf{structured information extraction}, where models extract specific, actionable data points into predefined schemas  \parencite[]{seyed_alireza_mousavian_anaraki_b56a1c0f, marco_bronzini_bf94d949}.
+\subsection{From Classification to Schema-Based Extraction}
+
+Traditional NLP models typically perform sequence classification, providing a high-level label for a text block. In contrast, LLMs enable the derivation of structured insights, such as transforming unstructured narrative text into JSON or tabular formats that include specific metrics like Scope 1 emissions, target years, and baseline comparisons  \parencite{marco_bronzini_bf94d949}. This capability is critical for automating the assessment of sustainability reports, which are often composed of semi-structured data that varies significantly between companies  \parencite[]{jacob_beck_9548a833, marco_bronzini_bf94d949}. Research by \textbf{Bronzini et al.} demonstrates that LLMs like GPT-4 can derive these structured tables with a level of precision that previously required manual auditing, though the risk of numerical "hallucinations" remains a technical hurdle  \parencite{marco_bronzini_bf94d949}.
+\subsection{Prompt Engineering and In-Context Learning}
+
+A key technical advantage of LLMs in the ESG domain is their ability to perform tasks via \textbf{In-Context Learning}, which includes zero-shot and few-shot prompting strategies  \parencite{frederik_maibaum_b8629037}. This eliminates the need for the extensive, task-specific fine-tuning required by earlier models like BERT  \parencite[]{tae_sun_chung_e16a4c18, frederik_maibaum_b8629037}.
+\begin{itemize}
+\item 
+
+\textbf{Zero-Shot Extraction:} LLMs can extract ESG data based solely on a natural language description of the schema (aligning with \textbf{Section 3.4.1 Schema Layer})  \parencite{marco_bronzini_bf94d949}.\item 
+
+\textbf{Few-Shot Prompting:} Providing a few expert-labeled examples (e.g., how to identify a "Science-Based Target") within the prompt significantly improves model performance on complex, "soft" language tasks  \parencite[]{frederik_maibaum_b8629037, arash_hajikhani_cbb2528f}.\item 
+
+\textbf{Chain-of-Thought:} Encouraging the model to "reason" through an extraction—such as explaining \textit{why} a specific sentence constitutes a carbon reduction action—helps mitigate errors in judgment and improves the interpretability of the results  \parencite{arash_hajikhani_cbb2528f}.
+\end{itemize}
+\subsection{Aspect-Action Linkage and Semantic Mapping}
+
+For greenwashing detection, simple keyword matching is insufficient. LLMs excel at \textbf{Aspect-Action Analysis}, a technical logic where the model identifies an environmental "aspect" (e.g., water conservation) and attempts to link it to a verifiable "action" (e.g., \$10M investment in desalination plants)  \parencite{keane_ong_369a0b63}. Technically, this involves complex semantic mapping where the LLM evaluates the strength of the connection between a claim and the evidence provided. If a model identifies a high frequency of "aspects" without corresponding "actions," it can flag the report for potential greenwashing based on narrative inconsistency  \parencite[]{xiaojia_wang_02351a60, keane_ong_369a0b63}.
+\subsection{ Domain-Specific vs. General LLMs}
+
+While general LLMs like GPT-4 show high performance, the evolution of the field has led to \textbf{domain-specific pre-trained models} (e.g., ESG-BERT or specialized Llama variants). Studies comparing these models indicate that domain-specific pre-training on financial and corporate corpora allows the model to better understand the "jargon" of sustainability reporting, leading to higher accuracy in identifying material risks  \parencite[]{seyed_alireza_mousavian_anaraki_b56a1c0f, tae_sun_chung_e16a4c18}. However, general-purpose LLMs often retain a lead in "reasoning" tasks and complex instruction following, which justifies the \textbf{Comparative Model Logic} found in \textbf{Section 3.4.5}  \parencite[]{arash_hajikhani_cbb2528f, tae_sun_chung_e16a4c18}.
+\subsection{Technical Risks: Hallucinations and Grounding}
+
+A critical limitation of LLMs in ESG extraction is their sensitivity to input phrasing and their tendency to generate plausible-sounding but factually incorrect data—commonly known as \textbf{hallucinations}  \parencite{arash_hajikhani_cbb2528f}. In the context of sustainability, a hallucinated emission figure or target date could lead to incorrect regulatory filings. This technical risk necessitates the use of \textbf{External Validators} (like ClimateBERT, as seen in  \textbf{Section 3.4.3}) and \textbf{Human-in-the-Loop} workflows to verify the extracted "silver labels" before they are accepted as ground truth  \parencite[]{fabian_billert_a5fbb687, marco_bronzini_bf94d949, yinan_yu_e282fd98}.
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\caption{Hallucinations and Grounding}
+\label{label}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{|p{1.8cm}|p{3.5cm}|p{3.5cm}|p{1.8cm}|X|X|}
+\hline
+Authors & Method / Approach & Datasets & Modalities Involved & Key Contributions & Limitations \\ \hline
+\textbf{Bronzini et al.}  \parencite{marco_bronzini_bf94d949} & \textbf{Structured Parsing}: Using LLMs to derive JSON/tabular insights from text. & 100+ high-complexity corporate sustainability reports. & Text \& Semi-structured data & Demonstrated that LLMs can automate the conversion of qualitative narratives into structured ESG metrics. & High risk of numerical "hallucinations" and significant computational costs per report. \\ \hline
+\textbf{Anaraki et al.}  \parencite{seyed_alireza_mousavian_anaraki_b56a1c0f} & \textbf{Systematic LLM Review}: Mapping the technical landscape of LLM applications in ESG. & Comprehensive corpus of LLM-ESG literature. & Meta-analysis & Provided a taxonomy of LLM tasks in sustainability, including regulatory reporting and audit automation. & Does not provide a specific empirical benchmark or new architecture. \\ \hline
+\textbf{Hajikhani \& Cole}  \parencite{arash_hajikhani_cbb2528f} & \textbf{Sensitivity Analysis}: Evaluating model bias and sensitivity in specialized AI. & Multi-domain LLM outputs (general and specialized). & Text & Highlighted the critical need for "Self-Refinement" and specialized prompts to mitigate bias in LLM outputs. & Focuses on the "path toward specialized AI" rather than a standalone ESG extraction tool. \\ \hline
+\textbf{Chung \& Latifi}  \parencite{tae_sun_chung_e16a4c18} & \textbf{Benchmarking ESG-LLMs}: Comparing domain-specific LLMs against general models. & ESG-specific text classification and extraction benchmarks. & Text & Quantified the performance gap, showing that ESG-pre-trained LLMs significantly reduce false-positive greenwashing flags. & Domain-specific models can inherit biases from their specific training corpus. \\ \hline
+\textbf{Xu et al.}  \parencite{chong_xu_bff21576} & \textbf{DeepGreen System}: LLM-driven monitoring for empirical greenwashing testing. & Corporate ESG reports and external news articles. & Text & Created a cross-verification pipeline using LLMs to check report validity against external evidence. & Regional data focus (e.g., China) may affect generalizability to global reporting standards. \\ \hline
+\textbf{Ong et al.}  \parencite{keane_ong_369a0b63} & \textbf{Aspect-Action Analysis}: Linking sustainability "Aspects" to concrete "Actions." & ESG reports with labeled environmental investments. & Text & Developed a semantic logic to detect greenwashing when claims are not backed by verifiable data. & Highly dependent on the presence of explicit, action-oriented language within the reports. \\ \hline
+\textbf{Beck et al.}  \parencite{jacob_beck_9548a833} & \textbf{GHG Benchmark}: Structured extraction of Greenhouse Gas emissions. & Global dataset of PDF sustainability reports. & Text \& PDF Metadata & Established a technical benchmark for extracting precise Scope 1, 2, and 3 emission figures from unstructured text. & Focused exclusively on GHG metrics, omitting broader qualitative ESG themes. \\ \hline
+% \textbf{Maibaum et al.}  \parencite{frederik_maibaum_b8629037} & \textbf{Tool Selection Framework}: Decision matrix for LLM vs. BERT applications. & Corporate reporting datasets. & Text & Identified that LLMs are superior for "complex semantic capture" where traditional models (like BERT) fail. & Framework is methodology-focused and does not propose a specific new model architecture. \\ \hline
+\end{tabularx}
+\end{table}
+\end{landscape}
+
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\caption{caption}
+\label{label}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{|p{1.8cm}|p{3.5cm}|p{2.5cm}|p{1.8cm}|X|X|}
+\hline
+Authors & Method / Approach & Datasets & Modalities Involved & Key Contributions & Limitations \\ \hline
+\textbf{Schimanski et al.}  \parencite{tobias_schimanski_241ada20} & \textbf{ClimateBERT-NetZero}: Targeted assessment of reduction pledges. & Corporate Net Zero commitment documents. & Text (Targets/ Pledges) & Developed a pipeline to extract and assess "Net Zero" targets, distinguishing between vague pledges and verifiable, science-based reduction goals  \parencite{tobias_schimanski_241ada20}. & Often struggles to validate purely forward-looking statements that lack current-year material evidence. \\ \hline
+\textbf{Bingler et al.}  \parencite{julia_bingler_268445e3} & \textbf{Domain-Specific Risk Extraction}: Identifying "cherry-picking" in disclosures. & TCFD-aligned climate risk reports. & Text & Technically identified "cheap talk" by extracting non-committal language and comparing it against material climate risks  \parencite{julia_bingler_268445e3}. & Narrowly focused on climate-related risks; less effective for social (S) or governance (G) extraction. \\ \hline
+\textbf{Schimanski et al.}  \parencite{tobias_schimanski_3549ff9f} & \textbf{Nature-Related Models}: Extracting biodiversity and ecosystem metrics. & TNFD-aligned corporate nature disclosures. & Text (Nature/ Biodiversity) & Expanded the extraction paradigm to nature-related disclosures, providing a framework for monitoring biodiversity impact  \parencite{tobias_schimanski_3549ff9f}. & Nature-related reporting is still emerging, leading to sparse and inconsistent ground-truth data for model training. \\ \hline
+\textbf{Billert \& Conrad}  \parencite{fabian_billert_a5fbb687} & \textbf{Nano-ESG Extraction}: Event-based extraction from news media. & Large-scale corpus of corporate news articles. & Text & Shifted from internal reports to "outside-in" monitoring by extracting ESG-relevant events from news to verify internal claims  \parencite{fabian_billert_a5fbb687}. & News data is significantly noisier than formal reports, requiring complex deduplication and filtering. \\ \hline
+\textbf{Yu et al.}  \parencite{yinan_yu_e282fd98} & \textbf{climateBUG Framework}: Sector-specific extraction for financial institutions. & Bank-specific climate risk and TCFD reports. & Text \& Metadata & Developed a data-driven framework specifically for the banking sector to identify "transparency gaps" in carbon-intensive lending  \parencite{yinan_yu_e282fd98}. & The sector-specific ontology (banking) may not directly transfer to heavy-industry or manufacturing sectors. \\ \hline
+\textbf{Kılınç et al.}  \parencite{yavuz_k_l_n__64e32f80} & \textbf{Multi-dimensional Framework}: Deception detection in textual reporting. & Diverse corporate sustainability reports. & Textual Narratives & technically linked linguistic "deception" cues (e.g., strategic ambiguity) to specific sustainability extraction categories  \parencite{yavuz_k_l_n__64e32f80}. & High performance dependency on the quality and breadth of the underlying sentiment and thematic lexicons. \\ \hline
+\textbf{Wang et al.}  \parencite{xiaojia_wang_02351a60} & \textbf{Sentiment-Thematic Integration}: Predicting greenwashing degree via feature disparity. & Standardized corporate ESG reports. & Text & Quantified how high positive sentiment correlates with a lack of specific, data-backed thematic actions, creating a predictive score for greenwashing  \parencite{xiaojia_wang_02351a60}. & Focused primarily on linguistic features; may miss numerical discrepancies found in financial tables. \\ \hline
+% \textbf{Pavlova et al.}  \parencite{mariya_pavlova_259be499} & \textbf{ESG-FTSE Corpus}: Relevance labeling and benchmark design. & FTSE-indexed news articles and press releases. & Text & Provided a large-scale corpus for training models to distinguish between relevant ESG events and noisy media content  \parencite{mariya_pavlova_259be499}. & While excellent for relevance classification, it is less optimized for the extraction of specific quantitative metrics. \\ \hline
+\end{tabularx}
+\end{table}
+\end{landscape}
+
+\section{ Data Gaps and Benchmark Design}
+
+The creation of a robust methodology for sustainability analysis is fundamentally constrained by the quality and structure of available data. This section examines the technical "data gaps" identified in current literature and the evolving standards for benchmark design in the ESG domain.
+\subsection{Identifying Technical Data Gaps in Sustainability}
+
+Despite the increasing volume of reports, significant gaps prevent automated systems from achieving high accuracy.
+\begin{itemize}
+\item 
+
+\textbf{Extraction and Parsing Failures:} A primary technical gap is the failure of automated pipelines to ingest complex, semi-structured PDF layouts  \parencite[]{marco_bronzini_bf94d949, jacob_beck_9548a833}. Research by \textbf{Beck et al.} highlights that data gaps in sustainability reporting—particularly regarding greenhouse gas emissions—are often caused by the technical difficulty of extracting data from multi-column tables and non-standardized units within unstructured narratives  \parencite{jacob_beck_9548a833}.\item 
+
+\textbf{The Scope 3 Reporting Gap:} While Scope 1 and 2 emissions are increasingly reported with consistency, Scope 3 reporting remains sparse and technically inconsistent across industries, making it the most difficult metric to benchmark accurately  \parencite{jacob_beck_9548a833}.\item 
+
+\textbf{"Sentimental Masks" and Omissions:} Data gaps are not always accidental; they can be strategic. Literature identifies "cherry-picking" (reporting only positive metrics) as a practice that creates artificial gaps in a firm’s environmental risk profile  \parencite[]{xiaojia_wang_02351a60, julia_bingler_268445e3}. This requires benchmarks that can identify not just what is present, but what has been omitted  \parencite{julia_bingler_268445e3}.
+\end{itemize}
+\subsection{The Role of Benchmark Datasets in ESG NLP}
+
+A technical benchmark provides a standardized "ground truth" to evaluate model performance. The field is currently shifting from general classification datasets to \textbf{specialized extraction benchmarks}:
+\begin{itemize}
+\item 
+
+\textbf{Target-Specific Benchmarking:} Newer benchmarks, such as \textbf{ClimateBERT-NetZero}, are designed specifically to evaluate a model's ability to distinguish between vague corporate pledges and verifiable, science-based reduction targets  \parencite{tobias_schimanski_241ada20}.\item 
+
+\textbf{Nature and Biodiversity:} As the focus expands beyond carbon, specialized datasets are emerging for nature-related disclosures, addressing the "small data" challenge where high-quality labeled examples of biodiversity impact are scarce  \parencite{tobias_schimanski_3549ff9f}.\item 
+
+\textbf{News-Based External Validation:} Benchmarks like the \textbf{ESG-FTSE corpus} utilize external news articles to provide an "outside-in" perspective, allowing researchers to check for discrepancies between internal corporate reports and external media narratives  \parencite[]{fabian_billert_a5fbb687, mariya_pavlova_259be499}.
+\end{itemize}
+\subsection{Technical Requirements for Benchmark Design}
+
+According to recent studies, a defensible ESG benchmark must satisfy three core technical requirements:
+\begin{enumerate}
+\item 
+
+\textbf{Granular Unit of Analysis:} Benchmarks must transition from report-level summaries to \textbf{paragraph-level extractions} to capture the specific context of claims  \parencite{jacob_beck_9548a833}.\item 
+
+\textbf{Gold Standard Ground Truth:} While "Silver Labels" (generated via weak supervision or LLMs) are useful for initial seeding, a high-fidelity benchmark requires an expert-led \textbf{Human Annotation Workflow} to verify the semantic nuances of sustainability language  \parencite[]{keane_ong_369a0b63, chong_xu_bff21576}.\item 
+
+\textbf{Cross-Category Generalization:} A robust benchmark should test a model's performance across diverse industry sectors (e.g., banking vs. heavy industry) and ESG categories to ensure the methodology is not overfitted to a single domain  \parencite[]{yinan_yu_e282fd98, keane_ong_369a0b63}.
+\end{enumerate}
+
+\subsection{Table: State-of-the-Art in ESG Benchmark Design}
+
+For \textbf{Section 2.4: Data Gaps and Benchmark Design}, the following table identifies the most recent state-of-the-art benchmarks and datasets designed to address the "expert-scarcity" and "data-fragmentation" problems in sustainability reporting. These works provide the technical foundation for the \textbf{Benchmark and Ground Truth Design (Section 3.6)}, and also highlights additional state-of-the-art research focusing on the specific technical gaps identified in corporate reporting and the datasets developed to mitigate them. These works provide the scholarly justification to focus on \textbf{Coverage, Stratification, and Resumability (Section 3.6.4)}.
+
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\caption{State-of-the-art ESG benchmarks and dataset design patterns supporting the benchmark and ground-truth construction in Section 3.6.}
+\label{tab:esg-benchmark-dataset-design}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{|p{1.8cm}|X|X|p{1.8cm}|X|X|}
+\hline
+Authors & Method / Approach & Datasets & Modalities Involved & Key Contributions & Limitations \\ \hline
+\textbf{Beck et al.} \parencite{jacob_beck_9548a833} & \textbf{LLM-powered extraction with human review}: a multi-stage validation pipeline. & 139 sustainability reports from company websites. & Text \& PDF metadata & Created a gold-standard dataset for GHG emissions to validate automated extraction. & Primarily focused on numerical emission metrics; lacks qualitative greenwashing narrative analysis. \\ \hline
+\textbf{Sun et al.} \parencite{siqi_sun_f6a51152} & \textbf{ESG-Bench}: QA-based benchmarking for long-context understanding. & Human-annotated QA pairs grounded in real-world reports. & Text & Developed a benchmark for hallucination mitigation in compliance-critical ESG settings. & Complex QA design may limit direct reuse for simpler extraction tasks. \\ \hline
+\textbf{Maibaum et al.} \parencite{frederik_maibaum_b8629037} & \textbf{Validity and quality assessment}: comparison of four NLP techniques. & 75,000 manually labelled sentences from 10-K reports. & Text & Established large-scale ground truth showing that dictionaries fail to capture semantic context. & Focuses on 10-K filings, which differ from dedicated ESG or sustainability reports. \\ \hline
+\textbf{George \& Saji} \parencite{s_s__george_b30d4b3e} & \textbf{ESGBench}: explainable question-answering framework. & Domain-grounded questions across multiple ESG themes. & Text \& evidence chains & Created a benchmark requiring supporting evidence for answers, improving traceability. & Does not specifically address deceptive or greenwashed evidence. \\ \hline
+\textbf{Schimanski et al.} \parencite{tobias_schimanski_4e192ec5} & \textbf{Multi-domain pretraining}: specialised E, S, and G classifiers. & 13.8M text blocks; three specialised 2k datasets. & Text & Provided targeted datasets for training models that explain variation in ESG ratings. & Final classification datasets are small compared with the pretraining corpus. \\ \hline
+\textbf{Schimanski et al.} \parencite{tobias_schimanski_241ada20} & \textbf{Target assessment pipeline}: differentiating pledge types. & Corporate net-zero and reduction-target documents. & Text (targets/ pledges) & Created a benchmark for distinguishing vague pledges from verifiable science-based goals. & Evaluation is restricted to climate targets, omitting social and governance commitments. \\ \hline
+\textbf{Pavlova et al.} \parencite{mariya_pavlova_259be499} & \textbf{ESG-FTSE Corpus}: news-based relevance labelling. & News articles and press releases indexed by the FTSE. & Text & Established a corpus for outside-in verification against public sentiment and media evidence. & News data is noisy and requires filtering before matching report-level claims. \\ \hline
+\textbf{Schimanski et al.} \parencite{tobias_schimanski_3549ff9f} & \textbf{Nature-related discovery}: transitioning beyond carbon. & TNFD-aligned nature and biodiversity disclosures. & Text & Developed benchmark resources for nature-related disclosures and biodiversity reporting gaps. & Biodiversity reporting standards are still evolving, creating inconsistent ground-truth labels. \\ \hline
+\end{tabularx}
+\end{table}
+\end{landscape}
+
+
+\begin{landscape}
+\begin{table}[p]
+\centering
+\caption{State-of-the-Art in ESG Benchmark Design}
+\label{label}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\linewidth}{|p{1.8cm}|p{3cm}|p{3cm}|p{1.8cm}|X|X|}
+\hline
+Authors & Method / Approach & Datasets & Modalities Involved & Key Contributions & Limitations \\ \hline
+\textbf{Bingler et al.}  \parencite{julia_bingler_268445e3} & \textbf{Cherry-Picking Analysis}: Identifying selective reporting in climate disclosures. & 1.6M paragraphs from TCFD-aligned reports. & Text & Technically mapped the gap between "climate-relevant" and "climate-material" disclosures, proving that companies selectively report positive news  \parencite{julia_bingler_268445e3}. & Does not provide a mechanism for automated cross-source validation against external physical risk data. \\ \hline
+\textbf{Yu et al.}  \parencite{yinan_yu_e282fd98} & \textbf{climateBUG Framework}: Sector-specific transparency gap analysis. & Bank-specific climate and TCFD reports. & Text \& Financial Data & Identified the "transparency gap" in the financial sector, providing a dataset specifically for carbon-intensive lending disclosures  \parencite{yinan_yu_e282fd98}. & The benchmark is highly tailored to the banking ontology and may not apply to non-financial corporations. \\ \hline
+\textbf{Kılınç et al.}  \parencite{yavuz_k_l_n__64e32f80} & \textbf{Deception-Oriented Dataset}: Focused on linguistic indicators of greenwashing. & Multi-sector corporate sustainability reports. & Textual Narratives & Established a dataset to test for "strategic ambiguity" and "vagueness," which are often omitted from standard NLP benchmarks  \parencite{yavuz_k_l_n__64e32f80}. & Performance is limited by the subjective nature of what constitutes "ambiguity" in different regulatory jurisdictions. \\ \hline
+\textbf{Billert \& Conrad}  \parencite{fabian_billert_a5fbb687} & \textbf{Nano-ESG Corpus}: External event-based extraction. & News articles covering corporate environmental/social events. & Text & Addressed the "internal-only" data gap by creating a corpus that allows models to verify report claims against public events  \parencite{fabian_billert_a5fbb687}. & Challenges arise in temporal alignment—matching a news event date to the specific reporting cycle of a firm. \\ \hline
+\textbf{Wang et al.}  \parencite{xiaojia_wang_02351a60} & \textbf{Sentiment-Thematic Disparity}: Predicting greenwashing degree. & Diverse corporate ESG reports. & Text & Technically quantified the gap between high-sentiment "marketing" language and low-density "action" themes  \parencite{xiaojia_wang_02351a60}. & The model predicts a "degree" of greenwashing but cannot pinpoint specific false statements for auditing purposes. \\ \hline
+\textbf{Ong et al.}  \parencite{keane_ong_369a0b63} & \textbf{Aspect-Action Generalization}: Cross-category robustness testing. & ESG reports with labeled aspects and actions. & Text & Developed a benchmark to test how well models generalize "action-detection" across different ESG pillars (E vs. S vs. G)  \parencite{keane_ong_369a0b63}. & Requires highly complex, multi-layered annotations which are difficult to scale for large datasets. \\ \hline
+% \textbf{Xu et al.}  \parencite{chong_xu_bff21576} & \textbf{DeepGreen System}: Large-scale empirical testing dataset. & Corporate reports and external news. & Text & Introduced a pipeline for creating "Silver Label" benchmarks at scale to facilitate longitudinal greenwashing studies  \parencite{chong_xu_bff21576}. & Potential for "label drift" if the LLM used for generation is not continuously calibrated against human experts. \\ \hline
+% \textbf{Hajikhani \& Cole}  \parencite{arash_hajikhani_cbb2528f} & \textbf{Specialized Sensitivity Benchmarking}: Assessing LLM bias in niche domains. & Multi-domain LLM outputs. & Text & Provided a technical methodology for benchmarking how sensitive LLMs are to specific phrasing in specialized fields like ESG  \parencite{arash_hajikhani_cbb2528f}. & Focuses on the "how" of model sensitivity rather than providing a static "what" in terms of extraction ground-truth. \\ \hline
+\end{tabularx}
+\end{table}
+\end{landscape}
