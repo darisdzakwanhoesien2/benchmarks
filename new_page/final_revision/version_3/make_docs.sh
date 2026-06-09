@@ -70,4 +70,8 @@ pandoc "$BODY_TEX" \
   -M author="Daris Dzakwan Hoesien" \
   --output=thesis.docx
 
+echo "Generating PDF..."
+latexmk -pdf -interaction=nonstopmode main.tex
+
 echo "Done: $ROOT_DIR/thesis.docx"
+echo "Done: $ROOT_DIR/main.pdf"

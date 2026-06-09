@@ -1,0 +1,4531 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{hans_bonde_christensen_45b44695}{article}{}
+      \name{author}{3}{}{%
+        {{hash=1d586fc09faff992d65c54f1fbf9d85c}{%
+           family={Christensen},
+           familyi={C\bibinitperiod},
+           given={Hans\bibnamedelima Bonde},
+           giveni={H\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=dc84d827f0a6b11f439c13c05f7165f6}{%
+           family={Hail},
+           familyi={H\bibinitperiod},
+           given={Luzi},
+           giveni={L\bibinitperiod}}}%
+        {{hash=deb2162618918eb47044f85c3c3472f9}{%
+           family={Leuz},
+           familyi={L\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science+Business Media}%
+      }
+      \strng{namehash}{8d698a967bd7535f0c0634f97c1a2162}
+      \strng{fullhash}{812191a7ebfc93ed5644ab2da2e979d5}
+      \strng{bibnamehash}{812191a7ebfc93ed5644ab2da2e979d5}
+      \strng{authorbibnamehash}{812191a7ebfc93ed5644ab2da2e979d5}
+      \strng{authornamehash}{8d698a967bd7535f0c0634f97c1a2162}
+      \strng{authorfullhash}{812191a7ebfc93ed5644ab2da2e979d5}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1380-6653, 1573-7136}
+      \field{issue}{3}
+      \field{journaltitle}{Review of Accounting Studies}
+      \field{month}{07}
+      \field{title}{Mandatory CSR and sustainability reporting: economic analysis and literature review}
+      \field{volume}{26}
+      \field{year}{2021}
+      \field{pages}{1176\bibrangedash 1248}
+      \range{pages}{73}
+      \verb{doi}
+      \verb 10.1007/s11142-021-09609-5
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/s11142-021-09609-5
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/s11142-021-09609-5
+      \endverb
+    \endentry
+    \entry{ellen_pei_yi_yu_4668244e}{article}{}
+      \name{author}{3}{}{%
+        {{hash=a0535067f5f437c55d80b788987ed7ac}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Ellen\bibnamedelima Pei‐yi},
+           giveni={E\bibinitperiod\bibinitdelim P\bibinithyphendelim y\bibinitperiod}}}%
+        {{hash=547c428bff1c380c2dc6d8c002dd940b}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Qian},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=5d15c182c2dfd5ec0e0022a402ca0bec}{%
+           family={Luu},
+           familyi={L\bibinitperiod},
+           given={Bac\bibnamedelima Van},
+           giveni={B\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{49a150bb32f23ae85a2ef11ed32ba7bf}
+      \strng{fullhash}{09c0a5d05e8e03b1b92bb5d376be0ab7}
+      \strng{bibnamehash}{09c0a5d05e8e03b1b92bb5d376be0ab7}
+      \strng{authorbibnamehash}{09c0a5d05e8e03b1b92bb5d376be0ab7}
+      \strng{authornamehash}{49a150bb32f23ae85a2ef11ed32ba7bf}
+      \strng{authorfullhash}{09c0a5d05e8e03b1b92bb5d376be0ab7}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0964-4733, 1099-0836}
+      \field{issue}{7}
+      \field{journaltitle}{Business Strategy and the Environment}
+      \field{month}{03}
+      \field{title}{Environmental, social and governance transparency and firm value}
+      \field{volume}{27}
+      \field{year}{2018}
+      \field{pages}{987\bibrangedash 1004}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1002/bse.2047
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1002/bse.2047
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1002/bse.2047
+      \endverb
+    \endentry
+    \entry{monica_singhania_286966ff}{article}{}
+      \name{author}{2}{}{%
+        {{hash=2fc3470de0e20cf9ea568a9b39f3296c}{%
+           family={Singhania},
+           familyi={S\bibinitperiod},
+           given={Monica},
+           giveni={M\bibinitperiod}}}%
+        {{hash=69bae000804d6c88ff26c024bea8e7f5}{%
+           family={Saini},
+           familyi={S\bibinitperiod},
+           given={Neha},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {SAGE Publishing}%
+      }
+      \strng{namehash}{4c256d5fa405bc34008166f9f021f940}
+      \strng{fullhash}{4c256d5fa405bc34008166f9f021f940}
+      \strng{bibnamehash}{4c256d5fa405bc34008166f9f021f940}
+      \strng{authorbibnamehash}{4c256d5fa405bc34008166f9f021f940}
+      \strng{authornamehash}{4c256d5fa405bc34008166f9f021f940}
+      \strng{authorfullhash}{4c256d5fa405bc34008166f9f021f940}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0972-2629, 2249-5304}
+      \field{issue}{2}
+      \field{journaltitle}{Vision The Journal of Business Perspective}
+      \field{month}{11}
+      \field{title}{Quantification of ESG Regulations: A Cross-Country Benchmarking Analysis}
+      \field{volume}{26}
+      \field{year}{2021}
+      \field{pages}{163\bibrangedash 171}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1177/09722629211054173
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1177/09722629211054173
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1177/09722629211054173
+      \endverb
+    \endentry
+    \entry{desi_adhariani_toit_543335d6}{article}{}
+      \name{author}{2}{}{%
+        {{hash=d28d37525b10ce41b186d4bd0aca25b1}{%
+           family={Toit},
+           familyi={T\bibinitperiod},
+           given={Desi\bibnamedelima Adhariani},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=566d7b9a492cfe56a504e9941d06c189}{%
+           family={du},
+           familyi={d\bibinitperiod},
+           given={Elda},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{5141da0ef9f5e176c35c2a53beb1ffed}
+      \strng{fullhash}{5141da0ef9f5e176c35c2a53beb1ffed}
+      \strng{bibnamehash}{5141da0ef9f5e176c35c2a53beb1ffed}
+      \strng{authorbibnamehash}{5141da0ef9f5e176c35c2a53beb1ffed}
+      \strng{authornamehash}{5141da0ef9f5e176c35c2a53beb1ffed}
+      \strng{authorfullhash}{5141da0ef9f5e176c35c2a53beb1ffed}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Accounting in Emerging Economies}
+      \field{month}{09}
+      \field{title}{Readability of Sustainability Reports: Evidence from Indonesia}
+      \field{volume}{10}
+      \field{year}{2020}
+      \field{pages}{621\bibrangedash 636}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1108/jaee-10-2019-0194
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1108/jaee-10-2019-0194
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1108/jaee-10-2019-0194
+      \endverb
+    \endentry
+    \entry{marsdenia_010e13e7}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6eb499af9f24b2ada8b8a6ae8630d6bd}{%
+           family={Marsdenia},
+           familyi={M\bibinitperiod}}}%
+        {{hash=eaf196fb642b28ccb93648e6aff99deb}{%
+           family={Koestoer},
+           familyi={K\bibinitperiod},
+           given={Raldi\bibnamedelimb Hendrotoro\bibnamedelima Seputro},
+           giveni={R\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Tutor Treinamento e Desenvolvimento}%
+      }
+      \strng{namehash}{3f350497c24a4053a4174925959b2513}
+      \strng{fullhash}{3f350497c24a4053a4174925959b2513}
+      \strng{bibnamehash}{3f350497c24a4053a4174925959b2513}
+      \strng{authorbibnamehash}{3f350497c24a4053a4174925959b2513}
+      \strng{authornamehash}{3f350497c24a4053a4174925959b2513}
+      \strng{authorfullhash}{3f350497c24a4053a4174925959b2513}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2525-3654}
+      \field{issue}{12}
+      \field{journaltitle}{International Journal of Professional Business Review}
+      \field{month}{12}
+      \field{title}{A Sustainability Reporting Issue: A Comparative Review Between Indonesia and Nordic Country}
+      \field{volume}{8}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.26668/businessreview/2023.v8i12.4014
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.26668/businessreview/2023.v8i12.4014
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.26668/businessreview/2023.v8i12.4014
+      \endverb
+    \endentry
+    \entry{iman_harymawan_2ef898fe}{article}{}
+      \name{author}{4}{}{%
+        {{hash=36b198e77c5b5dbaf0422938caac5cda}{%
+           family={Harymawan},
+           familyi={H\bibinitperiod},
+           given={Iman},
+           giveni={I\bibinitperiod}}}%
+        {{hash=7153023d2770c269e9ef79bfdda09da0}{%
+           family={Putra},
+           familyi={P\bibinitperiod},
+           given={Fajar\bibnamedelimb Kristanto\bibnamedelima Gautama},
+           giveni={F\bibinitperiod\bibinitdelim K\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=c07a2c5943fd632bbc8ad86dd90f400c}{%
+           family={Agni},
+           familyi={A\bibinitperiod},
+           given={Tanaya\bibnamedelimb Devi\bibnamedelima Kemala},
+           giveni={T\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=bf6d18224c2c8fb634c56ea4ad0bd96e}{%
+           family={Kamarudin},
+           familyi={K\bibinitperiod},
+           given={Khairul\bibnamedelima Anuar},
+           giveni={K\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {EconJournals}%
+      }
+      \strng{namehash}{e12f5661bc99c3933048129409f26a2d}
+      \strng{fullhash}{4362a14875c09c5106292d9e33f8a705}
+      \strng{bibnamehash}{4362a14875c09c5106292d9e33f8a705}
+      \strng{authorbibnamehash}{4362a14875c09c5106292d9e33f8a705}
+      \strng{authornamehash}{e12f5661bc99c3933048129409f26a2d}
+      \strng{authorfullhash}{4362a14875c09c5106292d9e33f8a705}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2146-4553}
+      \field{issue}{3}
+      \field{journaltitle}{International Journal of Energy Economics and Policy}
+      \field{month}{03}
+      \field{title}{SUSTAINABILITY REPORT PRACTICES IN INDONESIA: CONTEXT, POLICY, AND READABILITY}
+      \field{volume}{10}
+      \field{year}{2020}
+      \field{pages}{438\bibrangedash 443}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.32479/ijeep.8979
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.32479/ijeep.8979
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.32479/ijeep.8979
+      \endverb
+    \endentry
+    \entry{habiba_al_shaer_c2f5394b}{article}{}
+      \name{author}{3}{}{%
+        {{hash=68c9dab934c3bbfca8cd9633bead728f}{%
+           family={Al‐Shaer},
+           familyi={A\bibinithyphendelim S\bibinitperiod},
+           given={Habiba},
+           giveni={H\bibinitperiod}}}%
+        {{hash=0031c348d4f467476506cf88daa2acbd}{%
+           family={Albitar},
+           familyi={A\bibinitperiod},
+           given={Khaldoon},
+           giveni={K\bibinitperiod}}}%
+        {{hash=1023b4e882bee6d3e25822981bb6df62}{%
+           family={Hussainey},
+           familyi={H\bibinitperiod},
+           given={Khaled},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Emerald Publishing Limited}%
+      }
+      \strng{namehash}{e9118fd73308d2c36e42f8c85bf2815f}
+      \strng{fullhash}{7c20735cc8af2115a3bb879c7fca3130}
+      \strng{bibnamehash}{7c20735cc8af2115a3bb879c7fca3130}
+      \strng{authorbibnamehash}{7c20735cc8af2115a3bb879c7fca3130}
+      \strng{authornamehash}{e9118fd73308d2c36e42f8c85bf2815f}
+      \strng{authorfullhash}{7c20735cc8af2115a3bb879c7fca3130}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0967-5426, 1758-8855}
+      \field{issue}{3}
+      \field{journaltitle}{Journal of Applied Accounting Research}
+      \field{month}{11}
+      \field{title}{Creating sustainability reports that matter: an investigation of factors behind the narratives}
+      \field{volume}{23}
+      \field{year}{2021}
+      \field{pages}{738\bibrangedash 763}
+      \range{pages}{26}
+      \verb{doi}
+      \verb 10.1108/jaar-05-2021-0136
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1108/jaar-05-2021-0136
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1108/jaar-05-2021-0136
+      \endverb
+    \endentry
+    \entry{p__raghavendra_rau_a32af285}{article}{}
+      \name{author}{2}{}{%
+        {{hash=52a5d041e7b5d7ee0d7a3bd57cb39f29}{%
+           family={Rau},
+           familyi={R\bibinitperiod},
+           given={P.\bibnamedelimi Raghavendra},
+           giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=9b43de9b4785a4dba33a815e35aece8d}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Ting},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{a7b54c870d1b04a27305a84f22025e47}
+      \strng{fullhash}{a7b54c870d1b04a27305a84f22025e47}
+      \strng{bibnamehash}{a7b54c870d1b04a27305a84f22025e47}
+      \strng{authorbibnamehash}{a7b54c870d1b04a27305a84f22025e47}
+      \strng{authornamehash}{a7b54c870d1b04a27305a84f22025e47}
+      \strng{authorfullhash}{a7b54c870d1b04a27305a84f22025e47}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2044-1398, 2044-1401}
+      \field{month}{01}
+      \field{title}{A survey on ESG: investors, institutions and firms}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.1108/cfri-12-2022-0260
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1108/cfri-12-2022-0260
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1108/cfri-12-2022-0260
+      \endverb
+    \endentry
+    \entry{steven_paul_nohr_a6874924}{article}{}
+      \name{author}{1}{}{%
+        {{hash=a85939505d7e010b0176396e033cd5f8}{%
+           family={Nohr},
+           familyi={N\bibinitperiod},
+           given={Steven\bibnamedelima Paul},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{a85939505d7e010b0176396e033cd5f8}
+      \strng{fullhash}{a85939505d7e010b0176396e033cd5f8}
+      \strng{bibnamehash}{a85939505d7e010b0176396e033cd5f8}
+      \strng{authorbibnamehash}{a85939505d7e010b0176396e033cd5f8}
+      \strng{authornamehash}{a85939505d7e010b0176396e033cd5f8}
+      \strng{authorfullhash}{a85939505d7e010b0176396e033cd5f8}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{LLM-Based ESG Rating Architectures vs. Deterministic Rule-Layer Verification Systems for Tokenized RWAs}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.6084/m9.figshare.31203868.v1
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.6084/m9.figshare.31203868.v1
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.6084/m9.figshare.31203868.v1
+      \endverb
+    \endentry
+    \entry{siqi_sun_c8f93141}{unpublished}{}
+      \name{author}{6}{}{%
+        {{hash=e1ac54d193c85b7c6c855302387de5e8}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Siqi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=83758d9addb911983a18aa0e74e03aea}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0e9896ecb8bf3ab7a33cd0351243212a}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Mali},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ab81e92c51e8e7150e25b74eabbb6bfc}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Peizhen},
+           giveni={P\bibinitperiod}}}%
+        {{hash=70c52100d68eb70673d8835599dd5f27}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Hanpei},
+           giveni={H\bibinitperiod}}}%
+        {{hash=f28364b04fc73aeaa763895071b0b476}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Xingyi},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{48c0053ae70f49a28a1b9eee2f19275f}
+      \strng{fullhash}{3a5de6f88f7dc35f750dc5da361eaf60}
+      \strng{bibnamehash}{3a5de6f88f7dc35f750dc5da361eaf60}
+      \strng{authorbibnamehash}{3a5de6f88f7dc35f750dc5da361eaf60}
+      \strng{authornamehash}{48c0053ae70f49a28a1b9eee2f19275f}
+      \strng{authorfullhash}{3a5de6f88f7dc35f750dc5da361eaf60}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{03}
+      \field{title}{ESG-Bench: Benchmarking Long-Context ESG Reports for Hallucination Mitigation}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.48550/arxiv.2603.13154
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48550/arxiv.2603.13154
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48550/arxiv.2603.13154
+      \endverb
+    \endentry
+    \entry{association_for_artificial_intelligence_2026_86e12eae}{misc}{}
+      \name{author}{7}{}{%
+        {{hash=ae4c04ddca6884cb46a43430e7c13b1a}{%
+           family={Artificial\bibnamedelimb Intelligence\bibnamedelima 2026},
+           familyi={A\bibinitperiod\bibinitdelim I\bibinitperiod\bibinitdelim 2\bibinitperiod},
+           given={Association},
+           giveni={A\bibinitperiod},
+           prefix={for},
+           prefixi={f\bibinitperiod}}}%
+        {{hash=ab81e92c51e8e7150e25b74eabbb6bfc}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Peizhen},
+           giveni={P\bibinitperiod}}}%
+        {{hash=0e9896ecb8bf3ab7a33cd0351243212a}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Mali},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f28364b04fc73aeaa763895071b0b476}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Xingyi},
+           giveni={X\bibinitperiod}}}%
+        {{hash=e1ac54d193c85b7c6c855302387de5e8}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Siqi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=83758d9addb911983a18aa0e74e03aea}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+        {{hash=70c52100d68eb70673d8835599dd5f27}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Hanpei},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{4baf26d3dd9cdb9ecb30819f5d4f9cd6}
+      \strng{fullhash}{f096a9cd109717dc6d0042dae1236aec}
+      \strng{bibnamehash}{4baf26d3dd9cdb9ecb30819f5d4f9cd6}
+      \strng{authorbibnamehash}{4baf26d3dd9cdb9ecb30819f5d4f9cd6}
+      \strng{authornamehash}{4baf26d3dd9cdb9ecb30819f5d4f9cd6}
+      \strng{authorfullhash}{f096a9cd109717dc6d0042dae1236aec}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{ESG-Bench: Benchmarking Long-Context ESG Reports for Hallucination Mitigation}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.48448/gh3k-mw12
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48448/gh3k-mw12
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48448/gh3k-mw12
+      \endverb
+    \endentry
+    \entry{julia_bingler_268445e3}{article}{}
+      \name{author}{4}{}{%
+        {{hash=548e98a97f677d909ac0032d43ab14b2}{%
+           family={Bingler},
+           familyi={B\bibinitperiod},
+           given={Julia},
+           giveni={J\bibinitperiod}}}%
+        {{hash=1204c491c6125f8f0725a80018d50433}{%
+           family={Kraus},
+           familyi={K\bibinitperiod},
+           given={Mathias},
+           giveni={M\bibinitperiod}}}%
+        {{hash=51a9b6bf7c8424a975ef9afac4e47e7a}{%
+           family={Leippold},
+           familyi={L\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=328ef4cb1a326cb0fe851702bd5f3166}{%
+           family={Webersinke},
+           familyi={W\bibinitperiod},
+           given={Nicolas},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{37513eb10f014905818283d7a1159fee}
+      \strng{fullhash}{895fb544b633c1c2cd76ea6fc8002fac}
+      \strng{bibnamehash}{895fb544b633c1c2cd76ea6fc8002fac}
+      \strng{authorbibnamehash}{895fb544b633c1c2cd76ea6fc8002fac}
+      \strng{authornamehash}{37513eb10f014905818283d7a1159fee}
+      \strng{authorfullhash}{895fb544b633c1c2cd76ea6fc8002fac}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1544-6123, 1544-6131}
+      \field{month}{03}
+      \field{title}{Cheap talk and cherry-picking: What ClimateBert has to say on corporate climate risk disclosures}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.1016/j.frl.2022.102776
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.frl.2022.102776
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.frl.2022.102776
+      \endverb
+    \endentry
+    \entry{julia_bingler_6b484913}{article}{}
+      \name{author}{4}{}{%
+        {{hash=548e98a97f677d909ac0032d43ab14b2}{%
+           family={Bingler},
+           familyi={B\bibinitperiod},
+           given={Julia},
+           giveni={J\bibinitperiod}}}%
+        {{hash=1204c491c6125f8f0725a80018d50433}{%
+           family={Kraus},
+           familyi={K\bibinitperiod},
+           given={Mathias},
+           giveni={M\bibinitperiod}}}%
+        {{hash=51a9b6bf7c8424a975ef9afac4e47e7a}{%
+           family={Leippold},
+           familyi={L\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=328ef4cb1a326cb0fe851702bd5f3166}{%
+           family={Webersinke},
+           familyi={W\bibinitperiod},
+           given={Nicolas},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{37513eb10f014905818283d7a1159fee}
+      \strng{fullhash}{895fb544b633c1c2cd76ea6fc8002fac}
+      \strng{bibnamehash}{895fb544b633c1c2cd76ea6fc8002fac}
+      \strng{authorbibnamehash}{895fb544b633c1c2cd76ea6fc8002fac}
+      \strng{authornamehash}{37513eb10f014905818283d7a1159fee}
+      \strng{authorfullhash}{895fb544b633c1c2cd76ea6fc8002fac}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0378-4266, 1872-6372}
+      \field{month}{04}
+      \field{title}{How cheap talk in climate disclosures relates to climate initiatives, corporate emissions, and reputation risk}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1016/j.jbankfin.2024.107191
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.jbankfin.2024.107191
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.jbankfin.2024.107191
+      \endverb
+    \endentry
+    \entry{jacob_beck_9548a833}{article}{}
+      \name{author}{7}{}{%
+        {{hash=d04798d92e1f1fc7034338c69019f035}{%
+           family={Beck},
+           familyi={B\bibinitperiod},
+           given={Jacob},
+           giveni={J\bibinitperiod}}}%
+        {{hash=6818d50bb16e15446bf3020ad0f9b764}{%
+           family={Steinberg},
+           familyi={S\bibinitperiod},
+           given={Anna},
+           giveni={A\bibinitperiod}}}%
+        {{hash=cb25f9bda735f1f4144f2e096709a729}{%
+           family={Dimmelmeier},
+           familyi={D\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3f9a569d17abf632b150f08025258958}{%
+           family={Domènech},
+           familyi={D\bibinitperiod},
+           given={Laia},
+           giveni={L\bibinitperiod}}}%
+        {{hash=feda17409b2a7a55de63078b79bcd368}{%
+           family={Kormanyos},
+           familyi={K\bibinitperiod},
+           given={Emily},
+           giveni={E\bibinitperiod}}}%
+        {{hash=52293528bcf19ba14c50594f59db0861}{%
+           family={Fehr},
+           familyi={F\bibinitperiod},
+           given={Maurice},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3ac2799a99f916edf45e5afa5fb69791}{%
+           family={Schierholz},
+           familyi={S\bibinitperiod},
+           given={Malte},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{1760ecccde2d5d126aa344e7a7d28c3d}
+      \strng{fullhash}{c504975333a443bc41cc6a6f5cd2d5fa}
+      \strng{bibnamehash}{1760ecccde2d5d126aa344e7a7d28c3d}
+      \strng{authorbibnamehash}{1760ecccde2d5d126aa344e7a7d28c3d}
+      \strng{authornamehash}{1760ecccde2d5d126aa344e7a7d28c3d}
+      \strng{authorfullhash}{c504975333a443bc41cc6a6f5cd2d5fa}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2052-4463}
+      \field{month}{08}
+      \field{title}{Addressing data gaps in sustainability reporting: A benchmark dataset for greenhouse gas emission extraction}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1038/s41597-025-05664-8
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1038/s41597-025-05664-8
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1038/s41597-025-05664-8
+      \endverb
+    \endentry
+    \entry{ahmad_zaki_49372c30}{article}{}
+      \name{author}{1}{}{%
+        {{hash=c310477f5a05ea4f52eac66853fbeaaa}{%
+           family={Zaki},
+           familyi={Z\bibinitperiod},
+           given={Ahmad},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{c310477f5a05ea4f52eac66853fbeaaa}
+      \strng{fullhash}{c310477f5a05ea4f52eac66853fbeaaa}
+      \strng{bibnamehash}{c310477f5a05ea4f52eac66853fbeaaa}
+      \strng{authorbibnamehash}{c310477f5a05ea4f52eac66853fbeaaa}
+      \strng{authornamehash}{c310477f5a05ea4f52eac66853fbeaaa}
+      \strng{authorfullhash}{c310477f5a05ea4f52eac66853fbeaaa}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2657-1935}
+      \field{month}{03}
+      \field{title}{Reframing accounting disclosure in Indonesia towards IFRS S1 and S2 adoption}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.20885/jca.vol8.iss1.art7
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.20885/jca.vol8.iss1.art7
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.20885/jca.vol8.iss1.art7
+      \endverb
+    \endentry
+    \entry{amrie_firmansyah_200ee100}{article}{}
+      \name{author}{2}{}{%
+        {{hash=f5577253bedafd645df100d505a9dcfc}{%
+           family={Firmansyah},
+           familyi={F\bibinitperiod},
+           given={Amrie},
+           giveni={A\bibinitperiod}}}%
+        {{hash=51b822079be7ebaae97d6c7112983fee}{%
+           family={Wibowo},
+           familyi={W\bibinitperiod},
+           given={Puji},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{c5fb2db0077e2305eee2ea5f273a8a27}
+      \strng{fullhash}{c5fb2db0077e2305eee2ea5f273a8a27}
+      \strng{bibnamehash}{c5fb2db0077e2305eee2ea5f273a8a27}
+      \strng{authorbibnamehash}{c5fb2db0077e2305eee2ea5f273a8a27}
+      \strng{authornamehash}{c5fb2db0077e2305eee2ea5f273a8a27}
+      \strng{authorfullhash}{c5fb2db0077e2305eee2ea5f273a8a27}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2828-8866}
+      \field{month}{12}
+      \field{title}{Pergeseran paradigma pelaporan keberlanjutan di Indonesia menuju pengungkapan keberlanjutan berbasis keuangan}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.54957/akuntansiku.v4i4.1983
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.54957/akuntansiku.v4i4.1983
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.54957/akuntansiku.v4i4.1983
+      \endverb
+    \endentry
+    \entry{boubacar_demba_barry_a607dad2}{article}{}
+      \name{author}{3}{}{%
+        {{hash=7075e0943b01ffb917f16b1ef0657c75}{%
+           family={Barry},
+           familyi={B\bibinitperiod},
+           given={Boubacar\bibnamedelima Demba},
+           giveni={B\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=a12f665f802d001f2fbd7a5962a0c86e}{%
+           family={Febriani},
+           familyi={F\bibinitperiod},
+           given={Rizki},
+           giveni={R\bibinitperiod}}}%
+        {{hash=ea67872640103b08577de095e4f9bea2}{%
+           family={Firmansyah},
+           familyi={F\bibinitperiod},
+           given={Muhamad\bibnamedelima Bagas},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \strng{namehash}{1ff2f4f3de1d7954835ceb51270f6432}
+      \strng{fullhash}{166c6303a4f4dd4157cd8a98823d5e26}
+      \strng{bibnamehash}{166c6303a4f4dd4157cd8a98823d5e26}
+      \strng{authorbibnamehash}{166c6303a4f4dd4157cd8a98823d5e26}
+      \strng{authornamehash}{1ff2f4f3de1d7954835ceb51270f6432}
+      \strng{authorfullhash}{166c6303a4f4dd4157cd8a98823d5e26}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2314-7202, 2314-7210}
+      \field{month}{02}
+      \field{title}{Corporate social responsibility and business ethics in Indonesia: a Scopus-based bibliometric analysis (2005–2025)}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.1186/s43093-026-00751-7
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1186/s43093-026-00751-7
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1186/s43093-026-00751-7
+      \endverb
+    \endentry
+    \entry{alfonsa_roselina_purnomo_d67da232}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=a287d0cdeea61b106fbd768ec12cdefc}{%
+           family={Purnomo},
+           familyi={P\bibinitperiod},
+           given={Alfonsa\bibnamedelima Roselina},
+           giveni={A\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{a287d0cdeea61b106fbd768ec12cdefc}
+      \strng{fullhash}{a287d0cdeea61b106fbd768ec12cdefc}
+      \strng{bibnamehash}{a287d0cdeea61b106fbd768ec12cdefc}
+      \strng{authorbibnamehash}{a287d0cdeea61b106fbd768ec12cdefc}
+      \strng{authornamehash}{a287d0cdeea61b106fbd768ec12cdefc}
+      \strng{authorfullhash}{a287d0cdeea61b106fbd768ec12cdefc}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2621-993X, 2622-0989}
+      \field{month}{09}
+      \field{title}{Disclosures on Environmental Sustainability Issues based on Regulation and GRI}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.32535/jicp.v5i3.1737
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.32535/jicp.v5i3.1737
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.32535/jicp.v5i3.1737
+      \endverb
+    \endentry
+    \entry{kuat_waluyo_jati_45c636dc}{article}{}
+      \name{author}{5}{}{%
+        {{hash=f078faca11db3da90b81625704d5f263}{%
+           family={Jati},
+           familyi={J\bibinitperiod},
+           given={Kuat\bibnamedelima Waluyo},
+           giveni={K\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=6a0e809215d05dd2a64c0683670ac46b}{%
+           family={Agustina},
+           familyi={A\bibinitperiod},
+           given={Linda},
+           giveni={L\bibinitperiod}}}%
+        {{hash=f2420d1687597299e500358bf500ef39}{%
+           family={Deviani},
+           familyi={D\bibinitperiod},
+           given={Deviani},
+           giveni={D\bibinitperiod}}}%
+        {{hash=0627d1b755841dd04590bc577d01ead1}{%
+           family={Ulupui},
+           familyi={U\bibinitperiod},
+           given={I\bibnamedelima Gusti\bibnamedelimb Ketut\bibnamedelima Agung},
+           giveni={I\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim K\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=740caf5077867d129150f949870ea829}{%
+           family={Respati},
+           familyi={R\bibinitperiod},
+           given={Dwi\bibnamedelima Kismayanti},
+           giveni={D\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+      }
+      \strng{namehash}{06579971d3e437bbcafe3d27a20a2f0b}
+      \strng{fullhash}{477f28351fc02fcc7a8f7dd36ddc5ee8}
+      \strng{bibnamehash}{477f28351fc02fcc7a8f7dd36ddc5ee8}
+      \strng{authorbibnamehash}{477f28351fc02fcc7a8f7dd36ddc5ee8}
+      \strng{authornamehash}{06579971d3e437bbcafe3d27a20a2f0b}
+      \strng{authorfullhash}{477f28351fc02fcc7a8f7dd36ddc5ee8}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1998-6041, 1998-605X}
+      \field{month}{03}
+      \field{title}{The effect of environmental performance on sustainability reporting: A case of Indonesia}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.21511/ee.14(1).2023.04
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.21511/ee.14(1).2023.04
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.21511/ee.14(1).2023.04
+      \endverb
+    \endentry
+    \entry{atika_atika_588ee68a}{article}{}
+      \name{author}{2}{}{%
+        {{hash=3846cdf9f6315dcd4bc2204b25a51636}{%
+           family={Atika},
+           familyi={A\bibinitperiod},
+           given={Atika},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e6ec1b229a684f24fb6f7711e3206f0a}{%
+           family={Simamora},
+           familyi={S\bibinitperiod},
+           given={Alex\bibnamedelima Johanes},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{b1bac5801909e7d590ddd04532545bfe}
+      \strng{fullhash}{b1bac5801909e7d590ddd04532545bfe}
+      \strng{bibnamehash}{b1bac5801909e7d590ddd04532545bfe}
+      \strng{authorbibnamehash}{b1bac5801909e7d590ddd04532545bfe}
+      \strng{authornamehash}{b1bac5801909e7d590ddd04532545bfe}
+      \strng{authorfullhash}{b1bac5801909e7d590ddd04532545bfe}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1410-3591, 2549-8800}
+      \field{month}{01}
+      \field{title}{The Effect Of Corporate Culture On Sustainability Report Quality}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.24912/ja.v28i1.1761
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.24912/ja.v28i1.1761
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.24912/ja.v28i1.1761
+      \endverb
+    \endentry
+    \entry{indah_fajarini_sri_wahyuningrum_1ce983fb}{article}{}
+      \name{author}{5}{}{%
+        {{hash=97e8e52265cca802011c02cd2e9bdd9c}{%
+           family={Wahyuningrum},
+           familyi={W\bibinitperiod},
+           given={Indah\bibnamedelimb Fajarini\bibnamedelima Sri},
+           giveni={I\bibinitperiod\bibinitdelim F\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=c6e50adef0e9097a727f2ad7fbe6ac0c}{%
+           family={Djajadikerta},
+           familyi={D\bibinitperiod},
+           given={Hadrian\bibnamedelima Geri},
+           giveni={H\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=51242d09090d8727f20b74548bb3e762}{%
+           family={Trireksani},
+           familyi={T\bibinitperiod},
+           given={Terri},
+           giveni={T\bibinitperiod}}}%
+        {{hash=b6bab75c909f7746b65d038d0e32dee8}{%
+           family={Budihardjo},
+           familyi={B\bibinitperiod},
+           given={Mochamad\bibnamedelima Arief},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=1726a84b9f7637c33f5620a05a777811}{%
+           family={Sriningsih},
+           familyi={S\bibinitperiod},
+           given={Sriningsih},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{5598a47dc309d51185b8856ef5ae6b6a}
+      \strng{fullhash}{5bbf040a01b91ebfaf3132cafabbfd29}
+      \strng{bibnamehash}{5bbf040a01b91ebfaf3132cafabbfd29}
+      \strng{authorbibnamehash}{5bbf040a01b91ebfaf3132cafabbfd29}
+      \strng{authornamehash}{5598a47dc309d51185b8856ef5ae6b6a}
+      \strng{authorfullhash}{5bbf040a01b91ebfaf3132cafabbfd29}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2443-4175, 2459-9700}
+      \field{month}{01}
+      \field{title}{Environmental disclosure in Indonesia: a study of manufacturing and mining companies}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.1108/ajar-11-2023-0367
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1108/ajar-11-2023-0367
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1108/ajar-11-2023-0367
+      \endverb
+    \endentry
+    \entry{christine_bawaeda_sitandung_kombong_d03ec902}{article}{}
+      \name{author}{2}{}{%
+        {{hash=dd4e1ff19c060844ff5320a9181e40bf}{%
+           family={Kombong},
+           familyi={K\bibinitperiod},
+           given={Christine\bibnamedelimb Bawaeda\bibnamedelima Sitandung},
+           giveni={C\bibinitperiod\bibinitdelim B\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=01cbd57b3c78d690249bcdd68fa4dcf2}{%
+           family={Kurniawati},
+           familyi={K\bibinitperiod},
+           given={Kurniawati},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{26718f6ff6913c52c151941f4879c4b2}
+      \strng{fullhash}{26718f6ff6913c52c151941f4879c4b2}
+      \strng{bibnamehash}{26718f6ff6913c52c151941f4879c4b2}
+      \strng{authorbibnamehash}{26718f6ff6913c52c151941f4879c4b2}
+      \strng{authornamehash}{26718f6ff6913c52c151941f4879c4b2}
+      \strng{authorfullhash}{26718f6ff6913c52c151941f4879c4b2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2807-6311, 2807-6494}
+      \field{month}{12}
+      \field{title}{Implementation of POJK 51 and CSR Disclosure in the Sustainability Reports of Agricultural and Aquaculture Sector Companies in 2022}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.59141/jrssem.v5i5.1228
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.59141/jrssem.v5i5.1228
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.59141/jrssem.v5i5.1228
+      \endverb
+    \endentry
+    \entry{tri_siwi_nugrahani_056a6914}{article}{}
+      \name{author}{4}{}{%
+        {{hash=b5a8ed47d00e554cf2429da3ece0f9a1}{%
+           family={Nugrahani},
+           familyi={N\bibinitperiod},
+           given={Tri\bibnamedelima Siwi},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=4debb7766ba326e5616c14a69263a3ef}{%
+           family={Kusuma},
+           familyi={K\bibinitperiod},
+           given={Hadri},
+           giveni={H\bibinitperiod}}}%
+        {{hash=a8aa469024ae13a430b2aba2e91c5cd9}{%
+           family={Arifin},
+           familyi={A\bibinitperiod},
+           given={Johan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=bc5ea77c6674f646dc2bbb55b9a793cc}{%
+           family={Muhammad},
+           familyi={M\bibinitperiod},
+           given={Rifqi},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{86387d83b05f489b24127eb820528203}
+      \strng{fullhash}{d63e7c3ab3a199818092053ead166424}
+      \strng{bibnamehash}{d63e7c3ab3a199818092053ead166424}
+      \strng{authorbibnamehash}{d63e7c3ab3a199818092053ead166424}
+      \strng{authornamehash}{86387d83b05f489b24127eb820528203}
+      \strng{authorfullhash}{d63e7c3ab3a199818092053ead166424}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1743-7601, 1743-761X}
+      \field{month}{12}
+      \field{title}{Determinants of Sustainability Report Quality in Indonesian Public Companies: An Isomorphism Theory Approach}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.18280/ijsdp.181222
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.18280/ijsdp.181222
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.18280/ijsdp.181222
+      \endverb
+    \endentry
+    \entry{amrie_firmansyah_fd5249a2}{article}{}
+      \name{author}{1}{}{%
+        {{hash=f5577253bedafd645df100d505a9dcfc}{%
+           family={Firmansyah},
+           familyi={F\bibinitperiod},
+           given={Amrie},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{f5577253bedafd645df100d505a9dcfc}
+      \strng{fullhash}{f5577253bedafd645df100d505a9dcfc}
+      \strng{bibnamehash}{f5577253bedafd645df100d505a9dcfc}
+      \strng{authorbibnamehash}{f5577253bedafd645df100d505a9dcfc}
+      \strng{authornamehash}{f5577253bedafd645df100d505a9dcfc}
+      \strng{authorfullhash}{f5577253bedafd645df100d505a9dcfc}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2828-8866}
+      \field{month}{12}
+      \field{title}{Peran akuntan dalam era PSPK 1 dan PSPK 2: Perspektif akuntansi keberlanjutan}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.54957/akuntansiku.v4i3.1858
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.54957/akuntansiku.v4i3.1858
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.54957/akuntansiku.v4i3.1858
+      \endverb
+    \endentry
+    \entry{anisa_kusuma_putri_4109a23b}{article}{}
+      \name{author}{3}{}{%
+        {{hash=28af262d433076893d4c7f007612ae9b}{%
+           family={Putri},
+           familyi={P\bibinitperiod},
+           given={Anisa\bibnamedelima Kusuma},
+           giveni={A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=416d077697096b2a2f46bca2952bc8e1}{%
+           family={Widiyanesti},
+           familyi={W\bibinitperiod},
+           given={Sri},
+           giveni={S\bibinitperiod}}}%
+        {{hash=0230d6b0244f7c9fe36936da25026745}{%
+           family={Alamsyah},
+           familyi={A\bibinitperiod},
+           given={Andry},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{065eda8b8356e4198d8ae5b8d20f85c4}
+      \strng{fullhash}{833737462aad6b1eeec1d0ace7d60826}
+      \strng{bibnamehash}{833737462aad6b1eeec1d0ace7d60826}
+      \strng{authorbibnamehash}{833737462aad6b1eeec1d0ace7d60826}
+      \strng{authornamehash}{065eda8b8356e4198d8ae5b8d20f85c4}
+      \strng{authorfullhash}{833737462aad6b1eeec1d0ace7d60826}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{The Illusion of Sustainability: Unmasking Greenwashing in FMCG Reports with Transformer-Based NLP}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1109/bts-i2c67944.2025.11399348
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/bts-i2c67944.2025.11399348
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/bts-i2c67944.2025.11399348
+      \endverb
+    \endentry
+    \entry{irma_hidayati_373b816a}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4497980a731fd90c2e7fede7c2495856}{%
+           family={Hidayati},
+           familyi={H\bibinitperiod},
+           given={Irma},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{4497980a731fd90c2e7fede7c2495856}
+      \strng{fullhash}{4497980a731fd90c2e7fede7c2495856}
+      \strng{bibnamehash}{4497980a731fd90c2e7fede7c2495856}
+      \strng{authorbibnamehash}{4497980a731fd90c2e7fede7c2495856}
+      \strng{authornamehash}{4497980a731fd90c2e7fede7c2495856}
+      \strng{authorfullhash}{4497980a731fd90c2e7fede7c2495856}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2503-4790}
+      \field{month}{09}
+      \field{title}{SUSTAINABILITY REPORTING IN INDONESIA: A SYSTEMATIC LITERATURE REVIEW}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.36277/geoekonomi.v14i2.319
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.36277/geoekonomi.v14i2.319
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.36277/geoekonomi.v14i2.319
+      \endverb
+    \endentry
+    \entry{kostiantyn_bezverkhyi_e3819b1b}{article}{}
+      \name{author}{6}{}{%
+        {{hash=d70245dfc09eccaaf7d1bc21bc2f8d99}{%
+           family={Bezverkhyi},
+           familyi={B\bibinitperiod},
+           given={Kostiantyn},
+           giveni={K\bibinitperiod}}}%
+        {{hash=a71c329c32274ace13005b540e3b2c14}{%
+           family={Parasii-Verhunenko},
+           familyi={P\bibinithyphendelim V\bibinitperiod},
+           given={Iryna},
+           giveni={I\bibinitperiod}}}%
+        {{hash=692269c3718823e1c8dff5f49c988c30}{%
+           family={Yurchenko},
+           familyi={Y\bibinitperiod},
+           given={Oleksandr},
+           giveni={O\bibinitperiod}}}%
+        {{hash=4ab8abc713f9cf2ace685b10503c588b}{%
+           family={Hryhorevska},
+           familyi={H\bibinitperiod},
+           given={Olena},
+           giveni={O\bibinitperiod}}}%
+        {{hash=452f880e0807b2f215943db4a673b6f9}{%
+           family={Neseniuk},
+           familyi={N\bibinitperiod},
+           given={Yevhen},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=f29604d8b91de7ebb63270b116fb460b}{%
+           family={Nehodenko},
+           familyi={N\bibinitperiod},
+           given={Viktoria},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{3b17f8f13acefcdb6cbdabe0fab9fccf}
+      \strng{fullhash}{2b5b7664995d4bf942710f6c30985b89}
+      \strng{bibnamehash}{2b5b7664995d4bf942710f6c30985b89}
+      \strng{authorbibnamehash}{2b5b7664995d4bf942710f6c30985b89}
+      \strng{authornamehash}{3b17f8f13acefcdb6cbdabe0fab9fccf}
+      \strng{authorfullhash}{2b5b7664995d4bf942710f6c30985b89}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2306-4994, 2310-8770}
+      \field{month}{10}
+      \field{title}{DETERMINANTS OF SUSTAINABILITY REPORTING AUDIT: AN EMPIRICAL ANALYSIS OF PRACTICES IN ASIA}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.55643/fcaptp.5.64.2025.4885
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.55643/fcaptp.5.64.2025.4885
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.55643/fcaptp.5.64.2025.4885
+      \endverb
+    \endentry
+    \entry{richard_wiputra_699f6060}{dataset}{}
+      \name{author}{1}{}{%
+        {{hash=8358c87c54df07f43c50eb0cfc73d850}{%
+           family={Wiputra},
+           familyi={W\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{8358c87c54df07f43c50eb0cfc73d850}
+      \strng{fullhash}{8358c87c54df07f43c50eb0cfc73d850}
+      \strng{bibnamehash}{8358c87c54df07f43c50eb0cfc73d850}
+      \strng{authorbibnamehash}{8358c87c54df07f43c50eb0cfc73d850}
+      \strng{authornamehash}{8358c87c54df07f43c50eb0cfc73d850}
+      \strng{authorfullhash}{8358c87c54df07f43c50eb0cfc73d850}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{03}
+      \field{title}{Sustainable Procurement Disclosure Index (SPDI) Assessment Dataset: Human and AI-Generated Scores for Indonesian Listed Firms}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.17632/t68s3y9yy4.1
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.17632/t68s3y9yy4.1
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.17632/t68s3y9yy4.1
+      \endverb
+    \endentry
+    \entry{anggreni_dian_kurniawati_938acf6c}{article}{}
+      \name{author}{2}{}{%
+        {{hash=d5d428e16fa79a77026f287694b4bcbc}{%
+           family={Kurniawati},
+           familyi={K\bibinitperiod},
+           given={Anggreni\bibnamedelima Dian},
+           giveni={A\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=1134be316a6c874e392a70bad41fd038}{%
+           family={Michelle},
+           familyi={M\bibinitperiod},
+           given={Paullyne},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{527c8f20d4eaa93eb69b047bb29878c4}
+      \strng{fullhash}{527c8f20d4eaa93eb69b047bb29878c4}
+      \strng{bibnamehash}{527c8f20d4eaa93eb69b047bb29878c4}
+      \strng{authorbibnamehash}{527c8f20d4eaa93eb69b047bb29878c4}
+      \strng{authornamehash}{527c8f20d4eaa93eb69b047bb29878c4}
+      \strng{authorfullhash}{527c8f20d4eaa93eb69b047bb29878c4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0853-6627, 2549-1709}
+      \field{month}{03}
+      \field{title}{Enhancing Sustainable Transparency: A Content Analysis of Sustainability Reporting in Financial vs. Non-financial Sectors}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.24002/kinerja.v29i1.10338
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.24002/kinerja.v29i1.10338
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.24002/kinerja.v29i1.10338
+      \endverb
+    \endentry
+    \entry{seyed_alireza_mousavian_anaraki_b56a1c0f}{article}{}
+      \name{author}{3}{}{%
+        {{hash=59927b31c7cb2f915935c1150308d65f}{%
+           family={Anaraki},
+           familyi={A\bibinitperiod},
+           given={Seyed\bibnamedelimb Alireza\bibnamedelima Mousavian},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=266fb5bd3b6dc30b2a00522a97f7540e}{%
+           family={Croce},
+           familyi={C\bibinitperiod},
+           given={Danilo},
+           giveni={D\bibinitperiod}}}%
+        {{hash=dd65e7ce6ab25c31987e54d4d3a64910}{%
+           family={Basili},
+           familyi={B\bibinitperiod},
+           given={Roberto},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{823af7a47aa87b4b9049f57dae50ecf5}
+      \strng{fullhash}{638d1882ed40a33bdfff2fdcb54f67a5}
+      \strng{bibnamehash}{638d1882ed40a33bdfff2fdcb54f67a5}
+      \strng{authorbibnamehash}{638d1882ed40a33bdfff2fdcb54f67a5}
+      \strng{authornamehash}{823af7a47aa87b4b9049f57dae50ecf5}
+      \strng{authorfullhash}{638d1882ed40a33bdfff2fdcb54f67a5}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2666-1888}
+      \field{month}{11}
+      \field{title}{Large language models for sustainability reporting: A systematic review and research agenda}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1016/j.sftr.2025.101494
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.sftr.2025.101494
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.sftr.2025.101494
+      \endverb
+    \endentry
+    \entry{marco_bronzini_bf94d949}{article}{}
+      \name{author}{5}{}{%
+        {{hash=2430125ef577eaac87645dd3cb31b83e}{%
+           family={Bronzini},
+           familyi={B\bibinitperiod},
+           given={Marco},
+           giveni={M\bibinitperiod}}}%
+        {{hash=77927ea31f9cdde1ca8f8d344897776b}{%
+           family={Nicolini},
+           familyi={N\bibinitperiod},
+           given={Carlo},
+           giveni={C\bibinitperiod}}}%
+        {{hash=e6962b70753f9699bc06c6b1993dec0d}{%
+           family={Lepri},
+           familyi={L\bibinitperiod},
+           given={Bruno},
+           giveni={B\bibinitperiod}}}%
+        {{hash=519eb6cdf78f2080ded355f36862720f}{%
+           family={Passerini},
+           familyi={P\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=2cc92850943b3ab7a75c5b9a81ca3db5}{%
+           family={Staiano},
+           familyi={S\bibinitperiod},
+           given={Jacopo},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{0a7cc302d141d387ba367c2345c97773}
+      \strng{fullhash}{d7081e392d5133163fc49f07d6182e90}
+      \strng{bibnamehash}{d7081e392d5133163fc49f07d6182e90}
+      \strng{authorbibnamehash}{d7081e392d5133163fc49f07d6182e90}
+      \strng{authornamehash}{0a7cc302d141d387ba367c2345c97773}
+      \strng{authorfullhash}{d7081e392d5133163fc49f07d6182e90}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2193-1127}
+      \field{month}{06}
+      \field{title}{Glitter or gold? Deriving structured insights from sustainability reports via large language models}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1140/epjds/s13688-024-00481-2
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1140/epjds/s13688-024-00481-2
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1140/epjds/s13688-024-00481-2
+      \endverb
+    \endentry
+    \entry{yi_zou_37c055f7}{unpublished}{}
+      \name{author}{10}{}{%
+        {{hash=7fca0627c41ce24ebfdc0b4fa8cf4bf6}{%
+           family={Zou},
+           familyi={Z\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=5b3dc163835bb34e885b65d9232ccde3}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Mengying},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f2184aa441a1338f467d6942c4c7fe97}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Zhongjie},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=ec86c0b33a2ee71271cdf5630422d703}{%
+           family={Deng},
+           familyi={D\bibinitperiod},
+           given={Zhu},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=2a9ef61a3317eb268fff85432dcfd1cc}{%
+           family={Lei},
+           familyi={L\bibinitperiod},
+           given={ZongXiong},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=4b14b70c15444978efebf4dc73e20c9b}{%
+           family={Zeng},
+           familyi={Z\bibinitperiod},
+           given={Zihan},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=f6d2076bc732e9e1a2553642d6a69d72}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Shiming},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1af4807bd71b98fef64de34a9e5881a5}{%
+           family={Tong},
+           familyi={T\bibinitperiod},
+           given={HongXiang},
+           giveni={H\bibinitperiod}}}%
+        {{hash=d1529d39bf178a4a6cfc0d2e5f1fda17}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Lei},
+           giveni={L\bibinitperiod}}}%
+        {{hash=cf72916aa7e7d02a4ea5800243a18cfa}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Wenwen},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{3d2ccb7dbbb1da01aadaf91647d5621a}
+      \strng{fullhash}{d44c11e646ba7abd3af11028556e891c}
+      \strng{bibnamehash}{3d2ccb7dbbb1da01aadaf91647d5621a}
+      \strng{authorbibnamehash}{3d2ccb7dbbb1da01aadaf91647d5621a}
+      \strng{authornamehash}{3d2ccb7dbbb1da01aadaf91647d5621a}
+      \strng{authorfullhash}{d44c11e646ba7abd3af11028556e891c}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{ESGReveal: An LLM-based approach for extracting structured data from ESG reports}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.48550/arxiv.2312.17264
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2312.17264
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2312.17264
+      \endverb
+    \endentry
+    \entry{yi_ding_136f177b}{unpublished}{}
+      \name{author}{15}{}{%
+        {{hash=ac4017b40d7880239a6a765952f4bb51}{%
+           family={Ding},
+           familyi={D\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=ac214366044fcb4673fa9b87b1baaa7e}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={Xushuo},
+           giveni={X\bibinitperiod}}}%
+        {{hash=8d3c4d77cd7d39a0a73ca9458096283c}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Zhengyi},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=3091616efd8b574d4862f9a19e6b6e73}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Wenqian},
+           giveni={W\bibinitperiod}}}%
+        {{hash=adab6eb351eab4efbddaf6fa9f20e769}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Simin},
+           giveni={S\bibinitperiod}}}%
+        {{hash=47a873dada47240fe67a352c325f91be}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yuxin},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=806c136ffedecc2bbd5fc4db7e5bb27e}{%
+           family={Lan},
+           familyi={L\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=fe409bb50dede6a28b1160b5fff93c5f}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Weiyuan},
+           giveni={W\bibinitperiod}}}%
+        {{hash=4fc4399c66105ac1b3ec0adba08fb2da}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Yin},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=aeff6067876221593c47cb01eb45bfc5}{%
+           family={Ju},
+           familyi={J\bibinitperiod},
+           given={Mingchen},
+           giveni={M\bibinitperiod}}}%
+        {{hash=00bb5654d40cdacf1baf39a081536e8d}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Wenke},
+           giveni={W\bibinitperiod}}}%
+        {{hash=de6bc6efcd5b8bddae644c7351bc38ac}{%
+           family={Hoang},
+           familyi={H\bibinitperiod},
+           given={Thong},
+           giveni={T\bibinitperiod}}}%
+        {{hash=6a6e72bc187967821ef782a9ea7a65a4}{%
+           family={Klymenko},
+           familyi={K\bibinitperiod},
+           given={Mykhailo},
+           giveni={M\bibinitperiod}}}%
+        {{hash=4c9905286d612b14cc2809e0fcd4f974}{%
+           family={Zu},
+           familyi={Z\bibinitperiod},
+           given={Xingxing},
+           giveni={X\bibinitperiod}}}%
+        {{hash=7cc3e1b3f8e22b106e87750609c894dc}{%
+           family={Wenjie},
+           familyi={W\bibinitperiod},
+           given={Zhang},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{e01678c9dc6f77335000123cf07baf93}
+      \strng{fullhash}{9d2018ab5da43607de173b63cf5a6e72}
+      \strng{bibnamehash}{e01678c9dc6f77335000123cf07baf93}
+      \strng{authorbibnamehash}{e01678c9dc6f77335000123cf07baf93}
+      \strng{authornamehash}{e01678c9dc6f77335000123cf07baf93}
+      \strng{authorfullhash}{9d2018ab5da43607de173b63cf5a6e72}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2331-8422}
+      \field{month}{11}
+      \field{title}{EulerESG: Automating ESG Disclosure Analysis with LLMs}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arxiv.2511.21712
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2511.21712
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2511.21712
+      \endverb
+    \endentry
+    \entry{hendrik_weichel_5ea70935}{article}{}
+      \name{author}{3}{}{%
+        {{hash=1a0918adebb80672c79fa54bff4ef5a1}{%
+           family={Weichel},
+           familyi={W\bibinitperiod},
+           given={Hendrik},
+           giveni={H\bibinitperiod}}}%
+        {{hash=66ec2ed18560fbb8cdf7ed7821013d2b}{%
+           family={Simón},
+           familyi={S\bibinitperiod},
+           given={Martín},
+           giveni={M\bibinitperiod}}}%
+        {{hash=86b35cb339d5578c255bb96add4f3b30}{%
+           family={Schäfer},
+           familyi={S\bibinitperiod},
+           given={Jörg},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{432e956d80730839c2dcb38363ae9355}
+      \strng{fullhash}{050f385794c488d47e6d660222318b24}
+      \strng{bibnamehash}{050f385794c488d47e6d660222318b24}
+      \strng{authorbibnamehash}{050f385794c488d47e6d660222318b24}
+      \strng{authornamehash}{432e956d80730839c2dcb38363ae9355}
+      \strng{authorfullhash}{050f385794c488d47e6d660222318b24}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{Robust Table Information Extraction from Sustainability Reports: A Time-Aware Hybrid Two-Step Approach}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.18653/v1/2025.climatenlp-1.16
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.18653/v1/2025.climatenlp-1.16
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.18653/v1/2025.climatenlp-1.16
+      \endverb
+    \endentry
+    \entry{tanay_gupta_b5c91517}{article}{}
+      \name{author}{3}{}{%
+        {{hash=3645f14c37334b28928e016d8d7695c4}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Tanay},
+           giveni={T\bibinitperiod}}}%
+        {{hash=14fedb7df2d5f15ba942a307bc17975d}{%
+           family={Goel},
+           familyi={G\bibinitperiod},
+           given={Tushar},
+           giveni={T\bibinitperiod}}}%
+        {{hash=27bb09b225f3ef782853b326c2ef28dc}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={Ishan},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4f5fcfab24dce75d45b8d504a3cb6b8}
+      \strng{fullhash}{92fcbc824427e9739f52faee7efe0c0b}
+      \strng{bibnamehash}{92fcbc824427e9739f52faee7efe0c0b}
+      \strng{authorbibnamehash}{92fcbc824427e9739f52faee7efe0c0b}
+      \strng{authornamehash}{f4f5fcfab24dce75d45b8d504a3cb6b8}
+      \strng{authorfullhash}{92fcbc824427e9739f52faee7efe0c0b}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1536-9323}
+      \field{month}{12}
+      \field{title}{Leveraging Large Language Models for SustainabilityDisclosures Extraction and Verification}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://aisel.aisnet.org/acis2025/86
+      \endverb
+      \verb{url}
+      \verb https://aisel.aisnet.org/acis2025/86
+      \endverb
+    \endentry
+    \entry{j__h__fan_97bd591d}{article}{}
+      \name{author}{3}{}{%
+        {{hash=5b867baee2487f60520e7e7112847acb}{%
+           family={Fan},
+           familyi={F\bibinitperiod},
+           given={J.\bibnamedelimi H.},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=014106b626a88876b0974fa651c3498f}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Daojuan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=4f371da929adb0fb9b97e2709bafd18e}{%
+           family={Zheng},
+           familyi={Z\bibinitperiod},
+           given={Yuhua},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{c6f26a3c70d79cfaeae49809078725cd}
+      \strng{fullhash}{66f8f95d29694d6af51ba4ea75a454aa}
+      \strng{bibnamehash}{66f8f95d29694d6af51ba4ea75a454aa}
+      \strng{authorbibnamehash}{66f8f95d29694d6af51ba4ea75a454aa}
+      \strng{authornamehash}{c6f26a3c70d79cfaeae49809078725cd}
+      \strng{authorfullhash}{66f8f95d29694d6af51ba4ea75a454aa}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2071-1050}
+      \field{month}{07}
+      \field{title}{Smart Money, Greener Future: AI-Enhanced English Financial Text Processing for ESG Investment Decisions}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.3390/su17156971
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/su17156971
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/su17156971
+      \endverb
+    \endentry
+    \entry{keane_ong_369a0b63}{unpublished}{}
+      \name{author}{5}{}{%
+        {{hash=842a5e73fdca7b002d2c13252cedb176}{%
+           family={Ong},
+           familyi={O\bibinitperiod},
+           given={Keane},
+           giveni={K\bibinitperiod}}}%
+        {{hash=69ada71e75a29be8d3d6488aa979640e}{%
+           family={Mao},
+           familyi={M\bibinitperiod},
+           given={Rui},
+           giveni={R\bibinitperiod}}}%
+        {{hash=7bf10f183f4060c04d952b8480de476f}{%
+           family={Varshney},
+           familyi={V\bibinitperiod},
+           given={Deeksha},
+           giveni={D\bibinitperiod}}}%
+        {{hash=db089768b8819956d932b3c8db18d498}{%
+           family={Cambria},
+           familyi={C\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=c7a2794fff9fd9b4d0fa2c6d7b7f380a}{%
+           family={Mengaldo},
+           familyi={M\bibinitperiod},
+           given={Gianmarco},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{d1e90f45d1f56b218e3fe0f14c8459c3}
+      \strng{fullhash}{c2a6d40af98fcec65fc30f8b15493fb8}
+      \strng{bibnamehash}{c2a6d40af98fcec65fc30f8b15493fb8}
+      \strng{authorbibnamehash}{c2a6d40af98fcec65fc30f8b15493fb8}
+      \strng{authornamehash}{d1e90f45d1f56b218e3fe0f14c8459c3}
+      \strng{authorfullhash}{c2a6d40af98fcec65fc30f8b15493fb8}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2331-8422}
+      \field{month}{02}
+      \field{title}{Towards Robust ESG Analysis Against Greenwashing Risks: Aspect-Action Analysis with Cross-Category Generalization}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arxiv.2502.15821
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2502.15821
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2502.15821
+      \endverb
+    \endentry
+    \entry{blaise_sandwidi_c58b16e0}{article}{}
+      \name{author}{2}{}{%
+        {{hash=14e36d8326f96af11ebed57ea606bcc5}{%
+           family={Sandwidi},
+           familyi={S\bibinitperiod},
+           given={Blaise},
+           giveni={B\bibinitperiod}}}%
+        {{hash=90fdf4c17c6cfa064a3ee9685b532d26}{%
+           family={Mukkolakal},
+           familyi={M\bibinitperiod},
+           given={Suneer\bibnamedelima Pallitharammal},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{d8673e0fe6893fb6f4b2bbb2b14119b1}
+      \strng{fullhash}{d8673e0fe6893fb6f4b2bbb2b14119b1}
+      \strng{bibnamehash}{d8673e0fe6893fb6f4b2bbb2b14119b1}
+      \strng{authorbibnamehash}{d8673e0fe6893fb6f4b2bbb2b14119b1}
+      \strng{authornamehash}{d8673e0fe6893fb6f4b2bbb2b14119b1}
+      \strng{authorfullhash}{d8673e0fe6893fb6f4b2bbb2b14119b1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{Transformers-Based Approach for a Sustainability Term-Based Sentiment Analysis (STBSA)}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.18653/v1/2022.nlp4pi-1.19
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.18653/v1/2022.nlp4pi-1.19
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.18653/v1/2022.nlp4pi-1.19
+      \endverb
+    \endentry
+    \entry{matteo_lengkeek_5d9f2a4e}{article}{}
+      \name{author}{3}{}{%
+        {{hash=ef86910df7fba614c0ba5c952529276d}{%
+           family={Lengkeek},
+           familyi={L\bibinitperiod},
+           given={Matteo},
+           giveni={M\bibinitperiod}}}%
+        {{hash=1a8e291df35168a02a5b1e485cc2811b}{%
+           family={Knaap},
+           familyi={K\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           prefix={van\bibnamedelima der},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+        {{hash=dbb87db98995a1dea38b14597b1d08c4}{%
+           family={Frăsincar},
+           familyi={F\bibinitperiod},
+           given={Flavius},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{79ac7a61b287c155dfa1ab3a325027f9}
+      \strng{fullhash}{79a492934e16b9a9deb074bc9fbc8588}
+      \strng{bibnamehash}{79a492934e16b9a9deb074bc9fbc8588}
+      \strng{authorbibnamehash}{79a492934e16b9a9deb074bc9fbc8588}
+      \strng{authornamehash}{79ac7a61b287c155dfa1ab3a325027f9}
+      \strng{authorfullhash}{79a492934e16b9a9deb074bc9fbc8588}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{06}
+      \field{title}{Leveraging hierarchical language models for aspect-based sentiment analysis on financial data}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.1016/j.ipm.2023.103435
+      \endverb
+      \verb{urlraw}
+      \verb https://pure.eur.nl/en/publications/7920ed9b-2ac9-49dd-9ffd-1c93c4176676
+      \endverb
+      \verb{url}
+      \verb https://pure.eur.nl/en/publications/7920ed9b-2ac9-49dd-9ffd-1c93c4176676
+      \endverb
+    \endentry
+    \entry{wihan_van_der_heever_5ff35709}{article}{}
+      \name{author}{4}{}{%
+        {{hash=51ef09c2b03c9ee31df1ba75003b2e45}{%
+           family={Heever},
+           familyi={H\bibinitperiod},
+           given={Wihan},
+           giveni={W\bibinitperiod},
+           prefix={van\bibnamedelima der},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+        {{hash=8dfa78845c5ab595a7c22eeb5335af1b}{%
+           family={Satapathy},
+           familyi={S\bibinitperiod},
+           given={Ranjan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=db089768b8819956d932b3c8db18d498}{%
+           family={Cambria},
+           familyi={C\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=ea4c9978f2f646e61f33f9e1f4a79ef8}{%
+           family={Goh},
+           familyi={G\bibinitperiod},
+           given={Rick\bibnamedelimb Siow\bibnamedelima Mong},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{8678e1c51edd3d67381cc7223e859b6d}
+      \strng{fullhash}{204660df2559a4819a0bcfa187b1a92e}
+      \strng{bibnamehash}{204660df2559a4819a0bcfa187b1a92e}
+      \strng{authorbibnamehash}{204660df2559a4819a0bcfa187b1a92e}
+      \strng{authornamehash}{8678e1c51edd3d67381cc7223e859b6d}
+      \strng{authorfullhash}{204660df2559a4819a0bcfa187b1a92e}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{Neurosymbolic AI for Mining Key Aspects of Socially Responsible Investing}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1109/icdmw65004.2024.00070
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/icdmw65004.2024.00070
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/icdmw65004.2024.00070
+      \endverb
+    \endentry
+    \entry{keane_ong_8fec4760}{unpublished}{}
+      \name{author}{8}{}{%
+        {{hash=842a5e73fdca7b002d2c13252cedb176}{%
+           family={Ong},
+           familyi={O\bibinitperiod},
+           given={Keane},
+           giveni={K\bibinitperiod}}}%
+        {{hash=69ada71e75a29be8d3d6488aa979640e}{%
+           family={Mao},
+           familyi={M\bibinitperiod},
+           given={Rui},
+           giveni={R\bibinitperiod}}}%
+        {{hash=7bf10f183f4060c04d952b8480de476f}{%
+           family={Varshney},
+           familyi={V\bibinitperiod},
+           given={Deeksha},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d3de9c0f0ba666a14863374907ed970a}{%
+           family={Xing},
+           familyi={X\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+        {{hash=8dfa78845c5ab595a7c22eeb5335af1b}{%
+           family={Satapathy},
+           familyi={S\bibinitperiod},
+           given={Ranjan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a7e02bb1aa26085fd43f2c3f169f11f3}{%
+           family={Sulaeman},
+           familyi={S\bibinitperiod},
+           given={Johan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=db089768b8819956d932b3c8db18d498}{%
+           family={Cambria},
+           familyi={C\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=c7a2794fff9fd9b4d0fa2c6d7b7f380a}{%
+           family={Mengaldo},
+           familyi={M\bibinitperiod},
+           given={Gianmarco},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{d1e90f45d1f56b218e3fe0f14c8459c3}
+      \strng{fullhash}{03a0bbf09ccced775c86e459281c75d3}
+      \strng{bibnamehash}{d1e90f45d1f56b218e3fe0f14c8459c3}
+      \strng{authorbibnamehash}{d1e90f45d1f56b218e3fe0f14c8459c3}
+      \strng{authornamehash}{d1e90f45d1f56b218e3fe0f14c8459c3}
+      \strng{authorfullhash}{03a0bbf09ccced775c86e459281c75d3}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2331-8422}
+      \field{month}{01}
+      \field{title}{ESGSenticNet: A Neurosymbolic Knowledge Base for Corporate Sustainability Analysis}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arxiv.2501.15720
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2501.15720
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2501.15720
+      \endverb
+    \endentry
+    \entry{aida_usmanova_e9b44e1d}{article}{}
+      \name{author}{2}{}{%
+        {{hash=c642eb1d5ac0207e7d6455329684a64d}{%
+           family={Usmanova},
+           familyi={U\bibinitperiod},
+           given={Aida},
+           giveni={A\bibinitperiod}}}%
+        {{hash=aa2e00186f83639d6d31f19342b9c48f}{%
+           family={Usbeck},
+           familyi={U\bibinitperiod},
+           given={Ricardo},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{fcaa03bef611818f7d513ca921e20a89}
+      \strng{fullhash}{fcaa03bef611818f7d513ca921e20a89}
+      \strng{bibnamehash}{fcaa03bef611818f7d513ca921e20a89}
+      \strng{authorbibnamehash}{fcaa03bef611818f7d513ca921e20a89}
+      \strng{authornamehash}{fcaa03bef611818f7d513ca921e20a89}
+      \strng{authorfullhash}{fcaa03bef611818f7d513ca921e20a89}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{Structuring Sustainability Reports for Environmental Standards with LLMs guided by Ontology}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.18653/v1/2024.climatenlp-1.13
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.18653/v1/2024.climatenlp-1.13
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.18653/v1/2024.climatenlp-1.13
+      \endverb
+    \endentry
+    \entry{tsuyoshi_iwata_18ccc0b8}{unpublished}{}
+      \name{author}{5}{}{%
+        {{hash=cbcf5c89374996fcd517b865bc8432b3}{%
+           family={Iwata},
+           familyi={I\bibinitperiod},
+           given={Tsuyoshi},
+           giveni={T\bibinitperiod}}}%
+        {{hash=4ac9427b4036358484f14aa711909098}{%
+           family={Comte},
+           familyi={C\bibinitperiod},
+           given={Guillaume},
+           giveni={G\bibinitperiod}}}%
+        {{hash=e281a08717f61bbe923902aed332289c}{%
+           family={Flores},
+           familyi={F\bibinitperiod},
+           given={María\bibnamedelima Eugenia},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=c90c548630a4b86f862508b1c1825971}{%
+           family={Kondo},
+           familyi={K\bibinitperiod},
+           given={Ryoma},
+           giveni={R\bibinitperiod}}}%
+        {{hash=7f690ed3f8f2f0362d3c25ad63dbf0e6}{%
+           family={Hisano},
+           familyi={H\bibinitperiod},
+           given={Ryohei},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{57aca01db3214e9b47dba529b48b3415}
+      \strng{fullhash}{828d914d6562f8da7c4b51ab194158f0}
+      \strng{bibnamehash}{828d914d6562f8da7c4b51ab194158f0}
+      \strng{authorbibnamehash}{828d914d6562f8da7c4b51ab194158f0}
+      \strng{authornamehash}{57aca01db3214e9b47dba529b48b3415}
+      \strng{authorfullhash}{828d914d6562f8da7c4b51ab194158f0}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2331-8422}
+      \field{month}{09}
+      \field{title}{Aligning ESG Controversy Data with International Guidelines through Semi-Automatic Ontology Construction}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arxiv.2509.10922
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2509.10922
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2509.10922
+      \endverb
+    \endentry
+    \entry{abir_naskar_17efeb7b}{article}{}
+      \name{author}{6}{}{%
+        {{hash=fe30430e0f918b8c1bc181e845b7ee0f}{%
+           family={Naskar},
+           familyi={N\bibinitperiod},
+           given={Abir},
+           giveni={A\bibinitperiod}}}%
+        {{hash=14fedb7df2d5f15ba942a307bc17975d}{%
+           family={Goel},
+           familyi={G\bibinitperiod},
+           given={Tushar},
+           giveni={T\bibinitperiod}}}%
+        {{hash=93a4c545d508a7d0810899190c5ef132}{%
+           family={Chauhan},
+           familyi={C\bibinitperiod},
+           given={Vipul},
+           giveni={V\bibinitperiod}}}%
+        {{hash=27bb09b225f3ef782853b326c2ef28dc}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={Ishan},
+           giveni={I\bibinitperiod}}}%
+        {{hash=db66d495c6f448eb1a069f1fe99b5b75}{%
+           family={Dasgupta},
+           familyi={D\bibinitperiod},
+           given={Tirthankar},
+           giveni={T\bibinitperiod}}}%
+        {{hash=f0ad0e4cc4c0b32ea49d0c1edbd5bfb1}{%
+           family={Dey},
+           familyi={D\bibinitperiod},
+           given={Lipika},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{1bf2e764775c1f59b400d89b6d01e6c3}
+      \strng{fullhash}{4eee73ddc3d50ac6782521f3599105a2}
+      \strng{bibnamehash}{4eee73ddc3d50ac6782521f3599105a2}
+      \strng{authorbibnamehash}{4eee73ddc3d50ac6782521f3599105a2}
+      \strng{authornamehash}{1bf2e764775c1f59b400d89b6d01e6c3}
+      \strng{authorfullhash}{4eee73ddc3d50ac6782521f3599105a2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2634-4602}
+      \field{month}{01}
+      \field{title}{Knowledge-driven neural models for extraction and analysis of sustainability events from the web}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1017/eds.2024.32
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1017/eds.2024.32
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1017/eds.2024.32
+      \endverb
+    \endentry
+    \entry{ubaidillah_ariq_prathama_a1856e2f}{article}{}
+      \name{author}{3}{}{%
+        {{hash=97afab382e2a394fc7ce287c19e06511}{%
+           family={Prathama},
+           familyi={P\bibinitperiod},
+           given={Ubaidillah\bibnamedelima Ariq},
+           giveni={U\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=4ae519ab55bec31c4a31f23c2e3cb25c}{%
+           family={Purwarianti},
+           familyi={P\bibinitperiod},
+           given={Ayu},
+           giveni={A\bibinitperiod}}}%
+        {{hash=a4d4d21af4633d47617746d0fc1ce2a4}{%
+           family={Septiandri},
+           familyi={S\bibinitperiod},
+           given={Ali\bibnamedelima Akbar},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{b94dd6ab24a12a57bc9d489d700f0a2c}
+      \strng{fullhash}{cd989a885a497dd1ee7302c13e8b8267}
+      \strng{bibnamehash}{cd989a885a497dd1ee7302c13e8b8267}
+      \strng{authorbibnamehash}{cd989a885a497dd1ee7302c13e8b8267}
+      \strng{authornamehash}{b94dd6ab24a12a57bc9d489d700f0a2c}
+      \strng{authorfullhash}{cd989a885a497dd1ee7302c13e8b8267}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{09}
+      \field{title}{ESG-IDX: A Framework to Utilize ESG-Related News Sentiment for Indonesia Stock Price Prediction}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1109/icaicta67604.2025.11335140
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/icaicta67604.2025.11335140
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/icaicta67604.2025.11335140
+      \endverb
+    \endentry
+    \entry{christofer_octovianto_487e90aa}{article}{}
+      \name{author}{3}{}{%
+        {{hash=89525010c1f49ea891d4abdc062d0cd2}{%
+           family={Octovianto},
+           familyi={O\bibinitperiod},
+           given={Christofer},
+           giveni={C\bibinitperiod}}}%
+        {{hash=a55cb3a4e22e60f0bd2a681d6cd125a9}{%
+           family={Ibrohim},
+           familyi={I\bibinitperiod},
+           given={Muhammad\bibnamedelima Okky},
+           giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+        {{hash=3c0bc560cf39bd725894e183de3fccf9}{%
+           family={Budi},
+           familyi={B\bibinitperiod},
+           given={Indra},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{3916114cc4d1bcafc4be1ff88eecfe89}
+      \strng{fullhash}{50c64339f59961f18350a045a353d54d}
+      \strng{bibnamehash}{50c64339f59961f18350a045a353d54d}
+      \strng{authorbibnamehash}{50c64339f59961f18350a045a353d54d}
+      \strng{authornamehash}{3916114cc4d1bcafc4be1ff88eecfe89}
+      \strng{authorfullhash}{50c64339f59961f18350a045a353d54d}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2502-4752, 2502-4760}
+      \field{month}{02}
+      \field{title}{Indonesian sentiment analysis in natural environment topics}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.11591/ijeecs.v38.i2.pp1353-1366
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.11591/ijeecs.v38.i2.pp1353-1366
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.11591/ijeecs.v38.i2.pp1353-1366
+      \endverb
+    \endentry
+    \entry{liman_zhang_ec332205}{article}{}
+      \name{author}{8}{}{%
+        {{hash=344072888c8801feaa505bb88889b421}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Liman},
+           giveni={L\bibinitperiod}}}%
+        {{hash=4a363590daa7010bf7a0b16471cd5c1b}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Q.},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=e9b48c74f9b6643a24ca4ecb59b11119}{%
+           family={Meng},
+           familyi={M\bibinitperiod},
+           given={Fanyu},
+           giveni={F\bibinitperiod}}}%
+        {{hash=f7542e04881cce3683ed52767161fd2e}{%
+           family={Liang},
+           familyi={L\bibinitperiod},
+           given={Siyu},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c3e6baa4878dd9b896c92112be4bb413}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Jingxuan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=042ca77bdcd5e02312cda30f9a01765e}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Сhen},
+           giveni={С\bibinitperiod}}}%
+        {{hash=f6ce1f51d706debcc2f04e6efeac2b9d}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Kehan},
+           giveni={K\bibinitperiod}}}%
+        {{hash=28f91f3a4b62ce57b7a533e742e8aae1}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yan},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{0590bcecd88167cb06b87a8d819ba418}
+      \strng{fullhash}{aa78f95bef1d8de2e649dc8ba3e884c8}
+      \strng{bibnamehash}{0590bcecd88167cb06b87a8d819ba418}
+      \strng{authorbibnamehash}{0590bcecd88167cb06b87a8d819ba418}
+      \strng{authornamehash}{0590bcecd88167cb06b87a8d819ba418}
+      \strng{authorfullhash}{aa78f95bef1d8de2e649dc8ba3e884c8}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2073-431X}
+      \field{month}{08}
+      \field{title}{Leveraging Contrastive Semantics and Language Adaptation for Robust Financial Text Classification Across Languages}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.3390/computers14080338
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/computers14080338
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/computers14080338
+      \endverb
+    \endentry
+    \entry{association_for_computational_linguistics_2025_5a25f994}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0a0a42c8ed28e620432d0b79ab4c6c04}{%
+           family={Computational\bibnamedelimb Linguistics\bibnamedelima 2025},
+           familyi={C\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim 2\bibinitperiod},
+           given={Association},
+           giveni={A\bibinitperiod},
+           prefix={for},
+           prefixi={f\bibinitperiod}}}%
+        {{hash=6baa170a970b29eb23e4033cee0f6c1b}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Chenyuan},
+           giveni={C\bibinitperiod}}}%
+        {{hash=8473619ff0179d4abc019199a8d1160a}{%
+           family={Jia},
+           familyi={J\bibinitperiod},
+           given={Yuxiang},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=6173b97fc7a892e853cc4c3cbe31d969}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Hongde},
+           giveni={H\bibinitperiod}}}%
+        {{hash=fbc1bcfe1beb7d01f07a72b70b2985cc}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Senbin},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{dcae9c50c51f87ed4461325296d8f28a}
+      \strng{fullhash}{dc0a1a6a9b442a41f961d1248fa8f79b}
+      \strng{bibnamehash}{dc0a1a6a9b442a41f961d1248fa8f79b}
+      \strng{authorbibnamehash}{dc0a1a6a9b442a41f961d1248fa8f79b}
+      \strng{authornamehash}{dcae9c50c51f87ed4461325296d8f28a}
+      \strng{authorfullhash}{dc0a1a6a9b442a41f961d1248fa8f79b}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{EFSA-CLC: Enhancing Zero-shot Entity-level Financial Sentiment Analysis with Cross-lingual Collaboration}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48448/3236-v461
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48448/3236-v461
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48448/3236-v461
+      \endverb
+    \endentry
+    \entry{association_for_computational_linguistics_2025_1ba46dee}{misc}{}
+      \name{author}{8}{}{%
+        {{hash=0a0a42c8ed28e620432d0b79ab4c6c04}{%
+           family={Computational\bibnamedelimb Linguistics\bibnamedelima 2025},
+           familyi={C\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim 2\bibinitperiod},
+           given={Association},
+           giveni={A\bibinitperiod},
+           prefix={for},
+           prefixi={f\bibinitperiod}}}%
+        {{hash=75c62e22c9aaf8a45d0f9f7f6d2ecdd1}{%
+           family={Ahad},
+           familyi={A\bibinitperiod},
+           given={Jawad\bibnamedelima Ibn},
+           giveni={J\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=d7ad526de5435345ce3493be17f754b4}{%
+           family={Elahi},
+           familyi={E\bibinitperiod},
+           given={M\bibnamedelima M\bibnamedelima Lutfe},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=c790c1c153df4af16b29126d6634b84d}{%
+           family={Kabir},
+           familyi={K\bibinitperiod},
+           given={Muhammad\bibnamedelima Rafsan},
+           giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=59dc45cf649d10edea5cc16f2c2b7976}{%
+           family={Krambroeckers},
+           familyi={K\bibinitperiod},
+           given={Robin},
+           giveni={R\bibinitperiod}}}%
+        {{hash=ec60b497f6b89f1ce5c5d50bae9ec3a2}{%
+           family={Mohammad},
+           familyi={M\bibinitperiod},
+           given={Nabeel},
+           giveni={N\bibinitperiod}}}%
+        {{hash=3f006455d5c838db70f0b61aeb5ec942}{%
+           family={Rahman},
+           familyi={R\bibinitperiod},
+           given={Shafin},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3f006455d5c838db70f0b61aeb5ec942}{%
+           family={Rahman},
+           familyi={R\bibinitperiod},
+           given={Shafin},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{dcae9c50c51f87ed4461325296d8f28a}
+      \strng{fullhash}{b81761d0bd929d53e5d89ecc4af8fc9f}
+      \strng{bibnamehash}{dcae9c50c51f87ed4461325296d8f28a}
+      \strng{authorbibnamehash}{dcae9c50c51f87ed4461325296d8f28a}
+      \strng{authornamehash}{dcae9c50c51f87ed4461325296d8f28a}
+      \strng{authorfullhash}{b81761d0bd929d53e5d89ecc4af8fc9f}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{10}
+      \field{title}{Bidirectional Reasoning Supervision for Multilingual Financial Decision Making}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48448/d8aj-h971
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48448/d8aj-h971
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48448/d8aj-h971
+      \endverb
+    \endentry
+    \entry{yilei_zhao_b7bbd9c8}{unpublished}{}
+      \name{author}{6}{}{%
+        {{hash=e71ee69dfa3d293b6923a9ebdae3084a}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Yilei},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=617c3dfefd9eb92b86137977ec96fa36}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Wentao},
+           giveni={W\bibinitperiod}}}%
+        {{hash=d1529d39bf178a4a6cfc0d2e5f1fda17}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Lei},
+           giveni={L\bibinitperiod}}}%
+        {{hash=97ac3fd147a7cfee04b3572344cb3bbc}{%
+           family={Zheng},
+           familyi={Z\bibinitperiod},
+           given={Yandan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=26709f16babea991b810ece21397b39d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Mengpu},
+           giveni={M\bibinitperiod}}}%
+        {{hash=904f0a60cbaec8e2aa320cd70c90e279}{%
+           family={Lim},
+           familyi={L\bibinitperiod},
+           given={Wei\bibnamedelimb Yang\bibnamedelima Bryan},
+           giveni={W\bibinitperiod\bibinitdelim Y\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \strng{namehash}{f20641d8d744f4f299f46c05be2f3941}
+      \strng{fullhash}{de1b9d701d4ea95f771e663382c2743c}
+      \strng{bibnamehash}{de1b9d701d4ea95f771e663382c2743c}
+      \strng{authorbibnamehash}{de1b9d701d4ea95f771e663382c2743c}
+      \strng{authornamehash}{f20641d8d744f4f299f46c05be2f3941}
+      \strng{authorfullhash}{de1b9d701d4ea95f771e663382c2743c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{Advancing ESG Intelligence: An Expert-level Agent and Comprehensive Benchmark for Sustainable Finance}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.48550/arxiv.2601.08676
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48550/arxiv.2601.08676
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48550/arxiv.2601.08676
+      \endverb
+    \endentry
+    \entry{mattia_birti_c097e3e8}{article}{}
+      \name{author}{3}{}{%
+        {{hash=979557787532f78849f0135bf419c2d0}{%
+           family={Birti},
+           familyi={B\bibinitperiod},
+           given={Mattia},
+           giveni={M\bibinitperiod}}}%
+        {{hash=dcdae5c6d8455e0ba4c1dea9229f39c5}{%
+           family={Maurino},
+           familyi={M\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=a1c7152ccc4fef42792e2a16a4aeb9d2}{%
+           family={Osborne},
+           familyi={O\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{0ca9984ce09b2bf8f7d434afd373e496}
+      \strng{fullhash}{08421b54ae52c59f73c1650b3f0a22c6}
+      \strng{bibnamehash}{08421b54ae52c59f73c1650b3f0a22c6}
+      \strng{authorbibnamehash}{08421b54ae52c59f73c1650b3f0a22c6}
+      \strng{authornamehash}{0ca9984ce09b2bf8f7d434afd373e496}
+      \strng{authorfullhash}{08421b54ae52c59f73c1650b3f0a22c6}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{11}
+      \field{title}{Optimizing Large Language Models for ESG Activity Detection in Financial Texts}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1145/3768292.3770371
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2502.21112
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2502.21112
+      \endverb
+    \endentry
+    \entry{yue_wu_cae353aa}{article}{}
+      \name{author}{3}{}{%
+        {{hash=5054d8715f6746af9ed28c566f168046}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=f26decbc2e94c95c3a2f92f01e4beeea}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod}}}%
+        {{hash=9f0be58420c7a49fd3d486a9f203d5cc}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Derek},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{77aa4285bb0660bf6222f13bc03c3431}
+      \strng{fullhash}{e09d908bd43c1bc7f5d6a5c3fa031166}
+      \strng{bibnamehash}{e09d908bd43c1bc7f5d6a5c3fa031166}
+      \strng{authorbibnamehash}{e09d908bd43c1bc7f5d6a5c3fa031166}
+      \strng{authornamehash}{77aa4285bb0660bf6222f13bc03c3431}
+      \strng{authorfullhash}{e09d908bd43c1bc7f5d6a5c3fa031166}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2079-8954}
+      \field{month}{10}
+      \field{title}{The AI Annotator: Large Language Models’ Potential in Scoring Sustainability Reports}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.3390/systems13100899
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/systems13100899
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/systems13100899
+      \endverb
+    \endentry
+    \entry{yue_zhang_9101e661}{article}{}
+      \name{author}{15}{}{%
+        {{hash=b8238061b3c805be2a30dd55bb11fb21}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=4c8d8db2c549c9cb34f3383809f6985c}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yafu},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=c2c3b6a1a23499549f41aadc7c9c292c}{%
+           family={Cui},
+           familyi={C\bibinitperiod},
+           given={Leyang},
+           giveni={L\bibinitperiod}}}%
+        {{hash=2a7c8970691a4f53adcbaafdf8d9267a}{%
+           family={Deng},
+           familyi={D\bibinitperiod},
+           given={Cai},
+           giveni={C\bibinitperiod}}}%
+        {{hash=3ec966d25f9c35d41bacad5eab2e9732}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Lemao},
+           giveni={L\bibinitperiod}}}%
+        {{hash=2e83fb9c77e1804aff9b84bc5497b875}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Tingchen},
+           giveni={T\bibinitperiod}}}%
+        {{hash=7f01438dfb6e336143cd057129771454}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Xinting},
+           giveni={X\bibinitperiod}}}%
+        {{hash=28e8078e4e8557c200950e04e484c513}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Enbo},
+           giveni={E\bibinitperiod}}}%
+        {{hash=d35077e26052764e10bf605aab8f9e3d}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yanwen},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=3bcf82a33e3ce123e09f7415e407a049}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Yulong},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=73c98840f4d18bf9244a7175bbad79e3}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Longyue},
+           giveni={L\bibinitperiod}}}%
+        {{hash=332909fdbdfabfd6d19cd93d6b9372c6}{%
+           family={Luu},
+           familyi={L\bibinitperiod},
+           given={Ahn\bibnamedelima Tuan},
+           giveni={A\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=7981473e6f95f6b26e19d3e6de34315f}{%
+           family={Bi},
+           familyi={B\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=beafe8b6b1010e0fff35b884d2e00f54}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Freda},
+           giveni={F\bibinitperiod}}}%
+        {{hash=94f439f0527cf3964c3273d60c4cebab}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{f255e0a20f7125703df66a2712ec4d02}
+      \strng{fullhash}{cc7e1ca07f2c34815f5ebc88cfa35582}
+      \strng{bibnamehash}{f255e0a20f7125703df66a2712ec4d02}
+      \strng{authorbibnamehash}{f255e0a20f7125703df66a2712ec4d02}
+      \strng{authornamehash}{f255e0a20f7125703df66a2712ec4d02}
+      \strng{authorfullhash}{cc7e1ca07f2c34815f5ebc88cfa35582}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0891-2017, 1530-9312}
+      \field{month}{01}
+      \field{title}{Siren's Song in the AI Ocean: A Survey on Hallucination in Large Language Models}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1162/coli.a.16
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1162/coli.a.16
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1162/coli.a.16
+      \endverb
+    \endentry
+    \entry{al_noor_ali_aziz_jasem_af362154}{article}{}
+      \name{author}{1}{}{%
+        {{hash=7f3c15dc23f4c6157ba56b2169f44581}{%
+           family={Jasem},
+           familyi={J\bibinitperiod},
+           given={Al\bibnamedelima Noor\bibnamedelimb Ali\bibnamedelima Aziz},
+           giveni={A\bibinitperiod\bibinitdelim N\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{7f3c15dc23f4c6157ba56b2169f44581}
+      \strng{fullhash}{7f3c15dc23f4c6157ba56b2169f44581}
+      \strng{bibnamehash}{7f3c15dc23f4c6157ba56b2169f44581}
+      \strng{authorbibnamehash}{7f3c15dc23f4c6157ba56b2169f44581}
+      \strng{authornamehash}{7f3c15dc23f4c6157ba56b2169f44581}
+      \strng{authorfullhash}{7f3c15dc23f4c6157ba56b2169f44581}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2348-6848, 2348-795X}
+      \field{month}{03}
+      \field{title}{A Framework for Self-Reflective Error Detection and Correction in Large Language Models for Communications Applications}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.26643/ijr/22
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.26643/ijr/22
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.26643/ijr/22
+      \endverb
+    \endentry
+    \entry{rohit_sood_cb3a4ead}{inbook}{}
+      \name{author}{1}{}{%
+        {{hash=43ed35b2c0f3eb524b1bbfc5c97c3e22}{%
+           family={Sood},
+           familyi={S\bibinitperiod},
+           given={Rohit},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{43ed35b2c0f3eb524b1bbfc5c97c3e22}
+      \strng{fullhash}{43ed35b2c0f3eb524b1bbfc5c97c3e22}
+      \strng{bibnamehash}{43ed35b2c0f3eb524b1bbfc5c97c3e22}
+      \strng{authorbibnamehash}{43ed35b2c0f3eb524b1bbfc5c97c3e22}
+      \strng{authornamehash}{43ed35b2c0f3eb524b1bbfc5c97c3e22}
+      \strng{authorfullhash}{43ed35b2c0f3eb524b1bbfc5c97c3e22}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2327-0411, 2327-042X}
+      \field{month}{01}
+      \field{title}{Mitigating AI Hallucinations in ESG-Driven Credit Risk Advisory-Human–AI Co-Governance in the Enterprise Metaverse}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.4018/979-8-3373-7534-2.ch011
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.4018/979-8-3373-7534-2.ch011
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.4018/979-8-3373-7534-2.ch011
+      \endverb
+    \endentry
+    \entry{juan_aguirre_calder_n_5eae82e0}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=8b43e7f5a425d0e8655cdebe20325f55}{%
+           family={Calderón},
+           familyi={C\bibinitperiod},
+           given={Juan\bibnamedelima Aguirre},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{8b43e7f5a425d0e8655cdebe20325f55}
+      \strng{fullhash}{8b43e7f5a425d0e8655cdebe20325f55}
+      \strng{bibnamehash}{8b43e7f5a425d0e8655cdebe20325f55}
+      \strng{authorbibnamehash}{8b43e7f5a425d0e8655cdebe20325f55}
+      \strng{authornamehash}{8b43e7f5a425d0e8655cdebe20325f55}
+      \strng{authorfullhash}{8b43e7f5a425d0e8655cdebe20325f55}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{06}
+      \field{title}{ESG company proiling, a Retrieval-Augmented Generation (RAG): Approach for data-driven corporate analysis}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://hdl.handle.net/10609/154180
+      \endverb
+      \verb{url}
+      \verb https://hdl.handle.net/10609/154180
+      \endverb
+    \endentry
+    \entry{abhijeet_b__moghe_963e6c96}{article}{}
+      \name{author}{6}{}{%
+        {{hash=0737d43793dac1085bae9bb313693e68}{%
+           family={Moghe},
+           familyi={M\bibinitperiod},
+           given={Abhijeet\bibnamedelima B.},
+           giveni={A\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=ad0f04315bfb137f299c3a70fd556b59}{%
+           family={Langde},
+           familyi={L\bibinitperiod},
+           given={Rutuj},
+           giveni={R\bibinitperiod}}}%
+        {{hash=07ad8ece72b6f78ca524e560158a471b}{%
+           family={Bohra},
+           familyi={B\bibinitperiod},
+           given={Mufaddal},
+           giveni={M\bibinitperiod}}}%
+        {{hash=1ec70ceaa8fcd3085b609d633fe60283}{%
+           family={Chaware},
+           familyi={C\bibinitperiod},
+           given={Ayush},
+           giveni={A\bibinitperiod}}}%
+        {{hash=1b3287f0db1c5be113554637d69d57bb}{%
+           family={Bhagwat},
+           familyi={B\bibinitperiod},
+           given={Anirudh},
+           giveni={A\bibinitperiod}}}%
+        {{hash=dbc0d1a36eb4f4a36289ee588f25ec04}{%
+           family={Talekar},
+           familyi={T\bibinitperiod},
+           given={Ashish},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{4f8ad877acad4e966ce7d883dd46ae0c}
+      \strng{fullhash}{e58885345247826eaab04ef10ca2933b}
+      \strng{bibnamehash}{e58885345247826eaab04ef10ca2933b}
+      \strng{authorbibnamehash}{e58885345247826eaab04ef10ca2933b}
+      \strng{authornamehash}{4f8ad877acad4e966ce7d883dd46ae0c}
+      \strng{authorfullhash}{e58885345247826eaab04ef10ca2933b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{AuditGPT: Automated Financial Auditing and Regulatory Compliance Checks using LLMs}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1109/icaiqsa67794.2025.11440503
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/icaiqsa67794.2025.11440503
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/icaiqsa67794.2025.11440503
+      \endverb
+    \endentry
+    \entry{kaoukis__georgios_35bab107}{unpublished}{}
+      \name{author}{7}{}{%
+        {{hash=571810aeafecd2c5f0335f2220675d41}{%
+           family={Kaoukis},
+           familyi={K\bibinitperiod},
+           given={Georgios},
+           giveni={G\bibinitperiod}}}%
+        {{hash=35d00ef6a84eb320ef1079517928f14e}{%
+           family={Koufopoulos},
+           familyi={K\bibinitperiod},
+           given={Ioannis\bibnamedelima Aris},
+           giveni={I\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=632a2a11bf03ccd5a42f6a7f6c08491c}{%
+           family={Psaroudaki},
+           familyi={P\bibinitperiod},
+           given={Eleni},
+           giveni={E\bibinitperiod}}}%
+        {{hash=864e553439ff518108d702ca5ca7cbe7}{%
+           family={Karidi},
+           familyi={K\bibinitperiod},
+           given={Danae\bibnamedelima Pla},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=cff5136d96eb79699761341e69f58d93}{%
+           family={Pitoura},
+           familyi={P\bibinitperiod},
+           given={Evaggelia},
+           giveni={E\bibinitperiod}}}%
+        {{hash=2a27e9bb02f9a07410cf3837863136fd}{%
+           family={Papastefanatos},
+           familyi={P\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+        {{hash=8233da68d99ce274651a128905d292f7}{%
+           family={Tsaparas},
+           familyi={T\bibinitperiod},
+           given={Panayiotis},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{ebf49e5e7dc031799a8f1dd3e0f61e6a}
+      \strng{fullhash}{6daaa5df74de0ed38dfa8a46dc628dab}
+      \strng{bibnamehash}{ebf49e5e7dc031799a8f1dd3e0f61e6a}
+      \strng{authorbibnamehash}{ebf49e5e7dc031799a8f1dd3e0f61e6a}
+      \strng{authornamehash}{ebf49e5e7dc031799a8f1dd3e0f61e6a}
+      \strng{authorfullhash}{6daaa5df74de0ed38dfa8a46dc628dab}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{EmeraldMind: A Knowledge Graph-Augmented Framework for Greenwashing Detection}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arxiv.2512.11506
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48550/arxiv.2512.11506
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48550/arxiv.2512.11506
+      \endverb
+    \endentry
+    \entry{chengyan_wu_4c659eab}{article}{}
+      \name{author}{6}{}{%
+        {{hash=44a8d2fd6190b4f4fded77f3af6f75aa}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Chengyan},
+           giveni={C\bibinitperiod}}}%
+        {{hash=7ce0a6e1029d761ca6bd5e5a3114d203}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={Bolei},
+           giveni={B\bibinitperiod}}}%
+        {{hash=d5125369d00f1d79a8ad3d95f46a6e8d}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Zheyu},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=d4738316da14dc524db7b825a10be666}{%
+           family={Deng},
+           familyi={D\bibinitperiod},
+           given={Ningyuan},
+           giveni={N\bibinitperiod}}}%
+        {{hash=253b04573995d8c5f7a5074980c744f2}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Yanqing},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=27baf5aaec4774ee11b4dd830e8a6ac4}{%
+           family={Xue},
+           familyi={X\bibinitperiod},
+           given={Yun},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science+Business Media}%
+      }
+      \strng{namehash}{1a9ae80b8e5b8689b120c5b93eea32b3}
+      \strng{fullhash}{d72e1ef8216b21a3c06071d8970fd3bf}
+      \strng{bibnamehash}{d72e1ef8216b21a3c06071d8970fd3bf}
+      \strng{authorbibnamehash}{d72e1ef8216b21a3c06071d8970fd3bf}
+      \strng{authornamehash}{1a9ae80b8e5b8689b120c5b93eea32b3}
+      \strng{authorfullhash}{d72e1ef8216b21a3c06071d8970fd3bf}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1868-8071, 1868-808X}
+      \field{issue}{10}
+      \field{journaltitle}{International Journal of Machine Learning and Cybernetics}
+      \field{month}{06}
+      \field{title}{Evaluating zero-shot multilingual aspect-based sentiment analysis with large language models}
+      \field{volume}{16}
+      \field{year}{2025}
+      \field{pages}{8079\bibrangedash 8101}
+      \range{pages}{23}
+      \verb{doi}
+      \verb 10.1007/s13042-025-02711-z
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/s13042-025-02711-z
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/s13042-025-02711-z
+      \endverb
+    \endentry
+    \entry{zhiyuan_ma_3b2e6db4}{article}{}
+      \name{author}{5}{}{%
+        {{hash=66fdef58572a3f685f7029b548aa763a}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={Zhiyuan},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=dae08129ab95f5b010ffd9408ebb8859}{%
+           family={Pan},
+           familyi={P\bibinitperiod},
+           given={Meiqi},
+           giveni={M\bibinitperiod}}}%
+        {{hash=e1f10ec33246baea60cd5e0dda542383}{%
+           family={Hou},
+           familyi={H\bibinitperiod},
+           given={Yunfeng},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=6ed7250c8206a02238c2bbe323cde792}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Ling},
+           giveni={L\bibinitperiod}}}%
+        {{hash=f27ec46ccd272a021fd78bdac92dd490}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Institute of Electrical}%
+        {Electronics Engineers}%
+      }
+      \strng{namehash}{113abece6ca3b4e7ab69a8b087ed5116}
+      \strng{fullhash}{992dd777b064ba1340cabd5518838840}
+      \strng{bibnamehash}{992dd777b064ba1340cabd5518838840}
+      \strng{authorbibnamehash}{992dd777b064ba1340cabd5518838840}
+      \strng{authornamehash}{113abece6ca3b4e7ab69a8b087ed5116}
+      \strng{authorfullhash}{992dd777b064ba1340cabd5518838840}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2329-924X, 2373-7476}
+      \field{issue}{5}
+      \field{journaltitle}{IEEE Transactions on Computational Social Systems}
+      \field{month}{11}
+      \field{title}{Toward Knowledge Integration With Large Language Model for End-to-End Aspect-Based Sentiment Analysis in Social Multimedia}
+      \field{volume}{12}
+      \field{year}{2024}
+      \field{pages}{3844\bibrangedash 3857}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1109/tcss.2024.3484460
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/tcss.2024.3484460
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/tcss.2024.3484460
+      \endverb
+    \endentry
+    \entry{nils_constantin_hellwig_6fa4e097}{article}{}
+      \name{author}{3}{}{%
+        {{hash=2016f5761d1aec8c543930ef212f7aa1}{%
+           family={Hellwig},
+           familyi={H\bibinitperiod},
+           given={Nils\bibnamedelima Constantin},
+           giveni={N\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=c590b66afefb13a2d0e9906eb9253daa}{%
+           family={Fehle},
+           familyi={F\bibinitperiod},
+           given={Jakob},
+           giveni={J\bibinitperiod}}}%
+        {{hash=670de8700acf7793e09f9345af84901d}{%
+           family={Wolff},
+           familyi={W\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{2f85e4b321a42cec3659120a51753aec}
+      \strng{fullhash}{52388fbdae3c0f6a313e094717d31def}
+      \strng{bibnamehash}{52388fbdae3c0f6a313e094717d31def}
+      \strng{authorbibnamehash}{52388fbdae3c0f6a313e094717d31def}
+      \strng{authornamehash}{2f85e4b321a42cec3659120a51753aec}
+      \strng{authorfullhash}{52388fbdae3c0f6a313e094717d31def}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0957-4174, 1873-6793}
+      \field{journaltitle}{Expert Systems with Applications}
+      \field{month}{10}
+      \field{title}{Exploring large language models for the generation of synthetic training samples for aspect-based sentiment analysis in low resource settings}
+      \field{volume}{261}
+      \field{year}{2024}
+      \field{pages}{125514\bibrangedash 125514}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.eswa.2024.125514
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.eswa.2024.125514
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.eswa.2024.125514
+      \endverb
+    \endentry
+    \entry{jakob_fehle_a0e62c9d}{article}{}
+      \name{author}{4}{}{%
+        {{hash=c590b66afefb13a2d0e9906eb9253daa}{%
+           family={Fehle},
+           familyi={F\bibinitperiod},
+           given={Jakob},
+           giveni={J\bibinitperiod}}}%
+        {{hash=d7fb753c650e0e504e0e9d799dc5e663}{%
+           family={Kruschwitz},
+           familyi={K\bibinitperiod},
+           given={Udo},
+           giveni={U\bibinitperiod}}}%
+        {{hash=2016f5761d1aec8c543930ef212f7aa1}{%
+           family={Hellwig},
+           familyi={H\bibinitperiod},
+           given={Nils\bibnamedelima Constantin},
+           giveni={N\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=670de8700acf7793e09f9345af84901d}{%
+           family={Wolff},
+           familyi={W\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{b330100bd7d642c6f28112bd68fe0c8c}
+      \strng{fullhash}{f06c8d786b340341407817cc6cc4c43c}
+      \strng{bibnamehash}{f06c8d786b340341407817cc6cc4c43c}
+      \strng{authorbibnamehash}{f06c8d786b340341407817cc6cc4c43c}
+      \strng{authornamehash}{b330100bd7d642c6f28112bd68fe0c8c}
+      \strng{authorfullhash}{f06c8d786b340341407817cc6cc4c43c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0950-7051, 1872-7409}
+      \field{journaltitle}{Knowledge-Based Systems}
+      \field{month}{01}
+      \field{title}{Leveraging fine-tuning of large language models for aspect-based sentiment analysis in resource-scarce environments}
+      \field{volume}{336}
+      \field{year}{2026}
+      \field{pages}{115277\bibrangedash 115277}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.knosys.2026.115277
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.knosys.2026.115277
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.knosys.2026.115277
+      \endverb
+    \endentry
+    \entry{yue_guo_642efc19}{article}{}
+      \name{author}{3}{}{%
+        {{hash=8277d71e87565d4e6f6bcc48ea2646ce}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=a55cb38a8818c35d7b2c4b57016f11bd}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Zian},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=446e84a6f09f26fc6cf5730853e551ba}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{0ad60520587752f76d06e2e1bdd7a8ae}
+      \strng{fullhash}{181239e8b41958159f360aff54d540ca}
+      \strng{bibnamehash}{181239e8b41958159f360aff54d540ca}
+      \strng{authorbibnamehash}{181239e8b41958159f360aff54d540ca}
+      \strng{authornamehash}{0ad60520587752f76d06e2e1bdd7a8ae}
+      \strng{authorfullhash}{181239e8b41958159f360aff54d540ca}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{Is ChatGPT a Financial Expert? Evaluating Language Models on Financial Natural Language Processing}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.18653/v1/2023.findings-emnlp.58
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.18653/v1/2023.findings-emnlp.58
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.18653/v1/2023.findings-emnlp.58
+      \endverb
+    \endentry
+    \entry{weiqiang_jin_5ccfa531}{article}{}
+      \name{author}{7}{}{%
+        {{hash=e50468811cd22d27b53d5663a4310021}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Weiqiang},
+           giveni={W\bibinitperiod}}}%
+        {{hash=4805b2a9691969b5ef19cd1731826313}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Junli},
+           giveni={J\bibinitperiod}}}%
+        {{hash=9c1ecb1f7c47cf02e9e994296746328c}{%
+           family={Gao},
+           familyi={G\bibinitperiod},
+           given={Yang},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=0c0d9ac88bc980c46f2eb5e27944c5db}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Bing},
+           giveni={B\bibinitperiod}}}%
+        {{hash=a85456130c40d1aae853d5afbd804990}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Ningwei},
+           giveni={N\bibinitperiod}}}%
+        {{hash=e0a8441ea5e9cb783ba0bcb3fc549126}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Biao},
+           giveni={B\bibinitperiod}}}%
+        {{hash=11a33b1aa9e89479e304318dff521b9c}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Guang},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{2f0d809d993de22304f454b21f857387}
+      \strng{fullhash}{b0508774d6766132de4c20368cf2beb0}
+      \strng{bibnamehash}{2f0d809d993de22304f454b21f857387}
+      \strng{authorbibnamehash}{2f0d809d993de22304f454b21f857387}
+      \strng{authornamehash}{2f0d809d993de22304f454b21f857387}
+      \strng{authorfullhash}{b0508774d6766132de4c20368cf2beb0}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0824-7935, 1467-8640}
+      \field{issue}{5}
+      \field{journaltitle}{Computational Intelligence}
+      \field{month}{10}
+      \field{title}{Self‐Adaptive LLM Instructions Optimization for Aspect‐Based Sentiment Analysis by Incorporating Emotion‐Oriented In‐Contexts}
+      \field{volume}{41}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1111/coin.70129
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1111/coin.70129
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1111/coin.70129
+      \endverb
+    \endentry
+    \entry{tharnsaithong_hirunsri_e4c4d75b}{article}{}
+      \name{author}{2}{}{%
+        {{hash=9f28bc5983080b88eef62d39095a180b}{%
+           family={Hirunsri},
+           familyi={H\bibinitperiod},
+           given={Tharnsaithong},
+           giveni={T\bibinitperiod}}}%
+        {{hash=6e31075311384106e8813462da3dd10e}{%
+           family={Nadee},
+           familyi={N\bibinitperiod},
+           given={Winai},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{1b6bf3a695111352396db2bd02118f9c}
+      \strng{fullhash}{1b6bf3a695111352396db2bd02118f9c}
+      \strng{bibnamehash}{1b6bf3a695111352396db2bd02118f9c}
+      \strng{authorbibnamehash}{1b6bf3a695111352396db2bd02118f9c}
+      \strng{authornamehash}{1b6bf3a695111352396db2bd02118f9c}
+      \strng{authorfullhash}{1b6bf3a695111352396db2bd02118f9c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{11}
+      \field{title}{Sentiment Analysis of ESG Disclosures on Annual Report in Thailand}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1109/incit63192.2024.10810488
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/incit63192.2024.10810488
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/incit63192.2024.10810488
+      \endverb
+    \endentry
+    \entry{filippos_ventirozos_5976f1ad}{unpublished}{}
+      \name{author}{3}{}{%
+        {{hash=ed152109ee160b12b2f6ecc9fd1f4c93}{%
+           family={Ventirozos},
+           familyi={V\bibinitperiod},
+           given={Filippos},
+           giveni={F\bibinitperiod}}}%
+        {{hash=e51c503f557b2b8749a8e7a13a4e1bec}{%
+           family={Appleby},
+           familyi={A\bibinitperiod},
+           given={P.\bibnamedelimi G.},
+           giveni={P\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=d15f65dc3a8314f8ec6692eb6b0f5c1a}{%
+           family={Shardlow},
+           familyi={S\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cornell University}%
+      }
+      \strng{namehash}{4cbc360010d0a74f8dd70e5e9672a949}
+      \strng{fullhash}{d2480963be4e3cbcfa13596386901d1d}
+      \strng{bibnamehash}{d2480963be4e3cbcfa13596386901d1d}
+      \strng{authorbibnamehash}{d2480963be4e3cbcfa13596386901d1d}
+      \strng{authornamehash}{4cbc360010d0a74f8dd70e5e9672a949}
+      \strng{authorfullhash}{d2480963be4e3cbcfa13596386901d1d}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv (Cornell University)}
+      \field{month}{12}
+      \field{title}{Exploring Zero-Shot ACSA with Unified Meaning Representation in Chain-of-Thought Prompting}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arxiv.2512.19651
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48550/arxiv.2512.19651
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48550/arxiv.2512.19651
+      \endverb
+    \endentry
+    \entry{chang_liu_7bb298f7}{article}{}
+      \name{author}{4}{}{%
+        {{hash=9d9ac6815e27331ba6620def723e357f}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Chang},
+           giveni={C\bibinitperiod}}}%
+        {{hash=909d3aba9c0c2837ce74487d0a28f3a5}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Gao},
+           giveni={G\bibinitperiod}}}%
+        {{hash=78be8ea0cb80e4e1b59bf06100942e90}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yong},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=e9f8934a7fd3f4e4f22f98122c51a59d}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Mengdi},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Institute of Electrical}%
+        {Electronics Engineers}%
+      }
+      \strng{namehash}{00ec0d1820d4b0d61817efe77ac34d43}
+      \strng{fullhash}{5aa04337c81f98b01274bab1ede39b72}
+      \strng{bibnamehash}{5aa04337c81f98b01274bab1ede39b72}
+      \strng{authorbibnamehash}{5aa04337c81f98b01274bab1ede39b72}
+      \strng{authornamehash}{00ec0d1820d4b0d61817efe77ac34d43}
+      \strng{authorfullhash}{5aa04337c81f98b01274bab1ede39b72}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2329-924X, 2373-7476}
+      \field{journaltitle}{IEEE Transactions on Computational Social Systems}
+      \field{month}{01}
+      \field{title}{Exploring Implicit Sentiment Analysis Through Progressive Prompting Strategies}
+      \field{year}{2026}
+      \field{pages}{1\bibrangedash 13}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/tcss.2026.3658513
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/tcss.2026.3658513
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/tcss.2026.3658513
+      \endverb
+    \endentry
+    \entry{mohammad_radi_96ee5847}{article}{}
+      \name{author}{3}{}{%
+        {{hash=49df2ca6df078bd68dbc863c538b7b8f}{%
+           family={Radi},
+           familyi={R\bibinitperiod},
+           given={Mohammad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b47be4dceeb546efcda5aa8a6402820f}{%
+           family={Omar},
+           familyi={O\bibinitperiod},
+           given={Nazlia},
+           giveni={N\bibinitperiod}}}%
+        {{hash=e99c49ae8402f6d2ec230c2e08c028b6}{%
+           family={Kaur},
+           familyi={K\bibinitperiod},
+           given={Wandeep},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Institute of Electrical}%
+        {Electronics Engineers}%
+      }
+      \strng{namehash}{bf0e53fdda3e86ce9b2eab013b753466}
+      \strng{fullhash}{723e1f3833023460fd64aa9e233071ba}
+      \strng{bibnamehash}{723e1f3833023460fd64aa9e233071ba}
+      \strng{authorbibnamehash}{723e1f3833023460fd64aa9e233071ba}
+      \strng{authornamehash}{bf0e53fdda3e86ce9b2eab013b753466}
+      \strng{authorfullhash}{723e1f3833023460fd64aa9e233071ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2169-3536}
+      \field{journaltitle}{IEEE Access}
+      \field{month}{01}
+      \field{title}{Syntactic-Guided Chain of Thought for Iterative Implicit and Explicit Target Detection in Aspect-Based Sentiment Analysis}
+      \field{volume}{13}
+      \field{year}{2025}
+      \field{pages}{84738\bibrangedash 84751}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1109/access.2025.3568695
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/access.2025.3568695
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/access.2025.3568695
+      \endverb
+    \endentry
+    \entry{yating_he_0bd5c04f}{article}{}
+      \name{author}{6}{}{%
+        {{hash=131d4708c93792944a13f1fed56fad39}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Yating},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=27354a4a355427da8d7c7fa6d3c96c93}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Zhenzhen},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=7aeb621cb028da18f590fa275cdea9c4}{%
+           family={Gu},
+           familyi={G\bibinitperiod},
+           given={Tiquan},
+           giveni={T\bibinitperiod}}}%
+        {{hash=018c11116bf7eca23f28ca3117a172ba}{%
+           family={Gu},
+           familyi={G\bibinitperiod},
+           given={Bowen},
+           giveni={B\bibinitperiod}}}%
+        {{hash=223fb4cdbddac46f4e16463c21fc88a8}{%
+           family={Wan},
+           familyi={W\bibinitperiod},
+           given={Yaling},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=dd037b3b861a870d96b7329da5d30d28}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Min},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Multidisciplinary Digital Publishing Institute}%
+      }
+      \strng{namehash}{fcbb89693e295dc6a8eb507e83a0804c}
+      \strng{fullhash}{94c659c53357cfa81890767b2ffc7641}
+      \strng{bibnamehash}{94c659c53357cfa81890767b2ffc7641}
+      \strng{authorbibnamehash}{94c659c53357cfa81890767b2ffc7641}
+      \strng{authornamehash}{fcbb89693e295dc6a8eb507e83a0804c}
+      \strng{authorfullhash}{94c659c53357cfa81890767b2ffc7641}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2076-3417}
+      \field{issue}{22}
+      \field{journaltitle}{Applied Sciences}
+      \field{month}{11}
+      \field{title}{Multi-Chain of Thought Prompt Learning for Aspect-Based Sentiment Analysis}
+      \field{volume}{15}
+      \field{year}{2025}
+      \field{pages}{12225\bibrangedash 12225}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/app152212225
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/app152212225
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/app152212225
+      \endverb
+    \endentry
+    \entry{arash_hajikhani_cbb2528f}{article}{}
+      \name{author}{2}{}{%
+        {{hash=12eea8735fd04ba7195cc9efbd5deedb}{%
+           family={Hajikhani},
+           familyi={H\bibinitperiod},
+           given={Arash},
+           giveni={A\bibinitperiod}}}%
+        {{hash=1861c2e73b180a24adcb1af66e23c872}{%
+           family={Cole},
+           familyi={C\bibinitperiod},
+           given={Carolyn},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{4c2a03b62d7b88ea482b42c576746499}
+      \strng{fullhash}{4c2a03b62d7b88ea482b42c576746499}
+      \strng{bibnamehash}{4c2a03b62d7b88ea482b42c576746499}
+      \strng{authorbibnamehash}{4c2a03b62d7b88ea482b42c576746499}
+      \strng{authornamehash}{4c2a03b62d7b88ea482b42c576746499}
+      \strng{authorfullhash}{4c2a03b62d7b88ea482b42c576746499}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2641-3337}
+      \field{month}{01}
+      \field{title}{A critical review of large language models: Sensitivity, bias, and the path toward specialized AI}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1162/qss\_a\_00310
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1162/qss\_a\_00310
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1162/qss%5C_a%5C_00310
+      \endverb
+    \endentry
+    \entry{annas_vijaya_dc57c7ec}{article}{}
+      \name{author}{4}{}{%
+        {{hash=9870667064cc54e5781d67de47e3d0f9}{%
+           family={Vijaya},
+           familyi={V\bibinitperiod},
+           given={Annas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3d63027ab6c6e223f3d619c103b7cee1}{%
+           family={Qadri},
+           familyi={Q\bibinitperiod},
+           given={Faris\bibnamedelima Dzaudan},
+           giveni={F\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=4f51c63200ae344ca7392cf7bc79209c}{%
+           family={Angreani},
+           familyi={A\bibinitperiod},
+           given={Linda\bibnamedelima Salma},
+           giveni={L\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=0073d6279562ff77fb1a380f33ed98cf}{%
+           family={Wicaksono},
+           familyi={W\bibinitperiod},
+           given={Hendro},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{85ff36e8a823a453026e402002fc4bd9}
+      \strng{fullhash}{5ddeff204081429be9ffef1e206a8327}
+      \strng{bibnamehash}{5ddeff204081429be9ffef1e206a8327}
+      \strng{authorbibnamehash}{5ddeff204081429be9ffef1e206a8327}
+      \strng{authornamehash}{85ff36e8a823a453026e402002fc4bd9}
+      \strng{authorfullhash}{5ddeff204081429be9ffef1e206a8327}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2444-569X, 2530-7614}
+      \field{journaltitle}{Journal of Innovation \& Knowledge}
+      \field{month}{12}
+      \field{title}{From fragmentation to interoperability: How semantic models transform environmental, social, governance (ESG) reporting, knowledge, and sustainability governance}
+      \field{volume}{13}
+      \field{year}{2025}
+      \field{pages}{100924\bibrangedash 100924}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.jik.2025.100924
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.jik.2025.100924
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.jik.2025.100924
+      \endverb
+    \endentry
+    \entry{chaoyue_he_8c389604}{unpublished}{}
+      \name{author}{9}{}{%
+        {{hash=dcd3c945dedb167168d449346a974e82}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Chaoyue},
+           giveni={C\bibinitperiod}}}%
+        {{hash=35b53a5f450cc6a8ce8bce633606e1de}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod}}}%
+        {{hash=ae66067c3dea21e00e9c5b777faa1a4e}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Di},
+           giveni={D\bibinitperiod}}}%
+        {{hash=bd5bb7664e4f3c953e32bab81a255809}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Xinjia},
+           giveni={X\bibinitperiod}}}%
+        {{hash=d1529d39bf178a4a6cfc0d2e5f1fda17}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Lei},
+           giveni={L\bibinitperiod}}}%
+        {{hash=e1ceb6f1ec74e3c3d7eb4066eaa09970}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Langyue},
+           giveni={L\bibinitperiod}}}%
+        {{hash=0cf1ce4de8e7a8a7513e29de33557758}{%
+           family={(71477)},
+           familyi={(\bibinitperiod},
+           given={Hong\bibnamedelima Xu},
+           giveni={H\bibinitperiod\bibinitdelim X\bibinitperiod}}}%
+        {{hash=c0e0d23e2d09e45e6f51cc2bcea6d9f9}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=b15c66dc78018663c450b8f00914154c}{%
+           family={Miao},
+           familyi={M\bibinitperiod},
+           given={Chunyan},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{8145e332ec9997e17c7a7fcc19716a4e}
+      \strng{fullhash}{2962963b56d9cfdaaa6b3b0a2e985050}
+      \strng{bibnamehash}{8145e332ec9997e17c7a7fcc19716a4e}
+      \strng{authorbibnamehash}{8145e332ec9997e17c7a7fcc19716a4e}
+      \strng{authornamehash}{8145e332ec9997e17c7a7fcc19716a4e}
+      \strng{authorfullhash}{2962963b56d9cfdaaa6b3b0a2e985050}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{03}
+      \field{title}{KG4ESG: The ESG Knowledge Graph Atlas}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.20944/preprints202602.1970.v2
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.20944/preprints202602.1970.v2
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.20944/preprints202602.1970.v2
+      \endverb
+    \endentry
+    \entry{yuchen_zhou_b6beee03}{inbook}{}
+      \name{author}{3}{}{%
+        {{hash=418a5f98caacfb68adfc0d9e3c723634}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Yuchen},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=4bcab91655df55ab3d7a7679698a0f56}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Yuan\bibnamedelima Guang},
+           giveni={Y\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=f958d9e5d3b7b8f2a3b9747d0e12422e}{%
+           family={Perzylo},
+           familyi={P\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{27b947dbeb67d80edd3f38346d995567}
+      \strng{fullhash}{3896fa84aa66e3b7fee6e14735258748}
+      \strng{bibnamehash}{3896fa84aa66e3b7fee6e14735258748}
+      \strng{authorbibnamehash}{3896fa84aa66e3b7fee6e14735258748}
+      \strng{authornamehash}{27b947dbeb67d80edd3f38346d995567}
+      \strng{authorfullhash}{3896fa84aa66e3b7fee6e14735258748}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2215-0870}
+      \field{journaltitle}{Studies on the semantic web}
+      \field{month}{09}
+      \field{title}{Towards Digital Sustainability Reporting: An Ontology for Mapping of Indicators in GRI and ESRS}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.3233/ssw240016
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3233/ssw240016
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3233/ssw240016
+      \endverb
+    \endentry
+    \entry{mingqin_yu_96a5b8af}{article}{}
+      \name{author}{3}{}{%
+        {{hash=a6536e852c4691d066acbbbd8ba27946}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Mingqin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b870ce94d4159ef0bf6ae2dbd6716995}{%
+           family={Rabhi},
+           familyi={R\bibinitperiod},
+           given={Fethi},
+           giveni={F\bibinitperiod}}}%
+        {{hash=169578b1e6d148ddb7f786b30821e918}{%
+           family={Bandara},
+           familyi={B\bibinitperiod},
+           given={Madhushi},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Multidisciplinary Digital Publishing Institute}%
+      }
+      \strng{namehash}{ffba4745746355c4e12b2ba0fe4432bb}
+      \strng{fullhash}{379bc7d802de18892b72b9c163e53b9c}
+      \strng{bibnamehash}{379bc7d802de18892b72b9c163e53b9c}
+      \strng{authorbibnamehash}{379bc7d802de18892b72b9c163e53b9c}
+      \strng{authornamehash}{ffba4745746355c4e12b2ba0fe4432bb}
+      \strng{authorfullhash}{379bc7d802de18892b72b9c163e53b9c}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2079-9292}
+      \field{issue}{9}
+      \field{journaltitle}{Electronics}
+      \field{month}{04}
+      \field{title}{Ontology-Driven Architecture for Managing Environmental, Social, and Governance Metrics}
+      \field{volume}{13}
+      \field{year}{2024}
+      \field{pages}{1719\bibrangedash 1719}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/electronics13091719
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/electronics13091719
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/electronics13091719
+      \endverb
+    \endentry
+    \entry{georgios_kaoukis_91737dd6}{dataset}{}
+      \name{author}{7}{}{%
+        {{hash=571810aeafecd2c5f0335f2220675d41}{%
+           family={Kaoukis},
+           familyi={K\bibinitperiod},
+           given={Georgios},
+           giveni={G\bibinitperiod}}}%
+        {{hash=261376923cf7915e5671999f2c1a8f17}{%
+           family={Koufopoulos},
+           familyi={K\bibinitperiod},
+           given={Ioannis-Aris},
+           giveni={I\bibinithyphendelim A\bibinitperiod}}}%
+        {{hash=632a2a11bf03ccd5a42f6a7f6c08491c}{%
+           family={Psaroudaki},
+           familyi={P\bibinitperiod},
+           given={Eleni},
+           giveni={E\bibinitperiod}}}%
+        {{hash=864e553439ff518108d702ca5ca7cbe7}{%
+           family={Karidi},
+           familyi={K\bibinitperiod},
+           given={Danae\bibnamedelima Pla},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=cff5136d96eb79699761341e69f58d93}{%
+           family={Pitoura},
+           familyi={P\bibinitperiod},
+           given={Evaggelia},
+           giveni={E\bibinitperiod}}}%
+        {{hash=2a27e9bb02f9a07410cf3837863136fd}{%
+           family={Papastefanatos},
+           familyi={P\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+        {{hash=8233da68d99ce274651a128905d292f7}{%
+           family={Tsaparas},
+           familyi={T\bibinitperiod},
+           given={Panayiotis},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{ebf49e5e7dc031799a8f1dd3e0f61e6a}
+      \strng{fullhash}{70709230ff48e27b91d03c025f7afb72}
+      \strng{bibnamehash}{ebf49e5e7dc031799a8f1dd3e0f61e6a}
+      \strng{authorbibnamehash}{ebf49e5e7dc031799a8f1dd3e0f61e6a}
+      \strng{authornamehash}{ebf49e5e7dc031799a8f1dd3e0f61e6a}
+      \strng{authorfullhash}{70709230ff48e27b91d03c025f7afb72}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Open MIND}
+      \field{month}{01}
+      \field{title}{EmeraldData}
+      \field{year}{2025}
+    \endentry
+    \entry{siqi_sun_f6a51152}{inproceedings}{}
+      \name{author}{6}{}{%
+        {{hash=e1ac54d193c85b7c6c855302387de5e8}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Siqi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=83758d9addb911983a18aa0e74e03aea}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0e9896ecb8bf3ab7a33cd0351243212a}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Mali},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ab81e92c51e8e7150e25b74eabbb6bfc}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Peizhen},
+           giveni={P\bibinitperiod}}}%
+        {{hash=70c52100d68eb70673d8835599dd5f27}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Hanpei},
+           giveni={H\bibinitperiod}}}%
+        {{hash=f28364b04fc73aeaa763895071b0b476}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Xingyi},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{48c0053ae70f49a28a1b9eee2f19275f}
+      \strng{fullhash}{3a5de6f88f7dc35f750dc5da361eaf60}
+      \strng{bibnamehash}{3a5de6f88f7dc35f750dc5da361eaf60}
+      \strng{authorbibnamehash}{3a5de6f88f7dc35f750dc5da361eaf60}
+      \strng{authornamehash}{48c0053ae70f49a28a1b9eee2f19275f}
+      \strng{authorfullhash}{3a5de6f88f7dc35f750dc5da361eaf60}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2159-5399, 2374-3468}
+      \field{month}{03}
+      \field{title}{ESG-Bench: Benchmarking Long-Context ESG Reports for Hallucination Mitigation}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.1609/aaai.v40i46.41281
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1609/aaai.v40i46.41281
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1609/aaai.v40i46.41281
+      \endverb
+    \endentry
+    \entry{s__s__george_saji_b30d4b3e}{article}{}
+      \name{author}{2}{}{%
+        {{hash=17eb94b72bf1204105dcbfafb821277e}{%
+           family={Saji},
+           familyi={S\bibinitperiod},
+           given={S.\bibnamedelimi S.\bibnamedelimi George},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=148bdcc36cae78150529d3e11afc75df}{%
+           family={undefined},
+           familyi={u\bibinitperiod},
+           given={Nithish},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{3b8764a88566a7578788e84b2d8a5b79}
+      \strng{fullhash}{3b8764a88566a7578788e84b2d8a5b79}
+      \strng{bibnamehash}{3b8764a88566a7578788e84b2d8a5b79}
+      \strng{authorbibnamehash}{3b8764a88566a7578788e84b2d8a5b79}
+      \strng{authornamehash}{3b8764a88566a7578788e84b2d8a5b79}
+      \strng{authorfullhash}{3b8764a88566a7578788e84b2d8a5b79}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{ESGBench: A Benchmark for Explainable ESG Question Answering in Corporate Sustainability Reports}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arxiv.2511.16438
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48550/arxiv.2511.16438
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48550/arxiv.2511.16438
+      \endverb
+    \endentry
+    \entry{jaeyoung_lee_1894333c}{article}{}
+      \name{author}{3}{}{%
+        {{hash=a9d27299f16d7baaf16502a4d7b27266}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Jaeyoung},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a1bc3f31bb66521a1bfc1b0cf4f58386}{%
+           family={Son},
+           familyi={S\bibinitperiod},
+           given={Geonyeong},
+           giveni={G\bibinitperiod}}}%
+        {{hash=59f2b072f870482b74002004c35545d6}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Misuk},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{0a6193fb7529af0552194ce96e726341}
+      \strng{fullhash}{7b6b5eaa20b91430cd4128e0e8bfcc45}
+      \strng{bibnamehash}{7b6b5eaa20b91430cd4128e0e8bfcc45}
+      \strng{authorbibnamehash}{7b6b5eaa20b91430cd4128e0e8bfcc45}
+      \strng{authornamehash}{0a6193fb7529af0552194ce96e726341}
+      \strng{authorfullhash}{7b6b5eaa20b91430cd4128e0e8bfcc45}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{ESG-Kor: A Korean Dataset for ESG-related Information Extraction and Practical Use Cases}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.18653/v1/2024.findings-emnlp.387
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.18653/v1/2024.findings-emnlp.387
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.18653/v1/2024.findings-emnlp.387
+      \endverb
+    \endentry
+    \entry{mariya_pavlova_259be499}{unpublished}{}
+      \name{author}{3}{}{%
+        {{hash=3831061350aeafdbd6b587837f2e1064}{%
+           family={Pavlova},
+           familyi={P\bibinitperiod},
+           given={Mariya},
+           giveni={M\bibinitperiod}}}%
+        {{hash=fa010f43deb64289dac9a8ee607d36b1}{%
+           family={Casey},
+           familyi={C\bibinitperiod},
+           given={Bernard},
+           giveni={B\bibinitperiod}}}%
+        {{hash=c6e1772dd6b5f439500dc6e61139d806}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={M.-Z.},
+           giveni={M\bibinithyphendelim Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{b679bfd454ccb90f0edff06d0f750299}
+      \strng{fullhash}{fd4dde1acda6ff7c0b7d21c58e996501}
+      \strng{bibnamehash}{fd4dde1acda6ff7c0b7d21c58e996501}
+      \strng{authorbibnamehash}{fd4dde1acda6ff7c0b7d21c58e996501}
+      \strng{authornamehash}{b679bfd454ccb90f0edff06d0f750299}
+      \strng{authorfullhash}{fd4dde1acda6ff7c0b7d21c58e996501}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{05}
+      \field{title}{ESG-FTSE: A corpus of news articles with ESG relevance labels and use cases}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arxiv.2405.20218
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2405.20218
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2405.20218
+      \endverb
+    \endentry
+    \entry{fabian_billert_a5fbb687}{unpublished}{}
+      \name{author}{2}{}{%
+        {{hash=0a57768a55eccbec923843facc02e5e5}{%
+           family={Billert},
+           familyi={B\bibinitperiod},
+           given={Fabian},
+           giveni={F\bibinitperiod}}}%
+        {{hash=4b8417ed39a01d60ac2c91832687a9b3}{%
+           family={Conrad},
+           familyi={C\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{dd1a5700c5fc22e51f1147ee68103e20}
+      \strng{fullhash}{dd1a5700c5fc22e51f1147ee68103e20}
+      \strng{bibnamehash}{dd1a5700c5fc22e51f1147ee68103e20}
+      \strng{authorbibnamehash}{dd1a5700c5fc22e51f1147ee68103e20}
+      \strng{authornamehash}{dd1a5700c5fc22e51f1147ee68103e20}
+      \strng{authorfullhash}{dd1a5700c5fc22e51f1147ee68103e20}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{Nano-ESG: Extracting Corporate Sustainability Information from News Articles}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arxiv.2412.15093
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2412.15093
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2412.15093
+      \endverb
+    \endentry
+    \entry{keane_ong_0a5de439}{article}{}
+      \name{author}{5}{}{%
+        {{hash=842a5e73fdca7b002d2c13252cedb176}{%
+           family={Ong},
+           familyi={O\bibinitperiod},
+           given={Keane},
+           giveni={K\bibinitperiod}}}%
+        {{hash=69ada71e75a29be8d3d6488aa979640e}{%
+           family={Mao},
+           familyi={M\bibinitperiod},
+           given={Rui},
+           giveni={R\bibinitperiod}}}%
+        {{hash=7bf10f183f4060c04d952b8480de476f}{%
+           family={Varshney},
+           familyi={V\bibinitperiod},
+           given={Deeksha},
+           giveni={D\bibinitperiod}}}%
+        {{hash=db089768b8819956d932b3c8db18d498}{%
+           family={Cambria},
+           familyi={C\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=c7a2794fff9fd9b4d0fa2c6d7b7f380a}{%
+           family={Mengaldo},
+           familyi={M\bibinitperiod},
+           given={Gianmarco},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{d1e90f45d1f56b218e3fe0f14c8459c3}
+      \strng{fullhash}{c2a6d40af98fcec65fc30f8b15493fb8}
+      \strng{bibnamehash}{c2a6d40af98fcec65fc30f8b15493fb8}
+      \strng{authorbibnamehash}{c2a6d40af98fcec65fc30f8b15493fb8}
+      \strng{authornamehash}{d1e90f45d1f56b218e3fe0f14c8459c3}
+      \strng{authorfullhash}{c2a6d40af98fcec65fc30f8b15493fb8}
+      \field{extraname}{3}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{Towards Robust ESG Analysis Against Greenwashing Risks: Aspect-Action Analysis with Cross-Category Generalization}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.18653/v1/2025.acl-long.723
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.18653/v1/2025.acl-long.723
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.18653/v1/2025.acl-long.723
+      \endverb
+    \endentry
+    \entry{liyuan_liu_91c36432}{article}{}
+      \name{author}{5}{}{%
+        {{hash=30c27aab84eec430831ee1a526cc7724}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Liyuan},
+           giveni={L\bibinitperiod}}}%
+        {{hash=48426708fcde7926ddf132062f46000e}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={Zhiguo},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=a1639a18da9198ede9559eab8516808c}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Yiyun},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=069f151e7a0c2cb9a3926cf89ecc567a}{%
+           family={Fan},
+           familyi={F\bibinitperiod},
+           given={Melissa},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f977eb491bb469c0c14179549597852a}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Meng},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{5ce89055a03f9ccf6b68d153d47afbc8}
+      \strng{fullhash}{8f0d20da246dfb49c4b21ec098951a64}
+      \strng{bibnamehash}{8f0d20da246dfb49c4b21ec098951a64}
+      \strng{authorbibnamehash}{8f0d20da246dfb49c4b21ec098951a64}
+      \strng{authornamehash}{5ce89055a03f9ccf6b68d153d47afbc8}
+      \strng{authorfullhash}{8f0d20da246dfb49c4b21ec098951a64}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2096-7209, 2666-9536}
+      \field{month}{01}
+      \field{title}{Trust in ESG reporting: The intelligent Veri-Green solution for incentivized verification}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1016/j.bcra.2024.100189
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.bcra.2024.100189
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.bcra.2024.100189
+      \endverb
+    \endentry
+    \entry{thong_hoang_d30a390b}{unpublished}{}
+      \name{author}{9}{}{%
+        {{hash=de6bc6efcd5b8bddae644c7351bc38ac}{%
+           family={Hoang},
+           familyi={H\bibinitperiod},
+           given={Thong},
+           giveni={T\bibinitperiod}}}%
+        {{hash=6a6e72bc187967821ef782a9ea7a65a4}{%
+           family={Klymenko},
+           familyi={K\bibinitperiod},
+           given={Mykhailo},
+           giveni={M\bibinitperiod}}}%
+        {{hash=268fd6e7a95a4d5d0ad195cf0a184d4c}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Xiwei},
+           giveni={X\bibinitperiod}}}%
+        {{hash=3cf453eb93d2e08f19b887f0814e369e}{%
+           family={Pan},
+           familyi={P\bibinitperiod},
+           given={Shidong},
+           giveni={S\bibinitperiod}}}%
+        {{hash=ac4017b40d7880239a6a765952f4bb51}{%
+           family={Ding},
+           familyi={D\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=ac214366044fcb4673fa9b87b1baaa7e}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={Xushuo},
+           giveni={X\bibinitperiod}}}%
+        {{hash=8d3c4d77cd7d39a0a73ca9458096283c}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Zhengyi},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=2826b12c3180a599a23275c77288abc1}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Jieke},
+           giveni={J\bibinitperiod}}}%
+        {{hash=cac8ebdbf2f8a8f2b7f49f6e737c2649}{%
+           family={Lo},
+           familyi={L\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{73b6202b0bdd9613dd1ab7192c1eabb3}
+      \strng{fullhash}{724edd33656c857725a889a72076467c}
+      \strng{bibnamehash}{73b6202b0bdd9613dd1ab7192c1eabb3}
+      \strng{authorbibnamehash}{73b6202b0bdd9613dd1ab7192c1eabb3}
+      \strng{authornamehash}{73b6202b0bdd9613dd1ab7192c1eabb3}
+      \strng{authorfullhash}{724edd33656c857725a889a72076467c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{03}
+      \field{title}{ESG Reporting Lifecycle Management with Large Language Models and AI Agents}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.48550/arxiv.2603.10646
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.48550/arxiv.2603.10646
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.48550/arxiv.2603.10646
+      \endverb
+    \endentry
+    \entry{tik_yu_yim_951fa18a}{article}{}
+      \name{author}{5}{}{%
+        {{hash=3c26136c012bbf473e8568b946c09bfd}{%
+           family={Yim},
+           familyi={Y\bibinitperiod},
+           given={Tik\bibnamedelima Yu},
+           giveni={T\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+        {{hash=a83528aca7c5db94c51b6ed1e873b241}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Woei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=ad4116c1f82ffcf9be6cbde5279cfa88}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yuxuan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=78351a5f26cc5ba46ab49b44aee25672}{%
+           family={Lam},
+           familyi={L\bibinitperiod},
+           given={Tak‐Wah},
+           giveni={T\bibinithyphendelim W\bibinitperiod}}}%
+        {{hash=5195ba71dc251348401e6cc8162706c4}{%
+           family={Yiu},
+           familyi={Y\bibinitperiod},
+           given={Siu\bibnamedelima Ming},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{0861afac74a73dc2a2413304dc3e0c66}
+      \strng{fullhash}{bc384410fc78a26b10f03357ce90ceba}
+      \strng{bibnamehash}{bc384410fc78a26b10f03357ce90ceba}
+      \strng{authorbibnamehash}{bc384410fc78a26b10f03357ce90ceba}
+      \strng{authornamehash}{0861afac74a73dc2a2413304dc3e0c66}
+      \strng{authorfullhash}{bc384410fc78a26b10f03357ce90ceba}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{11}
+      \field{title}{Demystifying TCFD Disclosures: An AI-Powered Framework for Enhanced Transparency and Trust}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1145/3768292.3770400
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/3768292.3770400
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/3768292.3770400
+      \endverb
+    \endentry
+    \entry{ivan_mashkin_fba24085}{article}{}
+      \name{author}{2}{}{%
+        {{hash=30b431bbb3555c7d09a5651482815b1c}{%
+           family={Mashkin},
+           familyi={M\bibinitperiod},
+           given={Ivan},
+           giveni={I\bibinitperiod}}}%
+        {{hash=eea6fa396009fb4eecd7581af0bcbe3a}{%
+           family={Chersoni},
+           familyi={C\bibinitperiod},
+           given={Emmanuele},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{37d391dac1b426fdbf7d34b40c9a7222}
+      \strng{fullhash}{37d391dac1b426fdbf7d34b40c9a7222}
+      \strng{bibnamehash}{37d391dac1b426fdbf7d34b40c9a7222}
+      \strng{authorbibnamehash}{37d391dac1b426fdbf7d34b40c9a7222}
+      \strng{authornamehash}{37d391dac1b426fdbf7d34b40c9a7222}
+      \strng{authorfullhash}{37d391dac1b426fdbf7d34b40c9a7222}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{08}
+      \field{title}{HKESG at the ML-ESG Task:Exploring Transformer Representations for Multilingual ESG Issue Identification}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://hdl.handle.net/2031/ce2fdb4e-bf74-4f70-9aa0-7fc555c9ad94
+      \endverb
+      \verb{url}
+      \verb https://hdl.handle.net/2031/ce2fdb4e-bf74-4f70-9aa0-7fc555c9ad94
+      \endverb
+    \endentry
+    \entry{tobias_schimanski_3549ff9f}{article}{}
+      \name{author}{6}{}{%
+        {{hash=d968cca1d11f466938e425bb3b79d0cd}{%
+           family={Schimanski},
+           familyi={S\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod}}}%
+        {{hash=99b497bfd32c95c9b35b96c9b13be4a7}{%
+           family={Senni},
+           familyi={S\bibinitperiod},
+           given={Chiara\bibnamedelima Colesanti},
+           giveni={C\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=1f3424af18be6a0e8d2a3c4ab1213c21}{%
+           family={Gostlow},
+           familyi={G\bibinitperiod},
+           given={Glen},
+           giveni={G\bibinitperiod}}}%
+        {{hash=f3d828bdd2d94508c179e6fad015dce0}{%
+           family={Ni},
+           familyi={N\bibinitperiod},
+           given={Jingwei},
+           giveni={J\bibinitperiod}}}%
+        {{hash=842e88f7c487c59a66489d9558051f9a}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Tingyu},
+           giveni={T\bibinitperiod}}}%
+        {{hash=51a9b6bf7c8424a975ef9afac4e47e7a}{%
+           family={Leippold},
+           familyi={L\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{b9c96370e7f21acab9f7ebb6689824f9}
+      \strng{fullhash}{6b5794a94a31ffabe55b4284d7a3df8e}
+      \strng{bibnamehash}{6b5794a94a31ffabe55b4284d7a3df8e}
+      \strng{authorbibnamehash}{6b5794a94a31ffabe55b4284d7a3df8e}
+      \strng{authornamehash}{b9c96370e7f21acab9f7ebb6689824f9}
+      \strng{authorfullhash}{6b5794a94a31ffabe55b4284d7a3df8e}
+      \field{extraname}{1}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1556-5068}
+      \field{month}{01}
+      \field{title}{Exploring Nature: Datasets and Models for Analyzing Nature-Related Disclosures}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.2139/ssrn.4665715
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.2139/ssrn.4665715
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.2139/ssrn.4665715
+      \endverb
+    \endentry
+    \entry{tobias_schimanski_241ada20}{article}{}
+      \name{author}{5}{}{%
+        {{hash=d968cca1d11f466938e425bb3b79d0cd}{%
+           family={Schimanski},
+           familyi={S\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod}}}%
+        {{hash=548e98a97f677d909ac0032d43ab14b2}{%
+           family={Bingler},
+           familyi={B\bibinitperiod},
+           given={Julia},
+           giveni={J\bibinitperiod}}}%
+        {{hash=289599e7645a067bda639514608adc1b}{%
+           family={Hyslop},
+           familyi={H\bibinitperiod},
+           given={Camilla},
+           giveni={C\bibinitperiod}}}%
+        {{hash=1204c491c6125f8f0725a80018d50433}{%
+           family={Kraus},
+           familyi={K\bibinitperiod},
+           given={Mathias},
+           giveni={M\bibinitperiod}}}%
+        {{hash=51a9b6bf7c8424a975ef9afac4e47e7a}{%
+           family={Leippold},
+           familyi={L\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{b9c96370e7f21acab9f7ebb6689824f9}
+      \strng{fullhash}{8bd517c4085ec7f1748d5bfa27ebacc8}
+      \strng{bibnamehash}{8bd517c4085ec7f1748d5bfa27ebacc8}
+      \strng{authorbibnamehash}{8bd517c4085ec7f1748d5bfa27ebacc8}
+      \strng{authornamehash}{b9c96370e7f21acab9f7ebb6689824f9}
+      \strng{authorfullhash}{8bd517c4085ec7f1748d5bfa27ebacc8}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1556-5068}
+      \field{month}{01}
+      \field{title}{ClimateBERT-NetZero: Detecting and Assessing Net Zero and Reduction Targets}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.2139/ssrn.4599483
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.2139/ssrn.4599483
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.2139/ssrn.4599483
+      \endverb
+    \endentry
+    \entry{bingjie_li_487d69fd}{article}{}
+      \name{author}{5}{}{%
+        {{hash=dea48ed675b15f920511b22549719b33}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Bingjie},
+           giveni={B\bibinitperiod}}}%
+        {{hash=9fd496f3b4ef3d9551c591ad033f99fe}{%
+           family={Xia},
+           familyi={X\bibinitperiod},
+           given={Binglong},
+           giveni={B\bibinitperiod}}}%
+        {{hash=e26afc362767d61d5865e4b1e9db052a}{%
+           family={Zh},
+           familyi={Z\bibinitperiod},
+           given={Cheng},
+           giveni={C\bibinitperiod}}}%
+        {{hash=e2f588d12033e11a7e8a433d5af08234}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Yitong},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=78951f272211825c3d2529544bb0e951}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Zhao},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{4007517d7f2374466cef8ada95646dcd}
+      \strng{fullhash}{eb4d69a059145b7482f176802a76505f}
+      \strng{bibnamehash}{eb4d69a059145b7482f176802a76505f}
+      \strng{authorbibnamehash}{eb4d69a059145b7482f176802a76505f}
+      \strng{authornamehash}{4007517d7f2374466cef8ada95646dcd}
+      \strng{authorfullhash}{eb4d69a059145b7482f176802a76505f}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2052-4463}
+      \field{month}{02}
+      \field{title}{A multi-level visual representation dataset for large-scale non-financial information disclosure}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.1038/s41597-026-06848-6
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1038/s41597-026-06848-6
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1038/s41597-026-06848-6
+      \endverb
+    \endentry
+    \entry{g_saipooja_m_n_488bfdd6}{article}{}
+      \name{author}{5}{}{%
+        {{hash=beb57d16fb8c34ce871d6235f89d2b7e}{%
+           family={N},
+           familyi={N\bibinitperiod},
+           given={G\bibnamedelima Saipooja\bibnamedelima M},
+           giveni={G\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=d996dd8efec38bb092a3dfd1a4d22165}{%
+           family={Rs},
+           familyi={R\bibinitperiod},
+           given={Santhosh},
+           giveni={S\bibinitperiod}}}%
+        {{hash=2a8d7327eb349b4dc7b4d38d0f6df91f}{%
+           family={Rengaraju},
+           familyi={R\bibinitperiod},
+           given={Perumalraja},
+           giveni={P\bibinitperiod}}}%
+        {{hash=cf2a0d419a904a9e24c1310cc75e1f21}{%
+           family={Lung},
+           familyi={L\bibinitperiod},
+           given={Chung-Horng},
+           giveni={C\bibinithyphendelim H\bibinitperiod}}}%
+        {{hash=a39e14b30fc12aef88508f8f8cbf9cfc}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Yang},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{86069fffc19aeb42df5fc6b8e544d47b}
+      \strng{fullhash}{3138fe9b863ab5233566dc10c1d3e3aa}
+      \strng{bibnamehash}{3138fe9b863ab5233566dc10c1d3e3aa}
+      \strng{authorbibnamehash}{3138fe9b863ab5233566dc10c1d3e3aa}
+      \strng{authornamehash}{86069fffc19aeb42df5fc6b8e544d47b}
+      \strng{authorfullhash}{3138fe9b863ab5233566dc10c1d3e3aa}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{11}
+      \field{title}{Enhanced ESG Report Analysis using Modified Multimodal RAG}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1109/fllm67465.2025.11390981
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1109/fllm67465.2025.11390981
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1109/fllm67465.2025.11390981
+      \endverb
+    \endentry
+    \entry{lars_wilhelmi_8d7e860b}{article}{}
+      \name{author}{3}{}{%
+        {{hash=d9123078732612c40232a9b9ca4bc111}{%
+           family={Wilhelmi},
+           familyi={W\bibinitperiod},
+           given={Lars},
+           giveni={L\bibinitperiod}}}%
+        {{hash=fba446a8f3f57421c09b9fc10119cebe}{%
+           family={Bruns},
+           familyi={B\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+        {{hash=319169fdc4a119cdf520c97464415cbd}{%
+           family={Schümann},
+           familyi={S\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{b6f489f3cee630631b9c56e9a0f753aa}
+      \strng{fullhash}{7660b404046cb9e4dd3f4d60aba31bad}
+      \strng{bibnamehash}{7660b404046cb9e4dd3f4d60aba31bad}
+      \strng{authorbibnamehash}{7660b404046cb9e4dd3f4d60aba31bad}
+      \strng{authornamehash}{b6f489f3cee630631b9c56e9a0f753aa}
+      \strng{authorfullhash}{7660b404046cb9e4dd3f4d60aba31bad}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2504-4990}
+      \field{month}{02}
+      \field{title}{Enhancing the Extraction of GHG Emission-Reduction Targets from Sustainability Reports Using Vision Language Models}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.3390/make8020037
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/make8020037
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/make8020037
+      \endverb
+    \endentry
+    \entry{tanay_gupta_aafe0c6a}{article}{}
+      \name{author}{3}{}{%
+        {{hash=3645f14c37334b28928e016d8d7695c4}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Tanay},
+           giveni={T\bibinitperiod}}}%
+        {{hash=14fedb7df2d5f15ba942a307bc17975d}{%
+           family={Goel},
+           familyi={G\bibinitperiod},
+           given={Tushar},
+           giveni={T\bibinitperiod}}}%
+        {{hash=27bb09b225f3ef782853b326c2ef28dc}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={Ishan},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4f5fcfab24dce75d45b8d504a3cb6b8}
+      \strng{fullhash}{92fcbc824427e9739f52faee7efe0c0b}
+      \strng{bibnamehash}{92fcbc824427e9739f52faee7efe0c0b}
+      \strng{authorbibnamehash}{92fcbc824427e9739f52faee7efe0c0b}
+      \strng{authornamehash}{f4f5fcfab24dce75d45b8d504a3cb6b8}
+      \strng{authorfullhash}{92fcbc824427e9739f52faee7efe0c0b}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{Exploring Multimodal Language Models for Sustainability Disclosure Extraction: A Comparative Study}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.18653/v1/2025.insights-1.13
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.18653/v1/2025.insights-1.13
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.18653/v1/2025.insights-1.13
+      \endverb
+    \endentry
+    \entry{lena_klaa_en_b073191d}{article}{}
+      \name{author}{2}{}{%
+        {{hash=f2fa032e00beb9b60bd4558b3baee416}{%
+           family={Klaaßen},
+           familyi={K\bibinitperiod},
+           given={Lena},
+           giveni={L\bibinitperiod}}}%
+        {{hash=e99701c571e1539770399efbd57963d6}{%
+           family={Stoll},
+           familyi={S\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Portfolio}%
+      }
+      \strng{namehash}{59e0a62e1fc066d8e4c4dba895d5874d}
+      \strng{fullhash}{59e0a62e1fc066d8e4c4dba895d5874d}
+      \strng{bibnamehash}{59e0a62e1fc066d8e4c4dba895d5874d}
+      \strng{authorbibnamehash}{59e0a62e1fc066d8e4c4dba895d5874d}
+      \strng{authornamehash}{59e0a62e1fc066d8e4c4dba895d5874d}
+      \strng{authorfullhash}{59e0a62e1fc066d8e4c4dba895d5874d}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2041-1723}
+      \field{issue}{1}
+      \field{journaltitle}{Nature Communications}
+      \field{month}{10}
+      \field{title}{Harmonizing corporate carbon footprints}
+      \field{volume}{12}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1038/s41467-021-26349-x
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1038/s41467-021-26349-x
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1038/s41467-021-26349-x
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
