@@ -27,7 +27,7 @@
 \contentsline {section}{\numberline {2.3}\titlecap {ESG Sentiment and Aspect-Based Analysis}}{21}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}\titlecap {Hierarchical and Neurosymbolic Architectures}}{21}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}\titlecap {Regional and Cross-Lingual Trends}}{21}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}\titlecap {State-of-the-Art: ESG Sentiment and ABSA}}{22}{section.2.4}%
+\contentsline {section}{\numberline {2.4}\titlecap {State-of-the-Art: ESG Sentiment and Aspect-Based Analysis}}{22}{section.2.4}%
 \contentsline {section}{\numberline {2.5}\titlecap {Greenwashing Detection and ESG Verification}}{24}{section.2.5}%
 \contentsline {subsection}{\numberline {2.5.1}\titlecap {Benchmark Development and Data-Driven Evaluation}}{24}{subsection.2.5.1}%
 \contentsline {subsection}{\numberline {2.5.2}\titlecap {Hallucination Mitigation and Uncertainty Estimation}}{24}{subsection.2.5.2}%
