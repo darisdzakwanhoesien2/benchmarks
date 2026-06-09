@@ -61,11 +61,63 @@
   \avainsanat{diplomi-insinöörin tutkinto\spc diplomityön ohjeet\spc diplomityön rakenne\footnote{Käytä avainsanoina eri sanoja kuin lopputyön otsikossa. Poista tämä alaviite lopputyöstäsi.}}
 \begin{thesisabstract}{finnish}
 \tiivistelmametadata
+
+Tässä työssä kehitetään suoritettava kehys indonesialaisten
+vastuullisuusraporttien analysointiin tietuepohjaisena evidenssinä sen sijaan,
+että raportteja käsiteltäisiin yhtenäisinä kokonaisuuksina. Työ ratkaisee
+teknisen ongelman, jossa heterogeeniset ja kaksikieliset PDF-muotoiset raportit
+muunnetaan rakenteisiksi ja auditoitaviksi Environmental, Social and
+Governance -sisältöä kuvaaviksi tietueiksi. Toteutettu työnkulku yhdistää
+OCR-pohjaisen dokumenttien laajennuksen, sivutasoisen alkuperän
+jäljitettävyyden, suurten kielimallien avulla tehdyn poiminnan,
+tietuetasoisen skeeman, ontologiaan kohdistamisen sekä vertailun
+ClimateBERT-tyyppisiin ilmastoluokituksiin.
+
+Kehystä arvioitiin työn aktiivisella osajoukolla, joka sisälsi 23 käsiteltyä
+raporttia ja noin 5 512 sivua. Putki tuotti 332 sävyluokiteltua ESG-tietuetta
+ja 2 074 jatkoanalyysin riviä, ja kaikki 52 seurattua aspektia pystyttiin
+liittämään ontologiapolkuihin. Tulokset osoittavat, että ilmaisun sävy on
+mitattava ja hyödyllinen: sitoumussävy oli yleisin, ympäristö oli yleisin
+ESG-ulottuvuus, ja sävyluokat saavuttivat 83,7 prosentin yhtäpitävyyden
+ClimateBERT-tyyppisten sitoumusluokkien kanssa Cohenin kappan ollessa 0,645.
+
+Samalla kokeet osoittavat, että poiminnan laatu riippuu vahvasti kehotteiden
+suunnittelusta ja mallin skeemanoudatuksesta, ja suurimmat heikkoudet liittyvät
+puuttuviin sävyluokkiin ja skeemavirheisiin. Työn johtopäätös on, että
+sävy­tietoinen ja jäljitettävyyden säilyttävä ESG-analyysi on
+toteuttamiskelpoinen ja informatiivinen, mutta vahvempi asiantuntija-annotointi,
+laajempi kontrolloitu validointi ja muodolliset ablaatiokokeet ovat edelleen
+tarpeen ennen benchmark-tasoisten suorituskykyväitteiden esittämistä.
 \end{thesisabstract}
    \keywords{corporate disclosure analytics; OCR pipeline; tone classification; ontology mapping; greenwashing screening}
 
 \begin{thesisabstract}{english}
   \abstractmetadata
+
+This thesis develops an executable framework for analysing Indonesian
+sustainability reports as record-level evidence rather than as undifferentiated
+full documents. The study addresses the technical problem of converting
+heterogeneous, bilingual PDF reports into structured and auditable
+Environmental, Social, and Governance disclosure records. The implemented
+workflow combines OCR-based document expansion, page-level provenance tracking,
+large language model extraction, record-level schema design, ontology
+alignment, and comparison with ClimateBERT-style climate labels.
+
+The framework was evaluated on an active thesis subset of 23 processed reports
+covering approximately 5,512 pages. The resulting pipeline produced 332
+tone-bearing ESG records and 2,074 downstream analytical rows, while all 52
+tracked aspects were mapped to ontology paths. The results show that disclosure
+tone is measurable and useful: commitment was the dominant tone, environmental
+content was the dominant pillar, and tone labels reached 83.7\% agreement with
+ClimateBERT-style commitment labels with Cohen's kappa of 0.645.
+
+At the same time, the experiments show that extraction quality depends strongly
+on prompt design and model compliance, with missing-tone cases and schema drift
+remaining the main weaknesses. The study concludes that tone-aware,
+provenance-preserving ESG disclosure analysis is feasible and informative, but
+stronger expert annotation, broader controlled validation, and formal ablation
+experiments are still required before benchmark-level performance claims can be
+made.
 \end{thesisabstract}
    \selectlanguage{finnish}
 } {
@@ -73,10 +125,62 @@
 
 \begin{thesisabstract}{english}
   \abstractmetadata
+
+This thesis develops an executable framework for analysing Indonesian
+sustainability reports as record-level evidence rather than as undifferentiated
+full documents. The study addresses the technical problem of converting
+heterogeneous, bilingual PDF reports into structured and auditable
+Environmental, Social, and Governance disclosure records. The implemented
+workflow combines OCR-based document expansion, page-level provenance tracking,
+large language model extraction, record-level schema design, ontology
+alignment, and comparison with ClimateBERT-style climate labels.
+
+The framework was evaluated on an active thesis subset of 23 processed reports
+covering approximately 5,512 pages. The resulting pipeline produced 332
+tone-bearing ESG records and 2,074 downstream analytical rows, while all 52
+tracked aspects were mapped to ontology paths. The results show that disclosure
+tone is measurable and useful: commitment was the dominant tone, environmental
+content was the dominant pillar, and tone labels reached 83.7\% agreement with
+ClimateBERT-style commitment labels with Cohen's kappa of 0.645.
+
+At the same time, the experiments show that extraction quality depends strongly
+on prompt design and model compliance, with missing-tone cases and schema drift
+remaining the main weaknesses. The study concludes that tone-aware,
+provenance-preserving ESG disclosure analysis is feasible and informative, but
+stronger expert annotation, broader controlled validation, and formal ablation
+experiments are still required before benchmark-level performance claims can be
+made.
 \end{thesisabstract}
    \avainsanat{diplomi-insinöörin tutkinto\spc diplomityön ohjeet\spc diplomityön rakenne\footnote{Käytä avainsanoina eri sanoja kuin lopputyön otsikossa. Poista tämä alaviite lopputyöstäsi.}}
 \begin{thesisabstract}{finnish}
 \tiivistelmametadata
+
+Tässä työssä kehitetään suoritettava kehys indonesialaisten
+vastuullisuusraporttien analysointiin tietuepohjaisena evidenssinä sen sijaan,
+että raportteja käsiteltäisiin yhtenäisinä kokonaisuuksina. Työ ratkaisee
+teknisen ongelman, jossa heterogeeniset ja kaksikieliset PDF-muotoiset raportit
+muunnetaan rakenteisiksi ja auditoitaviksi Environmental, Social and
+Governance -sisältöä kuvaaviksi tietueiksi. Toteutettu työnkulku yhdistää
+OCR-pohjaisen dokumenttien laajennuksen, sivutasoisen alkuperän
+jäljitettävyyden, suurten kielimallien avulla tehdyn poiminnan,
+tietuetasoisen skeeman, ontologiaan kohdistamisen sekä vertailun
+ClimateBERT-tyyppisiin ilmastoluokituksiin.
+
+Kehystä arvioitiin työn aktiivisella osajoukolla, joka sisälsi 23 käsiteltyä
+raporttia ja noin 5 512 sivua. Putki tuotti 332 sävyluokiteltua ESG-tietuetta
+ja 2 074 jatkoanalyysin riviä, ja kaikki 52 seurattua aspektia pystyttiin
+liittämään ontologiapolkuihin. Tulokset osoittavat, että ilmaisun sävy on
+mitattava ja hyödyllinen: sitoumussävy oli yleisin, ympäristö oli yleisin
+ESG-ulottuvuus, ja sävyluokat saavuttivat 83,7 prosentin yhtäpitävyyden
+ClimateBERT-tyyppisten sitoumusluokkien kanssa Cohenin kappan ollessa 0,645.
+
+Samalla kokeet osoittavat, että poiminnan laatu riippuu vahvasti kehotteiden
+suunnittelusta ja mallin skeemanoudatuksesta, ja suurimmat heikkoudet liittyvät
+puuttuviin sävyluokkiin ja skeemavirheisiin. Työn johtopäätös on, että
+sävy­tietoinen ja jäljitettävyyden säilyttävä ESG-analyysi on
+toteuttamiskelpoinen ja informatiivinen, mutta vahvempi asiantuntija-annotointi,
+laajempi kontrolloitu validointi ja muodolliset ablaatiokokeet ovat edelleen
+tarpeen ennen benchmark-tasoisten suorituskykyväitteiden esittämistä.
 \end{thesisabstract}
    \selectlanguage{english}
 }
@@ -84,21 +188,33 @@
 \contents \thispagestyle{empty}
 \header{\headerforeword}
 
-The exploration of Applied NLP in Aspect-based Sentiment Analysis have been an interesting exploration towards building scalable systems with research-grounding exploration. Not only the journey taught me in research perspective, but building real dashboard and application toward the contribution of ESG (Environmental, Social and Governance) field in the perspective of NLP
+This thesis was shaped by a sustained interest in applied natural language
+processing, aspect-based sentiment analysis, and the practical challenge of
+turning complex corporate sustainability reports into auditable analytical
+evidence. The work brought together research design, software implementation,
+and iterative evaluation in the context of Environmental, Social, and
+Governance (ESG) disclosure analysis.
 
-I owe tremendous gratitude to my supervisors, Dr. Mourad Oussalah and Mehrdad Rostami at the Center for Machine Vision and Signal Analysis (CMVS) at the University of Oulu. Your unwavering support, guidance and expertise provided the perfect foundation for this applied research work, while the freedom to explore unconventional approaches, combined with rigorous scientific standards,
-fundamentally shaped my research methodology
+I would like to express my sincere gratitude to my supervisors, Dr. Mourad
+Oussalah and Mehrdad Rostami, at the Center for Machine Vision and Signal
+Analysis (CMVS), University of Oulu. Your guidance, support, and scientific
+standards provided the foundation for this work. The freedom to explore
+unconventional approaches while maintaining methodological discipline
+substantially shaped both the direction of the thesis and my development as a
+researcher.
 
-I am profoundly grateful to my family, whose love, support, and unwavering belief
-in my abilities have been my constant source of strength. Your encouragement
-during the most challenging phases of this research, your understanding during long
-hours of work, and your celebration of every small milestone have made this journey
-meaningful. You have been my anchor throughout this academic voyage.
+I am deeply grateful to my family for their constant encouragement, patience,
+and confidence in me throughout this process. Your support during demanding
+periods of study and research made it possible to complete this work.
 
-I gratefully acknowledge the financial support from the University of Oulu Scholarship. This support provided essential
-computational resources and the freedom to pursue innovative research directions.
+I also gratefully acknowledge the financial support provided through the
+University of Oulu Scholarship. This support contributed to the continuity of
+the research and to the computational resources required for the thesis.
 
-This thesis integrate the research-exploration with the strong curiosity-driven research, and perseverance in facing complex challenges. I hope this work opens exploration on applied solution with research-based that aided the current high demand on ESG implementation to the company 
+This thesis reflects curiosity-driven research, sustained engineering effort,
+and persistence in addressing a difficult interdisciplinary problem. I hope the
+work provides a useful foundation for more transparent, reproducible, and
+practically relevant ESG disclosure analysis.
 \signature
  \header{\headerabbreviations}
 \setlongtables
@@ -202,7 +318,7 @@ The study systematically addresses the gap between raw disclosure and actionable
 
 \textbf{Chapter 3:} Methodology—Details the OCR-to-ABSA pipeline architecture, including prompt engineering strategies and the validation framework utilizing ClimateBERT and human annotation.\item 
 
-\textbf{Chapter 4:} Implementation and Evaluation—Presents technical implementation details, performance metrics, and ablation studies regarding model stability across different LLM providers.\item 
+\textbf{Chapter 4:} Implementation and Evaluation—Presents technical implementation details, performance metrics, and comparative diagnostics regarding model stability across different LLM providers.\item 
 
 \textbf{Chapter 5:} Results and Discussion—Evaluates the proposed ESG ABSA schema, analyzes specific failure modes, and discusses the implications of model divergence for future ESG research and policy.\item 
 
@@ -279,7 +395,6 @@ and readability of written content across multiple drafts, as well as provided s
 
 
 
-%
  
 
 \chapter{Related Works}
@@ -1837,7 +1952,8 @@ The results show that the proposed approach is technically feasible and analytic
 
 A key methodological choice in this thesis was to treat the system as an executable research workspace rather than as a single-model benchmark. This choice was justified by the results. The main strengths of the framework are traceability, modularity, and diagnostic transparency. The main weaknesses are also clear: tone extraction remains sensitive to prompt design and model behavior, and missing-tone cases and schema drift show that fully reliable automation has not yet been reached. These limitations do not reduce the value of the work; instead, they show where future validation and benchmark development are needed.
 
-The significance of the thesis is practical as well as academic. For researchers, it provides a reproducible basis for ESG disclosure analytics in a bilingual and low-resource setting. For analysts, regulators, and reporting teams, it offers a way to move from long PDF reports to structured, reviewable evidence without losing the connection to the source pages. More broadly, the work shows that useful ESG text analytics requires not only better models, but also better document engineering, provenance preservation, and evaluation design. In that sense, the thesis contributes an engineering-oriented foundation for more transparent and auditable sustainability-report analysis.     
+The significance of the thesis is practical as well as academic. For researchers, it provides a reproducible basis for ESG disclosure analytics in a bilingual and low-resource setting. For analysts, regulators, and reporting teams, it offers a way to move from long PDF reports to structured, reviewable evidence without losing the connection to the source pages. More broadly, the work shows that useful ESG text analytics requires not only better models, but also better document engineering, provenance preservation, and evaluation design. In that sense, the thesis contributes an engineering-oriented foundation for more transparent and auditable sustainability-report analysis, while leaving formal ablation studies and broader benchmark validation as future work rather than current claims.
+     
 \printbibliography[heading=bibnumbered, title=\mybibname]
 
 \startappendix
