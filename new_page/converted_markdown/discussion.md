@@ -14,7 +14,7 @@ The most important technical insight from Chapter 4 is therefore not that a spec
 
 Figure 5.1 should be inserted near the end of this subsection because the discussion repeatedly returns to the commitment-heavy profile of the evidence layer.
 
-![Tone distribution across extracted records](results/visualizations/tone_distribution.png)
+![Tone distribution across extracted records](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/tone_distribution.png)
 
 *Figure 5.1: Tone distribution in the active thesis-facing subset. Reused here because the discussion interprets commitment dominance as a substantive disclosure pattern rather than only as a Chapter 4 descriptive count.*
 
@@ -50,7 +50,7 @@ RQ3 asks how the tone-aware pipeline compares with ClimateBERT-style climate cla
 
 Figure 5.2 should be inserted here because it visualizes the construct-overlap argument more directly than prose alone.
 
-![Tone by ClimateBERT label](results/visualizations/climatebert_label_by_tone.png)
+![Tone by ClimateBERT label](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/climatebert_label_by_tone.png)
 
 *Figure 5.2: Relationship between LLM tone labels and ClimateBERT-style labels. Reused here because the discussion interprets this cross-distribution as evidence of partial construct overlap rather than full label equivalence.*
 
@@ -70,11 +70,11 @@ The fifth limitation is that the greenwashing index remains heuristic. Company-l
 
 Two figures fit well in this limitations section because they help the reader see where the evidence is uneven rather than only being told so.
 
-![Greenwashing-gap scatter plot](results/visualizations/greenwashing_gap_scatter.png)
+![Greenwashing-gap scatter plot](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/greenwashing_gap_scatter.png)
 
 *Figure 5.3: Commitment-outcome gap by company. This figure visualizes the relationship between commitment count, outcome count, and the company-level screening ratio, while the surrounding text keeps clear that the score remains heuristic.*
 
-![Commitment-outcome ratio chart](results/visualizations/commitment_outcome_ratio.png)
+![Commitment-outcome ratio chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/commitment_outcome_ratio.png)
 
 *Figure 5.4: Tone-share ratio chart for the active extracted-record layer. This figure supports the discussion claim that commitment-heavy evidence remains much more common than outcome-heavy evidence in the current subset.*
 

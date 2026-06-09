@@ -1,0 +1,635 @@
+% Requires:
+% \usepackage[ruled,vlined]{algorithm2e}
+% \usepackage{float}
+
+\SetAlgoLined
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+\begin{algorithm}[H]
+\Input{Page identifier, Streamlit session state}
+\Output{A page that either refreshes once or stays frozen until explicitly resumed}
+Build a page-specific namespace from the current file name\;
+Render sidebar controls for freeze mode and manual refresh\;
+\If{the user clicks refresh}{
+    Clear cached data and cached resources\;
+    Allow exactly one full rerun\;
+    Rerun the page\;
+}
+\If{freeze mode is enabled and the page already initialized and no one-time refresh is pending}{
+    Show a freeze notice and stop page execution\;
+}
+Mark the page as initialized and reset the one-time refresh flag\;
+\caption{Runtime Controls for Heavy Streamlit Pages}
+\label{alg:runtime-controls}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Default markdown filename, page title, page caption, files in \texttt{converted\_markdown}}
+\Output{An interactive markdown browser with rendered prose and code blocks}
+Discover all converted markdown files and stop if none exist\;
+Build a lookup table from file names to paths\;
+Choose the default file and let the user override it with a select box\;
+Render the page title, caption, and source label\;
+Display basic file metrics such as inventory count and selected file size\;
+Split the chosen markdown into prose blocks and fenced code blocks\;
+Render prose with markdown and render fenced blocks with syntax highlighting\;
+\caption{Converted Markdown Renderer and Thin Wrapper Pages}
+\label{alg:converted-markdown-renderer}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Chapter 4 result artifacts, shared renderer state, selected layout mode}
+\Output{A tabbed or long-form results visualizer for Chapter 4 evidence}
+Configure the Streamlit page and apply runtime controls\;
+\If{the wrapper requests tabbed layout}{
+    Call the shared tabbed renderer\;
+}
+\Else{
+    Call the shared long-page renderer\;
+}
+Inside the shared renderer, load thesis figures, tables, diagnostics, and narrative support artifacts\;
+Assemble analytical sections for result summaries, missing layers, publication gaps, and figure attachments\;
+Display charts, captions, tables, and narrative guidance that back Chapter 4 and Chapter 5 claims\;
+\caption{Shared Chapter 4 Results Visualizer}
+\label{alg:chapter4-shared-renderer}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{All page modules in \texttt{pages/}, workflow metadata, chapter mappings}
+\Output{A navigable catalog of the Streamlit thesis workflow}
+Scan page modules and extract page names, titles, and inferred roles\;
+Build a workflow graph linking pages to research questions and thesis chapters\;
+Render quick-start guidance, fast-path instructions, and per-page detail cards\;
+Show filtered workflow tables, funnel views, and Mermaid representations\;
+Expose links for opening target pages and reading supporting documents\;
+Summarize which pages support each chapter writing route\;
+\caption{Streamlit Page Workflow Catalog}
+\label{alg:streamlit-page-workflow}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Current thesis artifacts, source files, and derived metrics}
+\Output{A live register of numbers with lineage back to source evidence}
+Load predefined metric definitions and their corresponding source paths\;
+Compute live values from the current repository state\;
+Render a register that pairs each number with its meaning and provenance\;
+Expose the raw source fragments used for traceability\;
+Highlight stale or missing values when source evidence cannot be resolved\;
+\caption{Live Numbers and Lineage Register}
+\label{alg:live-numbers-lineage}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Repository files, dataset directories, user-selected filters}
+\Output{A browsable inventory of source data assets}
+Discover relevant source files and classify them by type and location\;
+Render filter controls for narrowing the visible inventory\;
+Show a dataset table with metadata such as names, paths, and counts\;
+Allow the user to inspect the contents of a selected file\;
+Display a compact snapshot of IDX or related source references\;
+\caption{Source Data Catalog}
+\label{alg:source-data-catalog}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Selected markdown files, ordering preferences, export options}
+\Output{A combined preview and downloadable Word-ready document}
+Load the markdown inventory and let the user choose files to include\;
+Preserve the requested order and compute the combined document structure\;
+Preview the selected files and the merged output\;
+Compile the combined markdown into a Word-oriented export payload\;
+Offer the generated document for download\;
+\caption{Markdown to Word Compiler}
+\label{alg:markdown-to-word}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{JSON files, Python page files, and reference scans}
+\Output{A map from ontology JSON assets to the pages that use them}
+Collect JSON artifacts and scan page code for matching file references\;
+Group JSON files into families and usage categories\;
+Render inventory tables and per-file usage summaries\;
+Let the user inspect one JSON file directly\;
+Generate a Mermaid-ready representation of JSON-to-page dependencies\;
+\caption{JSON Ontology Usage Map}
+\label{alg:json-ontology-usage-map}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{OCR output folders, existing labels, company metadata library}
+\Output{Labeled OCR folders and persisted metadata JSON}
+Load the current company metadata library and OCR folder inventory\;
+Infer or review candidate labels for each OCR folder\;
+Let the user edit company names, sectors, years, and other metadata\;
+Show overview tables that summarize label coverage and missing entries\;
+Persist the updated metadata structure as JSON for downstream pages\;
+\caption{OCR Company Metadata Labeler}
+\label{alg:ocr-company-metadata-labeler}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{API base URL, endpoint choice, query parameters, authentication settings}
+\Output{Interactive responses from the sustainable framework API}
+Render connection controls and validate the API target\;
+Let the user choose a documented endpoint or shortcut route\;
+Collect parameters, submit the request, and capture the response\;
+Display status codes, parsed payloads, and convenience summaries\;
+Support catalog browsing and quick GET endpoint exploration\;
+\caption{Sustainable Framework API Reader}
+\label{alg:framework-api-reader}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Workflow sections, dashboard assets, and graph attachments}
+\Output{A concise narrative view of the thesis systematic workflow}
+Load the core workflow description and related artifact links\;
+Render section-level guidance for the end-to-end thesis process\;
+Attach dashboard outputs and graph references that support the narrative\;
+Show the relationship between steps, documents, and visual evidence\;
+\caption{Thesis Systematic Workflow Narrative}
+\label{alg:thesis-systematic-workflow}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Tone labels, ESG pillars, aspects, and ClimateBERT-style outputs}
+\Output{Exploratory charts for tone and climate-label alignment}
+Load the integrated result table and apply user filters\;
+Aggregate records by ESG pillar, tone, and ClimateBERT-style class\;
+Render bar charts, heatmaps, and top-aspect summaries\;
+Expose sample remote ClimateBERT outputs for inspection\;
+Show filtered records and documentation explaining the interpretation logic\;
+\caption{Tone versus ClimateBERT Visualization}
+\label{alg:tone-climatebert-visualization}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Mermaid diagrams, filter rules, grouping options}
+\Output{A filtered Mermaid graph and its editable source}
+Load the source Mermaid content and parse nodes and edges\;
+Render filter controls for page groups, node classes, and visibility rules\;
+Apply the selected filters to construct a reduced graph\;
+Preview the filtered Mermaid diagram and its underlying source text\;
+Support iterative adjustment until the diagram matches the desired scope\;
+\caption{Mermaid Filter Studio}
+\label{alg:mermaid-filter-studio}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Markdown files containing Mermaid sequence diagrams and filter criteria}
+\Output{A reduced sequence diagram tailored to the chosen interaction flow}
+Discover markdown assets that contain sequence diagrams\;
+Let the user choose one source diagram and set participant filters\;
+Retain only the relevant sequence interactions\;
+Render the filtered sequence view and expose the resulting Mermaid source\;
+\caption{Mermaid Sequence Filter Studio}
+\label{alg:mermaid-sequence-filter-studio}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Revision datasets, stability summaries, proxy agreement tables}
+\Output{A dashboard of revision-quality and reproducibility indicators}
+Load prompt stability, model stability, agreement, and failure-mode data\;
+Apply dashboard filters for subset analysis\;
+Render candidate rows for review and disagreement hotspots\;
+Compute greenwashing, ontology coverage, lexical trigger, and OCR scaffolding views\;
+List generated artifacts that can be reused in thesis writing\;
+\caption{Revision Analytics Dashboard}
+\label{alg:revision-analytics}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Ground-truth source files, T1 and T2 outputs, coverage expectations}
+\Output{Coverage summaries and missing-task diagnostics}
+Load source annotations together with T1 and T2 outputs\;
+Align records across pipeline stages\;
+Measure coverage for source rows, tasks, and generated labels\;
+Highlight missing T1 tasks, missing T2 labels, and label diversity\;
+Render tables that help the user decide what to rerun or annotate next\;
+\caption{Ground Truth Run Coverage}
+\label{alg:ground-truth-run-coverage}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Ground-truth records, audit filters, disagreement indicators}
+\Output{A detailed audit view over record-level ground-truth quality}
+Load the record-level annotation data and derived audit fields\;
+Apply filters for source, label state, and audit priority\;
+Inspect individual records and compare their annotation fields\;
+Surface inconsistencies, unresolved cases, and audit notes\;
+Provide the filtered table for targeted curation\;
+\caption{Ground Truth Record Audit}
+\label{alg:ground-truth-record-audit}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Source rows, processing outputs, background job state}
+\Output{A stepwise view of how ground-truth records move through the pipeline}
+Load source rows, derived text units, T1 results, T2 results, and background job logs\;
+Compute coverage at each processing stage\;
+Render stage-by-stage summaries for source coverage, text units, and missing rows\;
+Track background jobs that fill missing processing gaps\;
+Expose failure tables and step-specific drill-downs for manual repair\;
+\caption{Ground Truth Step-by-Step Visualizer}
+\label{alg:ground-truth-step-visualizer}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Processed records, ontology links, export destination}
+\Output{A semantic graph artifact built from ground-truth or pipeline results}
+Load the chosen structured records and ontology mappings\;
+Transform each record into graph nodes and edges\;
+Bundle metadata that preserves record provenance\;
+Serialize the graph into a machine-readable export file\;
+\caption{Semantic Graph Exporter}
+\label{alg:semantic-graph-exporter}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Selected ClimateBERT models, target dataset rows, run settings}
+\Output{Queued or completed multi-model ClimateBERT predictions with comparison views}
+Load available source models and candidate dataset rows\;
+Let the user choose which models and which rows to run\;
+Submit background jobs or resume in-progress jobs\;
+Track current progress and list job states\;
+Visualize unmerged outputs and provide an interactive results explorer\;
+Compare source-model logic and downstream agreement patterns\;
+\caption{ClimateBERT Multi-Model Runner}
+\label{alg:climatebert-multi-model-runner}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Gap closure evidence, artifact inventory, chapter-level readiness data}
+\Output{A dashboard showing which thesis gaps are closed and which remain open}
+Load the gap inventory and its supporting evidence links\;
+Compute closure status for each thesis requirement\;
+Render progress tables, readiness summaries, and missing-item lists\;
+Direct the user to the artifacts needed for unresolved gaps\;
+\caption{Thesis Gap Closure Dashboard}
+\label{alg:thesis-gap-closure-dashboard}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Dataset records, phase assignments, triage choices, export settings}
+\Output{Phase-aware record tables and updated dataset partitions}
+Load the current dataset phase assignments and record metadata\;
+\If{the page is a phase resolver}{
+    Filter the records that require phase-specific triage\;
+    Let the user assign or revise the next processing state\;
+}
+\Else{
+    Summarize completed records or compare PDF distributions across phases\;
+}
+Apply bulk moves or record-level updates when requested\;
+Export the resulting phase-specific views for downstream processing\;
+\caption{Phase Dataset Suite}
+\label{alg:phase-dataset-suite}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Pilot annotation table, annotator filters, export requests}
+\Output{Editable pilot ground-truth annotations with agreement summaries}
+Load the pilot annotation dataset\;
+Render annotation protocol guidance and filtering controls\;
+Expose an editable table for aspect, ESG, sentiment, and tone labels\;
+Compute agreement metrics and highlight disagreement cases\;
+Allow exports of the curated pilot dataset\;
+\caption{Ground Truth Workbench}
+\label{alg:ground-truth-workbench}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{OCR references, OCR outputs, manual comparison pairs}
+\Output{CER and WER quality assessments for OCR samples}
+Load OCR processing logs and any saved comparison samples\;
+Let the user add a reference text and OCR text pair\;
+Compute CER and WER for the chosen sample\;
+Store the quality assessment and show accumulated examples\;
+\caption{OCR Quality Workbench}
+\label{alg:ocr-quality-workbench}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Ground-truth labels and model predictions}
+\Output{Metric tables for tone, ESG pillar, and aspect classification}
+Align predictions against annotated ground truth\;
+Compute per-task metrics for tone, ESG pillar, and aspect labels\;
+Render compact metric summaries and disagreement tables\;
+Expose the rows behind poor-performing categories\;
+\caption{Ground Truth Metrics}
+\label{alg:ground-truth-metrics}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Structured records, proxy ClimateBERT outputs, imported real outputs}
+\Output{A batch comparison workspace for ClimateBERT labels}
+Select records for a proxy ClimateBERT batch export\;
+Render the current proxy batch for inspection\;
+Import real ClimateBERT results when available\;
+Compare proxy and real outputs and compute agreement summaries\;
+Support export of reconciled batch artifacts\;
+\caption{ClimateBERT Record Batch}
+\label{alg:climatebert-record-batch}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Structured ESG records and filter settings}
+\Output{A Sankey-style flow from source labels to ESG structures}
+Load the ESG record set and apply user filters\;
+Aggregate transitions between selected categorical fields\;
+Construct Sankey nodes and edges from the aggregated counts\;
+Render the flow diagram for quick distribution analysis\;
+\caption{ESG Flow Sankey}
+\label{alg:esg-flow-sankey}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Ontology hierarchy, mapped records, unmapped candidates}
+\Output{An interactive explorer of ontology coverage and gaps}
+Load the ontology structure and the current record mappings\;
+Compute path coverage counts and identify unmapped aspect candidates\;
+Render an explorer for tracing records through ontology paths\;
+Expose the machine-readable ontology and remaining mapping gaps\;
+\caption{Ontology Path Viewer}
+\label{alg:ontology-path-viewer}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Research-question definitions, page mappings, figure plans, evidence tables}
+\Output{A thesis dashboard that links research questions to implementation evidence}
+Load the research-question narrative and sample-size reasoning aids\;
+Render per-question sections describing available evidence and reading order\;
+Show which Streamlit pages support each research question\;
+Attach figure checklists, discussion cautions, and conclusion templates\;
+Provide Mermaid flow summaries from Chapter 4 to Chapter 6\;
+\caption{Research Questions Dashboard}
+\label{alg:research-questions-dashboard}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Ground-truth exports or pipeline outputs, task-specific filters}
+\Output{Interactive exploration of ground-truth or pipeline result tables}
+Load the relevant JSON, CSV, or structured output files\;
+Apply task-specific filters such as T1 fields, T2 labels, or record provenance\;
+Render summary metrics and detailed result tables\;
+Expose raw file previews for direct inspection\;
+\caption{Ground Truth Output and Pipeline Visualizer Suite}
+\label{alg:ground-truth-output-suite}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{LLM processing outputs, T1/T2/T3 filter selections}
+\Output{A unified explorer of processing results across pipeline stages}
+Load the available processing result files\;
+Apply filters for T1, T2, and T3 subsets\;
+Summarize counts and render stage-specific tables\;
+Expose raw run tables so the user can trace outputs back to their run context\;
+\caption{LLM Processing Result Visualizer}
+\label{alg:llm-result-visualizer}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Related-work source assets, version pairs, comparison scope}
+\Output{A comparison page for Chapter 2 supporting materials}
+Load the related-work assets and assign each one a narrative role\;
+Display current interpretation and structural gaps\;
+Compare selected versions directly and compute heading overlap\;
+Expose source fragments that can be reused for Chapter 2 writing\;
+\caption{Related Work Documentation and Comparison}
+\label{alg:related-work-doc-comparison}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{LLM outputs, parse logs, error markers, filter settings}
+\Output{An audit page for parsing failures and malformed outputs}
+Load structured outputs together with parse and error metadata\;
+Filter by provider, model, task, or failure type\;
+Separate successful parses from malformed or partial responses\;
+Render error counts and row-level evidence for debugging\;
+\caption{LLM Error and Parse Audit}
+\label{alg:llm-error-parse-audit}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{LLM statements, page texts, verification options}
+\Output{Evidence-ranked PDF pages that support or challenge a selected statement}
+Load source files, extracted statements, and page-level text evidence\;
+Filter records and choose a target statement\;
+Score candidate pages against the selected statement\;
+Display the extracted statement, reasoning, best page matches, and supporting snippets\;
+\caption{LLM Statement Page Verifier}
+\label{alg:llm-statement-page-verifier}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Background job manifests, process state, provider settings, rerun requests}
+\Output{A control panel for monitoring and launching LLM background runs}
+Load all running and known LLM process metadata\;
+Render the monitor, provider test bench, and launch controls\;
+Let the user start new background jobs or duplicate an existing job with another provider\;
+Inspect logs, status fields, and provider-specific errors for the selected job\;
+Keep a consolidated table of known background runs for auditing\;
+\caption{LLM Background Run Monitor}
+\label{alg:llm-background-run-monitor}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{PDF page records, processing traces, audit filters}
+\Output{A page-level audit of PDF extraction and downstream handling}
+Load page-wise PDF processing results\;
+Filter by source file, processing state, or suspected issue type\;
+Compare extracted page content and processing metadata\;
+Highlight skipped pages, OCR weaknesses, or downstream mismatches\;
+\caption{PDF Page Processing Audit}
+\label{alg:pdf-page-processing-audit}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Model catalog workbook, selected model, workbook sheets}
+\Output{An interactive catalog of available LLM models}
+Load the workbook or cached model catalog\;
+Let the user choose one model for detailed inspection\;
+Render model attributes, pricing or capacity fields, and comparative summaries\;
+Expose raw workbook sheets for direct verification\;
+\caption{LLM Model Catalog Visualizer}
+\label{alg:llm-model-catalog}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Thesis task inventory, live outputs from multiple steps, user step toggles}
+\Output{A unified action-plan dashboard spanning steps 1 to 6}
+Load all step-specific artifacts such as ClimateBERT outputs, annotation data, OCR evidence, stability summaries, and clustering results\;
+Render sidebar toggles that control which steps are visible\;
+Compute live completion counts, refresh needs, and unresolved tasks\;
+Show each step with its current evidence, diagnostics, and next actions\;
+Link the action plan to PDF-by-prompt matrices and research notes\;
+\caption{Thesis Action Plan Dashboard}
+\label{alg:thesis-action-plan}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Per-model manifest files, background jobs, regrouping instructions}
+\Output{A compact Appendix A.4 toolset for model-level reruns and inspection}
+\If{the page is a background runner}{
+    Launch or resume per-model generation jobs\;
+}
+\If{the page is a dashboard}{
+    Load manifest outputs and render the selected table\;
+}
+\If{the page is a regrouping tool}{
+    Regenerate tone-by-ClimateBERT groupings and preview backing tables\;
+}
+\caption{Appendix A.4 Model Utilities}
+\label{alg:a4-model-suite}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Methodology markdown, workflow artifacts, source counts}
+\Output{A live Chapter 3 methodology narrative page}
+Load methodology content and supporting artifacts\;
+Render sections for research design, data sources, feature extraction, and reproducibility\;
+Show current artifact inventory and methodological framing notes\;
+\caption{Chapter 3 Methodology Narrative}
+\label{alg:chapter3-methodology}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Methodology source assets, version comparisons, diagram documentation}
+\Output{A comparison workspace for Chapter 3 support materials}
+Load methodology assets and explain their narrative roles\;
+Compare alternative versions and identify structural gaps\;
+Track LaTeX scaffold readiness and diagram documentation status\;
+Expose source readers for detailed chapter drafting\;
+\caption{Methodology Documentation and Comparison}
+\label{alg:methodology-doc-comparison}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Chapter 4 markdown narrative, attached figures, research-question evidence}
+\Output{A live results page aligned to the thesis results chapter}
+Load the Chapter 4 text and current supporting figures\;
+Render results sections for the designated research-question groupings\;
+Display saved graph attachments that support the claims\;
+Keep the narrative aligned with the current evidence inventory\;
+\caption{Chapter 4 Markdown Results}
+\label{alg:chapter4-markdown-results}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Implementation assets, narrative variants, chapter structure state}
+\Output{A comparison page for Chapter 4 implementation documentation}
+Load implementation source assets and categorize them by role\;
+Compare versions and identify shared or missing structure\;
+Track draft progression and source-reader evidence for implementation writing\;
+\caption{Implementation Documentation and Comparison}
+\label{alg:implementation-doc-comparison}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Workflow evidence, generated dashboard artifacts, graph inventory}
+\Output{A thesis workflow dashboard for execution coverage and attached outputs}
+Load workflow assets, result tables, and graph attachments\;
+Render research-question coverage, artifact inventory, and saved dashboard output\;
+Display grouped sections for tone extraction, diagnostics, stability, pilot data, and job status\;
+Publish an image catalog and result artifact table for reuse in writing\;
+\caption{Thesis Workflow Dashboard Suite}
+\label{alg:workflow-dashboard-suite}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Discussion markdown or live discussion evidence, current figures}
+\Output{A Chapter 5 discussion page grounded in empirical findings}
+Load discussion narrative content and supporting result figures\;
+Render sections interpreting key findings, limitations, and diagnostic evidence\;
+Attach discussion-ready notes that connect empirical results to thesis claims\;
+\caption{Discussion Page Suite}
+\label{alg:discussion-page-suite}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Thesis draft structure, Chapter 4--6 mappings, Mermaid preferences}
+\Output{An integration map from draft structure to result and discussion assets}
+Load the thesis draft structure and chapter linkage metadata\;
+Construct a Mermaid representation connecting draft sections to evidence pages\;
+Render the integration map and related interpretive notes\;
+Use the diagram to verify that Chapters 4 to 6 remain structurally aligned\;
+\caption{Chapter 4 to Chapter 6 Integration Mermaid}
+\label{alg:chapter4to6-mermaid-integration}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Conclusion markdown, chapter evidence summary}
+\Output{A live Chapter 6 conclusion page}
+Load the conclusion narrative and supporting evidence pointers\;
+Render conclusion sections that synthesize the chapter-level findings\;
+Keep the page synchronized with the current thesis evidence base\;
+\caption{Chapter 6 Markdown Conclusion}
+\label{alg:chapter6-markdown-conclusion}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Chapter 4--6 benchmark artifacts, graph attachments, action-plan status}
+\Output{A benchmark page that audits figure readiness across Chapters 4 to 6}
+Load frozen charts, DOCX evidence summaries, and action-plan completion data\;
+Render graph attachments and their chapter mappings\;
+Expose unresolved checklist items and resolved integration items\;
+Provide a benchmark view showing whether the chapter evidence is publication-ready\;
+\caption{Chapter 4 to Chapter 6 Benchmarks and Graph Attachments}
+\label{alg:chapter4to6-benchmarks}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Selected PDFs, Mistral OCR settings, output destinations}
+\Output{OCR text, logs, and saved artifacts for multiple PDFs}
+Enumerate available PDFs and let the user choose the processing batch\;
+Skip files that are already processed when the user requests incremental behavior\;
+Upload each selected PDF to the OCR service and wait for extracted content\;
+Persist OCR outputs, logs, and processing metadata on disk\;
+Preview the resulting OCR text inside the page\;
+\caption{Bulk OCR Pipeline}
+\label{alg:bulk-ocr}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Page inventory, archive target, selection filters}
+\Output{A curated relocation of page files into an archive structure}
+Scan the page inventory and filter the visible file list\;
+Let the user choose one or more files to archive\;
+Preview the selected file contents for confirmation\;
+Move or copy the selected files into the archive destination\;
+\caption{Page Archive Mover}
+\label{alg:page-archive-mover}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Resumable ground-truth source data, settings, pipeline toggles}
+\Output{T1 and T2 processing outputs with resumable progress tracking}
+Load the selected source dataset and current progress state\;
+Render settings for batch execution and pipeline stage selection\;
+Run T1 processing over eligible records and save the outputs\;
+Run T2 processing over T1 results and save the outputs\;
+Update progress indicators so interrupted work can resume later\;
+\caption{Ground Truth Resumable Pipeline}
+\label{alg:ground-truth-pipeline}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\Input{Input source selection, T1/T2/T3 pipeline toggles, provider and prompt settings}
+\Output{Structured ESG extraction artifacts and interactive previews}
+Configure the page and collect global settings for the selected pipeline stages\;
+Choose the input source and materialize the working dataset\;
+\If{T1 is enabled}{
+    Generate ClimateBERT-style predictions for eligible rows\;
+}
+\If{T2 is enabled}{
+    Run ABSA or hybrid labeling over the prepared text units\;
+}
+\If{T3 is enabled}{
+    Send records to the chosen LLM backend with the selected prompt template\;
+    Parse the structured ESG outputs and persist them\;
+}
+Render stage-specific previews, progress summaries, and saved result files\;
+\caption{LLM Processing Pipeline}
+\label{alg:llm-processing-pipeline}
+\end{algorithm}

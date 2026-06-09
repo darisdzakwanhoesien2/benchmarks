@@ -2,7 +2,7 @@
 
 ## 3.1 Research Design and Methodological Overview
 
-![High-level methodological flow adapted from the existing thesis workflow Mermaid diagrams in the repository](03_01_overview)
+![High-level methodological flow adapted from the existing thesis workflow Mermaid diagrams in the repository](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_01_overview.png)
 
 *Figure: High-level methodological flow adapted from the existing thesis workflow Mermaid diagrams in the repository*
 
@@ -22,7 +22,7 @@ At the level of research questions, the methodology addresses four linked goals:
 
 The repository documentation defines the workflow as an end-to-end research-data pipeline. Its operational architecture can be summarized as follows.
 
-![Executable system architecture of the repository, rewritten from the repository's Mermaid workflow documentation into a LaTeX-safe diagram. CC BY 4.0](03_01_01_system_architecture)
+![Executable system architecture of the repository, rewritten from the repository's Mermaid workflow documentation into a LaTeX-safe diagram. CC BY 4.0](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_01_01_system_architecture.png)
 
 *Figure: Executable system architecture of the repository, rewritten from the repository's Mermaid workflow documentation into a LaTeX-safe diagram. CC BY 4.0*
 
@@ -48,7 +48,7 @@ These principles lead directly to later technical decisions: page batching inste
 
 ## 3.2 Data Sources
 
-![Section-level diagram for the data-source stack used by the workflow](03_02_data_sources)
+![Section-level diagram for the data-source stack used by the workflow](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_02_data_sources.png)
 
 *Figure: Section-level diagram for the data-source stack used by the workflow*
 
@@ -86,7 +86,7 @@ Data quality limitations are explicitly acknowledged in the repository. OCR nois
 
 ## 3.3 Data Collection and Preprocessing Pipeline
 
-![Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units](03_02_02)
+![Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_02_02.png)
 
 *Figure: Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units*
 
@@ -124,7 +124,7 @@ The dashboard report indicates that OCR ingestion is operationally complete for 
 
 ## 3.4 Feature Extraction and Representation Learning
 
-![Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined](03_04)
+![Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_04.png)
 
 *Figure: Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined*
 
@@ -185,7 +185,7 @@ This enhancement improves the representation in two ways. First, it regularizes 
 
 ## 3.5 Proposed Framework
 
-![Conceptual split between record generation and validation-comparison within the proposed framework](03_05)
+![Conceptual split between record generation and validation-comparison within the proposed framework](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_05.png)
 
 *Figure: Conceptual split between record generation and validation-comparison within the proposed framework*
 
@@ -226,7 +226,7 @@ This mapping step is essential because the thesis aims to produce usable disclos
 
 ## 3.6 Ground Truth, Weak Labels, and Evaluation Reference
 
-![Layered evaluation-reference construction used when a full expert gold corpus is not yet available](03_06)
+![Layered evaluation-reference construction used when a full expert gold corpus is not yet available](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_06.png)
 
 *Figure: Layered evaluation-reference construction used when a full expert gold corpus is not yet available*
 
@@ -264,7 +264,7 @@ Reproducibility is strong at the level of stored artifacts, prompts, logs, and r
 
 ## 3.8 Chapter Summary
 
-![Summary diagram of the chapter's end-to-end methodological contribution](03_07_summary)
+![Summary diagram of the chapter's end-to-end methodological contribution](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/report_standardized/Toward_an_Executable_ESG_Aspect_Based_Sentiment_Analysis_Framework_for_Indonesian_Sustainability_Reports__1_/Figures/03_07_summary.png)
 
 *Figure: Summary diagram of the chapter's end-to-end methodological contribution*
 

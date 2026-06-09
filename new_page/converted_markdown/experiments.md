@@ -72,11 +72,11 @@ The second result is that the extraction layer produces a usable structured evid
 
 Figure 4.1 and Figure 4.2 should be inserted here because they make the basic record composition visually transparent before the chapter moves into agreement and failure analysis.
 
-![Tone distribution across extracted records](results/visualizations/tone_distribution.png)
+![Tone distribution across extracted records](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/tone_distribution.png)
 
 *Figure 4.1: Tone distribution across the active extracted-record layer. This figure supports RQ2 by showing that commitment is the dominant disclosure tone in the current thesis-facing subset.*
 
-![ESG pillar distribution by tone](results/visualizations/esg_by_tone.png)
+![ESG pillar distribution by tone](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/esg_by_tone.png)
 
 *Figure 4.2: ESG pillar distribution by tone. This figure shows that environmental and governance disclosures dominate the active evidence layer and helps explain why social-pillar findings remain comparatively weak.*
 
@@ -90,7 +90,7 @@ The denominator audit clarifies the scale of the tone-quality problem. Of 5,444 
 
 Figure 4.3 should be inserted after Table 4.1 because it complements the aggregate tone distribution with aspect-level structure.
 
-![Aspect-by-tone heatmap](results/visualizations/aspect_by_tone_heatmap.png)
+![Aspect-by-tone heatmap](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/aspect_by_tone_heatmap.png)
 
 *Figure 4.3: Aspect-by-tone heatmap for the active extracted-record layer. This figure supports RQ2 by showing which aspects are concentrated in commitment, action, or outcome language rather than only reporting overall counts.*
 
@@ -108,7 +108,7 @@ This is a strong but not perfect alignment. The result suggests that the reposit
 
 Figure 4.4 should be inserted with Table 4.2 because the crosstab structure is easier to interpret visually than in prose alone.
 
-![Tone by ClimateBERT label](results/visualizations/climatebert_label_by_tone.png)
+![Tone by ClimateBERT label](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/climatebert_label_by_tone.png)
 
 *Figure 4.4: Cross-distribution of LLM tone labels and ClimateBERT-style labels. This figure supports RQ3 by showing where commitment aligns strongly and where action or outcome labels diverge from climate-topic categorization.*
 
@@ -132,11 +132,11 @@ The dominant weakness is clear: 61 missing-tone cases. Beyond that, schema drift
 
 Two additional graphs support the failure-analysis argument directly by separating absolute frequency from composition.
 
-![Failure-mode Pareto chart](results/visualizations/failure_mode_pareto.png)
+![Failure-mode Pareto chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/failure_mode_pareto.png)
 
 *Figure 4.5: Failure-mode Pareto chart. This figure shows which small number of failure categories account for most observed extraction weakness in the current thesis-facing subset.*
 
-![Failure-mode composition pie chart](results/visualizations/failure_mode_pie.png)
+![Failure-mode composition pie chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/failure_mode_pie.png)
 
 *Figure 4.6: Failure-mode composition. This figure shows the relative share of missing tone, schema drift, language ambiguity, layout-related issues, and other recorded failure categories.*
 
@@ -164,7 +164,7 @@ The most important comparison for the thesis-facing stable subset is between arc
 
 Figure 4.7 complements Table 4.4 because it makes the trade-off between formal stability and usable extraction output easier to read.
 
-![Model trade-off scatter plot](results/visualizations/model_tradeoff_scatter.png)
+![Model trade-off scatter plot](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/model_tradeoff_scatter.png)
 
 *Figure 4.7: Model trade-off scatter plot with parse success on the x-axis and average extracted records on the y-axis. This figure helps separate models that are formally stable from those that are practically useful.*
 
@@ -172,7 +172,7 @@ Prompt-level stability shows a similar pattern. Chain-of-thought prompts, especi
 
 Figure 4.8 should be read together with the prompt-level results table because prompt-family trends are central to the argument that prompt design matters more than nominal prompting style labels.
 
-![Prompt-strategy comparison chart](results/visualizations/prompt_strategy_comparison.png)
+![Prompt-strategy comparison chart](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/prompt_strategy_comparison.png)
 
 *Figure 4.8: Prompt-strategy comparison across average records, parse success, and field completion. The figure shows that chain-of-thought and tone-specific framing matter more than generic prompt validity alone.*
 
@@ -188,11 +188,11 @@ The lexical trigger count summary confirms that these categories shape predictio
 
 Two additional figures fit especially well in this subsection because they extend the explainability argument without requiring a new evaluation protocol.
 
-![Information-density boxplot by tone](results/visualizations/information_density_by_tone.png)
+![Information-density boxplot by tone](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/information_density_by_tone.png)
 
 *Figure 4.9: Information-density by tone. This figure shows whether commitment, action, outcome, and none records differ systematically in word count and therefore in extraction complexity.*
 
-![Soft-language ratio by tone](results/visualizations/soft_language_ratio_by_tone.png)
+![Soft-language ratio by tone](https://github.com/darisdzakwanhoesien2/benchmarks/blob/main/new_page/results/visualizations/soft_language_ratio_by_tone.png)
 
 *Figure 4.10: Soft-language ratio by tone. This figure shows whether commitment records contain a higher proportion of soft or future-oriented verbs than action and outcome records, thereby giving a linguistic explanation for some tone-boundary failures.*
 
