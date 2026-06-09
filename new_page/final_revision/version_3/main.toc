@@ -27,21 +27,21 @@
 \contentsline {section}{\numberline {2.3}\titlecap {ESG Sentiment and Aspect-Based Analysis}}{19}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}\titlecap {Hierarchical and Neurosymbolic Architectures}}{19}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}\titlecap {Regional and Cross-Lingual Trends}}{19}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}\titlecap {State-of-the-Art: ESG Sentiment and Aspect-Based Analysis}}{20}{section.2.4}%
-\contentsline {section}{\numberline {2.5}\titlecap {Greenwashing Detection and ESG Verification}}{22}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}\titlecap {Benchmark Development and Data-Driven Evaluation}}{22}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}\titlecap {Hallucination Mitigation and Uncertainty Estimation}}{22}{subsection.2.5.2}%
-\contentsline {section}{\numberline {2.6}\titlecap {LLM with Zero-shot, Few-shot and Chain-of-thought in Aspect-based Sentiment Analysis}}{24}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}\titlecap {In-Context Learning and Domain-Specific Adaptation}}{24}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}\titlecap {Chain-of-Thought and Reasoning Frameworks}}{24}{subsection.2.6.2}%
-\contentsline {section}{\numberline {2.7}\titlecap {Knowledge-Guided, Ontology-Based}}{27}{section.2.7}%
-\contentsline {subsection}{\numberline {2.7.1}\titlecap {Semantic Alignment and Ontology-Driven Reporting}}{27}{subsection.2.7.1}%
-\contentsline {section}{\numberline {2.8}\titlecap {ESG Datasets, Benchmarks, and Evaluation Practices}}{29}{section.2.8}%
-\contentsline {subsection}{\numberline {2.8.1}\titlecap {ESG Benchmark Design and Data Gaps}}{29}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}\titlecap {Hallucination Mitigation and Verification Frameworks}}{29}{subsection.2.8.2}%
-\contentsline {section}{\numberline {2.9}\titlecap {Data Gaps and Benchmark Design}}{32}{section.2.9}%
-\contentsline {subsection}{\numberline {2.9.1}\titlecap {Architectural and Structural Gaps}}{32}{subsection.2.9.1}%
-\contentsline {subsection}{\numberline {2.9.2}\titlecap {Establishing Deterministic Auditing}}{33}{subsection.2.9.2}%
+\contentsline {section}{\numberline {2.4}\titlecap {Greenwashing Detection and ESG Verification}}{22}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}\titlecap {Benchmark Development and Data-Driven Evaluation}}{22}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}\titlecap {Hallucination Mitigation and Uncertainty Estimation}}{22}{subsection.2.4.2}%
+\contentsline {section}{\numberline {2.5}\titlecap {LLM with Zero-shot, Few-shot and Chain-of-thought in Aspect-based Sentiment Analysis}}{24}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}\titlecap {In-Context Learning and Domain-Specific Adaptation}}{24}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}\titlecap {Chain-of-Thought and Reasoning Frameworks}}{24}{subsection.2.5.2}%
+\contentsline {section}{\numberline {2.6}\titlecap {Knowledge-Guided, Ontology-Based}}{27}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}\titlecap {Semantic Alignment and Ontology-Driven Reporting}}{27}{subsection.2.6.1}%
+\contentsline {section}{\numberline {2.7}\titlecap {ESG Datasets, Benchmarks, and Evaluation Practices}}{29}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}\titlecap {ESG Benchmark Design and Data Gaps}}{29}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}\titlecap {Hallucination Mitigation and Verification Frameworks}}{29}{subsection.2.7.2}%
+\contentsline {section}{\numberline {2.8}\titlecap {Data Gaps and Benchmark Design}}{32}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}\titlecap {Architectural and Structural Gaps}}{32}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}\titlecap {The Role of Benchmark Datasets in ESG NLP}}{32}{subsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.8.3}\titlecap {Establishing Deterministic Auditing}}{33}{subsection.2.8.3}%
 \contentsline {chapter}{\numberline {3}Methodology}{34}{chapter.3}%
 \contentsline {section}{\numberline {3.1}\titlecap {Research Design and Methodological Overview}}{34}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}\titlecap {System Architecture}}{35}{subsection.3.1.1}%
