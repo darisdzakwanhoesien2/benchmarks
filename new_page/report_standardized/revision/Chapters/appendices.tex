@@ -356,6 +356,31 @@ Success example:
 }
 \end{verbatim}
 
+LaTeX-ready format:
+
+\begin{verbatim}
+{
+  "timestamp": "2026-06-03T18:38:40Z",
+  "model": "nvidia/nemotron-3-nano-30b-a3b:free",
+  "target": "Sustainability_Report_PT_Sentul_City_Tbk_2025_pdf/batch_7",
+  "target_pages": "page_0012.md, page_0013.md",
+  "prompt": "tone_chain_of_thought_indonesian.md",
+  "ok": true,
+  "records": [
+    {
+      "text": "Elevating Lives, Building Sustainable Growth",
+      "aspect": "strategic vision",
+      "labels": ["climate-d", "climate-commitment"],
+      "esg": "E",
+      "tone": "commitment",
+      "sentiment": "positive",
+      "sentiment_score": 1,
+      "reasoning": "The phrase expresses a forward-looking sustainability ambition and explicitly states a commitment to sustainable growth."
+    }
+  ]
+}
+\end{verbatim}
+
 Error example:
 
 \begin{verbatim}
