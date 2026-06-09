@@ -70,17 +70,17 @@ The study systematically addresses the gap between raw disclosure and actionable
 \begin{itemize}
 \item 
 
-\textbf{Chapter 1:} Introduction—Outlines the motivation, problem statement, and technical objectives of the study within the context of global and Indonesian ESG reporting.\item 
+\textbf{Chapter 1:} Introduction:Outlines the motivation, problem statement, and technical objectives of the study within the context of global and Indonesian ESG reporting.\item 
 
-\textbf{Chapter 2:} Literature Review—Examines the evolution of NLP in sustainability, the challenge of greenwashing, and the state-of-the-art in LLM-based extraction and ESG measurement discrepancies  ~\cite{p__raghavendra_rau_a32af285}.\item 
+\textbf{Chapter 2:} Literature Review:Examines the evolution of NLP in sustainability, the challenge of greenwashing, and the state-of-the-art in LLM-based extraction and ESG measurement discrepancies  ~\cite{p__raghavendra_rau_a32af285}.\item 
 
-\textbf{Chapter 3:} Methodology—Details the OCR-to-ABSA pipeline architecture, including prompt engineering strategies and the validation framework utilizing ClimateBERT and human annotation.\item 
+\textbf{Chapter 3:} Methodology:Details the OCR-to-ABSA pipeline architecture, including prompt engineering strategies and the validation framework utilizing ClimateBERT and human annotation.\item 
 
-\textbf{Chapter 4:} Implementation and Evaluation—Presents technical implementation details, performance metrics, and comparative diagnostics regarding model stability across different LLM providers.\item 
+\textbf{Chapter 4:} Implementation and Evaluation:Presents technical implementation details, performance metrics, and comparative diagnostics regarding model stability across different LLM providers.\item 
 
-\textbf{Chapter 5:} Results and Discussion—Evaluates the proposed ESG ABSA schema, analyzes specific failure modes, and discusses the implications of model divergence for future ESG research and policy.\item 
+\textbf{Chapter 5:} Results and Discussion:Evaluates the proposed ESG ABSA schema, analyzes specific failure modes, and discusses the implications of model divergence for future ESG research and policy.\item 
 
-\textbf{Chapter 6:} Conclusion—Summarizes the findings, acknowledges limitations, and suggests future directions for automated, granular sustainability analysis.
+\textbf{Chapter 6:} Conclusion:Summarizes the findings, acknowledges limitations, and suggests future directions for automated, granular sustainability analysis.
 \end{itemize}
 
 \section{Author's contributions and the role of Artificial Intelligence}
@@ -89,7 +89,7 @@ The author independently formulated the research questions, designed and impleme
 
 The writing, including the articulation of arguments and interpretation of findings, reflects the author’s original contributions. Artificial intelligence (AI) tools were employed to enhance the presentation and documentation of this thesis while preserving the integrity of original research
 contributions. Specifically, Codex (developed by OpenAI) assisted in refining the clarity
-and readability of written content across multiple drafts, as well as provided support for debugging code snippets, resolving LaTeX formatting issues, and structuring tabular data. All AI-generated suggestions underwent rigorous evaluation and extensive revision by the author to ensure alignment with academic standards and research objectives. The fundamental research contributions, including the conceptual framework development, experimental design, data analysis, and scholarly conclusions, represent entirely original work by the author, with AI tools serving exclusively as auxiliary resources for writing enhancement and documentation support.
+and readability of written content across multiple drafts, as well as provided support for debugging code snippets. All AI-generated suggestions underwent rigorous evaluation and extensive revision by the author to ensure alignment with academic standards and research objectives. The fundamental research contributions, including the conceptual framework development, experimental design, data analysis, and scholarly conclusions, represent entirely original work by the author, with AI tools serving exclusively as auxiliary resources for writing enhancement and documentation support.
 
 % \section{Motivation}
 
@@ -97,7 +97,7 @@ and readability of written content across multiple drafts, as well as provided s
 
 % In the Indonesian context, these challenges are further compounded. Listed companies often produce bilingual reports with varying degrees of transparency, and empirical evidence suggests that the readability of Indonesian sustainability reports remains low  ~\cite{desi_adhariani_543335d6}. This lack of clarity often obscures specific sustainability issues, creating a gap between disclosed intentions and actual corporate conduct  ~\cite{marsdenia_010e13e7}.
 
-% Traditional document-level analysis—which assigns a single score or sentiment to an entire report—is increasingly viewed as insufficient. ESG content is inherently multifaceted; a single page might contain an environmental commitment, a social program update, and a generic governance compliance statement  ~\cite{keane_ong_0a5de439}. This complexity allows for "greenwashing," where companies use "soft language" to mask a lack of measurable outcomes  ~\cite{keane_ong_8fec4760}. To address this, this research argues that ESG disclosures must be treated as a record-level \textbf{Aspect-Based Sentiment Analysis} problem. By treating every individual statement as a discrete record classified by aspect, pillar, sentiment, and provenance, we can transform raw PDF corpora into aligned, inspectable, and evaluable computational artifacts.
+% Traditional document-level analysis, which assigns a single score or sentiment to an entire report—is increasingly viewed as insufficient. ESG content is inherently multifaceted; a single page might contain an environmental commitment, a social program update, and a generic governance compliance statement  ~\cite{keane_ong_0a5de439}. This complexity allows for "greenwashing," where companies use "soft language" to mask a lack of measurable outcomes  ~\cite{keane_ong_8fec4760}. To address this, this research argues that ESG disclosures must be treated as a record-level \textbf{Aspect-Based Sentiment Analysis} problem. By treating every individual statement as a discrete record classified by aspect, pillar, sentiment, and provenance, we can transform raw PDF corpora into aligned, inspectable, and evaluable computational artifacts.
 % \section{Problem Statement}
 
 % The central research problem is the absence of a reproducible and validated pipeline for transforming heterogeneous sustainability-report PDFs into structured, record-level evidence. Current manual review processes are unscalable, while standard automated tools often fail to capture the semantic nuance required for ESG analysis.
