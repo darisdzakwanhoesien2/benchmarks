@@ -55,7 +55,7 @@
 \begin{document}
 \pagestyle{empty}
 \maketitlepage
-\makecopyrightpage
+
 
 \IfLang{\MainLang}{finnish}{
   \avainsanat{diplomi-insinöörin tutkinto\spc diplomityön ohjeet\spc diplomityön rakenne\footnote{Käytä avainsanoina eri sanoja kuin lopputyön otsikossa. Poista tämä alaviite lopputyöstäsi.}}
@@ -122,8 +122,7 @@ ABSA & aspect-based sentiment analysis\\
 
      
 \mainmatter
-\listoffigures
-\listoftables
+
 
 \chapter{Introduction} \label{introduction} \section{Motivation}
 
@@ -297,7 +296,7 @@ The technical complexity of this landscape is further complicated by the bilingu
 \begin{table}[p]
 \centering
 \caption{State-of-the-Art: Indonesian ESG Research and Reporting Analysis}
-\label{tab:nlp-evolution-sustainability-1}
+\label{tab:indonesian-esg-research-reporting-analysis}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|p{2.5cm}|p{2cm}|p{3cm}|p{1.8cm}|X|X|}
@@ -337,7 +336,7 @@ The table below summarizes the technical specifications, contributions, and iden
 \begin{table}[p]
 \centering
 \caption{State-of-the-Art in the Automated ESG Information Extraction and Classification}
-\label{tab:nlp-evolution-sustainability-1}
+\label{tab:automated-esg-extraction-classification}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|p{1.8cm}|X|X|p{1.8cm}|X|X|}
@@ -375,7 +374,7 @@ For global applications, cross-lingual collaboration has become critical to over
 \begin{table}[p]
 \centering
 \caption{State-of-the-Art in the Evolution of NLP for Sustainability}
-\label{tab:nlp-evolution-sustainability-1}
+\label{tab:esg-sentiment-aspect-analysis}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|p{1.8cm}|p{3cm}|p{3cm}|p{1.8cm}|X|X|}
@@ -410,7 +409,7 @@ Addressing the propensity of LLMs to hallucinate in compliance-critical environm
 \begin{table}[p]
 \centering
 \caption{State-of-the-Art in the Greenwashing Detection and ESG Verification}
-\label{tab:nlp-evolution-sustainability-1}
+\label{tab:greenwashing-detection-esg-verification}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|p{1.8cm}|X|X|p{1.8cm}|X|X|}
@@ -453,7 +452,7 @@ To address the nuances of implicit sentiment analysis, where sentiment indicator
 \begin{table}[p]
 \centering
 \caption{State-of-the-Art in the LLM with Zero-shot, Few-shot and Chain-of-thought in Aspect-based Sentiment Analysis}
-\label{tab:nlp-evolution-sustainability-1}
+\label{tab:llm-zero-few-cot-absa}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|p{1.8cm}|p{3cm}|p{3cm}|p{1.8cm}|X|X|}
@@ -488,7 +487,7 @@ Ontology-based methods provide the structural backbone required to align unstruc
 \begin{table}[p]
 \centering
 \caption{State-of-the-Art in the Knowledge-Guided and Ontology-Based}
-\label{tab:nlp-evolution-sustainability-1}
+\label{tab:knowledge-guided-ontology-based}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|p{1.8cm}|p{3cm}|p{3cm}|p{1.8cm}|X|X|}
@@ -528,7 +527,7 @@ Advanced verification techniques include Kaoukis et al.’s  \parencite{kaoukis_
 \begin{table}[p]
 \centering
 \caption{State-of-the-Art in the ESG Datasets, Benchmarks, and Evaluation Practices}
-\label{tab:nlp-evolution-sustainability-1}
+\label{tab:esg-datasets-benchmarks-evaluation-practices}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|p{1.8cm}|X|X|p{1.8cm}|X|X|}
@@ -555,7 +554,7 @@ Yim et al.  \parencite{tik_yu_yim_951fa18a} & RAG-powered assessment & 2020-2024
 \begin{table}[p]
 \centering
 \caption{State-of-the-Art in the Evolution of NLP for Sustainability}
-\label{tab:nlp-evolution-sustainability-1}
+\label{tab:evolution-of-nlp-for-sustainability}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|p{1.8cm}|X|X|p{1.8cm}|X|X|}
@@ -611,7 +610,7 @@ To overcome the volatility of "black-box" models, this research incorporates det
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_01_overview}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_01_overview}
 \end{center}
 \caption{High-level methodological flow}
 \alt{High-level workflow diagram showing the thesis methodology from source reports through OCR, extraction, validation, and thesis-ready evidence outputs.}
@@ -636,7 +635,7 @@ The repository documentation defines the workflow as an end-to-end research-data
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_01_01_system_architecture}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_01_01_system_architecture}
 \end{center}
 \caption{Executable system architecture of the repository}
 \alt{System architecture diagram showing the OCR layer, extraction layer, benchmarking layer, and analysis layer connected through repository artifacts and Streamlit pages.}
@@ -667,7 +666,7 @@ These principles lead directly to later technical decisions: page batching inste
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_02_data_sources}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_02_data_sources}
 \end{center}
 \caption{Section-level diagram for the data-source stack used by the workflow.}
 \alt{Data-source diagram showing raw PDF reports, OCR-expanded folders, metadata tables, ontology resources, and downstream analytical artifacts used by the workflow.}
@@ -710,7 +709,7 @@ Data quality limitations are explicitly acknowledged in the repository. OCR nois
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_02_02}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_02_02}
 \end{center}
 \caption{Mermaid-derived preprocessing sequence from PDF ingestion to auditable ESG-ready text units.}
 \alt{Preprocessing sequence diagram showing PDF ingestion, OCR expansion, page-level markdown generation, storage, and conversion into extraction-ready text units.}
@@ -753,7 +752,7 @@ The dashboard report indicates that OCR ingestion is operationally complete for 
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_04}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_04}
 \end{center}
 \caption{Section-level diagram summarizing how explicit, sparse, contextual, and ontology-aware features are combined.}
 \alt{Feature-extraction diagram showing lexical rules, TF-IDF features, contextual embeddings, and ontology-aware representations feeding into the ESG analysis workflow.}
@@ -821,7 +820,7 @@ This enhancement improves the representation in two ways. First, it regularizes 
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_05}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_05}
 \end{center}
 \caption{Conceptual split between record generation and validation-comparison within the proposed framework.}
 \alt{Framework diagram separating LLM-centered ESG record generation from the downstream validation, benchmarking, and comparison layers.}
@@ -867,7 +866,7 @@ This mapping step is essential because the thesis aims to produce usable disclos
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_06}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_06}
 \end{center}
 \caption{Layered evaluation-reference construction used when a full expert gold corpus is not yet available.}
 \alt{Reference-construction diagram showing extracted records, weak labels, pilot human annotations, and ClimateBERT-style comparison signals combined into a layered evaluation framework.}
@@ -910,7 +909,7 @@ Reproducibility is strong at the level of stored artifacts, prompts, logs, and r
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{03_07_summary}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{03_07_summary}
 \end{center}
 \caption{Summary diagram of the chapter's end-to-end methodological contribution.}
 \alt{Summary diagram showing the end-to-end methodological contribution from report ingestion through structured ESG evidence generation, validation, and thesis reporting.}
@@ -1310,9 +1309,7 @@ RQ2 asks how LLM-generated tone labels compare with specialized outputs from mod
 \begin{tabularx}{\linewidth}{|X|p{1.3cm}|p{1.5cm}|p{1.3cm}|p{1.8cm}|p{1.8cm}|X|}
 \hline
 \textbf{Compared labels} & \textbf{Records} & \textbf{Percent agreement} & \textbf{Cohen's kappa} & \textbf{Tone commitment rate} & \textbf{Climate-commitment label rate} & \textbf{Interpretation boundary} \\ \hline
-\texttt{tone\_
-commitment} vs \texttt{climate\_commitment
-\_label} & 332 & 83.7\% & 0.645 & 34.6\% & 36.4\% & Strong overlap, but not label equivalence \\ \hline
+\texttt{tone\_commitment} vs \texttt{climate\_commitment\_label} & 332 & 83.7\% & 0.645 & 34.6\% & 36.4\% & Strong overlap, but not label equivalence \\ \hline
 \end{tabularx}
 \end{table}
 
@@ -1344,8 +1341,8 @@ The failure-mode count table is shown below.
 \begin{landscape}
 \begin{table}[p]
 \centering
-\caption{List of Prompts}
-\label{tab:nlp-evolution-sustainability-1}
+\caption{Failure-mode counts in the reviewed thesis-facing subset.}
+\label{tab:failure-mode-counts}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|X|p{1.8cm}|p{1.8cm}|X|X|}
@@ -1355,8 +1352,7 @@ The failure-mode count table is shown below.
 \texttt{missing\_tone} & 61 & 61.0\% & Output omitted the central tone field despite otherwise parseable extraction & Record with populated text/aspect fields but empty tone \\ \hline
 \texttt{schema\_drift} & 20 & 20.0\% & Model produced values in the wrong field or changed schema semantics & Tone-like content placed in sentiment or free-text slots \\ \hline
 \texttt{hedged\_or\_modal\_language} & 10 & 10.0\% & Commitment/action boundary blurred by future-oriented or hedged phrasing & “will”, “target”, “intend”, “berkomitmen” mixed with current actions \\ \hline
-\texttt{regulatory\_or
-\_indonesian\_domain\_terms} & 3 & 3.0\% & Domain-specific Indonesian ESG terminology not handled consistently & Governance/regulatory phrasing with weak tone cues \\ \hline
+\texttt{regulatory\_or\_indonesian\_domain\_terms} & 3 & 3.0\% & Domain-specific Indonesian ESG terminology not handled consistently & Governance/regulatory phrasing with weak tone cues \\ \hline
 \texttt{table\_or\_numeric\_layout} & 3 & 3.0\% & Table-heavy or numeric formatting disrupted semantic extraction & KPI/table rows detached from narrative context \\ \hline
 \texttt{passive\_voice} & 3 & 3.0\% & Passive construction weakened action/outcome detection & Statement describes achievement without explicit actor \\ \hline
 \texttt{bilingual\_or\_code\_switched} & 1 & 1.0\% & Language switching complicated cue interpretation & Mixed Indonesian-English ESG statement \\ \hline
@@ -1411,24 +1407,19 @@ The strongest stability results appear in the model- and prompt-level summaries.
 \begin{landscape}
 \begin{table}[p]
 \centering
-\caption{List of Prompts}
-\label{tab:nlp-evolution-sustainability-1}
+\caption{Model-level extraction stability across the thesis-facing subset.}
+\label{tab:model-level-extraction-stability}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|X|p{1.8cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|X|}
 \hline
 \textbf{Model} & \textbf{Runs} & \textbf{Parse success rate} & \textbf{Avg. records} & \textbf{Missing-tone rate} & \textbf{Schema-drift rate} & \textbf{Short interpretation} \\ \hline
 
-\texttt{arcee-ai/
-trinity-large-preview:free} & 90 & 100.0\% & 3.02 & 0.05\% & 0.11\%  & Best stable thesis-facing baseline: high schema obedience and near-zero tone omission \\ \hline
-\texttt{openai/
-gpt-oss-120b:free} & 20 & 100.0\% & 3.00 & 100.0\% & 42.5\%  & Formally parseable but practically unusable for tone analysis \\ \hline
-\texttt{arcee-ai/
-trinity-large-thinking:free} & 89 & 89.9\% & 12.52 & 0.0\% & 0.0\%  & Very high extraction yield, but lower formal stability than the preview model \\ \hline
-\texttt{minimax/
-minimax-m2.5:free} & 776 & 56.6\% & 4.94 & 0.05\% & 0.26\%  & High-volume live usage with weak parse reliability \\ \hline
-\texttt{openai/
-gpt-oss-20b:free} & 145 & 95.9\% & 1.13 & 0.0\% & 0.0\%  & Structurally stable but low extraction yield \\ \hline
+\texttt{arcee-ai/trinity-large-preview:free} & 90 & 100.0\% & 3.02 & 0.05\% & 0.11\%  & Best stable thesis-facing baseline: high schema obedience and near-zero tone omission \\ \hline
+\texttt{openai/gpt-oss-120b:free} & 20 & 100.0\% & 3.00 & 100.0\% & 42.5\%  & Formally parseable but practically unusable for tone analysis \\ \hline
+\texttt{arcee-ai/trinity-large-thinking:free} & 89 & 89.9\% & 12.52 & 0.0\% & 0.0\%  & Very high extraction yield, but lower formal stability than the preview model \\ \hline
+\texttt{minimax/minimax-m2.5:free} & 776 & 56.6\% & 4.94 & 0.05\% & 0.26\%  & High-volume live usage with weak parse reliability \\ \hline
+\texttt{openai/gpt-oss-20b:free} & 145 & 95.9\% & 1.13 & 0.0\% & 0.0\%  & Structurally stable but low extraction yield \\ \hline
 \texttt{qwen3.5:0.8b} & 2 & 0.0\% & 0.00 & 0.0\% & 0.0\%  & No usable extraction in the current slice \\ \hline
 \end{tabularx}
 \end{table}
@@ -1443,7 +1434,7 @@ Figure 4.7 complements Table 4.4 because it makes the trade-off between formal s
 
 \begin{figure}[H]
 \begin{center}
-  \includegraphics*[width=\textwidth]{model_tradeoff_scatter}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{model_tradeoff_scatter}
 \end{center}
 \caption{Model trade-off scatter plot with parse success on the x-axis and average extracted records on the y-axis. This figure helps separate models that are formally stable from those that are practically useful.}
 \alt{Scatter plot comparing models by parse success and average extracted records, showing the trade-off between formal stability and practical extraction yield.}
@@ -1456,7 +1447,7 @@ Figure 4.8 should be read together with the prompt-level results table because p
 
 \begin{figure}[H]
 \begin{center}
-  \includegraphics*[width=\textwidth]{prompt_strategy_comparison}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{prompt_strategy_comparison}
 \end{center}
 \caption{Prompt-strategy comparison across average records, parse success, and field completion. The figure shows that chain-of-thought and tone-specific framing matter more than generic prompt validity alone.}
 \alt{Three-panel comparison chart showing prompt templates across average extracted records, parse success, and field completion.}
@@ -1647,7 +1638,6 @@ These findings connect directly back to Chapter 3. The methodology emphasized mo
 
 
 
-%
  
 \chapter{Discussion}
   \label{discussion}
@@ -1778,7 +1768,7 @@ Two figures fit well in this limitations section because they help the reader se
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{greenwashing_gap_scatter}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{greenwashing_gap_scatter}
 \end{center}
 \caption{Commitment-outcome gap by company. This figure visualizes the relationship between commitment count, outcome count, and the company-level screening ratio, while the surrounding text keeps clear that the score remains heuristic.}
 \alt{Scatter plot showing company-level commitment counts versus outcome counts, with point size or color indicating the screening ratio.}
@@ -1787,7 +1777,7 @@ Two figures fit well in this limitations section because they help the reader se
 
 \begin{figure}[ht]
 \begin{center}
-  \includegraphics*[width=\textwidth]{commitment_outcome_ratio}
+  \includegraphics*[width=\textwidth,height=0.72\textheight,keepaspectratio]{commitment_outcome_ratio}
 \end{center}
 \caption{Tone-share ratio chart for the active extracted-record layer. This figure supports the discussion claim that commitment-heavy evidence remains much more common than outcome-heavy evidence in the current subset.}
 \alt{Bar chart showing the share of extracted records across tone categories, highlighting the higher share of commitment records relative to outcome records.}
@@ -1993,11 +1983,11 @@ The implemented user flow is:
 
 \begin{figure}[H]
 \begin{center}
-  \includegraphics*[width=\textwidth]{mermaid_flow_diagram_01}
+  \includegraphics*[width=\textwidth,height=0.78\textheight,keepaspectratio]{mermaid_flow_diagram_01}
 \end{center}
 \caption{Bulk OCR to LLM-processing flow diagram. This figure visualizes the operational path from file intake, OCR expansion, and page storage to provider-specific ESG extraction and downstream ClimateBERT comparison outputs.}
 \alt{Flowchart showing user entry through Bulk OCR, OCR output storage, document selection in LLM Processing, provider choice among OpenRouter, LM Studio, and Ollama, ESG record storage, and downstream ClimateBERT output generation.}
-\label{fig:commitment_outcome_ratio}
+\label{fig:appendix_bulkocr_llm_climatebert_flow}
 \end{figure}
 
 \subsection{Mermaid Sequence Diagram}\label{mermaid-sequence-diagram}
@@ -2096,8 +2086,8 @@ This prompt family should be read as a controlled prompt-engineering ladder rath
 \begin{landscape}
 \begin{table}[p]
 \centering
-\caption{List of Prompts}
-\label{tab:nlp-evolution-sustainability-1}
+\caption{Tone-prompt family overview used in the thesis-facing extraction experiments.}
+\label{tab:tone-prompt-family-overview}
 \small
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\linewidth}{|X|p{2.5cm}|X|X|X|}
