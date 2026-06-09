@@ -37,7 +37,6 @@
 \providecommand{\real}[1]{#1}
 \providecommand{\alt}[1]{}
 
-% Displays a placeholder when an expected figure has not yet been exported.
 \newcommand{\safeimage}[2][]{%
   \IfFileExists{#2.pdf}{\includegraphics[#1]{#2.pdf}}{%
     \IfFileExists{#2.png}{\includegraphics[#1]{#2.png}}{%

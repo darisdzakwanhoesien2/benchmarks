@@ -68,13 +68,11 @@ The first result relevant to RQ1 is that the ingestion and extraction pipeline i
 
 The second result is that the extraction layer produces a usable structured evidence set. The thesis dashboard report records 332 tone-bearing ESG records and 2,074 T2 rows. Among the 332 extracted records, the most common tone is commitment with 115 records, and the most common ESG pillar is environmental with 179 records. Governance contributes 121 records, while the social pillar appears only 4 times in the summary used by the thesis planning notes. This indicates that the schema is already expressive enough to separate tone from polarity and from ESG pillar, but it also reveals imbalance in the active sample.
 
-Figure 4.1 and Figure 4.2 should be inserted here because they make the basic record composition visually transparent before the chapter moves into agreement and failure analysis.
-
 \begin{figure}[H]
 \begin{center}
   \includegraphics*[width=\textwidth]{tone_distribution}
 \end{center}
-\caption{Tone distribution across the active extracted-record layer. This figure supports RQ2 by showing that commitment is the dominant disclosure tone in the current thesis-facing subset.}
+\caption{Tone distribution across the active extracted-record layer. This figure supports RQ1 by showing that the schema yields a usable tone distribution in the current thesis-facing subset, with commitment as the dominant class.}
 \alt{Bar chart showing the distribution of extracted records across tone categories, with commitment as the dominant class.}
 \label{fig:tone_distribution}
 \end{figure}
@@ -145,13 +143,11 @@ These results show that parse success alone is not an adequate quality metric. E
 
 The denominator audit clarifies the scale of the tone-quality problem. Of 5,444 extracted units in the relevant coverage view, 591 are excluded from tone distribution and agreement because they represent missing-tone cases. This is a meaningful failure rate, not a negligible noise band. It supports the claim that tone extraction is the most fragile part of the schema and justifies treating missing-tone behavior as an explicit Chapter 4 result rather than a minor implementation bug.
 
-Figure 4.3 should be inserted after Table 4.1 because it complements the aggregate tone distribution with aspect-level structure.
-
 \begin{figure}[H]
 \begin{center}
   \includegraphics*[width=\textwidth]{aspect_by_tone_heatmap}
 \end{center}
-\caption{Aspect-by-tone heatmap for the active extracted-record layer. This figure supports RQ2 by showing which aspects are concentrated in commitment, action, or outcome language rather than only reporting overall counts.}
+\caption{Aspect-by-tone heatmap for the active extracted-record layer. This figure supports RQ1 by showing which aspects are concentrated in commitment, action, or outcome language rather than only reporting overall counts.}
 \alt{Heatmap showing how extracted ESG aspects are distributed across commitment, action, outcome, and other tone categories.}
 \label{fig:aspect_by_tone_heatmap}
 \end{figure}
@@ -180,13 +176,11 @@ RQ2 asks how LLM-generated tone labels compare with specialized outputs from mod
 
 This is a strong but not perfect alignment. The result suggests that the repository’s tone taxonomy captures a signal that overlaps substantially with climate-commitment detection, but the two constructs are not identical. This is theoretically useful because it supports the claim that tone adds a maturity or disclosure-function layer beyond climate-topic recognition.
 
-Figure 4.4 should be inserted with Table 4.2 because the crosstab structure is easier to interpret visually than in prose alone.
-
 \begin{figure}[H]
 \begin{center}
   \includegraphics*[width=\textwidth]{climatebert_label_by_tone}
 \end{center}
-\caption{Cross-distribution of LLM tone labels and ClimateBERT-style labels. This figure supports RQ3 by showing where commitment aligns strongly and where action or outcome labels diverge from climate-topic categorization.}
+\caption{Cross-distribution of LLM tone labels and ClimateBERT-style labels. This figure supports RQ2 by showing where commitment aligns strongly and where action or outcome labels diverge from climate-topic categorization.}
 \alt{Stacked chart comparing tone categories against ClimateBERT-style labels to show areas of overlap and divergence.}
 \label{fig:climatebert_label_by_tone}
 \end{figure}
@@ -380,8 +374,6 @@ The third finding concerns representation type. The repository’s architecture 
 The fourth finding concerns ontology integration. The ontology layer appears robust in coverage, which implies that aspect-to-path mapping is not currently the most fragile component. If any component is most responsible for pipeline weakness, it is the tone-label production step rather than the ontology layer.
 
 These component comparisons lead to a clear synthesis. The most important component of the implemented system is the prompt-and-schema design of the extraction layer, followed by the choice of model backend that can reliably honor that schema. Contextual and ontology-aware representations remain important for interpretability and future benchmarking, but the present evidence shows that extraction stability is the prerequisite for all later gains.
-
-Figure 4.11 should be added as a final integrative visual if the Sankey export is generated from the visualizer, because it would summarize how the most frequent aspects distribute across commitment, action, and outcome in one compact view.
 
 \section{Chapter Synthesis}
 
