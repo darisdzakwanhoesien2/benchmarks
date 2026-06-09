@@ -38,9 +38,9 @@
 
 
 
-\abstract{This thesis develops an executable framework for analysing Indonesian sustainability reports as record-level evidence rather than as undifferentiated full documents. The study addresses the technical problem of converting heterogeneous, bilingual PDF reports into structured and auditable Environmental, Social, and Governance disclosure records. The implemented workflow combines OCR-based document expansion, page-level provenance tracking, large language model extraction, record-level schema design, ontology alignment, and comparison with ClimateBERT-style climate labels. The framework was evaluated on an active thesis subset of 23 processed reports covering approximately 5,512 pages. The resulting pipeline produced 332 tone-bearing ESG records and 2,074 downstream analytical rows, while all 52 tracked aspects were mapped to ontology paths. The results show that disclosure tone is measurable and useful: commitment was the dominant tone, environmental content was the dominant pillar, and tone labels reached 83.7\% agreement with ClimateBERT-style commitment labels with Cohen's kappa of 0.645. At the same time, the experiments show that extraction quality depends strongly on prompt design and model compliance, with missing-tone cases and schema drift remaining the main weaknesses. The study concludes that tone-aware, provenance-preserving ESG disclosure analysis is feasible and informative, but stronger expert annotation and validation are still required before broader benchmarking claims can be made.}
+\abstract{This thesis develops an executable framework for analysing Indonesian sustainability reports as structured, record-level ESG evidence. The workflow combines OCR-based document expansion, page-level provenance tracking, large language model extraction, record-level schema design, ontology alignment, and comparison with ClimateBERT-style climate labels. The framework was evaluated on an active thesis subset of 23 processed reports covering approximately 5,512 pages. It produced 332 tone-bearing ESG records and 2,074 downstream analytical rows, while all 52 tracked aspects were mapped to ontology paths. The results show that disclosure tone is measurable and useful: commitment was the dominant tone, environmental content was the dominant pillar, and tone labels reached 83.7\% agreement with ClimateBERT-style commitment labels with Cohen's kappa of 0.645. Extraction quality nevertheless depended strongly on prompt design and model compliance, with missing-tone cases and schema drift as the main weaknesses. The study concludes that tone-aware, provenance-preserving ESG disclosure analysis is feasible and informative, but stronger expert annotation and broader validation are still required before benchmark-level claims can be made.}
 
-\tiivistelma{Tässä työssä kehitetään suoritettava kehys indonesialaisten vastuullisuusraporttien analysointiin tietuepohjaisena evidenssinä sen sijaan, että raportteja käsiteltäisiin yhtenäisinä kokonaisuuksina. Työ ratkaisee teknisen ongelman, jossa heterogeeniset ja kaksikieliset PDF-muotoiset raportit muunnetaan rakenteisiksi ja auditoitaviksi Environmental, Social and Governance -sisältöä kuvaaviksi tietueiksi. Toteutettu työnkulku yhdistää OCR-pohjaisen dokumenttien laajennuksen, sivutasoisen alkuperän jäljitettävyyden, suurten kielimallien avulla tehdyn poiminnan, tietuetasoisen skeeman, ontologiaan kohdistamisen sekä vertailun ClimateBERT-tyyppisiin ilmastoluokituksiin. Kehystä arvioitiin työn aktiivisella osajoukolla, joka sisälsi 23 käsiteltyä raporttia ja noin 5 512 sivua. Putki tuotti 332 sävyluokiteltua ESG-tietuetta ja 2 074 jatkoanalyysin riviä, ja kaikki 52 seurattua aspektia pystyttiin liittämään ontologiapolkuihin. Tulokset osoittavat, että ilmaisun sävy on mitattava ja hyödyllinen: sitoumussävy oli yleisin, ympäristö oli yleisin ESG-ulottuvuus, ja sävyluokat saavuttivat 83,7 prosentin yhtäpitävyyden ClimateBERT-tyyppisten sitoumusluokkien kanssa Cohenin kappan ollessa 0,645. Samalla kokeet osoittavat, että poiminnan laatu riippuu vahvasti kehotteiden suunnittelusta ja mallin skeemanoudatuksesta, ja suurimmat heikkoudet liittyvät puuttuviin sävyluokkiin ja skeemavirheisiin. Työn johtopäätös on, että sävytietoinen ja jäljitettävyyden säilyttävä ESG-analyysi on toteuttamiskelpoinen ja informatiivinen, mutta vahvempi asiantuntija-annotointi ja validointi ovat edelleen tarpeen ennen laajempia vertailuväitteitä.}
+\tiivistelma{Tässä työssä kehitetään suoritettava kehys indonesialaisten vastuullisuusraporttien analysointiin rakenteisena, tietuepohjaisena ESG-evidenssinä. Toteutettu työnkulku yhdistää OCR-pohjaisen dokumenttien laajennuksen, sivutasoisen alkuperän jäljitettävyyden, suurten kielimallien avulla tehdyn poiminnan, tietuetasoisen skeeman, ontologiaan kohdistamisen sekä vertailun ClimateBERT-tyyppisiin ilmastoluokituksiin. Kehystä arvioitiin työn aktiivisella osajoukolla, joka sisälsi 23 käsiteltyä raporttia ja noin 5 512 sivua. Putki tuotti 332 sävyluokiteltua ESG-tietuetta ja 2 074 jatkoanalyysin riviä, ja kaikki 52 seurattua aspektia pystyttiin liittämään ontologiapolkuihin. Tulokset osoittavat, että ilmaisun sävy on mitattava ja hyödyllinen: sitoumussävy oli yleisin, ympäristö oli yleisin ESG-ulottuvuus, ja sävyluokat saavuttivat 83,7 prosentin yhtäpitävyyden ClimateBERT-tyyppisten sitoumusluokkien kanssa Cohenin kappan ollessa 0,645. Poiminnan laatu riippui kuitenkin vahvasti kehotteiden suunnittelusta ja mallin skeemanoudatuksesta, ja suurimmat heikkoudet liittyivät puuttuviin sävyluokkiin ja skeemavirheisiin. Työn johtopäätös on, että sävytietoinen ja jäljitettävyyden säilyttävä ESG-analyysi on toteuttamiskelpoinen ja informatiivinen, mutta vahvempi asiantuntija-annotointi ja laajempi validointi ovat edelleen tarpeen ennen benchmark-tasoisten väitteiden esittämistä.}
 
 \keywords{M.Sc. degree\spc master’s thesis instructions\spc structure of a master’s thesis}
 \avainsanat{yritysraporttien analytiikka; OCR-putki; sävyluokittelu; ontologiakohdistus; viherpesun seulonta}
@@ -58,20 +58,16 @@
 
 
 \IfLang{\MainLang}{finnish}{
-  \avainsanat{diplomi-insinöörin tutkinto\spc diplomityön ohjeet\spc diplomityön rakenne\footnote{Käytä avainsanoina eri sanoja kuin lopputyön otsikossa. Poista tämä alaviite lopputyöstäsi.}}
+  \avainsanat{diplomi-insinöörin tutkinto\spc diplomityön ohjeet\spc diplomityön rakenne}
 \begin{thesisabstract}{finnish}
 \tiivistelmametadata
 
 Tässä työssä kehitetään suoritettava kehys indonesialaisten
-vastuullisuusraporttien analysointiin tietuepohjaisena evidenssinä sen sijaan,
-että raportteja käsiteltäisiin yhtenäisinä kokonaisuuksina. Työ ratkaisee
-teknisen ongelman, jossa heterogeeniset ja kaksikieliset PDF-muotoiset raportit
-muunnetaan rakenteisiksi ja auditoitaviksi Environmental, Social and
-Governance -sisältöä kuvaaviksi tietueiksi. Toteutettu työnkulku yhdistää
-OCR-pohjaisen dokumenttien laajennuksen, sivutasoisen alkuperän
-jäljitettävyyden, suurten kielimallien avulla tehdyn poiminnan,
-tietuetasoisen skeeman, ontologiaan kohdistamisen sekä vertailun
-ClimateBERT-tyyppisiin ilmastoluokituksiin.
+vastuullisuusraporttien analysointiin rakenteisena, tietuepohjaisena
+ESG-evidenssinä. Toteutettu työnkulku yhdistää OCR-pohjaisen dokumenttien
+laajennuksen, sivutasoisen alkuperän jäljitettävyyden, suurten kielimallien
+avulla tehdyn poiminnan, tietuetasoisen skeeman, ontologiaan kohdistamisen
+sekä vertailun ClimateBERT-tyyppisiin ilmastoluokituksiin.
 
 Kehystä arvioitiin työn aktiivisella osajoukolla, joka sisälsi 23 käsiteltyä
 raporttia ja noin 5 512 sivua. Putki tuotti 332 sävyluokiteltua ESG-tietuetta
@@ -81,13 +77,12 @@ mitattava ja hyödyllinen: sitoumussävy oli yleisin, ympäristö oli yleisin
 ESG-ulottuvuus, ja sävyluokat saavuttivat 83,7 prosentin yhtäpitävyyden
 ClimateBERT-tyyppisten sitoumusluokkien kanssa Cohenin kappan ollessa 0,645.
 
-Samalla kokeet osoittavat, että poiminnan laatu riippuu vahvasti kehotteiden
-suunnittelusta ja mallin skeemanoudatuksesta, ja suurimmat heikkoudet liittyvät
-puuttuviin sävyluokkiin ja skeemavirheisiin. Työn johtopäätös on, että
-sävy­tietoinen ja jäljitettävyyden säilyttävä ESG-analyysi on
-toteuttamiskelpoinen ja informatiivinen, mutta vahvempi asiantuntija-annotointi,
-laajempi kontrolloitu validointi ja muodolliset ablaatiokokeet ovat edelleen
-tarpeen ennen benchmark-tasoisten suorituskykyväitteiden esittämistä.
+Poiminnan laatu riippui kuitenkin vahvasti kehotteiden suunnittelusta ja mallin
+skeemanoudatuksesta, ja suurimmat heikkoudet liittyivät puuttuviin sävyluokkiin
+ja skeemavirheisiin. Työn johtopäätös on, että sävytietoinen ja
+jäljitettävyyden säilyttävä ESG-analyysi on toteuttamiskelpoinen ja
+informatiivinen, mutta vahvempi asiantuntija-annotointi ja laajempi validointi
+ovat edelleen tarpeen ennen benchmark-tasoisten väitteiden esittämistä.
 \end{thesisabstract}
    \keywords{corporate disclosure analytics; OCR pipeline; tone classification; ontology mapping; greenwashing screening}
 
@@ -95,28 +90,24 @@ tarpeen ennen benchmark-tasoisten suorituskykyväitteiden esittämistä.
   \abstractmetadata
 
 This thesis develops an executable framework for analysing Indonesian
-sustainability reports as record-level evidence rather than as undifferentiated
-full documents. The study addresses the technical problem of converting
-heterogeneous, bilingual PDF reports into structured and auditable
-Environmental, Social, and Governance disclosure records. The implemented
-workflow combines OCR-based document expansion, page-level provenance tracking,
-large language model extraction, record-level schema design, ontology
-alignment, and comparison with ClimateBERT-style climate labels.
+sustainability reports as structured, record-level ESG evidence. The workflow
+combines OCR-based document expansion, page-level provenance tracking, large
+language model extraction, record-level schema design, ontology alignment, and
+comparison with ClimateBERT-style climate labels.
 
 The framework was evaluated on an active thesis subset of 23 processed reports
-covering approximately 5,512 pages. The resulting pipeline produced 332
-tone-bearing ESG records and 2,074 downstream analytical rows, while all 52
-tracked aspects were mapped to ontology paths. The results show that disclosure
-tone is measurable and useful: commitment was the dominant tone, environmental
-content was the dominant pillar, and tone labels reached 83.7\% agreement with
+covering approximately 5,512 pages. It produced 332 tone-bearing ESG records
+and 2,074 downstream analytical rows, while all 52 tracked aspects were mapped
+to ontology paths. The results show that disclosure tone is measurable and
+useful: commitment was the dominant tone, environmental content was the
+dominant pillar, and tone labels reached 83.7\% agreement with
 ClimateBERT-style commitment labels with Cohen's kappa of 0.645.
 
-At the same time, the experiments show that extraction quality depends strongly
-on prompt design and model compliance, with missing-tone cases and schema drift
-remaining the main weaknesses. The study concludes that tone-aware,
-provenance-preserving ESG disclosure analysis is feasible and informative, but
-stronger expert annotation, broader controlled validation, and formal ablation
-experiments are still required before benchmark-level performance claims can be
+Extraction quality nevertheless depended strongly on prompt design and model
+compliance, with missing-tone cases and schema drift as the main weaknesses.
+The study concludes that tone-aware, provenance-preserving ESG disclosure
+analysis is feasible and informative, but stronger expert annotation and
+broader validation are still required before benchmark-level claims can be
 made.
 \end{thesisabstract}
    \selectlanguage{finnish}
@@ -127,44 +118,36 @@ made.
   \abstractmetadata
 
 This thesis develops an executable framework for analysing Indonesian
-sustainability reports as record-level evidence rather than as undifferentiated
-full documents. The study addresses the technical problem of converting
-heterogeneous, bilingual PDF reports into structured and auditable
-Environmental, Social, and Governance disclosure records. The implemented
-workflow combines OCR-based document expansion, page-level provenance tracking,
-large language model extraction, record-level schema design, ontology
-alignment, and comparison with ClimateBERT-style climate labels.
+sustainability reports as structured, record-level ESG evidence. The workflow
+combines OCR-based document expansion, page-level provenance tracking, large
+language model extraction, record-level schema design, ontology alignment, and
+comparison with ClimateBERT-style climate labels.
 
 The framework was evaluated on an active thesis subset of 23 processed reports
-covering approximately 5,512 pages. The resulting pipeline produced 332
-tone-bearing ESG records and 2,074 downstream analytical rows, while all 52
-tracked aspects were mapped to ontology paths. The results show that disclosure
-tone is measurable and useful: commitment was the dominant tone, environmental
-content was the dominant pillar, and tone labels reached 83.7\% agreement with
+covering approximately 5,512 pages. It produced 332 tone-bearing ESG records
+and 2,074 downstream analytical rows, while all 52 tracked aspects were mapped
+to ontology paths. The results show that disclosure tone is measurable and
+useful: commitment was the dominant tone, environmental content was the
+dominant pillar, and tone labels reached 83.7\% agreement with
 ClimateBERT-style commitment labels with Cohen's kappa of 0.645.
 
-At the same time, the experiments show that extraction quality depends strongly
-on prompt design and model compliance, with missing-tone cases and schema drift
-remaining the main weaknesses. The study concludes that tone-aware,
-provenance-preserving ESG disclosure analysis is feasible and informative, but
-stronger expert annotation, broader controlled validation, and formal ablation
-experiments are still required before benchmark-level performance claims can be
+Extraction quality nevertheless depended strongly on prompt design and model
+compliance, with missing-tone cases and schema drift as the main weaknesses.
+The study concludes that tone-aware, provenance-preserving ESG disclosure
+analysis is feasible and informative, but stronger expert annotation and
+broader validation are still required before benchmark-level claims can be
 made.
 \end{thesisabstract}
-   \avainsanat{diplomi-insinöörin tutkinto\spc diplomityön ohjeet\spc diplomityön rakenne\footnote{Käytä avainsanoina eri sanoja kuin lopputyön otsikossa. Poista tämä alaviite lopputyöstäsi.}}
+   \avainsanat{diplomi-insinöörin tutkinto\spc diplomityön ohjeet\spc diplomityön rakenne}
 \begin{thesisabstract}{finnish}
 \tiivistelmametadata
 
 Tässä työssä kehitetään suoritettava kehys indonesialaisten
-vastuullisuusraporttien analysointiin tietuepohjaisena evidenssinä sen sijaan,
-että raportteja käsiteltäisiin yhtenäisinä kokonaisuuksina. Työ ratkaisee
-teknisen ongelman, jossa heterogeeniset ja kaksikieliset PDF-muotoiset raportit
-muunnetaan rakenteisiksi ja auditoitaviksi Environmental, Social and
-Governance -sisältöä kuvaaviksi tietueiksi. Toteutettu työnkulku yhdistää
-OCR-pohjaisen dokumenttien laajennuksen, sivutasoisen alkuperän
-jäljitettävyyden, suurten kielimallien avulla tehdyn poiminnan,
-tietuetasoisen skeeman, ontologiaan kohdistamisen sekä vertailun
-ClimateBERT-tyyppisiin ilmastoluokituksiin.
+vastuullisuusraporttien analysointiin rakenteisena, tietuepohjaisena
+ESG-evidenssinä. Toteutettu työnkulku yhdistää OCR-pohjaisen dokumenttien
+laajennuksen, sivutasoisen alkuperän jäljitettävyyden, suurten kielimallien
+avulla tehdyn poiminnan, tietuetasoisen skeeman, ontologiaan kohdistamisen
+sekä vertailun ClimateBERT-tyyppisiin ilmastoluokituksiin.
 
 Kehystä arvioitiin työn aktiivisella osajoukolla, joka sisälsi 23 käsiteltyä
 raporttia ja noin 5 512 sivua. Putki tuotti 332 sävyluokiteltua ESG-tietuetta
@@ -174,13 +157,12 @@ mitattava ja hyödyllinen: sitoumussävy oli yleisin, ympäristö oli yleisin
 ESG-ulottuvuus, ja sävyluokat saavuttivat 83,7 prosentin yhtäpitävyyden
 ClimateBERT-tyyppisten sitoumusluokkien kanssa Cohenin kappan ollessa 0,645.
 
-Samalla kokeet osoittavat, että poiminnan laatu riippuu vahvasti kehotteiden
-suunnittelusta ja mallin skeemanoudatuksesta, ja suurimmat heikkoudet liittyvät
-puuttuviin sävyluokkiin ja skeemavirheisiin. Työn johtopäätös on, että
-sävy­tietoinen ja jäljitettävyyden säilyttävä ESG-analyysi on
-toteuttamiskelpoinen ja informatiivinen, mutta vahvempi asiantuntija-annotointi,
-laajempi kontrolloitu validointi ja muodolliset ablaatiokokeet ovat edelleen
-tarpeen ennen benchmark-tasoisten suorituskykyväitteiden esittämistä.
+Poiminnan laatu riippui kuitenkin vahvasti kehotteiden suunnittelusta ja mallin
+skeemanoudatuksesta, ja suurimmat heikkoudet liittyivät puuttuviin sävyluokkiin
+ja skeemavirheisiin. Työn johtopäätös on, että sävytietoinen ja
+jäljitettävyyden säilyttävä ESG-analyysi on toteuttamiskelpoinen ja
+informatiivinen, mutta vahvempi asiantuntija-annotointi ja laajempi validointi
+ovat edelleen tarpeen ennen benchmark-tasoisten väitteiden esittämistä.
 \end{thesisabstract}
    \selectlanguage{english}
 }
@@ -1836,9 +1818,11 @@ All four research questions are therefore answered in the current thesis scope, 
 \hline
 \textbf{Research question} & \textbf{Main Chapter 4 evidence} & \textbf{Figure or Table} & \textbf{Current confidence level} & \textbf{Remaining limitation} \\ \hline
 \texttt{RQ1. ESG ABSA Schema} & 23 processed OCR documents, about 5,512 pages, 332 tone-bearing records, 2,074 T2 rows, and 52 mapped ontology aspects & Figure 9, Figure 10, Figure 11 & Moderate to high & Evidence is operationally strong, but class balance remains uneven and social coverage is weak \\ \hline
-\texttt{RQ2. Tone vs. Climate-Specific Models} & 83.7\% agreement and Cohen's kappa of 0.645 between tone commitment and climate-commitment proxy labels across 332 records & Table 10 and Figure 12 & Moderate & ClimateBERT comparison is still proxy-based rather than a complete one-to-one external benchmark \\ \hline
-\texttt{RQ3. Pipeline Diagnostics} & 61 missing-tone failures, 20 schema-drift cases, and a concentrated failure distribution dominated by a small set of recurring weaknesses & Table 11, Figure 4.5, Figure 4.6 & High for diagnostic claims & Failure analysis is strong, but some categories still need more manually curated case examples \\ \hline
-\texttt{RQ4. Stability and Reproducibility} & 1,220 stored result artifacts, 184 background jobs, prompt-level summaries, and clear model-level trade-offs between parse stability and usable extraction & Table 9, Table 12, Figure 4.7, Figure 4.8 & Moderate to high & Workflow reproducibility is strong, but semantic outputs remain sensitive to prompt/model/provider changes \\ \hline
+\texttt{RQ2. Tone vs. Climate-
+Specific Models} & 83.7\% agreement and Cohen's kappa of 0.645 between tone commitment and climate-commitment proxy labels across 332 records & Table 10 and Figure 12 & Moderate & ClimateBERT comparison is still proxy-based rather than a complete one-to-one external benchmark \\ \hline
+\texttt{RQ3. Pipeline Diagnostics} & 61 missing-tone failures, 20 schema-drift cases, and a concentrated failure distribution dominated by a small set of recurring weaknesses & Table 11, Figure 13, Figure 14 & High for diagnostic claims & Failure analysis is strong, but some categories still need more manually curated case examples \\ \hline
+\texttt{RQ4. Stability and Reproduc-
+ibility} & 1,220 stored result artifacts, 184 background jobs, prompt-level summaries, and clear model-level trade-offs between parse stability and usable extraction & Table 9, Table 12, Figure 15, Figure 16 & Moderate to high & Workflow reproducibility is strong, but semantic outputs remain sensitive to prompt/model/provider changes \\ \hline
 \end{tabularx}
 \end{table}
 
