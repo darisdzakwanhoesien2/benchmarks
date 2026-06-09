@@ -85,7 +85,7 @@ All four research questions are therefore answered in the current thesis scope, 
 
 \begin{table}[htbp]
 \centering
-\caption{Table 5.1. Research-question evidence summary.}
+\caption{Research-question evidence summary.}
 \label{tab:research-question-evidence-summary}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
@@ -93,10 +93,10 @@ All four research questions are therefore answered in the current thesis scope, 
 \begin{tabularx}{\linewidth}{|p{2cm}|X|p{2cm}|p{2cm}|X|}
 \hline
 \textbf{Research question} & \textbf{Main Chapter 4 evidence} & \textbf{Figure or Table} & \textbf{Current confidence level} & \textbf{Remaining limitation} \\ \hline
-\texttt{RQ1. ESG ABSA Schema} & 23 processed OCR documents, about 5,512 pages, 332 tone-bearing records, 2,074 T2 rows, and 52 mapped ontology aspects & Figure 4.1, Figure 4.2, Figure 4.3 & Moderate to high & Evidence is operationally strong, but class balance remains uneven and social coverage is weak \\ \hline
-\texttt{RQ2. Tone vs. Climate-Specific Models} & 83.7\% agreement and Cohen's kappa of 0.645 between tone commitment and climate-commitment proxy labels across 332 records & Table 4.2 and Figure 4.4 & Moderate & ClimateBERT comparison is still proxy-based rather than a complete one-to-one external benchmark \\ \hline
-\texttt{RQ3. Pipeline Diagnostics} & 61 missing-tone failures, 20 schema-drift cases, and a concentrated failure distribution dominated by a small set of recurring weaknesses & Table 4.3, Figure 4.5, Figure 4.6 & High for diagnostic claims & Failure analysis is strong, but some categories still need more manually curated case examples \\ \hline
-\texttt{RQ4. Stability and Reproducibility} & 1,220 stored result artifacts, 184 background jobs, prompt-level summaries, and clear model-level trade-offs between parse stability and usable extraction & Table 4.1, Table 4.4, Figure 4.7, Figure 4.8 & Moderate to high & Workflow reproducibility is strong, but semantic outputs remain sensitive to prompt/model/provider changes \\ \hline
+\texttt{RQ1. ESG ABSA Schema} & 23 processed OCR documents, about 5,512 pages, 332 tone-bearing records, 2,074 T2 rows, and 52 mapped ontology aspects & Figure~\ref{fig:tone_distribution}, Figure~\ref{fig:esg_by_tone}, Figure~\ref{fig:aspect_by_tone_heatmap} & Moderate to high & Evidence is operationally strong, but class balance remains uneven and social coverage is weak \\ \hline
+\texttt{RQ2. Tone vs. Climate-Specific Models} & 83.7\% agreement and Cohen's kappa of 0.645 between tone commitment and climate-commitment proxy labels across 332 records & Table~\ref{tab:tone-commitment-versus-climatebert-style-commitment-comparison} and Figure~\ref{fig:climatebert_label_by_tone} & Moderate & ClimateBERT comparison is still proxy-based rather than a complete one-to-one external benchmark \\ \hline
+\texttt{RQ3. Pipeline Diagnostics} & 61 missing-tone failures, 20 schema-drift cases, and a concentrated failure distribution dominated by a small set of recurring weaknesses & Table~\ref{tab:failure-mode-count-table}, Figure~\ref{fig:failure_mode_pareto}, Figure~\ref{fig:failure_mode_pie} & High for diagnostic claims & Failure analysis is strong, but some categories still need more manually curated case examples \\ \hline
+\texttt{RQ4. Stability and Reproducibility} & 1,220 stored result artifacts, 184 background jobs, prompt-level summaries, and clear model-level trade-offs between parse stability and usable extraction & Table~\ref{tab:prompt-level-extraction-performance-across-the-thesis-facing-subset}, Table~\ref{tab:model-level-extraction-performance}, Figure~\ref{fig:model_tradeoff_scatter}, Figure~\ref{fig:prompt_strategy_comparison} & Moderate to high & Workflow reproducibility is strong, but semantic outputs remain sensitive to prompt/model/provider changes \\ \hline
 \end{tabularx}
 \end{table}
 
@@ -202,4 +202,4 @@ Privacy concerns are relatively limited because the corpus is based on public co
 
 The appropriate safeguards are therefore clear: maintain source-page traceability, preserve uncertainty and failure flags, require human review for sensitive cases, expand annotation before high-stakes deployment, and avoid using the system as a sole basis for regulatory or investment judgment. In sustainability terms, the work is aligned with broader responsible-governance goals because it encourages more transparent, evidence-based reading of ESG claims. The balanced conclusion is that this is useful technology for ESG evidence organization and interpretation, but its value depends on disciplined, review-oriented, and context-aware use.
 
-Figure 5.5 can still be added later as an optional deployment-oriented chart if you export a reliability-adjusted waterfall or a qualitative case-study figure for one representative company. If used, the surrounding text must make clear that the output is illustrative and not a finalized evaluative instrument.
+An additional deployment-oriented chart can still be added later if you export a reliability-adjusted waterfall or a qualitative case-study figure for one representative company. If used, the surrounding text must make clear that the output is illustrative and not a finalized evaluative instrument.

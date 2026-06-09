@@ -1,0 +1,18 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'main.blg'
+[142] biber:340> INFO - === Tue Jun  9, 2026, 23:29:37
+[179] Biber.pm:419> INFO - Reading 'main.bcf'
+[339] Biber.pm:979> INFO - Found 26 citekeys in bib section 0
+[365] Biber.pm:4419> INFO - Processing section 0
+[387] Biber.pm:4610> INFO - Looking for bibtex file 'citations.bib' for section 0
+[394] bibtex.pm:1713> INFO - LaTeX decoding ...
+[556] bibtex.pm:1519> INFO - Found BibTeX data source 'citations.bib'
+[1040] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1040] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1040] Biber.pm:4239> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1040] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[1090] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[1118] bbl.pm:763> INFO - Output to main.bbl
+[1119] Biber.pm:131> WARN - BibTeX subsystem: /tmp/biber_tmp_r98v/56f1c414433802ad7930cb94138c5670_211695.utf8, line 16, warning: 222 characters of junk seen at toplevel
+[1119] Biber.pm:131> WARN - I didn't find a database entry for 'hans_bonde_christensen_45b44695' (section 0)
+[1119] Biber.pm:133> INFO - WARNINGS: 2

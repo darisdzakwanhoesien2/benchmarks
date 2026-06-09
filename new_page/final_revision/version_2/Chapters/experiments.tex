@@ -68,7 +68,7 @@ The first result relevant to RQ1 is that the ingestion and extraction pipeline i
 
 The second result is that the extraction layer produces a usable structured evidence set. The thesis dashboard report records 332 tone-bearing ESG records and 2,074 T2 rows. Among the 332 extracted records, the most common tone is commitment with 115 records, and the most common ESG pillar is environmental with 179 records. Governance contributes 121 records, while the social pillar appears only 4 times in the summary used by the thesis planning notes. This indicates that the schema is already expressive enough to separate tone from polarity and from ESG pillar, but it also reveals imbalance in the active sample.
 
-Figure 4.1 and Figure 4.2 should be inserted here because they make the basic record composition visually transparent before the chapter moves into agreement and failure analysis.
+Figure~\ref{fig:tone_distribution} and Figure~\ref{fig:esg_by_tone} make the basic record composition visually transparent before the chapter moves into agreement and failure analysis.
 
 \begin{figure}[H]
 \begin{center}
@@ -88,11 +88,11 @@ Figure 4.1 and Figure 4.2 should be inserted here because they make the basic re
 \label{fig:esg_by_tone}
 \end{figure}
 
-Prompt-level extraction behavior is shown in Table 4.1.
+Prompt-level extraction behavior is shown in Table~\ref{tab:prompt-level-extraction-performance-across-the-thesis-facing-subset}.
 
 \begin{table}[htbp]
 \centering
-\caption{Table 4.1. Prompt-level extraction performance across the thesis-facing subset.}
+\caption{Prompt-level extraction performance across the thesis-facing subset.}
 \label{tab:prompt-level-extraction-performance-across-the-thesis-facing-subset}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
@@ -145,7 +145,7 @@ These results show that parse success alone is not an adequate quality metric. E
 
 The denominator audit clarifies the scale of the tone-quality problem. Of 5,444 extracted units in the relevant coverage view, 591 are excluded from tone distribution and agreement because they represent missing-tone cases. This is a meaningful failure rate, not a negligible noise band. It supports the claim that tone extraction is the most fragile part of the schema and justifies treating missing-tone behavior as an explicit Chapter 4 result rather than a minor implementation bug.
 
-Figure 4.3 should be inserted after Table 4.1 because it complements the aggregate tone distribution with aspect-level structure.
+Figure~\ref{fig:aspect_by_tone_heatmap} complements the aggregate tone distribution with aspect-level structure.
 
 \begin{figure}[H]
 \begin{center}
@@ -162,11 +162,11 @@ Overall, RQ1 is answered positively within the current thesis scope. ESG disclos
 
 \subsection{RQ2: Tone vs. Climate-Specific Models}
 
-RQ2 asks how LLM-generated tone labels compare with specialized outputs from models like ClimateBERT, and what that comparison reveals about the validity of automated ESG assessment. The most important quantitative result for this question is the alignment between disclosure tone and ClimateBERT-style commitment labels. Table 4.2 summarizes the main agreement result.
+RQ2 asks how LLM-generated tone labels compare with specialized outputs from models like ClimateBERT, and what that comparison reveals about the validity of automated ESG assessment. The most important quantitative result for this question is the alignment between disclosure tone and ClimateBERT-style commitment labels. Table~\ref{tab:tone-commitment-versus-climatebert-style-commitment-comparison} summarizes the main agreement result.
 
 \begin{table}[htbp]
 \centering
-\caption{Table 4.2. Tone-commitment versus ClimateBERT-style commitment comparison.}
+\caption{Tone-commitment versus ClimateBERT-style commitment comparison.}
 \label{tab:tone-commitment-versus-climatebert-style-commitment-comparison}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
@@ -180,7 +180,7 @@ RQ2 asks how LLM-generated tone labels compare with specialized outputs from mod
 
 This is a strong but not perfect alignment. The result suggests that the repository’s tone taxonomy captures a signal that overlaps substantially with climate-commitment detection, but the two constructs are not identical. This is theoretically useful because it supports the claim that tone adds a maturity or disclosure-function layer beyond climate-topic recognition.
 
-Figure 4.4 should be inserted with Table 4.2 because the crosstab structure is easier to interpret visually than in prose alone.
+Figure~\ref{fig:climatebert_label_by_tone} is presented with Table~\ref{tab:tone-commitment-versus-climatebert-style-commitment-comparison} because the crosstab structure is easier to interpret visually than in prose alone.
 
 \begin{figure}[H]
 \begin{center}
@@ -266,7 +266,7 @@ The repository performs strongly on reproducibility as an engineering system. Th
 
 This reproducibility evidence matters because it shows that the research output is not dependent on one temporary notebook state. The file structure preserves both intermediate and summarized evidence. The pipeline can therefore be re-run, inspected, and extended without rebuilding the thesis reporting layer from scratch. At the same time, this should not be confused with a claim that all third-party LLM outputs are exactly repeatable across time. The thesis claims reproducible workflow structure and artifact persistence more strongly than deterministic output identity.
 
-The strongest stability results appear in the model- and prompt-level summaries. Table 4.3 shows the current model comparison.
+The strongest stability results appear in the model- and prompt-level summaries. Table~\ref{tab:model-level-extraction-performance} shows the current model comparison.
 
 \begin{table}[htbp]
 \centering
@@ -289,7 +289,7 @@ The strongest stability results appear in the model- and prompt-level summaries.
 
 The most important comparison for the thesis-facing stable subset is between arcee-ai/trinity-large-preview:free and openai/gpt-oss-120b:free. Both achieved perfect parse success in the summarized slice, but gpt-oss-120b exhibited a 100\% missing-tone rate and a 42.5\% schema-drift rate in the corresponding prompt-model grouping. This is a strong warning against treating model size or brand reputation as a proxy for task suitability. In this workflow, schema obedience and tone completion matter more than raw generative capability.
 
-Figure 4.7 complements Table 4.4 because it makes the trade-off between formal stability and usable extraction output easier to read.
+Figure~\ref{fig:model_tradeoff_scatter} complements Table~\ref{tab:model-level-extraction-performance} because it makes the trade-off between formal stability and usable extraction output easier to read.
 
 \begin{figure}[H]
 \begin{center}
@@ -302,7 +302,7 @@ Figure 4.7 complements Table 4.4 because it makes the trade-off between formal s
 
 Prompt-level stability shows a similar pattern. Chain-of-thought prompts, especially in English, produce the highest average records per run, while data.md produces formally parseable but functionally unusable tone outputs. Few-shot prompts appear inconsistent: the English few-shot prompt yields no average extracted records in the current summary, while the Indonesian few-shot prompt yields very low completion. This suggests that examples alone do not guarantee better extraction. In this repository, explicit tone framing and schema-constrained instruction style appear more important.
 
-Figure 4.8 should be read together with the prompt-level results table because prompt-family trends are central to the argument that prompt design matters more than nominal prompting style labels.
+Figure~\ref{fig:prompt_strategy_comparison} should be read together with the prompt-level results table because prompt-family trends are central to the argument that prompt design matters more than nominal prompting style labels.
 
 \begin{figure}[H]
 \begin{center}
@@ -381,7 +381,7 @@ The fourth finding concerns ontology integration. The ontology layer appears rob
 
 These component comparisons lead to a clear synthesis. The most important component of the implemented system is the prompt-and-schema design of the extraction layer, followed by the choice of model backend that can reliably honor that schema. Contextual and ontology-aware representations remain important for interpretability and future benchmarking, but the present evidence shows that extraction stability is the prerequisite for all later gains.
 
-Figure 4.11 should be added as a final integrative visual if the Sankey export is generated from the visualizer, because it would summarize how the most frequent aspects distribute across commitment, action, and outcome in one compact view.
+An additional integrative Sankey-style visual can be added later if the export is generated from the visualizer, because it would summarize how the most frequent aspects distribute across commitment, action, and outcome in one compact view.
 
 \section{Chapter Synthesis}
 

@@ -1,0 +1,130 @@
+\thispagestyle {empty}
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{ABSTRACT}{}{page.3}
+\babel@toc {english}{}\relax 
+\babel@toc {finnish}{}\relax 
+\contentsline {chapter}{TIIVISTELMÄ}{}{page.4}
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{TABLE OF CONTENTS}{}{page.5} 
+\contentsline {chapter}{FOREWORD}{}{page.8} 
+\contentsline {chapter}{LIST OF ABBREVIATIONS AND SYMBOLS}{}{page.9} 
+\renewcommand {\cftchapleader }{\cftdotfill {0.2}}
+\contentsline {chapter}{\numberline {1}Introduction}{13}{chapter.1}%
+\contentsline {section}{\numberline {1.1}\titlecap {Motivation}}{13}{section.1.1}%
+\contentsline {section}{\numberline {1.2}\titlecap {Problem Statement}}{13}{section.1.2}%
+\contentsline {section}{\numberline {1.3}\titlecap {Research Questions}}{14}{section.1.3}%
+\contentsline {section}{\numberline {1.4}\titlecap {Objectives and Contributions}}{14}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}\titlecap {Research Objectives:}}{14}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}\titlecap {Expected Contributions:}}{14}{subsection.1.4.2}%
+\contentsline {section}{\numberline {1.5}\titlecap {Thesis Structure}}{15}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Related Works}{16}{chapter.2}%
+\contentsline {section}{\numberline {2.1}\titlecap { Corporate Sustainability Reporting and the Greenwashing Challenge}}{16}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}\titlecap { The Technical Complexity of ESG Disclosures}}{16}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}\titlecap { NLP Frameworks for Greenwashing Detection}}{16}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}\titlecap { Aspect-Action Analysis and Semantic Inconsistency}}{16}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}\titlecap { Monitoring Systems and Empirical Testing}}{17}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5}\titlecap {Technical Limitations: The "Soft Language" Problem}}{17}{subsection.2.1.5}%
+\contentsline {subsection}{\numberline {2.1.6}\titlecap {Table: State-of-the-Art in NLP-Driven ESG and Greenwashing Analysis}}{17}{subsection.2.1.6}%
+\contentsline {section}{\numberline {2.2}\titlecap { Evolution of NLP in Sustainability Analysis}}{20}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}\titlecap {Dictionary-Based and Statistical Foundations}}{20}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}\titlecap {The Transformer Revolution and Contextual Embeddings}}{20}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}\titlecap { Domain-Specific Specialization: The Rise of ClimateBERT}}{20}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}\titlecap { Large Language Models and Generative Extraction}}{21}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}\titlecap {Table: State-of-the-Art in the Evolution of NLP for Sustainability}}{21}{subsection.2.2.5}%
+\contentsline {section}{\numberline {2.3}\titlecap {Large Language Models for Structured ESG Extraction}}{24}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}\titlecap {From Classification to Schema-Based Extraction}}{24}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}\titlecap {Prompt Engineering and In-Context Learning}}{24}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}\titlecap {Aspect-Action Linkage and Semantic Mapping}}{24}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}\titlecap { Domain-Specific vs. General LLMs}}{25}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}\titlecap {Technical Risks: Hallucinations and Grounding}}{25}{subsection.2.3.5}%
+\contentsline {section}{\numberline {2.4}\titlecap { Data Gaps and Benchmark Design}}{28}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}\titlecap {Identifying Technical Data Gaps in Sustainability}}{28}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}\titlecap {The Role of Benchmark Datasets in ESG NLP}}{28}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}\titlecap {Technical Requirements for Benchmark Design}}{29}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}\titlecap {Table: State-of-the-Art in ESG Benchmark Design}}{29}{subsection.2.4.4}%
+\contentsline {chapter}{\numberline {3}Methodology}{32}{chapter.3}%
+\contentsline {section}{\numberline {3.1}\titlecap {Research Design and Methodological Overview}}{32}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}\titlecap {System Architecture}}{33}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}\titlecap {Design Principles}}{34}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}\titlecap {Data Sources}}{34}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}\titlecap {Technical Characteristics and Sampling}}{35}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}\titlecap {Inclusion, Exclusion, and Evidence-Layer Boundaries}}{35}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}\titlecap {Ethics, Bias, and Data Limitations}}{36}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}\titlecap {Data Collection and Preprocessing Pipeline}}{36}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}\titlecap {OCR Expansion and First-Stage Extraction}}{37}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}\titlecap {Standardization, Storage, and Tooling}}{37}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}\titlecap {Conversion into Structured ESG Records}}{37}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}\titlecap {Alignment and Synchronization}}{38}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}\titlecap {Preprocessing Quality Checks}}{38}{subsection.3.3.5}%
+\contentsline {section}{\numberline {3.4}\titlecap {Feature Extraction and Representation Learning}}{38}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}\titlecap {Overall Feature Strategy}}{39}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}\titlecap {Rule-Based Lexical Features}}{39}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}\titlecap {Classical Sparse Text Features}}{39}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}\titlecap {Contextual and Hybrid Representations}}{40}{subsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.4.5}\titlecap {Ontology-Based Feature Enhancement}}{40}{subsection.3.4.5}%
+\contentsline {section}{\numberline {3.5}\titlecap {Proposed Framework}}{41}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}\titlecap {Framework 1: LLM-Centered ESG Record Generation}}{41}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}\titlecap {Framework 2: Benchmarking, Comparison, and Evidence Scoring}}{41}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}\titlecap {Inference and Output Mapping}}{42}{subsection.3.5.3}%
+\contentsline {section}{\numberline {3.6}\titlecap {Ground Truth, Weak Labels, and Evaluation Reference}}{42}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}\titlecap {Why a Special Reference Construction Process Is Needed}}{42}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}\titlecap {Reference Generation Procedure}}{43}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}\titlecap {Validation, Constraints, and Current Limitations}}{43}{subsection.3.6.3}%
+\contentsline {section}{\numberline {3.7}\titlecap {Threats to Validity and Reproducibility Boundaries}}{44}{section.3.7}%
+\contentsline {section}{\numberline {3.8}\titlecap {Summary}}{44}{section.3.8}%
+\contentsline {chapter}{\numberline {4}Experiments}{45}{chapter.4}%
+\contentsline {section}{\numberline {4.1}\titlecap {Experimental Scope and Protocol}}{45}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}\titlecap {Experimental Objective and Tested Methods}}{45}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}\titlecap {Configuration, Infrastructure, and Reproducibility}}{46}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}\titlecap {Evaluation Boundaries and Comparison Conditions}}{46}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}\titlecap {Evaluation Metrics}}{47}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}\titlecap {Primary Metrics}}{47}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}\titlecap {Secondary and Complementary Metrics}}{48}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}\titlecap {Experimental Results}}{48}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}\titlecap {RQ1: ESG ABSA Schema}}{48}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}\titlecap {RQ2: Tone vs. Climate-Specific Models}}{51}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}\titlecap {RQ3: Pipeline Diagnostics}}{53}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}\titlecap {RQ4: Stability and Reproducibility}}{56}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}\titlecap {Explainability Outputs}}{59}{section.4.4}%
+\contentsline {section}{\numberline {4.5}\titlecap {Validation of Reference Data and Pilot Reference Layer}}{61}{section.4.5}%
+\contentsline {section}{\numberline {4.6}\titlecap {Comparative Component Analysis}}{62}{section.4.6}%
+\contentsline {section}{\numberline {4.7}\titlecap {Chapter Synthesis}}{62}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Discussion}{64}{chapter.5}%
+\contentsline {section}{\numberline {5.1}\titlecap {Key Findings and Synthesis}}{64}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}\titlecap {Main Findings and Their Meaning}}{64}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}\titlecap {Deeper Patterns and Research Question Mapping}}{64}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}\titlecap {Research Question Resolution}}{66}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}\titlecap {Resolution of RQ1 and RQ2}}{66}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}\titlecap {Resolution of RQ3 and RQ4}}{67}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}\titlecap {Limitations}}{68}{section.5.3}%
+\contentsline {section}{\numberline {5.4}\titlecap {Future Work}}{68}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}\titlecap {Immediate Technical Extensions}}{68}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}\titlecap {Long-Term Research Roadmap}}{69}{subsection.5.4.2}%
+\contentsline {section}{\numberline {5.5}\titlecap {Broader Impact}}{71}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}\titlecap {Practical and Societal Benefits}}{71}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}\titlecap {Ethical Risks, Bias, and Responsible Use}}{71}{subsection.5.5.2}%
+\contentsline {chapter}{\numberline {6}Conclusion}{73}{chapter.6}%
+\contentsline {chapter}{\numberline {7}References}{74}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Appendices}{77}{chapter.8}%
+\contentsline {section}{\numberline {8.1}\titlecap {Appendix Contents}}{77}{section.8.1}%
+\contentsline {section}{\numberline {8.2}\titlecap {Tone-Label Definitions}}{77}{section.8.2}%
+\contentsline {section}{\numberline {8.3}\titlecap {Reproducibility Notes}}{77}{section.8.3}%
+\contentsline {section}{\numberline {8.4}\titlecap {End-to-End User Workflow Diagram}}{78}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}\titlecap {Workflow Summary}}{78}{subsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.4.2}\titlecap {Mermaid Sequence Diagram}}{79}{subsection.8.4.2}%
+\contentsline {subsection}{\numberline {8.4.3}\titlecap {LaTeX Figure Version}}{79}{subsection.8.4.3}%
+\contentsline {subsection}{\numberline {8.4.4}\titlecap {Interpretation}}{80}{subsection.8.4.4}%
+\contentsline {subsection}{\numberline {8.4.5}\titlecap {Tone-Prompt Family Visualization and Prompt Reasoning}}{80}{subsection.8.4.5}%
+\contentsline {subsubsection}{Prompt-Family Logic}{80}{subsubsection*.41}%
+\contentsline {subsubsection}{Prompt-Family Summary Table}{80}{subsubsection*.42}%
+\contentsline {subsubsection}{Why the Prompt Reasoning Matters}{80}{subsubsection*.44}%
+\contentsline {subsubsection}{Prompt Reasoning Description by Family}{82}{subsubsection*.45}%
+\contentsline {subsubsection}{Appendix Interpretation}{82}{subsubsection*.46}%
+\contentsline {section}{\numberline {8.5}\titlecap {JSON Data Examples}}{82}{section.8.5}%
+\contentsline {subsection}{\numberline {8.5.1}\titlecap {OCR Output JSON}}{83}{subsection.8.5.1}%
+\contentsline {subsection}{\numberline {8.5.2}\titlecap {ESG Extraction Run JSON}}{83}{subsection.8.5.2}%
+\contentsline {subsection}{\numberline {8.5.3}\titlecap {ClimateBERT Result JSON}}{84}{subsection.8.5.3}%
+\contentsline {subsection}{\numberline {8.5.4}\titlecap {Other JSON Families Used by the Repository}}{85}{subsection.8.5.4}%

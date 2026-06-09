@@ -150,7 +150,7 @@ The implemented user flow is:
 \end{center}
 \caption{Bulk OCR to LLM-processing flow diagram. This figure visualizes the operational path from file intake, OCR expansion, and page storage to provider-specific ESG extraction and downstream ClimateBERT comparison outputs.}
 \alt{Flowchart showing user entry through Bulk OCR, OCR output storage, document selection in LLM Processing, provider choice among OpenRouter, LM Studio, and Ollama, ESG record storage, and downstream ClimateBERT output generation.}
-\label{fig:commitment_outcome_ratio}
+\label{fig:appendix_bulkocr_llm_climatebert_flow}
 \end{figure}
 
 \subsection{Mermaid Sequence Diagram}\label{mermaid-sequence-diagram}
@@ -193,10 +193,10 @@ Sequence explanation:
 
 The same operational workflow can also be represented in a LaTeX-ready figure block for the final thesis.
 
-% \begin{figure}[H]
-% \begin{center}
-%   \safeimage[width=\textwidth]{appendix_workflow_bulkocr_llm_climatebert}
-% \end{center}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics*[width=\textwidth]{mermaid_flow_diagram_01}
+\end{center}
 \caption{Appendix workflow from Bulk OCR to page-range-based LLM extraction and downstream ClimateBERT processing. The implemented flow begins with OCR expansion, continues with provider-specific ESG extraction over selected page ranges, and ends with ClimateBERT comparison over the extracted text layer.}
 \alt{Workflow diagram showing user upload or file selection in Bulk OCR, OCR storage into thesis dataset folders, page-range selection in LLM Processing, choice among OpenRouter, LM Studio, or Ollama, storage of structured ESG records, and downstream ClimateBERT T1 processing.}
 \label{fig:appendix_bulkocr_llm_climatebert_workflow}
@@ -241,36 +241,25 @@ These prompt files share the same extraction target, but they differ in how much
 
 \subsubsection{Prompt-Family Summary Table}\label{prompt-family-summary-table}
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}@{}}
-\caption{Tone-prompt family summary.}\label{tab:tone-prompt-family-summary}\\
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Prompt file
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Prompt style
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Main reasoning structure
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Intended advantage
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Main risk
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\begin{table}[htbp]
+\centering
+\caption{Tone-prompt family summary.}
+\label{tab:tone-prompt-family-summary}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\linewidth}{|p{0.18\linewidth}|p{0.14\linewidth}|X|X|X|}
+\hline
+\textbf{Prompt file} & \textbf{Prompt style} & \textbf{Main reasoning structure} & \textbf{Intended advantage} & \textbf{Main risk} \\ \hline
 \texttt{tone\_zero\_shot\_english.md} & Zero-shot, English & Direct instructions, label list, tone priority rules, JSON schema & Strong baseline for testing whether explicit definitions alone are enough & May remain too shallow for ambiguous governance or mixed-tone text \\
 \texttt{tone\_zero\_shot\_indonesian.md} & Zero-shot, Indonesian & Same logic as English version, but adapted to Indonesian cue words and examples of commitment/action/outcome distinction & Better alignment with Indonesian report language and bilingual segments & Longer instruction set can still be ignored when outputs drift \\
 \texttt{tone\_few\_shot\_english.md} & Few-shot, English & Adds worked examples for commitment, outcome, and risk-oriented none tone & Demonstration-based anchoring for label and tone boundaries & Examples may overfit narrow patterns and suppress extraction breadth \\
 \texttt{tone\_few\_shot\_indonesian.md} & Few-shot, Indonesian & Adds Indonesian worked examples and local wording for target, risk, and measured result & Better grounding for Indonesian narrative style and common lexical cues & Example dependence may still fail on governance-heavy or non-example structures \\
 \texttt{tone\_chain\_of\_thought\_english.md} & Chain-of-thought style, English & Hidden internal steps for segmentation, tone assignment, sentiment assignment, and final schema fill & Forces the model to separate reasoning stages before output & Longer prompt can increase verbosity pressure or schema drift in weaker models \\
 \texttt{tone\_chain\_of\_thought\_indonesian.md} & Chain-of-thought style, Indonesian & Most explicit reasoning scaffold, local cue words, tone priority logic, and concise reasoning guidance & Best fit for difficult Indonesian and mixed-language extraction conditions & Most complex prompt, so weaker backends may fail to follow every instruction consistently \\
-\end{longtable}
+\hline
+\end{tabularx}
+\end{table}
 
 \subsubsection{Why the Prompt Reasoning Matters}\label{why-the-prompt-reasoning-matters}
 
