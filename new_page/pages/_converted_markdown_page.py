@@ -16,7 +16,17 @@ def source_label(*paths: str) -> None:
 
 
 def discover_converted_markdown_files() -> list[Path]:
-    return sorted(CONVERTED_MARKDOWN_DIR.glob("*.md"))
+    return sorted(
+        path for path in CONVERTED_MARKDOWN_DIR.glob("*.md")
+        if not path.name.endswith("_v1.md")
+    )
+
+
+def strip_image_content(text: str) -> str:
+    text = re.sub(r"!\[[^\]]*\]\([^)]+\)\n?", "", text)
+    text = re.sub(r"\*Figure[^*]*\*\n?", "", text)
+    text = re.sub(r"\\begin\{figure\}\[ht\].*?\\end\{figure\}\n?", "", text, flags=re.DOTALL)
+    return text
 
 
 def split_markdown_blocks(text: str) -> list[tuple[str, str]]:
@@ -38,7 +48,9 @@ def render_markdown_file(path: Path) -> None:
         st.error(f"Missing markdown source: `{path}`")
         return
 
-    for kind, content in split_markdown_blocks(path.read_text(encoding="utf-8")):
+    text = strip_image_content(path.read_text(encoding="utf-8"))
+
+    for kind, content in split_markdown_blocks(text):
         if not content.strip():
             continue
         if kind:
