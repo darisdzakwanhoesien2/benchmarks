@@ -1,6 +1,5 @@
-tone,e,s,g,none,missing
-action,33,0,25,0,0
-commitment,91,0,24,0,0
-missing,23,2,31,4,1
-none,4,0,21,23,0
-outcome,28,2,20,0,0
+tone,e,s,g,none
+action,76,20,25,11
+commitment,67,18,34,13
+none,36,16,61,55
+outcome,32,9,1,7

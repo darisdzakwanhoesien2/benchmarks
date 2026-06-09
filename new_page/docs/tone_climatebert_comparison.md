@@ -1,12 +1,10 @@
 # Tone and ClimateBERT Comparison
 
-https://claude.ai/chat/fcd4ed44-4c2a-4311-8679-c0094e508a53
-
 ## Scope
 
-This analysis uses `/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/esg_records.json` as the existing tone-result dataset. It contains 332 extracted records from 39 runs across 34 source targets.
+This analysis uses `/home/ubuntu/apps/benchmarks/new_page/results/esg_records.json` as the existing tone-result dataset. It contains 481 extracted records from 71 runs across 34 source targets.
 
-The raw ClimateBERT comparison file, `/Users/darisdzakwanhoesien/Documents/project_documentation/codebase/esg_project/benchmarks/new_page/results/climatebert_results.json`, contains 3 remote ClimateBERT runs. That is much smaller than the tone-result dataset, so it should be treated as a sanity-check sample rather than a full ground-truth evaluation.
+The raw ClimateBERT comparison file, `/home/ubuntu/apps/benchmarks/new_page/results/climatebert_results.json`, contains 3 remote ClimateBERT runs. That is much smaller than the tone-result dataset, so it should be treated as a sanity-check sample rather than a full ground-truth evaluation.
 
 ## What The Fields Mean
 
@@ -17,10 +15,10 @@ The raw ClimateBERT comparison file, `/Users/darisdzakwanhoesien/Documents/proje
 
 ## Main Findings
 
-- The dominant non-missing tone is `commitment` with 115 records.
-- Missing/blank tone values appear in 61 records, which means part of the extraction output still needs cleanup before it can support strong accuracy claims.
-- ESG pillar distribution is: `e`=179, `g`=121, `none`=27, `s`=4, `missing`=1.
-- The most frequent ClimateBERT-style labels in the extracted records are: `climate-commitment`=121, `governance`=111, `climate-d`=101, `environmental-claims`=85, `climate-sentiment`=50, `metrics`=49, `climate-specificity`=46, `strategy`=40, `none`=35, `climate-s`=34.
+- The dominant non-missing tone is `none` with 168 records.
+- Missing/blank tone values appear in 0 records, which means part of the extraction output still needs cleanup before it can support strong accuracy claims.
+- ESG pillar distribution is: `e`=211, `g`=121, `none`=86, `s`=63.
+- The most frequent ClimateBERT-style labels in the extracted records are: `governance`=115, `environmental-claims`=113, `climate-d-s`=89, `none`=72, `strategy`=60, `climate-commitment`=47, `metrics`=36, `risk`=25, `climate-d`=22, `opportunity`=22.
 
 ## Comparison Interpretation
 
@@ -33,11 +31,10 @@ The practical comparison is: does the tone assigned by the extraction layer make
 
 In the current data:
 
-- `commitment` most often appears with `climate-commitment`=91, `climate-d`=57, `environmental-claims`=48.
-- `action` most often appears with `governance`=25, `climate-d`=23, `other`=22.
-- `outcome` most often appears with `other`=36, `governance`=20, `climate-d`=19.
-- `none` most often appears with `none`=24, `governance`=21, `climate-d`=2.
-- `missing` most often appears with `other`=49, `climate-commitment`=22, `environmental-claims`=21.
+- `commitment` most often appears with `other`=50, `climate-commitment`=42, `governance`=34.
+- `action` most often appears with `other`=51, `environmental-claims`=47, `climate-d-s`=43.
+- `outcome` most often appears with `other`=30, `environmental-claims`=19, `climate-d-s`=18.
+- `none` most often appears with `governance`=55, `none`=55, `other`=41.
 
 Because the available ClimateBERT remote-run file has only three inputs, it cannot establish full ground truth. For a thesis or benchmark section, describe it as a validation lens unless you manually label the same records and use those labels as ground truth.
 
@@ -69,6 +66,14 @@ Top labels from successful ClimateBERT sample runs:
 - `results/visualizations/climatebert_label_by_tone.png`
 - `results/visualizations/aspect_by_tone_heatmap.png`
 - `results/visualizations/climatebert_remote_top_scores.png`
+- `results/visualizations/failure_mode_pareto.png`
+- `results/visualizations/failure_mode_pie.png`
+- `results/visualizations/model_tradeoff_scatter.png`
+- `results/visualizations/prompt_strategy_comparison.png`
+- `results/visualizations/information_density_by_tone.png`
+- `results/visualizations/soft_language_ratio_by_tone.png`
+- `results/visualizations/greenwashing_gap_scatter.png`
+- `results/visualizations/commitment_outcome_ratio.png`
 - `results/visualizations/tone_records_flat.csv`
 - `results/visualizations/climatebert_remote_flat.csv`
 - `results/visualizations/tone_climatebert_label_crosstab.csv`

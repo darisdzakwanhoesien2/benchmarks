@@ -1,13 +1,13 @@
-aspect,action,commitment,missing,none,outcome
-climate,0,2,0,0,0
-climate-action,7,6,1,0,5
-climate-commitment,0,15,0,0,0
-climate-d,0,0,0,0,8
-climate-d-s,4,0,0,0,0
-climate-detection,11,50,0,4,14
-environmental-claims,5,5,0,0,1
-governance,18,16,0,18,14
-missing,0,0,60,0,0
-netzero-reduction,0,4,0,0,0
-none,0,0,0,23,0
-sosialisasi antikorupsi untuk karyawan,0,0,0,0,1
+aspect,action,commitment,none,outcome
+environment,7,0,7,3
+environmental,7,5,2,4
+environmental sustainability,3,4,2,0
+governance,5,7,17,0
+kebijakan anti korupsi,1,2,3,0
+kinerja keuangan,0,0,5,2
+missing,6,3,2,0
+none,1,3,9,2
+praktik ramah lingkungan,4,3,3,0
+risk,2,0,6,0
+social,10,6,7,2
+strategy,4,2,2,0
