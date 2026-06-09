@@ -12,7 +12,7 @@ Traditional document-level analysis—which assigns a single score or sentiment 
 
 The central research problem is the absence of a reproducible and validated pipeline for transforming heterogeneous sustainability-report PDFs into structured, record-level evidence. Current manual review processes are unscalable, while standard automated tools often fail to capture the semantic nuance required for ESG analysis.
 
-This research addresses six critical technical challenges:
+This research addresses five critical technical challenges:
 
 1. **Extraction Provenance:** Maintaining a clear link between extracted text and its original page/document location in heterogeneous PDFs.
 1. **Prompt Configuration:** Designing Large Language Model prompts that can reliably extract multi-faceted ESG statements across different providers.
@@ -20,6 +20,8 @@ This research addresses six critical technical challenges:
 1. **Construct Validity:** Identifying the divergence between general sentiment/tone and domain-specific climate labels (e.g., ClimateBERT).
 1. **Quality Auditing:** Systematically identifying failures in OCR, schema drift, and missing data fields.
 1. **Evidence Visualization:** Converting large-scale extraction results into interactive dashboards and semantic graphs for research verification.
+
+The scope of the thesis is deliberately narrower than a finalized benchmark study. The work focuses on building and auditing an executable research pipeline, then evaluating it through comparative diagnostics, proxy comparison labels, and pilot human annotation. As a result, the thesis aims to demonstrate operational feasibility, traceability, and partial construct validation rather than final benchmark superiority.
 
 ## 1.3 Research Questions
 
@@ -52,6 +54,6 @@ The study is guided by the following research questions:
 - **Chapter 1:** Outlines the motivation, problem statement, and technical objectives of the study.
 - **Chapter 2:** Examines the evolution of NLP in sustainability, the challenge of greenwashing, and the current state-of-the-art in LLM-based extraction.
 - **Chapter 3:** Details the OCR-to-ABSA pipeline, including prompt engineering strategies and the validation framework using ClimateBERT and human annotation.
-- **Chapter 4:** Presents implementation details, evaluation metrics, and ablation studies regarding model stability.
+- **Chapter 4:** Presents evaluation protocol, comparative component analysis, stability evidence, and failure-oriented results regarding model and prompt behavior.
 - **Chapter 5:** Evaluates the ESG ABSA schema, analyzes failure modes, and discusses the implications of model divergence for future ESG research.
 - **Chapter 6:** Summarizes the findings and suggests future directions for automated sustainability analysis.

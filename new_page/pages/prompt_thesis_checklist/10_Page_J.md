@@ -1,5 +1,18 @@
 Part J: Required Output
 
+Before the full audit, infer the actual chapter set from the provided files and use that structure. Do not assume a generic thesis with a separate results chapter, a completed abstract, or conventional supervised train/validation/test splits unless the thesis explicitly contains them.
+
+For the current thesis, expect the main evidence-bearing files to be:
+
+- `introduction.md`
+- `relatedwork.md`
+- `implementation.md`
+- `experiments.md`
+- `discussion.md`
+- `summary.md`
+
+Treat `abstract.md`, `tiivistelma.md`, and `appendices.md` as incomplete if they still contain placeholders.
+
 Provide the assessment in the following order.
 
 1. Executive Evaluation
@@ -183,3 +196,11 @@ Do not interpret a high metric as sufficient evidence of methodological rigor.
 Prioritize corrections that improve validity, transparency, reproducibility, and alignment with the research questions.
 
 Begin by identifying the thesis chapters and declared research questions. Then construct the traceability matrix before performing the detailed audit.
+
+Additional thesis-specific output requirements:
+
+- explicitly report whether the thesis consistently maintains four research questions or introduces extra ones later;
+- explicitly separate findings about the full source corpus, OCR-processed inventory, active thesis subset, and pilot annotation subset;
+- explicitly state when the work functions as an auditable pipeline study rather than a finalized benchmark;
+- explicitly flag placeholder front matter as a submission-readiness failure if still incomplete;
+- explicitly distinguish missing experiments from cases where narrower claims would be a better fix than new experimentation.

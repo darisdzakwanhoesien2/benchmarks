@@ -1,5 +1,33 @@
 # Impromptu Note: Which Prompt To Use In This Folder
 
+## Current Thesis Shape To Assume Before Running Any Prompt
+
+Use the actual non-`_v1` thesis files in `converted_markdown/` as the working source:
+
+- `foreword.md`
+- `abstract.md`
+- `tiivistelma.md`
+- `abbreviations.md`
+- `introduction.md`
+- `relatedwork.md`
+- `implementation.md`
+- `experiments.md`
+- `discussion.md`
+- `summary.md`
+- `appendices.md`
+
+Current declared research questions are the four RQs in `introduction.md`.
+
+Current structural reality:
+
+- Chapter 3 is methodology and implementation-oriented.
+- Chapter 4 is the main evaluation and results chapter.
+- Chapter 5 contains discussion, limitations, future work, and broader impact.
+- Chapter 6 is the conclusion.
+- `abstract.md`, `tiivistelma.md`, and `appendices.md` currently appear to be placeholders and should be flagged as incomplete rather than reviewed as finished scientific chapters.
+- There is no separate standalone "results" chapter outside `experiments.md`.
+- Any prompt that assumes six research questions, a train/validation/test benchmark thesis, or a fully completed abstract should explicitly verify those assumptions before criticizing the text.
+
 Use `02_Part_B2.md` first if the immediate concern is missing **ablation studies** and other experimental-rigor gaps.
 
 Why:
@@ -78,6 +106,19 @@ Based on the prompts in this folder, the other high-value checks are:
 - incomplete reproducibility details such as seeds, model versions, dates, and decoding settings;
 - conclusions that are stronger than the actual evidence;
 - research questions that are only partially answered.
+
+## Thesis-Specific Likely Failure Modes
+
+For this thesis in particular, expect to verify:
+
+- mismatch between the four declared research questions in Chapter 1 and any later references to additional RQs;
+- claims about ablation studies in the chapter outline that may not be matched by actual Chapter 4 content;
+- methodology claims of reproducibility without full reporting of prompts, model versions, dates, seeds, and decoding settings;
+- partial human annotation being described too strongly as validation or ground truth;
+- comparison between tone labels and ClimateBERT-style labels being overstated as equivalence;
+- dataset and subset counts changing across chapters without enough explanation;
+- placeholder front matter causing weak alignment between abstract, conclusion, and body chapters;
+- discussion claims that exceed the evidence scope of the Indonesian thesis-facing subset.
 
 ## Recommendation
 

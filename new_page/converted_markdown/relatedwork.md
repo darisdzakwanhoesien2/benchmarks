@@ -29,13 +29,9 @@ Newer systems, such as **DeepGreen**, utilize Large Language Models to create mo
 
 A major hurdle remains the "soft" nature of ESG language. LLMs must be sensitive enough to distinguish between **substantive disclosures** and **boilerplate language** that satisfies regulatory checklists without providing material insight  [@frederik_maibaum_b8629037]. This provides the technical justification for **Section 3.4.4**, as standard machine learning baselines often fail to capture the subtle linguistic nuances that separate genuine commitment from strategic ambiguity
 
-### 2.1.6 Table: State-of-the-Art in NLP-Driven ESG and Greenwashing Analysis
+### 2.1.6 Methodological Implication for This Thesis
 
-Below is a comprehensive table of state-of-the-art research relevant to Chapter 2.1, focusing on the technical and NLP methodologies used to address greenwashing and ESG extraction. This synthesis highlights how current frameworks transition from simple keyword counting toward complex, intent-aware architectures that verify sustainability claims against verifiable operational evidence  [@keane_ong_0a5de439]. On top of that, there next table focus on the technical nuances of goal alignment, model sensitivity, and sector-specific extraction, complementing the previous literature by addressing the "soft language" and benchmarking challenges in ESG.
-
-*Table: caption*
-
-*Table: caption*
+The literature in this section supports two direct methodological choices in the thesis. First, greenwashing-relevant analysis requires more than document-level positivity or topic frequency. It requires a representation that can distinguish broad claims, operational steps, and realized outcomes at a finer unit of analysis. Second, extraction quality and claim verification depend on upstream document engineering as much as on downstream classification. This is why the thesis combines OCR traceability, record-level schema design, and diagnostic review rather than treating ESG disclosure analysis as a single end-to-end classifier.
 
 ## 2.2 Evolution of NLP in Sustainability Analysis
 
@@ -64,11 +60,9 @@ The current frontier in the evolution of ESG NLP is the adoption of **Large Lang
 - **Multi-Dimensional Analysis:** LLMs enable more complex tasks, such as **Aspect-Action Analysis**, which links specific environmental aspects to concrete corporate actions to identify inconsistencies  [@keane_ong_369a0b63].
 - **Expansion to Nature and Biodiversity:** New datasets and models are now emerging to tackle "nature-related" disclosures, moving beyond carbon-centric analysis to evaluate how companies report on biodiversity and ecosystem services  [@tobias_schimanski_3549ff9f].
 
-### 2.2.5 Table: State-of-the-Art in the Evolution of NLP for Sustainability
+### 2.2.5 Methodological Implication for This Thesis
 
-The table below summarizes the key milestones in the technical evolution of NLP within sustainability analysis, tracking the shift from lexicon-based systems to domain-specific Transformers and eventually to generative Large Language Models, also the table introduced specialized frameworks and models that represent the transition from general climate classification to more granular, sector-specific, and target-oriented analysis
-
-*Table: caption*
+The evolution reviewed here justifies the thesis architecture as a hybrid rather than purely generative system. Dictionary and statistical models remain useful as interpretable baselines; domain-specific transformers remain useful as external comparison models; and LLMs are most useful when the task requires schema-based extraction from long, heterogeneous reports. For this reason, the thesis does not present rule-based, classical, hybrid, and LLM-based components as mutually exclusive competitors. Instead, it uses them as complementary layers with different strengths in interpretability, comparison, and extraction flexibility.
 
 ## 2.3 Large Language Models for Structured ESG Extraction
 
@@ -98,9 +92,7 @@ While general LLMs like GPT-4 show high performance, the evolution of the field 
 
 A critical limitation of LLMs in ESG extraction is their sensitivity to input phrasing and their tendency to generate plausible-sounding but factually incorrect data—commonly known as **hallucinations**  [@arash_hajikhani_cbb2528f]. In the context of sustainability, a hallucinated emission figure or target date could lead to incorrect regulatory filings. This technical risk necessitates the use of **External Validators** (like ClimateBERT, as seen in  **Section 3.4.3**) and **Human-in-the-Loop** workflows to verify the extracted "silver labels" before they are accepted as ground truth  .
 
-*Table: caption*
-
-*Table: caption*
+The literature also implies an important caution for the thesis: LLM-based structured extraction should not be treated as self-validating simply because it is flexible. Hallucination risk, prompt sensitivity, and soft-language ambiguity make external comparison and human review necessary, especially when the extracted outputs are used to support claims about disclosure maturity.
 
 ## 2.4 Data Gaps and Benchmark Design
 
@@ -130,10 +122,6 @@ According to recent studies, a defensible ESG benchmark must satisfy three core 
 1. **Gold Standard Ground Truth:** While "Silver Labels" (generated via weak supervision or LLMs) are useful for initial seeding, a high-fidelity benchmark requires an expert-led **Human Annotation Workflow** to verify the semantic nuances of sustainability language  .
 1. **Cross-Category Generalization:** A robust benchmark should test a model's performance across diverse industry sectors (e.g., banking vs. heavy industry) and ESG categories to ensure the methodology is not overfitted to a single domain  .
 
-### 2.4.4 Table: State-of-the-Art in ESG Benchmark Design
+### 2.4.4 Methodological Implication for Benchmark Design
 
-For **Section 2.4: Data Gaps and Benchmark Design**, the following table identifies the most recent state-of-the-art benchmarks and datasets designed to address the "expert-scarcity" and "data-fragmentation" problems in sustainability reporting. These works provide the technical foundation for the **Benchmark and Ground Truth Design (Section 3.6)**, and also highlights additional state-of-the-art research focusing on the specific technical gaps identified in corporate reporting and the datasets developed to mitigate them. These works provide the scholarly justification to focus on **Coverage, Stratification, and Resumability (Section 3.6.4)**.
-
-*Table: State-of-the-art ESG benchmarks and dataset design patterns supporting the benchmark and ground-truth construction in Section 3.6*
-
-*Table: caption*
+The benchmark-design literature provides the clearest justification for one of the thesis's most important boundaries: the current work should not be presented as a fully finalized benchmark study. Existing research shows that defensible ESG benchmarks require granular units of analysis, stronger expert annotation, broader sectoral coverage, and clearer evaluation protocols than are currently available in the thesis-facing subset. This does not weaken the value of the present work; rather, it clarifies its proper contribution. The thesis contributes a traceable pipeline, a layered reference-construction process, and a set of diagnostics that can support later benchmark maturation.

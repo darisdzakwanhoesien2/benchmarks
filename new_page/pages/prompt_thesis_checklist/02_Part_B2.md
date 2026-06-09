@@ -1,5 +1,16 @@
 B2. Scientific and Methodological Rigor
 
+Use the actual thesis structure before evaluating rigor.
+
+For this thesis, the main rigor-bearing chapters are:
+
+- `implementation.md` for research design, data, preprocessing, feature logic, framework design, and reference construction;
+- `experiments.md` for evaluation setup, metrics, comparisons, and diagnostic evidence;
+- `discussion.md` for limitations, validity, and interpretation;
+- `summary.md` for whether final claims stay within the evidence boundary.
+
+Do not penalize the thesis merely for lacking a conventional train/validation/test benchmark if the work is actually an executable pipeline study with weak labels, pilot annotations, and comparative diagnostics. Instead, assess whether the thesis states that boundary honestly and avoids benchmark-style overclaims.
+
 Evaluate:
 
 suitability of the research design;
@@ -40,3 +51,14 @@ whether class-level results are provided when macro-level metrics could conceal 
 whether numerical improvements are calculated correctly;
 whether “significant” is used only when supported statistically;
 whether qualitative examples are representative rather than selectively chosen.
+
+Thesis-specific rigor checks:
+
+- whether the reported four research questions are actually the ones being evaluated later;
+- whether the OCR-expanded corpus, active thesis subset, and pilot-annotation subset are clearly separated;
+- whether inclusion and exclusion criteria are explicit for documents, pages, and extracted records;
+- whether prompt engineering changes are treated as development decisions, comparative experiments, or both;
+- whether claims of reproducibility are supported by real prompt files, run metadata, model identifiers, timestamps, and artifact paths;
+- whether ClimateBERT comparison is framed as external semantic comparison rather than full ground truth;
+- whether missing-tone cases, schema drift, and heuristic greenwashing scores are discussed as limitations rather than hidden;
+- whether the absence of full inter-annotator agreement and stratified expert gold data is acknowledged wherever validation claims are made.

@@ -1,47 +1,29 @@
-[l]{p{3cm}p{0.7}}
+ABSA & aspect-based sentiment analysis
+
+API & application programming interface
+
+CER & character error rate
+
+CMVS & Center for Machine Vision and Signal Analysis
+
+ESG & environmental, social, and governance
 
 GUI & graphical user interface
 
-LBP & local binary pattern
+JSON & JavaScript Object Notation
 
-NCC & normalized cross-correlation
+JSONL & JSON Lines
 
-SVM & support vector machine
+LLM & large language model
 
-UML & unified modeling language
+NLP & natural language processing
 
-*f* & focal length
+OCR & optical character recognition
 
-*N* & number of samples
+PDF & portable document format
 
-**Q** & orthogonal matrix
+RQ & research question
 
-{r} & matrix element
+TF-IDF & term frequency-inverse document frequency
 
-*s* & distance
-
-*t* & time
-
-*v* & velocity
-
-**v** & velocity vector
-
-**x** & planar coordinate
-
-$$ & shape factor
-
-$$ & error signal at instant k
-
-$$ & state transition matrix at instant k
-
-$$ & parameter vector
-
-$$ & variance
-
-$$ $$ & integer part
-
-$$ & logical XOR operation
-
-$$() & argument
-
-{0}
+WER & word error rate

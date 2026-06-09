@@ -16,7 +16,7 @@ This methodological direction is suitable for the research problem because ESG r
 
 Traditional or simpler alternatives were considered implicitly in the implementation. A pure keyword system would be more deterministic but too brittle for bilingual reporting language. A single LLM prompt would be easier to run but would hide prompt sensitivity and schema drift. A ClimateBERT-only approach would provide climate-topic labels but would not distinguish commitment, action, and outcome tones. The implemented methodology therefore uses comparative prompts, multiple model families, rule-based baselines, classical machine learning, and a lightweight hybrid model as complementary components rather than mutually exclusive replacements.
 
-At the level of research questions, the methodology addresses six linked tasks: transforming PDFs into structured ESG evidence, defining aspect-pillar-sentiment-tone schema, comparing tone with ClimateBERT-style labels, diagnosing extraction weaknesses, preserving reproducibility, and quantifying model/prompt stability. Chapter 3 therefore focuses not on a single classifier in isolation, but on a complete methodological system that turns raw disclosures into auditable research evidence.
+At the level of research questions, the methodology addresses four linked goals: transforming PDFs into structured ESG evidence, defining aspect-pillar-sentiment-tone schema, comparing tone with ClimateBERT-style labels, and diagnosing instability or failure modes across prompts and models. Reproducibility and provenance are treated as thesis-wide support conditions for those four goals rather than as standalone research questions. Chapter 3 therefore focuses not on a single classifier in isolation, but on a complete methodological system that turns raw disclosures into auditable research evidence.
 
 ### 3.1.1 System Architecture
 
@@ -56,7 +56,7 @@ The primary data source is a corpus of sustainability and annual report PDFs sto
 
 This dataset is appropriate for the research problem because the thesis studies how sustainability disclosures can be transformed into structured ESG evidence rather than how short isolated sentences can be classified in a clean benchmark setting. The corpus captures the real reporting environment: long reports, mixed Indonesian and English text, varied layout structure, numeric tables, narrative commitments, governance descriptions, and different sectoral vocabularies. That diversity is necessary for evaluating whether an ESG ABSA pipeline remains useful under realistic disclosure conditions.
 
-The dataset also supports the research questions directly. For RQ1, it provides raw PDFs and OCR-expanded page units. For RQ2 and RQ3, it provides disclosure text that can be converted into aspect, pillar, sentiment, tone, and ClimateBERT-style comparison labels. For RQ4 to RQ6, it provides enough variability to observe schema drift, missing labels, ontology gaps, and model/prompt instability.
+The dataset also supports the research questions directly. For RQ1, it provides raw PDFs and OCR-expanded page units. For RQ2 and RQ3, it provides disclosure text that can be converted into aspect, pillar, sentiment, tone, and ClimateBERT-style comparison labels. For RQ4, it provides enough variability to observe schema drift, missing labels, ontology gaps, and model/prompt instability.
 
 The repository includes additional structured support data. data/idx_data.csv and data/stock_info/ provide company and sector context. data/ESG Score.xlsx functions as an external benchmark or lookup source rather than as a native pipeline artifact. The main ontology and analysis-side derived resources are stored under results/revision_analysis/, including ontology.json, ontology coverage tables, prompt stability summaries, failure-mode tables, and pilot annotation files. These resources are not raw data in the same sense as the PDFs, but they are methodological inputs because later stages depend on them for mapping, validation, and evaluation.
 
@@ -68,7 +68,15 @@ The current workflow evidence snapshot  reports 23 completed OCR documents cover
 
 Selection is therefore partly corpus-driven and partly workflow-driven. Reports are collected because they are relevant to Indonesian ESG disclosure analysis, but the final processed subset is also shaped by practical constraints such as OCR completion, page-batch processing, background job success, and the availability of downstream annotation and validation capacity. This is consistent with the repository design, which stores both large-scale source inventory and smaller thesis-ready evidence layers.
 
-### 3.2.2 Ethics, Bias, and Data Limitations
+### 3.2.2 Inclusion, Exclusion, and Evidence-Layer Boundaries
+
+The study uses different inclusion and exclusion logic at different stages, and these boundaries need to be stated explicitly because later evaluation claims depend on them. At document level, the broad inclusion target is Indonesian sustainability or annual reporting material available as machine-processable PDF files in the thesis corpus. Documents are excluded from the active experimental subset when OCR expansion is incomplete, page structure is too unstable for downstream use, or later extraction and audit stages have not yet produced reusable artifacts.
+
+At page and text-unit level, inclusion is based on usability for provenance-preserving extraction rather than on an assumption that every page contains ESG evidence. Pages may still enter OCR storage even if they later prove non-informative. In contrast, extracted-record evaluation excludes malformed outputs, explicit missing-tone failures for some downstream denominators, and records that cannot be aligned reliably enough for the specific comparison being reported. This means that the thesis uses several evidence layers rather than a single monolithic dataset: the raw PDF inventory, the OCR-expanded inventory, the active thesis-facing subset, and the smaller reviewed or comparison-ready subset used in specific tables.
+
+The purpose of these boundaries is methodological transparency rather than aggressive filtering. The thesis does not claim that the current active subset is a statistically representative sample of all sustainability reports. Instead, it claims that this subset is sufficient to evaluate whether the implemented workflow can operate on long, noisy, bilingual reports and reveal its main strengths and weaknesses.
+
+### 3.2.3 Ethics, Bias, and Data Limitations
 
 The corpus is based on corporate reports rather than private personal data, so the main ethical concerns are not individual privacy but rather licensing boundaries, faithful source tracing, and fair interpretation of corporate disclosures. The methodology mitigates evidential misuse by retaining provenance links from structured outputs back to report pages. This reduces the risk that generated records are discussed without access to their source context.
 
@@ -106,7 +114,7 @@ This conversion stage is central to the methodology because it creates the canon
 
 The workflow combines several data layers that must be aligned after extraction. First, extracted records must remain linked to their source document and source pages. Second, T1 and T2 benchmark outputs must be aligned back to the record texts or labels they were derived from. Third, ontology mapping must connect extracted aspects to canonical ontology paths. Fourth, external comparison labels such as ClimateBERT-style outputs must preserve stable record identifiers for later agreement analysis.
 
-This alignment logic is visible in multiple parts of the repository. pages/2_2_LLM_Statement_Page_Verifier.py maps extracted statements back to OCR page markdown. pages/1_4_ClimateBERT_Record_Batch.py explicitly preserves record_id for one-to-one ClimateBERT comparison runs. code/data_alignment.py implements matching utilities for aligning ground truth, ABSA outputs, and benchmark outputs by text or related identifiers. The alignment unit therefore varies by task, but the underlying principle is stable: every derived label should remain recoverable to a concrete upstream artifact.
+This alignment logic is visible in multiple parts of the repository. pages/2_2_LLM_Statement_Page_Verifier.py maps extracted statements back to OCR page markdown. pages/1_4_ClimateBERT_Record_Batch.py explicitly preserves record_id for one-to-one ClimateBERT comparison runs. code/data_alignment.py implements matching utilities for aligning reference labels, ABSA outputs, and benchmark outputs by text or related identifiers. The alignment unit therefore varies by task, but the underlying principle is stable: every derived label should remain recoverable to a concrete upstream artifact.
 
 ### 3.3.5 Preprocessing Quality Checks
 
@@ -222,7 +230,7 @@ This mapping step is essential because the thesis aims to produce usable disclos
 
 *Figure: Layered evaluation-reference construction used when a full expert gold corpus is not yet available*
 
-True expert-labeled ground truth does not yet exist for the full corpus. This is one of the central methodological constraints of the study, and the repository is designed around that constraint rather than ignoring it. The workflow therefore uses a layered reference strategy: weak labels from extraction outputs, benchmark outputs in JSONL form, pilot human annotation files, and comparison labels from ClimateBERT-style runs.
+True expert-labeled reference data does not yet exist for the full corpus. This is one of the central methodological constraints of the study, and the repository is designed around that constraint rather than ignoring it. The workflow therefore uses a layered reference strategy: weak labels from extraction outputs, benchmark outputs in JSONL form, pilot human annotation files, and comparison labels from ClimateBERT-style runs.
 
 ### 3.6.1 Why a Special Reference Construction Process Is Needed
 
@@ -244,7 +252,17 @@ Generated references are validated through a combination of structural and seman
 
 The current reference layer nevertheless has important limitations. Weak labels remain model-dependent. Prompt sensitivity affects which records are extracted in the first place. OCR quality is operationally tracked but not yet fully benchmarked with formal CER or WER across the active subset. Ontology coverage, while strong in the current dashboard snapshot, still depends on the scope of the existing ontology resources. For these reasons, the study does not claim a finalized gold-standard benchmark. Instead, it claims an auditable and extensible reference-construction process suitable for iterative thesis research.
 
-## 3.7 Chapter Summary
+## 3.7 Threats to Validity and Reproducibility Boundaries
+
+Internal validity is limited by the evolving nature of the research workspace. Prompt refinement, model comparison, ontology expansion, and review-oriented diagnostics were developed iteratively in the same repository. This improves engineering transparency, but it also means the thesis should not be read as a fully frozen benchmark in which development and evaluation were perfectly isolated from the beginning.
+
+Construct validity is limited by the fact that disclosure tone, sentiment polarity, climate-topic labels, and greenwashing-oriented ratios are related but non-identical constructs. The thesis mitigates this by keeping those layers separate analytically, but it cannot eliminate the underlying conceptual overlap entirely. ClimateBERT-style commitment outputs are therefore treated as an external semantic comparison signal rather than as definitive reference truth for tone.
+
+External validity is limited by domain concentration. The active evidence layer is drawn from Indonesian sustainability and annual reports, often with bilingual or mixed-language phrasing and sector-specific reporting conventions. The findings therefore support claims about this setting more strongly than claims about other regulatory, linguistic, or sectoral environments.
+
+Reproducibility is strong at the level of stored artifacts, prompts, logs, and resumable outputs, but weaker at the level of exact semantic reruns for third-party LLMs. Model availability, provider-side updates, and stochastic generation behavior can alter future outputs even when the repository preserves prompt files and artifact paths. For that reason, the thesis claims reproducible workflow structure and reproducible evidence storage more confidently than perfectly identical future outputs.
+
+## 3.8 Chapter Summary
 
 ![Summary diagram of the chapter's end-to-end methodological contribution](03_07_summary)
 
@@ -252,4 +270,4 @@ The current reference layer nevertheless has important limitations. Weak labels 
 
 This chapter has described an executable methodology for Indonesian ESG disclosure analysis. The workflow begins with PDF reports, expands them into OCR-based page artifacts, transforms those artifacts into structured ESG records through comparative LLM prompting, enriches the records through rule-based, classical ML, and hybrid contextual representations, aligns them to ontology paths and ClimateBERT-style comparison labels, and preserves the full process in reproducible result stores and dashboard artifacts.
 
-Methodologically, the contribution of this design is not only that it automates extraction, but that it does so in a way that remains auditable, modular, bilingual-aware, and compatible with partial ground truth. The next chapter can therefore focus on implementation and results using a clearly defined data flow, model structure, and evaluation reference layer grounded in the code and artifacts of the repository.
+Methodologically, the contribution of this design is not only that it automates extraction, but that it does so in a way that remains auditable, modular, bilingual-aware, and compatible with partial reference data. The next chapter can therefore focus on implementation and results using a clearly defined data flow, model structure, and evaluation reference layer grounded in the code and artifacts of the repository.

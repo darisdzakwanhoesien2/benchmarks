@@ -12,6 +12,12 @@ The strongest overall implementation configuration in the thesis-facing subset i
 
 The most important technical insight from Chapter 4 is therefore not that a specific model “won,” but that the decisive factor is the interaction between prompt design and model behavior. The thesis methodology assumed that prompt sensitivity and structured-output fragility would be major determinants of quality. The Chapter 4 results confirm that assumption. They also show that ontology coverage is comparatively robust, while tone assignment remains the most fragile part of the system. This partly confirms and partly sharpens Chapter 3. Chapter 3 anticipated modular weakness; Chapter 4 demonstrates that the main bottleneck is concentrated in tone stability rather than in OCR completion or ontology mapping alone.
 
+Figure 5.1 should be inserted near the end of this subsection because the discussion repeatedly returns to the commitment-heavy profile of the evidence layer.
+
+![Tone distribution across extracted records](results/visualizations/tone_distribution.png)
+
+*Figure 5.1: Tone distribution in the active thesis-facing subset. Reused here because the discussion interprets commitment dominance as a substantive disclosure pattern rather than only as a Chapter 4 descriptive count.*
+
 ### 5.1.2 Deeper Patterns and Research Question Mapping
 
 The deeper pattern behind the results is that different components of the system rely on different kinds of information. The OCR layer depends on document completeness and page-level traceability. The extraction layer depends on prompt framing, model obedience, and output schema stability. The comparison layer depends on construct overlap between tone and climate-topic signals. The ontology layer depends on semantic coverage of ESG vocabulary. These components do not fail for the same reason, and that is why the modular design matters.
@@ -24,7 +30,11 @@ The following matrix summarizes how the main research questions map to evidence.
 
 *Table: Research-question evidence summary*
 
-All four research questions are therefore answered in the current thesis scope, although not all answers are equally mature. RQ1 and RQ5-style reproducibility evidence are strongest operationally. RQ2 and RQ3 are strong but still depend on pilot-level validation rather than full gold-standard benchmarking. RQ4 is strong as a diagnostic contribution because the repository preserves and surfaces failure cases rather than hiding them.
+All four research questions are therefore answered in the current thesis scope, although not all answers are equally mature. RQ1 and RQ4 are strongest at operational and diagnostic level because the repository preserves provenance, artifacts, and visible failure cases rather than hiding them. RQ2 and RQ3 are also supported, but they still depend on pilot-level validation and proxy comparison rather than full gold-standard benchmarking.
+
+The research-question evidence summary table should be made explicit rather than left as a placeholder.
+
+*Table 5.1: Research-question evidence summary. Recommended columns: research question, main Chapter 4 evidence, strongest supporting figure or table, current confidence level, and remaining limitation.*
 
 ## 5.2 Research Question Resolution
 
@@ -36,11 +46,17 @@ RQ2 asks whether the system can represent ESG disclosure beyond coarse topic det
 
 ### 5.2.2 Resolution of RQ3 and RQ4
 
-RQ3 asks how the tone-aware pipeline compares with ClimateBERT-style climate classification. The answer is that the two are strongly related but not interchangeable. The agreement table shows 83.7% percent agreement and Cohen’s kappa of 0.645 between tone commitment and climate-commitment labels across 332 records. This is significant because it validates the relevance of the tone taxonomy while also preserving its distinctiveness. In practical terms, ClimateBERT-style labels can tell us that a disclosure is climate-related, but tone labels can additionally tell us whether the disclosure reports a promise, an action, or a realized outcome.
+RQ3 asks how the tone-aware pipeline compares with ClimateBERT-style climate classification. The answer is that the two are strongly related but not interchangeable. The agreement table shows 83.7% percent agreement and Cohen’s kappa of 0.645 between tone commitment and climate-commitment labels across 332 records. This is a strong descriptive result because it validates the relevance of the tone taxonomy while also preserving its distinctiveness. In practical terms, ClimateBERT-style labels can tell us that a disclosure is climate-related, but tone labels can additionally tell us whether the disclosure reports a promise, an action, or a realized outcome.
+
+Figure 5.2 should be inserted here because it visualizes the construct-overlap argument more directly than prose alone.
+
+![Tone by ClimateBERT label](results/visualizations/climatebert_label_by_tone.png)
+
+*Figure 5.2: Relationship between LLM tone labels and ClimateBERT-style labels. Reused here because the discussion interprets this cross-distribution as evidence of partial construct overlap rather than full label equivalence.*
 
 RQ4 asks what weaknesses remain in the current evaluation and extraction strategy. The answer is that the major weaknesses are concentrated in tone omission, schema drift, and ambiguity-rich text. The strongest evidence is the 61 missing-tone cases, the 19 schema-drift cases in missing predictions, the hedged-or-modal-language failures, and the sensitivity of results to prompt and model choice. The proposed evaluation strategy is sufficient to reveal these weaknesses because it combines OCR completion, parse success, stability summaries, disagreement tables, ontology coverage, and review-oriented pilot files. However, it is not yet sufficient to claim final benchmark superiority because the gold-standard annotation layer remains limited. Taken together, the four RQs show that the thesis objective has been achieved at the level of an executable, interpretable, and diagnostically rich ESG disclosure-analysis framework.
 
-## 5.3 3 Limitations
+## 5.3 Limitations and Threats to Validity
 
 The first major limitation is the reference-data limitation. The thesis does not yet rely on a complete expert-labeled benchmark. Instead, it uses a layered reference system built from extracted records, ClimateBERT-style comparison labels, heuristic suggestions, and pilot human annotation files. This is sufficient for exploratory evaluation and disagreement analysis, but it limits the strength of claims about absolute model performance.
 
@@ -52,11 +68,17 @@ The fourth limitation is the existence of technical failure cases that affect in
 
 The fifth limitation is that the greenwashing index remains heuristic. Company-level ratios such as 73.0 for BEST-SR_2024 or 4.778 for vktr_ar_sr_2024 are analytically interesting, but they are not yet validated against external ESG ratings, enforcement cases, or human expert judgment. For that reason, the index should currently be interpreted as a screening or discussion aid, not as a final adjudication tool.
 
-## 5.4 4 Future Work
+Two figures fit well in this limitations section because they help the reader see where the evidence is uneven rather than only being told so.
+
+*Figure 5.3: Greenwashing-gap scatter plot generated from `greenwashing_index_by_company.csv`. This figure should show the relationship between commitment count, outcome count, and company-level screening ratios, while keeping the text explicit that the score remains heuristic.*
+
+*Figure 5.4: Cross-document discrepancy matrix or sectoral ABSA heatmap generated from the Chapter 4 visualizer. This figure should support the claim that results may vary by report type, sector, and disclosure mix, strengthening the external-validity discussion.*
+
+## 5.4 Future Work
 
 ### 5.4.1 Immediate Technical Extensions
 
-The most immediate improvement is to expand and formalize the human annotation layer. The current pilot annotation files should be extended into a stratified gold-standard benchmark with inter-annotator agreement, especially for commitment versus action boundary cases, governance-heavy disclosures, and records currently marked needs_review. This directly addresses the weakest part of the evaluation design.
+The most immediate improvement is to expand and formalize the human annotation layer. The current pilot annotation files should be extended into a stratified expert-reviewed benchmark with inter-annotator agreement, especially for commitment versus action boundary cases, governance-heavy disclosures, and records currently marked needs_review. This directly addresses the weakest part of the evaluation design.
 
 The second immediate improvement is to strengthen tone-specific prompt engineering and schema enforcement. The results already show that tone-specific chain-of-thought prompts outperform generic extraction prompts. The next step is to convert this finding into a more systematic prompt protocol, including stricter output validation, field-level confidence checks, and targeted rerun logic for missing-tone outputs.
 
@@ -78,7 +100,7 @@ A fourth direction is graph and knowledge-integration research. The ontology and
 
 Taken together, these future directions form a coherent roadmap: first stabilize annotation and benchmarking, then improve model robustness and OCR quality, then extend across domains and deployment contexts, and finally integrate the workflow into broader evidence-centric research infrastructure.
 
-## 5.5 5 Broader Impact
+## 5.5 Broader Impact
 
 ### 5.5.1 Practical and Societal Benefits
 
@@ -97,3 +119,7 @@ Bias and fairness concerns also remain. The current active evidence layer overre
 Privacy concerns are relatively limited because the corpus is based on public corporate reports, but responsible deployment still requires care around data handling, caching, provenance logs, and model outputs. Misuse is more likely to arise through misinterpretation than through private-data exposure. For example, a high greenwashing index should not be treated as proof of misconduct without human review and external corroboration.
 
 The appropriate safeguards are therefore clear: maintain source-page traceability, preserve uncertainty and failure flags, require human review for sensitive cases, expand annotation before high-stakes deployment, and avoid using the system as a sole basis for regulatory or investment judgment. In sustainability terms, the work is aligned with broader responsible-governance goals because it encourages more transparent, evidence-based reading of ESG claims. The balanced conclusion is that this is useful technology for ESG evidence organization and interpretation, but its value depends on disciplined, review-oriented, and context-aware use.
+
+Figure 5.5 is optional but useful for the broader-impact section if the thesis wants one visually memorable deployment-oriented chart.
+
+*Figure 5.5: Reliability-adjusted screening waterfall or qualitative case-study table for one representative company. This figure should be used only if the surrounding text makes clear that the resulting score is illustrative and not a finalized evaluative instrument.*

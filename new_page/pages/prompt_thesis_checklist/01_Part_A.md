@@ -1,5 +1,18 @@
 Part A: Thesis-Wide Consistency and Contradiction Audit
 
+Before auditing, identify the actual thesis chapter set from the supplied files and use that structure rather than assuming a generic template.
+
+For the current report, pay special attention to consistency across:
+
+- `introduction.md`
+- `relatedwork.md`
+- `implementation.md`
+- `experiments.md`
+- `discussion.md`
+- `summary.md`
+
+Treat `abstract.md`, `tiivistelma.md`, and `appendices.md` as potentially incomplete placeholders unless the supplied text proves otherwise.
+
 Review the complete thesis for contradictions and inconsistencies involving:
 
 thesis title and actual scope;
@@ -52,3 +65,11 @@ language subsets;
 document-processing stages.
 
 Do not classify values as contradictory before considering these possibilities.
+
+Additional thesis-specific contradiction checks:
+
+- whether the thesis declares four research questions in the introduction but later refers to more than four;
+- whether Chapter 1 promises ablation studies, train/test style evaluation, or benchmark-style validation that Chapter 4 does not actually deliver;
+- whether "active subset", "full corpus", "OCR-processed corpus", "pilot annotation subset", and "dashboard snapshot" are kept distinct;
+- whether tone, sentiment, ClimateBERT-style commitment, and greenwashing-score constructs are kept distinct;
+- whether placeholder sections create downstream inconsistency between abstract, conclusion, and chapter claims.
