@@ -254,11 +254,28 @@ def save_failure_pie(df: pd.DataFrame, path: Path) -> None:
     plot = df.copy()
     plot["count"] = pd.to_numeric(plot.get("count"), errors="coerce").fillna(0)
     grouped = plot.groupby("mode", as_index=False)["count"].sum().sort_values("count", ascending=False)
-    fig, ax = plt.subplots(figsize=(7.5, 7.5))
-    ax.pie(grouped["count"], labels=grouped["mode"], autopct="%1.1f%%", startangle=90, counterclock=False)
+    fig, ax = plt.subplots(figsize=(9, 7))
+    wedges, _, _ = ax.pie(
+        grouped["count"],
+        labels=None,
+        autopct=lambda pct: f"{pct:.1f}%" if pct >= 3 else "",
+        startangle=90,
+        counterclock=False,
+        pctdistance=0.68,
+        wedgeprops={"linewidth": 1, "edgecolor": "white"},
+        textprops={"fontsize": 10},
+    )
     ax.set_title("Failure-Mode Composition", fontsize=14, pad=12)
+    ax.legend(
+        wedges,
+        grouped["mode"],
+        title="Failure mode",
+        loc="center left",
+        bbox_to_anchor=(1.0, 0.5),
+        frameon=False,
+    )
     fig.tight_layout()
-    fig.savefig(path, dpi=180)
+    fig.savefig(path, dpi=180, bbox_inches="tight")
     plt.close(fig)
 
 
