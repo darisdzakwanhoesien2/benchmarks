@@ -270,8 +270,8 @@ def save_failure_pie(df: pd.DataFrame, path: Path) -> None:
         wedges,
         grouped["mode"],
         title="Failure mode",
-        loc="center left",
-        bbox_to_anchor=(1.0, 0.5),
+        loc="upper left",
+        bbox_to_anchor=(1.0, 1.0),
         frameon=False,
     )
     fig.tight_layout()
