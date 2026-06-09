@@ -70,9 +70,13 @@ The fifth limitation is that the greenwashing index remains heuristic. Company-l
 
 Two figures fit well in this limitations section because they help the reader see where the evidence is uneven rather than only being told so.
 
-*Figure 5.3: Greenwashing-gap scatter plot generated from `greenwashing_index_by_company.csv`. This figure should show the relationship between commitment count, outcome count, and company-level screening ratios, while keeping the text explicit that the score remains heuristic.*
+![Greenwashing-gap scatter plot](results/visualizations/greenwashing_gap_scatter.png)
 
-*Figure 5.4: Cross-document discrepancy matrix or sectoral ABSA heatmap generated from the Chapter 4 visualizer. This figure should support the claim that results may vary by report type, sector, and disclosure mix, strengthening the external-validity discussion.*
+*Figure 5.3: Commitment-outcome gap by company. This figure visualizes the relationship between commitment count, outcome count, and the company-level screening ratio, while the surrounding text keeps clear that the score remains heuristic.*
+
+![Commitment-outcome ratio chart](results/visualizations/commitment_outcome_ratio.png)
+
+*Figure 5.4: Tone-share ratio chart for the active extracted-record layer. This figure supports the discussion claim that commitment-heavy evidence remains much more common than outcome-heavy evidence in the current subset.*
 
 ## 5.4 Future Work
 
@@ -120,6 +124,4 @@ Privacy concerns are relatively limited because the corpus is based on public co
 
 The appropriate safeguards are therefore clear: maintain source-page traceability, preserve uncertainty and failure flags, require human review for sensitive cases, expand annotation before high-stakes deployment, and avoid using the system as a sole basis for regulatory or investment judgment. In sustainability terms, the work is aligned with broader responsible-governance goals because it encourages more transparent, evidence-based reading of ESG claims. The balanced conclusion is that this is useful technology for ESG evidence organization and interpretation, but its value depends on disciplined, review-oriented, and context-aware use.
 
-Figure 5.5 is optional but useful for the broader-impact section if the thesis wants one visually memorable deployment-oriented chart.
-
-*Figure 5.5: Reliability-adjusted screening waterfall or qualitative case-study table for one representative company. This figure should be used only if the surrounding text makes clear that the resulting score is illustrative and not a finalized evaluative instrument.*
+Figure 5.5 can still be added later as an optional deployment-oriented chart if you export a reliability-adjusted waterfall or a qualitative case-study figure for one representative company. If used, the surrounding text must make clear that the output is illustrative and not a finalized evaluative instrument.

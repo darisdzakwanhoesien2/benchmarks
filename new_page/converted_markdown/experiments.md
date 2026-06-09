@@ -62,9 +62,11 @@ Taken together, these metrics provide a more complete evaluation frame. OCR metr
 
 ## 4.3 Experimental Results
 
-### 4.3.1 RQ1 and RQ2: PDF-to-Structured ESG Evidence and Tone-Aware Schema
+### 4.3.1 RQ1: ESG ABSA Schema
 
-The first result is that the ingestion and extraction pipeline is operational at meaningful corpus scale. The OCR processing summary lists 23 processed documents, all marked as done, covering approximately 5,512 pages. The largest processed reports include Bank Neo Commerce Annual and Sustainable Report Tahun 2024.pdf with 694 pages, vktr_ar_sr_2024.pdf with 548 pages, and alfamart_sustainability_2025.pdf with 510 pages. This demonstrates that the pipeline is not restricted to short pilot inputs and can process large real-world corporate reports.
+RQ1 asks how ESG disclosures can be represented effectively through a record-level schema that integrates aspect, ESG pillar, sentiment, and tone. The Chapter 4 results show that the proposed schema is operational and expressive enough to support that goal in the current thesis-facing subset.
+
+The first result relevant to RQ1 is that the ingestion and extraction pipeline is operational at meaningful corpus scale. The OCR processing summary lists 23 processed documents, all marked as done, covering approximately 5,512 pages. The largest processed reports include Bank Neo Commerce Annual and Sustainable Report Tahun 2024.pdf with 694 pages, vktr_ar_sr_2024.pdf with 548 pages, and alfamart_sustainability_2025.pdf with 510 pages. This demonstrates that the schema is not being tested only on short pilot inputs, but on long, structurally varied corporate reports.
 
 The second result is that the extraction layer produces a usable structured evidence set. The thesis dashboard report records 332 tone-bearing ESG records and 2,074 T2 rows. Among the 332 extracted records, the most common tone is commitment with 115 records, and the most common ESG pillar is environmental with 179 records. Governance contributes 121 records, while the social pillar appears only 4 times in the summary used by the thesis planning notes. This indicates that the schema is already expressive enough to separate tone from polarity and from ESG pillar, but it also reveals imbalance in the active sample.
 
@@ -92,11 +94,13 @@ Figure 4.3 should be inserted after Table 4.1 because it complements the aggrega
 
 *Figure 4.3: Aspect-by-tone heatmap for the active extracted-record layer. This figure supports RQ2 by showing which aspects are concentrated in commitment, action, or outcome language rather than only reporting overall counts.*
 
-Overall, RQ1 and RQ2 show that the repository can reliably transform PDFs into structured ESG artifacts and that the tone-aware schema is operational. However, they also show that extraction quality depends heavily on prompt design and that formal evaluation must go beyond raw parse success.
+The ontology layer strengthens the schema interpretation further. The current ontology table shows 52 aspects tracked and 52 mapped to ontology paths. This does not prove perfect semantic correctness, but it shows that the record-level schema is not only syntactically structured; it is also semantically linkable to a broader ESG concept layer. In practical terms, the schema supports page-linked extraction, multi-field labeling, and ontology-aligned interpretation in a single evidence structure.
 
-### 4.3.2 RQ3 and RQ4: ClimateBERT Comparison, Diagnostics, and Failure Modes
+Overall, RQ1 is answered positively within the current thesis scope. ESG disclosures can be represented through a record-level schema that integrates aspect, ESG pillar, sentiment, and tone, and that schema remains usable at realistic report scale. The main qualification is that class balance is uneven and tone completion remains more fragile than aspect or ontology coverage.
 
-The most important quantitative comparison result is the alignment between disclosure tone and ClimateBERT-style commitment labels. Table 4.2 summarizes the main agreement result.
+### 4.3.2 RQ2: Tone vs. Climate-Specific Models
+
+RQ2 asks how LLM-generated tone labels compare with specialized outputs from models like ClimateBERT, and what that comparison reveals about the validity of automated ESG assessment. The most important quantitative result for this question is the alignment between disclosure tone and ClimateBERT-style commitment labels. Table 4.2 summarizes the main agreement result.
 
 *Table 4.2: Tone-commitment versus ClimateBERT-style commitment comparison. Recommended columns: compared labels, number of records, percent agreement, Cohen's kappa, denominator note, and interpretation boundary.*
 
@@ -112,23 +116,41 @@ The saved tone-by-ClimateBERT crosstab provides a more detailed view:
 
 Although the label space is broader than a single climate-commitment binary, the table shows that commitment records cluster differently from action and outcome records. In the thesis planning notes, commitment is most strongly associated with climate-commitment, climate-d, and environmental-claims, while action and outcome disperse more across governance and other label families. This pattern supports the idea that commitment language dominates environmental claim-making even when a record does not yet describe measurable outcome.
 
-RQ4 shifts from success to weakness detection. The failure-mode count table is shown below.
+The comparison therefore supports a qualified validity claim. Tone labels and ClimateBERT-style labels are strongly related at commitment level, which suggests that the tone taxonomy is not arbitrary. At the same time, the two systems answer different analytical questions. ClimateBERT-style outputs focus on climate-topic or climate-commitment relevance, whereas the tone schema asks whether a disclosure is a promise, an action, or an achieved outcome. The result is therefore best interpreted as partial construct alignment rather than label equivalence.
+
+Overall, RQ2 is answered positively but with a clear boundary. LLM-generated tone labels overlap meaningfully with specialized climate-oriented outputs, especially for commitment language, but they should not be treated as interchangeable with climate-topic classification. The comparison supports the validity of the tone taxonomy as an additional analytical layer rather than as a replacement for specialized climate models.
+
+### 4.3.3 RQ3: Pipeline Diagnostics
+
+RQ3 asks what specific failure modes characterize the automated extraction of ESG records, including OCR-related data loss, schema problems, and ontology gaps. This is the research question where the Chapter 4 evidence is most explicitly diagnostic rather than comparative.
+
+The failure-mode count table is shown below.
 
 *Table 4.3: Failure-mode count table. Recommended columns: failure mode, count, share of reviewed failures, likely cause, and representative example.*
 
 The dominant weakness is clear: 61 missing-tone cases. Beyond that, schema drift and hedged language are the next most important failure patterns. This means that the pipeline is more vulnerable to discursive ambiguity and formatting irregularity than to simple parser breakdown. The problem is therefore partly linguistic, not only technical.
 
-Two additional graphs should be inserted here because they directly support the failure-analysis argument already made in the text.
+Two additional graphs support the failure-analysis argument directly by separating absolute frequency from composition.
 
-*Figure 4.5: Failure-mode Pareto chart generated from `failure_mode_counts.csv`. This figure should show which small number of failure categories account for most observed extraction weakness.*
+![Failure-mode Pareto chart](results/visualizations/failure_mode_pareto.png)
 
-*Figure 4.6: Failure-mode distribution pie or sunburst generated from `failure_mode_counts.csv` or `failure_modes.csv`. This figure should show the relative composition of missing tone, schema drift, language ambiguity, OCR noise, and other recorded error families.*
+*Figure 4.5: Failure-mode Pareto chart. This figure shows which small number of failure categories account for most observed extraction weakness in the current thesis-facing subset.*
+
+![Failure-mode composition pie chart](results/visualizations/failure_mode_pie.png)
+
+*Figure 4.6: Failure-mode composition. This figure shows the relative share of missing tone, schema drift, language ambiguity, layout-related issues, and other recorded failure categories.*
 
 Ontology coverage provides a positive counterweight. The current ontology table shows 52 aspects tracked and 52 mapped to ontology paths. The highest-frequency mapped aspects are climate-detection with 79 records, governance with 66, missing with 60, and none with 23. Below these, domain-specific concepts such as roadmap karbon, pelatihan antikorupsi, komitmen net zero, and implementasi eco-mechanized mining are mapped to structured paths anchored to GRI-, governance-, or climate-oriented categories. This indicates that the ontology layer is currently stronger in coverage than the tone layer is in stability.
 
+The denominator audit reinforces the diagnostic reading of these results. Of 5,444 extracted units in the relevant coverage view, 591 are excluded from tone distribution and agreement because they represent missing-tone cases. This is not a trivial cleanup issue. It shows that the extraction pipeline can remain operational while still failing on the central tone field often enough to distort downstream interpretation if those cases are ignored.
+
 These findings reveal an important contradiction. The system is semantically organized enough to map diverse ESG aspects to ontology paths, yet it is still fragile when asked to consistently distinguish commitment, action, and outcome in noisy or governance-heavy contexts. That contradiction becomes one of the central interpretive findings of the chapter.
 
-### 4.3.3 Stability, Reproducibility, and Visualization Support
+Overall, RQ3 is answered directly by the diagnostic evidence. The most important failure modes are missing tone, schema drift, hedged or modal language, and layout- or terminology-related ambiguity. OCR processing is operational at document level, but the central downstream weakness remains tone stability rather than ontology coverage.
+
+### 4.3.4 RQ4: Stability and Reproducibility
+
+RQ4 asks to what extent ESG extraction outputs remain stable across varying prompts, LLM models, and service providers. This question is answered through prompt-level stability summaries, model-level summaries, stored workflow artifacts, and the reproducibility structure of the repository.
 
 The repository performs strongly on reproducibility as an engineering system. The saved thesis dashboard report indexes 1,220 result artifacts and 184 LLM background jobs. Five static figures are already exported for thesis reuse: tone_distribution.png, esg_by_tone.png, aspect_by_tone_heatmap.png, climatebert_label_by_tone.png, and climatebert_remote_top_scores.png. In addition, the Chapter 4 Streamlit pages render live views over the same result tables, allowing the written thesis chapter and the interactive dashboard to remain aligned.
 
@@ -140,29 +162,39 @@ The strongest stability results appear in the model- and prompt-level summaries.
 
 The most important comparison for the thesis-facing stable subset is between arcee-ai/trinity-large-preview:free and openai/gpt-oss-120b:free. Both achieved perfect parse success in the summarized slice, but gpt-oss-120b exhibited a 100% missing-tone rate and a 42.5% schema-drift rate in the corresponding prompt-model grouping. This is a strong warning against treating model size or brand reputation as a proxy for task suitability. In this workflow, schema obedience and tone completion matter more than raw generative capability.
 
-Figure 4.7 should accompany Table 4.4 because it makes the performance trade-off between parse success and useful extraction volume easier to read.
+Figure 4.7 complements Table 4.4 because it makes the trade-off between formal stability and usable extraction output easier to read.
 
-*Figure 4.7: Model trade-off scatter plot with parse success on the x-axis and average extracted records on the y-axis. This figure should be generated from `model_stability_summary.csv` and should visually separate models that are formally stable from those that are practically useful.*
+![Model trade-off scatter plot](results/visualizations/model_tradeoff_scatter.png)
+
+*Figure 4.7: Model trade-off scatter plot with parse success on the x-axis and average extracted records on the y-axis. This figure helps separate models that are formally stable from those that are practically useful.*
 
 Prompt-level stability shows a similar pattern. Chain-of-thought prompts, especially in English, produce the highest average records per run, while data.md produces formally parseable but functionally unusable tone outputs. Few-shot prompts appear inconsistent: the English few-shot prompt yields no average extracted records in the current summary, while the Indonesian few-shot prompt yields very low completion. This suggests that examples alone do not guarantee better extraction. In this repository, explicit tone framing and schema-constrained instruction style appear more important.
 
-Figure 4.8 should be inserted here because prompt-family trends are central to the argument that prompt design matters more than nominal prompting style labels.
+Figure 4.8 should be read together with the prompt-level results table because prompt-family trends are central to the argument that prompt design matters more than nominal prompting style labels.
 
-*Figure 4.8: Prompt-strategy comparison chart generated from `prompt_stability_summary.csv` or `prompt_stability_by_run.csv`. Recommended metrics: average records, parse success, and field completion across zero-shot, few-shot, chain-of-thought, and generic extraction prompts.*
+![Prompt-strategy comparison chart](results/visualizations/prompt_strategy_comparison.png)
+
+*Figure 4.8: Prompt-strategy comparison across average records, parse success, and field completion. The figure shows that chain-of-thought and tone-specific framing matter more than generic prompt validity alone.*
 
 These results reveal a practical trade-off. Some settings maximize extraction volume, while others maximize structural cleanliness. The best-performing configuration for this thesis is therefore not the one with the highest nominal complexity, but the one that balances parse success, tone completion, and manageable drift. This is exactly the type of engineering validity condition the chapter needs to report.
 
-### 4.3.4 Explainability Outputs
+Overall, RQ4 is answered with an important qualification. The workflow is reproducible and stable in an engineering sense because prompts, outputs, logs, and derived artifacts are stored persistently, and because the same evaluation views can be regenerated. However, semantic output stability is not uniform across prompts, models, or providers. Stability depends strongly on prompt design and schema-following behavior, so the thesis can claim reproducible workflow structure more confidently than universally stable model behavior.
+
+## 4.4 Explainability Outputs
 
 The explainability layer helps show why the pipeline behaves as it does. At implementation level, code/rule_based.py uses explicit lexical triggers for commitment, action, and outcome, while code/classical_ml.py provides TF-IDF coefficient tables and local explanations. The lexicon file contains signals such as berkomitmen, commitment, will, menargetkan, target, aim to, and dedicated to for commitment-oriented language, and telah, achieved, has been, and successfully for outcome-oriented language.
 
 The lexical trigger count summary confirms that these categories shape predictions in practice. Commitment triggers co-occurred 53 times with commitment predictions, compared with 30 action and 36 missing cases. Outcome triggers co-occurred 18 times with outcome predictions, but also 19 times with missing predictions and 17 times with commitment predictions. This helps explain why boundary cases remain difficult: many disclosure segments contain future-oriented and achieved language at the same time, especially in mixed narrative-reporting sections.
 
-Two optional figures fit especially well in this subsection because the visualizer already supports them and they extend the explainability argument without requiring new theory.
+Two additional figures fit especially well in this subsection because they extend the explainability argument without requiring a new evaluation protocol.
 
-*Figure 4.9: Information-density boxplot by tone. This figure should show whether commitment, action, and outcome records differ systematically in word count and therefore in extraction complexity.*
+![Information-density boxplot by tone](results/visualizations/information_density_by_tone.png)
 
-*Figure 4.10: Soft-language ratio chart by tone. This figure should show whether commitment records contain a higher ratio of soft or future-oriented verbs than action and outcome records, thereby giving a linguistic explanation for some tone-boundary failures.*
+*Figure 4.9: Information-density by tone. This figure shows whether commitment, action, outcome, and none records differ systematically in word count and therefore in extraction complexity.*
+
+![Soft-language ratio by tone](results/visualizations/soft_language_ratio_by_tone.png)
+
+*Figure 4.10: Soft-language ratio by tone. This figure shows whether commitment records contain a higher proportion of soft or future-oriented verbs than action and outcome records, thereby giving a linguistic explanation for some tone-boundary failures.*
 
 Ontology-path evidence is also interpretable. Environmental and climate-oriented examples include roadmap karbon, komitmen net zero, kerja sama energi bersih, and teknologi ramah lingkungan. Governance examples include pelatihan antikorupsi, kebijakan konflik kepentingan, and sertifikasi smap. These mappings show that the system can convert raw disclosure terms into structured thematic paths that are suitable for later chapter interpretation.
 
@@ -174,7 +206,7 @@ Representative records help illustrate the difference between commitment, action
 
 These examples show that the tone taxonomy is meaningful in practice. The main challenge is not whether the categories are interpretable, but whether the extraction layer can assign them consistently across different prompts, models, and disclosure styles.
 
-## 4.4 Validation of Reference Data and Pilot Reference Layer
+## 4.5 Validation of Reference Data and Pilot Reference Layer
 
 The current evaluation target is not a full expert-labeled benchmark. It is a layered reference system built from extracted records, ClimateBERT-style comparison labels, weak lexical suggestions, and pilot human annotation files. This reference layer therefore has to be evaluated in its own right.
 
@@ -186,7 +218,7 @@ The repository also preserves invalid or weak reference cases rather than silent
 
 Overall, the selected reference system is reliable enough for exploratory evaluation, disagreement analysis, and chapter-level empirical claims about patterns and failure modes. It is not yet reliable enough for definitive benchmark claims about absolute model superiority.
 
-## 4.5 Comparative Component Analysis
+## 4.6 Comparative Component Analysis
 
 The repository does not yet contain a full controlled ablation study in the strict machine-learning sense, where one component at a time is removed under a fixed benchmark and identical evaluation set. However, the existing results do support a comparative component analysis across prompts, models, and representational choices. This section therefore addresses the checklist requirement cautiously and explicitly.
 
@@ -200,15 +232,13 @@ The fourth finding concerns ontology integration. The ontology layer appears rob
 
 These component comparisons lead to a clear synthesis. The most important component of the implemented system is the prompt-and-schema design of the extraction layer, followed by the choice of model backend that can reliably honor that schema. Contextual and ontology-aware representations remain important for interpretability and future benchmarking, but the present evidence shows that extraction stability is the prerequisite for all later gains.
 
-This section would benefit from one final integrative figure:
+Figure 4.11 should be added as a final integrative visual if the Sankey export is generated from the visualizer, because it would summarize how the most frequent aspects distribute across commitment, action, and outcome in one compact view.
 
-*Figure 4.11: Aspect-to-tone Sankey or aspect-action-sentiment Sankey generated from the Chapter 4 visualizer. This figure should summarize how the most frequent aspects distribute across commitment, action, and outcome, and optionally into sentiment, providing a compact view of the full schema logic.*
-
-## 4.6 Chapter Synthesis
+## 4.7 Chapter Synthesis
 
 The main findings of Chapter 4 are fivefold.
 
-First, the pipeline successfully operationalizes PDF-to-structured ESG extraction over a nontrivial document set: 23 processed reports and roughly 5,512 OCR-covered pages. Second, the extraction layer produces a meaningful evidence store with 332 tone-bearing records and 2,074 T2 rows, confirming that the proposed schema is practically usable. Third, tone commitment aligns strongly with ClimateBERT-style commitment labels, with 83.7% agreement and Cohen’s kappa of 0.645, which supports the construct relevance of the tone taxonomy. Fourth, the major weakness of the system is not parser failure but tone instability, especially missing-tone cases and schema drift under certain prompt settings. Fifth, the most important determinant of usable output is the interaction between prompt design and model compliance, not simply model scale.
+First, the pipeline successfully operationalizes PDF-to-structured ESG extraction over a nontrivial document set: 23 processed reports and roughly 5,512 OCR-covered pages. Second, the extraction layer produces a meaningful evidence store with 332 tone-bearing records and 2,074 T2 rows, confirming that the proposed schema is practically usable. Third, tone commitment aligns strongly with ClimateBERT-style commitment labels, with 83.7% agreement and Cohen’s kappa of 0.645, which supports the construct relevance of the tone taxonomy without collapsing it into climate-topic classification. Fourth, the major weakness of the system is not parser failure but tone instability, especially missing-tone cases and schema drift under certain prompt settings. Fifth, the most important determinant of usable output is the interaction between prompt design and model compliance, not simply model scale.
 
 The best overall thesis-facing configuration in the current saved evidence is the one represented by arcee-ai/trinity-large-preview:free with tone-focused prompts, because it combines high parse success with low missing-tone and low schema-drift rates. The most important system component is the tone-aware extraction prompt design. The main trade-off is between broad extraction flexibility and schema reliability: settings that appear generically capable do not necessarily produce thesis-usable structured outputs.
 

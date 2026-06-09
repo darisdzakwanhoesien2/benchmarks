@@ -26,6 +26,8 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = ROOT / "results"
 OUT_DIR = RESULTS_DIR / "visualizations"
 DOC_PATH = ROOT / "docs" / "tone_climatebert_comparison.md"
+WORKFLOW_DIR = RESULTS_DIR / "thesis_workflow_dashboard"
+REVISION_DIR = RESULTS_DIR / "revision_analysis"
 
 
 def clean_label(value: object, default: str = "missing") -> str:
@@ -80,7 +82,17 @@ def load_esg_records() -> pd.DataFrame:
     df = pd.DataFrame(rows)
     if not df.empty:
         df["target_doc"] = df["target"].fillna("").str.replace(r"_pdf/batch_\d+$", "", regex=True)
+        df["text_len_words"] = df["text"].fillna("").map(lambda value: len(str(value).split()))
     return df
+
+
+def load_csv(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    try:
+        return pd.read_csv(path).fillna("")
+    except Exception:
+        return pd.DataFrame()
 
 
 def parse_climatebert_response(raw: object) -> list[dict[str, object]]:
@@ -208,6 +220,218 @@ def save_heatmap(table: pd.DataFrame, title: str, path: Path, figsize: tuple[flo
     plt.close(fig)
 
 
+def save_failure_pareto(df: pd.DataFrame, path: Path) -> None:
+    if df.empty:
+        return
+    plot = df.copy()
+    plot["count"] = pd.to_numeric(plot.get("count"), errors="coerce").fillna(0)
+    plot = plot.groupby("mode", as_index=False)["count"].sum().sort_values("count", ascending=False)
+    plot["cumulative_pct"] = plot["count"].cumsum() / plot["count"].sum()
+
+    fig, ax1 = plt.subplots(figsize=(10, 5.5))
+    ax1.bar(plot["mode"], plot["count"], color="#b45309")
+    ax1.set_ylabel("Failure count")
+    ax1.set_xlabel("Failure mode")
+    ax1.set_title("Failure-Mode Pareto Summary", fontsize=14, pad=12)
+    ax1.tick_params(axis="x", rotation=30)
+    ax1.grid(axis="y", alpha=0.25)
+
+    ax2 = ax1.twinx()
+    ax2.plot(plot["mode"], plot["cumulative_pct"], color="#1d4ed8", marker="o")
+    ax2.set_ylabel("Cumulative share")
+    ax2.set_ylim(0, 1.05)
+    ax2.axhline(0.8, color="#dc2626", linestyle="--", linewidth=1)
+    ax2.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, _: f"{value:.0%}"))
+
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
+def save_failure_pie(df: pd.DataFrame, path: Path) -> None:
+    if df.empty:
+        return
+    plot = df.copy()
+    plot["count"] = pd.to_numeric(plot.get("count"), errors="coerce").fillna(0)
+    grouped = plot.groupby("mode", as_index=False)["count"].sum().sort_values("count", ascending=False)
+    fig, ax = plt.subplots(figsize=(7.5, 7.5))
+    ax.pie(grouped["count"], labels=grouped["mode"], autopct="%1.1f%%", startangle=90, counterclock=False)
+    ax.set_title("Failure-Mode Composition", fontsize=14, pad=12)
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
+def save_model_tradeoff(df: pd.DataFrame, path: Path) -> None:
+    if df.empty:
+        return
+    plot = df.copy()
+    for col in ["json_parse_success_rate", "avg_records", "runs"]:
+        plot[col] = pd.to_numeric(plot.get(col), errors="coerce").fillna(0)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    scatter = ax.scatter(
+        plot["json_parse_success_rate"],
+        plot["avg_records"],
+        s=40 + plot["runs"] * 2,
+        c=plot["runs"],
+        cmap="viridis",
+        alpha=0.85,
+        edgecolors="black",
+        linewidths=0.4,
+    )
+    for _, row in plot.iterrows():
+        ax.annotate(str(row["model"]), (row["json_parse_success_rate"], row["avg_records"]), xytext=(6, 4), textcoords="offset points", fontsize=9)
+    ax.set_xlabel("Parse success rate")
+    ax.set_ylabel("Average records per run")
+    ax.set_title("Model Trade-off: Parse Success vs Extraction Yield", fontsize=14, pad=12)
+    ax.set_xlim(-0.02, 1.02)
+    ax.grid(alpha=0.25)
+    cbar = fig.colorbar(scatter, ax=ax)
+    cbar.set_label("Runs")
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
+def save_prompt_strategy(df: pd.DataFrame, path: Path) -> None:
+    if df.empty:
+        return
+    plot = df.copy()
+    plot["avg_records"] = pd.to_numeric(plot.get("avg_records"), errors="coerce").fillna(0)
+    plot["json_parse_success_rate"] = pd.to_numeric(plot.get("json_parse_success_rate"), errors="coerce").fillna(0)
+    plot["field_completion_rate"] = pd.to_numeric(plot.get("field_completion_rate"), errors="coerce").fillna(0)
+
+    metrics = [
+        ("avg_records", "Average records", "#0f766e"),
+        ("json_parse_success_rate", "Parse success", "#395b91"),
+        ("field_completion_rate", "Field completion", "#b45309"),
+    ]
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.4))
+    for ax, (col, title, color) in zip(axes, metrics):
+        ordered = plot.sort_values(col, ascending=False)
+        ax.bar(ordered["prompt"], ordered[col], color=color)
+        ax.set_title(title, fontsize=12)
+        ax.tick_params(axis="x", rotation=35, labelsize=8)
+        ax.grid(axis="y", alpha=0.25)
+        if col != "avg_records":
+            ax.set_ylim(0, 1.05)
+    fig.suptitle("Prompt Strategy Comparison", fontsize=14, y=1.02)
+    fig.tight_layout()
+    fig.savefig(path, dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+SOFT_VERBS = {
+    "aim", "aimed", "commit", "committed", "consider", "continue", "continued",
+    "explore", "exploring", "intend", "intends", "plan", "planned", "planning",
+    "seek", "seeks", "support", "supports", "will", "target", "targets",
+    "berkomitmen", "komitmen", "mendukung", "akan", "rencana", "menjajaki", "eksplorasi",
+}
+CONCRETE_VERBS = {
+    "achieved", "built", "completed", "decreased", "implemented", "installed",
+    "measured", "reduced", "reported", "retained", "signed", "tested", "trained",
+    "adopted", "menurunkan", "menerapkan", "mengurangi", "menandatangani",
+    "membangun", "melakukan", "mencapai", "mengadopsi", "uji",
+}
+
+
+def vagueness_score(text: str) -> float:
+    tokens = [token.strip(".,;:!?()[]{}\"'").lower() for token in str(text).split()]
+    tokens = [token for token in tokens if token]
+    soft = sum(1 for token in tokens if token in SOFT_VERBS)
+    concrete = sum(1 for token in tokens if token in CONCRETE_VERBS)
+    total = soft + concrete
+    return 0.5 if total == 0 else soft / total
+
+
+def save_information_density(df: pd.DataFrame, path: Path) -> None:
+    if df.empty:
+        return
+    plot = df[df["tone"].isin(["commitment", "action", "outcome", "none"])].copy()
+    if plot.empty:
+        return
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    sns.boxplot(data=plot, x="tone", y="text_len_words", order=["commitment", "action", "outcome", "none"], ax=ax, palette="Set2")
+    ax.set_title("Information Density by Tone", fontsize=14, pad=12)
+    ax.set_xlabel("Tone")
+    ax.set_ylabel("Words per record")
+    ax.grid(axis="y", alpha=0.25)
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
+def save_soft_language_ratio(df: pd.DataFrame, path: Path) -> None:
+    if df.empty:
+        return
+    plot = df[df["tone"].isin(["commitment", "action", "outcome"])].copy()
+    if plot.empty:
+        return
+    plot["vagueness_score"] = plot["text"].map(vagueness_score)
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    sns.boxplot(data=plot, x="tone", y="vagueness_score", order=["commitment", "action", "outcome"], ax=ax, palette="YlOrBr")
+    ax.set_title("Soft-Language Ratio by Tone", fontsize=14, pad=12)
+    ax.set_xlabel("Tone")
+    ax.set_ylabel("Soft / (Soft + Concrete) verb ratio")
+    ax.set_ylim(0, 1)
+    ax.grid(axis="y", alpha=0.25)
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
+def save_greenwashing_gap(df: pd.DataFrame, path: Path) -> None:
+    if df.empty:
+        return
+    plot = df.copy()
+    for col in ["commitment", "outcome", "records", "greenwashing_index"]:
+        plot[col] = pd.to_numeric(plot.get(col), errors="coerce").fillna(0)
+    fig, ax = plt.subplots(figsize=(9.5, 6))
+    scatter = ax.scatter(
+        plot["outcome"],
+        plot["commitment"],
+        s=50 + plot["records"] * 4,
+        c=plot["greenwashing_index"],
+        cmap="OrRd",
+        alpha=0.8,
+        edgecolors="black",
+        linewidths=0.4,
+    )
+    for _, row in plot.head(10).iterrows():
+        ax.annotate(str(row["company"]), (row["outcome"], row["commitment"]), xytext=(5, 4), textcoords="offset points", fontsize=8)
+    limit = max(float(plot["outcome"].max()), float(plot["commitment"].max()), 1.0)
+    ax.plot([0, limit], [0, limit], linestyle="--", color="#64748b", linewidth=1)
+    ax.set_xlabel("Outcome count")
+    ax.set_ylabel("Commitment count")
+    ax.set_title("Commitment-Outcome Gap by Company", fontsize=14, pad=12)
+    ax.grid(alpha=0.25)
+    cbar = fig.colorbar(scatter, ax=ax)
+    cbar.set_label("Greenwashing index")
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
+def save_commitment_outcome_ratio(df: pd.DataFrame, path: Path) -> None:
+    if df.empty:
+        return
+    counts = df["tone"].value_counts().rename_axis("tone").reset_index(name="records")
+    counts["share"] = counts["records"] / counts["records"].sum()
+    order = ["commitment", "action", "outcome", "none", "missing", "unknown"]
+    counts["tone"] = pd.Categorical(counts["tone"], categories=order, ordered=True)
+    counts = counts.sort_values("tone")
+    fig, ax = plt.subplots(figsize=(8.5, 4.8))
+    ax.bar(counts["tone"].astype(str), counts["share"], color="#0f766e")
+    ax.set_title("Tone Share Across Extracted Records", fontsize=14, pad=12)
+    ax.set_xlabel("Tone")
+    ax.set_ylabel("Share of records")
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, _: f"{value:.0%}"))
+    ax.grid(axis="y", alpha=0.25)
+    fig.tight_layout()
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+
+
 def climatebert_label_family(label: str) -> str:
     text = clean_label(label, "missing")
     if text.startswith("climate-"):
@@ -264,6 +488,14 @@ def write_doc(
         "results/visualizations/climatebert_label_by_tone.png",
         "results/visualizations/aspect_by_tone_heatmap.png",
         "results/visualizations/climatebert_remote_top_scores.png",
+        "results/visualizations/failure_mode_pareto.png",
+        "results/visualizations/failure_mode_pie.png",
+        "results/visualizations/model_tradeoff_scatter.png",
+        "results/visualizations/prompt_strategy_comparison.png",
+        "results/visualizations/information_density_by_tone.png",
+        "results/visualizations/soft_language_ratio_by_tone.png",
+        "results/visualizations/greenwashing_gap_scatter.png",
+        "results/visualizations/commitment_outcome_ratio.png",
     ]
 
     lines = [
@@ -392,6 +624,25 @@ def main() -> None:
         OUT_DIR / "aspect_by_tone_heatmap.png",
         figsize=(9.5, 7),
     )
+
+    failure_counts = load_csv(WORKFLOW_DIR / "failure_mode_counts.csv")
+    if failure_counts.empty:
+        failure_counts = load_csv(REVISION_DIR / "failure_mode_counts.csv")
+    save_failure_pareto(failure_counts, OUT_DIR / "failure_mode_pareto.png")
+    save_failure_pie(failure_counts, OUT_DIR / "failure_mode_pie.png")
+
+    model_stability = load_csv(WORKFLOW_DIR / "model_stability_summary.csv")
+    save_model_tradeoff(model_stability, OUT_DIR / "model_tradeoff_scatter.png")
+
+    prompt_stability = load_csv(WORKFLOW_DIR / "prompt_stability_summary.csv")
+    save_prompt_strategy(prompt_stability, OUT_DIR / "prompt_strategy_comparison.png")
+
+    save_information_density(df, OUT_DIR / "information_density_by_tone.png")
+    save_soft_language_ratio(df, OUT_DIR / "soft_language_ratio_by_tone.png")
+
+    greenwashing = load_csv(WORKFLOW_DIR / "greenwashing_index_by_company.csv")
+    save_greenwashing_gap(greenwashing, OUT_DIR / "greenwashing_gap_scatter.png")
+    save_commitment_outcome_ratio(df, OUT_DIR / "commitment_outcome_ratio.png")
 
     climate_top = pd.DataFrame()
     if not cb_df.empty and cb_df["score"].notna().any():
