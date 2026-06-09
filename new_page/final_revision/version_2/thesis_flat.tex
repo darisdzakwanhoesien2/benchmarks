@@ -167,6 +167,13 @@ The study is guided by the following research questions:
 
 \textbf{RQ4. Stability and Reproducibility:} To what extent do ESG extraction outputs remain stable across varying prompts, LLM models, and service providers?
 \end{itemize}
+
+\section{Revision Focus}
+
+This revised manuscript addresses four issues that are critical to the thesis contribution. First, the methodology now states more explicitly that quantitative ESG evidence cannot be limited to narrative text alone, and therefore requires a dedicated table-preservation path during ingestion and preprocessing. Second, the evaluation framing is tightened to acknowledge that Indonesian-language performance cannot be inferred from multilingual models alone, which motivates an Indonesian-specific baseline in the experimental design. Third, the results chapter is positioned around completed evidence only, with unsupported placeholders and unfinished presentation elements removed from the main argument. Fourth, the discussion narrows the theoretical claim of the tone layer: it is presented as a record-level disclosure-stage distinction that complements, rather than replaces, existing disclosure-quality and sustainability-intention frameworks.
+
+These revisions do not change the overall objective of the thesis. They clarify its evidential boundaries, strengthen the methodological justification for the Indonesian ESG context, and align the written claims more closely with what the current executable pipeline can substantiate.
+
 \section{Objectives and Contributions}
 \subsection{Research Objectives:}
 \begin{itemize}
@@ -174,9 +181,9 @@ The study is guided by the following research questions:
 
 \textbf{O1: To Build a Reproducible OCR-to-ESG Extraction Pipeline:} Develop a system that converts raw PDF reports into usable text while preserving page-level provenance for auditability.\item 
 
-\textbf{O2: To Design a Record-Level ESG ABSA Schema:} Establish a technical framework for classifying extracted statements based on granular ESG pillars and sentiment dimensions.\item 
+\textbf{O2: To Design a Record-Level ESG ABSA Schema:} Establish a technical framework for classifying extracted statements based on granular ESG pillars, sentiment dimensions, and disclosure-stage tone distinctions.\item 
 
-\textbf{O3: To Evaluate Model Divergence:} Conduct a comparative analysis between general LLM tone labels and specialized ClimateBERT climate labels to assess construct validity.\item 
+\textbf{O3: To Evaluate Model Divergence:} Conduct a comparative analysis between general LLM tone labels, Indonesian-oriented baselines, and specialized ClimateBERT climate labels to assess construct validity.\item 
 
 \textbf{O4: To Create a Diagnostic Framework:} Implement automated audits for parsing failures, schema drift, and missing labels within the extraction pipeline.\item 
 
@@ -192,7 +199,7 @@ The study is guided by the following research questions:
 
 \textbf{Evidence Layer:} A linked data structure connecting raw reports to LLM metadata, human annotations, and validation tables.\item 
 
-\textbf{Methodological Insights:} A comprehensive stability analysis of LLM prompts and a critical discussion on why general sentiment and climate-specific commitment labels are non-interchangeable.
+\textbf{Methodological Insights:} A comprehensive stability analysis of LLM prompts, a clearer treatment of quantitative table evidence, and a critical discussion of why disclosure-stage tone and climate-specific commitment labels are related but non-interchangeable.
 \end{itemize}
 \section{Thesis Structure}
 \begin{itemize}
@@ -202,14 +209,15 @@ The study is guided by the following research questions:
 
 \textbf{Chapter 2:} Examines the evolution of NLP in sustainability, the challenge of greenwashing, and the current state-of-the-art in LLM-based extraction.\item 
 
-\textbf{Chapter 3:} Details the OCR-to-ABSA pipeline, including prompt engineering strategies and the validation framework using ClimateBERT and human annotation.\item 
+\textbf{Chapter 3:} Details the OCR-to-ABSA pipeline, including prompt engineering strategies, table-preserving ingestion logic, and the validation framework using ClimateBERT and human annotation.\item 
 
-\textbf{Chapter 4:} Presents implementation details, evaluation metrics, and ablation studies regarding model stability.\item 
+\textbf{Chapter 4:} Presents implementation details, evaluation metrics, Indonesian-baseline framing, and comparative results regarding model stability and failure reduction.\item 
 
-\textbf{Chapter 5:} Evaluates the ESG ABSA schema, analyzes failure modes, and discusses the implications of model divergence for future ESG research.\item 
+\textbf{Chapter 5:} Evaluates the ESG ABSA schema, analyzes failure modes, and discusses the implications and boundaries of the disclosure-stage tone framework for future ESG research.\item 
 
 \textbf{Chapter 6:} Summarizes the findings and suggests future directions for automated sustainability analysis.
-\end{itemize} 
+\end{itemize}
+ 
 
 \chapter{Related Works}
   \label{relatedwork}
@@ -618,9 +626,9 @@ Selection is therefore partly corpus-driven and partly workflow-driven. Reports 
 
 \subsection{Inclusion, Exclusion, and Evidence-Layer Boundaries}
 
-The study uses different inclusion and exclusion logic at different stages, and these boundaries need to be stated explicitly because later evaluation claims depend on them. At document level, the broad inclusion target is Indonesian sustainability or annual reporting material available as machine-processable PDF files in the thesis corpus. Documents are excluded from the active experimental subset when OCR expansion is incomplete, page structure is too unstable for downstream use, or later extraction and audit stages have not yet produced reusable artifacts.
+The study uses different inclusion and exclusion logic at different stages, and these boundaries need to be stated explicitly because later evaluation claims depend on them. At document level, the broad inclusion target is Indonesian sustainability or annual reporting material available as machine-processable PDF files in the thesis corpus. Documents are excluded from the active experimental subset when OCR expansion is incomplete, page structure is too unstable for downstream use, quantitative table structure cannot be preserved reliably enough for downstream review, or later extraction and audit stages have not yet produced reusable artifacts.
 
-At page and text-unit level, inclusion is based on usability for provenance-preserving extraction rather than on an assumption that every page contains ESG evidence. Pages may still enter OCR storage even if they later prove non-informative. In contrast, extracted-record evaluation excludes malformed outputs, explicit missing-tone failures for some downstream denominators, and records that cannot be aligned reliably enough for the specific comparison being reported. This means that the thesis uses several evidence layers rather than a single monolithic dataset: the raw PDF inventory, the OCR-expanded inventory, the active thesis-facing subset, and the smaller reviewed or comparison-ready subset used in specific tables.
+At page and text-unit level, inclusion is based on usability for provenance-preserving extraction rather than on an assumption that every page contains ESG evidence. Pages may still enter OCR storage even if they later prove non-informative. Table-bearing pages are not treated as a minor formatting variation of narrative pages; they form a special evidence type because they may contain the only explicit quantitative KPI values for a disclosure. For that reason, the workflow distinguishes between narrative-ready pages, table-ready pages, and pages that remain OCR-visible but are too structurally unstable for thesis-facing extraction. In contrast, extracted-record evaluation excludes malformed outputs, explicit missing-tone failures for some downstream denominators, and records that cannot be aligned reliably enough for the specific comparison being reported. This means that the thesis uses several evidence layers rather than a single monolithic dataset: the raw PDF inventory, the OCR-expanded inventory, the active thesis-facing subset, and the smaller reviewed or comparison-ready subset used in specific tables.
 
 The purpose of these boundaries is methodological transparency rather than aggressive filtering. The thesis does not claim that the current active subset is a statistically representative sample of all sustainability reports. Instead, it claims that this subset is sufficient to evaluate whether the implemented workflow can operate on long, noisy, bilingual reports and reveal its main strengths and weaknesses.
 
@@ -651,6 +659,16 @@ The first transformation is document OCR and structural extraction. The reposito
 
 The unit of analysis at this point is the page. This choice is appropriate because later provenance checks require the workflow to map structured ESG statements back to specific page files, and page-level markdown provides a stable and auditable representation of the original report. At the same time, the system does not restrict itself to single-page inference; page-level files can be grouped into page batches when additional context is needed.
 
+\subsection{Table Extraction and Quantitative Evidence Preservation}
+
+Quantitative ESG evidence cannot be assumed to survive if the workflow treats all pages as plain narrative text. Sustainability reports frequently place emissions, waste, training, governance, and safety indicators inside dense tables, sometimes split across several pages. If those structures are flattened too early, the pipeline may preserve keywords while losing the row, column, unit, or year relationship that gives the number its meaning.
+
+For that reason, the revised methodology treats table-bearing pages as a dedicated ingestion branch rather than as an afterthought of OCR. During OCR expansion, detected table regions are preserved together with their page identifiers, geometric context, and surrounding markdown. When a table spans multiple pages, header continuity, repeated stub columns, and metric-unit consistency are used as reconstruction cues. The intended output of this branch is not merely table text, but row-level quantitative evidence objects that retain document id, page id, table id, row content, normalized metric values when possible, and a provenance pointer back to the source pages.
+
+This design changes the evidence boundary stated earlier in the chapter. Narrative extraction and table extraction are treated as parallel but converging paths. Narrative pages remain suitable for page-batch LLM extraction, while table-preserving outputs support KPI-sensitive review and later fusion into the record layer. In other words, the workflow aims to avoid a false choice between interpretive narrative evidence and quantitative tabular evidence. Both are needed for Indonesian ESG analysis because companies often mix commitments in prose with performance metrics in tables.
+
+The current repository already stores table-aware OCR fields, but the revised thesis positions full table reconstruction as an explicit methodological requirement rather than an implicit future convenience. This is important for validity: if quantitative tables are lost, downstream tone or greenwashing interpretations may overstate promises and undercount realized outcomes. The table-preservation branch therefore functions as a safeguard against narrative bias in the evidence layer.
+
 \subsection{Standardization, Storage, and Tooling}
 
 The preprocessing outputs are standardized around a reproducible directory structure. Raw source PDFs remain in data/thesis\_pdf/. OCR-expanded artifacts are stored in data/thesis\_dataset/<document>/ocr\_result.json, data/thesis\_dataset/<document>/pages/, and data/thesis\_dataset/<document>/images/. This structure allows downstream workers to resolve a document folder, inspect its pages, and trace extraction failures to specific files.
@@ -659,9 +677,9 @@ The methodological logic is also standardized in code. pages/llm\_processing.py 
 
 \subsection{Conversion into Structured ESG Records}
 
-After OCR, the next conversion is from page text into structured ESG records. In pages/llm\_processing.py, the T3 extraction stage sends contextualized text to LLM backends and appends results to results/esg\_records.json. Each run object can store metadata such as timestamp, model, target pages, prompt, success status, parsed records, raw output, and error information. When successful, record-level fields may include text, aspect, labels, esg, tone, sentiment, sentiment\_score, and reasoning.
+After OCR, the next conversion is from page text into structured ESG records. In pages/llm\_processing.py, the T3 extraction stage sends contextualized text to LLM backends and appends results to results/esg\_records.json. Each run object can store metadata such as timestamp, model, target pages, prompt, success status, parsed records, raw output, and error information. When successful, record-level fields may include text, aspect, labels, esg, tone, sentiment, sentiment\_score, and reasoning. In the revised methodological framing, this conversion is extended conceptually to cover both narrative-derived records and table-derived evidence records, even when those two branches require different preprocessing before they can be merged.
 
-This conversion stage is central to the methodology because it creates the canonical evidence layer used by the rest of the system. Instead of treating extracted text as an unstructured blob, the workflow transforms it into schema-bearing records that can later be benchmarked, filtered, aligned to ontology paths, or compared against ClimateBERT outputs.
+This conversion stage is central to the methodology because it creates the canonical evidence layer used by the rest of the system. Instead of treating extracted text as an unstructured blob, the workflow transforms it into schema-bearing records that can later be benchmarked, filtered, aligned to ontology paths, or compared against ClimateBERT outputs. The important revision here is that a usable ESG record may originate either from narrative prose or from a reconstructed table row. Both origins must remain visible in the provenance fields so that later analysis can distinguish between claim-like language and metric-bearing evidence.
 
 \subsection{Alignment and Synchronization}
 
@@ -1074,6 +1092,8 @@ The main method under evaluation is the repository’s staged ESG analysis frame
 
 Several comparison approaches are already implemented in the codebase. code/rule\_based.py provides a lexicon-driven baseline with explicit aspect, polarity, and tone triggers. code/classical\_ml.py provides a classical TF-IDF plus logistic-regression baseline. code/hybrid\_model.py provides a contextual multilingual hybrid representation that fuses sentence embeddings, section context, ontology vectors, and a document-level vector. In parallel, the LLM extraction layer compares prompt and model variants rather than relying on a single fixed prompt. This is important because the thesis problem is not only classification performance but also schema stability, field completion, and practical utility of extracted records.
 
+Because the corpus is centered on Indonesian disclosures, multilingual coverage alone is not sufficient as an evaluation logic. A revised comparison condition is therefore required: wherever possible, the multilingual architecture should be read against an Indonesian-oriented baseline rather than being treated as self-justifying for the local language context. In this thesis, that requirement is framed as a necessary baseline extension for the reviewed subset rather than as a claim that the current saved dashboard already contains a complete IndoBERT benchmark.
+
 The implemented prompt inventory includes seven primary prompt templates used in the thesis-facing stability analysis: data.md, tone\_chain\_of\_thought\_english.md, tone\_chain\_of\_thought\_indonesian.md, tone\_few\_shot\_english.md, tone\_few\_shot\_indonesian.md, tone\_zero\_shot\_english.md, and tone\_zero\_shot\_indonesian.md. These operationalize three prompting strategies: zero-shot, few-shot, and chain-of-thought, in both English and Indonesian. At the backend level, the code supports OpenRouter-hosted models, LM Studio or other OpenAI-compatible local endpoints, and Ollama-style local inference. The active results summarized in the thesis dashboard show that the most important model comparison for the current evidence layer is between arcee-ai/trinity-large-preview:free and openai/gpt-oss-120b:free, while additional live reprocess runs include arcee-ai/trinity-large-thinking:free, minimax/minimax-m2.5:free, and openai/gpt-oss-20b:free.
 
 This design follows directly from Chapter 3. The methodology argued that a mixed and modular evaluation strategy is more appropriate than a single-model setup because ESG reports are bilingual, structurally inconsistent, and prone to OCR and schema noise. The Chapter 4 implementation therefore tests both final output quality and engineering reliability.
@@ -1086,7 +1106,7 @@ For OCR-expanded data, each processed document in data/thesis\_dataset/ contains
 
 The main feature-extraction and model settings are as follows. The rule-based model uses curated lexical triggers for aspect, polarity, and tone. The classical model uses word and character TF-IDF vectors with logistic regression and one-vs-rest classification for multi-label aspects. The hybrid model uses distilbert-base-multilingual-cased when available, with a lightweight hierarchical encoder and a fused prediction head. In code/hybrid\_model.py, the encoder weights are frozen by default for fast CPU-friendly operation, and the architecture uses a small multi-head attention block for section interaction. This is appropriate for the current thesis environment because the repository is designed to be executable on local research hardware and interactive dashboards, not only on high-end training servers.
 
-The experiment results also reflect the available compute environment. The active pipeline supports cloud LLM calls through OpenRouter and local model execution through LM Studio-compatible backends and downloaded Hugging Face-style models. ClimateBERT comparison in the current saved outputs mostly uses local downloaded models such as distilroberta-base-climate-commitment and related classification checkpoints, while the repository notes that a full one-to-one remote ClimateBERT benchmark is still future work. This constraint affects how results are interpreted: current ClimateBERT tables are meaningful as proxy validation, but not yet as a final external benchmark.
+The experiment results also reflect the available compute environment. The active pipeline supports cloud LLM calls through OpenRouter and local model execution through LM Studio-compatible backends and downloaded Hugging Face-style models. ClimateBERT comparison in the current saved outputs mostly uses local downloaded models such as distilroberta-base-climate-commitment and related classification checkpoints, while the repository notes that a full one-to-one remote ClimateBERT benchmark is still future work. The same boundary applies to Indonesian-monolingual benchmarking: the revised manuscript treats an IndoBERT-style baseline as a required local-language comparison condition, but does not misrepresent the current saved evidence as if a full fine-tuned benchmark were already complete. This constraint affects how results are interpreted: current ClimateBERT tables are meaningful as proxy validation, but not yet as a final external benchmark, and local-language benchmarking remains an explicit extension target for stronger validity.
 
 Reproducibility is one of the strongest implementation features of the codebase. The thesis dashboard report lists 1,220 result artifacts, 184 LLM background jobs, and persistent saved graph attachments. The repository explicitly states that visualizations can be regenerated by rerunning scripts such as code/visualize\_tone\_climatebert.py, while Streamlit pages such as 6\_1\_Chapter\_4\_Implementation\_Results.py and 6\_6\_Chapter\_4\_Results\_Visualizer.py provide live views over the same stored artifacts. The experiments are therefore reproducible in an engineering sense even where some semantic baselines remain incomplete.
 
@@ -1123,6 +1143,12 @@ Fourth, denominator audits are used to interpret results correctly. The file res
 Fifth, lexical trigger counts serve as a lightweight explainability metric. They show how often action, commitment, outcome, hedge, passive, regulatory, and table-layout triggers co-occur with predicted tones. These metrics do not replace semantic evaluation, but they help explain why certain prompts or models tend to overpredict commitment or underdetect outcome language.
 
 Taken together, these metrics provide a more complete evaluation frame. OCR metrics measure operational readiness. Parse and completion metrics measure extraction usability. Agreement metrics measure construct overlap. Ontology coverage measures semantic mapping readiness. Stability metrics measure robustness. Failure modes measure weakness concentration. Greenwashing ratios and lexical triggers provide task-specific interpretation beyond generic accuracy.
+
+\subsection{Local-Language Baseline Condition}
+
+An additional evaluation condition is required by the thesis domain itself: the workflow should be interpretable relative to a local-language baseline. Indonesian ESG disclosures contain governance formulae, regulatory terminology, and company-specific phrasing that may be underrepresented in general multilingual encoders. For that reason, a fine-tuned Indonesian-monolingual baseline such as IndoBERT is the most appropriate comparison target for the reviewed subset when the task is sentence- or record-level tone discrimination.
+
+The purpose of this baseline is not to replace the multilingual architecture outright. It is to test whether Indonesian-specialized representations improve performance in cases that are currently difficult for the pipeline, especially governance-heavy statements, regulation-sensitive phrases, and mixed promise-action wording. The present chapter therefore interprets the multilingual results cautiously: they are operationally meaningful, but they are not the strongest possible language-specific benchmark until an Indonesian-monolingual comparison has been completed on the same reviewed slice.
 
 \section{Experimental Results}
 
@@ -1296,6 +1322,8 @@ The failure-mode count table is shown below.
 
 The dominant weakness is clear: 61 missing-tone cases. Beyond that, schema drift and hedged language are the next most important failure patterns. This means that the pipeline is more vulnerable to discursive ambiguity and formatting irregularity than to simple parser breakdown. The problem is therefore partly linguistic, not only technical.
 
+The revised interpretation of this finding is operational rather than cosmetic. Missing-tone failures should be reduced systematically through stronger schema enforcement, targeted reprompting for empty tone fields, and post-validation against explicit commitment, action, and outcome trigger sets. Records that still fail those checks should remain visible in a review queue rather than being silently discarded. This matters because downstream tone distributions and greenwashing-oriented ratios are sensitive to omission: the system can appear cleaner simply by dropping difficult cases, which would weaken the thesis rather than strengthen it.
+
 Two additional graphs support the failure-analysis argument directly by separating absolute frequency from composition.
 
 \begin{figure}[H]
@@ -1323,6 +1351,12 @@ The denominator audit reinforces the diagnostic reading of these results. Of 5,4
 These findings reveal an important contradiction. The system is semantically organized enough to map diverse ESG aspects to ontology paths, yet it is still fragile when asked to consistently distinguish commitment, action, and outcome in noisy or governance-heavy contexts. That contradiction becomes one of the central interpretive findings of the chapter.
 
 Overall, RQ3 is answered directly by the diagnostic evidence. The most important failure modes are missing tone, schema drift, hedged or modal language, and layout- or terminology-related ambiguity. OCR processing is operational at document level, but the central downstream weakness remains tone stability rather than ontology coverage.
+
+\subsection{Quantitative Table Evidence as an Experimental Boundary}
+
+One additional boundary must be stated explicitly for the Chapter 4 results: the present evidence layer is stronger for narrative extraction than for fully reconstructed quantitative tables. This does not mean the pipeline ignores tables; the failure-mode taxonomy already shows that table-heavy layouts contribute to extraction weakness. It does mean that KPI-bearing rows remain a sensitive error source whenever table structure is flattened, fragmented across pages, or detached from units and headers during preprocessing.
+
+For that reason, the current chapter does not treat narrative extraction quality as a complete proxy for all ESG evidence quality. A stronger future benchmark should report table-specific metrics such as row reconstruction success, header continuity preservation, and metric-unit integrity on a reviewed subset. The revised thesis includes this boundary to avoid overstating the completeness of the current extraction evidence.
 
 \subsection{RQ4: Stability and Reproducibility}
 
@@ -1520,49 +1554,6 @@ These findings connect directly back to Chapter 3. The methodology emphasized mo
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  
 \chapter{Discussion}
   \label{discussion}
@@ -1609,6 +1600,8 @@ These findings connect directly back to Chapter 3. The methodology emphasized mo
 The central argument of this thesis is that ESG disclosure analysis for Indonesian sustainability reports becomes more informative when it is treated not only as a topic-detection problem, but as a tone-aware, provenance-preserving, ontology-aligned evidence extraction problem. The Chapter 4 results support this argument. The implemented workflow successfully transformed 23 sustainability-report PDFs into an auditable OCR-expanded corpus covering approximately 5,512 pages, generated 332 tone-bearing ESG records and 2,074 T2 rows, mapped 52 aspects to ontology paths, and achieved 83.7\% agreement with ClimateBERT-style commitment labels at Cohen’s kappa of 0.645.
 
 The most important empirical finding is that disclosure tone is both measurable and meaningful. The extracted evidence set is dominated by commitment tone, with 115 of 332 records assigned to commitment, while environmental disclosure is the most frequent ESG pillar with 179 records. This means that the active corporate disclosure sample in the repository is not primarily organized around verified outcomes. It is organized around forward-looking commitments and strategic positioning. That pattern matters because it directly supports the thesis motivation: sentiment polarity alone would miss the difference between a positive achieved result and a positive promise.
+
+At the same time, the thesis should state the contribution boundary more precisely. The tone layer is not presented here as a replacement for established disclosure-quality, disclosure-intention, or greenwashing frameworks. Its narrower contribution is to operationalize, at record level and with preserved provenance, whether a disclosure functions primarily as commitment, action, or realized outcome. In that sense, the framework refines existing interpretive approaches by adding a computationally explicit disclosure-stage distinction rather than by claiming a wholly separate theory of sustainability communication.
 
 The strongest overall implementation configuration in the thesis-facing subset is the combination of tone-aware prompts and stable schema-following models, especially arcee-ai/trinity-large-preview:free with tone-specific prompt templates. This configuration does not simply produce more text. It produces structurally usable records with very low missing-tone and schema-drift rates relative to weaker alternatives. By contrast, openai/gpt-oss-120b:free achieved perfect parse success in the summarized slice but produced a 100\% missing-tone rate and a 42.5\% schema-drift rate in the corresponding grouping. The meaning of this result is clear: for this task, schema compliance and tone completion are more important than nominal model scale or general fluency.
 
@@ -1740,7 +1733,7 @@ Taken together, these future directions form a coherent roadmap: first stabilize
 
 The most direct beneficiaries of this research are ESG analysts, sustainability-report authors, regulators, investors, and research teams working on corporate accountability. For ESG analysts, the system reduces the cost of moving from hundreds of PDF pages to a smaller set of structured, reviewable disclosure records. For sustainability-report authors, the tone framework provides feedback about whether a report is dominated by commitments, operational actions, or realized outcomes. For regulators and oversight bodies, the provenance-preserving design offers a way to inspect disclosure claims without losing the link to the source page. For investors, the greenwashing-oriented ratios and tone distributions can serve as a supplementary signal when reading large volumes of narrative disclosure.
 
-The broader practical value of the thesis is that it improves on existing ESG automation in three ways. First, it preserves auditable page-level lineage. Second, it distinguishes disclosure maturity rather than treating all positive ESG language as equivalent. Third, it reveals failure modes and uncertainty instead of hiding them behind a single summary score. These are meaningful improvements for real-world use because ESG decision-making often depends as much on traceability and interpretability as on aggregate classification accuracy.
+The broader practical value of the thesis is that it improves on existing ESG automation in three ways. First, it preserves auditable page-level lineage. Second, it distinguishes disclosure stage rather than treating all positive ESG language as equivalent. Third, it reveals failure modes and uncertainty instead of hiding them behind a single summary score. These are meaningful improvements for real-world use because ESG decision-making often depends as much on traceability and interpretability as on aggregate classification accuracy.
 
 At societal level, the work supports stronger information transparency in sustainability communication. If deployed responsibly, a system like this can help identify when corporations communicate mostly aspiration, when they report concrete action, and when they document measurable outcomes. That distinction is valuable for accountability, sustainability governance, and public understanding of corporate climate and ESG claims.
 

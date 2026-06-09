@@ -40,6 +40,13 @@ The study is guided by the following research questions:
 
 \textbf{RQ4. Stability and Reproducibility:} To what extent do ESG extraction outputs remain stable across varying prompts, LLM models, and service providers?
 \end{itemize}
+
+\section{Revision Focus}
+
+This revised manuscript addresses four issues that are critical to the thesis contribution. First, the methodology now states more explicitly that quantitative ESG evidence cannot be limited to narrative text alone, and therefore requires a dedicated table-preservation path during ingestion and preprocessing. Second, the evaluation framing is tightened to acknowledge that Indonesian-language performance cannot be inferred from multilingual models alone, which motivates an Indonesian-specific baseline in the experimental design. Third, the results chapter is positioned around completed evidence only, with unsupported placeholders and unfinished presentation elements removed from the main argument. Fourth, the discussion narrows the theoretical claim of the tone layer: it is presented as a record-level disclosure-stage distinction that complements, rather than replaces, existing disclosure-quality and sustainability-intention frameworks.
+
+These revisions do not change the overall objective of the thesis. They clarify its evidential boundaries, strengthen the methodological justification for the Indonesian ESG context, and align the written claims more closely with what the current executable pipeline can substantiate.
+
 \section{Objectives and Contributions}
 \subsection{Research Objectives:}
 \begin{itemize}
@@ -47,9 +54,9 @@ The study is guided by the following research questions:
 
 \textbf{O1: To Build a Reproducible OCR-to-ESG Extraction Pipeline:} Develop a system that converts raw PDF reports into usable text while preserving page-level provenance for auditability.\item 
 
-\textbf{O2: To Design a Record-Level ESG ABSA Schema:} Establish a technical framework for classifying extracted statements based on granular ESG pillars and sentiment dimensions.\item 
+\textbf{O2: To Design a Record-Level ESG ABSA Schema:} Establish a technical framework for classifying extracted statements based on granular ESG pillars, sentiment dimensions, and disclosure-stage tone distinctions.\item 
 
-\textbf{O3: To Evaluate Model Divergence:} Conduct a comparative analysis between general LLM tone labels and specialized ClimateBERT climate labels to assess construct validity.\item 
+\textbf{O3: To Evaluate Model Divergence:} Conduct a comparative analysis between general LLM tone labels, Indonesian-oriented baselines, and specialized ClimateBERT climate labels to assess construct validity.\item 
 
 \textbf{O4: To Create a Diagnostic Framework:} Implement automated audits for parsing failures, schema drift, and missing labels within the extraction pipeline.\item 
 
@@ -65,7 +72,7 @@ The study is guided by the following research questions:
 
 \textbf{Evidence Layer:} A linked data structure connecting raw reports to LLM metadata, human annotations, and validation tables.\item 
 
-\textbf{Methodological Insights:} A comprehensive stability analysis of LLM prompts and a critical discussion on why general sentiment and climate-specific commitment labels are non-interchangeable.
+\textbf{Methodological Insights:} A comprehensive stability analysis of LLM prompts, a clearer treatment of quantitative table evidence, and a critical discussion of why disclosure-stage tone and climate-specific commitment labels are related but non-interchangeable.
 \end{itemize}
 \section{Thesis Structure}
 \begin{itemize}
@@ -75,11 +82,11 @@ The study is guided by the following research questions:
 
 \textbf{Chapter 2:} Examines the evolution of NLP in sustainability, the challenge of greenwashing, and the current state-of-the-art in LLM-based extraction.\item 
 
-\textbf{Chapter 3:} Details the OCR-to-ABSA pipeline, including prompt engineering strategies and the validation framework using ClimateBERT and human annotation.\item 
+\textbf{Chapter 3:} Details the OCR-to-ABSA pipeline, including prompt engineering strategies, table-preserving ingestion logic, and the validation framework using ClimateBERT and human annotation.\item 
 
-\textbf{Chapter 4:} Presents implementation details, evaluation metrics, and ablation studies regarding model stability.\item 
+\textbf{Chapter 4:} Presents implementation details, evaluation metrics, Indonesian-baseline framing, and comparative results regarding model stability and failure reduction.\item 
 
-\textbf{Chapter 5:} Evaluates the ESG ABSA schema, analyzes failure modes, and discusses the implications of model divergence for future ESG research.\item 
+\textbf{Chapter 5:} Evaluates the ESG ABSA schema, analyzes failure modes, and discusses the implications and boundaries of the disclosure-stage tone framework for future ESG research.\item 
 
 \textbf{Chapter 6:} Summarizes the findings and suggests future directions for automated sustainability analysis.
 \end{itemize}

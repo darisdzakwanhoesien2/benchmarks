@@ -10,7 +10,13 @@ echo "Flattening LaTeX..."
 latexpand main.tex > thesis_flat.tex
 
 echo "Preparing Pandoc input..."
-sed -n '128,2229p' thesis_flat.tex > "$BODY_TEX"
+awk '
+  /\\chapter\{Introduction\}/ {in_body=1}
+  /\\appendix/ {in_body=0}
+  /\\startappendix/ {in_body=0}
+  /\\end\{document\}/ {in_body=0}
+  in_body
+' thesis_flat.tex > "$BODY_TEX"
 sed -i 's/\\printbibliography\[[^]]*\]/\\bibliography{citations.bib}/g; s/\\startappendix//g; s/\\alt{[^}]*}//g; s/\\providecommand{\\tightlist}{\\setlength{\\itemsep}{0pt}\\setlength{\\parskip}{0pt}}//g' "$BODY_TEX"
 
 python3 - <<'PY'

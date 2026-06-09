@@ -8,6 +8,8 @@ The main method under evaluation is the repository’s staged ESG analysis frame
 
 Several comparison approaches are already implemented in the codebase. code/rule\_based.py provides a lexicon-driven baseline with explicit aspect, polarity, and tone triggers. code/classical\_ml.py provides a classical TF-IDF plus logistic-regression baseline. code/hybrid\_model.py provides a contextual multilingual hybrid representation that fuses sentence embeddings, section context, ontology vectors, and a document-level vector. In parallel, the LLM extraction layer compares prompt and model variants rather than relying on a single fixed prompt. This is important because the thesis problem is not only classification performance but also schema stability, field completion, and practical utility of extracted records.
 
+Because the corpus is centered on Indonesian disclosures, multilingual coverage alone is not sufficient as an evaluation logic. A revised comparison condition is therefore required: wherever possible, the multilingual architecture should be read against an Indonesian-oriented baseline rather than being treated as self-justifying for the local language context. In this thesis, that requirement is framed as a necessary baseline extension for the reviewed subset rather than as a claim that the current saved dashboard already contains a complete IndoBERT benchmark.
+
 The implemented prompt inventory includes seven primary prompt templates used in the thesis-facing stability analysis: data.md, tone\_chain\_of\_thought\_english.md, tone\_chain\_of\_thought\_indonesian.md, tone\_few\_shot\_english.md, tone\_few\_shot\_indonesian.md, tone\_zero\_shot\_english.md, and tone\_zero\_shot\_indonesian.md. These operationalize three prompting strategies: zero-shot, few-shot, and chain-of-thought, in both English and Indonesian. At the backend level, the code supports OpenRouter-hosted models, LM Studio or other OpenAI-compatible local endpoints, and Ollama-style local inference. The active results summarized in the thesis dashboard show that the most important model comparison for the current evidence layer is between arcee-ai/trinity-large-preview:free and openai/gpt-oss-120b:free, while additional live reprocess runs include arcee-ai/trinity-large-thinking:free, minimax/minimax-m2.5:free, and openai/gpt-oss-20b:free.
 
 This design follows directly from Chapter 3. The methodology argued that a mixed and modular evaluation strategy is more appropriate than a single-model setup because ESG reports are bilingual, structurally inconsistent, and prone to OCR and schema noise. The Chapter 4 implementation therefore tests both final output quality and engineering reliability.
@@ -20,7 +22,7 @@ For OCR-expanded data, each processed document in data/thesis\_dataset/ contains
 
 The main feature-extraction and model settings are as follows. The rule-based model uses curated lexical triggers for aspect, polarity, and tone. The classical model uses word and character TF-IDF vectors with logistic regression and one-vs-rest classification for multi-label aspects. The hybrid model uses distilbert-base-multilingual-cased when available, with a lightweight hierarchical encoder and a fused prediction head. In code/hybrid\_model.py, the encoder weights are frozen by default for fast CPU-friendly operation, and the architecture uses a small multi-head attention block for section interaction. This is appropriate for the current thesis environment because the repository is designed to be executable on local research hardware and interactive dashboards, not only on high-end training servers.
 
-The experiment results also reflect the available compute environment. The active pipeline supports cloud LLM calls through OpenRouter and local model execution through LM Studio-compatible backends and downloaded Hugging Face-style models. ClimateBERT comparison in the current saved outputs mostly uses local downloaded models such as distilroberta-base-climate-commitment and related classification checkpoints, while the repository notes that a full one-to-one remote ClimateBERT benchmark is still future work. This constraint affects how results are interpreted: current ClimateBERT tables are meaningful as proxy validation, but not yet as a final external benchmark.
+The experiment results also reflect the available compute environment. The active pipeline supports cloud LLM calls through OpenRouter and local model execution through LM Studio-compatible backends and downloaded Hugging Face-style models. ClimateBERT comparison in the current saved outputs mostly uses local downloaded models such as distilroberta-base-climate-commitment and related classification checkpoints, while the repository notes that a full one-to-one remote ClimateBERT benchmark is still future work. The same boundary applies to Indonesian-monolingual benchmarking: the revised manuscript treats an IndoBERT-style baseline as a required local-language comparison condition, but does not misrepresent the current saved evidence as if a full fine-tuned benchmark were already complete. This constraint affects how results are interpreted: current ClimateBERT tables are meaningful as proxy validation, but not yet as a final external benchmark, and local-language benchmarking remains an explicit extension target for stronger validity.
 
 Reproducibility is one of the strongest implementation features of the codebase. The thesis dashboard report lists 1,220 result artifacts, 184 LLM background jobs, and persistent saved graph attachments. The repository explicitly states that visualizations can be regenerated by rerunning scripts such as code/visualize\_tone\_climatebert.py, while Streamlit pages such as 6\_1\_Chapter\_4\_Implementation\_Results.py and 6\_6\_Chapter\_4\_Results\_Visualizer.py provide live views over the same stored artifacts. The experiments are therefore reproducible in an engineering sense even where some semantic baselines remain incomplete.
 
@@ -57,6 +59,12 @@ Fourth, denominator audits are used to interpret results correctly. The file res
 Fifth, lexical trigger counts serve as a lightweight explainability metric. They show how often action, commitment, outcome, hedge, passive, regulatory, and table-layout triggers co-occur with predicted tones. These metrics do not replace semantic evaluation, but they help explain why certain prompts or models tend to overpredict commitment or underdetect outcome language.
 
 Taken together, these metrics provide a more complete evaluation frame. OCR metrics measure operational readiness. Parse and completion metrics measure extraction usability. Agreement metrics measure construct overlap. Ontology coverage measures semantic mapping readiness. Stability metrics measure robustness. Failure modes measure weakness concentration. Greenwashing ratios and lexical triggers provide task-specific interpretation beyond generic accuracy.
+
+\subsection{Local-Language Baseline Condition}
+
+An additional evaluation condition is required by the thesis domain itself: the workflow should be interpretable relative to a local-language baseline. Indonesian ESG disclosures contain governance formulae, regulatory terminology, and company-specific phrasing that may be underrepresented in general multilingual encoders. For that reason, a fine-tuned Indonesian-monolingual baseline such as IndoBERT is the most appropriate comparison target for the reviewed subset when the task is sentence- or record-level tone discrimination.
+
+The purpose of this baseline is not to replace the multilingual architecture outright. It is to test whether Indonesian-specialized representations improve performance in cases that are currently difficult for the pipeline, especially governance-heavy statements, regulation-sensitive phrases, and mixed promise-action wording. The present chapter therefore interprets the multilingual results cautiously: they are operationally meaningful, but they are not the strongest possible language-specific benchmark until an Indonesian-monolingual comparison has been completed on the same reviewed slice.
 
 \section{Experimental Results}
 
@@ -230,6 +238,8 @@ The failure-mode count table is shown below.
 
 The dominant weakness is clear: 61 missing-tone cases. Beyond that, schema drift and hedged language are the next most important failure patterns. This means that the pipeline is more vulnerable to discursive ambiguity and formatting irregularity than to simple parser breakdown. The problem is therefore partly linguistic, not only technical.
 
+The revised interpretation of this finding is operational rather than cosmetic. Missing-tone failures should be reduced systematically through stronger schema enforcement, targeted reprompting for empty tone fields, and post-validation against explicit commitment, action, and outcome trigger sets. Records that still fail those checks should remain visible in a review queue rather than being silently discarded. This matters because downstream tone distributions and greenwashing-oriented ratios are sensitive to omission: the system can appear cleaner simply by dropping difficult cases, which would weaken the thesis rather than strengthen it.
+
 Two additional graphs support the failure-analysis argument directly by separating absolute frequency from composition.
 
 \begin{figure}[H]
@@ -257,6 +267,12 @@ The denominator audit reinforces the diagnostic reading of these results. Of 5,4
 These findings reveal an important contradiction. The system is semantically organized enough to map diverse ESG aspects to ontology paths, yet it is still fragile when asked to consistently distinguish commitment, action, and outcome in noisy or governance-heavy contexts. That contradiction becomes one of the central interpretive findings of the chapter.
 
 Overall, RQ3 is answered directly by the diagnostic evidence. The most important failure modes are missing tone, schema drift, hedged or modal language, and layout- or terminology-related ambiguity. OCR processing is operational at document level, but the central downstream weakness remains tone stability rather than ontology coverage.
+
+\subsection{Quantitative Table Evidence as an Experimental Boundary}
+
+One additional boundary must be stated explicitly for the Chapter 4 results: the present evidence layer is stronger for narrative extraction than for fully reconstructed quantitative tables. This does not mean the pipeline ignores tables; the failure-mode taxonomy already shows that table-heavy layouts contribute to extraction weakness. It does mean that KPI-bearing rows remain a sensitive error source whenever table structure is flattened, fragmented across pages, or detached from units and headers during preprocessing.
+
+For that reason, the current chapter does not treat narrative extraction quality as a complete proxy for all ESG evidence quality. A stronger future benchmark should report table-specific metrics such as row reconstruction success, header continuity preservation, and metric-unit integrity on a reviewed subset. The revised thesis includes this boundary to avoid overstating the completeness of the current extraction evidence.
 
 \subsection{RQ4: Stability and Reproducibility}
 
@@ -393,130 +409,6 @@ The best overall thesis-facing configuration in the current saved evidence is th
 
 These findings connect directly back to Chapter 3. The methodology emphasized modularity, provenance, bilingual robustness, and interpretability. Chapter 4 shows that these design choices were justified. The system works best when it preserves traceable intermediate artifacts, separates tone from sentiment, and treats disagreement as information rather than noise. These results also prepare the next chapter: the discussion can now interpret commitment dominance, governance-related tone failures, model disagreement, and ontology coverage as substantive findings rather than mere implementation artifacts.
 
-% These results show that parse success alone is not an adequate quality metric. Every prompt listed above reaches 100\% parse success, yet their practical usefulness differs sharply. tone\_chain\_of\_thought\_english.md yields the highest average record count. In other words, a prompt can be syntactically valid and still be unsuitable for the core thesis task.
-
-% The denominator audit clarifies the scale of the tone-quality problem. Of 5,444 extracted units in the relevant coverage view, 591 are excluded from tone distribution and agreement because they represent missing-tone cases. This is a meaningful failure rate, not a negligible noise band. It supports the claim that tone extraction is the most fragile part of the schema and justifies treating missing-tone behavior as an explicit Chapter 4 result rather than a minor implementation bug.
-
-% Overall, RQ1 and RQ2 show that the repository can reliably transform PDFs into structured ESG artifacts and that the tone-aware schema is operational. However, they also show that extraction quality depends heavily on prompt design and that formal evaluation must go beyond raw parse success.
-% \subsection{RQ3 and RQ4: ClimateBERT Comparison, Diagnostics, and Failure Modes}
-
-% The most important quantitative comparison result is the alignment between disclosure tone and ClimateBERT-style commitment labels. Table 4.2 summarizes the main agreement result.
-
-% \begin{table}[htbp]
-% \centering
-% \caption{Prompt-level extraction performance}
-% \label{tab:prompt-extraction-performance}
-
-% \footnotesize
-% \setlength{\tabcolsep}{2.5pt}
-% \renewcommand{\arraystretch}{1.15}
-
-% \begin{tabularx}{\linewidth}{
-%     >{\raggedright\arraybackslash}p{0.43\linewidth}
-%     *{5}{>{\centering\arraybackslash}p{0.10\linewidth}}
-% }
-% \toprule
-% \textbf{Prompt}
-% &
-% \textbf{Runs}
-% &
-% \makecell{\textbf{Parse}\\\textbf{Success}}
-% &
-% \makecell{\textbf{Avg.}\\\textbf{Records}}
-% &
-% \makecell{\textbf{Missing}\\\textbf{Tone}}
-% &
-% \makecell{\textbf{Schema}\\\textbf{Drift}}
-% \\
-% \midrule
-
-% \texttt{Comparison}
-% % & N & Percent Agreement & Cohen’s Kappa & Tone Commitment Rate & Climate Commitment Label Rate \\
-
-% \texttt{Tone commitment vs climate-commitment label}
-% & 332 & 0.8373 & 0.6451 & 0.3464 & 0.3645 \\
-
-% \bottomrule
-% \end{tabularx}
-% \end{table}
-% This is a strong but not perfect alignment. The result suggests that the repository’s tone taxonomy captures a signal that overlaps substantially with climate-commitment detection, but the two constructs are not identical. This is theoretically useful because it supports the claim that tone adds a maturity or disclosure-function layer beyond climate-topic recognition.
-
-% The saved tone-by-ClimateBERT crosstab provides a more detailed view:
-% \begin{table}[h!]
-% \centering
-% \begin{tabular}{|c|c|c|c|c|c|}
-% \hline
-% \textbf{Tone} & \textbf{Ambiguous Actions} & \textbf{Brown Projects} & \textbf{Misinformation} & \textbf{no} & \textbf{yes} \\ \hline
-% commitment & 12 & 860 & 6 & 61 & 54 \\ \hline
-% action & 25 & 1391 & 37 & 56 & 2 \\ \hline
-% outcome & 12 & 926 & 35 & 44 & 6 \\ \hline
-% missing & 16 & 1710 & 82 & 78 & 31 \\ \hline
-% \end{tabular}
-% \end{table}
-
-% Although the label space is broader than a single climate-commitment binary, the table shows that commitment records cluster differently from action and outcome records. In the thesis planning notes, commitment is most strongly associated with climate-commitment, climate-d, and environmental-claims, while action and outcome disperse more across governance and other label families. This pattern supports the idea that commitment language dominates environmental claim-making even when a record does not yet describe measurable outcome.
-
-% RQ4 shifts from success to weakness detection. The failure-mode count table is shown below.
-% \begin{table}[h!]
-% \centering
-% \begin{tabular}{|c|c|c|}
-% \hline
-% \textbf{Failure Mode} & \textbf{Tone Predicted} & \textbf{Count} \\ \hline
-% missing\_tone & missing & 61 \\ \hline
-% schema\_drift & missing & 19 \\ \hline
-% hedged\_or\_modal\_language & missing & 9 \\ \hline
-% regulatory\_or\_indonesian\_domain\_terms & missing & 3 \\ \hline
-% table\_or\_numeric\_layout & missing & 3 \\ \hline
-% passive\_voice & missing & 2 \\ \hline
-% bilingual\_or\_code\_switched & action & 1 \\ \hline
-% hedged\_or\_modal\_language & action & 1 \\ \hline
-% passive\_voice & action & 1 \\ \hline
-% schema\_drift & action & 1 \\ \hline
-% \end{tabular}
-% \end{table}
-
-% The dominant weakness is clear: 61 missing-tone cases. Beyond that, schema drift and hedged language are the next most important failure patterns. This means that the pipeline is more vulnerable to discursive ambiguity and formatting irregularity than to simple parser breakdown. The problem is therefore partly linguistic, not only technical.
-
-% Ontology coverage provides a positive counterweight. The current ontology table shows 52 aspects tracked and 52 mapped to ontology paths. The highest-frequency mapped aspects are climate-detection with 79 records, governance with 66, missing with 60, and none with 23. Below these, domain-specific concepts such as roadmap karbon, pelatihan antikorupsi, komitmen net zero, and implementasi eco-mechanized mining are mapped to structured paths anchored to GRI-, governance-, or climate-oriented categories. This indicates that the ontology layer is currently stronger in coverage than the tone layer is in stability.
-
-% These findings reveal an important contradiction. The system is semantically organized enough to map diverse ESG aspects to ontology paths, yet it is still fragile when asked to consistently distinguish commitment, action, and outcome in noisy or governance-heavy contexts. That contradiction becomes one of the central interpretive findings of the chapter.
-% \subsection{RQ5 and RQ6: Reproducibility, Visualization, and Stability}
-
-% The repository performs strongly on reproducibility as an engineering system. The saved thesis dashboard report indexes 1,220 result artifacts and 184 LLM background jobs. Five static figures are already exported for thesis reuse: tone\_distribution.png, esg\_by\_tone.png, aspect\_by\_tone\_heatmap.png, climatebert\_label\_by\_tone.png, and climatebert\_remote\_top\_scores.png. In addition, the Chapter 4 Streamlit pages render live views over the same result tables, allowing the written thesis chapter and the interactive dashboard to remain aligned.
-
-% This reproducibility evidence matters because it shows that the research output is not dependent on one temporary notebook state. The file structure preserves both intermediate and summarized evidence. The pipeline can therefore be re-run, inspected, and extended without rebuilding the thesis reporting layer from scratch.
-
-% The strongest stability results appear in the model- and prompt-level summaries. Table 4.3 shows the current model comparison.
-% \begin{table}[htbp]
-% \centering
-% \caption{Model-level extraction performance}
-% \label{tab:model-extraction-performance}
-
-% \footnotesize
-% \setlength{\tabcolsep}{2.5pt}
-% \renewcommand{\arraystretch}{1.15}
-
-% \begin{tabularx}{\linewidth}{
-%     >{\raggedright\arraybackslash}p{0.43\linewidth}
-%     *{5}{>{\centering\arraybackslash}p{0.10\linewidth}}
-% }
-% \toprule
-% \textbf{Model}
-% &
-% \textbf{Runs}
-% &
-% \makecell{\textbf{Parse}\\\textbf{Success}}
-% &
-% \makecell{\textbf{Avg.}\\\textbf{Records}}
-% &
-% \makecell{\textbf{Missing}\\\textbf{Tone}}
-% &
-% \makecell{\textbf{Schema}\\\textbf{Drift}}
-% \\
-% \midrule
-
-% \texttt{arcee-ai/trinity-large-preview:free}
-% & 90 & 1.0000 & 3.02 & 0.0005 & 0.0011 \\
 
 % \texttt{openai/gpt-oss-120b:free}
 % & 20 & 1.0000 & 3.00 & 1.0000 & 0.4250 \\
