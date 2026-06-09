@@ -1,0 +1,150 @@
+% Auto-generated from converted markdown.
+% Source: converted_markdown/appendices.md
+\# Chapter 7 Appendices
+
+This appendix chapter consolidates supplementary material that supports the methodological and reproducibility claims in the main thesis. The appendices are intended to document materials that are important for transparency but too detailed to place in the core chapter narrative.
+
+\section{Appendix Contents}
+
+The appendices should contain, at minimum, the following materials:
+
+1. prompt templates used in the main thesis-facing comparisons; 1. model identifiers, providers, and decoding settings where available; 1. benchmark and comparison artifact paths; 1. annotation instructions and tone-label definitions; 1. additional difficult examples and disagreement cases; 1. supplementary failure-mode tables; 1. extended reproducibility notes for rerunning stored analyses.
+
+\section{Tone-Label Definitions}
+
+The pilot annotation and review process should use the following working definitions:
+
+1. **Commitment:** forward-looking promises, targets, intentions, or policy declarations that do not yet demonstrate completed implementation or realized outcome. 1. **Action:** concrete activities, agreements, programs, investments, or operational steps that are being undertaken or have been initiated. 1. **Outcome:** realized, completed, or demonstrably achieved results, milestones, or measured performance changes. 1. **Needs review:** records whose language is too ambiguous, mixed, or incomplete for stable tone assignment without additional human interpretation.
+
+\section{Reproducibility Notes}
+
+The main reproducibility artifacts referenced in the thesis include:
+
+1. OCR-expanded document folders under \texttt{data/thesis\_dataset/}; 1. extracted ESG records under \texttt{results/esg\_records.json}; 1. resumable benchmark outputs under \texttt{results/t1\_results.jsonl} and \texttt{results/t2\_results.jsonl}; 1. prompt and model stability summaries under \texttt{results/revision\_analysis/}; 1. dashboard-ready figures and tables under \texttt{results/thesis\_workflow\_dashboard/}.
+
+These artifacts support rerunning, auditing, and extending the workflow even where exact third-party LLM outputs may vary across time.
+
+\section{End-to-End User Workflow Diagram}
+
+The appendix should also document the operational user flow across the main thesis-facing tools. In the implemented repository, the workflow begins with OCR preparation in \texttt{pages/Bulk\_OCR.py}, continues through page-range-aware ESG extraction in \texttt{pages/llm\_processing.py}, and then passes through the ClimateBERT comparison stage as the T1 pipeline.
+
+\subsection{Workflow Summary}
+
+The implemented user flow is:
+
+1. upload or select PDF files in **Bulk OCR** 1. run OCR and save page-level outputs into \texttt{data/thesis\_dataset/} 1. open **LLM Processing** 1. select the OCR-expanded PDF/document target 1. choose a page range for processing 1. choose one of three LLM-provider families: - **OpenRouter** - **LM Studio / OpenAI-compatible** - **Ollama** 1. run structured ESG extraction over the selected page range 1. save structured records into \texttt{results/esg\_records.json} 1. run **ClimateBERT** processing as the T1 comparison layer 1. save ClimateBERT outputs into \texttt{results/predictions.json} or resumable T1 artifacts
+
+\subsection{Mermaid Flow Diagram}
+
+``\texttt{mermaid flowchart TD A[User opens Bulk OCR page] --> B\{Input source\} B -->|Upload through browser| C[Upload PDF or image files] B -->|Use existing files on server| D[Select PDF or image files from server folder] C --> E[Run Mistral OCR pipeline] D --> E E --> F[Save OCR outputs to data/thesis\_dataset/<document>/] F --> G[Create ocr\_result.json, pages/, and images/] G --> H[User opens LLM Processing page] H --> I[Select OCR-expanded PDF or document target] I --> J[Select page range to process] J --> K\{Choose LLM provider\} K -->|Provider 1| L[OpenRouter] K -->|Provider 2| M[LM Studio / OpenAI-compatible] K -->|Provider 3| N[Ollama] L --> O[Run T3 structured ESG extraction] M --> O N --> O O --> P[Save extracted ESG records to results/esg\_records.json] P --> Q[Run T1 ClimateBERT predictions] Q --> R[Generate ClimateBERT labels or comparison outputs] R --> S[Save T1 outputs to results/predictions.json or results/t1\_results.jsonl] }``
+
+\subsection{Mermaid Sequence Diagram}
+
+```mermaid sequenceDiagram autonumber participant U as User participant B as Bulk OCR participant O as OCR Storage participant L as LLM Processing participant P as LLM Provider participant E as ESG Records participant C as ClimateBERT participant T as T1 Outputs
+
+U->>B: Upload files or select server-side PDFs B->>P: Send files to OCR service P-->>B: Return OCR result B->>O: Save ocr\_result.json, pages/, images/ U->>L: Open ESG processing page L->>O: Load OCR-expanded document U->>L: Select page range and provider family L->>P: Send selected page batch to OpenRouter / LM Studio / Ollama P-->>L: Return structured extraction output L->>E: Save records to results/esg\_records.json L->>C: Send extracted text to ClimateBERT T1 stage C-->>L: Return climate-label predictions L->>T: Save predictions.json or t1\_results.jsonl ```
+
+Sequence explanation:
+
+1. The user starts in **Bulk OCR**, either by uploading files through the browser or by selecting server-side PDFs already copied into the working directory. 2. The OCR page sends the selected files to the OCR service and stores the returned artifacts as document folders containing \texttt{ocr\_result.json}, page markdown files, and image crops. 3. The user then moves to **LLM Processing**, which loads one OCR-expanded document at a time. 4. Inside **LLM Processing**, the user selects a page range rather than always processing the full report. This is important because the extraction workflow is designed around page batches. 5. The user chooses one provider family for the extraction stage: **OpenRouter**, **LM Studio / OpenAI-compatible**, or **Ollama**. 6. The selected page batch is sent to the chosen LLM provider, and the returned output is parsed into the ESG record schema. 7. Structured records are appended into \texttt{results/esg\_records.json}, which becomes the main evidence layer for later analysis. 8. The extracted text layer is then passed into the **ClimateBERT** T1 stage, which acts as a downstream comparison or benchmark layer rather than as the first ingestion step. 9. ClimateBERT-style predictions are saved into \texttt{results/predictions.json} or resumable T1 artifacts such as \texttt{results/t1\_results.jsonl}.
+
+\subsection{LaTeX Figure Version}
+
+The same operational workflow can also be represented in a LaTeX-ready figure block for the final thesis.
+
+```latex
+
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{appendix_workflow_bulkocr_llm_climatebert}
+\end{center}
+\caption{Appendix workflow from Bulk OCR to page-range-based LLM extraction and downstream ClimateBERT processing. The implemented flow begins with OCR expansion, continues with provider-specific ESG extraction over selected page ranges, and ends with ClimateBERT comparison over the extracted text layer.}
+\alt{Workflow diagram showing user upload or file selection in Bulk OCR, OCR storage into thesis dataset folders, page-range selection in LLM Processing, choice among OpenRouter, LM Studio, or Ollama, storage of structured ESG records, and downstream ClimateBERT T1 processing.}
+\label{fig:appendix_bulkocr_llm_climatebert_workflow}
+\end{figure}
+
+```
+
+\subsection{Interpretation}
+
+This diagram shows that ClimateBERT processing is not the first-stage ingestion tool. Instead, it is a downstream comparison or benchmark layer applied after OCR expansion and after page-range-based ESG extraction. That distinction is methodologically important because the thesis does not compare ClimateBERT directly against raw PDFs. It compares ClimateBERT-style predictions against the extracted text layer produced by the broader ESG pipeline.
+
+\section{JSON Data Examples}
+
+The repository uses JSON extensively for OCR outputs, extraction records, dashboard artifacts, model caches, logs, and workflow decisions. This appendix section provides representative examples of the actual JSON structures used by the implemented system.
+
+\subsection{OCR Output JSON}
+
+Path example:
+
+- \texttt{data/thesis\_dataset/2017 Sustainability Report PT Bank Permata Tbk (Rev May2018)\_0\_pdf/ocr\_result.json}
+
+Purpose:
+
+- stores page-level OCR output - preserves extracted markdown text - stores image coordinates and embedded image payloads - records OCR model and usage metadata
+
+Example:
+
+``\texttt{json \{ "pages": [ \{ "index": 0, "markdown": "PermataBank\textbackslash\{\}n\textbackslash\{\}nLaporan Keberlanjutan 2017 Sustainability Report\textbackslash\{\}n\textbackslash\{\}n![img-0.jpeg](img-0.jpeg)\textbackslash\{\}n\textbackslash\{\}n\# Realizing Commitment\textbackslash\{\}n\textbackslash\{\}nto Improve Life", "images": [ \{ "id": "img-0.jpeg", "top\_left\_x": 48, "top\_left\_y": 260, "bottom\_right\_x": 667, "bottom\_right\_y": 777, "image\_base64": "data:image/jpeg;base64,..." \} ] \} ], "model": "...", "document\_annotation": "...", "usage\_info": "..." \} }``
+
+\subsection{ESG Extraction Run JSON}
+
+Path example:
+
+- \texttt{results/esg\_records.json}
+
+Purpose:
+
+- stores T3 LLM extraction runs - preserves prompt, model, page target, records, and failure state - acts as the main structured ESG evidence store
+
+Success example:
+
+``\texttt{json \{ "timestamp": "2026-06-03T18:38:40Z", "model": "nvidia/nemotron-3-nano-30b-a3b:free", "target": "Sustainability\_Report\_PT\_Sentul\_City\_Tbk\_2025\_pdf/batch\_7", "target\_pages": "page\_0012.md, page\_0013.md", "prompt": "tone\_chain\_of\_thought\_indonesian.md", "ok": true, "records": [ \{ "text": "Elevating Lives, Building Sustainable Growth", "aspect": "strategic vision", "labels": ["climate-d", "climate-commitment"], "esg": "E", "tone": "commitment", "sentiment": "positive", "sentiment\_score": 1, "reasoning": "The phrase expresses a forward-looking sustainability ambition and explicitly states a commitment to sustainable growth." \} ] \} }``
+
+Error example:
+
+``\texttt{json \{ "timestamp": "2026-06-03T18:37:59Z", "model": "nvidia/nemotron-nano-12b-v2-vl:free", "target": "Bank Neo Commerce Annual and Sustainable Report Tahun 2024\_pdf/batch\_27", "target\_pages": "page\_0052.md, page\_0053.md", "prompt": "tone\_few\_shot\_indonesian.md", "ok": false, "records": [], "error": "OpenRouter returned HTTP 401: \{\textbackslash\{\}"error\textbackslash\{\}":\{\textbackslash\{\}"message\textbackslash\{\}":\textbackslash\{\}"User not found.\textbackslash\{\}",\textbackslash\{\}"code\textbackslash\{\}":401\}\}", "error\_type": "unknown", "raw\_output": "", "background\_job\_id": "llm\_processing\_bg\_20260603T183739Z\_855dc4" \} }``
+
+\subsection{ClimateBERT Result JSON}
+
+Path example:
+
+- \texttt{results/climatebert\_results.json}
+
+Purpose:
+
+- stores ClimateBERT or remote-space comparison runs - keeps the original input text - preserves raw multi-model response text - supports later parsing into label-level comparison tables
+
+Example:
+
+``\texttt{json \{ "timestamp": "2026-03-26T15:43:20.151168Z", "mode": "remote\_space", "space\_url": "https://darisdzakwanhoesien-climatebert-multi-model-demo-8aae81e.hf.space/", "input\_text": "Company's media and entertainment portfolio has successfully maintained its dominance in the country's media industry...", "response\_raw": "\#\#\# econbert\textbackslash\{\}n❌ Error: Unrecognized model...\textbackslash\{\}n\#\#\# netzero-reduction\textbackslash\{\}n• none: 1.00\textbackslash\{\}n\#\#\# climate-commitment\textbackslash\{\}n• yes: 0.92", "response\_parsed": null \} }``
+
+\subsection{Other JSON Families Used by the Repository}
+
+Additional JSON artifact families in the repository include the following. These are not all equally central to the thesis argument, but each one supports a specific part of the executable research workflow.
+
+- \texttt{results/data/mapping.json} Purpose: stores label-normalization mappings used to standardize ESG and sentiment terminology. Example content includes mappings such as \texttt{"environmental": "E"}, \texttt{"governance": "G"}, and \texttt{"lingkungan": "E"}. This file acts as a normalization bridge between raw extracted labels and the thesis-facing schema.
+
+- \texttt{results/ground\_truth.json} Purpose: stores manually entered or review-oriented ground-truth style records. The sampled structure includes a timestamp, model name, source, input text, and a nested \texttt{result} object. In the current repository state, some entries still preserve model-side errors, which is useful because it shows that the reference-building layer keeps incomplete or failed cases visible rather than silently discarding them.
+
+- \texttt{results/predictions.json} Purpose: stores prediction outputs, especially from ClimateBERT-style or T1 comparison runs. The current file contains long source text segments together with model identifiers and prediction payloads. In practice, this file acts as a raw comparison layer before more compact summary tables are derived.
+
+- \texttt{results/t1\_results.json} Purpose: stores serialized T1-stage prediction results in JSON form. These records are similar to \texttt{predictions.json}, but they are part of the more formal T1 artifact family used by the benchmark side of the workflow. The sampled entries show model names, original text, and nested result objects.
+
+- \texttt{results/t2\_results.json} Purpose: stores T2-stage ABSA-style outputs. The sampled entries contain both a \texttt{rule\_based} block and a \texttt{hybrid} block. This is important because it shows that T2 is not one monolithic classifier. It compares rule-based aspect/polarity/tone output against a hybrid contextual model that also records ontology alignment and summary metrics.
+
+- \texttt{results/revision\_analysis/ontology.json} Purpose: stores the ontology backbone used for aspect-to-path mapping. The sampled structure contains ontology nodes with \texttt{aspect}, \texttt{path}, \texttt{path\_text}, and \texttt{keywords}. This file is central for demonstrating that the extraction layer is not only structurally parseable but also semantically mappable into ESG concept paths.
+
+- \texttt{results/thesis\_workflow\_dashboard/rq\_report\_sections.json} Purpose: stores structured narrative sections for each research question in the dashboard layer. Each entry includes fields such as \texttt{rq}, \texttt{title}, \texttt{graph}, \texttt{results}, \texttt{interpretation}, \texttt{baseline}, \texttt{discussion}, and \texttt{conclusion}. This file is effectively a JSON-backed narrative scaffold for the thesis-facing workflow dashboard.
+
+- \texttt{results/transfer\_learning/dataset\_summary.json} Purpose: stores high-level summary statistics for the transfer-learning dataset. The sampled structure includes total row count, number of unique aspects, top aspects, sentiment distribution, tone distribution, and ESG-pillar distribution. This file is useful for reporting corpus scale and distributional properties without loading the full dataset every time.
+
+- \texttt{documentation/streamlit\_pages/page\_relationships.json} Purpose: stores the canonical workflow registry for Streamlit pages. The sampled structure includes \texttt{pages}, \texttt{rq\_workflows}, and \texttt{relationships}, with each page entry describing stage, purpose, research-question relevance, and outputs. This file is important for the appendix because it documents how the repository’s interactive tools map to the thesis workflow.
+
+- \texttt{summarization/data/data\_sources.json} Purpose: stores a compact registry of CSV inputs used by the summarization layer. Instead of holding analytic results directly, this file maps logical names such as \texttt{tone\_records\_flat}, \texttt{model\_stability\_summary}, and \texttt{ontology\_coverage} to their corresponding artifact paths.
+
+- \texttt{chat\_history.json} Purpose: stores interactive conversation history metadata. The sampled structure contains an \texttt{id}, timestamp, role, content, and model name. This file is not central to the thesis analysis itself, but it belongs to the broader reproducibility environment of the workspace.
+
+- \texttt{pages/data\_001\_001.json} Purpose: appears to be an auxiliary page-side JSON artifact, but the current file could not be parsed because it contains malformed JSON. This is worth noting explicitly in the appendix because it shows that not every repository-side JSON file is a validated analytical artifact. Some are experimental or incomplete support files.
+
+Together, these JSON families support benchmark generation, ontology mapping, workflow documentation, summarization inputs, transfer-learning dataset reporting, and interactive tooling. They form an important part of the repository’s reproducibility and audit layer even when they are not all directly cited in the main thesis chapters.
