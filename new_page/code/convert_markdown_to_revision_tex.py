@@ -13,6 +13,11 @@ REVISION_CHAPTERS = REVISION_ROOT / "Chapters"
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
 NUMBER_PREFIX_RE = re.compile(r"^\d+(?:\.\d+)*\s+")
 TABLE_CAPTION_RE = re.compile(r"^Table\s+(\d+(?:\.\d+)?)\.\s+(.*)$")
+ORDERED_LIST_RE = re.compile(r"^(\s*)\d+\.\s+(.*)$")
+UNORDERED_LIST_RE = re.compile(r"^(\s*)[-*+]\s+(.*)$")
+BOLD_RE = re.compile(r"\*\*([^*]+)\*\*")
+INLINE_CODE_RE = re.compile(r"`([^`]+)`")
+INCLUDEGRAPHICS_RE = re.compile(r"(\\includegraphics\*?\[.*?\]\{)([^}]+)(\})")
 
 
 def slugify(text: str) -> str:
@@ -37,20 +42,10 @@ def rewrite_figure_block(block: str) -> str:
         prefix, img_path, suffix = match.groups()
         return f"{prefix}{rewrite_includegraphics_path(img_path)}{suffix}"
 
-    pattern = re.compile(r"(\\includegraphics\*?\[.*?\]\{)([^}]+)(\})")
-    return pattern.sub(repl, block)
+    return INCLUDEGRAPHICS_RE.sub(repl, block)
 
 
 def escape_latex_text(text: str) -> str:
-    placeholders: dict[str, str] = {}
-
-    def keep_code(match: re.Match[str]) -> str:
-        key = f"@@CODE{len(placeholders)}@@"
-        placeholders[key] = r"\texttt{" + escape_latex_text(match.group(1)) + "}"
-        return key
-
-    text = re.sub(r"`([^`]+)`", keep_code, text)
-
     replacements = {
         "\\": r"\textbackslash{}",
         "&": r"\&",
@@ -63,9 +58,23 @@ def escape_latex_text(text: str) -> str:
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
+    return text
+
+
+def format_inline(text: str) -> str:
+    placeholders: dict[str, str] = {}
+
+    def keep(match: re.Match[str], prefix: str, suffix: str) -> str:
+        key = f"@@INLINE{len(placeholders)}@@"
+        placeholders[key] = f"{prefix}{format_inline(match.group(1))}{suffix}"
+        return key
+
+    text = INLINE_CODE_RE.sub(lambda m: keep(m, r"\texttt{", "}"), text)
+    text = BOLD_RE.sub(lambda m: keep(m, r"\textbf{", "}"), text)
+    text = escape_latex_text(text)
 
     for key, value in placeholders.items():
-        text = text.replace(key, value)
+        text = text.replace(escape_latex_text(key), value)
     return text
 
 
@@ -76,14 +85,14 @@ def convert_heading(line: str) -> str | None:
     level = len(match.group(1))
     title = strip_number_prefix(match.group(2))
     if level == 1:
-        return None
+        return ""
     if level == 2:
-        return rf"\section{{{escape_latex_text(title)}}}"
+        return rf"\section{{{format_inline(title)}}}"
     if level == 3:
-        return rf"\subsection{{{escape_latex_text(title)}}}"
+        return rf"\subsection{{{format_inline(title)}}}"
     if level == 4:
-        return rf"\subsubsection{{{escape_latex_text(title)}}}"
-    return rf"\paragraph{{{escape_latex_text(title)}}}"
+        return rf"\subsubsection{{{format_inline(title)}}}"
+    return rf"\paragraph{{{format_inline(title)}}}"
 
 
 def parse_markdown_table(lines: list[str], start: int) -> tuple[list[list[str]], int]:
@@ -99,7 +108,7 @@ def parse_markdown_table(lines: list[str], start: int) -> tuple[list[list[str]],
 
 def convert_table(rows: list[list[str]], pending_caption: tuple[str, str] | None) -> str:
     if len(rows) < 2:
-        return "\n".join(escape_latex_text(" | ".join(row)) for row in rows)
+        return "\n".join(format_inline(" | ".join(row)) for row in rows)
 
     header = rows[0]
     body = [row for row in rows[2:] if any(cell.strip() for cell in row)]
@@ -116,20 +125,40 @@ def convert_table(rows: list[list[str]], pending_caption: tuple[str, str] | None
     out = [
         r"\begin{table}[htbp]",
         r"\centering",
-        rf"\caption{{{escape_latex_text(caption)}}}",
+        rf"\caption{{{format_inline(caption)}}}",
         rf"\label{{{label}}}",
         r"\footnotesize",
         r"\setlength{\tabcolsep}{4pt}",
         r"\renewcommand{\arraystretch}{1.15}",
         rf"\begin{{tabularx}}{{\linewidth}}{{{colspec}}}",
         r"\hline",
-        " & ".join(rf"\textbf{{{escape_latex_text(cell)}}}" for cell in header) + r" \\ \hline",
+        " & ".join(rf"\textbf{{{format_inline(cell)}}}" for cell in header) + r" \\ \hline",
     ]
     for row in body:
         padded = row + [""] * (cols - len(row))
-        out.append(" & ".join(escape_latex_text(cell) for cell in padded[:cols]) + r" \\ \hline")
+        out.append(" & ".join(format_inline(cell) for cell in padded[:cols]) + r" \\ \hline")
     out.extend([r"\end{tabularx}", r"\end{table}"])
     return "\n".join(out)
+
+
+def get_list_item(line: str) -> tuple[str, int, str] | None:
+    match = ORDERED_LIST_RE.match(line)
+    if match:
+        indent = len(match.group(1)) // 2
+        return ("enumerate", indent, match.group(2).strip())
+    match = UNORDERED_LIST_RE.match(line)
+    if match:
+        indent = len(match.group(1)) // 2
+        return ("itemize", indent, match.group(2).strip())
+    return None
+
+
+def convert_code_block(code_lines: list[str], language: str) -> str:
+    body = "\n".join(code_lines)
+    if language.lower() == "latex":
+        return rewrite_figure_block(body)
+    env = "verbatim"
+    return f"\\begin{{{env}}}\n{body}\n\\end{{{env}}}"
 
 
 def convert_markdown(md_text: str) -> str:
@@ -137,6 +166,7 @@ def convert_markdown(md_text: str) -> str:
     out: list[str] = []
     paragraph: list[str] = []
     pending_table_caption: tuple[str, str] | None = None
+    list_stack: list[str] = []
     i = 0
 
     def flush_paragraph() -> None:
@@ -151,15 +181,36 @@ def convert_markdown(md_text: str) -> str:
         if match:
             pending_table_caption = (match.group(1), match.group(2))
             return
-        out.append(escape_latex_text(text))
+        out.append(format_inline(text))
         out.append("")
+
+    def close_lists(target_depth: int = 0) -> None:
+        while len(list_stack) > target_depth:
+            out.append(rf"\end{{{list_stack.pop()}}}")
+        if target_depth == 0 and out and out[-1] != "":
+            out.append("")
 
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
 
+        if stripped.startswith("```"):
+            flush_paragraph()
+            close_lists()
+            language = stripped[3:].strip()
+            i += 1
+            code_lines: list[str] = []
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                code_lines.append(lines[i])
+                i += 1
+            out.append(convert_code_block(code_lines, language))
+            out.append("")
+            i += 1
+            continue
+
         if stripped.startswith(r"\begin{figure}"):
             flush_paragraph()
+            close_lists()
             block_lines = [line]
             i += 1
             while i < len(lines):
@@ -183,28 +234,54 @@ def convert_markdown(md_text: str) -> str:
         heading = convert_heading(line)
         if heading is not None:
             flush_paragraph()
-            out.append(heading)
-            out.append("")
+            close_lists()
+            if heading:
+                out.append(heading)
+                out.append("")
             i += 1
             continue
 
         if stripped.startswith("|"):
             flush_paragraph()
+            close_lists()
             rows, i = parse_markdown_table(lines, i)
             out.append(convert_table(rows, pending_table_caption))
             out.append("")
             pending_table_caption = None
             continue
 
-        if not stripped:
+        list_item = get_list_item(line)
+        if list_item:
             flush_paragraph()
+            kind, indent, item_text = list_item
+            while len(list_stack) > indent + 1:
+                out.append(rf"\end{{{list_stack.pop()}}}")
+            while len(list_stack) < indent + 1:
+                next_kind = kind if len(list_stack) == indent else "itemize"
+                out.append(rf"\begin{{{next_kind}}}")
+                list_stack.append(next_kind)
+            if list_stack and list_stack[-1] != kind and len(list_stack) == indent + 1:
+                out.append(rf"\end{{{list_stack.pop()}}}")
+                out.append(rf"\begin{{{kind}}}")
+                list_stack.append(kind)
+            out.append(rf"\item {format_inline(item_text)}")
             i += 1
             continue
+
+        if not stripped:
+            flush_paragraph()
+            close_lists()
+            i += 1
+            continue
+
+        if list_stack and not line.startswith(" "):
+            close_lists()
 
         paragraph.append(line)
         i += 1
 
     flush_paragraph()
+    close_lists()
     return "\n".join(out).rstrip() + "\n"
 
 

@@ -1,0 +1,11 @@
+% Auto-generated from converted markdown.
+% Source: converted_markdown/abstract.md
+\{english\}
+
+This thesis develops an executable framework for transforming Indonesian sustainability and annual reports from heterogeneous PDF files into structured ESG evidence. The work addresses the limitations of document-level analysis by treating disclosures as record-level units with page-level provenance, ESG pillar labels, aspect assignments, sentiment, and disclosure tone. The implemented workflow combines OCR expansion, page-aware LLM extraction, ontology alignment, proxy comparison against ClimateBERT-style commitment labels, and review-oriented diagnostics.
+
+The active thesis-facing subset covers 23 processed reports and approximately 5,512 pages. The current evidence layer contains 332 tone-bearing ESG records and 2,074 downstream T2 rows. All 52 tracked aspects in the active ontology layer are mapped to ontology paths, and the comparison between tone commitment and ClimateBERT-style commitment labels yields 83.7\% agreement with Cohen's kappa of 0.645. The results show that the workflow is operational at realistic corpus scale and that disclosure tone is a meaningful additional layer beyond coarse climate-topic detection.
+
+The strongest practical finding is that extraction quality depends heavily on the interaction between prompt design and model behavior. Tone-aware prompts and schema-following models produce substantially more usable records than generic extraction prompts or models that omit tone despite valid JSON output. The main weaknesses of the current system are missing-tone cases, schema drift, prompt sensitivity, and the limited size of the pilot human-annotation layer.
+
+The thesis therefore contributes an auditable ESG extraction workflow, a record-level tone-aware schema, and a diagnostic evaluation framework for Indonesian sustainability-report analysis. However, the work does not yet constitute a finalized gold-standard benchmark study. Its strongest claims concern operational feasibility, diagnostic transparency, and partial construct validation rather than definitive benchmark superiority.

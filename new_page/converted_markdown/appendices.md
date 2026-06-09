@@ -84,6 +84,17 @@ flowchart TD
     R --> S[Save T1 outputs to results/predictions.json or results/t1_results.jsonl]
 ```
 
+```latex
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{appendix_workflow_bulkocr_llm_climatebert_flow}
+\end{center}
+\caption{Bulk OCR to LLM-processing flow diagram. This figure visualizes the operational path from file intake, OCR expansion, and page storage to provider-specific ESG extraction and downstream ClimateBERT comparison outputs.}
+\alt{Flowchart showing user entry through Bulk OCR, OCR output storage, document selection in LLM Processing, provider choice among OpenRouter, LM Studio, and Ollama, ESG record storage, and downstream ClimateBERT output generation.}
+\label{fig:appendix_bulkocr_llm_climatebert_flow}
+\end{figure}
+```
+
 ### 7.4.3 Mermaid Sequence Diagram
 
 ```mermaid
@@ -111,6 +122,17 @@ sequenceDiagram
     L->>C: Send extracted text to ClimateBERT T1 stage
     C-->>L: Return climate-label predictions
     L->>T: Save predictions.json or t1_results.jsonl
+```
+
+```latex
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{appendix_workflow_bulkocr_llm_climatebert_sequence}
+\end{center}
+\caption{Bulk OCR to ClimateBERT sequence diagram. This figure shows the interaction order between the user, OCR storage, LLM processing, provider backends, ESG record storage, and the downstream ClimateBERT comparison stage.}
+\alt{Sequence diagram showing the user uploading or selecting files, OCR artifact creation, page-range selection in LLM Processing, requests to an LLM provider, ESG record persistence, and ClimateBERT prediction storage.}
+\label{fig:appendix_bulkocr_llm_climatebert_sequence}
+\end{figure}
 ```
 
 Sequence explanation:
@@ -143,6 +165,95 @@ The same operational workflow can also be represented in a LaTeX-ready figure bl
 ### 7.4.5 Interpretation
 
 This diagram shows that ClimateBERT processing is not the first-stage ingestion tool. Instead, it is a downstream comparison or benchmark layer applied after OCR expansion and after page-range-based ESG extraction. That distinction is methodologically important because the thesis does not compare ClimateBERT directly against raw PDFs. It compares ClimateBERT-style predictions against the extracted text layer produced by the broader ESG pipeline.
+
+### 7.4.6 Tone-Prompt Family Visualization and Prompt Reasoning
+
+The repository contains six thesis-facing tone prompts under `prompt/`:
+
+- `tone_zero_shot_english.md`
+- `tone_zero_shot_indonesian.md`
+- `tone_few_shot_english.md`
+- `tone_few_shot_indonesian.md`
+- `tone_chain_of_thought_english.md`
+- `tone_chain_of_thought_indonesian.md`
+
+These prompt files share the same extraction target, but they differ in how much reasoning structure they impose before the final JSON output. The prompt family is summarized below so that the appendix makes clear that prompt variation is not cosmetic. It is one of the main experimental levers of the thesis.
+
+#### 7.4.6.1 Prompt-Family Logic
+
+```mermaid
+flowchart LR
+    A[Input ESG text] --> B{Prompt family}
+    B --> C[Zero-shot tone prompt]
+    B --> D[Few-shot tone prompt]
+    B --> E[Chain-of-thought tone prompt]
+
+    C --> C1[Direct schema instruction]
+    C --> C2[Minimal reasoning scaffold]
+    C --> C3[Fast baseline for tone extraction]
+
+    D --> D1[Schema instruction plus worked examples]
+    D --> D2[Example-guided label anchoring]
+    D --> D3[Test whether demonstrations reduce ambiguity]
+
+    E --> E1[Explicit internal segmentation steps]
+    E --> E2[Tone and sentiment disentanglement rules]
+    E --> E3[Most constrained reasoning scaffold]
+
+    C1 --> F[Structured JSON output]
+    D1 --> F
+    E1 --> F
+```
+
+```latex
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics*[width=\textwidth]{appendix_tone_prompt_family_logic}
+\end{center}
+\caption{Tone-prompt family logic. This figure shows how the zero-shot, few-shot, and chain-of-thought prompt families share the same ESG input target but differ in reasoning scaffolds before producing structured JSON output.}
+\alt{Flowchart showing an ESG text input branching into zero-shot, few-shot, and chain-of-thought prompt families, each with distinct reasoning supports that converge into the same structured JSON output.}
+\label{fig:appendix_tone_prompt_family_logic}
+\end{figure}
+```
+
+#### 7.4.6.2 Prompt-Family Summary Table
+
+Table 7.1. Tone-prompt family summary.
+
+| Prompt file | Prompt style | Main reasoning structure | Intended advantage | Main risk |
+| --- | --- | --- | --- | --- |
+| `tone_zero_shot_english.md` | Zero-shot, English | Direct instructions, label list, tone priority rules, JSON schema | Strong baseline for testing whether explicit definitions alone are enough | May remain too shallow for ambiguous governance or mixed-tone text |
+| `tone_zero_shot_indonesian.md` | Zero-shot, Indonesian | Same logic as English version, but adapted to Indonesian cue words and examples of commitment/action/outcome distinction | Better alignment with Indonesian report language and bilingual segments | Longer instruction set can still be ignored when outputs drift |
+| `tone_few_shot_english.md` | Few-shot, English | Adds worked examples for commitment, outcome, and risk-oriented none tone | Demonstration-based anchoring for label and tone boundaries | Examples may overfit narrow patterns and suppress extraction breadth |
+| `tone_few_shot_indonesian.md` | Few-shot, Indonesian | Adds Indonesian worked examples and local wording for target, risk, and measured result | Better grounding for Indonesian narrative style and common lexical cues | Example dependence may still fail on governance-heavy or non-example structures |
+| `tone_chain_of_thought_english.md` | Chain-of-thought style, English | Hidden internal steps for segmentation, tone assignment, sentiment assignment, and final schema fill | Forces the model to separate reasoning stages before output | Longer prompt can increase verbosity pressure or schema drift in weaker models |
+| `tone_chain_of_thought_indonesian.md` | Chain-of-thought style, Indonesian | Most explicit reasoning scaffold, local cue words, tone priority logic, and concise reasoning guidance | Best fit for difficult Indonesian and mixed-language extraction conditions | Most complex prompt, so weaker backends may fail to follow every instruction consistently |
+
+#### 7.4.6.3 Why the Prompt Reasoning Matters
+
+The central prompt-design idea is not just to ask for JSON, but to force the model to reason about disclosure function before assigning sentiment. In this thesis, that means the prompt must first distinguish:
+
+1. whether a segment is explicitly ESG-relevant;
+2. what aspect and label family it belongs to;
+3. whether the statement is a commitment, action, or outcome;
+4. only after that, whether the statement carries positive, negative, neutral, or none sentiment.
+
+This ordering matters because many sustainability disclosures are future-oriented promises written in positive language. If the prompt does not explicitly disentangle tone from sentiment, the model can collapse a promise into a falsely positive achieved result. The tone prompts therefore use reasoning scaffolds to reduce this specific validity error.
+
+#### 7.4.6.4 Prompt Reasoning Description by Family
+
+**Zero-shot reasoning.**  
+The zero-shot prompts rely on explicit definitions, priority rules, and schema constraints without demonstration examples. Their reasoning philosophy is that tone extraction should remain possible from a strong instruction set alone. In methodological terms, zero-shot prompts act as the cleanest test of whether the schema itself is intelligible to the model.
+
+**Few-shot reasoning.**  
+The few-shot prompts add short worked examples so the model sees what commitment, outcome, and climate-risk cases should look like in JSON form. Their reasoning philosophy is analogical: the model is guided to map new inputs to demonstrated output patterns. This is useful for ambiguous ESG phrasing, but it can also narrow the extraction behavior if the examples are too stereotyped.
+
+**Chain-of-thought-style reasoning.**  
+The chain-of-thought prompts explicitly instruct the model to segment text, identify ESG relevance, assign tone, then assign sentiment, while keeping the actual reasoning hidden from the final response. Their reasoning philosophy is procedural: a difficult extraction problem is decomposed into smaller internal steps so that tone and sentiment are less likely to be conflated. This is the most thesis-aligned prompt family because the research question depends on stable tone disentanglement rather than generic JSON completion alone.
+
+#### 7.4.6.5 Appendix Interpretation
+
+This prompt family should be read as a controlled prompt-engineering ladder rather than as six unrelated files. The zero-shot prompts test direct schema interpretability. The few-shot prompts test example anchoring. The chain-of-thought prompts test whether stepwise internal reasoning improves tone stability. That is why prompt variation in Chapter 4 is analytically meaningful: it probes whether the thesis contribution depends only on model choice or also on reasoning structure embedded in the prompt itself.
 
 ## 7.5 JSON Data Examples
 
