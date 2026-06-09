@@ -315,6 +315,32 @@ Example:
 }
 \end{verbatim}
 
+LaTeX-ready format:
+
+\begin{verbatim}
+{
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "PermataBank\n\nLaporan Keberlanjutan 2017 Sustainability Report\n\n![img-0.jpeg](img-0.jpeg)\n\n# Realizing Commitment\n\nto Improve Life",
+      "images": [
+        {
+          "id": "img-0.jpeg",
+          "top_left_x": 48,
+          "top_left_y": 260,
+          "bottom_right_x": 667,
+          "bottom_right_y": 777,
+          "image_base64": "data:image/jpeg;base64,..."
+        }
+      ]
+    }
+  ],
+  "model": "...",
+  "document_annotation": "...",
+  "usage_info": "..."
+}
+\end{verbatim}
+
 \subsection{ESG Extraction Run JSON}
 
 Path example:
@@ -399,6 +425,24 @@ Error example:
 }
 \end{verbatim}
 
+LaTeX-ready format:
+
+\begin{verbatim}
+{
+  "timestamp": "2026-06-03T18:37:59Z",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "target": "Bank Neo Commerce Annual and Sustainable Report Tahun 2024_pdf/batch_27",
+  "target_pages": "page_0052.md, page_0053.md",
+  "prompt": "tone_few_shot_indonesian.md",
+  "ok": false,
+  "records": [],
+  "error": "OpenRouter returned HTTP 401: {\"error\":{\"message\":\"User not found.\",\"code\":401}}",
+  "error_type": "unknown",
+  "raw_output": "",
+  "background_job_id": "llm_processing_bg_20260603T183739Z_855dc4"
+}
+\end{verbatim}
+
 \subsection{ClimateBERT Result JSON}
 
 Path example:
@@ -429,6 +473,19 @@ Example:
 }
 \end{verbatim}
 
+LaTeX-ready format:
+
+\begin{verbatim}
+{
+  "timestamp": "2026-03-26T15:43:20.151168Z",
+  "mode": "remote_space",
+  "space_url": "https://darisdzakwanhoesien-climatebert-multi-model-demo-8aae81e.hf.space/",
+  "input_text": "Company's media and entertainment portfolio has successfully maintained its dominance in the country's media industry...",
+  "response_raw": "### econbert\n❌ Error: Unrecognized model...\n### netzero-reduction\n• none: 1.00\n### climate-commitment\n• yes: 0.92",
+  "response_parsed": null
+}
+\end{verbatim}
+
 \subsection{Other JSON Families Used by the Repository}
 
 Additional JSON artifact families in the repository include the following. These are not all equally central to the thesis argument, but each one supports a specific part of the executable research workflow.
@@ -439,11 +496,37 @@ Purpose: stores label-normalization mappings used to standardize ESG and sentime
 
 \end{itemize}
 
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "environmental": "E",
+  "governance": "G",
+  "lingkungan": "E"
+}
+\end{verbatim}
+
 \begin{itemize}
 \item \texttt{results/ground\_truth.json}
 Purpose: stores manually entered or review-oriented ground-truth style records. The sampled structure includes a timestamp, model name, source, input text, and a nested \texttt{result} object. In the current repository state, some entries still preserve model-side errors, which is useful because it shows that the reference-building layer keeps incomplete or failed cases visible rather than silently discarding them.
 
 \end{itemize}
+
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "timestamp": "2026-05-21T10:15:00Z",
+  "model": "manual_review",
+  "source": "pilot_ground_truth_seed.csv",
+  "input_text": "The company plans to reduce emissions by 30% by 2030.",
+  "result": {
+    "tone": "commitment",
+    "sentiment": "neutral",
+    "labels": ["climate-commitment", "netzero-reduction"]
+  }
+}
+\end{verbatim}
 
 \begin{itemize}
 \item \texttt{results/predictions.json}
@@ -451,11 +534,37 @@ Purpose: stores prediction outputs, especially from ClimateBERT-style or T1 comp
 
 \end{itemize}
 
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "model": "distilroberta-base-climate-commitment",
+  "text": "The company has committed to expand renewable energy usage.",
+  "prediction": {
+    "label": "yes",
+    "score": 0.92
+  }
+}
+\end{verbatim}
+
 \begin{itemize}
 \item \texttt{results/t1\_results.json}
 Purpose: stores serialized T1-stage prediction results in JSON form. These records are similar to \texttt{predictions.json}, but they are part of the more formal T1 artifact family used by the benchmark side of the workflow. The sampled entries show model names, original text, and nested result objects.
 
 \end{itemize}
+
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "model": "climatebert_commitment",
+  "text": "We will decarbonize logistics operations by 2035.",
+  "result": {
+    "label": "yes",
+    "score": 0.88
+  }
+}
+\end{verbatim}
 
 \begin{itemize}
 \item \texttt{results/t2\_results.json}
@@ -463,11 +572,41 @@ Purpose: stores T2-stage ABSA-style outputs. The sampled entries contain both a 
 
 \end{itemize}
 
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "text": "Perusahaan menargetkan penurunan emisi sebesar 30%.",
+  "rule_based": {
+    "aspect": ["emissions reduction"],
+    "tone": "commitment",
+    "sentiment": "neutral"
+  },
+  "hybrid": {
+    "aspect": ["emissions reduction"],
+    "tone": "commitment",
+    "sentiment": "neutral",
+    "ontology_path": "E/climate/netzero"
+  }
+}
+\end{verbatim}
+
 \begin{itemize}
 \item \texttt{results/revision\_analysis/ontology.json}
 Purpose: stores the ontology backbone used for aspect-to-path mapping. The sampled structure contains ontology nodes with \texttt{aspect}, \texttt{path}, \texttt{path\_text}, and \texttt{keywords}. This file is central for demonstrating that the extraction layer is not only structurally parseable but also semantically mappable into ESG concept paths.
 
 \end{itemize}
+
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "aspect": "net zero commitment",
+  "path": ["E", "climate", "mitigation"],
+  "path_text": "Environmental > Climate > Mitigation",
+  "keywords": ["net zero", "decarbonization", "emissions reduction"]
+}
+\end{verbatim}
 
 \begin{itemize}
 \item \texttt{results/thesis\_workflow\_dashboard/rq\_report\_sections.json}
@@ -475,11 +614,39 @@ Purpose: stores structured narrative sections for each research question in the 
 
 \end{itemize}
 
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "rq": "RQ2",
+  "title": "Tone vs. Climate-Specific Models",
+  "graph": "climatebert_label_by_tone.png",
+  "results": "83.7% agreement, kappa 0.645",
+  "interpretation": "Strong overlap but not full equivalence",
+  "baseline": "ClimateBERT proxy labels",
+  "discussion": "Tone adds disclosure-maturity information",
+  "conclusion": "Constructs are related but distinct"
+}
+\end{verbatim}
+
 \begin{itemize}
 \item \texttt{results/transfer\_learning/dataset\_summary.json}
 Purpose: stores high-level summary statistics for the transfer-learning dataset. The sampled structure includes total row count, number of unique aspects, top aspects, sentiment distribution, tone distribution, and ESG-pillar distribution. This file is useful for reporting corpus scale and distributional properties without loading the full dataset every time.
 
 \end{itemize}
+
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "total_rows": 2074,
+  "unique_aspects": 52,
+  "top_aspects": ["climate-detection", "governance", "strategy"],
+  "sentiment_distribution": {"positive": 812, "neutral": 1044, "negative": 218},
+  "tone_distribution": {"commitment": 115, "action": 96, "outcome": 87, "none": 34},
+  "esg_distribution": {"E": 179, "G": 121, "S": 4, "none": 28}
+}
+\end{verbatim}
 
 \begin{itemize}
 \item \texttt{documentation/streamlit\_pages/page\_relationships.json}
@@ -487,11 +654,38 @@ Purpose: stores the canonical workflow registry for Streamlit pages. The sampled
 
 \end{itemize}
 
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "pages": [
+    {
+      "name": "Bulk_OCR",
+      "stage": "ingestion",
+      "purpose": "OCR expansion",
+      "outputs": ["ocr_result.json", "pages/", "images/"]
+    }
+  ],
+  "rq_workflows": ["RQ1", "RQ3", "RQ4"],
+  "relationships": ["Bulk_OCR -> llm_processing -> ground_truth"]
+}
+\end{verbatim}
+
 \begin{itemize}
 \item \texttt{summarization/data/data\_sources.json}
 Purpose: stores a compact registry of CSV inputs used by the summarization layer. Instead of holding analytic results directly, this file maps logical names such as \texttt{tone\_records\_flat}, \texttt{model\_stability\_summary}, and \texttt{ontology\_coverage} to their corresponding artifact paths.
 
 \end{itemize}
+
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "tone_records_flat": "results/visualizations/tone_records_flat.csv",
+  "model_stability_summary": "results/revision_analysis/model_stability_summary.csv",
+  "ontology_coverage": "results/revision_analysis/ontology_coverage.csv"
+}
+\end{verbatim}
 
 \begin{itemize}
 \item \texttt{chat\_history.json}
@@ -499,10 +693,29 @@ Purpose: stores interactive conversation history metadata. The sampled structure
 
 \end{itemize}
 
+LaTeX-ready example:
+
+\begin{verbatim}
+{
+  "id": "msg_001",
+  "timestamp": "2026-06-09T09:30:00Z",
+  "role": "user",
+  "content": "Run the ESG extraction workflow on the selected pages.",
+  "model": "gpt-5"
+}
+\end{verbatim}
+
 \begin{itemize}
 \item \texttt{pages/data\_001\_001.json}
 Purpose: appears to be an auxiliary page-side JSON artifact, but the current file could not be parsed because it contains malformed JSON. This is worth noting explicitly in the appendix because it shows that not every repository-side JSON file is a validated analytical artifact. Some are experimental or incomplete support files.
 
 \end{itemize}
+
+LaTeX-ready format note:
+
+\begin{verbatim}
+% No safe JSON example is shown here because the sampled file is malformed.
+% This is documented intentionally as an example of an incomplete support artifact.
+\end{verbatim}
 
 Together, these JSON families support benchmark generation, ontology mapping, workflow documentation, summarization inputs, transfer-learning dataset reporting, and interactive tooling. They form an important part of the repository’s reproducibility and audit layer even when they are not all directly cited in the main thesis chapters.
