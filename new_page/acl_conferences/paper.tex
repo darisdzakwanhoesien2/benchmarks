@@ -1,0 +1,150 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[labelformat=empty]{caption}
+\title{Paper - Multimodal Fact-Checking of Sustainability Reports against External Media (Beyond Impression Management: A Multimodal Framework for Fact-Checking Sustainability Reports via External News and Social Media)}
+\author{The Student Hub Official}
+\date{June 2026}
+\usepackage[style=apa,backend=biber]{biblatex}
+\addbibresource{paper___multimodal_fact_checking_of_sustainability_reports_against_external_media__beyond_impression_management__a_multimodal_framework_for_fact_checking_sustainability_reports_via_external_news_and_social_media_.bib}
+\begin{document}
+\maketitleAbstract
+
+Corporate sustainability reports are increasingly multimodal, utilizing "visual rhetoric" to influence stakeholder perceptions  \parencite{bingjie_li_487d69fd}. However, verifying these claims against real-world events remains a challenge due to the heterogeneity of data. We propose a unified framework that integrates internal report analysis with external verification. Our approach utilizes \textbf{Multimodal Retrieval-Augmented Generation}  \parencite{mohammad_mahdavi_619c09a8} to extract claims, \textbf{MAFT}  \parencite{kazuya_kakizaki_4193ad80} to process external web-based evidence, and \textbf{knowledge-driven neural models}  \parencite{abir_naskar_17efeb7b} to detect sustainability violations in news and social media.
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+1. Introduction
+\begin{itemize}
+\item 
+
+\textbf{Background:} The rise of Environmental, Social, and Governance criteria as fundamental pillars for investment  \parencite{g_saipooja_m_n_488bfdd6}.\item 
+
+\textbf{Problem Statement:} Corporate "impression management" leads to greenwashing, where visually dense layouts (charts, images) are used to present a more favorable image than reality  \parencite{bingjie_li_487d69fd}.\item 
+
+\textbf{Challenges:} Traditional text-only models fail to parse complex page layouts, including greenhouse gas emission-reduction targets embedded in charts  \parencite[]{tanay_gupta_aafe0c6a, lars_wilhelmi_8d7e860b}.\item 
+
+\textbf{Contribution:} A pipeline that bridges internal corporate disclosures with "outside-in" verification using external news and social media.
+\end{itemize}
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+2. Related Work
+\begin{itemize}
+\item 
+
+\textbf{2.1 ESG Information Extraction:} Review of Vision Language Models for extracting metrics from visually dense layouts  \parencite{tanay_gupta_aafe0c6a}. Reference to the 0.82 F1-score achieved by combining text and image modalities for GHG target extraction  \parencite{lars_wilhelmi_8d7e860b}.\item 
+
+\textbf{2.2 RAG and Agentic Architectures:} Discussion of AuditGPT  \parencite{abhijeet_b__moghe_963e6c96} and EmeraldMind  \parencite{kaoukis__georgios_35bab107} for automated auditing and greenwashing detection using domain-specific knowledge graphs.\item 
+
+\textbf{2.3 Multimodal Verification:} The evolution from text-based RAG to multimodal RAG, which provides a 6.5\% improvement in mean average precision for ESG analysis  \parencite{g_saipooja_m_n_488bfdd6}.
+\end{itemize}
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+3. Methodology
+\begin{itemize}
+\item 
+
+\textbf{3.1 Internal Claim Extraction:} Utilizing a system that retrieves both textual and visual evidence from internal reports to identify verifiable sustainability objectives  \parencite{mohammad_mahdavi_619c09a8}.\item 
+
+\textbf{3.2 External Evidence Textualization:}
+\begin{itemize}
+\item 
+
+Applying the \textbf{MAFT} framework to convert external multimodal content (news videos, images, social media audio) into text-based representations  \parencite{kazuya_kakizaki_4193ad80}.\item 
+
+Leveraging web APIs and LLMs to collect real-time data from the open web  \parencite{kazuya_kakizaki_4193ad80}.
+\end{itemize}\item 
+
+\textbf{3.3 Sustainability Event Detection:}
+\begin{itemize}
+\item 
+
+Deployment of \textbf{knowledge-driven neural models} utilizing a multi-tasking sequence labeling architecture  \parencite{abir_naskar_17efeb7b}.\item 
+
+Detection of organizational violations and incidents reported by regulatory agencies or social media users, aligned with Global Reporting Initiative standards  \parencite{abir_naskar_17efeb7b}.
+\end{itemize}\item 
+
+\textbf{3.4 Verification and Verdict Generation:}
+\begin{itemize}
+\item 
+
+Integration of visual forensics to detect synthetic or out-of-context media  \parencite{vinh_nguyen_phan_020d3d5e}.\item 
+
+Generation of "justification-centric" verdicts supported by traceable references  \parencite[]{kaoukis__georgios_35bab107, abhijeet_b__moghe_963e6c96}.
+\end{itemize}
+\end{itemize}
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+4. Experimental Setup
+\begin{itemize}
+\item 
+
+\textbf{4.1 Datasets:}
+\begin{itemize}
+\item 
+
+\textbf{Internal:} The NFIVI dataset for visual representation analysis  \parencite{bingjie_li_487d69fd}.\item 
+
+\textbf{External:} The ESG-FTSE news corpus  \parencite{mariya_pavlova_259be499} and custom annotated sustainability incident corpora (2015–2022)  \parencite{abir_naskar_17efeb7b}.
+\end{itemize}\item 
+
+\textbf{4.2 Baselines:} Comparison against text-only RAG and standard VLM extraction artifacts  \parencite{lars_wilhelmi_8d7e860b}.\item 
+
+\textbf{4.3 Evaluation Metrics:} Precision, Recall, F1-score for event detection, and explanation quality for fact-checking reports  \parencite[]{kaoukis__georgios_35bab107, kazuya_kakizaki_4193ad80}.
+\end{itemize}
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+5. Results and Analysis
+\begin{itemize}
+\item 
+
+\textbf{Performance Improvements:} Quantifying the benefits of the integrated pipeline (e.g., matching or exceeding the 6.5\% precision gain observed in modified multimodal RAG  \parencite{g_saipooja_m_n_488bfdd6}).\item 
+
+\textbf{Modality Comparison:} Analyzing how combining text and image modalities reduces "inference-based hallucinations" in visually dense sustainability reports  \parencite{lars_wilhelmi_8d7e860b}.\item 
+
+\textbf{Case Studies:} Demonstrating the detection of a "sustainability violation" from news/social media that contradicts a corporate report claim.
+\end{itemize}
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+6. Discussion
+\begin{itemize}
+\item 
+
+\textbf{Interpretability:} The role of MAFT in generating detailed, interpretable verification processes  \parencite{kazuya_kakizaki_4193ad80}.\item 
+
+\textbf{Responsible AI:} The importance of "responsible abstention" when external evidence is insufficient to verify a claim  \parencite{kaoukis__georgios_35bab107}.\item 
+
+\textbf{Scalability:} Addressing the challenges of real-time monitoring of live news streams and high-volume social media data.
+\end{itemize}
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+7. Conclusion
+\begin{itemize}
+\item 
+
+Summary of how integrating multimodal textualization  \parencite{kazuya_kakizaki_4193ad80} and event-based extraction  \parencite{abir_naskar_17efeb7b} creates a robust defense against greenwashing.\item 
+
+Future work: Enhancing visual forensics for synthetic media detection in corporate disclosures  \parencite{vinh_nguyen_phan_020d3d5e}.
+\end{itemize}
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+8. Ethical Considerations \& Limitations
+\begin{itemize}
+\item 
+
+Discussion on the potential for biased news sources to impact "outside-in" verification.\item 
+
+Data privacy concerns regarding social media monitoring.\item 
+
+Computational costs associated with VLM-based multimodal RAG pipelines.
+\end{itemize}
+\begin{center}\rule{\linewidth}{0.5pt}\end{center}
+References
+\begin{itemize}
+\item 
+
+ \parencite{lars_wilhelmi_8d7e860b} Wilhelmi et al.. \textit{Enhancing the Extraction of GHG Emission-Reduction Targets...}\item 
+
+ \parencite{abir_naskar_17efeb7b} Naskar et al.. \textit{Knowledge-driven neural models for extraction and analysis of sustainability events...}\item 
+
+ \parencite{g_saipooja_m_n_488bfdd6} Saipooja et al.. \textit{Enhanced ESG Report Analysis using Modified Multimodal RAG.}\item 
+
+ \parencite{kazuya_kakizaki_4193ad80} Kakizaki et al.. \textit{MAFT: Multimodal Automated Fact-Checking via Textualization.}\item 
+
+ \parencite{kaoukis__georgios_35bab107} Kaoukis et al.. \textit{EmeraldMind: A Knowledge Graph-Augmented Framework...}\item 
+
+ \parencite{mohammad_mahdavi_619c09a8} Mahdavi et al.. \textit{Fact-Checking Sustainability Objectives Using Multimodal Retrieval-Augmented Generation.}
+\end{itemize}
+\printbibliography
+\end{document}

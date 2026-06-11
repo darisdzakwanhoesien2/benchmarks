@@ -1,0 +1,112 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[labelformat=empty]{caption}
+\title{Notes}
+\author{The Student Hub Official}
+\date{June 2026}
+\usepackage[style=apa,backend=biber]{biblatex}
+\addbibresource{notes.bib}
+\begin{document}
+\maketitle
+
+Analysis of the current document and external academic literature confirms that while sections 2.4 and 2.7 establish the foundation for multimodal analysis and ESG verification, the specific workflow of \textbf{multimodal fact-checking against external news and social media} represents a cutting-edge research gap that can be further detailed using the provided resources.
+\subsubsection{1. Current Representation in the Document}
+
+The existing text introduces several components of this workflow but does not yet fully integrate them into a unified "multimodal outside-in" framework:
+\begin{itemize}
+\item 
+
+\textbf{Multimodal Extraction:} Section 2.7 focuses primarily on internal report analysis, utilizing Vision Language Models to extract metrics from "visually dense layouts" like charts and tables  \parencite[]{tanay_gupta_aafe0c6a, lars_wilhelmi_8d7e860b}. It highlights a 6.5\% improvement in precision through multimodal Retrieval-Augmented Generation  \parencite{g_saipooja_m_n_488bfdd6}.\item 
+
+\textbf{Outside-In Verification:} The "ESG Benchmark Design" section introduces the concept of "outside-in" verification—the process of validating corporate claims against public evidence. It cites Pavlova et al.  \parencite{mariya_pavlova_259be499} and Billert \& Conrad  \parencite{fabian_billert_a5fbb687} for developing news-based corpora to match report claims against real-world events.\item 
+
+\textbf{Verification Frameworks:} Section 2.4 discusses "agentic architectures" like AuditGPT  \parencite{abhijeet_b__moghe_963e6c96} and EmeraldMind  \parencite{kaoukis__georgios_35bab107} that use RAG to generate structured verdicts, though these currently focus largely on text-based internal or regulatory documents.
+\end{itemize}
+\subsubsection{2. Enhancing the Workflow with External Research}
+
+To fully address multimodal fact-checking against external databases, news, and social media, the following technical approaches and sources should be integrated into the "Related Works" or "Gaps" sections:Multimodal RAG for Fact-Checking
+
+New research explicitly links multimodal retrieval to fact-checking. \textbf{WORK 196} presents a sustainability objective fact-checking system that retrieves both textual and visual evidence to generate verification reports  \parencite{mohammad_mahdavi_619c09a8}. This system moves beyond simple extraction by using multimodal RAG to cross-reference the visual rhetoric of a report (e.g., a chart showing declining emissions) with verifiable data  \parencite{mohammad_mahdavi_619c09a8}.External Web APIs and Multimodal Textualization
+
+To verify claims against "live news," the framework must handle diverse content types from the web. \textbf{WORK 94} introduces \textbf{MAFT}, which:
+\begin{itemize}
+\item 
+
+Converts multimodal content (images, video, audio) into text-based representations.\item 
+
+Utilizes Large Language Models to collect and analyze external information via \textbf{web APIs}  \parencite{kazuya_kakizaki_4193ad80}.\item 
+
+Generates interpretable reports that detail the verification process against external misinformation  \parencite{kazuya_kakizaki_4193ad80}.
+\end{itemize}News and Social Media Event Extraction
+
+Verifying report claims against real-world incidents requires monitoring unofficial channels. \textbf{WORK 36} provides a methodological basis for this by using knowledge-driven neural models to detect "sustainability-related incidents and violations" from news and social media  \parencite{abir_naskar_17efeb7b}. This allows for "outside-in" monitoring where a company’s self-published sustainability score is supplemented—or challenged—by real-time reports from regulatory agencies and public opinion  \parencite{abir_naskar_17efeb7b}.
+\subsubsection{3. Summary of Technical Approaches to be Added}
+
+To strengthen the document, the following technical concepts from the resources should be highlighted:
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Technical Concept & Source & Role in Fact-Checking \\ \hline
+\textbf{Multimodal Textualization} &  \parencite{kazuya_kakizaki_4193ad80} & Translates visual/audio evidence into text to be cross-referenced with external web data via APIs. \\ \hline
+\textbf{Event-Based Extraction} &  \parencite{abir_naskar_17efeb7b} & Detects organizational violations in news and social media using GRI standards to verify report claims. \\ \hline
+\textbf{Visual Forensics} &  \parencite{vinh_nguyen_phan_020d3d5e} & Evaluates the authenticity of multimedia content to detect synthetic media or out-of-context imagery in reports. \\ \hline
+\textbf{Justification-Centric Verdicts} &  \parencite{kaoukis__georgios_35bab107} & Uses Knowledge Graphs to provide evidence-backed "Compliant/Non-Compliant" verdicts, supporting "responsible abstention" when evidence is missing. \\ \hline
+\end{tabular}
+\end{table}
+\subsubsection{Conclusion}
+
+The document currently covers \textbf{multimodal extraction} (Section 2.7) and \textbf{basic verification} (Section 2.4) separately. To align with the goal of multimodal fact-checking against news/social media, the framework should be positioned as an integration of \textbf{multimodal RAG}  \parencite{mohammad_mahdavi_619c09a8}, \textbf{web-API-driven verification}  \parencite{kazuya_kakizaki_4193ad80}, and \textbf{real-time event detection} from news and social media  \parencite{abir_naskar_17efeb7b}. This bridges the gap between internal corporate "impression management"  \parencite{bingjie_li_487d69fd} and real-world sustainability performance. Future research should prioritize the integration of real-time social media streams to mitigate the information lag inherent in traditional report analysis  \parencite{muhammad_arslan_de107b9b}. 
+
+
+
+Furthermore, leveraging cross-referenced news databases ensures that LLMs mitigate hallucinations by grounding generative outputs in verifiable, external evidence  \parencite{a_g__kan_cfea8596}. 
+
+
+
+To ensure that your research project, \textbf{"Beyond Impression Management: A Multimodal Framework for Fact-Checking Sustainability Reports via External News and Social Media,"} meets the rigorous standards of an ACL 2023-style publication, it is essential to define sample sizes that support robust evaluation of Precision, Recall, and F1-scores.
+
+Based on benchmarks from the \textbf{NFIVI}  \parencite{bingjie_li_487d69fd}, \textbf{ESG-FTSE}  \parencite{mariya_pavlova_259be499}, and \textbf{sustainability incident}  \parencite{abir_naskar_17efeb7b} datasets, the following are the recommended minimum requirements for your internal and external data.
+\subsubsection{1. Internal Data: Corporate Sustainability Reports}
+
+For the multimodal analysis of "visual rhetoric" and claim extraction, the research should differentiate between a high-quality "gold standard" evaluation set and a larger corpus for automated auditing.
+\begin{itemize}
+\item 
+
+\textbf{Minimum for Evaluation: 139 Reports}To validate and fine-tune your multimodal RAG and extraction pipelines, a "gold standard" dataset of at least \textbf{139 sustainability reports} is recommended  \parencite{jacob_beck_9548a833}. This volume is sufficient to conduct expert reviews and resolve discrepancies between annotators, ensuring high data quality for training and benchmarking  \parencite{jacob_beck_9548a833}.\item 
+
+\textbf{Scale for Multimodal Analysis:} Utilizing the \textbf{NFIVI dataset} provides a benchmark for large-scale research, as it covers a comprehensive collection of Chinese listed companies from 2006 to 2024  \parencite{bingjie_li_487d69fd}. Your framework should ideally process a subset of reports that covers multiple years to identify longitudinal patterns in "impression management" strategies like color diversity and visual complexity  \parencite{bingjie_li_487d69fd}.
+\end{itemize}
+\subsubsection{2. External Data: News and Social Media Evidence}
+
+External verification requires a balance between breadth (number of articles) and depth (coverage per company) to ensure that the "outside-in" fact-checking is statistically relevant.
+\begin{itemize}
+\item 
+
+\textbf{Minimum Corpus Size: 3,913 Articles}The \textbf{ESG-FTSE corpus} demonstrates that a specialized dataset of \textbf{3,913 news articles} covering a specific timeframe (e.g., three years) is sufficient to accurately predict ESG-related credentials and handle the "small-volume data" characteristic typical of the sustainability domain  \parencite{mariya_pavlova_259be499}.\item 
+
+\textbf{Entity-Level Coverage: 10 Articles per Company}To ensure statistical relevance and avoid "hallucinations" caused by sparse evidence, each company analyzed in your reports should have \textbf{at least 10 dedicated news articles}  \parencite{sergio_consoli_fa6a8a6b}. Entities with fewer than 10 articles should be excluded to prevent the inclusion of news where companies are only mentioned in passing  \parencite{sergio_consoli_fa6a8a6b}.\item 
+
+\textbf{High-Intensity Monitoring: 500 Items per Year per Company}For a deep analysis of reputation-influencing topics, research benchmarks suggest selecting the \textbf{500 most relevant news items per year} for each target company  \parencite{naiara_pikatza_gorrotxategi_17f5b4de}. This ensures a dense enough evidence base to perform sentiment analysis and detect "sustainability violations" effectively  \parencite{naiara_pikatza_gorrotxategi_17f5b4de}.\item 
+
+\textbf{Temporal Coverage: 2015–2022}To align with established incident corpora, your external evidence should span the period from \textbf{2015 to 2022}  \parencite{abir_naskar_17efeb7b}. This timeframe allows you to utilize pre-trained event detection models that have been validated against Global Reporting Initiative standards  \parencite{abir_naskar_17efeb7b}. In addition, integrating multimodal benchmarks such as MMESGBench facilitates the evaluation of complex reasoning across layout-aware document pages, ensuring that visual evidence—including tables and figures—is synthesized with textual disclosures to identify discrepancies  \parencite{lei_zhang_a313a4b2}. 
+\end{itemize}
+\subsubsection{Summary of Minimum Numerical Targets}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Data Category & Component & Minimum Target & Source Benchmark \\ \hline
+\textbf{Internal} & Gold Standard Reports & \textbf{139 reports} &  \parencite{jacob_beck_9548a833} \\ \hline
+\textbf{Internal} & Multi-year scope & \textbf{2006–2024} &  \parencite{bingjie_li_487d69fd} \\ \hline
+\textbf{External} & Total News Corpus & \textbf{3,913 articles} &  \parencite{mariya_pavlova_259be499} \\ \hline
+\textbf{External} & Coverage per Entity & \textbf{10 articles (minimum)} &  \parencite{sergio_consoli_fa6a8a6b} \\ \hline
+\textbf{External} & High-Depth Monitoring & \textbf{500 items/year/company} &  \parencite{naiara_pikatza_gorrotxategi_17f5b4de} \\ \hline
+\textbf{External} & Incident Temporal Range & \textbf{2015–2022} &  \parencite{abir_naskar_17efeb7b} \\ \hline
+\end{tabular}
+\end{table}
+
+Adhering to these minimums will provide your multimodal framework with sufficient "visual-textual structure"  \parencite{lars_wilhelmi_8d7e860b} and "justification-centric" evidence  \parencite{kaoukis__georgios_35bab107} to achieve high F1-scores and reduce inference-based hallucinations in your fact-checking verdicts.
+\printbibliography
+\end{document}
