@@ -1,55 +1,107 @@
 # Thesis Defense & Testing Questions
 
-This document contains a list of questions designed to test your thesis work: **"Toward an Executable ESG Aspect-Based Sentiment Analysis Framework for Indonesian Sustainability Reports."**
+This document contains a comprehensive list of questions designed to test your thesis work: **"Toward an Executable ESG Aspect-Based Sentiment Analysis Framework for Indonesian Sustainability Reports."**
 
 ---
 
+## **Part 1: Core Objectives and Dataset**
+
 ### **1. Thesis Title and Core Objectives**
 *   **What is the full title of your thesis?**
-    *   *Expected:* "Toward an Executable ESG Aspect-Based Sentiment Analysis Framework for Indonesian Sustainability Reports."
 *   **What are the primary research questions (RQs) your thesis addresses?**
-    *   *Answer:* Your work covers ESG evidence transformation (RQ1), representation of pillars/tone (RQ2), comparison with ClimateBERT (RQ3), and diagnostic instability (RQ4).
 *   **Why is "Tone" a central contribution of your work compared to standard sentiment analysis?**
-    *   *Expected:* Standard sentiment (positive/negative) misses the maturity of the disclosure. Your framework distinguishes between *Commitment* (promises), *Action* (active processes), and *Outcome* (verified results).
 
 ### **2. Dataset and Data Sourcing**
 *   **Cite the name of the dataset or where it was sourced from.**
-    *   *Expected:* A corpus of Indonesian sustainability and annual report PDFs (initially 193 files) stored in `data/thesis_pdf/`.
 *   **Explain three technical attributes of this dataset.**
-    *   *Answer:* 1) **Bilingual/Code-switched:** Contains both Indonesian and English text. 2) **High Volume:** The active subset covers ~5,512 pages across 23 reports. 3) **Unstructured:** Includes mixed narratives, tables, and regulatory boilerplate.
 *   **How did you handle the transition from raw PDF to machine-readable evidence?**
-    *   *Answer:* Using an OCR-based expansion pipeline that creates page-level Markdown and JSON metadata to preserve provenance.
+*   **Why did you limit the active experimental subset to 23 reports (5,512 pages)?**
+    *   *Answer:* Due to practical constraints such as OCR completion time, background job stability, and the need for manual audit/annotation capacity.
 
-### **3. Architecture and Methodology**
-*   **Explain the "Executable" nature of your framework.**
-    *   *Answer:* It is implemented as a functional Python/Streamlit repository where every stage (OCR, extraction, audit) produces versioned artifacts and can be re-run for validation.
-*   **How does your architecture ensure "Provenance" for the extracted ESG records?**
-    *   *Answer:* Each extracted record is linked back to its specific source page in the original PDF, allowing for manual auditing via the Streamlit dashboard.
-*   **Describe the three main layers of your system architecture.**
-    *   *Answer:* 1) **OCR Layer** (Ingestion), 2) **Extraction Layer** (LLM-based record generation), 3) **Analysis Layer** (Ontology alignment and diagnostic stability).
+---
 
-### **4. Sentimental and Tone Aspect**
-*   **How was the "sentimental aspect" taken into account while deploying the architecture?**
-    *   *Answer:* Beyond polarity, you used a multi-layered ABSA (Aspect-Based Sentiment Analysis) approach. This includes rule-based lexicons, classical ML (TF-IDF + Logistic Regression), and a hybrid contextual model.
-*   **What specific tones does your framework classify, and which was the most dominant in your results?**
-    *   *Answer:* Commitment, Action, and Outcome. *Commitment* was the dominant tone (115 out of 332 records).
-*   **How did you validate your tone labels against external benchmarks?**
-    *   *Answer:* By comparing them with ClimateBERT-style commitment labels, achieving 83.7% agreement and a Cohen’s kappa of 0.645.
+## **Part 2: Methodology and Architecture**
 
-### **5. Ethics and Bias**
-*   **How were Ethics taken into consideration while building the architecture?**
-    *   *Answer:* Since the data is corporate (public reports), the focus was on **evidential integrity**. By maintaining provenance links, you prevent "hallucinated" or decontextualized ESG claims, ensuring the model's output can always be verified against the source text.
-*   **What are some inherent biases present in your dataset?**
-    *   *Answer:* 1) **Sector Bias:** Some industries report more than others. 2) **Pillar Imbalance:** Environmental and Governance data is much more prevalent than Social data in the current snapshot.
+### **3. System Architecture and Preprocessing**
+*   **Describe the four main layers of your system architecture.**
+*   **Why did you choose the "Page" as your primary unit of analysis?**
+*   **What specific artifacts are produced during the OCR expansion stage?**
 
-### **6. Limitations and Failure Modes**
-*   **Briefly explain 3 limitations of your work.**
-    *   *Answer:* 1) **Prompt Sensitivity:** Extraction quality varies significantly depending on the prompt design (e.g., CoT vs. Zero-shot). 2) **Schema Drift:** Some LLMs fail to strictly follow the JSON schema, leading to missing fields. 3) **Proxy-Based Validation:** The ClimateBERT comparison is a proxy rather than a full one-to-one external benchmark.
-*   **What is "Schema Drift" and why is it a problem for your framework?**
-    *   *Answer:* It occurs when the LLM outputs malformed JSON or repurposes fields (e.g., putting tone values in sentiment slots), which breaks the automated analysis pipeline.
+### **4. Feature Engineering and ML Models**
+*   **Your framework uses a "Hybrid Contextual Model." Explain its architecture.**
+*   **How does the Rule-Based model differ from the Classical ML model in your work?**
+*   **What is "Ontology Alignment" in the context of your framework?**
+*   **Explain the HierarchicalEncoder's role in the Hybrid Model.**
+    *   *Answer:* It captures cross-section attention, allowing the model to interpret a sentence not just locally, but within the context of the report's broader section (e.g., "Governance" vs. "Environment").
 
-### **7. Analytical Metrics**
-*   **What is the "Greenwashing Index" you proposed, and how is it calculated?**
-    *   *Answer:* It is a heuristic ratio between *Commitment* records and *Outcome* records at the document level.
-*   **Why did you use Cohen's Kappa instead of just raw accuracy for your comparison results?**
-    *   *Answer:* Because the *Commitment* class is very frequent; Kappa adjusts for the agreement that could happen by pure chance.
+---
+
+## **Part 3: LLM Extraction and Performance**
+
+### **5. Prompting Strategy**
+*   **You tested multiple prompting strategies. Which one yielded the best results?**
+*   **Why did you include both Indonesian and English prompts in your experiments?**
+*   **What is the difference in performance between `tone_chain_of_thought_english.md` and the Indonesian version?**
+    *   *Answer:* The English version generally achieved higher record yields (Avg. 6.25 vs 4.07), likely due to the model's stronger instruction-following capabilities in English.
+
+### **6. Model Comparison and Stability**
+*   **Compare the performance of `arcee-ai/trinity-large-preview` vs `openai/gpt-oss-120b`.**
+*   **What metrics did you use to evaluate "Extraction Quality" beyond simple accuracy?**
+*   **Why did `minimax/minimax-m2.5` have a high volume of runs but low parse reliability (56.6%)?**
+    *   *Answer:* It represents "live usage" noise; its lower reliability highlights why choosing a stable model like `trinity-large-preview` was necessary for the final thesis findings.
+
+---
+
+## **Part 4: Results, Diagnostics, and Ethics**
+
+### **7. Findings and Comparison**
+*   **How did you validate your tone labels against ClimateBERT?**
+*   **What was the dominant ESG pillar in your extracted evidence?**
+*   **Why were "Social" disclosures significantly underrepresented in your results?**
+    *   *Answer:* Likely due to corporate reporting priorities (which favor Environmental and Governance disclosures) and potential gaps in the initial Social-pillar lexicons.
+
+### **8. Failure Modes and Diagnostics**
+*   **What is the most frequent failure mode in your pipeline?**
+*   **How do "Hedged or Modal Language" (e.g., "will", "intend") affect your model's accuracy?**
+*   **Explain the "Passive Voice" failure mode.**
+    *   *Answer:* Passive constructions often hide the "actor" or the specific "action," making it difficult for the model to distinguish between a currently active process and an achieved outcome.
+
+---
+
+## **Part 5: Analytical Metrics and Future Work**
+
+### **9. Specialized Metrics**
+*   **What is the "Greenwashing Index" you proposed?**
+*   **How does the "Denominator Audit" help in interpreting your results?**
+
+### **10. Conclusion and Future Directions**
+*   **If you had more time, how would you improve the "Social" pillar coverage?**
+*   **What is your final verdict on the feasibility of automated ESG tone analysis for Indonesian reports?**
+
+---
+
+## **Part 6: Advanced Technical & Domain Questions**
+
+### **11. Bilingualism and Code-Switching**
+*   **How does "Code-Switching" (mixing Indonesian and English) impact the extraction accuracy?**
+    *   *Answer:* It increases the risk of "schema drift" or "missing tone" if the model's triggers are only optimized for one language. Your hybrid model mitigates this by using `distilbert-base-multilingual-cased`.
+*   **Did you observe any specific Indonesian regulatory terms that the LLM struggled with?**
+    *   *Answer:* Yes, terms like "roadmap karbon" or specific OJK-mandated governance phrasing sometimes produce "Unknown" tones in the rule-based layer.
+
+### **12. Ontology and Regulatory Alignment**
+*   **How does your ontology map to global standards like GRI (Global Reporting Initiative)?**
+    *   *Answer:* The ontology is anchored to GRI-related categories, mapping specific Indonesian aspects (like "pelatihan antikorupsi") to canonical ESG concepts.
+*   **You tracked 52 aspects. Are these exhaustive for the Indonesian market?**
+    *   *Answer:* No, they represent the "active experimental subset." A full commercial deployment would require a broader ontology covering all OJK-mandated disclosure fields.
+
+### **13. Scalability and Real-World Impact**
+*   **How would a financial regulator (like OJK) benefit from your "Provenance" feature?**
+    *   *Answer:* It allows them to verify automated "green" claims instantly by clicking a link that shows the exact page in the report where the claim originated, preventing "black-box" conclusions.
+*   **Your framework uses Streamlit for the UI. Is this suitable for large-scale enterprise use?**
+    *   *Answer:* Streamlit is excellent for **research and auditing (the "audit surface")**, but the backend background workers (running through `status.json` and `control.json`) are what provide the true scalability for batch processing.
+
+### **14. Theoretical and Counter-Arguments**
+*   **Why not just use a single large LLM (like GPT-4) for everything instead of your complex pipeline?**
+    *   *Answer:* 1) **Traceability:** A single LLM call is a black box; your pipeline preserves every intermediate step. 2) **Sensitivity:** As shown with `gpt-oss-120b`, even "large" models can fail on tone classification despite being fluent. 3) **Cost/Speed:** Your hybrid approach allows for faster local analysis where high-end LLMs aren't needed.
+*   **Is "Tone" just a proxy for "Commitment"?**
+    *   *Answer:* No. Tone also captures **Action** and **Outcome**. While commitment is a large part of it, the ability to identify *achieved* results (Outcome) is the most critical feature for detecting greenwashing.
