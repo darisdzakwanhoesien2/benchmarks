@@ -1,5 +1,5 @@
 # Thesis Defense & Testing Questions
-
+https://notebooklm.google.com/notebook/e837ec26-003e-444b-9c84-44c3caaa21bf
 This document contains a comprehensive list of questions designed to test your thesis work: **"Toward an Executable ESG Aspect-Based Sentiment Analysis Framework for Indonesian Sustainability Reports."**
 
 ---
