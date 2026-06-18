@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [options]
+[No description available]
+EOF
+}
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  usage
+  exit 0
+fi
 if [[ $# -lt 2 ]]; then
   echo "Usage: $0 <run_dir> <remote_uri> [extra_rsync_args...]"
   echo "Example remote_uri: user@vps:/srv/benchmarks-archive"
